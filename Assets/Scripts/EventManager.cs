@@ -122,7 +122,7 @@ public class EventManager : Singleton<EventManager>
         // Unselect defender to hide ability bar UI, prevent null behaviors
         DefenderManager.Instance.ClearSelectedDefender();
         // Hide ability info panel
-        SpellInfoBox.Instance.HideInfoBox();
+        SpellInfoBox.Instance.HideInfoBox();       
         // re enable world map + get next viable enocunter hexagon tiles
         WorldMap.Instance.SetWorldMapReadyState();
         // Start loot creation/display process
@@ -223,6 +223,8 @@ public class EventManager : Singleton<EventManager>
         LevelManager.Instance.DestroyCurrentLevel();
         // Destroy defender GO's from previous encounter
         DefenderManager.Instance.DestroyAllDefenders();
+        // Destroy all activation windows
+        ActivationManager.Instance.ClearAllWindowsFromActivationPanel();
         // Hide rest site view screen if open
         CampSiteManager.Instance.DisableCampSiteView();
         // Hide Shop view screen if open

@@ -43,7 +43,8 @@ public class SkeletonNecromancer : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
-            AbilityLogic.Instance.PerformMove(this, GetValidGrassTileWithinRange(currentMobility));
+            Action movementAction = AbilityLogic.Instance.PerformMove(this, GetValidGrassTileWithinRange(currentMobility));
+            yield return new WaitUntil(() => movementAction.ActionResolved() == true);
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }

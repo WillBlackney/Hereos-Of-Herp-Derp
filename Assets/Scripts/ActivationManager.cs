@@ -34,8 +34,7 @@ public class ActivationManager : Singleton<ActivationManager>
         return action;
     }
     public IEnumerator OnNewCombatEventStartedCoroutine(Action action)
-    {
-        ClearAllWindowsFromPanel();
+    {        
         StartNewTurnSequence();
         action.actionResolved = true;
         yield return null;
@@ -59,11 +58,12 @@ public class ActivationManager : Singleton<ActivationManager>
         ActivateEntity(activationOrder[0]);
         action.actionResolved = true;
     }
-    public void ClearAllWindowsFromPanel()
+    public void ClearAllWindowsFromActivationPanel()
     {
+        activationOrder.Clear();
         foreach (Transform child in activationWindowParent.transform)
         {
-            GameObject.Destroy(child.gameObject);
+            Destroy(child.gameObject);
         }
     }
     #endregion

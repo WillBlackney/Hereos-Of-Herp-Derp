@@ -16,8 +16,11 @@ public class AbilityLogic : MonoBehaviour
     public void OnAbilityUsed(Ability ability, LivingEntity livingEntity)
     {
         Debug.Log("OnAbilityUsed() called for " + livingEntity.gameObject.name + " using " + ability.abilityName);
+        // temp variables
+        int finalApCost = ability.abilityAPCost;
+        int finalCD = ability.abilityBaseCooldownTime;
         // Set ability on cooldown
-        ability.ModifyCurrentCooldown(ability.abilityBaseCooldownTime);
+        
 
         // Reduce AP by cost of the ability
         // check for preparation here
@@ -26,33 +29,26 @@ public class AbilityLogic : MonoBehaviour
             livingEntity.myPassiveManager.Preparation = false;
             livingEntity.myPassiveManager.preparationStacks = 0;
             livingEntity.myStatusManager.RemoveStatusIcon(livingEntity.myStatusManager.GetStatusIconByName("Preparation"));
-        }
-        else
-        {
-            livingEntity.ModifyCurrentAP(-ability.abilityAPCost);
-        }
+            finalApCost = 0;
+        }        
 
-
-        // remove stealth if the ability is not move
-        if (ability.abilityName != "Move")
-        {
-            if (livingEntity.isCamoflaged)
-            {
-                livingEntity.RemoveCamoflage();
-            }
-        }
 
         // TO DO: re-do fleetfooted pasive bonus logic: move ability should be free, not paid for then refunded with AP
-        else if (ability.abilityName == "Move")
+        if(ability.abilityName == "Move")
         {
             // if character has a free move available
             if (livingEntity.moveActionsTakenThisTurn == 0 && livingEntity.myPassiveManager.FleetFooted)
             {
                 livingEntity.StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(livingEntity.transform.position, "Fleet Footed", true));
-                livingEntity.ModifyCurrentAP(ability.abilityAPCost, false);
+                finalApCost = 0;
             }
             livingEntity.moveActionsTakenThisTurn++;
         }
+
+        // Modify AP
+        livingEntity.ModifyCurrentAP(-finalApCost);
+        // Modify Cooldown
+        ability.ModifyCurrentCooldown(finalCD);
 
         LevelManager.Instance.UnhighlightAllTiles();
     }
@@ -70,10 +66,14 @@ public class AbilityLogic : MonoBehaviour
     {
         StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "Free Strike", false));
         yield return new WaitForSeconds(0.5f);
+        // to do: this should
+        // AbilityLogic.Instance.PerformFreeStrike
+        // wait until this is resolved
+        // continue
         Ability strike = attacker.mySpellBook.GetAbilityByName("Strike");
         attacker.StartCoroutine(attacker.AttackMovement(victim));
         CombatLogic.Instance.HandleDamage(CombatLogic.Instance.CalculateDamage(strike.abilityPrimaryValue, victim, attacker, strike.abilityDamageType), attacker, victim);        
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         action.actionResolved = true;        
     }
     //Strike
@@ -178,7 +178,7 @@ public class AbilityLogic : MonoBehaviour
     {  
         Ability getDown = caster.mySpellBook.GetAbilityByName("Get Down!");
         
-        Action action = MovementLogic.Instance.MoveEntity(caster, destination, 6);
+        Action action = MovementLogic.Instance.MoveEntity(caster, destination, 5);
 
         // yield wait until movement complete
         yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -640,15 +640,20 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Move
-    public void PerformMove(LivingEntity characterMoved, TileScript destination)
+    public Action PerformMove(LivingEntity characterMoved, TileScript destination)
     {
-        StartCoroutine(PerformMoveCoroutine(characterMoved, destination));
+        Action action = new Action();
+        StartCoroutine(PerformMoveCoroutine(characterMoved, destination, action));
+        return action;
     }
-    public IEnumerator PerformMoveCoroutine(LivingEntity characterMoved, TileScript destination)
+    public IEnumerator PerformMoveCoroutine(LivingEntity characterMoved, TileScript destination, Action action)
     {
         Ability move = characterMoved.mySpellBook.GetAbilityByName("Move");
 
-        MovementLogic.Instance.MoveEntity(characterMoved, destination);
+        Action movementAction = MovementLogic.Instance.MoveEntity(characterMoved, destination);
+
+        yield return new WaitUntil(() => movementAction.ActionResolved() == true);
+        action.actionResolved = true;
 
         OnAbilityUsed(move, characterMoved);
 
@@ -664,7 +669,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability dash = characterMoved.mySpellBook.GetAbilityByName("Dash");
 
-        MovementLogic.Instance.MoveEntity(characterMoved, destination, 6);
+        MovementLogic.Instance.MoveEntity(characterMoved, destination, 5);
 
         OnAbilityUsed(dash, characterMoved);
 
@@ -672,19 +677,21 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Charge
-    public void PerformCharge(LivingEntity caster, LivingEntity target, TileScript destination)
+    public Action PerformCharge(LivingEntity caster, LivingEntity target, TileScript destination)
     {
-        StartCoroutine(PerformChargeCoroutine(caster, target, destination));
+        Action action = new Action();
+        StartCoroutine(PerformChargeCoroutine(caster, target, destination, action));
+        return action;
     }
-    public IEnumerator PerformChargeCoroutine(LivingEntity caster, LivingEntity target, TileScript destination)
+    public IEnumerator PerformChargeCoroutine(LivingEntity caster, LivingEntity target, TileScript destination, Action action)
     {
         Ability charge = caster.mySpellBook.GetAbilityByName("Charge");
 
         // Charge movement
-        Action action = MovementLogic.Instance.MoveEntity(caster, destination, 6);
+        Action moveAction = MovementLogic.Instance.MoveEntity(caster, destination, 5);
 
         // yield wait until movement complete
-        yield return new WaitUntil(() => action.ActionResolved() == true);
+        yield return new WaitUntil(() => moveAction.ActionResolved() == true);
 
         // Charge attack
         caster.StartCoroutine(caster.AttackMovement(target));
@@ -693,6 +700,7 @@ public class AbilityLogic : MonoBehaviour
         // Apply exposed
         target.myPassiveManager.ModifyExposed(charge.abilitySecondaryValue);
 
+        action.actionResolved = true;
         OnAbilityUsed(charge, caster);        
     }
 

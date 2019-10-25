@@ -46,7 +46,8 @@ public class SkeletonBarbarian : Enemy
             
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Charge", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformCharge(this, myCurrentTarget, destination);            
+            Action chargeAction = AbilityLogic.Instance.PerformCharge(this, myCurrentTarget, destination);
+            yield return new WaitUntil(() => chargeAction.ActionResolved() == true);
             // brief delay between actions
             yield return new WaitForSeconds(1f);
             goto ActionStart;
@@ -86,7 +87,8 @@ public class SkeletonBarbarian : Enemy
             yield return new WaitForSeconds(0.5f);
 
             TileScript destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility);
-            AbilityLogic.Instance.PerformMove(this, destination);
+            Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
+            yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 
             // small delay here in order to seperate the two actions a bit.
             yield return new WaitForSeconds(1f);

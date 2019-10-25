@@ -621,7 +621,8 @@ public class LivingEntity : MonoBehaviour
         }
         
 
-        // remove stealth if the ability is not move
+        // remove camoflage if the ability is not move
+        /*
         if(ability.abilityName != "Move")
         {
             if (isCamoflaged)
@@ -629,9 +630,10 @@ public class LivingEntity : MonoBehaviour
                 RemoveCamoflage();
             }
         }
+        */
 
         // TO DO: re-do fleetfooted pasive bonus logic: move ability should be free, not paid for then refunded with AP
-        else if(ability.abilityName == "Move")
+        if(ability.abilityName == "Move")
         {
             // if character has a free move available
             if(moveActionsTakenThisTurn == 0 && myPassiveManager.FleetFooted)
@@ -680,10 +682,12 @@ public class LivingEntity : MonoBehaviour
         }
 
         // remove camoflage if damaged
+        /*
         if (isCamoflaged && healthAfter < currentHealth)
         {
             RemoveCamoflage();
         }
+        */
 
         currentHealth = healthAfter;        
         myHealthBar.value = CalculateHealthBarPosition();
@@ -1130,8 +1134,8 @@ public class LivingEntity : MonoBehaviour
         {
             Debug.Log("Turn ended on grass: applying stealth...");
             // Gain stealth
-            ApplyCamoflage();
-            yield return new WaitForSeconds(0.5f);
+            //ApplyCamoflage();
+            //yield return new WaitForSeconds(0.5f);
 
             // Snake ring 
             if (defender &&

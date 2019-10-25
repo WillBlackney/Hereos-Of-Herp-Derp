@@ -147,16 +147,12 @@ public class PositionLogic : Singleton<PositionLogic>
         return backArcTiles;
     }
 
-    public bool CanAttackerHitTargetsBackArc(LivingEntity attacker, LivingEntity target)
-    {
-        TileScript attackerPos = attacker.TileCurrentlyOn;
-        TileScript targetPos = target.TileCurrentlyOn;
+    
+    public bool IsWithinTargetsBackArc(LivingEntity attacker, LivingEntity target)
+    {     
+        List<TileScript> backArcLocations = GetTargetsBackArcTiles(target);
 
-        if(target.facingRight && attackerPos.GridPosition.X < targetPos.GridPosition.X)
-        {
-            return true;
-        }
-        else if(!target.facingRight && attacker.GridPosition.X > targetPos.GridPosition.X)
+        if (backArcLocations.Contains(attacker.TileCurrentlyOn))
         {
             return true;
         }
@@ -164,43 +160,9 @@ public class PositionLogic : Singleton<PositionLogic>
         {
             return false;
         }
+        
     }
+    
 
-    public void CheckForFlanking()
-    {
-        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
-        {
-            int enemiesInMyFrontArc = 0;
-            int alliesInMyFrontArc = 0;
-
-            foreach (LivingEntity entity2 in LivingEntityManager.Instance.allLivingEntities)
-            {
-                if (GetTargetsFrontArcTiles(entity).Contains(entity2.TileCurrentlyOn) && !CombatLogic.Instance.IsTargetFriendly(entity, entity2))
-                {
-                    enemiesInMyFrontArc++;
-                }
-                else if (GetTargetsFrontArcTiles(entity).Contains(entity2.TileCurrentlyOn) && CombatLogic.Instance.IsTargetFriendly(entity, entity2))
-                {
-                    alliesInMyFrontArc++;
-                }
-            }
-
-            // if this is found to be flanked, and not already considered flanked, apply flanked
-            if(enemiesInMyFrontArc >= 2 && alliesInMyFrontArc == 0 && !entity.myPassiveManager.Flanked)
-            {
-                entity.myPassiveManager.ModifyFlanked(1);
-            }
-
-            // if this is found to be not flanked, but currently has the flanked debuff, remove flanked
-            else if(entity.myPassiveManager.Flanked &&
-                ((enemiesInMyFrontArc < 2) || (enemiesInMyFrontArc >= 2 && alliesInMyFrontArc >= 1))
-                )
-            {
-                entity.myPassiveManager.ModifyFlanked(-entity.myPassiveManager.flankedStacks);
-            }
-
-            
-        }
-    }
-
+   
 }

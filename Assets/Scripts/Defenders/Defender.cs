@@ -1109,7 +1109,8 @@ public class Defender : LivingEntity
         {
             Debug.Log("Selected tile is valid, starting move...");
             awaitingMoveOrder = false;
-            AbilityLogic.Instance.PerformMove(this, destination);        
+            AbilityLogic.Instance.PerformMove(this, destination);
+            
         }
     }
     public void StartDashProcess(TileScript destination)

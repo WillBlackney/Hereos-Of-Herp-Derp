@@ -109,6 +109,7 @@ public class MovementLogic : Singleton<MovementLogic>
                 }
             }
 
+            
             // Reset speed
             characterMoved.speed = originalSpeed;
             yield return null;
@@ -128,6 +129,7 @@ public class MovementLogic : Singleton<MovementLogic>
         target.TileCurrentlyOn = destination;
         target.transform.position = destination.WorldPosition;
         LevelManager.Instance.SetTileAsOccupied(destination);
+        OnNewTileSet(target);
         yield return null;
     }
 
@@ -594,8 +596,9 @@ public class MovementLogic : Singleton<MovementLogic>
             }
             yield return new WaitForEndOfFrame();
         }
-    }
 
+        OnNewTileSet(entityMoved);
+    }
     public Action OnLocationMovedTo(LivingEntity character, TileScript newLocation, TileScript previousLocation)
     {
         Debug.Log("OnLocationMovedToCalled() called....");
@@ -603,7 +606,6 @@ public class MovementLogic : Singleton<MovementLogic>
         StartCoroutine(OnLocationMovedToCoroutine(character, newLocation, previousLocation,action));
         return action;
     }
-
     public IEnumerator OnLocationMovedToCoroutine(LivingEntity character, TileScript newLocation, TileScript previousLocation, Action action)
     {
         Debug.Log("OnLocationMovedToCalledCoroutine() called....");
@@ -612,22 +614,25 @@ public class MovementLogic : Singleton<MovementLogic>
         // check for free strikes
         Action freeStrikeEvents = ResolveFreeStrikes(character, previousLocation, newLocation);
         yield return new WaitUntil(() => freeStrikeEvents.ActionResolved() == true);
-        PositionLogic.Instance.CheckForFlanking();
+        OnNewTileSet(character);
+        //PositionLogic.Instance.CheckForFlanking();
         action.actionResolved = true;       
         
     }
-
-    /*
-    public void SetCharacterLocation(LivingEntity character, TileScript newLocation)
+    public void OnNewTileSet(LivingEntity character)
     {
-        Debug.Log("SetCharacterLocation() called....");
-        LevelManager.Instance.SetTileAsUnoccupied(character.TileCurrentlyOn);
-        character.TileCurrentlyOn = newLocation;
-        character.GridPosition = newLocation.GridPosition;
-        LevelManager.Instance.SetTileAsOccupied(newLocation);
+        // Check grass tile / camo application or removal
+        if (character.TileCurrentlyOn.myTileType == TileScript.TileType.Grass &&
+            character.isCamoflaged == false)
+        {
+            character.ApplyCamoflage();
+        }
+        else if (character.TileCurrentlyOn.myTileType != TileScript.TileType.Grass &&
+            character.isCamoflaged)
+        {
+            character.RemoveCamoflage();
+        }
     }
-    */
-
     public Action ResolveFreeStrikes(LivingEntity characterMoved, TileScript previousLocation, TileScript newLocation)
     {
         Debug.Log("ResolveFreeStrikes() called....");
@@ -635,7 +640,6 @@ public class MovementLogic : Singleton<MovementLogic>
         StartCoroutine(ResolveFreeStrikesCoroutine(characterMoved, action, previousLocation, newLocation));
         return action;
     }
-
     public IEnumerator ResolveFreeStrikesCoroutine(LivingEntity characterMoved, Action action, TileScript previousLocation, TileScript newLocation)
     {
         Debug.Log("ResolveFreeStrikesCoroutine() called....");
@@ -655,8 +659,10 @@ public class MovementLogic : Singleton<MovementLogic>
                 PositionLogic.Instance.GetTargetsFrontArcTiles(entity).Contains(newLocation) == false)
             {
                 Debug.Log("ResolveFreeStrikesCoroutine() detected that " + characterMoved.name + " triggered a free strike from " + entity.name);
+                characterMoved.myAnimator.enabled = false;
                 Action freeStrikeAction = AbilityLogic.Instance.PerformFreeStrike(entity, characterMoved);
                 yield return new WaitUntil(() => freeStrikeAction.ActionResolved() == true);
+                characterMoved.myAnimator.enabled = true;
             }
         }
 

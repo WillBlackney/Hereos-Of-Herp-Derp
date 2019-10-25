@@ -161,8 +161,8 @@ public class CharacterData : MonoBehaviour
             myClass = "Mage";
             ModifyMobility(1);
             ModifyStrength(0);
-            ModifyMaxHealth(40);            
-            ModifyCurrentHealth(40);            
+            ModifyMaxHealth(45);            
+            ModifyCurrentHealth(45);            
             ModifyEnergy(4);
             ModifyInitiative(3);
             ModifyMeleeRange(1);

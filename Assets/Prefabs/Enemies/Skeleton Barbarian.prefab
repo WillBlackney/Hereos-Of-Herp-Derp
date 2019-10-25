@@ -245,6 +245,7 @@ MonoBehaviour:
   myStatusManager: {fileID: 4193177542434821330}
   mySpellBook: {fileID: 0}
   myPassiveManager: {fileID: 0}
+  myActivationWindow: {fileID: 0}
   defender: {fileID: 0}
   enemy: {fileID: 0}
   baseMobility: 1
@@ -279,6 +280,7 @@ MonoBehaviour:
   isCamoflaged: 0
   isPoisoned: 0
   poisonStacks: 0
+  currentInitiativeRoll: 0
   moveActionsTakenThisTurn: 0
   timesAttackedThisTurn: 0
   TileCurrentlyOn: {fileID: 0}
@@ -287,7 +289,7 @@ MonoBehaviour:
   facingRight: 0
   spriteImportedFacingRight: 1
   myDeathAnimationFinished: 0
-  myOnTurnEndEffectsFinished: 0
+  myOnActivationEndEffectsFinished: 0
   myInfoPanel: {fileID: 965131916148587032}
   myName: Skeleton Barbarian
   currentlyActivated: 0
@@ -695,6 +697,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Health Bar
+      objectReference: {fileID: 0}
+    - target: {fileID: 559907439341463414, guid: e9dec7b36e2ddf94ea75c3559f4ff134,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 559907439341463414, guid: e9dec7b36e2ddf94ea75c3559f4ff134,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 559907437459523646, guid: e9dec7b36e2ddf94ea75c3559f4ff134,
         type: 3}

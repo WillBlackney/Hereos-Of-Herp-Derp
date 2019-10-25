@@ -173,12 +173,6 @@ public class CombatLogic : MonoBehaviour
             victim.ModifyCurrentBlock(victim.myPassiveManager.adaptiveStacks);
         }
 
-        // remove camoflage if damaged
-        if (victim.isCamoflaged && healthAfter < victim.currentHealth)
-        {
-            victim.RemoveCamoflage();
-        }
-
         victim.currentHealth = healthAfter;
         victim.currentBlock = blockAfter;
         victim.myHealthBar.value = victim.CalculateHealthBarPosition();
@@ -238,7 +232,10 @@ public class CombatLogic : MonoBehaviour
         Debug.Log("Base damage value: " + newDamageValue);
 
         // add bonus strength
-        newDamageValue += attacker.currentStrength;
+        if(damageType == AbilityDataSO.DamageType.Physical)
+        {
+            newDamageValue += attacker.currentStrength;
+        }        
         Debug.Log("Damage value after strength added: " + newDamageValue);
 
         // multiply/divide the damage value based on factors like vulnerable, knock down, magic vulnerability, etc
@@ -269,7 +266,7 @@ public class CombatLogic : MonoBehaviour
         {
             damageModifier -= 0.5f;
         }
-        if(PositionLogic.Instance.CanAttackerHitTargetsBackArc(attacker, victim))
+        if(PositionLogic.Instance.IsWithinTargetsBackArc(attacker, victim))
         {
             damageModifier += 1f;
         }
