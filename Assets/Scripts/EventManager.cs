@@ -18,16 +18,18 @@ public class EventManager : Singleton<EventManager>
         LevelManager.Instance.CreateLevel();
         //EnemySpawner.Instance.PopulateEnemySpawnLocations();        
         CharacterRoster.Instance.InstantiateDefenders();
-        // DefenderManager.Instance.PlaceDefendersAtStartingLocations();
+        //DefenderManager.Instance.PlaceDefendersAtStartingLocations();
         // Instantiate enemies
         EnemySpawner.Instance.SpawnEnemyWave();
         // reset turn manager properties
-        TurnManager.Instance.ResetTurnManagerPropertiesOnCombatStart();
-        // start player turn 1
-        StartCoroutine(TurnManager.Instance.StartPlayerTurn());
+        //TurnManager.Instance.ResetTurnManagerPropertiesOnCombatStart();        
         // disable world map view
         UIManager.Instance.DisableWorldMapView();
         currentEncounterType = WorldEncounter.EncounterType.BasicEnemy;
+        // Activation Stuff
+        ActivationManager.Instance.OnNewCombatEventStarted();
+        // start player turn 1
+        //StartCoroutine(TurnManager.Instance.StartPlayerTurn());
     }
 
     public void StartNewEliteEncounterEvent()
@@ -53,7 +55,6 @@ public class EventManager : Singleton<EventManager>
         UIManager.Instance.DisableWorldMapView();
         currentEncounterType = WorldEncounter.EncounterType.EliteEnemy;
     }
-
     public void StartNewRestSiteEncounterEvent()
     {
         // Disable player's ability to click on encounter buttons and start new encounters

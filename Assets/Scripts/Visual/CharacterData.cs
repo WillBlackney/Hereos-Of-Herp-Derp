@@ -42,6 +42,7 @@ public class CharacterData : MonoBehaviour
     public int MaxHealth;
     public int CurrentHealth;
     public int Energy;
+    public int Initiative;
     public int MaxAP;
     public int MeleeRange;
     public int Strength;
@@ -130,6 +131,7 @@ public class CharacterData : MonoBehaviour
             ModifyMaxHealth(60);
             ModifyCurrentHealth(60);
             ModifyEnergy(4);
+            ModifyInitiative(3);
             ModifyMeleeRange(1);
 
             // Abiltiies + Passives
@@ -162,6 +164,7 @@ public class CharacterData : MonoBehaviour
             ModifyMaxHealth(40);            
             ModifyCurrentHealth(40);            
             ModifyEnergy(4);
+            ModifyInitiative(3);
             ModifyMeleeRange(1);
             MaxAP = 6;
 
@@ -192,6 +195,7 @@ public class CharacterData : MonoBehaviour
             ModifyMaxHealth(45);
             ModifyCurrentHealth(45);
             ModifyEnergy(4);
+            ModifyInitiative(3);
             ModifyMeleeRange(1);
             MaxAP = 6;
                         
@@ -209,6 +213,7 @@ public class CharacterData : MonoBehaviour
             ModifyMaxHealth(50);
             ModifyCurrentHealth(50);
             ModifyEnergy(4);
+            ModifyInitiative(3);
             ModifyMeleeRange(1);
             MaxAP = 6;
 
@@ -241,6 +246,7 @@ public class CharacterData : MonoBehaviour
             ModifyMaxHealth(45);
             ModifyCurrentHealth(45);
             ModifyEnergy(4);
+            ModifyInitiative(3);
             ModifyMeleeRange(1);
             poisonousStacks = 1;
             MaxAP = 6;
@@ -270,6 +276,7 @@ public class CharacterData : MonoBehaviour
             ModifyMaxHealth(50);
             ModifyCurrentHealth(50);
             ModifyEnergy(4);
+            ModifyInitiative(3);
             ModifyMeleeRange(1);
             MaxAP = 6;
 
@@ -478,6 +485,12 @@ public class CharacterData : MonoBehaviour
     {
         Mobility += mobilityGainedOrLost;
         mobilityText.text = Mobility.ToString();
+    }
+
+    public void ModifyInitiative(int initiativeGainedOrLost)
+    {
+        Initiative += initiativeGainedOrLost;
+        //initiativeText.text = Initiative.ToString();
     }
 
     public void ModifyEnergy(int energyGainedOrlost)

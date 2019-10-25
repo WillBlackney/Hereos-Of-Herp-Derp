@@ -14,7 +14,7 @@ public class TurnManager : Singleton<TurnManager>
 
     public bool currentlyPlayersTurn = false;
 
-    public int playerTurnCount = 0;
+    public int currentTurnCount = 0;
     public int enemyTurnCount = 0;
 
     public bool playerOnTurnEndEventsResolved;
@@ -30,6 +30,7 @@ public class TurnManager : Singleton<TurnManager>
             return false;
         }
     }
+
 
     public void OnEndTurnButtonClicked()
     {
@@ -52,7 +53,7 @@ public class TurnManager : Singleton<TurnManager>
     {
         foreach (Defender defender in DefenderManager.Instance.allDefenders)
         {
-            defender.myOnTurnEndEffectsFinished = false;
+            defender.myOnActivationEndEffectsFinished = false;
         }
         Debug.Log("StartEnemyTurn() called...");
         ResetEnemyTurnProperties();
@@ -61,8 +62,9 @@ public class TurnManager : Singleton<TurnManager>
 
     public IEnumerator StartEnemyTurnCoroutine()
     {
+        /*
         enemyTurnCount++;
-        StartCoroutine(DisplayTurnChangeNotification(false));
+        Action action = DisplayTurnChangeNotification();
         // notification yield not currently working
         yield return new WaitUntil(() => NotificationComplete() == true);
         //yield return new WaitForSeconds(1.5f);
@@ -70,6 +72,8 @@ public class TurnManager : Singleton<TurnManager>
         EnemyManager.Instance.StartEnemyTurnSequence();
         yield return new WaitUntil(() => EnemyManager.Instance.AllEnemiesHaveActivated() == true);
         StartCoroutine(EndEnemyTurnCoroutine());
+        */
+        yield return null;
     }
 
     public IEnumerator EndEnemyTurnCoroutine()
@@ -81,9 +85,10 @@ public class TurnManager : Singleton<TurnManager>
 
     public IEnumerator StartPlayerTurn()
     {
-        playerTurnCount++;
+        /*
+        currentTurnCount++;
 
-        StartCoroutine( DisplayTurnChangeNotification(true));
+        StartCoroutine( DisplayTurnChangeNotificationCoroutine(true));
         yield return new WaitUntil(() => NotificationComplete() == true);
         //yield return new WaitForSeconds(1.5f);
 
@@ -91,13 +96,15 @@ public class TurnManager : Singleton<TurnManager>
         currentlyPlayersTurn = true;
         foreach(Defender defender in DefenderManager.Instance.allDefenders)
         {
-            StartCoroutine(defender.OnTurnStart());
-            defender.myOnTurnEndEffectsFinished = false;
+            StartCoroutine(defender.OnActivationStart());
+            defender.myOnActivationEndEffectsFinished = false;
         }
 
         UIManager.Instance.EnableEndTurnButton();
         // turn on controls
         // re-enable end turn button
+        */
+        yield return null;
     }
 
     public void EndPlayerTurn()
@@ -116,7 +123,7 @@ public class TurnManager : Singleton<TurnManager>
     {
         foreach(Defender defender in DefenderManager.Instance.allDefenders)
         {
-            defender.OnTurnEnd();
+            defender.OnActivationEnd();
             yield return new WaitUntil(() => defender.MyOnTurnEndEffectsFinished() == true);
         }
 
@@ -125,7 +132,7 @@ public class TurnManager : Singleton<TurnManager>
 
     public void ResetTurnManagerPropertiesOnCombatStart()
     {
-        playerTurnCount = 0;
+        currentTurnCount = 0;
         enemyTurnCount = 0;
     }
 
@@ -135,11 +142,17 @@ public class TurnManager : Singleton<TurnManager>
 
         foreach(Enemy enemy in EnemyManager.Instance.allEnemies)
         {
-            enemy.myOnTurnEndEffectsFinished = false;
+            enemy.myOnActivationEndEffectsFinished = false;
         }
     }
 
-    public IEnumerator DisplayTurnChangeNotification(bool playerTurn = true)
+    public Action DisplayTurnChangeNotification()
+    {
+        Action action = new Action();
+        StartCoroutine(DisplayTurnChangeNotificationCoroutine(action));
+        return action;
+    }
+    public IEnumerator DisplayTurnChangeNotificationCoroutine(Action action)
     {
         bool reachedMiddlePos = false;
         bool reachedEndPos = false;
@@ -148,20 +161,13 @@ public class TurnManager : Singleton<TurnManager>
         whoseTurnText.gameObject.transform.position = startPos.transform.position;
         visualParentCG.alpha = 0;
 
-        if (playerTurn)
-        {
-            whoseTurnText.text = "Player Turn " + playerTurnCount;
-        }
+        whoseTurnText.text = "Turn " + currentTurnCount;
 
-        else if (playerTurn == false)
-        {
-            whoseTurnText.text = "Enemy Turn " + enemyTurnCount;
-        }
 
         while(reachedMiddlePos == false)
         {
             visualParentCG.alpha += 0.08f;
-            whoseTurnText.gameObject.transform.position = Vector2.MoveTowards(whoseTurnText.gameObject.transform.position, middlePos.transform.position, 1500 * Time.deltaTime);
+            whoseTurnText.gameObject.transform.position = Vector2.MoveTowards(whoseTurnText.gameObject.transform.position, middlePos.transform.position, 1000 * Time.deltaTime);
             if(whoseTurnText.gameObject.transform.position == middlePos.transform.position)
             {
                 Debug.Log("reached Middle pos");
@@ -178,33 +184,18 @@ public class TurnManager : Singleton<TurnManager>
         while (reachedEndPos == false)
         {
             visualParentCG.alpha -= 0.08f;
-            whoseTurnText.gameObject.transform.position = Vector2.MoveTowards(whoseTurnText.gameObject.transform.position, endPos.transform.position, 1500 * Time.deltaTime);
+            whoseTurnText.gameObject.transform.position = Vector2.MoveTowards(whoseTurnText.gameObject.transform.position, endPos.transform.position, 1000 * Time.deltaTime);
             if (whoseTurnText.gameObject.transform.position == endPos.transform.position)
             {
                 Debug.Log("reached end pos");
                 reachedEndPos = true;
             }
             yield return new WaitForEndOfFrame();
-        }
-
-        
+        }        
 
         visualParentCG.alpha = 0;
         visualParentCG.gameObject.SetActive(false);
-        notificationComplete = true;
+        action.actionResolved = true;
     }
 
-    public bool notificationComplete = false;
-    public bool NotificationComplete()
-    {
-        if(notificationComplete == true)
-        {
-            notificationComplete = false;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 }

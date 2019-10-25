@@ -160,7 +160,7 @@ public class EnemyManager : Singleton<EnemyManager>
         foreach(Enemy enemy in allEnemies)
         {
             enemiesActivatingThisTurn.Add(enemy);
-            enemy.myOnTurnEndEffectsFinished = false;
+            enemy.myOnActivationEndEffectsFinished = false;
         }
         foreach(Enemy enemy in enemiesActivatingThisTurn)
         {
@@ -186,7 +186,7 @@ public class EnemyManager : Singleton<EnemyManager>
 
         foreach(Enemy enemy in enemiesResolvingEndOfTurnEffects)
         {
-            enemy.OnTurnEnd();
+            enemy.OnActivationEnd();
             yield return new WaitUntil(() => enemy.MyOnTurnEndEffectsFinished() == true);
         }
 

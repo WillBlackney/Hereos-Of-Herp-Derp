@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PrefabHolder : Singleton<PrefabHolder>
 {
-    [Header("Buttons")]
+    [Header("Buttons + UI")]
     public GameObject AbilityButtonPrefab;
     public GameObject spellInfoPrefab;
+    public GameObject activationWindowPrefab;
 
     [Header("Defender Game object Prefabs")]
     public GameObject warriorPrefab;

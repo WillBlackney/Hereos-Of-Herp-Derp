@@ -31,7 +31,7 @@ public class Enemy : LivingEntity
     // Enumerators and Coroutines
     public virtual void StartMyActivation()
     {        
-        StartCoroutine(OnTurnStart());        
+        //StartCoroutine(OnTurnStart());        
         StartCoroutine(StartMyActivationCoroutine());
     }
 
@@ -405,16 +405,17 @@ public class Enemy : LivingEntity
     
     // Events and activation
 
-    public override IEnumerator OnTurnStart()
+    public override IEnumerator OnActivationStart()
     {
-        StartCoroutine(base.OnTurnStart());
-        currentlyActivated = true;
+        StartCoroutine(base.OnActivationStart());
+        //currentlyActivated = true;
         yield return null;
     }
 
     public void EndMyActivation()
     {
-        currentlyActivated = false;
+        //currentlyActivated = false;
+        ActivationManager.Instance.ActivateNextEntity();
     }
 
     // Input and Player interaction

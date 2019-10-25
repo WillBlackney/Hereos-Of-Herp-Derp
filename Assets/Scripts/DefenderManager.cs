@@ -14,6 +14,7 @@ public class DefenderManager : Singleton<DefenderManager>
     public void SetSelectedDefender(Defender defender)
     {
         // if we click on a different defender while the selectedDefender is awaiting an order, return
+        /*
         if(selectedDefender != null &&
            (
            selectedDefender.awaitingMoveOrder == true ||
@@ -24,6 +25,7 @@ public class DefenderManager : Singleton<DefenderManager>
         {
             return;
         }
+        */
 
         // if we have already have a defender selected when we click on another defender, unselect that defender, then select the new defender
         if(selectedDefender != defender && selectedDefender != null)
@@ -32,6 +34,7 @@ public class DefenderManager : Singleton<DefenderManager>
             selectedDefender.UnselectDefender();
             LevelManager.Instance.UnhighlightAllTiles();
         }
+
         selectedDefender = defender;
         CameraManager.Instance.SetCameraLookAtTarget(selectedDefender.gameObject);
         Debug.Log("Selected defender: " + selectedDefender.gameObject.name);

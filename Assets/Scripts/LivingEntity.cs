@@ -6,8 +6,7 @@ using TMPro;
 
 public class LivingEntity : MonoBehaviour
 {   
-    [SerializeField] public float speed;
-    
+    [SerializeField] public float speed;    
     public enum Class { None, Warrior, Mage, Ranger, Priest, Rogue, Shaman, Warlock };
     public Class myClass;
 
@@ -22,9 +21,11 @@ public class LivingEntity : MonoBehaviour
     public SpriteRenderer mySpriteRenderer;
     public StatusManager myStatusManager;
     public SpellBook mySpellBook;
-    public PassiveManager myPassiveManager;    
+    public PassiveManager myPassiveManager;
+    public ActivationWindow myActivationWindow;
     public Defender defender;
     public Enemy enemy;
+
 
     [Header("Base Trait Properties")]
     public int baseMobility;
@@ -36,6 +37,7 @@ public class LivingEntity : MonoBehaviour
     public int baseMeleeRange;
     public int baseStrength;
     public int baseDexterity;
+    public int baseInitiative;
     public int baseStartingBlock;
 
     [Header("Current Trait Properties")]
@@ -48,6 +50,7 @@ public class LivingEntity : MonoBehaviour
     public int currentMeleeRange;
     public int currentStrength;
     public int currentDexterity;
+    public int currentInitiative;
     public int currentBlock;
 
     // TO DO: below properties should be moved into a new script in the futre (MyStatusManager);
@@ -64,6 +67,7 @@ public class LivingEntity : MonoBehaviour
     public int poisonStacks;
 
     [Header("Miscealaneous Properties ")]
+    public int currentInitiativeRoll;
     public int moveActionsTakenThisTurn;
     public int timesAttackedThisTurn;
 
@@ -106,6 +110,8 @@ public class LivingEntity : MonoBehaviour
         transform.position = startingTile.WorldPosition;
         // Add this to the list of all active enemy and defender characters
         LivingEntityManager.Instance.allLivingEntities.Add(this);
+        // Create Activation Window
+        ActivationManager.Instance.CreateActivationWindow(this);
         // Face towards the opponents
         if (defender)
         {
@@ -126,10 +132,10 @@ public class LivingEntity : MonoBehaviour
         currentHealth = baseStartingHealth;
         currentMaxAP = baseMaxAP;
         currentEnergy = baseEnergy;              
-        currentMeleeRange = baseMeleeRange;
-        //currentStrength = baseStrength;  
+        currentMeleeRange = baseMeleeRange;         
         ModifyCurrentStrength(baseStrength);
         ModifyCurrentDexterity(baseDexterity);
+        ModifyCurrentInitiative(baseInitiative);
         myHealthBar.value = CalculateHealthBarPosition();
         ModifyCurrentBlock(baseStartingBlock);
         ModifyCurrentAP(baseStartingAP);
@@ -499,6 +505,10 @@ public class LivingEntity : MonoBehaviour
         }
 
     }
+    public virtual void ModifyCurrentInitiative(int initiativeGainedOrLost)
+    {
+        currentInitiative += initiativeGainedOrLost;     
+    }
     public virtual void ModifyCurrentEnergy(int energyGainedOrLost)
     {
         currentEnergy += energyGainedOrLost;
@@ -745,7 +755,10 @@ public class LivingEntity : MonoBehaviour
         }
 
         // end turn and activation triggers just incase        
-        myOnTurnEndEffectsFinished = true;
+        myOnActivationEndEffectsFinished = true;
+        ActivationManager.Instance.activationOrder.Remove(this);
+        Destroy(myActivationWindow.gameObject);
+        ActivationManager.Instance.MoveArrowTowardsTargetPanelPos(ActivationManager.Instance.entityActivated.myActivationWindow);
         Destroy(gameObject,0.1f);
     }
 
@@ -849,13 +862,13 @@ public class LivingEntity : MonoBehaviour
     }
 
     // Turn + activation related
-    public virtual IEnumerator OnTurnStart()
+    public virtual IEnumerator OnActivationStart()
     {
         moveActionsTakenThisTurn = 0;
         timesAttackedThisTurn = 0;
-        GainEnergyOnTurnStart();
-        ReduceCooldownsOnTurnStart();
-        ModifyBlockOnTurnStart();
+        GainEnergyOnActivationStart();
+        ReduceCooldownsOnActivationStart();
+        ModifyBlockOnActivationStart();
         if (isKnockedDown)
         {
             Debug.Log("Removing knockdown");
@@ -912,13 +925,13 @@ public class LivingEntity : MonoBehaviour
         }
     }
 
-    public virtual void OnTurnEnd()
+    public virtual void OnActivationEnd()
     {
-        StartCoroutine(OnTurnEndCoroutine());
+        StartCoroutine(OnActivationEndCoroutine());
     }
-    public virtual IEnumerator OnTurnEndCoroutine()
+    public virtual IEnumerator OnActivationEndCoroutine()
     {
-        Debug.Log("OnTurnEndCoroutine() called...");
+        Debug.Log("OnActivationEndCoroutine() called...");
 
         // Remove/apply relevant status effects and passives
         if (myPassiveManager.Exposed)
@@ -1142,7 +1155,7 @@ public class LivingEntity : MonoBehaviour
 
         if( defender && 
             ArtifactManager.Instance.HasArtifact("Wind Up Boots") &&
-            TurnManager.Instance.playerTurnCount == 1)
+            TurnManager.Instance.currentTurnCount == 1)
         {
             ModifyCurrentMobility(-1);
             yield return new WaitForSeconds(0.5f);
@@ -1157,14 +1170,14 @@ public class LivingEntity : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.5f);
-        myOnTurnEndEffectsFinished = true;
+        myOnActivationEndEffectsFinished = true;
 
     }
 
-    public bool myOnTurnEndEffectsFinished = false;
+    public bool myOnActivationEndEffectsFinished = false;
     public bool MyOnTurnEndEffectsFinished()
     {
-        if (myOnTurnEndEffectsFinished == true)
+        if (myOnActivationEndEffectsFinished == true)
         {
             return true;
         }
@@ -1174,7 +1187,7 @@ public class LivingEntity : MonoBehaviour
         }
     }
 
-    public virtual void GainEnergyOnTurnStart()
+    public virtual void GainEnergyOnActivationStart()
     {
         
         currentAP += currentEnergy;
@@ -1195,7 +1208,7 @@ public class LivingEntity : MonoBehaviour
         }
     }
 
-    public void ReduceCooldownsOnTurnStart()
+    public void ReduceCooldownsOnActivationStart()
     {
         foreach (Ability ability in mySpellBook.myActiveAbilities)
         {
@@ -1203,7 +1216,7 @@ public class LivingEntity : MonoBehaviour
         }          
     }
 
-    public void ModifyBlockOnTurnStart()
+    public void ModifyBlockOnActivationStart()
     {
         if (ArtifactManager.Instance.HasArtifact("Calipers"))
         {

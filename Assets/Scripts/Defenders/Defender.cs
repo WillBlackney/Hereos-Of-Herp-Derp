@@ -94,6 +94,7 @@ public class Defender : LivingEntity
         baseDexterity = myCharacterData.Dexterity;
         baseMobility = myCharacterData.Mobility;
         baseEnergy = myCharacterData.Energy;
+        baseInitiative = myCharacterData.Initiative;
         baseMaxAP = myCharacterData.MaxAP;
         baseStartingBlock = myCharacterData.startingBlock;
         baseMeleeRange = myCharacterData.MeleeRange;
@@ -448,8 +449,12 @@ public class Defender : LivingEntity
 
         else
         {
-            Debug.Log("Defender selection detected");
-            SelectDefender();
+            Debug.Log("Defender selection attempt detected");
+            if (ActivationManager.Instance.IsEntityActivated(this))
+            {
+                SelectDefender();
+            }
+            
         }
 
     }

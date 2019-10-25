@@ -256,6 +256,7 @@ MonoBehaviour:
   baseMeleeRange: 1
   baseStrength: 0
   baseDexterity: 0
+  baseInitiative: 3
   baseStartingBlock: 0
   currentMobility: 0
   currentMaxHealth: 0
@@ -266,6 +267,7 @@ MonoBehaviour:
   currentMeleeRange: 0
   currentStrength: 0
   currentDexterity: 0
+  currentInitiative: 0
   currentBlock: 0
   isKnockedDown: 0
   isPinned: 0
@@ -356,6 +358,7 @@ MonoBehaviour:
   KnowsSanctity: 0
   KnowsBless: 0
   KnowsSiphonLife: 0
+  KnowsChaosBolt: 0
 --- !u!114 &2047409677765581395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,6 +420,8 @@ MonoBehaviour:
   magicImmunityStacks: 0
   PhysicalImmunity: 0
   physicalImmunityStacks: 0
+  Flanked: 0
+  flankedStacks: 0
 --- !u!1001 &1815366470707951560
 PrefabInstance:
   m_ObjectHideFlags: 0

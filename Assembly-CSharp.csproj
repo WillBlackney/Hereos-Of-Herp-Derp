@@ -11,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{AFFAF823-A011-C746-73EA-567A2607B2A9}</ProjectGuid>
+    <ProjectGuid>{5994F474-C7D5-7774-8799-3BD7D86AAFB1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\Abilities\AbilityDataSO.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityLibrary.cs" />
     <Compile Include="Assets\Scripts\Action.cs" />
+    <Compile Include="Assets\Scripts\ActivationManager.cs" />
     <Compile Include="Assets\Scripts\AILogic.cs" />
     <Compile Include="Assets\Scripts\Artifacts\ArtifactDataSO.cs" />
     <Compile Include="Assets\Scripts\Artifacts\ArtifactGO.cs" />
@@ -145,10 +146,12 @@
     <Compile Include="Assets\Scripts\SpellInfoPrefabHolder.cs" />
     <Compile Include="Assets\Scripts\Talent.cs" />
     <Compile Include="Assets\Scripts\TalentTree.cs" />
+    <Compile Include="Assets\Scripts\testscript2.cs" />
     <Compile Include="Assets\Scripts\TileScript.cs" />
     <Compile Include="Assets\Scripts\TowerButton.cs" />
     <Compile Include="Assets\Scripts\TurnManager.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Visual\ActivationWindow.cs" />
     <Compile Include="Assets\Scripts\Visual\CharacterData.cs" />
     <Compile Include="Assets\Scripts\Visual\CharacterInfoPanel.cs" />
     <Compile Include="Assets\Scripts\Visual\CharacterRoster.cs" />
@@ -226,31 +229,31 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/Will/Desktop/Unity Projects/TD-Tutorial Small Board/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Users/Will/Desktop/Unity Projects/Fantasy-RPG-Roguelike-Game/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Cinemachine">
-      <HintPath>C:/Users/Will/Desktop/Unity Projects/TD-Tutorial Small Board/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+      <HintPath>C:/Users/Will/Desktop/Unity Projects/Fantasy-RPG-Roguelike-Game/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/Will/Desktop/Unity Projects/TD-Tutorial Small Board/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/Will/Desktop/Unity Projects/Fantasy-RPG-Roguelike-Game/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/Will/Desktop/Unity Projects/TD-Tutorial Small Board/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/Will/Desktop/Unity Projects/Fantasy-RPG-Roguelike-Game/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/Will/Desktop/Unity Projects/TD-Tutorial Small Board/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Users/Will/Desktop/Unity Projects/Fantasy-RPG-Roguelike-Game/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/Will/Desktop/Unity Projects/TD-Tutorial Small Board/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/Users/Will/Desktop/Unity Projects/Fantasy-RPG-Roguelike-Game/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="com.unity.cinemachine.editor">
-      <HintPath>C:/Users/Will/Desktop/Unity Projects/TD-Tutorial Small Board/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
+      <HintPath>C:/Users/Will/Desktop/Unity Projects/Fantasy-RPG-Roguelike-Game/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/Will/Desktop/Unity Projects/TD-Tutorial Small Board/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/Will/Desktop/Unity Projects/Fantasy-RPG-Roguelike-Game/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>C:/Users/Will/Desktop/Unity Projects/TD-Tutorial Small Board/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+      <HintPath>C:/Users/Will/Desktop/Unity Projects/Fantasy-RPG-Roguelike-Game/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -436,13 +439,13 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.5f1/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>C:/Users/Will/Desktop/Unity Projects/TD-Tutorial Small Board/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>C:/Users/Will/Desktop/Unity Projects/Fantasy-RPG-Roguelike-Game/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>C:/Users/Will/Desktop/Unity Projects/TD-Tutorial Small Board/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/Will/Desktop/Unity Projects/Fantasy-RPG-Roguelike-Game/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>C:/Users/Will/Desktop/Unity Projects/TD-Tutorial Small Board/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>C:/Users/Will/Desktop/Unity Projects/Fantasy-RPG-Roguelike-Game/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.5f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

@@ -27,16 +27,7 @@ public class WorldMap : Singleton<WorldMap>
     }
 
     public void CreateHexagons()
-    {
-        /*
-        WorldEncounter[] encounters = FindObjectsOfType<WorldEncounter>();
-
-        foreach(WorldEncounter encounter in encounters)
-        {
-            encounter.InitializeSetup();
-        }
-        */
-
+    {        
         foreach(WorldEncounter encounter in allWorldEncounters)
         {
             encounter.InitializeSetup();
