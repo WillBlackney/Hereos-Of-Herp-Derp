@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New AbilityDataSO", menuName = "AbilityDataSO", order = 53)]
 public class AbilityDataSO : ScriptableObject
 {
-    public enum DamageType { None, Physical, Magic};
+    public enum DamageType { None, Physical, Magic, Poison};
     public enum AttackType { None, Melee, Ranged};
 
     public Sprite abilityImage;

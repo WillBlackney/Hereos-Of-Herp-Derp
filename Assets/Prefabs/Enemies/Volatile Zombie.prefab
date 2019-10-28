@@ -270,11 +270,12 @@ MonoBehaviour:
   myStatusManager: {fileID: 5122365382306289595}
   mySpellBook: {fileID: 0}
   myPassiveManager: {fileID: 0}
+  myActivationWindow: {fileID: 0}
   defender: {fileID: 0}
   enemy: {fileID: 0}
   baseMobility: 1
-  baseMaxHealth: 10
-  baseStartingHealth: 10
+  baseMaxHealth: 6
+  baseStartingHealth: 6
   baseEnergy: 4
   baseStartingAP: 0
   baseMaxAP: 6
@@ -304,6 +305,7 @@ MonoBehaviour:
   isCamoflaged: 0
   isPoisoned: 0
   poisonStacks: 0
+  currentInitiativeRoll: 0
   moveActionsTakenThisTurn: 0
   timesAttackedThisTurn: 0
   TileCurrentlyOn: {fileID: 0}
@@ -312,7 +314,7 @@ MonoBehaviour:
   facingRight: 0
   spriteImportedFacingRight: 0
   myDeathAnimationFinished: 0
-  myOnTurnEndEffectsFinished: 0
+  myOnActivationEndEffectsFinished: 0
   myInfoPanel: {fileID: 8089505841474664817}
   myName: Volatile Zombie
   currentlyActivated: 0

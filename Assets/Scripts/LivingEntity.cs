@@ -361,8 +361,7 @@ public class LivingEntity : MonoBehaviour
 
     public bool IsTargetInRange(LivingEntity target, int range)
     {
-        List<TileScript> tilesWithinMyRange = LevelManager.Instance.GetTilesWithinRange(range, TileCurrentlyOn, false);
-        
+        List<TileScript> tilesWithinMyRange = LevelManager.Instance.GetTilesWithinRange(range, TileCurrentlyOn, false);        
 
         if(target == null)
         {
@@ -388,12 +387,14 @@ public class LivingEntity : MonoBehaviour
         List<TileScript> tilesWithinStealthSight = LevelManager.Instance.GetTilesWithinRange(1, TileCurrentlyOn);
 
         if (tilesWithinStealthSight.Contains(target.TileCurrentlyOn) == false && 
-            (target.isCamoflaged || target.myPassiveManager.Stealth)
+            (target.isCamoflaged || target.myPassiveManager.Stealth) &&
+            (CombatLogic.Instance.IsTargetFriendly(this, target) == false)
             )
         {
             Debug.Log("Invalid target: Target is in stealth/camoflague and more than 1 tile away...");
-            return false;
+            return false;       
         }
+
         else
         {
             return true;
@@ -648,70 +649,7 @@ public class LivingEntity : MonoBehaviour
     }
 
     
-    // Damage related and events
-    
-    public void HandlePoisonDamage(int damageAmount)
-    {        
-        int healthAfter = currentHealth;
-        healthAfter = currentHealth - damageAmount;
-
-        if (hasBarrier && healthAfter < currentHealth)
-        {
-            damageAmount = 0;
-            healthAfter = currentHealth;
-            ModifyCurrentBarrierStacks(-1);
-        }
-
-        // Enrage
-        if (myPassiveManager.Enrage && healthAfter < currentHealth)
-        {
-            Debug.Log("Enrage triggered, gaining +2 strength");
-            ModifyCurrentStrength(myPassiveManager.enrageStacks);
-        }
-
-        // Remove Sleeping
-        if(isSleeping && healthAfter < currentHealth)
-        {
-            ModifySleeping(-currentSleepingStacks);
-        }
-
-        if (myPassiveManager.Adaptive && healthAfter < currentHealth)
-        {
-            Debug.Log("Adaptive triggered, gaining block");
-            ModifyCurrentBlock(myPassiveManager.adaptiveStacks);
-        }
-
-        // remove camoflage if damaged
-        /*
-        if (isCamoflaged && healthAfter < currentHealth)
-        {
-            RemoveCamoflage();
-        }
-        */
-
-        currentHealth = healthAfter;        
-        myHealthBar.value = CalculateHealthBarPosition();
-        if (defender != null)
-        {
-            defender.myCharacterData.SetCurrentHealth(currentHealth);
-        }
-        
-
-        if (damageAmount > 0)
-        {
-            // TO DO: the damage effect from poison should look different to the regular damage vfx
-            StartCoroutine(VisualEffectManager.Instance.CreateDamageEffect(transform.position, damageAmount, true));
-        }
-
-        UpdateCurrentHealthText();
-
-        if (currentHealth <= 0)
-        {
-            StartCoroutine(HandleDeath());
-        }
-    }
-
-   
+    // Damage related and events  
     public virtual IEnumerator HandleDeath()
     {
         LevelManager.Instance.SetTileAsUnoccupied(TileCurrentlyOn);
@@ -830,30 +768,43 @@ public class LivingEntity : MonoBehaviour
         }
     }
 
-    public IEnumerator StartQuickReflexesMove()
+    public Action StartQuickReflexesMove()
+    {
+        Action action = new Action();
+        StartCoroutine(StartQuickReflexesMoveCoroutine(action));
+        return action;
+    }
+    public IEnumerator StartQuickReflexesMoveCoroutine(Action action)
     {
         // TO DO: prevent quick reflex movements from occuring on a characters own turn (only triggered during the enemies turn)
-
-        TileScript destinationTile = null;
-        List<TileScript> availableTiles = LevelManager.Instance.GetValidMoveableTilesWithinRange(currentMobility, TileCurrentlyOn);
-
-        destinationTile = availableTiles[Random.Range(0, availableTiles.Count)];
-
-        if (destination != null)
+        if(ActivationManager.Instance.entityActivated != this)
         {
-            if (enemy)
+            TileScript destinationTile = null;
+            List<TileScript> availableTiles = LevelManager.Instance.GetValidMoveableTilesWithinRange(currentMobility, TileCurrentlyOn);
+
+            destinationTile = availableTiles[Random.Range(0, availableTiles.Count)];
+
+            if (destination != null)
             {
-                enemy.SetPath(AStar.GetPath(TileCurrentlyOn.GridPosition, destinationTile.GridPosition));
-                StartCoroutine(enemy.Move(currentMobility, 3));
+                Action moveAction = MovementLogic.Instance.MoveEntity(defender, destinationTile);
+                yield return new WaitUntil(() => moveAction.ActionResolved() == true);
+                /*
+                if (enemy)
+                {
+                    //enemy.SetPath(AStar.GetPath(TileCurrentlyOn.GridPosition, destinationTile.GridPosition));
+                    //StartCoroutine(enemy.Move(currentMobility, 3));
+                }
+
+                else if (defender)
+                {
+                    MovementLogic.Instance.MoveEntity(defender, destinationTile);
+                }
+                */
             }
 
-            else if (defender)
-            {                
-                MovementLogic.Instance.MoveEntity(defender, destinationTile);                
-            }
         }
 
-        yield return null;
+        action.actionResolved = true;
 
     }
 
@@ -1124,7 +1075,8 @@ public class LivingEntity : MonoBehaviour
 
         if (isPoisoned)
         {
-            HandlePoisonDamage(poisonStacks);
+            Action poisonDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.poisonousStacks, this, this, false, AbilityDataSO.AttackType.None, AbilityDataSO.DamageType.Poison);
+            yield return new WaitUntil(() => poisonDamage.ActionResolved() == true);
             yield return new WaitForSeconds(0.5f);
         }
 

@@ -141,12 +141,10 @@ public class ActivationManager : Singleton<ActivationManager>
     }
     public IEnumerator OnEndTurnButtonClickedCoroutine()
     {
-        Debug.Log("OnEndTurnButtonClickedCoroutine() started...");
-        // TO DO: endplayerturn will need to be a coroutine most likely
+        Debug.Log("OnEndTurnButtonClickedCoroutine() started...");        
         // endplayer turn will trigger all player end turn effects, BEFORE switching to enemy turn
         Action endTurnEvent = EndEntityActivation(entityActivated);
-        yield return new WaitUntil(() => endTurnEvent.ActionResolved() == true);
-        //action.actionResolved = true;
+        yield return new WaitUntil(() => endTurnEvent.ActionResolved() == true);        
         ActivateNextEntity();
 
     }

@@ -582,7 +582,8 @@ public class Defender : LivingEntity
         Ability charge = mySpellBook.GetAbilityByName("Charge");
 
         if (HasEnoughAP(currentAP, charge.abilityAPCost) == false
-            || IsAbilityOffCooldown(charge.abilityCurrentCooldownTime) == false)
+            || IsAbilityOffCooldown(charge.abilityCurrentCooldownTime) == false ||
+            IsAbleToMove() == false)
         {
             return;
         }

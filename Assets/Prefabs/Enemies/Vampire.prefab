@@ -251,6 +251,7 @@ MonoBehaviour:
   myStatusManager: {fileID: 4868198892135395323}
   mySpellBook: {fileID: 0}
   myPassiveManager: {fileID: 0}
+  myActivationWindow: {fileID: 0}
   defender: {fileID: 0}
   enemy: {fileID: 0}
   baseMobility: 2
@@ -285,6 +286,7 @@ MonoBehaviour:
   isCamoflaged: 0
   isPoisoned: 0
   poisonStacks: 0
+  currentInitiativeRoll: 0
   moveActionsTakenThisTurn: 0
   timesAttackedThisTurn: 0
   TileCurrentlyOn: {fileID: 0}
@@ -293,9 +295,9 @@ MonoBehaviour:
   facingRight: 0
   spriteImportedFacingRight: 0
   myDeathAnimationFinished: 0
-  myOnTurnEndEffectsFinished: 0
+  myOnActivationEndEffectsFinished: 0
   myInfoPanel: {fileID: 2095069968850433237}
-  myName: 
+  myName: Vampire
   currentlyActivated: 0
   attackFinished: 0
   attackAnimationFinished: 0

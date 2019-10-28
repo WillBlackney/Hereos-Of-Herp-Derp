@@ -270,11 +270,12 @@ MonoBehaviour:
   myStatusManager: {fileID: 2592445971339363775}
   mySpellBook: {fileID: 0}
   myPassiveManager: {fileID: 0}
+  myActivationWindow: {fileID: 0}
   defender: {fileID: 0}
   enemy: {fileID: 0}
-  baseMobility: 2
-  baseMaxHealth: 75
-  baseStartingHealth: 75
+  baseMobility: 1
+  baseMaxHealth: 55
+  baseStartingHealth: 55
   baseEnergy: 6
   baseStartingAP: 0
   baseMaxAP: 6
@@ -304,6 +305,7 @@ MonoBehaviour:
   isCamoflaged: 0
   isPoisoned: 0
   poisonStacks: 0
+  currentInitiativeRoll: 0
   moveActionsTakenThisTurn: 0
   timesAttackedThisTurn: 0
   TileCurrentlyOn: {fileID: 0}
@@ -312,7 +314,7 @@ MonoBehaviour:
   facingRight: 0
   spriteImportedFacingRight: 1
   myDeathAnimationFinished: 0
-  myOnTurnEndEffectsFinished: 0
+  myOnActivationEndEffectsFinished: 0
   myInfoPanel: {fileID: 1490631549828721525}
   myName: Skeleton Necromancer
   currentlyActivated: 0

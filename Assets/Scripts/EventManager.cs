@@ -143,7 +143,11 @@ public class EventManager : Singleton<EventManager>
         foreach(CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
         {
             Debug.Log("StartPreLootScreenVisualEvent() creating visual status xp gained effect...");
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(character.myDefenderGO.transform.position, "XP + " + xpReward.ToString(), true));
+            // Dead characters get no XP
+            if(character.CurrentHealth > 0)
+            {
+                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(character.myDefenderGO.transform.position, "XP + " + xpReward.ToString(), true));
+            }            
             yield return new WaitForSeconds(0.5f);
         }
 
