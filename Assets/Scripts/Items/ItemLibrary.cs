@@ -140,9 +140,9 @@ public class ItemLibrary : MonoBehaviour
         {
             AssignDwarvenRune(character);
         }
-        else if (itemName == "Simple Shield")
+        else if (itemName == "Iron Helmet")
         {
-            AssignSimpleShield(character);
+            AssignIronHelmet(character);
         }
         else if (itemName == "Acid Vial")
         {
@@ -208,6 +208,22 @@ public class ItemLibrary : MonoBehaviour
         {
             AssignVisorOfRage(character);
         }
+        else if (itemName == "Momentum Boots")
+        {
+            AssignMomentumBoots(character);
+        }
+        else if (itemName == "True Rune")
+        {
+            AssignTrueSightRune(character);
+        }
+        else if (itemName == "Hellguard Boots")
+        {
+            AssignHellguardBoots(character);
+        }
+        else if (itemName == "Knowledge Crystal")
+        {
+            AssignKnowledgeCrystal(character);
+        }
     }
 
    
@@ -242,7 +258,7 @@ public class ItemLibrary : MonoBehaviour
         character.barrierStacks += 1;
     }
 
-    public void AssignSimpleShield(CharacterData character)
+    public void AssignIronHelmet(CharacterData character)
     {
         character.cautiousStacks += 2;
     }
@@ -278,7 +294,7 @@ public class ItemLibrary : MonoBehaviour
 
     public void AssignSpikedCarapace(CharacterData character)
     {
-        character.ModifyThorns(1);
+        character.ModifyThorns(2);
     }
 
     public void AssignCocaine(CharacterData character)
@@ -325,6 +341,27 @@ public class ItemLibrary : MonoBehaviour
     {
         character.hatefulPresenceStacks += 1;
     }
+
+    public void AssignMomentumBoots(CharacterData character)
+    {
+        character.ModifyInitiative(1);
+    }
+
+    public void AssignTrueSightRune(CharacterData character)
+    {
+        character.trueSightStacks += 1;
+    }
+
+    public void AssignHellguardBoots(CharacterData character)
+    {
+        character.startingIntiativeBonus += 1;
+    }
+
+    public void AssignKnowledgeCrystal(CharacterData character)
+    {
+        character.ModifyWisdom(1);
+    }
+
 
 
 }

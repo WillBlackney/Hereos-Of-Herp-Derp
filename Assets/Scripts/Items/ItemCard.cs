@@ -3,22 +3,66 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class ItemCard : MonoBehaviour
+using UnityEngine.EventSystems;
+public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     //public enum ItemRarity { NoRarity, Common, Rare, Epic };
-
-    public string myName;
-    public ItemDataSO myItemDataSO;
-    public ItemDataSO.ItemRarity myItemRarity;
-    public Image myImageComponent;
-    public Image myRarityFrame;
+    [Header("Component References")]    
+    public Image itemImage;
+    public Image itemImageFrame;
+    public Image itemNameRibbonImage;
     public TextMeshProUGUI myNameText;
     public TextMeshProUGUI myDescriptionText;
+    public Sprite commonRibbonSprite;
+    public Sprite rareRibbonSprite;
+    public Sprite epicRibbonSprite;
+    public Sprite commonFrameSprite;
+    public Sprite rareFrameSprite;
+    public Sprite epicFrameSprite;
 
+    [Header("Properties")]
     public bool inInventory;
     public bool inShop;
     public ItemSlot myItemSlot;
+    public string myName;
+    public ItemDataSO myItemDataSO;
+    public ItemDataSO.ItemRarity myItemRarity;
+    public float originalScale;
+    public bool expanding;
+    public bool shrinking;
+    
 
+    // Setup + Initialization
+    public void RunSetupFromItemData(ItemDataSO data)
+    {
+        originalScale = GetComponent<RectTransform>().localScale.x;
+        myItemDataSO = data;
+        Debug.Log("RunSetupFromItemData() called...");
+        myName = data.itemName;
+        myNameText.text = myName;
+        myDescriptionText.text = data.itemDescription;
+        itemImage.sprite = data.itemImage;
+        myItemRarity = data.itemRarity;
+
+        if (myItemRarity == ItemDataSO.ItemRarity.Common)
+        {
+            itemImageFrame.sprite = commonFrameSprite;
+            itemNameRibbonImage.sprite = commonRibbonSprite;
+        }
+        else if (myItemRarity == ItemDataSO.ItemRarity.Rare)
+        {
+            itemImageFrame.sprite = rareFrameSprite;
+            itemNameRibbonImage.sprite = rareRibbonSprite;
+        }
+        else if (myItemRarity == ItemDataSO.ItemRarity.Epic)
+        {
+            itemImageFrame.sprite = epicFrameSprite;
+            itemNameRibbonImage.sprite = epicRibbonSprite;
+        }
+
+    }
+
+    // Mouse events
     public void OnItemCardClicked()
     {
         if (inInventory)
@@ -46,29 +90,49 @@ public class ItemCard : MonoBehaviour
         RewardScreen.Instance.currentItemRewardButton = null;        
         RewardScreen.Instance.DisableItemLootScreen();
     }
-
-    public void RunSetupFromItemData(ItemDataSO data)
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        myItemDataSO = data;
-        Debug.Log("RunSetupFromItemData() called...");
-        myName = data.itemName;
-        myNameText.text = myName;
-        myDescriptionText.text = data.itemDescription;
-        myImageComponent.sprite = data.itemImage;       
-        myItemRarity = data.itemRarity;
-
-        if(myItemRarity == ItemDataSO.ItemRarity.Common)
-        {
-            myRarityFrame.color = data.commonColour;
-        }
-        else if (myItemRarity == ItemDataSO.ItemRarity.Rare)
-        {
-            myRarityFrame.color = data.rareColour;
-        }
-        else if (myItemRarity == ItemDataSO.ItemRarity.Epic)
-        {
-            myRarityFrame.color = data.epicColour;
-        }
+        Debug.Log("Mouse Enter detected...");
+        StartCoroutine(Expand(1));
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Debug.Log("Mouse Exit detected...");
+        StartCoroutine(Shrink(1));
 
     }
+
+    // Visual related
+
+    public IEnumerator Expand(int speed)
+    {
+        shrinking = false;
+        expanding = true;
+
+        float finalScale = originalScale * 1.2f;
+        RectTransform transform = GetComponent<RectTransform>();
+
+        while (transform.localScale.x < finalScale && expanding == true)
+        {
+            Vector3 targetScale = new Vector3(transform.localScale.x + (0.1f * speed), transform.localScale.y + (0.1f * speed));
+            transform.localScale = targetScale;
+            yield return new WaitForEndOfFrame();
+        }        
+    }
+
+    public IEnumerator Shrink(int speed)
+    {
+        expanding = false;
+        shrinking = true;
+
+        RectTransform transform = GetComponent<RectTransform>();
+
+        while (transform.localScale.x != originalScale && shrinking == true)
+        {
+            Vector3 targetScale = new Vector3(transform.localScale.x - (0.1f * speed), transform.localScale.y - (0.1f * speed));
+            transform.localScale = targetScale;
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
 }

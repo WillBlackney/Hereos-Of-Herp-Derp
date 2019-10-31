@@ -67,6 +67,9 @@ public class PassiveManager : MonoBehaviour
     public bool TemporaryStrength;
     public int temporaryStrengthStacks;
 
+    public bool TemporaryInitiative;
+    public int temporaryInitiativeStacks;
+
     public bool Rune;
     public int runeStacks;
 
@@ -84,6 +87,9 @@ public class PassiveManager : MonoBehaviour
 
     public bool Flanked;
     public int flankedStacks;
+
+    public bool TrueSight;
+    public int trueSightStacks;
 
 
     public void InitializeSetup()
@@ -262,6 +268,27 @@ public class PassiveManager : MonoBehaviour
         }
 
     }
+    public void ModifyTemporaryInitiative(int stacks)
+    {
+        if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
+        {
+            StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Initiative");
+            temporaryInitiativeStacks += stacks;
+            myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+        }
+        else if (stacks < 0)
+        {
+            StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Initiative");
+            temporaryInitiativeStacks += stacks;
+            myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+        }
+
+        if (temporaryInitiativeStacks > 0)
+        {
+            TemporaryInitiative = true;
+        }
+
+    }
     public void ModifyExposed(int stacks)
     {
         StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Exposed");
@@ -322,6 +349,13 @@ public class PassiveManager : MonoBehaviour
         PhysicalImmunity = true;
         physicalImmunityStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Physical Immunity"), stacks);
+    }
+    public void LearnTrueSight(int stacks)
+    {
+        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("True Sight");
+        TrueSight = true;
+        trueSightStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyRune(int stacks)
     {

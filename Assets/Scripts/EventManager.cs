@@ -114,6 +114,9 @@ public class EventManager : Singleton<EventManager>
         Debug.Log("StartNewEndBasicEncounterEvent() coroutine started...");
         // Show combat end visual events before loot reward screen appears
         preLootScreenEventFinished = false;
+        // Disable end turn button
+        UIManager.Instance.DisableEndTurnButton();
+        // Show xp rewards + level ups
         StartCoroutine(StartPreLootScreenVisualEvent(20));
         //yield return new WaitForSeconds(3f);
         yield return new WaitUntil(() => PreLootScreenEventFinished() == true);
@@ -136,9 +139,11 @@ public class EventManager : Singleton<EventManager>
         preLootScreenEventFinished = false;
         // THIS COROUTINE DOES NOT ACTUALLY MODIFY XP/LEVEL!!!! only displays visual info
 
+        // disable activation panel view
+        ActivationManager.Instance.SetActivationWindowViewState(false);
+
         // short yield for seconds to smoothen the transistion
         yield return new WaitForSeconds(1f);
-
 
         foreach(CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
         {
@@ -246,6 +251,7 @@ public class EventManager : Singleton<EventManager>
 
         if (basicEnemy)
         {
+            //BlackScreenManager.Instance.FadeOut(5, .5f,true);
             UIManager.Instance.EnableRewardScreenView();
             RewardScreen.Instance.CreateGoldRewardButton();
             RewardScreen.Instance.CreateItemRewardButton();            
@@ -253,6 +259,7 @@ public class EventManager : Singleton<EventManager>
         }
         else
         {
+            //BlackScreenManager.Instance.FadeOut(5, .5f);
             UIManager.Instance.EnableRewardScreenView();
             RewardScreen.Instance.CreateGoldRewardButton();
             RewardScreen.Instance.CreateItemRewardButton();

@@ -164,7 +164,7 @@ public class CombatLogic : MonoBehaviour
         }
 
         // Poisonous trait
-        if (attacker.myPassiveManager.Poisonous && healthAfter < victim.currentHealth && attackType != AbilityDataSO.AttackType.None)
+        if (attacker.myPassiveManager.Poisonous && healthAfter < victim.currentHealth && attackType == AbilityDataSO.AttackType.Melee)
         {
             victim.ModifyPoison(attacker.myPassiveManager.poisonousStacks);
         }
@@ -249,11 +249,18 @@ public class CombatLogic : MonoBehaviour
         Debug.Log("Base damage value: " + newDamageValue);
 
         // add bonus strength
-        if(damageType == AbilityDataSO.DamageType.Physical)
+        if(damageType == AbilityDataSO.DamageType.Physical && attackType != AbilityDataSO.AttackType.None)
         {
             newDamageValue += attacker.currentStrength;
         }        
         Debug.Log("Damage value after strength added: " + newDamageValue);
+
+        // add bonus wisdom
+        if (damageType == AbilityDataSO.DamageType.Magic && attackType != AbilityDataSO.AttackType.None)
+        {
+            newDamageValue += attacker.currentWisdom;
+        }
+        Debug.Log("Damage value after wisdom added: " + newDamageValue);
 
         // multiply/divide the damage value based on factors like vulnerable, knock down, magic vulnerability, etc
         newDamageValue = (int)(newDamageValue * CalculateAndGetDamagePercentageModifier(attacker, victim, damageType, attackType));
@@ -275,7 +282,7 @@ public class CombatLogic : MonoBehaviour
         {
             damageModifier += 0.5f;
         }
-        if (victim.myPassiveManager.Exposed && attackType != AbilityDataSO.AttackType.None && damageType != AbilityDataSO.DamageType.None)
+        if (victim.myPassiveManager.Exposed && attackType != AbilityDataSO.AttackType.None && DamageType != AbilityDataSO.DamageType.None)
         {
             Debug.Log("Victim exposed, increasing damage by 50%...");
             damageModifier += 0.5f;
@@ -283,19 +290,23 @@ public class CombatLogic : MonoBehaviour
         if (attacker.myPassiveManager.Exhausted)
         {
             damageModifier -= 0.5f;
+            Debug.Log("Attacker exhausted, decreasing damage by 50%...");
         }
         if(PositionLogic.Instance.IsWithinTargetsBackArc(attacker, victim) && attackType == AbilityDataSO.AttackType.Melee)
         {
             damageModifier += 1f;
+            Debug.Log("Attacker striking victims back arc, increasing damage by 100%...");
         }
         
         if (victim.myPassiveManager.MagicImmunity && DamageType == AbilityDataSO.DamageType.Magic)
         {
             damageModifier = 0;
+            Debug.Log("Victim has Magic immunity, damage reduced to 0%...");
         }
         if (victim.myPassiveManager.PhysicalImmunity && DamageType == AbilityDataSO.DamageType.Physical)
         {
             damageModifier = 0;
+            Debug.Log("Victim has Physical immunity, damage reduced to 0%...");
         }
 
         // prevent modifier from going negative

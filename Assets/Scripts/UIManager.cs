@@ -10,7 +10,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject GameOverCanvas;
     public GameObject CharacterRoster;
     public GameObject worldMap;
-    public GameObject RewardScreen;
+    public GameObject rewardScreen;
     public GameObject Inventory;
 
     // Buttons
@@ -101,13 +101,13 @@ public class UIManager : Singleton<UIManager>
     }
 
     public void EnableRewardScreenView()
-    {
-        RewardScreen.SetActive(true);
-    }
+    {        
+        RewardScreen.Instance.EnableRewardScreenView();
+    }   
 
     public void DisableRewardScreenView()
-    {
-        RewardScreen.SetActive(false);
+    {        
+        RewardScreen.Instance.DisableRewardScreenView();
     }   
 
     public void EnableInventoryView()

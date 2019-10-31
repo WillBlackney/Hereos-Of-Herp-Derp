@@ -91,6 +91,7 @@ public class Defender : LivingEntity
         baseMaxHealth = myCharacterData.MaxHealth;
         baseStartingHealth = myCharacterData.CurrentHealth;
         baseStrength = myCharacterData.Strength;
+        baseWisdom = myCharacterData.Wisdom;
         baseDexterity = myCharacterData.Dexterity;
         baseMobility = myCharacterData.Mobility;
         baseEnergy = myCharacterData.Energy;
@@ -159,6 +160,15 @@ public class Defender : LivingEntity
         if (myCharacterData.thickOfTheFightStacks > 0)
         {
             myPassiveManager.LearnThickOfTheFight(myCharacterData.thickOfTheFightStacks);
+        }
+        if(myCharacterData.trueSightStacks > 0)
+        {
+            myPassiveManager.LearnTrueSight(1);
+        }
+        if(myCharacterData.startingIntiativeBonus > 0)
+        {
+            baseInitiative += myCharacterData.startingIntiativeBonus;
+            myPassiveManager.ModifyTemporaryInitiative(myCharacterData.startingIntiativeBonus);
         }
 
     }    

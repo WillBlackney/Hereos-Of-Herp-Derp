@@ -16,6 +16,7 @@ public class StatusIconLibrary : MonoBehaviour
     {
         CreateKnockdownIconData();
         CreateStrengthIconData();
+        CreateWisdomIconData();
         CreateDexterityIconData();
         CreateStunnedIconData();
         CreatePinnedIconData();
@@ -43,12 +44,14 @@ public class StatusIconLibrary : MonoBehaviour
         CreateLightningShieldIconData();
         CreateThickOfTheFightIconData();
         CreateTemporaryStrengthIconData();
+        CreateTemporaryInitiativeIconData();
         CreateRuneIconData();
         CreateExhaustedIconData();
         CreateExposedIconData();
         CreateMagicImmunityIconData();
         CreatePhysicalImmunityIconData();
         CreateFlankedIconData();
+        CreateTrueSightIconData();
     }
 
     public StatusIcon GetStatusIconByName(string name)
@@ -84,6 +87,15 @@ public class StatusIconLibrary : MonoBehaviour
         strength.statusDescription = strengthStatusDescription;
         strength.statusStacks= strengthStatusStacks;
         allIcons.Add(strength);
+    }
+    public void CreateWisdomIconData()
+    {
+        StatusIcon wisdom = gameObject.AddComponent<StatusIcon>();
+        wisdom.statusImage = wisdomImage;
+        wisdom.statusName = wisdomStatusName;
+        wisdom.statusDescription = wisdomStatusDescription;
+        wisdom.statusStacks = wisdomStatusStacks;
+        allIcons.Add(wisdom);
     }
 
     public void CreateDexterityIconData()
@@ -351,6 +363,15 @@ public class StatusIconLibrary : MonoBehaviour
         temporaryStrength.statusStacks = temporaryStrengthStatusStacks;
         allIcons.Add(temporaryStrength);
     }
+    public void CreateTemporaryInitiativeIconData()
+    {
+        StatusIcon temporaryInitiative = gameObject.AddComponent<StatusIcon>();
+        temporaryInitiative.statusImage = temporaryInitiativeImage;
+        temporaryInitiative.statusName = temporaryInitiativeStatusName;
+        temporaryInitiative.statusDescription = temporaryInitiativeStatusDescription;
+        temporaryInitiative.statusStacks = temporaryInitiativeStatusStacks;
+        allIcons.Add(temporaryInitiative);
+    }
     public void CreateRuneIconData()
     {
         StatusIcon rune = gameObject.AddComponent<StatusIcon>();
@@ -408,6 +429,15 @@ public class StatusIconLibrary : MonoBehaviour
         flanked.statusStacks = flankedStatusStacks;
         allIcons.Add(flanked);
     }
+    public void CreateTrueSightIconData()
+    {
+        StatusIcon trueSight = gameObject.AddComponent<StatusIcon>();
+        trueSight.statusImage = trueSightImage;
+        trueSight.statusName = trueSightStatusName;
+        trueSight.statusDescription = trueSightStatusDescription;
+        trueSight.statusStacks = trueSightStatusStacks;
+        allIcons.Add(trueSight);
+    }
 
 
     [Header("Knockdown Icon Data")]
@@ -421,6 +451,12 @@ public class StatusIconLibrary : MonoBehaviour
     public string strengthStatusName;
     public string strengthStatusDescription;
     public int strengthStatusStacks;
+
+    [Header("Wisdom Icon Data")]
+    public Sprite wisdomImage;
+    public string wisdomStatusName;
+    public string wisdomStatusDescription;
+    public int wisdomStatusStacks;
 
     [Header("Dexterity Icon Data")]
     public Sprite dexterityImage;
@@ -584,6 +620,12 @@ public class StatusIconLibrary : MonoBehaviour
     public string temporaryStrengthStatusDescription;
     public int temporaryStrengthStatusStacks;
 
+    [Header("Temporary Initiative Icon Data")]
+    public Sprite temporaryInitiativeImage;
+    public string temporaryInitiativeStatusName;
+    public string temporaryInitiativeStatusDescription;
+    public int temporaryInitiativeStatusStacks;
+
     [Header("Rune Icon Data")]
     public Sprite runeImage;
     public string runeStatusName;
@@ -619,5 +661,11 @@ public class StatusIconLibrary : MonoBehaviour
     public string flankedStatusName;
     public string flankedStatusDescription;
     public int flankedStatusStacks;
+
+    [Header("True Sight Icon Data")]
+    public Sprite trueSightImage;
+    public string trueSightStatusName;
+    public string trueSightStatusDescription;
+    public int trueSightStatusStacks;
 
 }

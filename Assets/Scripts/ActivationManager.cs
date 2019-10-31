@@ -6,7 +6,8 @@ using System.Linq;
 public class ActivationManager : Singleton<ActivationManager>
 {
     [Header("Component References")]
-    public GameObject activationWindowParent;
+    public GameObject activationWindowContentParent;
+    public GameObject activationPanelParent;
     public GameObject panelArrow;
 
     [Header("Properties")]
@@ -18,7 +19,7 @@ public class ActivationManager : Singleton<ActivationManager>
     #region   
     public void CreateActivationWindow(LivingEntity entity)
     {
-        GameObject newWindow = Instantiate(PrefabHolder.Instance.activationWindowPrefab, activationWindowParent.transform);
+        GameObject newWindow = Instantiate(PrefabHolder.Instance.activationWindowPrefab, activationWindowContentParent.transform);
         ActivationWindow newWindowScript = newWindow.GetComponent<ActivationWindow>();
         newWindowScript.InitializeSetup(entity);
         activationOrder.Add(entity);
@@ -28,13 +29,14 @@ public class ActivationManager : Singleton<ActivationManager>
     // Events
     #region
     public Action OnNewCombatEventStarted()
-    {
+    {        
         Action action = new Action();
         StartCoroutine(OnNewCombatEventStartedCoroutine(action));
         return action;
     }
     public IEnumerator OnNewCombatEventStartedCoroutine(Action action)
-    {        
+    {
+        SetActivationWindowViewState(true);
         StartNewTurnSequence();
         action.actionResolved = true;
         yield return null;
@@ -61,7 +63,7 @@ public class ActivationManager : Singleton<ActivationManager>
     public void ClearAllWindowsFromActivationPanel()
     {
         activationOrder.Clear();
-        foreach (Transform child in activationWindowParent.transform)
+        foreach (Transform child in activationWindowContentParent.transform)
         {
             Destroy(child.gameObject);
         }
@@ -141,6 +143,7 @@ public class ActivationManager : Singleton<ActivationManager>
     }
     public IEnumerator OnEndTurnButtonClickedCoroutine()
     {
+        UIManager.Instance.DisableEndTurnButton();
         Debug.Log("OnEndTurnButtonClickedCoroutine() started...");        
         // endplayer turn will trigger all player end turn effects, BEFORE switching to enemy turn
         Action endTurnEvent = EndEntityActivation(entityActivated);
@@ -177,6 +180,10 @@ public class ActivationManager : Singleton<ActivationManager>
             panelArrow.transform.position = Vector2.MoveTowards(panelArrow.transform.position, destination, 200 * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
+    }
+    public void SetActivationWindowViewState(bool onOrOff)
+    {
+        activationPanelParent.SetActive(onOrOff);
     }
     #endregion
 

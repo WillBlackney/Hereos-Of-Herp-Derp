@@ -36,6 +36,7 @@ public class LivingEntity : MonoBehaviour
     public int baseMaxAP;
     public int baseMeleeRange;
     public int baseStrength;
+    public int baseWisdom;
     public int baseDexterity;
     public int baseInitiative;
     public int baseStartingBlock;
@@ -49,6 +50,7 @@ public class LivingEntity : MonoBehaviour
     public int currentAP;
     public int currentMeleeRange;
     public int currentStrength;
+    public int currentWisdom;
     public int currentDexterity;
     public int currentInitiative;
     public int currentBlock;
@@ -134,6 +136,7 @@ public class LivingEntity : MonoBehaviour
         currentEnergy = baseEnergy;              
         currentMeleeRange = baseMeleeRange;         
         ModifyCurrentStrength(baseStrength);
+        ModifyCurrentWisdom(baseWisdom);
         ModifyCurrentDexterity(baseDexterity);
         ModifyCurrentInitiative(baseInitiative);
         myHealthBar.value = CalculateHealthBarPosition();
@@ -483,6 +486,30 @@ public class LivingEntity : MonoBehaviour
         if (strengthGainedOrLost < 0)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strength " + strengthGainedOrLost, false));
+        }
+
+    }
+    public virtual void ModifyCurrentWisdom(int wisdomGainedOrLost)
+    {
+        int previousWisdom = currentWisdom;
+        currentStrength += wisdomGainedOrLost;
+
+        if (currentWisdom != 0 ||
+            (currentWisdom == 0 && (previousWisdom > 0 || previousWisdom < 0))
+            )
+        {
+            myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Wisdom"), wisdomGainedOrLost);
+        }
+
+
+        if (wisdomGainedOrLost > 0)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Wisdom +" + wisdomGainedOrLost, false));
+        }
+
+        if (wisdomGainedOrLost < 0)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Wisdom " + wisdomGainedOrLost, false));
         }
 
     }
@@ -922,13 +949,13 @@ public class LivingEntity : MonoBehaviour
 
         if (myPassiveManager.TemporaryStrength)
         {
-            myPassiveManager.ModifyTemporaryStrength(-myPassiveManager.temporaryStrengthStacks);
-            /*
-            myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Temporary Strength"), -myPassiveManager.temporaryStrengthStacks);
-            ModifyCurrentStrength(-myPassiveManager.temporaryStrengthStacks);
-            myPassiveManager.temporaryStrengthStacks = 0;
-            myPassiveManager.TemporaryStrength = false;
-            */
+            myPassiveManager.ModifyTemporaryStrength(-myPassiveManager.temporaryStrengthStacks);            
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        if (myPassiveManager.TemporaryInitiative)
+        {
+            myPassiveManager.ModifyTemporaryInitiative(-myPassiveManager.temporaryInitiativeStacks);
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -1174,14 +1201,18 @@ public class LivingEntity : MonoBehaviour
 
     public void ModifyBlockOnActivationStart()
     {
-        if (ArtifactManager.Instance.HasArtifact("Calipers"))
+        // prevent removing block from characters that start combat with block
+        if(TurnManager.Instance.currentTurnCount != 1)
         {
-            ModifyCurrentBlock(-10);
-        }
-        else
-        {
-            SetCurrentBlock(0);
-        }
+            if (ArtifactManager.Instance.HasArtifact("Calipers"))
+            {
+                ModifyCurrentBlock(-10);
+            }
+            else
+            {
+                SetCurrentBlock(0);
+            }
+        }      
         
     }
 

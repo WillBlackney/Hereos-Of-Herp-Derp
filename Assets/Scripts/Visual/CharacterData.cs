@@ -46,7 +46,8 @@ public class CharacterData : MonoBehaviour
     public int MaxAP;
     public int MeleeRange;
     public int Strength;
-    public int Dexterity;
+    public int Wisdom;
+    public int Dexterity;    
 
     [Header("XP/Level Properties")]
     public int currentXP;
@@ -73,6 +74,8 @@ public class CharacterData : MonoBehaviour
     public bool stealth;
     public bool camoflage;
     public bool poisonImmunity;
+    public int trueSightStacks;
+    public int startingIntiativeBonus;    
 
     [Header("Known Abilities")]
     public bool KnowsMove;
@@ -146,9 +149,7 @@ public class CharacterData : MonoBehaviour
             MaxAP = 6;
 
             talentTreeOne.InitializeSetup("Path of Rage");
-            talentTreeTwo.InitializeSetup("Path of the Guardian");
-
-            
+            talentTreeTwo.InitializeSetup("Path of the Guardian");            
 
         }
 
@@ -473,6 +474,11 @@ public class CharacterData : MonoBehaviour
     {
         Strength += strengthGainedOrLost;
         strengthText.text = Strength.ToString();
+    }
+    public void ModifyWisdom(int wisdomGainedOrLost)
+    {
+        Wisdom += wisdomGainedOrLost;
+        //strengthText.text = Strength.ToString();
     }
 
     public void ModifyDexterity(int dexterityGainedOrLost)
