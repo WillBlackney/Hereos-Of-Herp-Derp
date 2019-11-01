@@ -21,7 +21,16 @@ public class MainMenuManager : Singleton<MainMenuManager>
 
     public void OnStartGameButtonClicked()
     {
+        StartCoroutine(OnStartGameButtonClickedCoroutine());
+    }
+
+    public IEnumerator OnStartGameButtonClickedCoroutine()
+    {
         Debug.Log("Start Game Button Clicked...");
+
+        // Start screen fade transistion
+        Action fadeAction = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything,2, 1, true);
+        yield return new WaitUntil(() => fadeAction.ActionResolved() == true);        
 
         CharacterBox[] chosenCharacters = FindObjectsOfType<CharacterBox>();
 
@@ -36,7 +45,7 @@ public class MainMenuManager : Singleton<MainMenuManager>
 
         foreach (CharacterBox character in chosenCharacters)
         {
-            if(character.currentSelectedCharacter == "Random")
+            if (character.currentSelectedCharacter == "Random")
             {
                 while (chosenClasses.Contains(character.currentSelectedCharacter))
                 {
@@ -45,7 +54,7 @@ public class MainMenuManager : Singleton<MainMenuManager>
             }
         }
 
-        foreach(CharacterBox character in chosenCharacters)
+        foreach (CharacterBox character in chosenCharacters)
         {
             SceneChangeDataStorage.Instance.chosenCharacters.Add(character.currentSelectedCharacter);
         }

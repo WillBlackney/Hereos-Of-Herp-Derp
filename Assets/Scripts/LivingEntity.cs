@@ -230,7 +230,7 @@ public class LivingEntity : MonoBehaviour
     {
         if (myPassiveManager.PoisonImmunity)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Poison Immunity", true));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Poison Immunity", false));
             return;
         }
 

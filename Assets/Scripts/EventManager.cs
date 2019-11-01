@@ -6,32 +6,52 @@ public class EventManager : Singleton<EventManager>
 {
     public TreasureChest activeTreasureChest;
     public WorldEncounter.EncounterType currentEncounterType;
-    public void StartNewBasicEncounterEvent()
+
+    public Action StartNewBasicEncounterEvent()
+    {
+        Action action = new Action();
+        StartCoroutine(StartNewBasicEncounterEventCoroutine(action));
+        return action;
+    }
+
+    public IEnumerator StartNewBasicEncounterEventCoroutine(Action action)
     {
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldMap.Instance.canSelectNewEncounter = false;
+
         // turn off hexagon highlights
         WorldMap.Instance.UnHighlightAllHexagons();
+
+        // fade out view, wait until completed
+        Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 8, 1, true);
+        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
+
         // Destroy the previous level and tiles + reset values/properties
-        ClearPreviousEncounter();        
+        ClearPreviousEncounter();
+
         // Create a new level
         LevelManager.Instance.CreateLevel();
-        //EnemySpawner.Instance.PopulateEnemySpawnLocations();        
-        CharacterRoster.Instance.InstantiateDefenders();
-        //DefenderManager.Instance.PlaceDefendersAtStartingLocations();
+
+        // Create defender GO's        
+        CharacterRoster.Instance.InstantiateDefenders();  
+        
         // Instantiate enemies
         EnemySpawner.Instance.SpawnEnemyWave();
-        // reset turn manager properties
-        //TurnManager.Instance.ResetTurnManagerPropertiesOnCombatStart();        
+               
         // disable world map view
         UIManager.Instance.DisableWorldMapView();
         currentEncounterType = WorldEncounter.EncounterType.BasicEnemy;
-        // Activation Stuff
-        ActivationManager.Instance.OnNewCombatEventStarted();
-        // start player turn 1
-        //StartCoroutine(TurnManager.Instance.StartPlayerTurn());
-    }
 
+        // Fade scene back in, wait until completed
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 8, 0, false);
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+
+        // Start activations / combat start events
+        ActivationManager.Instance.OnNewCombatEventStarted();
+        
+        // declare this event complete
+        action.actionResolved = true;
+    }
     public void StartNewEliteEncounterEvent()
     {
         // Disable player's ability to click on encounter buttons and start new encounters
@@ -103,12 +123,10 @@ public class EventManager : Singleton<EventManager>
         // Instantiate treasure chest and populate it with loot
         CreateNewTreasureChest();
     }
-
     public void StartNewEndBasicEncounterEvent()
     {
         StartCoroutine(StartNewEndBasicEncounterEventCoroutine());        
     }
-
     public IEnumerator StartNewEndBasicEncounterEventCoroutine()
     {
         Debug.Log("StartNewEndBasicEncounterEvent() coroutine started...");

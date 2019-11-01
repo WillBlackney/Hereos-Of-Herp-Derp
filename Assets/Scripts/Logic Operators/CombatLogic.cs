@@ -163,10 +163,17 @@ public class CombatLogic : MonoBehaviour
             victim.ModifyCurrentBarrierStacks(-1);
         }
 
+        if (adjustedDamageValue > 0)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateDamageEffect(victim.transform.position, adjustedDamageValue, playVFXInstantly));
+            yield return new WaitForSeconds(0.3f);
+        }
+
         // Poisonous trait
         if (attacker.myPassiveManager.Poisonous && healthAfter < victim.currentHealth && attackType == AbilityDataSO.AttackType.Melee)
-        {
+        {           
             victim.ModifyPoison(attacker.myPassiveManager.poisonousStacks);
+            yield return new WaitForSeconds(0.3f);
         }
 
         // Remove sleeping
@@ -174,6 +181,7 @@ public class CombatLogic : MonoBehaviour
         {
             Debug.Log("Damage taken, removing sleep");
             victim.ModifySleeping(-victim.currentSleepingStacks);
+            yield return new WaitForSeconds(0.3f);
         }
 
         // Enrage
@@ -181,12 +189,14 @@ public class CombatLogic : MonoBehaviour
         {
             Debug.Log("Enrage triggered, gaining strength");
             victim.ModifyCurrentStrength(victim.myPassiveManager.enrageStacks);
+            yield return new WaitForSeconds(0.3f);
         }
 
         if (victim.myPassiveManager.Adaptive && healthAfter < victim.currentHealth)
         {
             Debug.Log("Adaptive triggered, gaining block");
             victim.ModifyCurrentBlock(victim.myPassiveManager.adaptiveStacks);
+            yield return new WaitForSeconds(0.3f);
         }
 
         victim.currentHealth = healthAfter;
@@ -200,10 +210,7 @@ public class CombatLogic : MonoBehaviour
         }
         victim.SetCurrentBlock(victim.currentBlock);
 
-        if (adjustedDamageValue > 0)
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateDamageEffect(victim.transform.position, adjustedDamageValue, playVFXInstantly));
-        }
+        
 
         if (victim.myPassiveManager.Thorns)
         {           

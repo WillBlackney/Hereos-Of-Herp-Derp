@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class BlackScreenManager : Singleton<BlackScreenManager>
+public class BlackScreenManager : MonoBehaviour
 {
 
     [Header("Component References")]
@@ -12,8 +13,45 @@ public class BlackScreenManager : Singleton<BlackScreenManager>
 
     [Header("Properties")]
     public int currentSortingLayer;
+    public int aboveEverythingExceptUI;
     public int aboveEverything;
     public int behindEverything;
+
+    public bool fadingOut;
+    public bool fadingIn;
+
+    [Header("Singleton Properties")]
+    public static BlackScreenManager Instance;
+
+
+    // Singleton Pattern
+    void Awake()
+    {
+        SetupSingleton();
+    }
+    public void SetupSingleton()
+    {
+        Instance = this;
+        DontDestroyOnLoad(this);
+    }
+
+    // Scene Change listeners
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+    }
+    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("Level Loaded");
+        FadeIn(aboveEverything, 2, 0, false);
+        Debug.Log(scene.name);
+        Debug.Log(mode);
+    }
 
 
     // Property Modifiers
@@ -38,48 +76,61 @@ public class BlackScreenManager : Singleton<BlackScreenManager>
 
     // Fade effects
 
-    public Action FadeIn(int speed = 2, float alphaTarget = 0, bool setActiveOnComplete = true)
+    public Action FadeIn(int sortingLayer, int speed = 2, float alphaTarget = 0, bool setActiveOnComplete = true)
     {
         Action action = new Action();
-        StartCoroutine(FadeInCoroutine(speed, alphaTarget, setActiveOnComplete, action));
+        StartCoroutine(FadeInCoroutine(sortingLayer, speed, alphaTarget, setActiveOnComplete, action));
         return action;
     }
-    public IEnumerator FadeInCoroutine(int speed, float alphaTarget, bool setActiveOnComplete, Action action)
+    public IEnumerator FadeInCoroutine(int sortingLayer, int speed, float alphaTarget, bool setActiveOnComplete, Action action)
     {
+        fadingOut = false;
+        fadingIn = true;
+        
         SetActive(true);
-        SetSortingLayer(aboveEverything);
+        SetSortingLayer(sortingLayer);
 
         Debug.Log("FadeInCoroutine() started...");
         //canvasGroup.alpha = 1;
 
-        while (canvasGroup.alpha > alphaTarget)
+        while (canvasGroup.alpha > alphaTarget && fadingIn)
         {
             canvasGroup.alpha -= 0.01f * speed;
+            if(canvasGroup.alpha == alphaTarget)
+            {
+                SetSortingLayer(behindEverything);
+                SetActive(setActiveOnComplete);
+            }
             yield return new WaitForEndOfFrame();
         }
 
-        Debug.Log("FadeInCoroutine() finished...");
-        SetSortingLayer(behindEverything);
-        SetActive(setActiveOnComplete);
+        Debug.Log("FadeInCoroutine() finished...");        
         action.actionResolved = true;
 
     }
 
-    public Action FadeOut(int speed = 2, float alphaTarget = 1, bool setActiveOnComplete = false)
+    public Action FadeOut(int sortingLayer, int speed = 2, float alphaTarget = 1, bool setActiveOnComplete = false)
     {
         Action action = new Action();
-        StartCoroutine(FadeOutCoroutine(speed, alphaTarget, setActiveOnComplete, action));
+        StartCoroutine(FadeOutCoroutine(sortingLayer, speed, alphaTarget, setActiveOnComplete, action));
         return action;
     }
-    public IEnumerator FadeOutCoroutine(int speed, float alphaTarget, bool setActiveOnComplete, Action action)
+    public IEnumerator FadeOutCoroutine(int sortingLayer, int speed, float alphaTarget, bool setActiveOnComplete, Action action)
     {
+        fadingIn = false;
+        fadingOut = true;
+
         SetActive(true);
-        SetSortingLayer(aboveEverything);
+        SetSortingLayer(sortingLayer);
         //canvasGroup.alpha = 0;
 
-        while (canvasGroup.alpha < alphaTarget)
+        while (canvasGroup.alpha < alphaTarget && fadingOut == true)
         {
             canvasGroup.alpha += 0.01f * speed;
+            if(canvasGroup.alpha == alphaTarget)
+            {
+                SetActive(setActiveOnComplete);
+            }
             yield return new WaitForEndOfFrame();
         }
 
@@ -90,7 +141,7 @@ public class BlackScreenManager : Singleton<BlackScreenManager>
             SetActive(false);
         }
         */
-        SetActive(setActiveOnComplete);
+        //SetActive(setActiveOnComplete);
         action.actionResolved = true;
     }
 

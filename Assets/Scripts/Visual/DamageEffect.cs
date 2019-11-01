@@ -7,9 +7,11 @@ using TMPro;
 public class DamageEffect : MonoBehaviour
 {
     public TextMeshProUGUI amountText;
+    
 
     public void InitializeSetup(int damageAmount, bool heal = false)
     {
+        
         VisualEffectManager.Instance.dfxQueue.Add(this);
         if(heal == false)
         {
@@ -26,15 +28,17 @@ public class DamageEffect : MonoBehaviour
     }
 
     public void InitializeSetup(string statusName)
-    {
-        VisualEffectManager.Instance.dfxQueue.Add(this);
+    {        
+        VisualEffectManager.Instance.dfxQueue.Add(this);       
         amountText.text = statusName;
         amountText.color = Color.white;
     }
 
     public void DestroyThis()
     {
+        VisualEffectManager.Instance.queueCount--;
         VisualEffectManager.Instance.dfxQueue.Remove(this);
+        
         Destroy(gameObject);
     }
 }
