@@ -92,13 +92,21 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Mouse Enter detected...");
-        StartCoroutine(Expand(1));
+        if (!inInventory)
+        {
+            Debug.Log("Mouse Enter detected...");
+            StartCoroutine(Expand(1));
+        }
+        
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Mouse Exit detected...");
-        StartCoroutine(Shrink(1));
+        if (!inInventory)
+        {
+            Debug.Log("Mouse Exit detected...");
+            StartCoroutine(Shrink(1));
+        }
+            
 
     }
 

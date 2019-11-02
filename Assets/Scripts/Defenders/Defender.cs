@@ -210,8 +210,11 @@ public class Defender : LivingEntity
     {
         LevelManager.Instance.UnhighlightAllTiles();
         ClearAllOrders();
-        if(IsAbleToTakeActions() == false)
+        TileHover.Instance.SetVisibility(true);
+
+        if (IsAbleToTakeActions() == false)
         {
+            TileHover.Instance.SetVisibility(false);
             return;
         }
 
@@ -514,6 +517,9 @@ public class Defender : LivingEntity
         awaitingSanctityOrder = false;
         awaitingBlessOrder = false;
         awaitingSiphonLifeOrder = false;
+
+        TileHover.Instance.SetVisibility(false);
+        LevelManager.Instance.UnhighlightAllTiles();
 
         myCurrentTarget = null;
     }

@@ -21,6 +21,8 @@ public class LevelManager : Singleton<LevelManager>
 
     public GameObject currentLevelBG;
 
+    public TileScript mousedOverTile;
+
     public Dictionary<Point, TileScript> Tiles { get; set; }
 
     public List<TileScript> HighlightedTiles = new List<TileScript>();

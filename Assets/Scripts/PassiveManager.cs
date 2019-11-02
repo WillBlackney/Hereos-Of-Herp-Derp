@@ -158,7 +158,7 @@ public class PassiveManager : MonoBehaviour
         Preparation = true;
         preparationStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Preparation"), stacks);
-        StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Preparation", false));
+        StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Preparation", false, "Blue"));
     }
 
     public void LearnStealth()
@@ -365,11 +365,11 @@ public class PassiveManager : MonoBehaviour
 
         if(stacks > 0)
         {
-            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Rune + " + runeStacks.ToString(), false);
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Rune + " + runeStacks.ToString(), false, "Blue");
         }
         else if(stacks < 0)
         {
-            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Rune " + runeStacks.ToString(), false);
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Rune " + runeStacks.ToString(), false, "Red");
         }
 
         if(runeStacks > 0)

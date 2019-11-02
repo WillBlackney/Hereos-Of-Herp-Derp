@@ -161,12 +161,23 @@ public class CombatLogic : MonoBehaviour
             adjustedDamageValue = 0;
             healthAfter = victim.currentHealth;
             victim.ModifyCurrentBarrierStacks(-1);
+            yield return new WaitForSeconds(0.3f);
         }
+
+        victim.currentHealth = healthAfter;
+        victim.SetCurrentBlock(blockAfter);
+        victim.myHealthBar.value = victim.CalculateHealthBarPosition();
+        victim.UpdateCurrentHealthText();
 
         if (adjustedDamageValue > 0)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateDamageEffect(victim.transform.position, adjustedDamageValue, playVFXInstantly));
             yield return new WaitForSeconds(0.3f);
+        }
+
+        if (victim.defender != null)
+        {
+            victim.defender.myCharacterData.SetCurrentHealth(victim.currentHealth);
         }
 
         // Poisonous trait
@@ -197,20 +208,7 @@ public class CombatLogic : MonoBehaviour
             Debug.Log("Adaptive triggered, gaining block");
             victim.ModifyCurrentBlock(victim.myPassiveManager.adaptiveStacks);
             yield return new WaitForSeconds(0.3f);
-        }
-
-        victim.currentHealth = healthAfter;
-        victim.currentBlock = blockAfter;
-        victim.myHealthBar.value = victim.CalculateHealthBarPosition();
-        victim.UpdateCurrentHealthText();
-
-        if (victim.defender != null)
-        {
-            victim.defender.myCharacterData.SetCurrentHealth(victim.currentHealth);
-        }
-        victim.SetCurrentBlock(victim.currentBlock);
-
-        
+        }        
 
         if (victim.myPassiveManager.Thorns)
         {           
@@ -220,20 +218,20 @@ public class CombatLogic : MonoBehaviour
             if(attackType == AbilityDataSO.AttackType.Melee)
             {
                 Debug.Log("Victim has thorns and was struck by a melee attack, returning damage...");
-                Action thornsDamage = HandleDamage(CalculateDamage(victim.myPassiveManager.thornsStacks, attacker, victim, AbilityDataSO.DamageType.None), victim, attacker);
-                yield return new WaitUntil(() => thornsDamage.ActionResolved() == true);
-            }          
-            
+                Action thornsDamage = HandleDamage(CalculateDamage(victim.myPassiveManager.thornsStacks, attacker, victim, AbilityDataSO.DamageType.None), victim, attacker);                
+            }                      
         }
 
         if (victim.myPassiveManager.LightningShield && attackType != AbilityDataSO.AttackType.None)
         {
-            HandleDamage(CalculateDamage(victim.myPassiveManager.lightningShieldStacks, victim, attacker, AbilityDataSO.DamageType.Magic), attacker, victim);
+            Debug.Log("Victim has lightning shield and was attacked, returning damage...");
+            Action lightningShieldDamage = HandleDamage(CalculateDamage(victim.myPassiveManager.lightningShieldStacks, victim, attacker, AbilityDataSO.DamageType.Magic), attacker, victim);
+            yield return new WaitUntil(() => lightningShieldDamage.ActionResolved() == true);
         }
 
         if (victim.timesAttackedThisTurn == 0 && victim.myPassiveManager.QuickReflexes && victim.IsAbleToMove())
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Quick Reflexes", true));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Quick Reflexes", true, "Blue"));
             Action reflexAction = victim.StartQuickReflexesMove();
             yield return new WaitUntil(() => reflexAction.ActionResolved() == true);
         }

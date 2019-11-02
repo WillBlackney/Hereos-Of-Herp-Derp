@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 0c31104ed8cc42748ae2102042056cb6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -233,6 +233,8 @@ MonoBehaviour:
   thickOfTheFightStacks: 0
   TemporaryStrength: 0
   temporaryStrengthStacks: 0
+  TemporaryInitiative: 0
+  temporaryInitiativeStacks: 0
   Rune: 0
   runeStacks: 0
   Exposed: 0
@@ -245,6 +247,8 @@ MonoBehaviour:
   physicalImmunityStacks: 0
   Flanked: 0
   flankedStacks: 0
+  TrueSight: 0
+  trueSightStacks: 0
 --- !u!114 &1889167899148244139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +285,7 @@ MonoBehaviour:
   baseMaxAP: 6
   baseMeleeRange: 1
   baseStrength: 0
+  baseWisdom: 0
   baseDexterity: 0
   baseInitiative: 3
   baseStartingBlock: 0
@@ -292,6 +297,7 @@ MonoBehaviour:
   currentAP: 0
   currentMeleeRange: 0
   currentStrength: 0
+  currentWisdom: 0
   currentDexterity: 0
   currentInitiative: 0
   currentBlock: 0

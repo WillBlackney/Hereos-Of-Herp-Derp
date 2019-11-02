@@ -277,7 +277,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 1fe311341e4a6254c94c731e26b4e4ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -314,6 +314,7 @@ MonoBehaviour:
   myStatusManager: {fileID: 4491251300342836689}
   mySpellBook: {fileID: 0}
   myPassiveManager: {fileID: 0}
+  myActivationWindow: {fileID: 0}
   defender: {fileID: 0}
   enemy: {fileID: 0}
   baseMobility: 3
@@ -324,7 +325,9 @@ MonoBehaviour:
   baseMaxAP: 6
   baseMeleeRange: 1
   baseStrength: 0
+  baseWisdom: 0
   baseDexterity: 0
+  baseInitiative: 0
   baseStartingBlock: 0
   currentMobility: 0
   currentMaxHealth: 0
@@ -334,7 +337,9 @@ MonoBehaviour:
   currentAP: 0
   currentMeleeRange: 0
   currentStrength: 0
+  currentWisdom: 0
   currentDexterity: 0
+  currentInitiative: 0
   currentBlock: 0
   isKnockedDown: 0
   isPinned: 0
@@ -346,6 +351,7 @@ MonoBehaviour:
   isCamoflaged: 0
   isPoisoned: 0
   poisonStacks: 0
+  currentInitiativeRoll: 0
   moveActionsTakenThisTurn: 0
   timesAttackedThisTurn: 0
   TileCurrentlyOn: {fileID: 0}
@@ -354,7 +360,7 @@ MonoBehaviour:
   facingRight: 0
   spriteImportedFacingRight: 1
   myDeathAnimationFinished: 0
-  myOnTurnEndEffectsFinished: 0
+  myOnActivationEndEffectsFinished: 0
   myAbilityBar: {fileID: 4095631638945988924}
   myUIParent: {fileID: 6408979833634278977}
   myCharacterData: {fileID: 0}
@@ -399,6 +405,7 @@ MonoBehaviour:
   awaitingSanctityOrder: 0
   awaitingBlessOrder: 0
   awaitingSiphonLifeOrder: 0
+  awaitingChaosBoltOrder: 0
 --- !u!65 &6409797628594634773
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -475,6 +482,7 @@ MonoBehaviour:
   KnowsSanctity: 0
   KnowsBless: 0
   KnowsSiphonLife: 0
+  KnowsChaosBolt: 0
 --- !u!114 &1433477858315785833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,6 +534,8 @@ MonoBehaviour:
   thickOfTheFightStacks: 0
   TemporaryStrength: 0
   temporaryStrengthStacks: 0
+  TemporaryInitiative: 0
+  temporaryInitiativeStacks: 0
   Rune: 0
   runeStacks: 0
   Exposed: 0
@@ -536,6 +546,10 @@ MonoBehaviour:
   magicImmunityStacks: 0
   PhysicalImmunity: 0
   physicalImmunityStacks: 0
+  Flanked: 0
+  flankedStacks: 0
+  TrueSight: 0
+  trueSightStacks: 0
 --- !u!95 &1956318222
 Animator:
   serializedVersion: 3

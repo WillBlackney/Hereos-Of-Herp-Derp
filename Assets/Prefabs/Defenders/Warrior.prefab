@@ -176,7 +176,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 6039d6cf6c5aeeb47aa02211985561ff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -213,6 +213,7 @@ MonoBehaviour:
   myStatusManager: {fileID: 469141844111315395}
   mySpellBook: {fileID: 0}
   myPassiveManager: {fileID: 0}
+  myActivationWindow: {fileID: 0}
   defender: {fileID: 0}
   enemy: {fileID: 0}
   baseMobility: 3
@@ -223,7 +224,9 @@ MonoBehaviour:
   baseMaxAP: 6
   baseMeleeRange: 1
   baseStrength: 0
+  baseWisdom: 0
   baseDexterity: 0
+  baseInitiative: 0
   baseStartingBlock: 0
   currentMobility: 0
   currentMaxHealth: 0
@@ -233,7 +236,9 @@ MonoBehaviour:
   currentAP: 0
   currentMeleeRange: 0
   currentStrength: 0
+  currentWisdom: 0
   currentDexterity: 0
+  currentInitiative: 0
   currentBlock: 0
   isKnockedDown: 0
   isPinned: 0
@@ -245,6 +250,7 @@ MonoBehaviour:
   isCamoflaged: 0
   isPoisoned: 0
   poisonStacks: 0
+  currentInitiativeRoll: 0
   moveActionsTakenThisTurn: 0
   timesAttackedThisTurn: 0
   TileCurrentlyOn: {fileID: 0}
@@ -253,7 +259,7 @@ MonoBehaviour:
   facingRight: 0
   spriteImportedFacingRight: 1
   myDeathAnimationFinished: 0
-  myOnTurnEndEffectsFinished: 0
+  myOnActivationEndEffectsFinished: 0
   myAbilityBar: {fileID: 1011809582}
   myUIParent: {fileID: 6928751146934547027}
   myCharacterData: {fileID: 0}
@@ -427,6 +433,8 @@ MonoBehaviour:
   thickOfTheFightStacks: 0
   TemporaryStrength: 0
   temporaryStrengthStacks: 0
+  TemporaryInitiative: 0
+  temporaryInitiativeStacks: 0
   Rune: 0
   runeStacks: 0
   Exposed: 0
@@ -439,6 +447,8 @@ MonoBehaviour:
   physicalImmunityStacks: 0
   Flanked: 0
   flankedStacks: 0
+  TrueSight: 0
+  trueSightStacks: 0
 --- !u!95 &5792619687737813226
 Animator:
   serializedVersion: 3
@@ -1452,22 +1462,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Health Bar
       objectReference: {fileID: 0}
-    - target: {fileID: 429563332031482134, guid: e9dec7b36e2ddf94ea75c3559f4ff134,
+    - target: {fileID: 847649165145934315, guid: e9dec7b36e2ddf94ea75c3559f4ff134,
         type: 3}
       propertyPath: m_fontSize
       value: 32
       objectReference: {fileID: 0}
-    - target: {fileID: 429563332031482134, guid: e9dec7b36e2ddf94ea75c3559f4ff134,
+    - target: {fileID: 847649165145934315, guid: e9dec7b36e2ddf94ea75c3559f4ff134,
         type: 3}
       propertyPath: m_fontSizeBase
       value: 32
       objectReference: {fileID: 0}
-    - target: {fileID: 847649165145934315, guid: e9dec7b36e2ddf94ea75c3559f4ff134,
+    - target: {fileID: 429563332031482134, guid: e9dec7b36e2ddf94ea75c3559f4ff134,
         type: 3}
       propertyPath: m_fontSize
       value: 32
       objectReference: {fileID: 0}
-    - target: {fileID: 847649165145934315, guid: e9dec7b36e2ddf94ea75c3559f4ff134,
+    - target: {fileID: 429563332031482134, guid: e9dec7b36e2ddf94ea75c3559f4ff134,
         type: 3}
       propertyPath: m_fontSizeBase
       value: 32

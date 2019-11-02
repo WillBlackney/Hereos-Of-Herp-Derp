@@ -11,7 +11,8 @@ public class DamageEffect : MonoBehaviour
 
     public void InitializeSetup(int damageAmount, bool heal = false)
     {
-        
+        transform.position = new Vector2(transform.position.x - 0.2f, transform.position.y);
+
         VisualEffectManager.Instance.dfxQueue.Add(this);
         if(heal == false)
         {
@@ -27,11 +28,11 @@ public class DamageEffect : MonoBehaviour
         
     }
 
-    public void InitializeSetup(string statusName)
+    public void InitializeSetup(string statusName, Color textColor)
     {        
         VisualEffectManager.Instance.dfxQueue.Add(this);       
         amountText.text = statusName;
-        amountText.color = Color.white;
+        amountText.color = textColor;
     }
 
     public void DestroyThis()

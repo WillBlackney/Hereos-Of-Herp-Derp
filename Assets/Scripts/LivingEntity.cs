@@ -153,7 +153,7 @@ public class LivingEntity : MonoBehaviour
         {
             isKnockedDown = true;
             myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Knock Down"), 1);
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Knocked Down!", false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Knocked Down!", false, "Red"));
         }
         
     }
@@ -173,7 +173,7 @@ public class LivingEntity : MonoBehaviour
         {
             isPinned = true;
             myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Pinned"), 1);
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Pinned!", false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Pinned!", false, "Red"));
         }
             
     }
@@ -195,7 +195,7 @@ public class LivingEntity : MonoBehaviour
         {
             isStunned = true;
             myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Stunned"), 1);
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Stunned!", false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Stunned!", false, "Red"));
         }
             
     }
@@ -213,7 +213,7 @@ public class LivingEntity : MonoBehaviour
     {
         isCamoflaged = true;
         myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Camoflage"), 1);
-        StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Camoflage!", false));
+        StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Camoflage!", false, "Blue"));
 
     }
 
@@ -230,7 +230,7 @@ public class LivingEntity : MonoBehaviour
     {
         if (myPassiveManager.PoisonImmunity)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Poison Immunity", false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Poison Immunity", false, "Blue"));
             return;
         }
 
@@ -242,7 +242,7 @@ public class LivingEntity : MonoBehaviour
                 if (poisonStacks > 0)
                 {
                     isPoisoned = true;
-                    StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Poison + " + stacks.ToString(), false));
+                    StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Poison + " + stacks.ToString(), false, "Green"));
                     myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Poison"), stacks);
                 }
             }
@@ -443,7 +443,7 @@ public class LivingEntity : MonoBehaviour
 
         if(APGainedOrLost > 0 && showVFX == true)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "AP +" + APGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "AP +" + APGainedOrLost, false, "Blue"));
         }
     }
 
@@ -480,12 +480,12 @@ public class LivingEntity : MonoBehaviour
        
         if (strengthGainedOrLost > 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strength +" + strengthGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strength +" + strengthGainedOrLost, false, "Blue"));
         }
 
         if (strengthGainedOrLost < 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strength " + strengthGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strength " + strengthGainedOrLost, false, "Red"));
         }
 
     }
@@ -504,12 +504,12 @@ public class LivingEntity : MonoBehaviour
 
         if (wisdomGainedOrLost > 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Wisdom +" + wisdomGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Wisdom +" + wisdomGainedOrLost, false, "Blue"));
         }
 
         if (wisdomGainedOrLost < 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Wisdom " + wisdomGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Wisdom " + wisdomGainedOrLost, false, "Red"));
         }
 
     }
@@ -524,12 +524,12 @@ public class LivingEntity : MonoBehaviour
 
         if (dexterityGainedOrLost > 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dexterity +" + dexterityGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dexterity +" + dexterityGainedOrLost, false, "Blue"));
         }
 
         if (dexterityGainedOrLost < 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dexterity " + dexterityGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dexterity " + dexterityGainedOrLost, false, "Red"));
         }
 
     }
@@ -547,12 +547,12 @@ public class LivingEntity : MonoBehaviour
 
         if (energyGainedOrLost > 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Energy +" + energyGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Energy +" + energyGainedOrLost, false, "Blue"));
         }
 
         if (energyGainedOrLost < 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Energy " + energyGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Energy " + energyGainedOrLost, false, "Red"));
         }
 
     }
@@ -574,7 +574,7 @@ public class LivingEntity : MonoBehaviour
 
         if(barrierGainedOrLost > 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Barrier +" + barrierGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Barrier +" + barrierGainedOrLost, false, "Blue"));
         }
     }
 
@@ -605,7 +605,7 @@ public class LivingEntity : MonoBehaviour
 
         if(blockGainedOrLost > 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Block +" + (blockGainedOrLost + currentDexterity).ToString(), false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Block +" + (blockGainedOrLost + currentDexterity).ToString(), false, "Blue"));
         }
 
         UpdateBlockAmountText(currentBlock);
@@ -666,7 +666,7 @@ public class LivingEntity : MonoBehaviour
             // if character has a free move available
             if(moveActionsTakenThisTurn == 0 && myPassiveManager.FleetFooted)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fleet Footed", true));
+                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fleet Footed", true, "Blue"));
                 ModifyCurrentAP(ability.abilityAPCost, false);
             }
             moveActionsTakenThisTurn++;
@@ -899,7 +899,7 @@ public class LivingEntity : MonoBehaviour
 
             if(charactersInMyMeleeRange > 0)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Thick Of The Fight", false);
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Thick Of The Fight", false, "Blue");
                 yield return new WaitForSeconds(0.5f);
                 ModifyCurrentAP(myPassiveManager.thickOfTheFightStacks);
             }
@@ -929,14 +929,14 @@ public class LivingEntity : MonoBehaviour
         if (isPinned)
         {
             RemovePinned();
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Pinned Removed", false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Pinned Removed", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
         }
 
         if (isStunned)
         {
             RemoveStunned();
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Stunned Removed", false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Stunned Removed", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -961,7 +961,7 @@ public class LivingEntity : MonoBehaviour
 
         if (myPassiveManager.Cautious)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Cautious", false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Cautious", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
             ModifyCurrentBlock(myPassiveManager.cautiousStacks);
             yield return new WaitForSeconds(0.5f);
@@ -969,7 +969,7 @@ public class LivingEntity : MonoBehaviour
 
         if (myPassiveManager.EncouragingPresence)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Encouraging Presence", false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Encouraging Presence", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
 
             if (defender)
@@ -1000,7 +1000,7 @@ public class LivingEntity : MonoBehaviour
 
         if (myPassiveManager.SoulDrainAura)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Soul Drain Aura", false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Soul Drain Aura", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
 
             if (enemy)
@@ -1034,7 +1034,7 @@ public class LivingEntity : MonoBehaviour
 
         if (myPassiveManager.HatefulPresence)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Hateful Presence", false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Hateful Presence", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
 
             if (defender)
@@ -1065,7 +1065,7 @@ public class LivingEntity : MonoBehaviour
 
         if (myPassiveManager.Unhygienic)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Unhygienic", false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Unhygienic", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
             List<TileScript> tilesInUnhygienicAuraRange = LevelManager.Instance.GetTilesWithinRange(1, TileCurrentlyOn);
             if (defender)
@@ -1093,7 +1093,7 @@ public class LivingEntity : MonoBehaviour
 
         if (myPassiveManager.Regeneration)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Regeneration", false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Regeneration", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
             ModifyCurrentHealth(myPassiveManager.regenerationStacks);
         }

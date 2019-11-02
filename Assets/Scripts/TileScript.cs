@@ -58,29 +58,12 @@ public class TileScript : MonoBehaviour
         LevelManager.Instance.Tiles.Add(gridPos, this);
     }
 
-    /*
+    
     private void OnMouseOver()
     {
-        // TO DO: The tile colouring is currently disabled to fix highlighting moveable tiles, fix this
-        if (!EventSystem.current.IsPointerOverGameObject() && GameManager.Instance.ClickedButton != null)
-        {
-            Hover.Instance.SetPosition(WorldPosition);
-
-            if (IsEmpty && !Debugging)
-            {
-                //ColorTile(emptyColour);
-            }
-            if (!IsEmpty && !Debugging)
-            {
-                //ColorTile(fullColour);
-            }
-            else if (Input.GetMouseButtonDown(0))
-            {
-                //PlaceTower();
-            }
-        }
+        LevelManager.Instance.mousedOverTile = this;
     }
-    */
+    
 
     public void OnMouseDown()
     {
