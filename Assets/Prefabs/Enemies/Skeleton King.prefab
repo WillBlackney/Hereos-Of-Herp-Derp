@@ -116,6 +116,7 @@ GameObject:
   - component: {fileID: 3535502883143213582}
   - component: {fileID: 3734038594308369739}
   - component: {fileID: 3983281517941256103}
+  - component: {fileID: 618487731592929793}
   m_Layer: 0
   m_Name: Skeleton King
   m_TagString: Untagged
@@ -365,6 +366,7 @@ MonoBehaviour:
   speed: 3
   myClass: 0
   myHealthBar: {fileID: 2044856757963118386}
+  myCG: {fileID: 0}
   myWorldSpaceCanvasParent: {fileID: 5704106320989856613}
   myBlockIcon: {fileID: 3801151178541768113}
   myBlockText: {fileID: 244628532359089462}
@@ -429,6 +431,18 @@ MonoBehaviour:
   attackAnimationFinished: 0
   attackAnimationMomentOfAttackReached: 0
   movementFinished: 0
+--- !u!225 &618487731592929793
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5870815284474512553}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1992274087726882573
 PrefabInstance:
   m_ObjectHideFlags: 0

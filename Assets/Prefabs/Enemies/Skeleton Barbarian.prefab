@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 8059599537713496622}
   - component: {fileID: -503137441469160467}
   - component: {fileID: 2047409677765581395}
+  - component: {fileID: 6157882640464611034}
   m_Layer: 0
   m_Name: Skeleton Barbarian
   m_TagString: Untagged
@@ -235,6 +236,7 @@ MonoBehaviour:
   speed: 3
   myClass: 0
   myHealthBar: {fileID: 3793286850700534422}
+  myCG: {fileID: 0}
   myWorldSpaceCanvasParent: {fileID: 7488837820886390465}
   myBlockIcon: {fileID: 2018979272987944981}
   myBlockText: {fileID: 3143974826644404370}
@@ -430,6 +432,18 @@ MonoBehaviour:
   flankedStacks: 0
   TrueSight: 0
   trueSightStacks: 0
+--- !u!225 &6157882640464611034
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8772430764602110221}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1815366470707951560
 PrefabInstance:
   m_ObjectHideFlags: 0

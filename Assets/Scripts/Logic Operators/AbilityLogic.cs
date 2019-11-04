@@ -502,6 +502,7 @@ public class AbilityLogic : MonoBehaviour
         Ability invigorate = caster.mySpellBook.GetAbilityByName("Invigorate");
         OnAbilityUsed(invigorate, caster);
         target.ModifyCurrentAP(invigorate.abilityPrimaryValue);
+        ParticleManager.Instance.CreateParticleEffect(target.TileCurrentlyOn.WorldPosition, ParticleManager.Instance.basicParticlePrefab);
         yield return null;
       
     }

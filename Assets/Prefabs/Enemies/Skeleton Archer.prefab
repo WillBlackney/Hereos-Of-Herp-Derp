@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5478583855002150797}
   - component: {fileID: -3784379066773537958}
   - component: {fileID: 8890848482907727934}
+  - component: {fileID: 5477160621909863204}
   m_Layer: 0
   m_Name: Skeleton Archer
   m_TagString: Untagged
@@ -114,6 +115,7 @@ MonoBehaviour:
   speed: 3
   myClass: 0
   myHealthBar: {fileID: 5203597520199651688}
+  myCG: {fileID: 0}
   myWorldSpaceCanvasParent: {fileID: 5203597520199651690}
   myBlockIcon: {fileID: 620480805602612842}
   myBlockText: {fileID: 4555701637072422637}
@@ -328,6 +330,18 @@ MonoBehaviour:
   flankedStacks: 0
   TrueSight: 0
   trueSightStacks: 0
+--- !u!225 &5477160621909863204
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373655118092026611}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1981337850326639935
 GameObject:
   m_ObjectHideFlags: 0

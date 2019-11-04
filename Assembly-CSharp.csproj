@@ -62,13 +62,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\48 Particle Effect Pack\Script\csDestroyEffect.cs" />
-    <Compile Include="Assets\48 Particle Effect Pack\Script\csMouseOrbit.cs" />
-    <Compile Include="Assets\48 Particle Effect Pack\Script\csParticleEffectPackLightControl.cs" />
-    <Compile Include="Assets\48 Particle Effect Pack\Script\csParticleMove.cs" />
-    <Compile Include="Assets\48 Particle Effect Pack\Script\csShowAllEffect.cs" />
-    <Compile Include="Assets\48 Particle Effect Pack\ShurikenEffectEditor\csShurikenEffectChanger.cs" />
-    <Compile Include="Assets\48 Particle Effect Pack\ShurikenEffectEditor\csShurikenEffectEditor.cs" />
+    <Compile Include="Assets\Particles\48 Particle Effect Pack\Script\csDestroyEffect.cs" />
+    <Compile Include="Assets\Particles\48 Particle Effect Pack\Script\csMouseOrbit.cs" />
+    <Compile Include="Assets\Particles\48 Particle Effect Pack\Script\csParticleEffectPackLightControl.cs" />
+    <Compile Include="Assets\Particles\48 Particle Effect Pack\Script\csParticleMove.cs" />
+    <Compile Include="Assets\Particles\48 Particle Effect Pack\Script\csShowAllEffect.cs" />
+    <Compile Include="Assets\Particles\48 Particle Effect Pack\ShurikenEffectEditor\csShurikenEffectChanger.cs" />
+    <Compile Include="Assets\Particles\48 Particle Effect Pack\ShurikenEffectEditor\csShurikenEffectEditor.cs" />
+    <Compile Include="Assets\Particles\Tazo_fx\Script\BillBoard.cs" />
+    <Compile Include="Assets\Particles\Tazo_fx\Script\button_target.cs" />
+    <Compile Include="Assets\Particles\Tazo_fx\Script\demo.cs" />
+    <Compile Include="Assets\Particles\Tazo_fx\Script\tazo_rotate.cs" />
+    <Compile Include="Assets\Particles\Tazo_fx\Script\tazo_UVScroller.cs" />
     <Compile Include="Assets\Scripts\Abilities\Ability.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityBar.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityButtonPrefabHolder.cs" />
@@ -138,7 +143,9 @@
     <Compile Include="Assets\Scripts\Menu\MainMenuManager.cs" />
     <Compile Include="Assets\Scripts\Menu\SceneChangeDataStorage.cs" />
     <Compile Include="Assets\Scripts\Misc\IsVisibleToCamera.cs" />
+    <Compile Include="Assets\Scripts\Misc\TextLogic.cs" />
     <Compile Include="Assets\Scripts\ObjectPool.cs" />
+    <Compile Include="Assets\Scripts\ParticleManager.cs" />
     <Compile Include="Assets\Scripts\PassiveManager.cs" />
     <Compile Include="Assets\Scripts\PlayerDataManager.cs" />
     <Compile Include="Assets\Scripts\Point.cs" />
@@ -165,6 +172,8 @@
     <Compile Include="Assets\Scripts\Visual\CharacterInfoPanel.cs" />
     <Compile Include="Assets\Scripts\Visual\CharacterRoster.cs" />
     <Compile Include="Assets\Scripts\Visual\DamageEffect.cs" />
+    <Compile Include="Assets\Scripts\Visual\ImpactVFX.cs" />
+    <Compile Include="Assets\Scripts\Visual\ImpactVFXManager.cs" />
     <Compile Include="Assets\Scripts\Visual\SpellToolTip.cs" />
     <Compile Include="Assets\Scripts\Visual\StatusIcon.cs" />
     <Compile Include="Assets\Scripts\Visual\StatusIconLibrary.cs" />

@@ -172,6 +172,7 @@ public class CombatLogic : MonoBehaviour
         if (adjustedDamageValue > 0)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateDamageEffect(victim.transform.position, adjustedDamageValue, playVFXInstantly));
+            ImpactVFXManager.Instance.CreateImpactVFX(victim.TileCurrentlyOn.WorldPosition);
             yield return new WaitForSeconds(0.3f);
         }
 

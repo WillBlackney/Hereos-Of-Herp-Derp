@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6975899950964175488}
   - component: {fileID: 406101746738285374}
   - component: {fileID: 4612963927037466110}
+  - component: {fileID: 6112437082801852265}
   m_Layer: 0
   m_Name: Skeleton Necromancer
   m_TagString: Untagged
@@ -264,6 +265,7 @@ MonoBehaviour:
   speed: 3
   myClass: 0
   myHealthBar: {fileID: 3273951354061599739}
+  myCG: {fileID: 0}
   myWorldSpaceCanvasParent: {fileID: 9090143594502408108}
   myBlockIcon: {fileID: 418770794671831416}
   myBlockText: {fileID: 3632922003998157311}
@@ -330,6 +332,18 @@ MonoBehaviour:
   movementFinished: 0
   zombiePrefab: {fileID: 331731056945787492, guid: 47f5564b9ebf0b245aebf669a401e825,
     type: 3}
+--- !u!225 &6112437082801852265
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6951007435922038880}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &9090143594502408108
 GameObject:
   m_ObjectHideFlags: 0

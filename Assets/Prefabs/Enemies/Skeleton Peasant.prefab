@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2301848599627426498}
   - component: {fileID: -2275895814606721917}
   - component: {fileID: 7109844203329741766}
+  - component: {fileID: 1445914932060895380}
   m_Layer: 0
   m_Name: Skeleton Peasant
   m_TagString: Untagged
@@ -115,6 +116,7 @@ MonoBehaviour:
   speed: 3
   myClass: 0
   myHealthBar: {fileID: 5555770202915690943}
+  myCG: {fileID: 0}
   myWorldSpaceCanvasParent: {fileID: 2185314035005042152}
   myBlockIcon: {fileID: 7330350739753374524}
   myBlockText: {fileID: 5917692156826338235}
@@ -329,6 +331,18 @@ MonoBehaviour:
   flankedStacks: 0
   TrueSight: 0
   trueSightStacks: 0
+--- !u!225 &1445914932060895380
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009995944954404}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &2185314035005042152
 GameObject:
   m_ObjectHideFlags: 0

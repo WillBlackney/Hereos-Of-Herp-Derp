@@ -72,7 +72,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateKnockdownIconData()
     {
         StatusIcon knockDown = gameObject.AddComponent<StatusIcon>();
-        knockDown.statusImage = knockDownImage;
+        knockDown.statusSprite = knockDownImage;
         knockDown.statusName = knockDownStatusName;
         knockDown.statusDescription = knockDownStatusDescription;
         knockDown.statusStacks = knockDownStatusStacks;
@@ -82,7 +82,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateStrengthIconData()
     {
         StatusIcon strength = gameObject.AddComponent<StatusIcon>();
-        strength.statusImage = strengthImage;
+        strength.statusSprite = strengthImage;
         strength.statusName = strengthStatusName;
         strength.statusDescription = strengthStatusDescription;
         strength.statusStacks= strengthStatusStacks;
@@ -91,7 +91,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateWisdomIconData()
     {
         StatusIcon wisdom = gameObject.AddComponent<StatusIcon>();
-        wisdom.statusImage = wisdomImage;
+        wisdom.statusSprite = wisdomImage;
         wisdom.statusName = wisdomStatusName;
         wisdom.statusDescription = wisdomStatusDescription;
         wisdom.statusStacks = wisdomStatusStacks;
@@ -101,7 +101,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateDexterityIconData()
     {
         StatusIcon dexterity = gameObject.AddComponent<StatusIcon>();
-        dexterity.statusImage = dexterityImage;
+        dexterity.statusSprite = dexterityImage;
         dexterity.statusName = dexterityStatusName;
         dexterity.statusDescription = dexterityStatusDescription;
         dexterity.statusStacks = dexterityStatusStacks;
@@ -111,7 +111,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateStunnedIconData()
     {
         StatusIcon stunned = gameObject.AddComponent<StatusIcon>();
-        stunned.statusImage = stunnedImage;
+        stunned.statusSprite = stunnedImage;
         stunned.statusName = stunnedStatusName;
         stunned.statusDescription = stunnedStatusDescription;
         stunned.statusStacks = stunnedStatusStacks;
@@ -121,7 +121,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreatePinnedIconData()
     {
         StatusIcon pinned = gameObject.AddComponent<StatusIcon>();
-        pinned.statusImage = pinnedImage;
+        pinned.statusSprite = pinnedImage;
         pinned.statusName = pinnedStatusName;
         pinned.statusDescription = pinnedStatusDescription;
         pinned.statusStacks = pinnedStatusStacks;
@@ -131,7 +131,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateBarrierIconData()
     {
         StatusIcon barrier = gameObject.AddComponent<StatusIcon>();
-        barrier.statusImage = barrierImage;
+        barrier.statusSprite = barrierImage;
         barrier.statusName = barrierStatusName;
         barrier.statusDescription = barrierStatusDescription;
         barrier.statusStacks = barrierStatusStacks;
@@ -141,7 +141,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateEnrageIconData()
     {
         StatusIcon enrage = gameObject.AddComponent<StatusIcon>();
-        enrage.statusImage = enrageImage;
+        enrage.statusSprite = enrageImage;
         enrage.statusName = enrageStatusName;
         enrage.statusDescription = enrageStatusDescription;
         enrage.statusStacks = enrageStatusStacks;
@@ -151,7 +151,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateGrowingIconData()
     {
         StatusIcon growing = gameObject.AddComponent<StatusIcon>();
-        growing.statusImage = growingImage;
+        growing.statusSprite = growingImage;
         growing.statusName = growingStatusName;
         growing.statusDescription = growingStatusDescription;
         growing.statusStacks = growingStatusStacks;
@@ -160,7 +160,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateVolatileIconData()
     {
         StatusIcon @volatile= gameObject.AddComponent<StatusIcon>();
-        @volatile.statusImage = volatileImage;
+        @volatile.statusSprite = volatileImage;
         @volatile.statusName = volatileStatusName;
         @volatile.statusDescription = volatileStatusDescription;
         @volatile.statusStacks = volatileStatusStacks;
@@ -170,7 +170,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateSleepingIconData()
     {
         StatusIcon sleeping = gameObject.AddComponent<StatusIcon>();
-        sleeping.statusImage = sleepingImage;
+        sleeping.statusSprite = sleepingImage;
         sleeping.statusName = sleepingStatusName;
         sleeping.statusDescription = sleepingStatusDescription;
         sleeping.statusStacks = sleepingStatusStacks;
@@ -180,7 +180,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateCamoflageIconData()
     {
         StatusIcon camoflage = gameObject.AddComponent<StatusIcon>();
-        camoflage.statusImage = camoflageImage;
+        camoflage.statusSprite = camoflageImage;
         camoflage.statusName = camoflageStatusName;
         camoflage.statusDescription = camoflageStatusDescription;
         camoflage.statusStacks = camoflageStatusStacks;
@@ -190,7 +190,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreatePoisonIconData()
     {
         StatusIcon poison = gameObject.AddComponent<StatusIcon>();
-        poison.statusImage = poisonImage;
+        poison.statusSprite = poisonImage;
         poison.statusName = poisonStatusName;
         poison.statusDescription = poisonStatusDescription;
         poison.statusStacks = poisonStatusStacks;
@@ -200,7 +200,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateCautiousIconData()
     {
         StatusIcon cautious = gameObject.AddComponent<StatusIcon>();
-        cautious.statusImage = cautiousImage;
+        cautious.statusSprite = cautiousImage;
         cautious.statusName = cautiousStatusName;
         cautious.statusDescription = cautiousStatusDescription;
         cautious.statusStacks = cautiousStatusStacks;
@@ -210,7 +210,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateFleetFootedIconData()
     {
         StatusIcon fleetFooted = gameObject.AddComponent<StatusIcon>();
-        fleetFooted.statusImage = fleetFootedImage;
+        fleetFooted.statusSprite = fleetFootedImage;
         fleetFooted.statusName = fleetFootedStatusName;
         fleetFooted.statusDescription = fleetFootedStatusDescription;
         fleetFooted.statusStacks = fleetFootedStatusStacks;
@@ -220,7 +220,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateEncouragingPresenceIconData()
     {
         StatusIcon encouragingPresence = gameObject.AddComponent<StatusIcon>();
-        encouragingPresence.statusImage = encouragingPresenceImage;
+        encouragingPresence.statusSprite = encouragingPresenceImage;
         encouragingPresence.statusName = encouragingPresenceStatusName;
         encouragingPresence.statusDescription = encouragingPresenceStatusDescription;
         encouragingPresence.statusStacks = encouragingPresenceStatusStacks;
@@ -230,7 +230,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreatePoisonousIconData()
     {
         StatusIcon poisonous = gameObject.AddComponent<StatusIcon>();
-        poisonous.statusImage = poisonousImage;
+        poisonous.statusSprite = poisonousImage;
         poisonous.statusName = poisonousStatusName;
         poisonous.statusDescription = poisonousStatusDescription;
         poisonous.statusStacks = poisonousStatusStacks;
@@ -239,7 +239,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreatePreparationIconData()
     {
         StatusIcon preparation = gameObject.AddComponent<StatusIcon>();
-        preparation.statusImage = preparationImage;
+        preparation.statusSprite = preparationImage;
         preparation.statusName = preparationStatusName;
         preparation.statusDescription = preparationStatusDescription;
         preparation.statusStacks = preparationStatusStacks;
@@ -249,7 +249,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateStealthIconData()
     {
         StatusIcon stealth = gameObject.AddComponent<StatusIcon>();
-        stealth.statusImage = stealthImage;
+        stealth.statusSprite = stealthImage;
         stealth.statusName = stealthStatusName;
         stealth.statusDescription = stealthStatusDescription;
         stealth.statusStacks = stealthStatusStacks;
@@ -259,7 +259,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateThornsIconData()
     {
         StatusIcon thorns = gameObject.AddComponent<StatusIcon>();
-        thorns.statusImage = thornsImage;
+        thorns.statusSprite = thornsImage;
         thorns.statusName = thornsStatusName;
         thorns.statusDescription = thornsStatusDescription;
         thorns.statusStacks = thornsStatusStacks;
@@ -269,7 +269,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateUnhygienicIconData()
     {
         StatusIcon unhygienic = gameObject.AddComponent<StatusIcon>();
-        unhygienic.statusImage = unhygienicImage;
+        unhygienic.statusSprite = unhygienicImage;
         unhygienic.statusName = unhygienicStatusName;
         unhygienic.statusDescription = unhygienicStatusDescription;
         unhygienic.statusStacks = unhygienicStatusStacks;
@@ -279,7 +279,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateQuickReflexesIconData()
     {
         StatusIcon quickReflexes = gameObject.AddComponent<StatusIcon>();
-        quickReflexes.statusImage = quickReflexesImage;
+        quickReflexes.statusSprite = quickReflexesImage;
         quickReflexes.statusName = quickReflexesStatusName;
         quickReflexes.statusDescription = quickReflexesStatusDescription;
         quickReflexes.statusStacks = quickReflexesStatusStacks;
@@ -289,7 +289,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateRegenerationIconData()
     {
         StatusIcon regeneration = gameObject.AddComponent<StatusIcon>();
-        regeneration.statusImage = regenerationImage;
+        regeneration.statusSprite = regenerationImage;
         regeneration.statusName = regenerationStatusName;
         regeneration.statusDescription = regenerationStatusDescription;
         regeneration.statusStacks = regenerationStatusStacks;
@@ -298,7 +298,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateAdaptiveIconData()
     {
         StatusIcon adaptive = gameObject.AddComponent<StatusIcon>();
-        adaptive.statusImage = adaptiveImage;
+        adaptive.statusSprite = adaptiveImage;
         adaptive.statusName = adaptiveStatusName;
         adaptive.statusDescription = adaptiveStatusDescription;
         adaptive.statusStacks = adaptiveStatusStacks;
@@ -308,7 +308,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreatePoisonImmunityIconData()
     {
         StatusIcon poisonImmunity = gameObject.AddComponent<StatusIcon>();
-        poisonImmunity.statusImage = poisonImmunityImage;
+        poisonImmunity.statusSprite = poisonImmunityImage;
         poisonImmunity.statusName = poisonImmunityStatusName;
         poisonImmunity.statusDescription = poisonImmunityStatusDescription;
         poisonImmunity.statusStacks = poisonImmunityStatusStacks;
@@ -318,7 +318,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateHatefulPresenceIconData()
     {
         StatusIcon hatefulPresence = gameObject.AddComponent<StatusIcon>();
-        hatefulPresence.statusImage = hatefulPresenceImage;
+        hatefulPresence.statusSprite = hatefulPresenceImage;
         hatefulPresence.statusName = hatefulPresenceStatusName;
         hatefulPresence.statusDescription = hatefulPresenceStatusDescription;
         hatefulPresence.statusStacks = hatefulPresenceStatusStacks;
@@ -328,7 +328,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateSoulDrainAuraIconData()
     {
         StatusIcon soulDrainAura = gameObject.AddComponent<StatusIcon>();
-        soulDrainAura.statusImage = soulDrainAuraImage;
+        soulDrainAura.statusSprite = soulDrainAuraImage;
         soulDrainAura.statusName = soulDrainAuraStatusName;
         soulDrainAura.statusDescription = soulDrainAuraStatusDescription;
         soulDrainAura.statusStacks = soulDrainAuraStatusStacks;
@@ -337,7 +337,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateLightningShieldIconData()
     {
         StatusIcon lightningSHield = gameObject.AddComponent<StatusIcon>();
-        lightningSHield.statusImage = lightningShieldImage;
+        lightningSHield.statusSprite = lightningShieldImage;
         lightningSHield.statusName = lightningShieldStatusName;
         lightningSHield.statusDescription = lightningShieldStatusDescription;
         lightningSHield.statusStacks = lightningShieldStatusStacks;
@@ -347,7 +347,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateThickOfTheFightIconData()
     {
         StatusIcon thickOfTheFight = gameObject.AddComponent<StatusIcon>();
-        thickOfTheFight.statusImage = thickOfTheFightImage;
+        thickOfTheFight.statusSprite = thickOfTheFightImage;
         thickOfTheFight.statusName = thickOfTheFightStatusName;
         thickOfTheFight.statusDescription = thickOfTheFightStatusDescription;
         thickOfTheFight.statusStacks = thickOfTheFightStatusStacks;
@@ -357,7 +357,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateTemporaryStrengthIconData()
     {
         StatusIcon temporaryStrength = gameObject.AddComponent<StatusIcon>();
-        temporaryStrength.statusImage = temporaryStrengthImage;
+        temporaryStrength.statusSprite = temporaryStrengthImage;
         temporaryStrength.statusName = temporaryStrengthStatusName;
         temporaryStrength.statusDescription = temporaryStrengthStatusDescription;
         temporaryStrength.statusStacks = temporaryStrengthStatusStacks;
@@ -366,7 +366,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateTemporaryInitiativeIconData()
     {
         StatusIcon temporaryInitiative = gameObject.AddComponent<StatusIcon>();
-        temporaryInitiative.statusImage = temporaryInitiativeImage;
+        temporaryInitiative.statusSprite = temporaryInitiativeImage;
         temporaryInitiative.statusName = temporaryInitiativeStatusName;
         temporaryInitiative.statusDescription = temporaryInitiativeStatusDescription;
         temporaryInitiative.statusStacks = temporaryInitiativeStatusStacks;
@@ -375,7 +375,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateRuneIconData()
     {
         StatusIcon rune = gameObject.AddComponent<StatusIcon>();
-        rune.statusImage = runeImage;
+        rune.statusSprite = runeImage;
         rune.statusName = runeStatusName;
         rune.statusDescription = runeStatusDescription;
         rune.statusStacks = runeStatusStacks;
@@ -385,7 +385,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateExposedIconData()
     {
         StatusIcon exposed = gameObject.AddComponent<StatusIcon>();
-        exposed.statusImage = exposedImage;
+        exposed.statusSprite = exposedImage;
         exposed.statusName = exposedStatusName;
         exposed.statusDescription = exposedStatusDescription;
         exposed.statusStacks = exposedStatusStacks;
@@ -395,7 +395,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateExhaustedIconData()
     {
         StatusIcon exhausted = gameObject.AddComponent<StatusIcon>();
-        exhausted.statusImage = exhaustedImage;
+        exhausted.statusSprite = exhaustedImage;
         exhausted.statusName = exhaustedStatusName;
         exhausted.statusDescription = exhaustedStatusDescription;
         exhausted.statusStacks = exhaustedStatusStacks;
@@ -404,7 +404,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateMagicImmunityIconData()
     {
         StatusIcon magicImmunity = gameObject.AddComponent<StatusIcon>();
-        magicImmunity.statusImage = magicImmunityImage;
+        magicImmunity.statusSprite = magicImmunityImage;
         magicImmunity.statusName = magicImmunityStatusName;
         magicImmunity.statusDescription = magicImmunityStatusDescription;
         magicImmunity.statusStacks = magicImmunityStatusStacks;
@@ -414,7 +414,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreatePhysicalImmunityIconData()
     {
         StatusIcon physicalImmunity = gameObject.AddComponent<StatusIcon>();
-        physicalImmunity.statusImage = physicalImmunityImage;
+        physicalImmunity.statusSprite = physicalImmunityImage;
         physicalImmunity.statusName = physicalImmunityStatusName;
         physicalImmunity.statusDescription = physicalImmunityStatusDescription;
         physicalImmunity.statusStacks = physicalImmunityStatusStacks;
@@ -423,7 +423,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateFlankedIconData()
     {
         StatusIcon flanked = gameObject.AddComponent<StatusIcon>();
-        flanked.statusImage = flankedImage;
+        flanked.statusSprite = flankedImage;
         flanked.statusName = flankedStatusName;
         flanked.statusDescription = flankedStatusDescription;
         flanked.statusStacks = flankedStatusStacks;
@@ -432,7 +432,7 @@ public class StatusIconLibrary : MonoBehaviour
     public void CreateTrueSightIconData()
     {
         StatusIcon trueSight = gameObject.AddComponent<StatusIcon>();
-        trueSight.statusImage = trueSightImage;
+        trueSight.statusSprite = trueSightImage;
         trueSight.statusName = trueSightStatusName;
         trueSight.statusDescription = trueSightStatusDescription;
         trueSight.statusStacks = trueSightStatusStacks;

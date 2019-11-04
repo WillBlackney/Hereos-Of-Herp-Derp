@@ -12,6 +12,7 @@ public class LivingEntity : MonoBehaviour
 
     [Header("Component References")]
     public Slider myHealthBar;
+    public CanvasGroup myCG;
     public GameObject myWorldSpaceCanvasParent;
     public GameObject myBlockIcon;
     public TextMeshProUGUI myBlockText;
@@ -25,6 +26,7 @@ public class LivingEntity : MonoBehaviour
     public ActivationWindow myActivationWindow;
     public Defender defender;
     public Enemy enemy;
+    
 
 
     [Header("Base Trait Properties")]
@@ -92,9 +94,12 @@ public class LivingEntity : MonoBehaviour
 
     public virtual void InitializeSetup(Point startingGridPosition, TileScript startingTile)
     {
+        // Create Portal vfx
+        //ParticleManager.Instance.CreateParticleEffect(startingTile.WorldPosition, ParticleManager.Instance.portalParticlePrefab);
         Debug.Log("Calling LivingEntity.InitializeSetup...");
         // Get component references        
         mySpriteRenderer = GetComponent<SpriteRenderer>();
+        myCG = GetComponent<CanvasGroup>();
         myAnimator = GetComponent<Animator>();
         defender = GetComponent<Defender>();
         enemy = GetComponent<Enemy>();
@@ -102,6 +107,7 @@ public class LivingEntity : MonoBehaviour
         myPassiveManager.InitializeSetup();
         mySpellBook = GetComponent<SpellBook>();
         mySpellBook.InitializeSetup();
+        //StartCoroutine(PlaySpawnVFX());
         // Set grid position 'Point'
         GridPosition = startingGridPosition;
         // Set our current tile
@@ -144,6 +150,21 @@ public class LivingEntity : MonoBehaviour
         ModifyCurrentAP(baseStartingAP);
         UpdateCurrentHealthText();
         UpdateCurrentMaxHealthText(currentMaxHealth);
+    }
+
+    public IEnumerator PlaySpawnVFX()
+    {
+        // alpha out canvas
+        myCG.alpha = 0;
+        // alpha out sprite renderer
+        mySpriteRenderer.color = new Color(mySpriteRenderer.color.r, mySpriteRenderer.color.g, mySpriteRenderer.color.b, 0);
+        while(myCG.alpha < 1)
+        {
+            myCG.alpha += 0.01f;
+            mySpriteRenderer.color = new Color(mySpriteRenderer.color.r, mySpriteRenderer.color.g,
+                mySpriteRenderer.color.b, mySpriteRenderer.color.a + 0.0255f);
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     // Apply + Remove debuffs, buffs, effects
