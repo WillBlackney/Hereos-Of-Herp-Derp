@@ -9,12 +9,15 @@ public class Vampire : Enemy
         base.SetBaseProperties();
 
         mySpellBook.EnemyLearnAbility("Move");
+        mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Twin Strike");
         mySpellBook.EnemyLearnAbility("Siphon Life");
-        mySpellBook.EnemyLearnAbility("Teleport");
-        mySpellBook.EnemyLearnAbility("Fire Ball");
+        mySpellBook.EnemyLearnAbility("Dash");
+        //mySpellBook.EnemyLearnAbility("Teleport");
+        //mySpellBook.EnemyLearnAbility("Fire Ball");
 
-        myPassiveManager.LearnRegeneration(3);
+        //myPassiveManager.LearnRegeneration(3);
+        myPassiveManager.LearnLifeSteal(1);
 
     }
 
@@ -24,8 +27,9 @@ public class Vampire : Enemy
         Ability move = mySpellBook.GetAbilityByName("Move");
         Ability siphonLife = mySpellBook.GetAbilityByName("Siphon Life");
         Ability twinStrike = mySpellBook.GetAbilityByName("Twin Strike");
-        Ability teleport = mySpellBook.GetAbilityByName("Teleport");
-        Ability fireBall = mySpellBook.GetAbilityByName("Fire Ball");
+        Ability strike = mySpellBook.GetAbilityByName("Strike");
+        Ability dash = mySpellBook.GetAbilityByName("Dash");
+       
 
         ChooseRandomTargetingLogic();
 
@@ -80,12 +84,47 @@ public class Vampire : Enemy
             //SetTargetDefender(GetDefenderWithLowestCurrentHP());
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
+            Action twinStrikeAction = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
+            yield return new WaitUntil(() => twinStrikeAction.ActionResolved() == true);
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
+        // Strike
+        else if (IsTargetInRange(myCurrentTarget, currentMeleeRange) &&
+            HasEnoughAP(currentAP, strike.abilityAPCost) &&
+            IsAbilityOffCooldown(strike.abilityCurrentCooldownTime))
+        {
+            //SetTargetDefender(GetDefenderWithLowestCurrentHP());
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
+            yield return new WaitForSeconds(0.5f);
+            Action strikeAction = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            yield return new WaitUntil(() => strikeAction.ActionResolved() == true);
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
+        // Dash
+        else if (IsTargetInRange(myCurrentTarget, currentMeleeRange) == false &&
+            IsAbleToMove() &&
+            HasEnoughAP(currentAP, dash.abilityAPCost) &&
+            IsAbilityOffCooldown(dash.abilityCurrentCooldownTime)
+            )
+        {
+            
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dash", false));
+            yield return new WaitForSeconds(0.5f);
+
+            TileScript destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, dash.abilityPrimaryValue);
+            AbilityLogic.Instance.PerformDash(this, destination);
+
+            // small delay here in order to seperate the two actions a bit.
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
 
         // Fireball
+        /*
         else if (IsTargetInRange(myCurrentTarget, fireBall.abilityRange) &&            
             HasEnoughAP(currentAP, fireBall.abilityAPCost) &&
             IsAbilityOffCooldown(fireBall.abilityCurrentCooldownTime))
@@ -97,10 +136,12 @@ public class Vampire : Enemy
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
-               
+        */
+
 
         // Move
-        else if (IsTargetInRange(myCurrentTarget,fireBall.abilityRange) == false &&
+
+        else if (IsTargetInRange(myCurrentTarget,currentMeleeRange) == false &&
             IsAbleToMove() &&
             HasEnoughAP(currentAP, move.abilityAPCost) &&
             IsAbilityOffCooldown(move.abilityCurrentCooldownTime)
@@ -109,7 +150,7 @@ public class Vampire : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
-            TileScript destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, fireBall.abilityRange, currentMobility);
+            TileScript destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility);
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 
@@ -117,7 +158,8 @@ public class Vampire : Enemy
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
-
+        
+        /*
         else if (AILogic.IsEngagedInMelee(this) &&
             IsAbilityOffCooldown(teleport.abilityCurrentCooldownTime) &&
             HasEnoughAP(currentAP, teleport.abilityAPCost)
@@ -130,6 +172,7 @@ public class Vampire : Enemy
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
+        */
 
         EndMyActivation();
     }

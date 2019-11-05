@@ -74,6 +74,7 @@ public class LivingEntity : MonoBehaviour
     public int currentInitiativeRoll;
     public int moveActionsTakenThisTurn;
     public int timesAttackedThisTurn;
+    public bool inDeathProcess;
 
 
     [Header("Pathing + Location Related ")]
@@ -611,9 +612,13 @@ public class LivingEntity : MonoBehaviour
         {
             currentBlock += blockGainedOrLost;
         }
-        
 
-        if(currentBlock <= 0)
+        if (blockGainedOrLost > 0)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Block +" + (blockGainedOrLost + currentDexterity).ToString(), false, "Blue"));
+        }
+
+        if (currentBlock <= 0)
         {
             currentBlock = 0;
             myBlockIcon.SetActive(false);
@@ -624,10 +629,7 @@ public class LivingEntity : MonoBehaviour
             myBlockIcon.SetActive(true);
         }
 
-        if(blockGainedOrLost > 0)
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Block +" + (blockGainedOrLost + currentDexterity).ToString(), false, "Blue"));
-        }
+        
 
         UpdateBlockAmountText(currentBlock);
     }

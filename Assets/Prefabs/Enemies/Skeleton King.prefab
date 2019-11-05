@@ -116,7 +116,6 @@ GameObject:
   - component: {fileID: 3535502883143213582}
   - component: {fileID: 3734038594308369739}
   - component: {fileID: 3983281517941256103}
-  - component: {fileID: 618487731592929793}
   m_Layer: 0
   m_Name: Skeleton King
   m_TagString: Untagged
@@ -351,6 +350,8 @@ MonoBehaviour:
   flankedStacks: 0
   TrueSight: 0
   trueSightStacks: 0
+  LifeSteal: 0
+  lifeStealStacks: 0
 --- !u!114 &3983281517941256103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,18 +432,6 @@ MonoBehaviour:
   attackAnimationFinished: 0
   attackAnimationMomentOfAttackReached: 0
   movementFinished: 0
---- !u!225 &618487731592929793
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5870815284474512553}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
-  m_IgnoreParentGroups: 0
 --- !u!1001 &1992274087726882573
 PrefabInstance:
   m_ObjectHideFlags: 0

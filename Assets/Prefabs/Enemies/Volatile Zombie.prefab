@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 298112543978610820}
   - component: {fileID: 7011744735078177082}
   - component: {fileID: 1889167899148244139}
-  - component: {fileID: 2878794325868925300}
   m_Layer: 0
   m_Name: Volatile Zombie
   m_TagString: Untagged
@@ -250,6 +249,8 @@ MonoBehaviour:
   flankedStacks: 0
   TrueSight: 0
   trueSightStacks: 0
+  LifeSteal: 0
+  lifeStealStacks: 0
 --- !u!114 &1889167899148244139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,18 +331,6 @@ MonoBehaviour:
   attackAnimationFinished: 0
   attackAnimationMomentOfAttackReached: 0
   movementFinished: 0
---- !u!225 &2878794325868925300
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 331731056945787492}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
-  m_IgnoreParentGroups: 0
 --- !u!1 &1930591496857671080
 GameObject:
   m_ObjectHideFlags: 0

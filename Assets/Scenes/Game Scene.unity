@@ -6315,6 +6315,11 @@ MonoBehaviour:
   trueSightStatusName: True Sight
   trueSightStatusDescription: Ignore stealth and camoflage when using abilities
   trueSightStatusStacks: 0
+  lifeStealImage: {fileID: 21300000, guid: 86681c9b5cc37c447ba2af5ae9700c4b, type: 3}
+  lifeStealStatusName: Life Steal
+  lifeStealStatusDescription: Whenever this character reduces health with a melee
+    attack, it heals for that amount
+  lifeStealStatusStacks: 0
 --- !u!4 &1508365663
 Transform:
   m_ObjectHideFlags: 0
@@ -8164,6 +8169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basicEnemyWaves:
+  - {fileID: 11400000, guid: 2be0efd823d646a479b01e8dca7d9e4c, type: 2}
   - {fileID: 11400000, guid: c953b6a2b85d9ca439cae347a00ce672, type: 2}
   - {fileID: 11400000, guid: 4e0ae28ee3b68504caf41eb946c16f13, type: 2}
   eliteEnemyWaves:

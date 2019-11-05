@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 7109844203329741766}
   - component: {fileID: 5900822055112899735}
   - component: {fileID: 2552192641870820278}
-  - component: {fileID: 1516072047355964497}
   m_Layer: 0
   m_Name: Stone Golem
   m_TagString: Untagged
@@ -231,6 +230,8 @@ MonoBehaviour:
   flankedStacks: 0
   TrueSight: 0
   trueSightStacks: 0
+  LifeSteal: 0
+  lifeStealStacks: 0
 --- !u!95 &5900822055112899735
 Animator:
   serializedVersion: 3
@@ -330,18 +331,6 @@ MonoBehaviour:
   attackAnimationFinished: 0
   attackAnimationMomentOfAttackReached: 0
   movementFinished: 0
---- !u!225 &1516072047355964497
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1009995944954404}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
-  m_IgnoreParentGroups: 0
 --- !u!1 &2185314035005042152
 GameObject:
   m_ObjectHideFlags: 0

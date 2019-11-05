@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 7109844203329741766}
   - component: {fileID: 3260419713473408693}
   - component: {fileID: 3682763168542263831}
-  - component: {fileID: -4333745608233347290}
   m_Layer: 0
   m_Name: Vampire
   m_TagString: Untagged
@@ -231,6 +230,8 @@ MonoBehaviour:
   flankedStacks: 0
   TrueSight: 0
   trueSightStacks: 0
+  LifeSteal: 0
+  lifeStealStacks: 0
 --- !u!114 &3260419713473408693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,9 +261,9 @@ MonoBehaviour:
   myActivationWindow: {fileID: 0}
   defender: {fileID: 0}
   enemy: {fileID: 0}
-  baseMobility: 2
-  baseMaxHealth: 45
-  baseStartingHealth: 45
+  baseMobility: 1
+  baseMaxHealth: 42
+  baseStartingHealth: 42
   baseEnergy: 4
   baseStartingAP: 0
   baseMaxAP: 6
@@ -330,18 +331,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!225 &-4333745608233347290
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1009995944954404}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
-  m_IgnoreParentGroups: 0
 --- !u!1 &2185314035005042152
 GameObject:
   m_ObjectHideFlags: 0

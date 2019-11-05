@@ -6,8 +6,7 @@ using TMPro;
 
 public class DamageEffect : MonoBehaviour
 {
-    public TextMeshProUGUI amountText;
-    
+    public TextMeshProUGUI amountText;    
 
     public void InitializeSetup(int damageAmount, bool heal = false)
     {

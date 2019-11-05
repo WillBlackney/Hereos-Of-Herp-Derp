@@ -91,6 +91,9 @@ public class PassiveManager : MonoBehaviour
     public bool TrueSight;
     public int trueSightStacks;
 
+    public bool LifeSteal;
+    public int lifeStealStacks;
+
 
     public void InitializeSetup()
     {
@@ -355,6 +358,13 @@ public class PassiveManager : MonoBehaviour
         StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("True Sight");
         TrueSight = true;
         trueSightStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void LearnLifeSteal(int stacks)
+    {
+        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Life Steal");
+        LifeSteal = true;
+        lifeStealStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyRune(int stacks)

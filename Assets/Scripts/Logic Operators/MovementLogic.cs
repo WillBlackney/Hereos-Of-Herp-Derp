@@ -656,7 +656,8 @@ public class MovementLogic : Singleton<MovementLogic>
         foreach (LivingEntity entity in unfriendlyEntities)
         {
             if (PositionLogic.Instance.GetTargetsFrontArcTiles(entity).Contains(previousLocation) &&
-                PositionLogic.Instance.GetTargetsFrontArcTiles(entity).Contains(newLocation) == false)
+                PositionLogic.Instance.GetTargetsFrontArcTiles(entity).Contains(newLocation) == false &&
+                characterMoved.inDeathProcess == false)
             {
                 Debug.Log("ResolveFreeStrikesCoroutine() detected that " + characterMoved.name + " triggered a free strike from " + entity.name);
                 characterMoved.myAnimator.enabled = false;

@@ -52,6 +52,7 @@ public class StatusIconLibrary : MonoBehaviour
         CreatePhysicalImmunityIconData();
         CreateFlankedIconData();
         CreateTrueSightIconData();
+        CreateLifeStealIconData();
     }
 
     public StatusIcon GetStatusIconByName(string name)
@@ -438,6 +439,15 @@ public class StatusIconLibrary : MonoBehaviour
         trueSight.statusStacks = trueSightStatusStacks;
         allIcons.Add(trueSight);
     }
+    public void CreateLifeStealIconData()
+    {
+        StatusIcon lifeSteal = gameObject.AddComponent<StatusIcon>();
+        lifeSteal.statusSprite = lifeStealImage;
+        lifeSteal.statusName = lifeStealStatusName;
+        lifeSteal.statusDescription = lifeStealStatusDescription;
+        lifeSteal.statusStacks = lifeStealStatusStacks;
+        allIcons.Add(lifeSteal);
+    }
 
 
     [Header("Knockdown Icon Data")]
@@ -667,5 +677,11 @@ public class StatusIconLibrary : MonoBehaviour
     public string trueSightStatusName;
     public string trueSightStatusDescription;
     public int trueSightStatusStacks;
+
+    [Header("Life Steal Icon Data")]
+    public Sprite lifeStealImage;
+    public string lifeStealStatusName;
+    public string lifeStealStatusDescription;
+    public int lifeStealStatusStacks;
 
 }

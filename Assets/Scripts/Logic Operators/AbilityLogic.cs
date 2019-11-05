@@ -83,26 +83,31 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;        
     }
     //Strike
-    public void PerformStrike(LivingEntity attacker, LivingEntity victim)
+    public Action PerformStrike(LivingEntity attacker, LivingEntity victim)
     {
-        StartCoroutine(PerformStrikeCoroutine(attacker, victim));
+        Action action = new Action();
+        StartCoroutine(PerformStrikeCoroutine(attacker, victim, action));
+        return action;
     }
-    public IEnumerator PerformStrikeCoroutine(LivingEntity attacker, LivingEntity victim)
+    public IEnumerator PerformStrikeCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
     {
         Ability strike = attacker.mySpellBook.GetAbilityByName("Strike");
         OnAbilityUsed(strike, attacker);
         attacker.StartCoroutine(attacker.AttackMovement(victim));        
         Action abilityAction = CombatLogic.Instance.HandleDamage(strike.abilityPrimaryValue, attacker, victim, false, strike.abilityAttackType, strike.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+        action.actionResolved = true;
         
     }
 
     // Twin Strike
-    public void PerformTwinStrike(LivingEntity attacker, LivingEntity victim)
+    public Action PerformTwinStrike(LivingEntity attacker, LivingEntity victim)
     {
-        StartCoroutine(PerformTwinStrikeCoroutine(attacker, victim));
+        Action action = new Action();
+        StartCoroutine(PerformTwinStrikeCoroutine(attacker, victim, action));
+        return action;
     }
-    public IEnumerator PerformTwinStrikeCoroutine(LivingEntity attacker, LivingEntity victim)
+    public IEnumerator PerformTwinStrikeCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
     {
         Ability twinStrike = attacker.mySpellBook.GetAbilityByName("Twin Strike");
         OnAbilityUsed(twinStrike, attacker);
@@ -118,7 +123,7 @@ public class AbilityLogic : MonoBehaviour
             yield return new WaitUntil(() => abilityAction2.ActionResolved() == true);
         }
 
-        
+        action.actionResolved = true;
     }
 
     // Fire Ball

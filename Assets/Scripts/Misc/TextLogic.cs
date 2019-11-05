@@ -72,7 +72,7 @@ public static class TextLogic
         else if (icon.statusName == "Camoflage")
         {
             icon.statusDescriptionText.text =
-                "This character cannot be targetted by enemy abilities from further then" + ReturnColoredText("1", yellow)
+                "This character cannot be targetted by enemy abilities from further than " + ReturnColoredText("1", yellow)
                 + " tile away. Cancelled by moving off a " + ReturnColoredText("Grass", yellow) + " tile";
         }
         else if (icon.statusName == "Camoflage")
@@ -91,7 +91,7 @@ public static class TextLogic
         {
             icon.statusDescriptionText.text =
                 "At the end of this character's activation, it gains " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
-                + " armor";
+                + " Block";
         }
         else if (icon.statusName == "Fleet Footed")
         {

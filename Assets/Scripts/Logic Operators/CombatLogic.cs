@@ -164,6 +164,14 @@ public class CombatLogic : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
         }
 
+        int totalLifeLost = victim.currentHealth - healthAfter;
+
+        // Life steal
+        if (attacker.myPassiveManager.LifeSteal && totalLifeLost > 0)
+        {
+            attacker.ModifyCurrentHealth(totalLifeLost);
+        }
+
         victim.currentHealth = healthAfter;
         victim.SetCurrentBlock(blockAfter);
         victim.myHealthBar.value = victim.CalculateHealthBarPosition();
@@ -238,8 +246,9 @@ public class CombatLogic : MonoBehaviour
         }
         victim.timesAttackedThisTurn++;
 
-        if (victim.currentHealth <= 0)
+        if (victim.currentHealth <= 0 && victim.inDeathProcess == false)
         {
+            victim.inDeathProcess = true;
             StartCoroutine(victim.HandleDeath());
         }
 

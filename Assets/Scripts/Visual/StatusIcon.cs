@@ -38,7 +38,7 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         statusStacksText.text = statusStacks.ToString();
 
         // info panel set up
-        statusNameText.text = statusName;
+        statusNameText.text = TextLogic.ReturnColoredText(statusName, TextLogic.yellow);
         statusDescriptionText.text = statusDescription;
         infoPanelIconImage.sprite = statusSprite;
 
