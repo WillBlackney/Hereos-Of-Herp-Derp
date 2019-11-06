@@ -177,7 +177,7 @@ public class ActivationManager : Singleton<ActivationManager>
         
         while (panelArrow.transform.position != destination)
         {
-            panelArrow.transform.position = Vector2.MoveTowards(panelArrow.transform.position, destination, 200 * Time.deltaTime);
+            panelArrow.transform.position = Vector2.MoveTowards(panelArrow.transform.position, destination, 400 * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
     }

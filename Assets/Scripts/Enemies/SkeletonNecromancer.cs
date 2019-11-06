@@ -11,6 +11,7 @@ public class SkeletonNecromancer : Enemy
         base.SetBaseProperties();
         
         mySpellBook.EnemyLearnAbility("Move");
+        mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Summon Undead");        
         mySpellBook.EnemyLearnAbility("Chaos Bolt");
 

@@ -26,10 +26,19 @@ public class ShopScreenManager : MonoBehaviour
     public ArtifactSlot artifactSlotThree;
 
     public List<ItemDataSO> itemsInShopData;
+    public List<ItemSlot> allItemsSlots;
 
     private void Awake()
     {
         Instance = this;
+        allItemsSlots.Add(itemSlotOne);
+        allItemsSlots.Add(itemSlotTwo);
+        allItemsSlots.Add(itemSlotThree);
+        allItemsSlots.Add(itemSlotFour);
+        allItemsSlots.Add(itemSlotFive);
+        allItemsSlots.Add(itemSlotSix);
+        allItemsSlots.Add(itemSlotSeven);
+        allItemsSlots.Add(itemSlotEight);
     }
 
     public void EnableShopScreenView()
@@ -47,53 +56,91 @@ public class ShopScreenManager : MonoBehaviour
         PopulateArtifactSlots();
     }
 
+
+    public List<ItemDataSO> GetAllOtherItemSlots(ItemDataSO itemToExclude)
+    {
+        List<ItemDataSO> allOtherItems = new List<ItemDataSO>();
+        allOtherItems.AddRange(itemsInShopData);
+        if (allOtherItems.Contains(itemToExclude))
+        {
+            allOtherItems.Remove(itemToExclude);
+        }
+        
+        return allOtherItems;
+    }
+
+    public bool IsItemAlreadyInShop(ItemSlot slotToCheck)
+    {
+        bool alreadyInShop = false;
+        ItemDataSO itemChecked = slotToCheck.myItemCard.myItemDataSO;
+
+        foreach(ItemSlot slot in allItemsSlots)
+        {
+            if(slot.myItemCard.myItemDataSO != null &&
+                slot.myItemCard.myItemDataSO.itemName == itemChecked.itemName && 
+                slot != slotToCheck)
+            {
+                alreadyInShop = true;
+                break;
+            }
+        }
+
+        return alreadyInShop;
+    }   
+    
+
+    
     public void PopulateItemSlots()
     {
         itemsInShopData = new List<ItemDataSO>();
 
-        /*
-        while(itemSlotOne.myItemCard.myItemDataSO == null || itemsInShopData.Contains(itemSlotOne.myItemCard.myItemDataSO))
+        foreach(ItemSlot slot in allItemsSlots)
         {
+            slot.myItemCard.myItemDataSO = null;
+        }
+        
+        while(itemSlotOne.myItemCard.myItemDataSO == null || IsItemAlreadyInShop(itemSlotOne))
+        {            
             itemSlotOne.SetUpItemSlot(ItemDataSO.ItemRarity.Common);
             itemsInShopData.Add(itemSlotOne.myItemCard.myItemDataSO);
         }
-        while (itemSlotTwo.myItemCard.myItemDataSO == null || itemsInShopData.Contains(itemSlotTwo.myItemCard.myItemDataSO))
+        while (itemSlotTwo.myItemCard.myItemDataSO == null || IsItemAlreadyInShop(itemSlotTwo))
         {
             itemSlotTwo.SetUpItemSlot(ItemDataSO.ItemRarity.Common);
             itemsInShopData.Add(itemSlotTwo.myItemCard.myItemDataSO);
         }
-        while (itemSlotThree.myItemCard.myItemDataSO == null || itemsInShopData.Contains(itemSlotThree.myItemCard.myItemDataSO))
+        while (itemSlotThree.myItemCard.myItemDataSO == null || IsItemAlreadyInShop(itemSlotThree))
         {
             itemSlotThree.SetUpItemSlot(ItemDataSO.ItemRarity.Common);
             itemsInShopData.Add(itemSlotThree.myItemCard.myItemDataSO);
         }
-        while (itemSlotFour.myItemCard.myItemDataSO == null || itemsInShopData.Contains(itemSlotFour.myItemCard.myItemDataSO))
+        while (itemSlotFour.myItemCard.myItemDataSO == null || IsItemAlreadyInShop(itemSlotFour))
         {
             itemSlotFour.SetUpItemSlot(ItemDataSO.ItemRarity.Common);
             itemsInShopData.Add(itemSlotFour.myItemCard.myItemDataSO);
         }
-        while (itemSlotFive.myItemCard.myItemDataSO == null || itemsInShopData.Contains(itemSlotFive.myItemCard.myItemDataSO))
+        while (itemSlotFive.myItemCard.myItemDataSO == null || IsItemAlreadyInShop(itemSlotFive))
         {
             itemSlotFive.SetUpItemSlot(ItemDataSO.ItemRarity.Common);
             itemsInShopData.Add(itemSlotFive.myItemCard.myItemDataSO);
         }
-        while (itemSlotSix.myItemCard.myItemDataSO == null || itemsInShopData.Contains(itemSlotSix.myItemCard.myItemDataSO))
+        while (itemSlotSix.myItemCard.myItemDataSO == null || IsItemAlreadyInShop(itemSlotSix))
         {
             itemSlotSix.SetUpItemSlot(ItemDataSO.ItemRarity.Rare);
             itemsInShopData.Add(itemSlotSix.myItemCard.myItemDataSO);
         }
-        while (itemSlotSeven.myItemCard.myItemDataSO == null || itemsInShopData.Contains(itemSlotSeven.myItemCard.myItemDataSO))
+        while (itemSlotSeven.myItemCard.myItemDataSO == null || IsItemAlreadyInShop(itemSlotSeven))
         {
             itemSlotSeven.SetUpItemSlot(ItemDataSO.ItemRarity.Rare);
             itemsInShopData.Add(itemSlotSeven.myItemCard.myItemDataSO);
         }
-        while (itemSlotEight.myItemCard.myItemDataSO == null || itemsInShopData.Contains(itemSlotEight.myItemCard.myItemDataSO))
+        while (itemSlotEight.myItemCard.myItemDataSO == null || IsItemAlreadyInShop(itemSlotEight))
         {
             itemSlotEight.SetUpItemSlot(ItemDataSO.ItemRarity.Epic);
             itemsInShopData.Add(itemSlotEight.myItemCard.myItemDataSO);
         }
-        */
         
+        /*
         itemSlotOne.SetUpItemSlot(ItemDataSO.ItemRarity.Common);
         itemSlotTwo.SetUpItemSlot(ItemDataSO.ItemRarity.Common);
         itemSlotThree.SetUpItemSlot(ItemDataSO.ItemRarity.Common);
@@ -102,6 +149,7 @@ public class ShopScreenManager : MonoBehaviour
         itemSlotSix.SetUpItemSlot(ItemDataSO.ItemRarity.Rare);
         itemSlotSeven.SetUpItemSlot(ItemDataSO.ItemRarity.Rare);
         itemSlotEight.SetUpItemSlot(ItemDataSO.ItemRarity.Epic);
+        */
         
     }
 

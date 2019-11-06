@@ -14,8 +14,8 @@ public static class TextLogic
         if(icon.statusName == "Strength")
         {
             icon.statusDescriptionText.text =
-                "Increases " + ReturnColoredText("Physical Damage", brown) +
-                " from abilities by " + ReturnColoredText(icon.statusStacks.ToString(), yellow);
+                "Increases " + ReturnColoredText("Physical", brown) +
+                " damage from abilities by " + ReturnColoredText(icon.statusStacks.ToString(), yellow);
         }
         else if (icon.statusName == "Dexterity")
         {
@@ -26,8 +26,8 @@ public static class TextLogic
         else if (icon.statusName == "Wisdom")
         {
             icon.statusDescriptionText.text =
-                "Increases " + ReturnColoredText("Magic Damage", blue) +
-                " from abilities by " + ReturnColoredText(icon.statusStacks.ToString(), yellow);
+                "Increases " + ReturnColoredText("Magic", blue) +
+                " damage from abilities by " + ReturnColoredText(icon.statusStacks.ToString(), yellow);
         }
         else if (icon.statusName == "Stunned")
         {
@@ -56,13 +56,7 @@ public static class TextLogic
             icon.statusDescriptionText.text =
                 "At the start of this characters activation, it gains  " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
                 + " strength";
-        }
-        else if (icon.statusName == "Growing")
-        {
-            icon.statusDescriptionText.text =
-                "At the start of this characters activation, it gains  " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
-                + " strength";
-        }
+        }        
         else if (icon.statusName == "Volatile")
         {
             icon.statusDescriptionText.text =
@@ -75,12 +69,7 @@ public static class TextLogic
                 "This character cannot be targetted by enemy abilities from further than " + ReturnColoredText("1", yellow)
                 + " tile away. Cancelled by moving off a " + ReturnColoredText("Grass", yellow) + " tile";
         }
-        else if (icon.statusName == "Camoflage")
-        {
-            icon.statusDescriptionText.text =
-                "This character cannot be targetted by enemy abilities from further than" + ReturnColoredText("1", yellow)
-                + " tile away. Cancelled by moving off a " + ReturnColoredText("Grass", yellow) + " tile";
-        }
+        
         else if (icon.statusName == "Poison")
         {
             icon.statusDescriptionText.text =
@@ -123,7 +112,7 @@ public static class TextLogic
         {
             icon.statusDescriptionText.text =
                 "Whenever this character is hit with a melee attack, it deals " +
-                ReturnColoredText(icon.statusStacks.ToString(), yellow) +
+                ReturnColoredText(icon.statusStacks.ToString(), yellow) + " " + ReturnColoredText("Physical", brown) +
                 " damage back to it's attacker";                
         }
         else if (icon.statusName == "Unhygienic")
@@ -141,33 +130,33 @@ public static class TextLogic
         else if (icon.statusName == "Regeneration")
         {
             icon.statusDescriptionText.text =
-                "At the end of this character's activation, it heals " + (icon.statusStacks.ToString(), yellow) 
+                "At the end of this character's activation, it heals " + ReturnColoredText(icon.statusStacks.ToString(), yellow) 
                 + " HP";
         }
         else if (icon.statusName == "Adaptive")
         {
             icon.statusDescriptionText.text =
-                "Whenever this character loses HP, it gains " + (icon.statusStacks.ToString(), yellow)
+                "Whenever this character loses HP, it gains " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
                 + " block";
         }
         else if (icon.statusName == "Hateful Presence")
         {
             icon.statusDescriptionText.text =
-                "At the end of this character's activation, it grants " + (icon.statusStacks.ToString(), yellow)
+                "At the end of this character's activation, it grants " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
                 + " strength to adjacent allies";
         }
         else if (icon.statusName == "Soul Drain Aura")
         {
             icon.statusDescriptionText.text =
-                "At the end of this character's activation, it steals " + (icon.statusStacks.ToString(), yellow)
+                "At the end of this character's activation, it steals " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
                 + " strength from adjacent enemies";
         }
         else if (icon.statusName == "Lightning Shield")
         {
             icon.statusDescriptionText.text =
                 "Whenever this character is hit with an attack, it deals " +
-                ReturnColoredText(icon.statusStacks.ToString(), yellow) + " " + ReturnColoredText("Magic Damage", blue) +
-                " back to it's attacker. Expires on next activation start";
+                ReturnColoredText(icon.statusStacks.ToString(), yellow) + " " + ReturnColoredText("Magic", blue) +
+                " damage back to it's attacker. Expires on next activation start";
         }
         else if (icon.statusName == "Thick Of The Fight")
         {

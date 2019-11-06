@@ -319,17 +319,20 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Whirlwind
-    public void PerformWhirlwind(LivingEntity attacker)
+    public Action PerformWhirlwind(LivingEntity attacker)
     {
-        StartCoroutine(PerformWhirlwindCoroutine(attacker));
+        Action action = new Action();
+        StartCoroutine(PerformWhirlwindCoroutine(attacker, action));
+        return action;
     }
-    public IEnumerator PerformWhirlwindCoroutine(LivingEntity attacker)
+    public IEnumerator PerformWhirlwindCoroutine(LivingEntity attacker, Action action)
     {
         Ability whirlwind = attacker.mySpellBook.GetAbilityByName("Whirlwind");
         OnAbilityUsed(whirlwind, attacker);
         CombatLogic.Instance.CreateAoEAttackEvent(attacker, whirlwind, attacker.TileCurrentlyOn, 1, true, true);
+        yield return new WaitForSeconds(1f);
+        action.actionResolved = true;
         
-        yield return null;
     }
 
     // Guard
@@ -774,11 +777,13 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Doom
-    public void PerformDoom(LivingEntity caster)
+    public Action PerformDoom(LivingEntity caster)
     {
-        StartCoroutine(PerformDoomCoroutine(caster));
+        Action action = new Action();
+        StartCoroutine(PerformDoomCoroutine(caster, action));
+        return action;
     }
-    public IEnumerator PerformDoomCoroutine(LivingEntity caster)
+    public IEnumerator PerformDoomCoroutine(LivingEntity caster, Action action)
     {
         Ability doom = caster.mySpellBook.GetAbilityByName("Doom");
         OnAbilityUsed(doom, caster);
@@ -789,18 +794,18 @@ public class AbilityLogic : MonoBehaviour
                 entity.ModifyCurrentEnergy(-1);
             }
         }
-
-        
-
-        yield return null;
+        yield return new WaitForSeconds(1f);
+        action.actionResolved = true;
     }
 
     // Crushing Blow
-    public void PerformCrushingBlow(LivingEntity caster, LivingEntity target)
+    public Action PerformCrushingBlow(LivingEntity caster, LivingEntity target)
     {
-        StartCoroutine(PerformCrushingBlowCoroutine(caster, target));
+        Action action = new Action();
+        StartCoroutine(PerformCrushingBlowCoroutine(caster, target, action));
+        return action;
     }
-    public IEnumerator PerformCrushingBlowCoroutine(LivingEntity attacker, LivingEntity victim)
+    public IEnumerator PerformCrushingBlowCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
     {
         Ability crushingBlow = attacker.mySpellBook.GetAbilityByName("Crushing Blow");
         OnAbilityUsed(crushingBlow, attacker);
@@ -808,12 +813,11 @@ public class AbilityLogic : MonoBehaviour
 
         Action abilityAction = CombatLogic.Instance.HandleDamage(crushingBlow.abilityPrimaryValue, attacker, victim, false, crushingBlow.abilityAttackType, crushingBlow.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-
+        
         victim.ApplyStunned();
 
-        
+        action.actionResolved = true;
 
-        yield return null;
     }
 
     // Summon Undead

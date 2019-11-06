@@ -34,6 +34,7 @@ public class RewardScreen : MonoBehaviour
 
     public void CreateGoldRewardButton()
     {
+        Debug.Log("CreateGoldRewardButton() called...");
         currentGoldRewardButton = Instantiate(PrefabHolder.Instance.GoldRewardButton, RewardButtonParent.transform);
         GoldRewardButton gwrButton = currentGoldRewardButton.GetComponent<GoldRewardButton>();
         gwrButton.InitializeSetup();
@@ -41,13 +42,15 @@ public class RewardScreen : MonoBehaviour
 
     public void CreateArtifactRewardButton()
     {
+        Debug.Log("CreateArtifactRewardButton() called...");
         currentArtifactRewardButton = Instantiate(PrefabHolder.Instance.ArtifactRewardButton, RewardButtonParent.transform);
         ArtifactRewardButton arButton = currentArtifactRewardButton.GetComponent<ArtifactRewardButton>();
-        arButton.InitializeSetup();        
+        arButton.InitializeSetup();         
     }
 
     public void CreateItemRewardButton()
     {
+        Debug.Log("CreateItemRewardButton() called...");
         currentItemRewardButton = Instantiate(PrefabHolder.Instance.ItemRewardButton, RewardButtonParent.transform);
     }
 

@@ -39,7 +39,8 @@ public class SkeletonKing : Enemy
         {            
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Doom", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformDoom(this);
+            Action doomAction = AbilityLogic.Instance.PerformDoom(this);
+            yield return new WaitUntil(() => doomAction.ActionResolved() == true);
             // brief delay between actions
             yield return new WaitForSeconds(1f);
             goto ActionStart;
@@ -54,7 +55,8 @@ public class SkeletonKing : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Crushing Blow", false));
             yield return new WaitForSeconds(0.6f);
 
-            AbilityLogic.Instance.PerformCrushingBlow(this, GetClosestDefender());            
+            Action cbAction = AbilityLogic.Instance.PerformCrushingBlow(this, GetClosestDefender());
+            yield return new WaitUntil(() => cbAction.ActionResolved() == true);
             // brief delay between actions
             yield return new WaitForSeconds(1f);
             goto ActionStart;
@@ -89,7 +91,8 @@ public class SkeletonKing : Enemy
         {            
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Whirlwind", false));
             yield return new WaitForSeconds(1f);
-            AbilityLogic.Instance.PerformWhirlwind(this);
+            Action whirlwindAction = AbilityLogic.Instance.PerformWhirlwind(this);
+            yield return new WaitUntil(() => whirlwindAction.ActionResolved() == true);
 
             // brief delay between actions
             yield return new WaitForSeconds(1f);
@@ -102,7 +105,8 @@ public class SkeletonKing : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);
 
-            AbilityLogic.Instance.PerformStrike(this, GetClosestDefender());
+            Action strikeAction = AbilityLogic.Instance.PerformStrike(this, GetClosestDefender());
+            yield return new WaitUntil(() => strikeAction.ActionResolved() == true);
             // brief delay between actions
             yield return new WaitForSeconds(1f);
             goto ActionStart;

@@ -23,7 +23,7 @@ public class EventManager : Singleton<EventManager>
         WorldMap.Instance.UnHighlightAllHexagons();
 
         // fade out view, wait until completed
-        Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 8, 1, true);
+        Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
 
         // Destroy the previous level and tiles + reset values/properties
@@ -43,7 +43,7 @@ public class EventManager : Singleton<EventManager>
         currentEncounterType = WorldEncounter.EncounterType.BasicEnemy;
 
         // Fade scene back in, wait until completed
-        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 8, 0, false);
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
 
         // Start activations / combat start events
@@ -52,33 +52,62 @@ public class EventManager : Singleton<EventManager>
         // declare this event complete
         action.actionResolved = true;
     }
-    public void StartNewEliteEncounterEvent()
+    public Action StartNewEliteEncounterEvent()
+    {
+        Action action = new Action();
+        StartCoroutine(StartNewEliteEncounterEventCoroutine(action));
+        return action;
+    }
+
+    public IEnumerator StartNewEliteEncounterEventCoroutine(Action action)
     {
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldMap.Instance.canSelectNewEncounter = false;
+
         // turn off hexagon highlights
         WorldMap.Instance.UnHighlightAllHexagons();
+
+        // fade out view, wait until completed
+        Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
+        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
+
         // Destroy the previous level and tiles + reset values/properties
         ClearPreviousEncounter();
+
         // Create a new level
         LevelManager.Instance.CreateLevel();
-        //EnemySpawner.Instance.PopulateEnemySpawnLocations();
+
+        // Create defender GO's        
         CharacterRoster.Instance.InstantiateDefenders();
-        //DefenderManager.Instance.PlaceDefendersAtStartingLocations();
+
         // Instantiate enemies
         EnemySpawner.Instance.SpawnEnemyWave("Elite");
-        // reset turn manager properties
-        TurnManager.Instance.ResetTurnManagerPropertiesOnCombatStart();
-        // start player turn 1
-        StartCoroutine(TurnManager.Instance.StartPlayerTurn());
+
         // disable world map view
         UIManager.Instance.DisableWorldMapView();
         currentEncounterType = WorldEncounter.EncounterType.EliteEnemy;
+
+        // Fade scene back in, wait until completed
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+
+        // Start activations / combat start events
+        ActivationManager.Instance.OnNewCombatEventStarted();
+
+        // declare this event complete
+        action.actionResolved = true;
     }
     public void StartNewRestSiteEncounterEvent()
     {
+        StartCoroutine(StartNewRestSiteEncounterEventCoroutine());
+    }
+    public IEnumerator StartNewRestSiteEncounterEventCoroutine()
+    {
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldMap.Instance.canSelectNewEncounter = false;
+        // fade out view, wait until completed
+        Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
+        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
         // turn off hexagon highlights
         WorldMap.Instance.UnHighlightAllHexagons();
         // Destroy the previous level and tiles + reset values/properties
@@ -89,11 +118,22 @@ public class EventManager : Singleton<EventManager>
         UIManager.Instance.DisableInventoryView();
         UIManager.Instance.DisableWorldMapView();
         CampSiteManager.Instance.ResetEventProperties();
+        // Fade scene back in, wait until completed
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
     }
     public void StartShopEncounterEvent()
     {
+        StartCoroutine(StartShopEncounterEventCoroutine());
+    }
+
+    public IEnumerator StartShopEncounterEventCoroutine()
+    {
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldMap.Instance.canSelectNewEncounter = true;
+        // fade out view, wait until completed
+        Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
+        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
         // turn off hexagon highlights
         WorldMap.Instance.UnHighlightAllHexagons();
         // Destroy the previous level and tiles + reset values/properties
@@ -104,6 +144,9 @@ public class EventManager : Singleton<EventManager>
         UIManager.Instance.DisableCharacterRosterView();
         UIManager.Instance.DisableInventoryView();
         UIManager.Instance.DisableWorldMapView();
+        // Fade scene back in, wait until completed
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
         //CampSiteManager.Instance.ResetEventProperties();
     }
     public void StartNewTreasureRoomEncounterEvent()
@@ -134,15 +177,14 @@ public class EventManager : Singleton<EventManager>
         preLootScreenEventFinished = false;
         // Disable end turn button
         UIManager.Instance.DisableEndTurnButton();
-        // Show xp rewards + level ups
-        StartCoroutine(StartPreLootScreenVisualEvent(20));
-        //yield return new WaitForSeconds(3f);
-        yield return new WaitUntil(() => PreLootScreenEventFinished() == true);
-        // Give characters xp
-        CharacterRoster.Instance.RewardAllCharactersXP(20);
         // Unselect defender to hide ability bar UI, prevent null behaviors
         DefenderManager.Instance.ClearSelectedDefender();
         // Hide ability info panel
+        // Show xp rewards + level ups
+        Action lootEvent = StartPreLootScreenVisualEvent(20);
+        yield return new WaitUntil(() => lootEvent.ActionResolved() == true);
+        // Give characters xp
+        CharacterRoster.Instance.RewardAllCharactersXP(20);      
         SpellInfoBox.Instance.HideInfoBox();       
         // re enable world map + get next viable enocunter hexagon tiles
         WorldMap.Instance.SetWorldMapReadyState();
@@ -151,7 +193,45 @@ public class EventManager : Singleton<EventManager>
         yield return null;
     }
 
-    public IEnumerator StartPreLootScreenVisualEvent(int xpReward)
+    public Action StartNewEndEliteEncounterEvent()
+    {
+        Action action = new Action();
+        StartCoroutine(StartNewEndEliteEncounterEventCoroutine(action));
+        return action;
+    }
+
+    public IEnumerator StartNewEndEliteEncounterEventCoroutine(Action action)
+    {
+        Debug.Log("StartNewEndEliteEncounterEvent() coroutine started...");
+        // Show combat end visual events before loot reward screen appears
+        preLootScreenEventFinished = false;
+        // Disable end turn button
+        UIManager.Instance.DisableEndTurnButton();
+        // Unselect defender to hide ability bar UI, prevent null behaviors
+        DefenderManager.Instance.ClearSelectedDefender();
+        // Hide ability info panel
+        // Show xp rewards + level ups
+        Action lootEvent = StartPreLootScreenVisualEvent(50);
+        yield return new WaitUntil(() => lootEvent.ActionResolved() == true);
+        // Give characters xp
+        CharacterRoster.Instance.RewardAllCharactersXP(50);
+        SpellInfoBox.Instance.HideInfoBox();
+        // re enable world map + get next viable enocunter hexagon tiles
+        WorldMap.Instance.SetWorldMapReadyState();
+        // Start loot creation/display process
+        StartNewLootRewardEvent(false);        
+        action.actionResolved = true;
+        
+    }
+
+    public Action StartPreLootScreenVisualEvent(int xpReward)
+    {
+        Action action = new Action();
+        StartCoroutine(StartPreLootScreenVisualEventCoroutine(xpReward, action));
+        return action;
+    }
+
+    public IEnumerator StartPreLootScreenVisualEventCoroutine(int xpReward, Action action)
     {
         Debug.Log("StartPreLootScreenVisualEvent() coroutine started...");
         preLootScreenEventFinished = false;
@@ -188,7 +268,7 @@ public class EventManager : Singleton<EventManager>
         }
         yield return new WaitForSeconds(1f);
 
-        preLootScreenEventFinished = true;
+        action.actionResolved = true;
     }
 
     public bool preLootScreenEventFinished;
@@ -205,22 +285,7 @@ public class EventManager : Singleton<EventManager>
         }
     }
 
-    public IEnumerator StartNewEndEliteEncounterEvent()
-    {
-        // Show combat end visual events before loot reward screen appears
-        StartCoroutine(StartPreLootScreenVisualEvent(50));
-        yield return new WaitUntil(() => PreLootScreenEventFinished() == true);
-        // Give characters xp
-        CharacterRoster.Instance.RewardAllCharactersXP(50);
-        // Unselect defender to hide ability bar UI, prevent null behaviors
-        DefenderManager.Instance.ClearSelectedDefender();
-        // Hide ability info panel
-        SpellInfoBox.Instance.HideInfoBox();
-        // re enable world map + get next viable enocunter hexagon tiles
-        WorldMap.Instance.SetWorldMapReadyState();
-        // Start loot creation/display process
-        StartNewLootRewardEvent(false);
-    }
+    
 
     public void StartNewMysteryEncounterEvent()
     {
@@ -267,7 +332,7 @@ public class EventManager : Singleton<EventManager>
     {
         Debug.Log("StartNewLootRewardEvent() called...");
 
-        if (basicEnemy)
+        if (basicEnemy == true)
         {
             //BlackScreenManager.Instance.FadeOut(5, .5f,true);
             UIManager.Instance.EnableRewardScreenView();
@@ -275,7 +340,7 @@ public class EventManager : Singleton<EventManager>
             RewardScreen.Instance.CreateItemRewardButton();            
             RewardScreen.Instance.PopulateItemScreen();
         }
-        else
+        else if(basicEnemy == false)
         {
             //BlackScreenManager.Instance.FadeOut(5, .5f);
             UIManager.Instance.EnableRewardScreenView();

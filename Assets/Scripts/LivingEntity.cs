@@ -710,7 +710,7 @@ public class LivingEntity : MonoBehaviour
 
         if (myPassiveManager.Volatile)
         {
-            CombatLogic.Instance.CreateAoEAttackEvent(this, myPassiveManager.volatileStacks, TileCurrentlyOn, 1, true, true,AbilityDataSO.DamageType.None);
+            CombatLogic.Instance.CreateAoEAttackEvent(this, myPassiveManager.volatileStacks, TileCurrentlyOn, 1, true, true,AbilityDataSO.DamageType.Physical);
         }
 
         // Check if the player has lost all characters and thus the game
@@ -735,7 +735,7 @@ public class LivingEntity : MonoBehaviour
                 // End combat event, loot screen etc
                 if(EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.EliteEnemy)
                 {
-                    StartCoroutine(EventManager.Instance.StartNewEndEliteEncounterEvent());
+                    EventManager.Instance.StartNewEndEliteEncounterEvent();
                 }
                 else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.BasicEnemy)
                 {
@@ -1023,7 +1023,7 @@ public class LivingEntity : MonoBehaviour
 
         if (myPassiveManager.SoulDrainAura)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Soul Drain Aura", false, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Soul Drain Aura", false));
             yield return new WaitForSeconds(0.5f);
 
             if (enemy)
@@ -1303,7 +1303,7 @@ public class LivingEntity : MonoBehaviour
         myCurrentMaxHealthText.text = newMaxHealthValue.ToString();
         if (defender)
         {
-            defender.myCurrentMaxHealthTextStatBar.text = currentHealth.ToString();
+            defender.myCurrentMaxHealthTextStatBar.text = currentMaxHealth.ToString();
         }
     }
 

@@ -130,14 +130,28 @@ public class WorldEncounter : MonoBehaviour
             encounter.myEncounterType = EncounterType.BasicEnemy;
             return;
         }
-
+        if (WorldMap.Instance.OnlySpawnCampSiteEncounters)
+        {
+            encounter.myEncounterType = EncounterType.CampSite;
+            return;
+        }
+        if (WorldMap.Instance.OnlySpawnShopEncounters)
+        {
+            encounter.myEncounterType = EncounterType.Shop;
+            return;
+        }
+        if (WorldMap.Instance.OnlySpawnEliteEncounters)
+        {
+            encounter.myEncounterType = EncounterType.EliteEnemy;
+            return;
+        }
         // prevent randomizing the home hexagon location
-        if(myEncounterType == EncounterType.Home)
+        if (myEncounterType == EncounterType.Home)
         {
             return;
         }
 
-        if (randomNumber >= 1 && randomNumber <= 75)
+        if (randomNumber >= 1 && randomNumber <= 65)
         {
             int randomNumber2 = Random.Range(1, 101);
 
@@ -147,12 +161,126 @@ public class WorldEncounter : MonoBehaviour
             }
             else
             {
-                encounter.myEncounterType = EncounterType.Mystery;
+                //encounter.myEncounterType = EncounterType.Mystery;
+                encounter.myEncounterType = EncounterType.BasicEnemy;
             }
         }
 
-        else 
+        // Try create camp site or shop, else basic enemy
+        else if (randomNumber > 65 && randomNumber <= 100)
         {
+            int randomNumber3 = Random.Range(1, 101);
+
+            // camp site
+            if(randomNumber3 < 33)
+            {
+                bool validPlaceForCampSite = true;
+                if (encounter.column > 2)
+                {
+                    // Prevent rest sites from spawning consecutively                
+                    foreach (WorldEncounter enc in WorldMap.Instance.allWorldEncounters)
+                    {
+                        if (
+                            ((enc.column == column - 1) || (enc.column == column + 1)) &&
+                            enc.myEncounterType == EncounterType.CampSite
+                            )
+                        {
+                            //encounter.myEncounterType = EncounterType.BasicEnemy;
+                            validPlaceForCampSite = false;
+                            break;
+                        }
+                    }
+                    if (validPlaceForCampSite)
+                    {
+                        encounter.myEncounterType = EncounterType.CampSite;
+                    }
+                    else
+                    {
+                        encounter.myEncounterType = EncounterType.BasicEnemy;
+                    }
+
+
+                }
+
+                else
+                {
+                    encounter.myEncounterType = EncounterType.BasicEnemy;
+                }
+            }
+
+            // Shop
+            else if (randomNumber3 >= 33 && randomNumber3 < 66)
+            {
+                bool validPlaceForShopSite = true;
+                if (encounter.column > 2)
+                {
+                    // Prevent shops from spawning consecutively                
+                    foreach (WorldEncounter enc in WorldMap.Instance.allWorldEncounters)
+                    {
+                        if (
+                            ((enc.column == column - 1) || (enc.column == column + 1)) &&
+                            enc.myEncounterType == EncounterType.Shop
+                            )
+                        {                            
+                            validPlaceForShopSite = false;
+                            break;
+                        }
+                    }
+                    if (validPlaceForShopSite)
+                    {
+                        encounter.myEncounterType = EncounterType.Shop;
+                    }
+                    else
+                    {
+                        encounter.myEncounterType = EncounterType.BasicEnemy;
+                    }
+
+
+                }
+
+                else
+                {
+                    encounter.myEncounterType = EncounterType.BasicEnemy;
+                }
+            }
+
+            // Elite
+            else if (randomNumber3 >= 66)
+            {
+                bool validPlaceForEliteSite = true;
+                if (encounter.column > 2)
+                {
+                    // Prevent shops from spawning consecutively                
+                    foreach (WorldEncounter enc in WorldMap.Instance.allWorldEncounters)
+                    {
+                        if (
+                            ((enc.column == column - 1) || (enc.column == column + 1)) &&
+                            enc.myEncounterType == EncounterType.EliteEnemy
+                            )
+                        {
+                            validPlaceForEliteSite = false;
+                            break;
+                        }
+                    }
+                    if (validPlaceForEliteSite)
+                    {
+                        encounter.myEncounterType = EncounterType.EliteEnemy;
+                    }
+                    else
+                    {
+                        encounter.myEncounterType = EncounterType.BasicEnemy;
+                    }
+
+
+                }
+
+                else
+                {
+                    encounter.myEncounterType = EncounterType.BasicEnemy;
+                }
+            }
+
+            /*
             int randomNumber3 = Random.Range(1, 101);
 
             if (randomNumber3 >= 1 && randomNumber3 <= 25)
@@ -171,6 +299,7 @@ public class WorldEncounter : MonoBehaviour
             {
                 encounter.myEncounterType = EncounterType.Treasure;
             }
+            */
         }
 
 

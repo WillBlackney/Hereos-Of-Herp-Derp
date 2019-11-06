@@ -166,11 +166,7 @@ public class CombatLogic : MonoBehaviour
 
         int totalLifeLost = victim.currentHealth - healthAfter;
 
-        // Life steal
-        if (attacker.myPassiveManager.LifeSteal && totalLifeLost > 0)
-        {
-            attacker.ModifyCurrentHealth(totalLifeLost);
-        }
+        
 
         victim.currentHealth = healthAfter;
         victim.SetCurrentBlock(blockAfter);
@@ -189,8 +185,13 @@ public class CombatLogic : MonoBehaviour
             victim.defender.myCharacterData.SetCurrentHealth(victim.currentHealth);
         }
 
+        // Life steal
+        if (attacker.myPassiveManager.LifeSteal && totalLifeLost > 0)
+        {
+            attacker.ModifyCurrentHealth(totalLifeLost);
+        }
         // Poisonous trait
-        if (attacker.myPassiveManager.Poisonous && healthAfter < victim.currentHealth && attackType == AbilityDataSO.AttackType.Melee)
+        if (attacker.myPassiveManager.Poisonous && totalLifeLost > 0 && attackType == AbilityDataSO.AttackType.Melee)
         {           
             victim.ModifyPoison(attacker.myPassiveManager.poisonousStacks);
             yield return new WaitForSeconds(0.3f);
@@ -227,7 +228,7 @@ public class CombatLogic : MonoBehaviour
             if(attackType == AbilityDataSO.AttackType.Melee)
             {
                 Debug.Log("Victim has thorns and was struck by a melee attack, returning damage...");
-                Action thornsDamage = HandleDamage(CalculateDamage(victim.myPassiveManager.thornsStacks, attacker, victim, AbilityDataSO.DamageType.None), victim, attacker);                
+                Action thornsDamage = HandleDamage(CalculateDamage(victim.myPassiveManager.thornsStacks, attacker, victim, AbilityDataSO.DamageType.Physical), victim, attacker);                
             }                      
         }
 
@@ -249,6 +250,9 @@ public class CombatLogic : MonoBehaviour
         if (victim.currentHealth <= 0 && victim.inDeathProcess == false)
         {
             victim.inDeathProcess = true;
+            // prevent enemy scripts from continuing their activations when killed mid activation
+            // from stuff like free strikes
+            victim.StopAllCoroutines();
             StartCoroutine(victim.HandleDeath());
         }
 

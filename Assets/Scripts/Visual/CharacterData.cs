@@ -591,6 +591,18 @@ public class CharacterData : MonoBehaviour
             CampSiteManager.Instance.playerHasMadeChoice = true;
             CampSiteManager.Instance.awaitingLevelUpChoice = false;
         }
+        else if(CampSiteManager.Instance.awaitingHealChoice == true)
+        {
+            // heal 50%
+            ModifyCurrentHealth(MaxHealth / 2);
+
+
+            UIManager.Instance.DisableCharacterRosterView();
+            CampSiteManager.Instance.DisableAllButtonViews();
+            CampSiteManager.Instance.EnableContinueButtonView();
+            CampSiteManager.Instance.playerHasMadeChoice = true;
+            CampSiteManager.Instance.awaitingHealChoice = false;
+        }
         else
         {
             EnableFrontPage();

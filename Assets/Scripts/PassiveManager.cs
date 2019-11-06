@@ -231,7 +231,7 @@ public class PassiveManager : MonoBehaviour
         StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Soul Drain Aura");
         SoulDrainAura = true;
         soulDrainAuraStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Soul Drain Aura"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
 
     public void LearnLightningShield(int stacks)

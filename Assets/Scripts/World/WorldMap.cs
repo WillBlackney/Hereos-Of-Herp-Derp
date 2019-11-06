@@ -13,6 +13,9 @@ public class WorldMap : Singleton<WorldMap>
 
     [Header("Testing + Debugging Properties")]
     public bool OnlySpawnBasicEncounters;
+    public bool OnlySpawnCampSiteEncounters;
+    public bool OnlySpawnShopEncounters;
+    public bool OnlySpawnEliteEncounters;
 
     private void Start()
     {

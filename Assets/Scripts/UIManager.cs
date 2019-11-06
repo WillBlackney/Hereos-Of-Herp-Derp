@@ -34,6 +34,9 @@ public class UIManager : Singleton<UIManager>
     public void OnCharacterPanelBackButtonClicked()
     {
         CharacterRoster.SetActive(false);
+        // prevent player bugging camp site and getting double choices
+        CampSiteManager.Instance.awaitingHealChoice = false;
+        CampSiteManager.Instance.awaitingLevelUpChoice = false;
     }
 
     public void OnCharacterPanelButtonClicked()

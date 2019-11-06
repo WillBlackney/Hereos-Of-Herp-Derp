@@ -382,8 +382,8 @@ MonoBehaviour:
   defender: {fileID: 0}
   enemy: {fileID: 0}
   baseMobility: 1
-  baseMaxHealth: 130
-  baseStartingHealth: 130
+  baseMaxHealth: 100
+  baseStartingHealth: 1
   baseEnergy: 6
   baseStartingAP: 0
   baseMaxAP: 6
@@ -391,7 +391,7 @@ MonoBehaviour:
   baseStrength: 0
   baseWisdom: 0
   baseDexterity: 0
-  baseInitiative: 0
+  baseInitiative: 3
   baseStartingBlock: 0
   currentMobility: 0
   currentMaxHealth: 0
@@ -418,6 +418,7 @@ MonoBehaviour:
   currentInitiativeRoll: 0
   moveActionsTakenThisTurn: 0
   timesAttackedThisTurn: 0
+  inDeathProcess: 0
   TileCurrentlyOn: {fileID: 0}
   myCurrentTarget: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}

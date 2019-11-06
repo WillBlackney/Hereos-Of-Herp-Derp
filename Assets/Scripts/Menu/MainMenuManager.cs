@@ -7,7 +7,8 @@ public class MainMenuManager : Singleton<MainMenuManager>
 {
 
     public GameObject HeroSelectionScreen;
-    public List<string> characterClassNames;    
+    public List<string> characterClassNames;
+    public bool startGameEventTriggered;
 
     public void OnNewGameButtonClicked()
     {
@@ -21,7 +22,12 @@ public class MainMenuManager : Singleton<MainMenuManager>
 
     public void OnStartGameButtonClicked()
     {
-        StartCoroutine(OnStartGameButtonClickedCoroutine());
+        if(startGameEventTriggered == false)
+        {
+            startGameEventTriggered = true;
+            StartCoroutine(OnStartGameButtonClickedCoroutine());
+        }
+        
     }
 
     public IEnumerator OnStartGameButtonClickedCoroutine()

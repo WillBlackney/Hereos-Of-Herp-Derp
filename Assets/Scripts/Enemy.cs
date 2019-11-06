@@ -403,18 +403,21 @@ public class Enemy : LivingEntity
         }
     }
     
-    // Events and activation
+    // Events and activation    
 
-    public override IEnumerator OnActivationStart()
+    public Action EndMyActivation()
     {
-        StartCoroutine(base.OnActivationStart());
-        //currentlyActivated = true;
-        yield return null;
+        Action action = new Action();
+        StartCoroutine(EndMyActivationCoroutine(action));
+        return action;
+        
     }
 
-    public void EndMyActivation()
+    public IEnumerator EndMyActivationCoroutine(Action action)
     {
-        //currentlyActivated = false;
+        Action endActivation = ActivationManager.Instance.EndEntityActivation(this);
+        yield return new WaitUntil(() => endActivation.ActionResolved() == true);
+        action.actionResolved = true;
         ActivationManager.Instance.ActivateNextEntity();
     }
 

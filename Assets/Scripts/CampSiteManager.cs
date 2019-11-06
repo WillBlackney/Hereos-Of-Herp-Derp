@@ -19,6 +19,7 @@ public class CampSiteManager : MonoBehaviour
     [Header("Properties")]
     public bool playerHasMadeChoice;
     public bool awaitingLevelUpChoice;
+    public bool awaitingHealChoice;
 
     private void Awake()
     {
@@ -27,10 +28,18 @@ public class CampSiteManager : MonoBehaviour
 
     public void OnRestButtonClicked()
     {
-        Debug.Log("OnRestButtonClicked() called...");
+        Debug.Log("OnRestButtonClicked() called...");        
+        UIManager.Instance.EnableCharacterRosterView();
+        UIManager.Instance.DisableInventoryView();
+        UIManager.Instance.DisableWorldMapView();
+        // Disable world map and inventory view just incase
 
-        if(playerHasMadeChoice == false)
+        awaitingHealChoice = true;
+
+        /*
+        if (playerHasMadeChoice == false)
         {
+            
             foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
             {
                 // heal 50% of max hp
@@ -47,12 +56,16 @@ public class CampSiteManager : MonoBehaviour
                 }
                 
             }
+            
         }
+        */
 
+        /*
         DisableAllButtonViews();
         EnableContinueButtonView();
         playerHasMadeChoice = true;
         awaitingLevelUpChoice = false;
+        */
     }    
 
     
@@ -64,7 +77,6 @@ public class CampSiteManager : MonoBehaviour
         UIManager.Instance.DisableWorldMapView();
         // Disable world map and inventory view just incase
 
-        //CharacterRoster.Instance.CharacterRosterVisualParent.SetActive(true);
         awaitingLevelUpChoice = true;
 
     }
