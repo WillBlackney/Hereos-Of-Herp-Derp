@@ -71,11 +71,12 @@ public class CharacterData : MonoBehaviour
     public int adaptiveStacks;
     public int hatefulPresenceStacks;
     public int thickOfTheFightStacks;
-    public bool stealth;
+    public bool Stealth;
     public bool camoflage;
     public bool poisonImmunity;
     public int trueSightStacks;
-    public int startingIntiativeBonus;    
+    public int startingIntiativeBonus;
+    public bool venomous;
 
     [Header("Known Abilities")]
     public bool KnowsMove;
@@ -118,6 +119,10 @@ public class CharacterData : MonoBehaviour
     public bool KnowsBless;
     public bool KnowsSiphonLife;
     public bool KnowsChaosBolt;
+
+    [Header("Known Talents")]
+    public bool KnowsImprovedPreparation;
+    public bool KnowsImprovedDash;
 
     public void InitializeSetup(string characterClass)
     {

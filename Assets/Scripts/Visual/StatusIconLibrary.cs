@@ -53,6 +53,7 @@ public class StatusIconLibrary : MonoBehaviour
         CreateFlankedIconData();
         CreateTrueSightIconData();
         CreateLifeStealIconData();
+        CreateVenomousIconData();
     }
 
     public StatusIcon GetStatusIconByName(string name)
@@ -448,6 +449,15 @@ public class StatusIconLibrary : MonoBehaviour
         lifeSteal.statusStacks = lifeStealStatusStacks;
         allIcons.Add(lifeSteal);
     }
+    public void CreateVenomousIconData()
+    {
+        StatusIcon venomous = gameObject.AddComponent<StatusIcon>();
+        venomous.statusSprite = venomousImage;
+        venomous.statusName = venomousStatusName;
+        venomous.statusDescription = venomousStatusDescription;
+        venomous.statusStacks = venomousStatusStacks;
+        allIcons.Add(venomous);
+    }
 
 
     [Header("Knockdown Icon Data")]
@@ -683,5 +693,11 @@ public class StatusIconLibrary : MonoBehaviour
     public string lifeStealStatusName;
     public string lifeStealStatusDescription;
     public int lifeStealStatusStacks;
+
+    [Header("Venomous Icon Data")]
+    public Sprite venomousImage;
+    public string venomousStatusName;
+    public string venomousStatusDescription;
+    public int venomousStatusStacks;
 
 }

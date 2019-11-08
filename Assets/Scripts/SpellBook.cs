@@ -74,6 +74,19 @@ public class SpellBook : MonoBehaviour
         
     }
 
+    public void ApplyTalentModifiers()
+    {
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            foreach(Ability ability in myActiveAbilities)
+            {
+                // apply reductions to abilities AP/cd/range based on talents
+            }
+        }
+    }
+
     public Ability GetAbilityByName(string abilityName)
     {
         Ability ability = null;

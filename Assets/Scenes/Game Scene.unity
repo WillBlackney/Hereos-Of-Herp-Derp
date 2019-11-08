@@ -1468,6 +1468,54 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!1 &371721919
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 371721920}
+  - component: {fileID: 371721921}
+  m_Layer: 0
+  m_Name: Talent Library
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &371721920
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371721919}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1625363281}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &371721921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371721919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 303d21c4f70dd4d4fa361de3af768bf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allTalents:
+  - {fileID: 11400000, guid: 29d9b1f476c561f419c943b0860ab99f, type: 2}
+  - {fileID: 11400000, guid: cc0244d0ec74c7b4aab22a4ed41cf549, type: 2}
+  - {fileID: 11400000, guid: 228766fe18c7ffd488b3044f95b42b89, type: 2}
+  - {fileID: 11400000, guid: 5fe9f71b9f9aa184dae915ba5185d036, type: 2}
 --- !u!1 &414589519
 GameObject:
   m_ObjectHideFlags: 0
@@ -1791,7 +1839,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.965528, y: -5.2429895, z: 0}
+  m_LocalPosition: {x: 0.9584398, y: -5.2430882, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 237190439}
@@ -5066,20 +5114,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allArtifacts:
   - {fileID: 11400000, guid: b63acaf350fbdb4478dda5f6feb350aa, type: 2}
+  - {fileID: 11400000, guid: 5d50505e7288076429e5141714d455f2, type: 2}
   - {fileID: 11400000, guid: 07b33aa0b9abaed4e8e1bbb277382119, type: 2}
+  - {fileID: 11400000, guid: 131e69b798df9b8469a9bc67b7d42450, type: 2}
+  - {fileID: 11400000, guid: cd99c6f190988d84eaa4582c8ad52d0d, type: 2}
   - {fileID: 11400000, guid: f1ae9724588b00f469c7c6b90646f145, type: 2}
   - {fileID: 11400000, guid: ebbd28e9a171e784fab362630dcebb21, type: 2}
   - {fileID: 11400000, guid: ac435e7a98fb38e40b6339a4040ad4e3, type: 2}
   - {fileID: 11400000, guid: 9c47862db862a804d9b7202345c407e6, type: 2}
-  - {fileID: 11400000, guid: db90dc01bc8b0f644b7196fd12fff157, type: 2}
+  - {fileID: 11400000, guid: 976a99b4f97f51d478d62a8389651071, type: 2}
   - {fileID: 11400000, guid: 93e01cb170151a14095af681d4f7e5e8, type: 2}
   - {fileID: 11400000, guid: c3bf529240a0a8041b3f2ba2ade378bd, type: 2}
   - {fileID: 11400000, guid: be75ea272c6a2924f980004b9bede8ae, type: 2}
   - {fileID: 11400000, guid: 1cae6c3581d12d243b4b566ffc90b3c7, type: 2}
+  - {fileID: 11400000, guid: 44cfc287c4c747442ae0bc2939aaf910, type: 2}
   - {fileID: 11400000, guid: 166fe703107256e48ad4ce7d6fb35021, type: 2}
-  - {fileID: 11400000, guid: 7dd82aabc1b54514cbcac4e34190a080, type: 2}
   - {fileID: 11400000, guid: e5b6655f8163c414ca0487dc5ad33fc9, type: 2}
   - {fileID: 11400000, guid: 82c4debfdd31faf449d77ab2c03fa9e7, type: 2}
+  - {fileID: 11400000, guid: 1ec9733bf23ce4d4ab62d3e4931e613f, type: 2}
   stinkyPooArtifact: {fileID: 11400000, guid: 0b2076149572a704da4505c9396b49ac, type: 2}
 --- !u!1 &1302571732
 GameObject:
@@ -6320,6 +6372,10 @@ MonoBehaviour:
   lifeStealStatusDescription: Whenever this character reduces health with a melee
     attack, it heals for that amount
   lifeStealStatusStacks: 0
+  venomousImage: {fileID: 21300000, guid: 79aa1920d77c75f4996707c51ff6244b, type: 3}
+  venomousStatusName: Venomous
+  venomousStatusDescription: Whenever you apply poison, apply 1 extra stack
+  venomousStatusStacks: 0
 --- !u!4 &1508365663
 Transform:
   m_ObjectHideFlags: 0
@@ -6639,6 +6695,7 @@ Transform:
   - {fileID: 1508365663}
   - {fileID: 821047011}
   - {fileID: 1296805395}
+  - {fileID: 371721920}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

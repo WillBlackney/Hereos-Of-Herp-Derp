@@ -642,30 +642,33 @@ public class MovementLogic : Singleton<MovementLogic>
     }
     public IEnumerator ResolveFreeStrikesCoroutine(LivingEntity characterMoved, Action action, TileScript previousLocation, TileScript newLocation)
     {
-        Debug.Log("ResolveFreeStrikesCoroutine() called....");
-        List<LivingEntity> unfriendlyEntities = new List<LivingEntity>();
-
-        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        if((characterMoved.defender && ArtifactManager.Instance.HasArtifact("Goblin Mask")) == false)
         {
-            if (CombatLogic.Instance.IsTargetFriendly(characterMoved, entity) == false)
-            {
-                unfriendlyEntities.Add(entity);
-            }
-        }
+            Debug.Log("ResolveFreeStrikesCoroutine() called....");
+            List<LivingEntity> unfriendlyEntities = new List<LivingEntity>();
 
-        foreach (LivingEntity entity in unfriendlyEntities)
-        {
-            if (PositionLogic.Instance.GetTargetsFrontArcTiles(entity).Contains(previousLocation) &&
-                PositionLogic.Instance.GetTargetsFrontArcTiles(entity).Contains(newLocation) == false &&
-                characterMoved.inDeathProcess == false)
+            foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
             {
-                Debug.Log("ResolveFreeStrikesCoroutine() detected that " + characterMoved.name + " triggered a free strike from " + entity.name);
-                characterMoved.myAnimator.enabled = false;
-                Action freeStrikeAction = AbilityLogic.Instance.PerformFreeStrike(entity, characterMoved);
-                yield return new WaitUntil(() => freeStrikeAction.ActionResolved() == true);
-                characterMoved.myAnimator.enabled = true;
+                if (CombatLogic.Instance.IsTargetFriendly(characterMoved, entity) == false)
+                {
+                    unfriendlyEntities.Add(entity);
+                }
             }
-        }
+
+            foreach (LivingEntity entity in unfriendlyEntities)
+            {
+                if (PositionLogic.Instance.GetTargetsFrontArcTiles(entity).Contains(previousLocation) &&
+                    PositionLogic.Instance.GetTargetsFrontArcTiles(entity).Contains(newLocation) == false &&
+                    characterMoved.inDeathProcess == false)
+                {
+                    Debug.Log("ResolveFreeStrikesCoroutine() detected that " + characterMoved.name + " triggered a free strike from " + entity.name);
+                    characterMoved.myAnimator.enabled = false;
+                    Action freeStrikeAction = AbilityLogic.Instance.PerformFreeStrike(entity, characterMoved);
+                    yield return new WaitUntil(() => freeStrikeAction.ActionResolved() == true);
+                    characterMoved.myAnimator.enabled = true;
+                }
+            }
+        }        
 
         action.actionResolved = true;
     }

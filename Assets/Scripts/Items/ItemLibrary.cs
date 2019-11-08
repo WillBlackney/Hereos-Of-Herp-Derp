@@ -284,7 +284,7 @@ public class ItemLibrary : MonoBehaviour
 
     public void AssignElvenCloak(CharacterData character)
     {
-        character.stealth = true;
+        character.Stealth = true;
     }
 
     public void AssignGhillieSuit(CharacterData character)

@@ -23,7 +23,17 @@ public class PlayerDataManager : Singleton<PlayerDataManager>
 
     public void ModifyGold(int goldGainedOrLost)
     {
-        currentGold += goldGainedOrLost;
+        int goldGainFinalValue = 0;
+        if(ArtifactManager.Instance.HasArtifact("Lucky Shovel") && goldGainedOrLost > 0)
+        {
+            goldGainFinalValue = (int) (goldGainedOrLost * 1.5f);
+        }
+        else
+        {
+            goldGainFinalValue = goldGainedOrLost;
+        }
+
+        currentGold += goldGainFinalValue;
         currentGoldText.text = currentGold.ToString();
     }
 }

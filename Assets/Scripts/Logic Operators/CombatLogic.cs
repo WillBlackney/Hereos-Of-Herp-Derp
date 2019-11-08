@@ -193,7 +193,7 @@ public class CombatLogic : MonoBehaviour
         // Poisonous trait
         if (attacker.myPassiveManager.Poisonous && totalLifeLost > 0 && attackType == AbilityDataSO.AttackType.Melee)
         {           
-            victim.ModifyPoison(attacker.myPassiveManager.poisonousStacks);
+            victim.ModifyPoison(attacker.myPassiveManager.poisonousStacks, attacker);
             yield return new WaitForSeconds(0.3f);
         }
 

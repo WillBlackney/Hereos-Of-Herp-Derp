@@ -108,6 +108,7 @@ public class LivingEntity : MonoBehaviour
         myPassiveManager.InitializeSetup();
         mySpellBook = GetComponent<SpellBook>();
         mySpellBook.InitializeSetup();
+        mySpellBook.ApplyTalentModifiers();
         //StartCoroutine(PlaySpawnVFX());
         // Set grid position 'Point'
         GridPosition = startingGridPosition;
@@ -137,7 +138,11 @@ public class LivingEntity : MonoBehaviour
     public virtual void SetBaseProperties()
     {
         currentMobility = baseMobility;
-        currentMaxHealth = baseMaxHealth;
+        currentMaxHealth = baseMaxHealth;        
+        if(enemy && ArtifactManager.Instance.HasArtifact("Black Star"))
+        {
+            baseStartingHealth = (int) (baseMaxHealth * 0.8f);
+        }
         currentHealth = baseStartingHealth;
         currentMaxAP = baseMaxAP;
         currentEnergy = baseEnergy;              
@@ -248,8 +253,16 @@ public class LivingEntity : MonoBehaviour
         }
     }
 
-    public void ModifyPoison(int stacks)
+    public void ModifyPoison(int stacks, LivingEntity applier = null)
     {
+        if(applier != null)
+        {
+            if (applier.myPassiveManager.Venomous && stacks > 0)
+            {
+                stacks++;
+            }
+        }
+
         if (myPassiveManager.PoisonImmunity)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Poison Immunity", false, "Blue"));
@@ -1097,7 +1110,7 @@ public class LivingEntity : MonoBehaviour
                 {
                     if (tilesInUnhygienicAuraRange.Contains(enemy.TileCurrentlyOn))
                     {
-                        enemy.ModifyPoison(myPassiveManager.unhygienicStacks);
+                        enemy.ModifyPoison(myPassiveManager.unhygienicStacks,this);
                     }
                 }
             }
@@ -1108,7 +1121,7 @@ public class LivingEntity : MonoBehaviour
                 {
                     if (tilesInUnhygienicAuraRange.Contains(defender.TileCurrentlyOn))
                     {
-                        defender.ModifyPoison(myPassiveManager.unhygienicStacks);
+                        defender.ModifyPoison(myPassiveManager.unhygienicStacks, this);
                     }
                 }
             }
@@ -1229,7 +1242,7 @@ public class LivingEntity : MonoBehaviour
         {
             if (ArtifactManager.Instance.HasArtifact("Calipers"))
             {
-                ModifyCurrentBlock(-10);
+                ModifyCurrentBlock(-5);
             }
             else
             {

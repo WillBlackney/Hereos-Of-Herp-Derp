@@ -414,7 +414,7 @@ public class AbilityLogic : MonoBehaviour
         Ability poisonDart = caster.mySpellBook.GetAbilityByName("Poison Dart");
         OnAbilityUsed(poisonDart, caster);
         StartCoroutine(caster.AttackMovement(victim));        
-        victim.ModifyPoison(poisonDart.abilitySecondaryValue);
+        victim.ModifyPoison(poisonDart.abilitySecondaryValue, caster);
         
         yield return null;
     }
@@ -429,7 +429,7 @@ public class AbilityLogic : MonoBehaviour
         Ability chemicalReaction = caster.mySpellBook.GetAbilityByName("Chemical Reaction");
         OnAbilityUsed(chemicalReaction, caster);
         StartCoroutine(caster.AttackMovement(victim));
-        victim.ModifyPoison(victim.poisonStacks);
+        victim.ModifyPoison(victim.poisonStacks, caster);
         
         yield return null;
     }
@@ -711,6 +711,14 @@ public class AbilityLogic : MonoBehaviour
         Action dashAction = MovementLogic.Instance.MoveEntity(characterMoved, destination, 5);
         
         yield return new WaitUntil(() => dashAction.ActionResolved() == true);
+
+        if (characterMoved.defender)
+        {
+            if (characterMoved.defender.myCharacterData.KnowsImprovedDash)
+            {
+                characterMoved.myPassiveManager.ModifyTemporaryStrength(2);
+            }
+        }
 
     }
 

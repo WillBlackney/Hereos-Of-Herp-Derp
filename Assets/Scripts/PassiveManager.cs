@@ -94,6 +94,9 @@ public class PassiveManager : MonoBehaviour
     public bool LifeSteal;
     public int lifeStealStacks;
 
+    public bool Venomous;
+    public int venomousStacks;
+
 
     public void InitializeSetup()
     {
@@ -252,17 +255,28 @@ public class PassiveManager : MonoBehaviour
 
     public void ModifyTemporaryStrength(int stacks)
     {
+        // apply only the strength bonus if protected by rune
         if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
         {
             StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Strength");            
             temporaryStrengthStacks += stacks;
-            myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Temporary Strength"), stacks);
+            myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+            myLivingEntity.ModifyCurrentStrength(stacks);
+
+            
+        }
+
+        // apply strength bonus and temp strength if not protected by rune
+        else if (CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
+        {
+            myLivingEntity.ModifyCurrentStrength(stacks);
         }
         else if(stacks < 0)
         {
             StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Strength");            
             temporaryStrengthStacks += stacks;
-            myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Temporary Strength"), stacks);
+            myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+            myLivingEntity.ModifyCurrentStrength(stacks);
         }
 
         if(temporaryStrengthStacks > 0)
@@ -358,6 +372,13 @@ public class PassiveManager : MonoBehaviour
         StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("True Sight");
         TrueSight = true;
         trueSightStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void LearnVenomous(int stacks)
+    {
+        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Venomous");
+        Venomous = true;
+        venomousStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void LearnLifeSteal(int stacks)

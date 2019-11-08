@@ -145,7 +145,7 @@ public class Defender : LivingEntity
         {
             baseStartingAP += myCharacterData.startingAPBonus;
         }
-        if (myCharacterData.stealth)
+        if (myCharacterData.Stealth)
         {
             myPassiveManager.LearnStealth();
         }
@@ -165,7 +165,11 @@ public class Defender : LivingEntity
         {
             myPassiveManager.LearnTrueSight(1);
         }
-        if(myCharacterData.startingIntiativeBonus > 0)
+        if (myCharacterData.venomous)
+        {
+            myPassiveManager.LearnVenomous(1);
+        }
+        if (myCharacterData.startingIntiativeBonus > 0)
         {
             baseInitiative += myCharacterData.startingIntiativeBonus;
             myPassiveManager.ModifyTemporaryInitiative(myCharacterData.startingIntiativeBonus);
@@ -190,17 +194,30 @@ public class Defender : LivingEntity
         {
             baseEnergy += 1;
         }
+        if (ArtifactManager.Instance.HasArtifact("Bottomless Backpack"))
+        {
+            baseInitiative += 1;
+        }
+        if (ArtifactManager.Instance.HasArtifact("Dark Magic Book"))
+        {
+            baseWisdom += 1;
+        }
         if (ArtifactManager.Instance.HasArtifact("Bendy Spoon"))
         {
             baseMaxAP += 2;
         }
         if (ArtifactManager.Instance.HasArtifact("Energy Biscuit"))
         {
-            baseStartingAP += 2;
+            baseStartingAP += baseMaxAP;
         }
         if (ArtifactManager.Instance.HasArtifact("Blacksmith Pliers"))
         {
             baseStartingBlock += 6;
+        }
+        if(ArtifactManager.Instance.HasArtifact("Burning Blood") && 
+            myCharacterData.CurrentHealth < (myCharacterData.MaxHealth / 2))
+        {
+            baseStrength += 3;
         }
     }
 
@@ -1044,6 +1061,18 @@ public class Defender : LivingEntity
             return;
         }
 
+        // check improved preparation talent
+        if (myCharacterData.KnowsImprovedPreparation)
+        {
+            foreach (Ability ability in mySpellBook.myActiveAbilities)
+            {
+                if (ability != preparation)
+                {
+                    ability.ModifyCurrentCooldown(-1);
+                }
+            }
+        }
+        
         
         OnAbilityUsed(preparation, this);
         myPassiveManager.LearnPreparation(1);

@@ -27,7 +27,7 @@ public class ArtifactManager : MonoBehaviour
         // individual artifact 'On pickup' logic
         if(artifactObtained.artifactName == "Comfy Pillow")
         {
-            CampSiteManager.Instance.restButtonDescriptionText.text = "All characters heal 50% HP";
+            CampSiteManager.Instance.restButtonDescriptionText.text = "Choose a character heal to max HP";
         }
         else if(artifactObtained.artifactName == "Kettle Bell")
         {
@@ -35,7 +35,7 @@ public class ArtifactManager : MonoBehaviour
         }
         else if (artifactObtained.artifactName == "Ferryman Token")
         {
-            PlayerDataManager.Instance.ModifyGold(300);
+            PlayerDataManager.Instance.ModifyGold(200);
         }
         else if (artifactObtained.artifactName == "Ice Cream")
         {
@@ -49,7 +49,7 @@ public class ArtifactManager : MonoBehaviour
         {
             foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
             {
-                character.ModifyMaxHealth(15);
+                character.ModifyMaxHealth(20);
                 
             }
         }

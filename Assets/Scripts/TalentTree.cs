@@ -28,15 +28,17 @@ public class TalentTree : MonoBehaviour
 
         // Rogue
         if (_talentTreeName == "Path of Combat")
-        {
-            talentOne.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Preparation"), 1);
-            talentTwo.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Slice And Dice"), 2);
+        {            
+            talentOne.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Improved Dash"), this, 1);
+            talentTwo.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Stealth"), this, 2);
+            talentThree.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Slice And Dice"), this, 3);
         }
 
         else if (_talentTreeName == "Path of Trickery")
         {
-            talentOne.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Poison Dart"), 1);
-            talentTwo.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Chemical Reaction"), 2);
+            talentOne.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Improved Preparation"), this, 1);
+            talentTwo.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Venomous"), this, 2);
+            talentThree.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Chemical Reaction"), this, 3);
         }
 
         // Warrior

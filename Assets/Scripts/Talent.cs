@@ -22,6 +22,7 @@ public class Talent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     public TalentTree myTalentTree;
     public CharacterData myCharacterData;
     public Talent partnerTalent;
+    public TalentDataSO myTalentData;
 
     public string talentName;
     public bool talentLearned;
@@ -124,13 +125,55 @@ public class Talent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         talentImage.sprite = data.abilityImage;
     }
 
+    public void InitializeSetup(TalentDataSO talentData, TalentTree talentTree, int treePosition)
+    {
+        myTalentTree = talentTree;
+        myCharacterData = talentTree.myCharacterData;
+        talentTreePosition = treePosition;
+        myTalentData = talentData;
+
+        if (talentData.isAbility)
+        {
+            talentName = talentData.talentAbilityData.abilityName;
+            talentNameText.text = talentData.talentAbilityData.abilityName;
+            talentDescriptionText.text = talentData.talentAbilityData.abilityDescription;
+            // to do: set ap/cd/range text active here, or place all of these on a panel, then enable the panel
+            talentAPText.text = talentData.talentAbilityData.abilityAPCost.ToString();
+            talentRangeText.text = talentData.talentAbilityData.abilityRange.ToString();
+            talentCDText.text = talentData.talentAbilityData.abilityBaseCooldownTime.ToString();
+            talentImage.sprite = talentData.talentAbilityData.abilityImage;
+        }
+        else
+        {
+            talentName = talentData.talentName;
+            talentNameText.text = talentData.talentName;
+            talentDescriptionText.text = talentData.talentDescription;
+            talentImage.sprite = talentData.talentImage;
+        }
+
+       
+
+    }
+
     public void LearnTalent(string name)
     {
         Debug.Log("Talent.LearnTalent() called, learning talent: " + name);
 
-        if (name == "Preparation")
+        if (name == "Improved Preparation")
         {
-            myCharacterData.KnowsPreparation = true;
+            myCharacterData.KnowsImprovedPreparation = true;
+        }
+        else if (name == "Improved Dash")
+        {
+            myCharacterData.KnowsImprovedDash = true;
+        }
+        else if (name == "Stealth")
+        {
+            myCharacterData.Stealth = true;
+        }
+        else if (name == "Venomous")
+        {
+            myCharacterData.venomous = true;
         }
         else if (name == "Slice And Dice")
         {
