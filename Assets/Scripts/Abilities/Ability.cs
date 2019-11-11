@@ -64,15 +64,38 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         abilityAttackType = abilityFromLibrary.abilityAttackType;
         abilityDamageType = abilityFromLibrary.abilityDamageType;
 
+        ModifyAbilityPropertiesFromTalents(this);
+
         // Set up info panel for defenders
         if (myLivingEntity != null &&
             myLivingEntity.GetComponent<Defender>())
         {
-            cdText.text = abilityFromLibrary.abilityBaseCooldownTime.ToString();
-            rangeText.text = abilityFromLibrary.abilityRange.ToString();
-            apCostText.text = abilityFromLibrary.abilityAPCost.ToString();
-            nameText.text = abilityFromLibrary.abilityName.ToString();
-            descriptionText.text = abilityFromLibrary.abilityDescription.ToString();
+            cdText.text = abilityBaseCooldownTime.ToString();
+            rangeText.text = abilityRange.ToString();
+            apCostText.text = abilityAPCost.ToString();
+            nameText.text = abilityName.ToString();
+            descriptionText.text = abilityDescription.ToString();
+        }
+    }
+
+    public void ModifyAbilityPropertiesFromTalents(Ability ability)
+    {
+        if (myLivingEntity == null || myLivingEntity.defender == null)
+        {
+            return;
+        }
+
+        // Improved Holy Fire
+        if(ability.abilityName == "Holy Fire" && myLivingEntity.defender.myCharacterData.KnowsImprovedHolyFire)
+        {
+            ability.abilityPrimaryValue++;
+            ability.abilityRange++;            
+        }
+        // Improved Telekinesis
+        else if (ability.abilityName == "Telekinesis" && myLivingEntity.defender.myCharacterData.KnowsImprovedTelekinesis)
+        {
+            ability.abilityRange++;
+            ability.abilityBaseCooldownTime--;  
         }
     }
 

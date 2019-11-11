@@ -50,6 +50,11 @@ public class AbilityLogic : MonoBehaviour
             livingEntity.moveActionsTakenThisTurn++;
         }
 
+        else if (ability.abilityName == "Slice And Dice")
+        {
+            finalApCost = livingEntity.currentAP;
+        }
+
         // Modify AP
         livingEntity.ModifyCurrentAP(-finalApCost);
         // Modify Cooldown
@@ -127,19 +132,27 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Fire Ball
-    public void PerformFireBall(LivingEntity attacker, LivingEntity victim)
+    public Action PerformFireBall(LivingEntity attacker, LivingEntity victim)
     {
-        StartCoroutine(PerformFireBallCoroutine(attacker, victim));
+        Action action = new Action();
+        StartCoroutine(PerformFireBallCoroutine(attacker, victim, action));
+        return action;
     }
-    public IEnumerator PerformFireBallCoroutine(LivingEntity attacker, LivingEntity victim)
+    public IEnumerator PerformFireBallCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
     {
         Ability fireball = attacker.mySpellBook.GetAbilityByName("Fire Ball");
         OnAbilityUsed(fireball, attacker);
         attacker.StartCoroutine(attacker.AttackMovement(victim));
-        Action abilityAction = CombatLogic.Instance.HandleDamage(fireball.abilityPrimaryValue, attacker, victim, false, fireball.abilityAttackType, fireball.abilityDamageType);
+        Action abilityAction = CombatLogic.Instance.HandleDamage(fireball.abilityPrimaryValue, attacker, victim, false, fireball.abilityAttackType, fireball.abilityDamageType, fireball);
+        // check for improved fireball talent
+        if(attacker.defender && attacker.defender.myCharacterData.KnowsImprovedFireBall)
+        {
+            victim.myPassiveManager.ModifyIgnite(1);
+        }
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+
+        action.actionResolved = true;
         
-        yield return null;
     }
 
     // Chaos Bolt
@@ -176,32 +189,41 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Inspire
-    public void PerformInspire(LivingEntity caster, LivingEntity target)
+    public Action PerformInspire(LivingEntity caster, LivingEntity target)
     {
-        StartCoroutine(PerformInspireCoroutine(caster, target));
+        Action action = new Action();
+        StartCoroutine(PerformInspireCoroutine(caster, target, action));
+        return action;
     }
-    public IEnumerator PerformInspireCoroutine(LivingEntity caster, LivingEntity target)
+    public IEnumerator PerformInspireCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         Ability inspire = caster.mySpellBook.GetAbilityByName("Inspire");
         OnAbilityUsed(inspire, caster);
         target.ModifyCurrentStrength(inspire.abilityPrimaryValue);
-        
+        if(caster.defender && caster.defender.myCharacterData.KnowsImprovedInspire)
+        {
+            target.ModifyCurrentDexterity(inspire.abilityPrimaryValue);
+            target.ModifyCurrentWisdom(inspire.abilityPrimaryValue);
+        }
+        action.actionResolved = true;
         yield return null;
     }
 
     // Get Down!
-    public void PerformGetDown(LivingEntity caster, TileScript destination)
+    public Action PerformGetDown(LivingEntity caster, TileScript destination)
     {
-        StartCoroutine(PerformGetDownCoroutine(caster, destination));
+        Action action = new Action();
+        StartCoroutine(PerformGetDownCoroutine(caster, destination, action));
+        return action;
     }
-    public IEnumerator PerformGetDownCoroutine(LivingEntity caster, TileScript destination)
+    public IEnumerator PerformGetDownCoroutine(LivingEntity caster, TileScript destination, Action action)
     {  
         Ability getDown = caster.mySpellBook.GetAbilityByName("Get Down!");
         OnAbilityUsed(getDown, caster);
-        Action action = MovementLogic.Instance.MoveEntity(caster, destination, 5);
+        Action moveAction = MovementLogic.Instance.MoveEntity(caster, destination, 5);
 
         // yield wait until movement complete
-        yield return new WaitUntil(() => action.ActionResolved() == true);
+        yield return new WaitUntil(() => moveAction.ActionResolved() == true);
 
         // Give adjacent characters block
         List<TileScript> adjacentTiles = LevelManager.Instance.GetTilesWithinRange(1, destination);
@@ -215,7 +237,7 @@ public class AbilityLogic : MonoBehaviour
             }
         }
 
-
+        action.actionResolved = true;
     }
 
     // Smash
@@ -330,9 +352,73 @@ public class AbilityLogic : MonoBehaviour
         Ability whirlwind = attacker.mySpellBook.GetAbilityByName("Whirlwind");
         OnAbilityUsed(whirlwind, attacker);
         CombatLogic.Instance.CreateAoEAttackEvent(attacker, whirlwind, attacker.TileCurrentlyOn, 1, true, true);
+
+        // Improved Whirlwind talent
+        if(attacker.defender != null)
+        {
+            if (attacker.defender.myCharacterData.KnowsImprovedWhirlwind)
+            {
+                List<TileScript> tilesInWhirlwindRange = LevelManager.Instance.GetTilesWithinRange(1, attacker.TileCurrentlyOn);
+                foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+                {
+                    if (CombatLogic.Instance.IsTargetFriendly(attacker, entity) == false &&
+                        tilesInWhirlwindRange.Contains(entity.TileCurrentlyOn))
+                    {
+                        entity.myPassiveManager.ModifyExhausted(1);
+                        entity.myPassiveManager.ModifyExposed(1);
+                    }
+                }
+            }
+            
+        }
         yield return new WaitForSeconds(1f);
         action.actionResolved = true;
         
+    }
+    // Frost Nova
+    public Action PerformFrostNova(LivingEntity attacker)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformFrostNovaCoroutine(attacker, action));
+        return action;
+    }
+    public IEnumerator PerformFrostNovaCoroutine(LivingEntity attacker, Action action)
+    {
+        Ability frostNova = attacker.mySpellBook.GetAbilityByName("Frost Nova");
+        OnAbilityUsed(frostNova, attacker);
+
+        // damage enmies within 1
+        CombatLogic.Instance.CreateAoEAttackEvent(attacker, frostNova, attacker.TileCurrentlyOn, 1, true, false);
+
+        // pin enemies within 1
+        List<TileScript> tilesInNovaRange = LevelManager.Instance.GetTilesWithinRange(1, attacker.TileCurrentlyOn);
+        foreach(LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if(!CombatLogic.Instance.IsTargetFriendly(attacker, entity) && tilesInNovaRange.Contains(entity.TileCurrentlyOn))
+            {
+                entity.ApplyPinned();
+            }
+        }
+        
+        yield return new WaitForSeconds(1f);
+        action.actionResolved = true;
+
+    }
+    public Action PerformBloodLust(LivingEntity attacker)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformBloodLustCoroutine(attacker, action));
+        return action;
+    }
+    public IEnumerator PerformBloodLustCoroutine(LivingEntity attacker, Action action)
+    {
+        Ability bloodLust = attacker.mySpellBook.GetAbilityByName("Blood Lust");
+        OnAbilityUsed(bloodLust, attacker);
+        Action selfDamageAction = CombatLogic.Instance.HandleDamage(bloodLust.abilitySecondaryValue, attacker, attacker, false, AbilityDataSO.AttackType.None, AbilityDataSO.DamageType.None);
+        yield return new WaitUntil(() => selfDamageAction.ActionResolved() == true);
+        yield return new WaitForSeconds(0.5f);
+        attacker.ModifyCurrentAP(bloodLust.abilityPrimaryValue);
+        action.actionResolved = true;        
     }
 
     // Guard
@@ -361,7 +447,7 @@ public class AbilityLogic : MonoBehaviour
         attacker.StartCoroutine(attacker.AttackMovement(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(frostbolt.abilityPrimaryValue, attacker, victim, false, frostbolt.abilityAttackType, frostbolt.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-        victim.ApplyPinned();
+        victim.ApplyPinned(attacker);
         
     }
 
@@ -420,11 +506,13 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Chemical Reaction
-    public void PerformChemicalReaction(LivingEntity caster, LivingEntity victim)
+    public Action PerformChemicalReaction(LivingEntity caster, LivingEntity victim)
     {
-        StartCoroutine(PerformPoisonDartCoroutine(caster, victim));
+        Action action = new Action();
+        StartCoroutine(PerformChemicalReactionCoroutine(caster, victim, action));
+        return action;
     }
-    public IEnumerator PerformChemicalReactionCoroutine(LivingEntity caster, LivingEntity victim)
+    public IEnumerator PerformChemicalReactionCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         Ability chemicalReaction = caster.mySpellBook.GetAbilityByName("Chemical Reaction");
         OnAbilityUsed(chemicalReaction, caster);
@@ -435,27 +523,30 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Slice And Dice
-    public void PerformSliceAndDice(LivingEntity caster, LivingEntity victim, int attacks)
+    public Action PerformSliceAndDice(LivingEntity caster, LivingEntity victim)
     {
-        StartCoroutine(PerformSliceAndDiceCoroutine(caster, victim, attacks));
+        Action action = new Action();
+        StartCoroutine(PerformSliceAndDiceCoroutine(caster, victim, action));
+        return action;
     }
-    public IEnumerator PerformSliceAndDiceCoroutine(LivingEntity attacker, LivingEntity victim, int attacks)
+    public IEnumerator PerformSliceAndDiceCoroutine(LivingEntity attacker, LivingEntity victim,  Action action)
     {
+        int totalAttacks = attacker.currentAP;
         int timesAttacked = 0;
         Ability sliceAndDice = attacker.mySpellBook.GetAbilityByName("Slice And Dice");
-        OnAbilityUsed(sliceAndDice, attacker);
-        attacker.ModifyCurrentAP(-attacks);
+        OnAbilityUsed(sliceAndDice, attacker);        
 
-        ShotStart:
+        AttackLoopStart:
         StartCoroutine(attacker.AttackMovement(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(sliceAndDice.abilityPrimaryValue, attacker, victim, false, sliceAndDice.abilityAttackType, sliceAndDice.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         yield return new WaitForSeconds(0.3f);
         timesAttacked++;
-        if (victim.currentHealth > 0 && victim != null && timesAttacked < attacks)
+        if (victim.inDeathProcess == false && victim != null && timesAttacked < totalAttacks)
         {
-            goto ShotStart;
+            goto AttackLoopStart;
         }
+        action.actionResolved = true;
 
         
     }
@@ -510,6 +601,10 @@ public class AbilityLogic : MonoBehaviour
         Ability invigorate = caster.mySpellBook.GetAbilityByName("Invigorate");
         OnAbilityUsed(invigorate, caster);
         target.ModifyCurrentAP(invigorate.abilityPrimaryValue);
+        if (TalentLogic.Instance.DoesCharacterHaveTalent(caster, "Improved Invigorate"))
+        {
+            target.myPassiveManager.ModifyTemporaryMobility(1);
+        }
         ParticleManager.Instance.CreateParticleEffect(target.TileCurrentlyOn.WorldPosition, ParticleManager.Instance.basicParticlePrefab);
         yield return null;
       
@@ -568,19 +663,23 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Phase Shift
-    public void PerformPhaseShift(LivingEntity caster, LivingEntity target)
+    public Action PerformPhaseShift(LivingEntity caster, LivingEntity target)
     {
-        StartCoroutine(PerformPhaseShiftCoroutine(caster, target));
+        Action action = new Action();
+        StartCoroutine(PerformPhaseShiftCoroutine(caster, target, action));
+        return action;
     }
-    public IEnumerator PerformPhaseShiftCoroutine(LivingEntity caster, LivingEntity target)
+    public IEnumerator PerformPhaseShiftCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         Ability phaseShift = caster.mySpellBook.GetAbilityByName("Phase Shift");
         OnAbilityUsed(phaseShift, caster);
 
         TileScript casterDestination = target.TileCurrentlyOn;
 
-        MovementLogic.Instance.TeleportEntity(caster, target.TileCurrentlyOn);
-        MovementLogic.Instance.TeleportEntity(target, casterDestination);
+        MovementLogic.Instance.TeleportEntity(caster, target.TileCurrentlyOn, true);
+        MovementLogic.Instance.TeleportEntity(target, casterDestination, true);
+
+        action.actionResolved = true;
 
         
         yield return null;
@@ -637,17 +736,19 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Bless
-    public void PerformBless(LivingEntity caster, LivingEntity target)
+    public Action PerformBless(LivingEntity caster, LivingEntity target)
     {
-        StartCoroutine(PerformBlessCoroutine(caster, target));
+        Action action = new Action();
+        StartCoroutine(PerformBlessCoroutine(caster, target, action));
+        return action;
     }
-    public IEnumerator PerformBlessCoroutine(LivingEntity caster, LivingEntity target)
+    public IEnumerator PerformBlessCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         Ability bless = caster.mySpellBook.GetAbilityByName("Bless");
         OnAbilityUsed(bless, caster);
         target.myPassiveManager.ModifyRune(bless.abilityPrimaryValue);
-        
-        yield return null;
+        yield return new WaitForSeconds(0.5f);
+        action.actionResolved = true;        
     }
 
     // Void Bomb
@@ -668,16 +769,19 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Nightmare
-    public void PerformNightmare(LivingEntity caster, LivingEntity target)
+    public Action PerformNightmare(LivingEntity caster, LivingEntity target)
     {
-        StartCoroutine(PerformNightmareCoroutine(caster, target));
+        Action action = new Action();
+        StartCoroutine(PerformNightmareCoroutine(caster, target, action));
+        return action;
     }
-    public IEnumerator PerformNightmareCoroutine(LivingEntity caster, LivingEntity target)
+    public IEnumerator PerformNightmareCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         Ability nightmare = caster.mySpellBook.GetAbilityByName("Nightmare");
         OnAbilityUsed(nightmare, caster);
-        target.ModifySleeping(nightmare.abilityPrimaryValue);        
-        yield return null;
+        target.ModifySleeping(nightmare.abilityPrimaryValue);
+        yield return new WaitForSeconds(0.5f);
+        action.actionResolved = true;        
     }
 
     // Move

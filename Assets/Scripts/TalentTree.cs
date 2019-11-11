@@ -24,6 +24,7 @@ public class TalentTree : MonoBehaviour
 
     public void InitializeSetup(string _talentTreeName)
     {
+        Debug.Log("TalentTree.InitializeSetup() called...");
         SetTalentTreeName(_talentTreeName);
 
         // Rogue
@@ -35,7 +36,7 @@ public class TalentTree : MonoBehaviour
         }
 
         else if (_talentTreeName == "Path of Trickery")
-        {
+        {            
             talentOne.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Improved Preparation"), this, 1);
             talentTwo.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Venomous"), this, 2);
             talentThree.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Chemical Reaction"), this, 3);
@@ -44,14 +45,16 @@ public class TalentTree : MonoBehaviour
         // Warrior
         else if (_talentTreeName == "Path of Rage")
         {
-            talentOne.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Whirlwind"), 1);
-            talentTwo.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Blood Lust"), 2);
+            talentOne.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Improved Whirlwind"), this, 1);
+            talentTwo.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Infinite Rage"), this, 2);
+            talentThree.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Blood Lust"), this, 3);
         }
 
         else if (_talentTreeName == "Path of the Guardian")
         {
-            talentOne.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Get Down!"), 1);
-            talentTwo.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Guard"), 2);
+            talentOne.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Improved Inspire"), this, 1);
+            talentTwo.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Unwavering"), this, 2);
+            talentThree.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Get Down!"), this, 3);
         }
 
         // Shaman
@@ -71,27 +74,31 @@ public class TalentTree : MonoBehaviour
         // Mage
         else if (_talentTreeName == "Path of Manipulation")
         {
-            talentOne.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Frost Bolt"), 1);
-            talentTwo.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Teleport"), 2);
+            talentOne.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Improved Telekinesis"), this, 1);
+            talentTwo.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Masterful Entrapment"), this, 2);
+            talentThree.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Phase Shift"), this, 3);
         }
 
         else if (_talentTreeName == "Path of Wrath")
         {
-            talentOne.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Meteor"), 1);
-            talentTwo.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Phase Shift"), 2);           
+            talentOne.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Improved Fire Ball"), this, 1);
+            talentTwo.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Fiery Presence"), this, 2);
+            talentThree.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Frost Nova"), this, 3);
         }
 
         // Priest
         else if (_talentTreeName == "Path of Divinity")
         {
-            talentOne.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Sanctity"), 1);
-            talentTwo.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Bless"), 2);
+            talentOne.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Improved Invigorate"), this, 1);
+            talentTwo.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Guardian Presence"), this, 2);
+            talentThree.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Bless"), this, 3);
         }
 
         else if (_talentTreeName == "Path of Shadows")
         {
-            talentOne.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Siphon Life"), 1);
-            talentTwo.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Nightmare"), 2);
+            talentOne.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Improved Holy Fire"), this, 1);
+            talentTwo.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Fiery Presence"), this, 2);
+            talentThree.InitializeSetup(TalentLibrary.Instance.GetTalentDataByName("Nightmare"), this, 3);
         }
 
         allTalentButtons.Add(talentOne);
@@ -109,5 +116,8 @@ public class TalentTree : MonoBehaviour
         myPartnerTree = partnerTree;
         talentOne.partnerTalent = partnerTree.talentOne;
         talentTwo.partnerTalent = partnerTree.talentTwo;
+        talentThree.partnerTalent = partnerTree.talentThree;
+        talentFour.partnerTalent = partnerTree.talentFour;
+        talentFive.partnerTalent = partnerTree.talentFive;
     }
 }

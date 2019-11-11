@@ -194,13 +194,18 @@ public class LivingEntity : MonoBehaviour
         }        
     }
 
-    public virtual void ApplyPinned()
+    public virtual void ApplyPinned(LivingEntity attacker = null)
     {
         if (!CombatLogic.Instance.IsProtectedByRune(this))
         {
             isPinned = true;
             myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Pinned"), 1);
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Pinned!", false, "Red"));
+
+            if(attacker != null && attacker.myPassiveManager.masterfulEntrapmentStacks > 0)
+            {
+                attacker.ModifyCurrentWisdom(attacker.myPassiveManager.masterfulEntrapmentStacks);
+            }
         }
             
     }
@@ -291,7 +296,7 @@ public class LivingEntity : MonoBehaviour
 
     public virtual void ModifySleeping(int stacks)
     {
-        // Increae Sleep
+        // Increase Sleep
         if (!CombatLogic.Instance.IsProtectedByRune(this) && stacks > 0)
         {
             currentSleepingStacks += stacks;
@@ -995,6 +1000,12 @@ public class LivingEntity : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+        if (myPassiveManager.TemporaryMobility)
+        {
+            myPassiveManager.ModifyTemporaryMobility(-myPassiveManager.temporaryMobilityStacks);
+            yield return new WaitForSeconds(0.5f);
+        }
+
         if (myPassiveManager.Cautious)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Cautious", false, "Blue"));
@@ -1097,6 +1108,40 @@ public class LivingEntity : MonoBehaviour
                     }
                 }
             }
+        }
+        if (myPassiveManager.FieryPresence)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fiery Presence", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+
+            List<TileScript> tilesInFieryPresenceRange = LevelManager.Instance.GetTilesWithinRange(1, TileCurrentlyOn);
+
+            foreach(LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+            {
+                if(tilesInFieryPresenceRange.Contains(entity.TileCurrentlyOn) &&
+                    CombatLogic.Instance.IsTargetFriendly(this, entity) == false)
+                {
+                    CombatLogic.Instance.HandleDamage(myPassiveManager.fieryPresenceStacks, this, entity, false, AbilityDataSO.AttackType.None, AbilityDataSO.DamageType.Magic);
+                }
+            }
+            
+        }
+        if (myPassiveManager.GuardianPresence)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Guardian Presence", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+
+            List<TileScript> tilesInGuardianPresenceRange = LevelManager.Instance.GetTilesWithinRange(1, TileCurrentlyOn);
+
+            foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+            {
+                if (tilesInGuardianPresenceRange.Contains(entity.TileCurrentlyOn) &&
+                    CombatLogic.Instance.IsTargetFriendly(this, entity))
+                {
+                    entity.ModifyCurrentBlock(myPassiveManager.guardianPresenceStacks);
+                }
+            }
+
         }
 
         if (myPassiveManager.Unhygienic)
@@ -1238,7 +1283,7 @@ public class LivingEntity : MonoBehaviour
     public void ModifyBlockOnActivationStart()
     {
         // prevent removing block from characters that start combat with block
-        if(TurnManager.Instance.currentTurnCount != 1)
+        if(TurnManager.Instance.currentTurnCount != 1 || myPassiveManager.Unwavering == false)
         {
             if (ArtifactManager.Instance.HasArtifact("Calipers"))
             {

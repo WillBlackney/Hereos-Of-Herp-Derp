@@ -35,6 +35,8 @@ public class PassiveManager : MonoBehaviour
 
     public bool Stealth;
 
+    public bool Unwavering;
+
     public bool Thorns;
     public int thornsStacks;
 
@@ -55,11 +57,20 @@ public class PassiveManager : MonoBehaviour
     public bool HatefulPresence;
     public int hatefulPresenceStacks;
 
+    public bool FieryPresence;
+    public int fieryPresenceStacks;
+
+    public bool GuardianPresence;
+    public int guardianPresenceStacks;
+
     public bool SoulDrainAura;
     public int soulDrainAuraStacks;
 
-    public bool  LightningShield;
+    public bool LightningShield;
     public int lightningShieldStacks;
+
+    public bool MasterfulEntrapment;
+    public int masterfulEntrapmentStacks;
 
     public bool ThickOfTheFight;
     public int thickOfTheFightStacks;
@@ -69,6 +80,9 @@ public class PassiveManager : MonoBehaviour
 
     public bool TemporaryInitiative;
     public int temporaryInitiativeStacks;
+
+    public bool TemporaryMobility;
+    public int temporaryMobilityStacks;
 
     public bool Rune;
     public int runeStacks;
@@ -96,6 +110,9 @@ public class PassiveManager : MonoBehaviour
 
     public bool Venomous;
     public int venomousStacks;
+
+    public bool Ignite;
+    public int igniteStacks;
 
 
     public void InitializeSetup()
@@ -173,6 +190,12 @@ public class PassiveManager : MonoBehaviour
         Stealth = true;        
         myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Stealth"), 1);
     }
+    public void LearnUnwavering()
+    {
+        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Unwavering");
+        Unwavering = true;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, 1);
+    }
 
     public void LearnPoisonImmunity()
     {
@@ -226,7 +249,21 @@ public class PassiveManager : MonoBehaviour
         StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Hateful Presence");
         HatefulPresence = true;
         hatefulPresenceStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Hateful Presence"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void LearnFieryPresence(int stacks)
+    {
+        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Fiery Presence");
+        FieryPresence = true;
+        fieryPresenceStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void LearnGuardianPresence(int stacks)
+    {
+        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Guardian Presence");
+        GuardianPresence = true;
+        guardianPresenceStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
 
     public void LearnSoulDrainAura(int stacks)
@@ -234,6 +271,13 @@ public class PassiveManager : MonoBehaviour
         StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Soul Drain Aura");
         SoulDrainAura = true;
         soulDrainAuraStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void LearnMasterfulEntrapment(int stacks)
+    {
+        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Masterful Entrapment");
+        MasterfulEntrapment = true;
+        masterfulEntrapmentStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
 
@@ -282,6 +326,36 @@ public class PassiveManager : MonoBehaviour
         if(temporaryStrengthStacks > 0)
         {
             TemporaryStrength = true;
+        }
+
+    }
+    public void ModifyTemporaryMobility(int stacks)
+    {
+        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Mobility");
+
+        // apply only the mobility bonus if protected by rune
+        if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
+        {            
+            temporaryMobilityStacks += stacks;
+            myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+            myLivingEntity.ModifyCurrentMobility(stacks);
+        }
+
+        // apply mobility bonus and temp mobility if not protected by rune
+        else if (CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
+        {
+            myLivingEntity.ModifyCurrentMobility(stacks);
+        }
+        else if (stacks < 0)
+        {
+            temporaryMobilityStacks += stacks;
+            myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+            myLivingEntity.ModifyCurrentMobility(stacks);
+        }
+
+        if (temporaryMobilityStacks > 0)
+        {
+            TemporaryMobility = true;
         }
 
     }
@@ -351,7 +425,31 @@ public class PassiveManager : MonoBehaviour
             }
         }
 
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Exhausted"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyIgnite(int stacks)
+    {
+        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Ignite");
+
+        if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
+        {
+            igniteStacks += stacks;
+            if (igniteStacks > 0)
+            {
+                Ignite = true;
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            igniteStacks += stacks;
+            if (igniteStacks <= 0)
+            {
+                Ignite = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void LearnMagicImmunity(int stacks)
     {

@@ -118,18 +118,24 @@ public class MovementLogic : Singleton<MovementLogic>
     }
 
     // Teleport
-    public void TeleportEntity(LivingEntity target, TileScript destination)
+    public Action TeleportEntity(LivingEntity target, TileScript destination, bool switchingPosWithAnotherEntity = false)
     {
-        StartCoroutine(TeleportEntityCoroutine(target, destination));
+        Action action = new Action();
+        StartCoroutine(TeleportEntityCoroutine(target, destination,action, switchingPosWithAnotherEntity));
+        return action;
     }
-    public IEnumerator TeleportEntityCoroutine(LivingEntity target, TileScript destination)
+    public IEnumerator TeleportEntityCoroutine(LivingEntity target, TileScript destination, Action action, bool switchingPosWithAnotherEntity = false)
     {
-        LevelManager.Instance.SetTileAsUnoccupied(target.TileCurrentlyOn);
+        if (!switchingPosWithAnotherEntity)
+        {
+            LevelManager.Instance.SetTileAsUnoccupied(target.TileCurrentlyOn);
+        }        
         target.GridPosition = destination.GridPosition;
         target.TileCurrentlyOn = destination;
         target.transform.position = destination.WorldPosition;
         LevelManager.Instance.SetTileAsOccupied(destination);
         OnNewTileSet(target);
+        action.actionResolved = true;
         yield return null;
     }
 

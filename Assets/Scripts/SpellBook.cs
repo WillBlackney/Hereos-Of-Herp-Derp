@@ -62,6 +62,7 @@ public class SpellBook : MonoBehaviour
     public bool KnowsBless;
     public bool KnowsSiphonLife;
     public bool KnowsChaosBolt;
+    public bool KnowsFrostNova;
 
     public void InitializeSetup()
     {
@@ -226,6 +227,10 @@ public class SpellBook : MonoBehaviour
         if (cd.KnowsFireBall == true)
         {
             LearnFireBall();
+        }
+        if (cd.KnowsFrostNova == true)
+        {
+            LearnFrostNova();
         }
         if (cd.KnowsShoot == true)
         {
@@ -602,6 +607,23 @@ public class SpellBook : MonoBehaviour
         else if (enemy)
         {
             EnemyLearnAbility("Fire Ball");
+        }
+
+    }
+    public void LearnFrostNova()
+    {
+        KnowsFrostNova = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Frost Nova");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Frost Nova");
         }
 
     }

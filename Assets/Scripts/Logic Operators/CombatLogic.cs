@@ -116,19 +116,19 @@ public class CombatLogic : MonoBehaviour
         }
     }     
 
-    public Action HandleDamage(int damageAmount, LivingEntity attacker, LivingEntity victim, bool playVFXInstantly = false, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None, AbilityDataSO.DamageType damageType = AbilityDataSO.DamageType.None)
+    public Action HandleDamage(int damageAmount, LivingEntity attacker, LivingEntity victim, bool playVFXInstantly = false, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None, AbilityDataSO.DamageType damageType = AbilityDataSO.DamageType.None, Ability abilityUsed = null)
     {
         Action action = new Action();
-        StartCoroutine(HandleDamageCoroutine(damageAmount, attacker, victim, action, playVFXInstantly, attackType, damageType));
+        StartCoroutine(HandleDamageCoroutine(damageAmount, attacker, victim, action, playVFXInstantly, attackType, damageType, abilityUsed));
         return action;
     }
-    public IEnumerator HandleDamageCoroutine(int damageAmount, LivingEntity attacker, LivingEntity victim, Action action, bool playVFXInstantly = false, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None, AbilityDataSO.DamageType damageType = AbilityDataSO.DamageType.None)
+    public IEnumerator HandleDamageCoroutine(int damageAmount, LivingEntity attacker, LivingEntity victim, Action action, bool playVFXInstantly = false, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None, AbilityDataSO.DamageType damageType = AbilityDataSO.DamageType.None, Ability abilityUsed = null)
     {
         int adjustedDamageValue = damageAmount;
 
         if (damageType != AbilityDataSO.DamageType.Poison)
         {
-            adjustedDamageValue = CalculateDamage(damageAmount, victim, attacker, damageType, attackType);
+            adjustedDamageValue = CalculateDamage(damageAmount, victim, attacker, damageType, attackType, abilityUsed);
         }
         
 
@@ -161,6 +161,12 @@ public class CombatLogic : MonoBehaviour
             adjustedDamageValue = 0;
             healthAfter = victim.currentHealth;
             victim.ModifyCurrentBarrierStacks(-1);
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        if(victim.isSleeping && healthAfter < victim.currentHealth)
+        {
+            victim.ModifySleeping(-victim.currentSleepingStacks);
             yield return new WaitForSeconds(0.3f);
         }
 
@@ -198,7 +204,7 @@ public class CombatLogic : MonoBehaviour
         }
 
         // Remove sleeping
-        if (victim.isSleeping && adjustedDamageValue > 0)
+        if (victim.isSleeping && totalLifeLost > 0)
         {
             Debug.Log("Damage taken, removing sleep");
             victim.ModifySleeping(-victim.currentSleepingStacks);
@@ -206,14 +212,15 @@ public class CombatLogic : MonoBehaviour
         }
 
         // Enrage
-        if (victim.myPassiveManager.Enrage && healthAfter < victim.currentHealth)
+        if (victim.myPassiveManager.Enrage && totalLifeLost > 0)
         {
             Debug.Log("Enrage triggered, gaining strength");
             victim.ModifyCurrentStrength(victim.myPassiveManager.enrageStacks);
             yield return new WaitForSeconds(0.3f);
         }
 
-        if (victim.myPassiveManager.Adaptive && healthAfter < victim.currentHealth)
+        // Adaptive
+        if (victim.myPassiveManager.Adaptive && totalLifeLost > 0)
         {
             Debug.Log("Adaptive triggered, gaining block");
             victim.ModifyCurrentBlock(victim.myPassiveManager.adaptiveStacks);
@@ -259,7 +266,7 @@ public class CombatLogic : MonoBehaviour
         action.actionResolved = true;
     }
 
-    public int CalculateDamage(int abilityBaseDamage, LivingEntity victim, LivingEntity attacker, AbilityDataSO.DamageType damageType, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None)
+    public int CalculateDamage(int abilityBaseDamage, LivingEntity victim, LivingEntity attacker, AbilityDataSO.DamageType damageType, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None, Ability abilityUsed = null)
     {
         int newDamageValue = 0;
 
@@ -280,6 +287,13 @@ public class CombatLogic : MonoBehaviour
             newDamageValue += attacker.currentWisdom;
         }
         Debug.Log("Damage value after wisdom added: " + newDamageValue);
+
+        // Add ignite damage bonus if fireball used
+        if (abilityUsed != null && abilityUsed.abilityName == "Fire Ball" && victim.myPassiveManager.Ignite)
+        {
+            newDamageValue += victim.myPassiveManager.igniteStacks;
+        }
+        Debug.Log("Damage value after ignite added: " + newDamageValue);
 
         // multiply/divide the damage value based on factors like vulnerable, knock down, magic vulnerability, etc
         newDamageValue = (int)(newDamageValue * CalculateAndGetDamagePercentageModifier(attacker, victim, damageType, attackType));

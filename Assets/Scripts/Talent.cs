@@ -178,14 +178,84 @@ public class Talent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         else if (name == "Slice And Dice")
         {
             myCharacterData.KnowsSliceAndDice = true;
-        }
-        else if (name == "Poison Dart")
-        {
-            myCharacterData.KnowsPoisonDart = true;
-        }
+        }        
         else if (name == "Chemical Reaction")
         {
             myCharacterData.KnowsChemicalReaction = true;
+        }
+        else if (name == "Improved Invigorate")
+        {
+            myCharacterData.KnowsImprovedInvigorate = true;
+        }
+        else if (name == "Improved Holy Fire")
+        {
+            myCharacterData.KnowsImprovedHolyFire = true;
+        }
+        else if (name == "Fiery Presence")
+        {
+            myCharacterData.fieryPresenceStacks += 3;
+        }
+        else if (name == "Guardian Presence")
+        {
+            myCharacterData.guardianPresenceStacks += 3;
+        }
+        else if (name == "Bless")
+        {
+            myCharacterData.KnowsBless = true;
+        }
+        else if (name == "Nightmare")
+        {
+            myCharacterData.KnowsNightmare = true;
+        }
+        else if (name == "Improved Inspire")
+        {
+            myCharacterData.KnowsImprovedInspire = true;
+        }
+        else if (name == "Improved Whirlwind")
+        {
+            myCharacterData.KnowsImprovedWhirlwind = true;
+        }
+        else if (name == "Infinite Rage")
+        {
+            myCharacterData.enrageStacks += 2;
+        }
+        else if (name == "Unwavering")
+        {
+            myCharacterData.Unwavering = true;
+        }
+        else if (name == "Blood Lust")
+        {
+            myCharacterData.KnowsBloodLust = true;
+        }
+        else if (name == "Get Down!")
+        {
+            myCharacterData.KnowsGetDown = true;
+        }
+        else if (name == "Improved Telekinesis")
+        {
+            myCharacterData.KnowsImprovedTelekinesis = true;
+        }
+        else if (name == "Improved Fire Ball")
+        {
+            myCharacterData.KnowsImprovedFireBall = true;
+        }
+        else if (name == "Masterful Entrapment")
+        {
+            myCharacterData.masterfulEntrapmentStacks += 1;
+        }
+        else if (name == "Frost Nova")
+        {
+            myCharacterData.KnowsFrostNova = true;
+        }
+        else if (name == "Phase Shift")
+        {
+            myCharacterData.KnowsPhaseShift = true;
+        }
+
+
+        else if (name == "Poison Dart")
+        {
+            myCharacterData.KnowsPoisonDart = true;
         }
         else if (name == "Whirlwind")
         {
@@ -273,6 +343,14 @@ public class Talent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
             (talentTreePosition == 2 && 
             (myTalentTree.talentOne.talentLearned == true) || myTalentTree.myPartnerTree.talentOne.talentLearned == true) &&
             partnerTalent.talentLearned == false            
+            )
+        {
+            return true;
+        }
+        else if (
+            (talentTreePosition == 3 &&
+            (myTalentTree.talentTwo.talentLearned == true) || myTalentTree.myPartnerTree.talentTwo.talentLearned == true) &&
+            partnerTalent.talentLearned == false
             )
         {
             return true;

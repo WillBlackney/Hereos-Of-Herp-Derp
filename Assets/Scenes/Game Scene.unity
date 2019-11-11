@@ -1512,10 +1512,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allTalents:
-  - {fileID: 11400000, guid: 29d9b1f476c561f419c943b0860ab99f, type: 2}
+  - {fileID: 11400000, guid: 456dabfbcf626e642ab95e79331c1416, type: 2}
+  - {fileID: 11400000, guid: 76c749125e29963429ae793a87dd15d9, type: 2}
+  - {fileID: 11400000, guid: 00b1b38659c13ad4b87f80c7482a6070, type: 2}
+  - {fileID: 11400000, guid: 12a13fc877241e742b28d908e32e6dc5, type: 2}
+  - {fileID: 11400000, guid: cdab4be7bad2ade4fa9b3c6ecdccbb82, type: 2}
+  - {fileID: 11400000, guid: 13c90521b7fcb5449b393f224d581e0e, type: 2}
+  - {fileID: 11400000, guid: 714bfba8d35e7af4ba67639f434a0c4d, type: 2}
   - {fileID: 11400000, guid: cc0244d0ec74c7b4aab22a4ed41cf549, type: 2}
+  - {fileID: 11400000, guid: 031c87c5661413a47bd8db008f302c48, type: 2}
+  - {fileID: 11400000, guid: 812a0e2dc7bb8394c8da3159e83fcce6, type: 2}
+  - {fileID: 11400000, guid: 964b3ff66408d014c857532074b54919, type: 2}
+  - {fileID: 11400000, guid: 66983729291f1b947b7b86c67852c0d2, type: 2}
+  - {fileID: 11400000, guid: 29d9b1f476c561f419c943b0860ab99f, type: 2}
+  - {fileID: 11400000, guid: ced0c43e73c21c544aff557fb6bfa70d, type: 2}
+  - {fileID: 11400000, guid: 8cbfa9fd6337af246801820d53f074f4, type: 2}
+  - {fileID: 11400000, guid: c0e06074ee3d8074b871dd785039e4ba, type: 2}
+  - {fileID: 11400000, guid: 441a0a587d1286f46b689aded85dcb9f, type: 2}
+  - {fileID: 11400000, guid: b842eca287c18a64a9dfece51695f3b8, type: 2}
+  - {fileID: 11400000, guid: 6aa9f31d3d88da54e9315e128115099b, type: 2}
   - {fileID: 11400000, guid: 228766fe18c7ffd488b3044f95b42b89, type: 2}
+  - {fileID: 11400000, guid: 13ddda0a413ab664088bf3df9474745e, type: 2}
   - {fileID: 11400000, guid: 5fe9f71b9f9aa184dae915ba5185d036, type: 2}
+  - {fileID: 11400000, guid: 1b4018dfb38b5344cab640bcc24e1b83, type: 2}
 --- !u!1 &414589519
 GameObject:
   m_ObjectHideFlags: 0
@@ -1839,7 +1858,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.9584398, y: -5.2430882, z: 0}
+  m_LocalPosition: {x: 0.965528, y: -5.2429895, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 237190439}
@@ -2051,6 +2070,7 @@ Transform:
   - {fileID: 1559244893}
   - {fileID: 917596577}
   - {fileID: 1798093118}
+  - {fileID: 1786617629}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6309,10 +6329,10 @@ MonoBehaviour:
   poisonImmunityStatusName: Poison Immunity
   poisonImmunityStatusDescription: This character is immune to poison
   poisonImmunityStatusStacks: 0
-  hatefulPresenceImage: {fileID: 21300000, guid: 936161c986c87d84eb63849b321c0779,
+  hatefulPresenceImage: {fileID: 21300000, guid: f6beb067506d0544bb6585983872d7fb,
     type: 3}
   hatefulPresenceStatusName: Hateful Presence
-  hatefulPresenceStatusDescription: On turn end, give adjacent allies +1 strength
+  hatefulPresenceStatusDescription: On activation end, give adjacent allies +1 strength
   hatefulPresenceStatusStacks: 0
   soulDrainAuraImage: {fileID: 21300000, guid: 99114c296eeb67445818ca143122f5c9, type: 3}
   soulDrainAuraStatusName: Soul Drain Aura
@@ -6334,10 +6354,16 @@ MonoBehaviour:
   temporaryStrengthStatusName: Temporary Strength
   temporaryStrengthStatusDescription: On turn end, lose strength
   temporaryStrengthStatusStacks: 0
-  temporaryInitiativeImage: {fileID: 0}
+  temporaryInitiativeImage: {fileID: 21300000, guid: 0e1759785116d1e448827a9adf86c8ad,
+    type: 3}
   temporaryInitiativeStatusName: Temporary Initiative
   temporaryInitiativeStatusDescription: On Activation end, lose initiative
   temporaryInitiativeStatusStacks: 0
+  temporaryMobilityImage: {fileID: 21300000, guid: f2fc880836bad7b4d8f1de44a202f40a,
+    type: 3}
+  temporaryMobilityStatusName: Temporary Mobility
+  temporaryMobilityStatusDescription: On Activation end, lose mobility
+  temporaryMobilityStatusStacks: 0
   runeImage: {fileID: 21300000, guid: 7797a294190edf947aa906381fe1d772, type: 3}
   runeStatusName: Rune
   runeStatusDescription: Negates the next harmful status effect.
@@ -6376,6 +6402,29 @@ MonoBehaviour:
   venomousStatusName: Venomous
   venomousStatusDescription: Whenever you apply poison, apply 1 extra stack
   venomousStatusStacks: 0
+  fieryPresenceImage: {fileID: 21300000, guid: 936161c986c87d84eb63849b321c0779, type: 3}
+  fieryPresenceStatusName: Fiery Presence
+  fieryPresenceStatusDescription: On activation end, deal3 magic damage to all adjacent
+    enemies
+  fieryPresenceStatusStacks: 0
+  guardianPresenceImage: {fileID: 21300000, guid: 8ada50334806c644aa7ee0bfd07bf8fa,
+    type: 3}
+  guardianPresenceStatusName: Guardian Presence
+  guardianPresenceStatusDescription: On Activation end, give adjacent allies +3 block
+  guardianPresenceStatusStacks: 0
+  unwaveringImage: {fileID: 21300000, guid: c81dda452230df240af1a1b290dec17b, type: 3}
+  unwaveringStatusName: Unwavering
+  unwaveringStatusDescription: Block does not expire on activation start
+  unwaveringStatusStacks: 0
+  igniteImage: {fileID: 21300000, guid: 8a6cc6be3cfd27c49b477efeb39c6e44, type: 3}
+  igniteStatusName: Ignite
+  igniteStatusDescription: Damage taken by 'Fire Ball' ability increased
+  igniteStatusStacks: 0
+  masterfulEntrapmentImage: {fileID: 21300000, guid: 5f68270381dee95448c2f606ac8b095f,
+    type: 3}
+  masterfulEntrapmentStatusName: Masterful Entrapment
+  masterfulEntrapmentStatusDescription: Whenever you apply pinned, gain +1 wisdom
+  masterfulEntrapmentStatusStacks: 0
 --- !u!4 &1508365663
 Transform:
   m_ObjectHideFlags: 0
@@ -6976,6 +7025,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1752794075}
   m_CullTransparentMesh: 0
+--- !u!1 &1786617628
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1786617629}
+  - component: {fileID: 1786617630}
+  m_Layer: 0
+  m_Name: Talent Logic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1786617629
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786617628}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 532472067}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1786617630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786617628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63524630656d9ee43966b60e192bbd01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1792119602 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6303094649281433778, guid: f478c97d1ffa4b441bd6f19e4d0047e2,
@@ -7763,6 +7855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllAbilities:
+  - {fileID: 11400000, guid: cd257fd3c0215b74fa8c1803cc8d2cad, type: 2}
   - {fileID: 11400000, guid: 2fd0b8978a0598d4d83de026c5670704, type: 2}
   - {fileID: 11400000, guid: c6b8c40732fd23443b625ca77089096a, type: 2}
   - {fileID: 11400000, guid: 74c531bfcb1d6574c80a83a7abcbc286, type: 2}
@@ -7775,6 +7868,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5a70004e3bb5bf647b96e7ad6f6e48e9, type: 2}
   - {fileID: 11400000, guid: cc6f223deded98940b604238a8f1a3c8, type: 2}
   - {fileID: 11400000, guid: d22c0e7100d422b4aad9b97cf454c943, type: 2}
+  - {fileID: 11400000, guid: a8a7590e18a56914fa35e6ec101fd3da, type: 2}
   - {fileID: 11400000, guid: 5eb24e7942671b4408a928e8a30fab51, type: 2}
   - {fileID: 11400000, guid: c2ffb6a09c36c884083139debfc9711f, type: 2}
   - {fileID: 11400000, guid: 27bd8c43108d9b14c9989e718315b977, type: 2}
@@ -7806,7 +7900,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6cda32d2702bdff41bb09cde3a3515d7, type: 2}
   - {fileID: 11400000, guid: c9e7f391ae936df4c86fa9a210cd7c4a, type: 2}
   - {fileID: 11400000, guid: ed223b25fe728ae44b424a843be085f3, type: 2}
-  - {fileID: 11400000, guid: cd257fd3c0215b74fa8c1803cc8d2cad, type: 2}
   moveImage: {fileID: 21300000, guid: f2fc880836bad7b4d8f1de44a202f40a, type: 3}
   moveName: Move
   moveDescription: Move to a tile within range of your mobility.

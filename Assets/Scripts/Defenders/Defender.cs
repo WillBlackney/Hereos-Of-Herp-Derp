@@ -129,6 +129,18 @@ public class Defender : LivingEntity
         {
             myPassiveManager.LearnHatefulPresence(myCharacterData.hatefulPresenceStacks);
         }
+        if (myCharacterData.fieryPresenceStacks > 0)
+        {
+            myPassiveManager.LearnFieryPresence(myCharacterData.fieryPresenceStacks);
+        }
+        if (myCharacterData.masterfulEntrapmentStacks > 0)
+        {
+            myPassiveManager.LearnMasterfulEntrapment(myCharacterData.masterfulEntrapmentStacks);
+        }
+        if (myCharacterData.guardianPresenceStacks > 0)
+        {
+            myPassiveManager.LearnGuardianPresence(myCharacterData.guardianPresenceStacks);
+        }
         if (myCharacterData.poisonousStacks > 0)
         {
             myPassiveManager.LearnPoisonous(myCharacterData.poisonousStacks);
@@ -148,6 +160,10 @@ public class Defender : LivingEntity
         if (myCharacterData.Stealth)
         {
             myPassiveManager.LearnStealth();
+        }
+        if (myCharacterData.Unwavering)
+        {
+            myPassiveManager.LearnUnwavering();
         }
         if (myCharacterData.poisonImmunity)
         {
@@ -294,6 +310,10 @@ public class Defender : LivingEntity
         else if (abilityName == "Whirlwind")
         {
             OnWhirlwindButtonClicked();
+        }
+        else if (abilityName == "Frost Nova")
+        {
+            OnFrostNovaButtonClicked();
         }
 
         else if (abilityName == "Invigorate")
@@ -981,10 +1001,22 @@ public class Defender : LivingEntity
             return;
         }
 
-        CombatLogic.Instance.CreateAoEAttackEvent(this, whirlwind, TileCurrentlyOn, currentMeleeRange, true, false);
-
-        OnAbilityUsed(whirlwind, this);            
+        AbilityLogic.Instance.PerformWhirlwind(this);          
       
+    }
+    public void OnFrostNovaButtonClicked()
+    {
+        Debug.Log("Frost Nova button clicked");
+
+        Ability frostNova = mySpellBook.GetAbilityByName("Frost Nova");
+
+        if (HasEnoughAP(currentAP, frostNova.abilityAPCost) == false || IsAbilityOffCooldown(frostNova.abilityCurrentCooldownTime) == false)
+        {
+            return;
+        }
+
+        AbilityLogic.Instance.PerformFrostNova(this);
+
     }
     public void OnElectricalDischargeButtonClicked()
     {
@@ -1042,12 +1074,7 @@ public class Defender : LivingEntity
             return;
         }
 
-        // TO DO: this need to be chaged in future to handledamage() when we have set up damage types
-        ModifyCurrentHealth(-bloodLust.abilitySecondaryValue);
-        //HandleDamage(bloodLust.abilitySecondaryValue, this);
-        ModifyCurrentAP(bloodLust.abilityPrimaryValue);
-
-        OnAbilityUsed(bloodLust, this);
+        AbilityLogic.Instance.PerformBloodLust(this);
 
     }
     public void OnPreparationButtonClicked()
@@ -1394,7 +1421,7 @@ public class Defender : LivingEntity
         if (IsTargetInRange(enemyTarget, currentMeleeRange))
         {
             awaitingSliceAndDiceOrder = false;
-            AbilityLogic.Instance.PerformSliceAndDice(this, target, currentAP);
+            AbilityLogic.Instance.PerformSliceAndDice(this, target);
         }
     }
     public void StartPoisonDartProcess(Enemy target)

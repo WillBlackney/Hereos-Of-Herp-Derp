@@ -45,6 +45,7 @@ public class StatusIconLibrary : MonoBehaviour
         CreateThickOfTheFightIconData();
         CreateTemporaryStrengthIconData();
         CreateTemporaryInitiativeIconData();
+        CreateTemporaryMobilityIconData();
         CreateRuneIconData();
         CreateExhaustedIconData();
         CreateExposedIconData();
@@ -54,6 +55,11 @@ public class StatusIconLibrary : MonoBehaviour
         CreateTrueSightIconData();
         CreateLifeStealIconData();
         CreateVenomousIconData();
+        CreateFieryPresenceIconData();
+        CreateGuardianPresenceIconData();
+        CreateUnwaveringIconData();
+        CreateIgniteIconData();
+        CreateMasterfulEntrapmentIconData();
     }
 
     public StatusIcon GetStatusIconByName(string name)
@@ -374,6 +380,15 @@ public class StatusIconLibrary : MonoBehaviour
         temporaryInitiative.statusStacks = temporaryInitiativeStatusStacks;
         allIcons.Add(temporaryInitiative);
     }
+    public void CreateTemporaryMobilityIconData()
+    {
+        StatusIcon temporaryMobility = gameObject.AddComponent<StatusIcon>();
+        temporaryMobility.statusSprite = temporaryMobilityImage;
+        temporaryMobility.statusName = temporaryMobilityStatusName;
+        temporaryMobility.statusDescription = temporaryMobilityStatusDescription;
+        temporaryMobility.statusStacks = temporaryMobilityStatusStacks;
+        allIcons.Add(temporaryMobility);
+    }
     public void CreateRuneIconData()
     {
         StatusIcon rune = gameObject.AddComponent<StatusIcon>();
@@ -457,6 +472,51 @@ public class StatusIconLibrary : MonoBehaviour
         venomous.statusDescription = venomousStatusDescription;
         venomous.statusStacks = venomousStatusStacks;
         allIcons.Add(venomous);
+    }
+    public void CreateFieryPresenceIconData()
+    {
+        StatusIcon fieryPresence = gameObject.AddComponent<StatusIcon>();
+        fieryPresence.statusSprite = fieryPresenceImage;
+        fieryPresence.statusName = fieryPresenceStatusName;
+        fieryPresence.statusDescription = fieryPresenceStatusDescription;
+        fieryPresence.statusStacks = fieryPresenceStatusStacks;
+        allIcons.Add(fieryPresence);
+    }
+    public void CreateGuardianPresenceIconData()
+    {
+        StatusIcon guardianPresence = gameObject.AddComponent<StatusIcon>();
+        guardianPresence.statusSprite = guardianPresenceImage;
+        guardianPresence.statusName = guardianPresenceStatusName;
+        guardianPresence.statusDescription = guardianPresenceStatusDescription;
+        guardianPresence.statusStacks = guardianPresenceStatusStacks;
+        allIcons.Add(guardianPresence);
+    }
+    public void CreateUnwaveringIconData()
+    {
+        StatusIcon unwavering = gameObject.AddComponent<StatusIcon>();
+        unwavering.statusSprite = unwaveringImage;
+        unwavering.statusName = unwaveringStatusName;
+        unwavering.statusDescription = unwaveringStatusDescription;
+        unwavering.statusStacks = unwaveringStatusStacks;
+        allIcons.Add(unwavering);
+    }
+    public void CreateIgniteIconData()
+    {
+        StatusIcon ignite = gameObject.AddComponent<StatusIcon>();
+        ignite.statusSprite = igniteImage;
+        ignite.statusName = igniteStatusName;
+        ignite.statusDescription = igniteStatusDescription;
+        ignite.statusStacks = igniteStatusStacks;
+        allIcons.Add(ignite);
+    }
+    public void CreateMasterfulEntrapmentIconData()
+    {
+        StatusIcon masterfulEntrapment = gameObject.AddComponent<StatusIcon>();
+        masterfulEntrapment.statusSprite = masterfulEntrapmentImage;
+        masterfulEntrapment.statusName = masterfulEntrapmentStatusName;
+        masterfulEntrapment.statusDescription = masterfulEntrapmentStatusDescription;
+        masterfulEntrapment.statusStacks = masterfulEntrapmentStatusStacks;
+        allIcons.Add(masterfulEntrapment);
     }
 
 
@@ -646,6 +706,12 @@ public class StatusIconLibrary : MonoBehaviour
     public string temporaryInitiativeStatusDescription;
     public int temporaryInitiativeStatusStacks;
 
+    [Header("Temporary Mobility Icon Data")]
+    public Sprite temporaryMobilityImage;
+    public string temporaryMobilityStatusName;
+    public string temporaryMobilityStatusDescription;
+    public int temporaryMobilityStatusStacks;
+
     [Header("Rune Icon Data")]
     public Sprite runeImage;
     public string runeStatusName;
@@ -700,4 +766,33 @@ public class StatusIconLibrary : MonoBehaviour
     public string venomousStatusDescription;
     public int venomousStatusStacks;
 
+    [Header("Fiery Presence Icon Data")]
+    public Sprite fieryPresenceImage;
+    public string fieryPresenceStatusName;
+    public string fieryPresenceStatusDescription;
+    public int fieryPresenceStatusStacks;
+
+    [Header("Guardian Presence Icon Data")]
+    public Sprite guardianPresenceImage;
+    public string guardianPresenceStatusName;
+    public string guardianPresenceStatusDescription;
+    public int guardianPresenceStatusStacks;
+
+    [Header("Unwavering Icon Data")]
+    public Sprite unwaveringImage;
+    public string unwaveringStatusName;
+    public string unwaveringStatusDescription;
+    public int unwaveringStatusStacks;
+
+    [Header("Ignite Icon Data")]
+    public Sprite igniteImage;
+    public string igniteStatusName;
+    public string igniteStatusDescription;
+    public int igniteStatusStacks;
+
+    [Header("Masterful Entrapment Data")]
+    public Sprite masterfulEntrapmentImage;
+    public string masterfulEntrapmentStatusName;
+    public string masterfulEntrapmentStatusDescription;
+    public int masterfulEntrapmentStatusStacks;
 }

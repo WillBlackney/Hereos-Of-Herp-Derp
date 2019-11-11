@@ -70,8 +70,12 @@ public class CharacterData : MonoBehaviour
     public int startingAPBonus;
     public int adaptiveStacks;
     public int hatefulPresenceStacks;
+    public int fieryPresenceStacks;
+    public int guardianPresenceStacks;
+    public int masterfulEntrapmentStacks;
     public int thickOfTheFightStacks;
     public bool Stealth;
+    public bool Unwavering;
     public bool camoflage;
     public bool poisonImmunity;
     public int trueSightStacks;
@@ -119,10 +123,17 @@ public class CharacterData : MonoBehaviour
     public bool KnowsBless;
     public bool KnowsSiphonLife;
     public bool KnowsChaosBolt;
+    public bool KnowsFrostNova;
 
     [Header("Known Talents")]
     public bool KnowsImprovedPreparation;
     public bool KnowsImprovedDash;
+    public bool KnowsImprovedInvigorate;
+    public bool KnowsImprovedHolyFire;
+    public bool KnowsImprovedInspire;
+    public bool KnowsImprovedWhirlwind;
+    public bool KnowsImprovedTelekinesis;
+    public bool KnowsImprovedFireBall;
 
     public void InitializeSetup(string characterClass)
     {
@@ -308,7 +319,7 @@ public class CharacterData : MonoBehaviour
         ModifyCurrentLevel(1);
         SetMaxXP(100);
         ModifyCurrentXP(0);
-        ModifyTalentPoints(2);
+        ModifyTalentPoints(3);
         
     }
 

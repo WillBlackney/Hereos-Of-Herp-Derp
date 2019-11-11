@@ -6,7 +6,21 @@ public class TalentLogic : Singleton<TalentLogic>
 {    
     public bool DoesCharacterHaveTalent(LivingEntity entity, string talentName)
     {
-        return true;
+        if(talentName == "Improved Invigorate")
+        {
+            if (entity.defender &&
+                entity.defender.myCharacterData.KnowsImprovedInvigorate)
+            {
+                return true;
+            }
+        }
+
+        else
+        {
+            return false;
+        }
+
+        return false;
     }
 
 }
