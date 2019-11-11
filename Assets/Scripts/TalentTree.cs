@@ -103,6 +103,9 @@ public class TalentTree : MonoBehaviour
 
         allTalentButtons.Add(talentOne);
         allTalentButtons.Add(talentTwo);
+        allTalentButtons.Add(talentThree);
+        //allTalentButtons.Add(talentFour);
+        //allTalentButtons.Add(talentFive);
     }
 
     public void SetTalentTreeName(string _talentTreeName)

@@ -212,8 +212,9 @@ public class ActivationManager : Singleton<ActivationManager>
             UIManager.Instance.DisableEndTurnButton();
         }
 
-        StartCoroutine(entity.OnActivationStart());
         entity.myOnActivationEndEffectsFinished = false;
+        Action activationStartAction = entity.OnActivationStart();
+        yield return new WaitUntil(() => activationStartAction.ActionResolved() == true);        
 
         if (entity.enemy)
         {
@@ -223,9 +224,7 @@ public class ActivationManager : Singleton<ActivationManager>
             yield return new WaitUntil(() => entity.enemy.ActivationFinished() == true);
         }
 
-        
-        yield return null;
-
+        action.actionResolved = true;        
     }
     public Action EndEntityActivation(LivingEntity entity)
     {
@@ -235,8 +234,10 @@ public class ActivationManager : Singleton<ActivationManager>
     }
     public IEnumerator EndEntityActivationCoroutine(LivingEntity entity, Action action)
     {
-        StartCoroutine(entity.OnActivationEndCoroutine());
-        yield return new WaitUntil(() => entity.myOnActivationEndEffectsFinished == true);
+        //StartCoroutine(entity.OnActivationEndCoroutine());        
+        //yield return new WaitUntil(() => entity.myOnActivationEndEffectsFinished == true);
+        Action endActivationAction = entity.OnActivationEnd();
+        yield return new WaitUntil(() => endActivationAction.ActionResolved() == true);
         action.actionResolved = true;
     }
     public void ActivateNextEntity()

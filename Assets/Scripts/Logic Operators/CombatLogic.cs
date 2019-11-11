@@ -393,6 +393,7 @@ public class CombatLogic : MonoBehaviour
     {
         if (target.myPassiveManager.Rune)
         {
+            Debug.Log(target.name + " protected by rune, blocking debuff and removing 1 rune.");
             target.myPassiveManager.ModifyRune(-1);
             return true;
         }

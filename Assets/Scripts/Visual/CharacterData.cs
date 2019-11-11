@@ -319,7 +319,7 @@ public class CharacterData : MonoBehaviour
         ModifyCurrentLevel(1);
         SetMaxXP(100);
         ModifyCurrentXP(0);
-        ModifyTalentPoints(3);
+        //ModifyTalentPoints(0);
         
     }
 

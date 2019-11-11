@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCharacterData: {fileID: 0}
+  myPartnerTree: {fileID: 0}
   talentTreeName: 
   talentTreeNameText: {fileID: 1979437457912055606}
   talentOne: {fileID: 3937654036633786078}
@@ -134,6 +135,7 @@ MonoBehaviour:
   talentThree: {fileID: 5567946244630198221}
   talentFour: {fileID: 7386568387517187014}
   talentFive: {fileID: 4927799753881339675}
+  allTalentButtons: []
 --- !u!1 &1908432085510314038
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,6 +661,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936240240639298581, guid: 29f1b0bd02b444a46991440b28255efa,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29f1b0bd02b444a46991440b28255efa, type: 3}

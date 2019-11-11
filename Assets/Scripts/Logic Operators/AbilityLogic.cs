@@ -351,7 +351,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability whirlwind = attacker.mySpellBook.GetAbilityByName("Whirlwind");
         OnAbilityUsed(whirlwind, attacker);
-        CombatLogic.Instance.CreateAoEAttackEvent(attacker, whirlwind, attacker.TileCurrentlyOn, 1, true, true);
+        CombatLogic.Instance.CreateAoEAttackEvent(attacker, whirlwind, attacker.TileCurrentlyOn, 1, true, false);
 
         // Improved Whirlwind talent
         if(attacker.defender != null)
@@ -396,7 +396,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if(!CombatLogic.Instance.IsTargetFriendly(attacker, entity) && tilesInNovaRange.Contains(entity.TileCurrentlyOn))
             {
-                entity.ApplyPinned();
+                entity.ApplyPinned(attacker);
             }
         }
         
@@ -675,9 +675,10 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsed(phaseShift, caster);
 
         TileScript casterDestination = target.TileCurrentlyOn;
+        TileScript targetDestination = caster.TileCurrentlyOn;
 
-        MovementLogic.Instance.TeleportEntity(caster, target.TileCurrentlyOn, true);
-        MovementLogic.Instance.TeleportEntity(target, casterDestination, true);
+        MovementLogic.Instance.TeleportEntity(caster, casterDestination, true);
+        MovementLogic.Instance.TeleportEntity(target, targetDestination, true);
 
         action.actionResolved = true;
 

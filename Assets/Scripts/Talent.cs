@@ -11,6 +11,7 @@ public class Talent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     public GameObject blackOverlay;
     public GameObject highlightUnderlay;
     public GameObject infoPanelParent;
+    public GameObject abilityDataPanel;
     public TextMeshProUGUI talentNameText;
     public TextMeshProUGUI talentDescriptionText;
     public TextMeshProUGUI talentAPText;
@@ -134,6 +135,7 @@ public class Talent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
         if (talentData.isAbility)
         {
+            abilityDataPanel.SetActive(true);
             talentName = talentData.talentAbilityData.abilityName;
             talentNameText.text = talentData.talentAbilityData.abilityName;
             talentDescriptionText.text = talentData.talentAbilityData.abilityDescription;
@@ -327,10 +329,7 @@ public class Talent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         myCharacterData.SetTalentButtonVisibilities();
     }
 
-    public void OnTalentButtonClicked()
-    {
-       // LearnTalent(talentName);
-    }
+   
 
     public bool IsTalentUnlocked()
     {

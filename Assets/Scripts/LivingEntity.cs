@@ -532,7 +532,7 @@ public class LivingEntity : MonoBehaviour
     public virtual void ModifyCurrentWisdom(int wisdomGainedOrLost)
     {
         int previousWisdom = currentWisdom;
-        currentStrength += wisdomGainedOrLost;
+        currentWisdom += wisdomGainedOrLost;
 
         if (currentWisdom != 0 ||
             (currentWisdom == 0 && (previousWisdom > 0 || previousWisdom < 0))
@@ -885,7 +885,13 @@ public class LivingEntity : MonoBehaviour
     }
 
     // Turn + activation related
-    public virtual IEnumerator OnActivationStart()
+    public Action OnActivationStart()
+    {
+        Action action = new Action();
+        StartCoroutine(OnActivationStartCoroutine(action));
+        return action;
+    }
+    public IEnumerator OnActivationStartCoroutine(Action action)
     {
         moveActionsTakenThisTurn = 0;
         timesAttackedThisTurn = 0;
@@ -946,13 +952,17 @@ public class LivingEntity : MonoBehaviour
             }
             
         }
+
+        action.actionResolved = true;
     }
 
-    public virtual void OnActivationEnd()
+    public Action OnActivationEnd()
     {
-        StartCoroutine(OnActivationEndCoroutine());
+        Action action = new Action();
+        StartCoroutine(OnActivationEndCoroutine(action));
+        return action;
     }
-    public virtual IEnumerator OnActivationEndCoroutine()
+    public virtual IEnumerator OnActivationEndCoroutine(Action action)
     {
         Debug.Log("OnActivationEndCoroutine() called...");
 
@@ -1234,6 +1244,7 @@ public class LivingEntity : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.5f);
+        action.actionResolved = true;
         myOnActivationEndEffectsFinished = true;
 
     }
@@ -1252,8 +1263,7 @@ public class LivingEntity : MonoBehaviour
     }
 
     public virtual void GainEnergyOnActivationStart()
-    {
-        
+    {        
         currentAP += currentEnergy;
 
         if (currentAP > currentMaxAP)
@@ -1282,8 +1292,13 @@ public class LivingEntity : MonoBehaviour
 
     public void ModifyBlockOnActivationStart()
     {
+        if (myPassiveManager.Unwavering)
+        {
+            return;
+        }
+
         // prevent removing block from characters that start combat with block
-        if(TurnManager.Instance.currentTurnCount != 1 || myPassiveManager.Unwavering == false)
+        if(TurnManager.Instance.currentTurnCount != 1)
         {
             if (ArtifactManager.Instance.HasArtifact("Calipers"))
             {
