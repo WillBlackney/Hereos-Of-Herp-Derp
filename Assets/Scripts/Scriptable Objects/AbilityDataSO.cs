@@ -7,15 +7,17 @@ public class AbilityDataSO : ScriptableObject
 {
     public enum DamageType { None, Physical, Magic, Poison};
     public enum AttackType { None, Melee, Ranged};
+    public enum AbilityType { None, Skill, MeleeAttack, RangedAttack};
 
-    public Sprite abilityImage;
+    public Sprite sprite;
     public string abilityName;
-    public string abilityDescription;    
-    public int abilityBaseCooldownTime;    
-    public int abilityAPCost;
-    public int abilityRange;
-    public int abilityPrimaryValue;
-    public int abilitySecondaryValue;
-    public DamageType abilityDamageType;
-    public AttackType abilityAttackType;
+    public string description;    
+    public int baseCooldownTime;    
+    public int apCost;
+    public int range;
+    public int primaryValue;
+    public int secondaryValue;
+    public DamageType damageType;
+    public AttackType attackType;
+    public AbilityType abilityType;
 }

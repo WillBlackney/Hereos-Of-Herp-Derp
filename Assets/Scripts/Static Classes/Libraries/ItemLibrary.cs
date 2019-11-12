@@ -24,7 +24,7 @@ public class ItemLibrary : MonoBehaviour
 
         foreach (ItemDataSO itemData in allItems)
         {
-            if (itemData.itemName == itemName)
+            if (itemData.Name == itemName)
             {
                 itemReturned = itemData;
             }

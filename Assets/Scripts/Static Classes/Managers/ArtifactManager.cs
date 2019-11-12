@@ -29,19 +29,19 @@ public class ArtifactManager : MonoBehaviour
         artifactGO.GetComponent<ArtifactGO>().InitializeSetup(artifactObtained);
 
         // individual artifact 'On pickup' logic
-        if(artifactObtained.artifactName == "Comfy Pillow")
+        if(artifactObtained.Name == "Comfy Pillow")
         {
             CampSiteManager.Instance.restButtonDescriptionText.text = "Choose a character heal to max HP";
         }
-        else if(artifactObtained.artifactName == "Kettle Bell")
+        else if(artifactObtained.Name == "Kettle Bell")
         {
             CampSiteManager.Instance.trainButtonDescriptionText.text = "Choose a character to gain 2 levels";
         }
-        else if (artifactObtained.artifactName == "Ferryman Token")
+        else if (artifactObtained.Name == "Ferryman Token")
         {
             PlayerDataManager.Instance.ModifyGold(200);
         }
-        else if (artifactObtained.artifactName == "Ice Cream")
+        else if (artifactObtained.Name == "Ice Cream")
         {
             foreach(CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
             {
@@ -49,7 +49,7 @@ public class ArtifactManager : MonoBehaviour
                 character.ModifyTalentPoints(1);
             }
         }
-        else if (artifactObtained.artifactName == "Yummy Mushroom")
+        else if (artifactObtained.Name == "Yummy Mushroom")
         {
             foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
             {
@@ -66,7 +66,7 @@ public class ArtifactManager : MonoBehaviour
     {      
         foreach(ArtifactDataSO artData in artifactsObtained)
         {
-            if(artData.artifactName == artifactName)
+            if(artData.Name == artifactName)
             {
                 Debug.Log("ArtifactManager.HasArtifact() confirms player has obtained " + artifactName);
                 return true;

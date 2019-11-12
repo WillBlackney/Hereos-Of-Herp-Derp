@@ -21,11 +21,11 @@ public class ArtifactRewardButton : MonoBehaviour, IPointerEnterHandler, IPointe
     public void InitializeSetup()
     {
         myArtifactData = ArtifactLibrary.Instance.GetRandomViableArtifact();
-        artifactImage.sprite = myArtifactData.artifactSprite;
-        artifactNameText.text = myArtifactData.artifactName;
+        artifactImage.sprite = myArtifactData.sprite;
+        artifactNameText.text = myArtifactData.Name;
 
         // info panel        
-        artifactDescriptionPanelText.text = myArtifactData.artifactDescription;
+        artifactDescriptionPanelText.text = myArtifactData.description;
 
 
     }

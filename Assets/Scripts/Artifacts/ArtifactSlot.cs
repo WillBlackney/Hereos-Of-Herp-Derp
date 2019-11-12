@@ -23,19 +23,19 @@ public class ArtifactSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void InitializeSetup(ArtifactDataSO artifactData)
     {
         myArtifactData = artifactData;
-        myArtifactImage.sprite = artifactData.artifactSprite;
-        artifactDescriptionText.text = myArtifactData.artifactDescription;
-        artifactNameText.text = myArtifactData.artifactName;
+        myArtifactImage.sprite = artifactData.sprite;
+        artifactDescriptionText.text = myArtifactData.description;
+        artifactNameText.text = myArtifactData.Name;
 
-        if(myArtifactData.artifactRarity == ArtifactDataSO.Rarity.Common)
+        if(myArtifactData.rarity == ArtifactDataSO.Rarity.Common)
         {
             SetGoldCost(Random.Range(100, 150));
         }
-        else if (myArtifactData.artifactRarity == ArtifactDataSO.Rarity.Rare)
+        else if (myArtifactData.rarity == ArtifactDataSO.Rarity.Rare)
         {
             SetGoldCost(Random.Range(150, 200));
         }
-        else if (myArtifactData.artifactRarity == ArtifactDataSO.Rarity.Epic)
+        else if (myArtifactData.rarity == ArtifactDataSO.Rarity.Epic)
         {
             SetGoldCost(Random.Range(200, 250));
         }
@@ -84,7 +84,7 @@ public class ArtifactSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         if (PlayerDataManager.Instance.currentGold >= goldCost)
         {
-            Debug.Log("Buying Artifact " + myArtifactData.artifactName + " for " + goldCost.ToString());
+            Debug.Log("Buying Artifact " + myArtifactData.Name + " for " + goldCost.ToString());
             PlayerDataManager.Instance.ModifyGold(-goldCost);
             ArtifactManager.Instance.ObtainArtifact(myArtifactData);
         }

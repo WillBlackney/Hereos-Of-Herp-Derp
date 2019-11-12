@@ -67,7 +67,7 @@ public class ShopScreenManager : MonoBehaviour
         foreach (ItemSlot slot in allItemsSlots)
         {
             if (slot.myItemCard.myItemDataSO != null &&
-                slot.myItemCard.myItemDataSO.itemName == itemChecked.itemName &&
+                slot.myItemCard.myItemDataSO.Name == itemChecked.Name &&
                 slot != slotToCheck)
             {
                 alreadyInShop = true;
@@ -145,30 +145,30 @@ public class ShopScreenManager : MonoBehaviour
         ArtifactDataSO adTwo = ArtifactLibrary.Instance.GetRandomViableArtifact();
         ArtifactDataSO adThree = ArtifactLibrary.Instance.GetRandomViableArtifact();
 
-        if (adTwo.artifactName == adOne.artifactName)
+        if (adTwo.Name == adOne.Name)
         {
-            if (adTwo.artifactName == "Stinky Poo")
+            if (adTwo.Name == "Stinky Poo")
             {
                 // do nothing
             }
             else
             {
-                while (adTwo.artifactName == adOne.artifactName)
+                while (adTwo.Name == adOne.Name)
                 {
                     adTwo = ArtifactLibrary.Instance.GetRandomViableArtifact();
                 }
             }
         }
 
-        if (adThree.artifactName == adOne.artifactName || adThree.artifactName == adTwo.artifactName)
+        if (adThree.Name == adOne.Name || adThree.Name == adTwo.Name)
         {
-            if (adThree.artifactName == "Stinky Poo")
+            if (adThree.Name == "Stinky Poo")
             {
                 // do nothing
             }
             else
             {
-                while (adThree.artifactName == adOne.artifactName || adThree.artifactName == adTwo.artifactName)
+                while (adThree.Name == adOne.Name || adThree.Name == adTwo.Name)
                 {
                     adThree = ArtifactLibrary.Instance.GetRandomViableArtifact();
                 }

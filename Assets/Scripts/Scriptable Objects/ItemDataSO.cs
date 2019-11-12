@@ -11,8 +11,8 @@ public class ItemDataSO : ScriptableObject
     public Color rareColour = Color.blue;
     public Color epicColour = Color.red;
 
-    public Sprite itemImage;
-    public string itemName;
+    public Sprite sprite;
+    public string Name;
     public string itemDescription;
     public ItemRarity itemRarity;
 }

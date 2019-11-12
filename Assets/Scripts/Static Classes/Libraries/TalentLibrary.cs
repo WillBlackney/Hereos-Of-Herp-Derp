@@ -12,7 +12,7 @@ public class TalentLibrary : Singleton<TalentLibrary>
 
         foreach (TalentDataSO talent in allTalents)
         {
-            if (talent.talentName == talentName)
+            if (talent.Name == talentName)
             {
                 talentReturned = talent;
                 break;

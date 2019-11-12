@@ -17,9 +17,9 @@ public class ArtifactGO : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     #region
     public void InitializeSetup(ArtifactDataSO artifactData)
     {
-        artifactImage.sprite = artifactData.artifactSprite;
-        artifactDescriptionText.text = artifactData.artifactDescription;
-        artifactNameText.text = artifactData.artifactName;
+        artifactImage.sprite = artifactData.sprite;
+        artifactDescriptionText.text = artifactData.description;
+        artifactNameText.text = artifactData.Name;
     }
     #endregion
 

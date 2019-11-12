@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New TalentDataSO", menuName = "TalentDataSO", order = 53)]
 public class TalentDataSO : ScriptableObject
 {
-    public string talentName;
-    public string talentDescription;
-    public Sprite talentImage;
+    public string Name;
+    public string description;
+    public Sprite sprite;
     public bool isAbility;
     public AbilityDataSO talentAbilityData;
 }

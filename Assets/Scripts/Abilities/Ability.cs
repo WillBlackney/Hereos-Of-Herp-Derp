@@ -46,7 +46,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     {
         myAbilityData = abilityFromLibrary;
 
-        abilityImage = abilityFromLibrary.abilityImage;
+        abilityImage = abilityFromLibrary.sprite;
         Image image = GetComponent<Image>();
 
         // only for defenders. enemies don't have ability button gameobjects, so GetComponent<Image> will cause a null ref on enemies.
@@ -57,14 +57,14 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
         // Set base properties
         abilityName = abilityFromLibrary.abilityName;
-        abilityDescription = abilityFromLibrary.abilityDescription;
-        abilityBaseCooldownTime = abilityFromLibrary.abilityBaseCooldownTime;
-        abilityAPCost = abilityFromLibrary.abilityAPCost;
-        abilityRange = abilityFromLibrary.abilityRange;
-        abilityPrimaryValue = abilityFromLibrary.abilityPrimaryValue;
-        abilitySecondaryValue = abilityFromLibrary.abilitySecondaryValue;
-        abilityAttackType = abilityFromLibrary.abilityAttackType;
-        abilityDamageType = abilityFromLibrary.abilityDamageType;
+        abilityDescription = abilityFromLibrary.description;
+        abilityBaseCooldownTime = abilityFromLibrary.baseCooldownTime;
+        abilityAPCost = abilityFromLibrary.apCost;
+        abilityRange = abilityFromLibrary.range;
+        abilityPrimaryValue = abilityFromLibrary.primaryValue;
+        abilitySecondaryValue = abilityFromLibrary.secondaryValue;
+        abilityAttackType = abilityFromLibrary.attackType;
+        abilityDamageType = abilityFromLibrary.damageType;
 
         // Modify base properties if character has certain talents before updating text components
         ModifyAbilityPropertiesFromTalents(this);

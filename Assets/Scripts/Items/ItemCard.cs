@@ -39,10 +39,10 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         originalScale = GetComponent<RectTransform>().localScale.x;
         myItemDataSO = data;
         Debug.Log("RunSetupFromItemData() called...");
-        myName = data.itemName;
+        myName = data.Name;
         myNameText.text = myName;
         myDescriptionText.text = data.itemDescription;
-        itemImage.sprite = data.itemImage;
+        itemImage.sprite = data.sprite;
         myItemRarity = data.itemRarity;
 
         if (myItemRarity == ItemDataSO.ItemRarity.Common)
