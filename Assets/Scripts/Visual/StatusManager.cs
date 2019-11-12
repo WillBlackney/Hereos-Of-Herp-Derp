@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class StatusManager : MonoBehaviour
 {
+    [Header("Component + Prefab References")]
     public GameObject statusIconPrefab;
     List<StatusIcon> myStatusIcons = new List<StatusIcon>();
+
+    // Add, Update, and Remove Status Icon Logic
+    #region
     public void StartAddStatusProcess(StatusIcon iconData, int stacksGainedOrLost)
     {
         Debug.Log("StartAddStatusProcess() called");
@@ -46,24 +50,21 @@ public class StatusManager : MonoBehaviour
         
         
     }
-
     public void AddNewStatusIcon(StatusIcon iconData, int stacksGained)
     {
         Debug.Log("AddNewStatusProcess() called");
         GameObject newIconGO = Instantiate(statusIconPrefab, gameObject.transform);
         StatusIcon newStatus = newIconGO.GetComponent<StatusIcon>();
-        newStatus.SetUpProperties(StatusIconLibrary.Instance.GetStatusIconByName(iconData.statusName));
+        newStatus.InitializeSetup(StatusIconLibrary.Instance.GetStatusIconByName(iconData.statusName));
         newStatus.ModifyStatusIconStacks(stacksGained);
         myStatusIcons.Add(newStatus);
 
     }
-
     public void RemoveStatusIcon(StatusIcon iconToRemove)
     {
         myStatusIcons.Remove(iconToRemove);
         Destroy(iconToRemove.gameObject);
     }
-
     public void UpdateStatusIcon(StatusIcon iconToUpdate, int stacksGainedOrLost)
     {
         Debug.Log("UpdateStatusProcess() called");
@@ -75,7 +76,10 @@ public class StatusManager : MonoBehaviour
         }
        
     }
+    #endregion
 
+    // Misc Logic
+    #region
     public StatusIcon GetStatusIconByName(string iconName)
     {
         StatusIcon iconReturned = null; 
@@ -90,4 +94,5 @@ public class StatusManager : MonoBehaviour
 
         return iconReturned;
     }
+    #endregion
 }

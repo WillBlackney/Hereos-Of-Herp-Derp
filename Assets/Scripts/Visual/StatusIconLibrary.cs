@@ -3,15 +3,17 @@ using UnityEngine;
 
 public class StatusIconLibrary : MonoBehaviour
 {
-    public static StatusIconLibrary Instance;
-
+    [Header("Properties")]
     public List<StatusIcon> allIcons = new List<StatusIcon>();
+
+    // Initialization + Singleton Pattern
+    #region
+    public static StatusIconLibrary Instance;
     private void Awake()
     {
         Instance = this;
         PopulateStatusIconLibrary();
     }
-
     public void PopulateStatusIconLibrary()
     {
         CreateKnockdownIconData();
@@ -61,7 +63,10 @@ public class StatusIconLibrary : MonoBehaviour
         CreateIgniteIconData();
         CreateMasterfulEntrapmentIconData();
     }
+    #endregion
 
+    // Logic
+    #region
     public StatusIcon GetStatusIconByName(string name)
     {
         StatusIcon iconReturned = null;
@@ -76,7 +81,10 @@ public class StatusIconLibrary : MonoBehaviour
 
         return iconReturned;
     }
+    #endregion
 
+    // Create Individual Icon Data
+    #region
     public void CreateKnockdownIconData()
     {
         StatusIcon knockDown = gameObject.AddComponent<StatusIcon>();
@@ -86,7 +94,6 @@ public class StatusIconLibrary : MonoBehaviour
         knockDown.statusStacks = knockDownStatusStacks;
         allIcons.Add(knockDown);
     }
-
     public void CreateStrengthIconData()
     {
         StatusIcon strength = gameObject.AddComponent<StatusIcon>();
@@ -105,7 +112,6 @@ public class StatusIconLibrary : MonoBehaviour
         wisdom.statusStacks = wisdomStatusStacks;
         allIcons.Add(wisdom);
     }
-
     public void CreateDexterityIconData()
     {
         StatusIcon dexterity = gameObject.AddComponent<StatusIcon>();
@@ -115,7 +121,6 @@ public class StatusIconLibrary : MonoBehaviour
         dexterity.statusStacks = dexterityStatusStacks;
         allIcons.Add(dexterity);
     }
-
     public void CreateStunnedIconData()
     {
         StatusIcon stunned = gameObject.AddComponent<StatusIcon>();
@@ -125,7 +130,6 @@ public class StatusIconLibrary : MonoBehaviour
         stunned.statusStacks = stunnedStatusStacks;
         allIcons.Add(stunned);
     }
-
     public void CreatePinnedIconData()
     {
         StatusIcon pinned = gameObject.AddComponent<StatusIcon>();
@@ -135,7 +139,6 @@ public class StatusIconLibrary : MonoBehaviour
         pinned.statusStacks = pinnedStatusStacks;
         allIcons.Add(pinned);
     }
-
     public void CreateBarrierIconData()
     {
         StatusIcon barrier = gameObject.AddComponent<StatusIcon>();
@@ -145,7 +148,6 @@ public class StatusIconLibrary : MonoBehaviour
         barrier.statusStacks = barrierStatusStacks;
         allIcons.Add(barrier);
     }
-
     public void CreateEnrageIconData()
     {
         StatusIcon enrage = gameObject.AddComponent<StatusIcon>();
@@ -155,7 +157,6 @@ public class StatusIconLibrary : MonoBehaviour
         enrage.statusStacks = enrageStatusStacks;
         allIcons.Add(enrage);
     }
-
     public void CreateGrowingIconData()
     {
         StatusIcon growing = gameObject.AddComponent<StatusIcon>();
@@ -174,7 +175,6 @@ public class StatusIconLibrary : MonoBehaviour
         @volatile.statusStacks = volatileStatusStacks;
         allIcons.Add(@volatile);
     }
-
     public void CreateSleepingIconData()
     {
         StatusIcon sleeping = gameObject.AddComponent<StatusIcon>();
@@ -184,7 +184,6 @@ public class StatusIconLibrary : MonoBehaviour
         sleeping.statusStacks = sleepingStatusStacks;
         allIcons.Add(sleeping);
     }
-
     public void CreateCamoflageIconData()
     {
         StatusIcon camoflage = gameObject.AddComponent<StatusIcon>();
@@ -194,7 +193,6 @@ public class StatusIconLibrary : MonoBehaviour
         camoflage.statusStacks = camoflageStatusStacks;
         allIcons.Add(camoflage);
     }
-
     public void CreatePoisonIconData()
     {
         StatusIcon poison = gameObject.AddComponent<StatusIcon>();
@@ -204,7 +202,6 @@ public class StatusIconLibrary : MonoBehaviour
         poison.statusStacks = poisonStatusStacks;
         allIcons.Add(poison);
     }
-
     public void CreateCautiousIconData()
     {
         StatusIcon cautious = gameObject.AddComponent<StatusIcon>();
@@ -214,7 +211,6 @@ public class StatusIconLibrary : MonoBehaviour
         cautious.statusStacks = cautiousStatusStacks;
         allIcons.Add(cautious);
     }
-
     public void CreateFleetFootedIconData()
     {
         StatusIcon fleetFooted = gameObject.AddComponent<StatusIcon>();
@@ -224,7 +220,6 @@ public class StatusIconLibrary : MonoBehaviour
         fleetFooted.statusStacks = fleetFootedStatusStacks;
         allIcons.Add(fleetFooted);
     }
-
     public void CreateEncouragingPresenceIconData()
     {
         StatusIcon encouragingPresence = gameObject.AddComponent<StatusIcon>();
@@ -234,7 +229,6 @@ public class StatusIconLibrary : MonoBehaviour
         encouragingPresence.statusStacks = encouragingPresenceStatusStacks;
         allIcons.Add(encouragingPresence);
     }
-
     public void CreatePoisonousIconData()
     {
         StatusIcon poisonous = gameObject.AddComponent<StatusIcon>();
@@ -253,7 +247,6 @@ public class StatusIconLibrary : MonoBehaviour
         preparation.statusStacks = preparationStatusStacks;
         allIcons.Add(preparation);
     }
-
     public void CreateStealthIconData()
     {
         StatusIcon stealth = gameObject.AddComponent<StatusIcon>();
@@ -263,7 +256,6 @@ public class StatusIconLibrary : MonoBehaviour
         stealth.statusStacks = stealthStatusStacks;
         allIcons.Add(stealth);
     }
-
     public void CreateThornsIconData()
     {
         StatusIcon thorns = gameObject.AddComponent<StatusIcon>();
@@ -273,7 +265,6 @@ public class StatusIconLibrary : MonoBehaviour
         thorns.statusStacks = thornsStatusStacks;
         allIcons.Add(thorns);
     }
-
     public void CreateUnhygienicIconData()
     {
         StatusIcon unhygienic = gameObject.AddComponent<StatusIcon>();
@@ -283,7 +274,6 @@ public class StatusIconLibrary : MonoBehaviour
         unhygienic.statusStacks = unhygienicStatusStacks;
         allIcons.Add(unhygienic);
     }
-
     public void CreateQuickReflexesIconData()
     {
         StatusIcon quickReflexes = gameObject.AddComponent<StatusIcon>();
@@ -293,7 +283,6 @@ public class StatusIconLibrary : MonoBehaviour
         quickReflexes.statusStacks = quickReflexesStatusStacks;
         allIcons.Add(quickReflexes);
     }
-
     public void CreateRegenerationIconData()
     {
         StatusIcon regeneration = gameObject.AddComponent<StatusIcon>();
@@ -312,7 +301,6 @@ public class StatusIconLibrary : MonoBehaviour
         adaptive.statusStacks = adaptiveStatusStacks;
         allIcons.Add(adaptive);
     }
-
     public void CreatePoisonImmunityIconData()
     {
         StatusIcon poisonImmunity = gameObject.AddComponent<StatusIcon>();
@@ -322,7 +310,6 @@ public class StatusIconLibrary : MonoBehaviour
         poisonImmunity.statusStacks = poisonImmunityStatusStacks;
         allIcons.Add(poisonImmunity);
     }
-
     public void CreateHatefulPresenceIconData()
     {
         StatusIcon hatefulPresence = gameObject.AddComponent<StatusIcon>();
@@ -332,7 +319,6 @@ public class StatusIconLibrary : MonoBehaviour
         hatefulPresence.statusStacks = hatefulPresenceStatusStacks;
         allIcons.Add(hatefulPresence);
     }
-
     public void CreateSoulDrainAuraIconData()
     {
         StatusIcon soulDrainAura = gameObject.AddComponent<StatusIcon>();
@@ -351,7 +337,6 @@ public class StatusIconLibrary : MonoBehaviour
         lightningSHield.statusStacks = lightningShieldStatusStacks;
         allIcons.Add(lightningSHield);
     }
-
     public void CreateThickOfTheFightIconData()
     {
         StatusIcon thickOfTheFight = gameObject.AddComponent<StatusIcon>();
@@ -361,7 +346,6 @@ public class StatusIconLibrary : MonoBehaviour
         thickOfTheFight.statusStacks = thickOfTheFightStatusStacks;
         allIcons.Add(thickOfTheFight);
     }
-
     public void CreateTemporaryStrengthIconData()
     {
         StatusIcon temporaryStrength = gameObject.AddComponent<StatusIcon>();
@@ -398,7 +382,6 @@ public class StatusIconLibrary : MonoBehaviour
         rune.statusStacks = runeStatusStacks;
         allIcons.Add(rune);
     }
-
     public void CreateExposedIconData()
     {
         StatusIcon exposed = gameObject.AddComponent<StatusIcon>();
@@ -408,7 +391,6 @@ public class StatusIconLibrary : MonoBehaviour
         exposed.statusStacks = exposedStatusStacks;
         allIcons.Add(exposed);
     }
-
     public void CreateExhaustedIconData()
     {
         StatusIcon exhausted = gameObject.AddComponent<StatusIcon>();
@@ -427,7 +409,6 @@ public class StatusIconLibrary : MonoBehaviour
         magicImmunity.statusStacks = magicImmunityStatusStacks;
         allIcons.Add(magicImmunity);
     }
-
     public void CreatePhysicalImmunityIconData()
     {
         StatusIcon physicalImmunity = gameObject.AddComponent<StatusIcon>();
@@ -518,7 +499,10 @@ public class StatusIconLibrary : MonoBehaviour
         masterfulEntrapment.statusStacks = masterfulEntrapmentStatusStacks;
         allIcons.Add(masterfulEntrapment);
     }
+    #endregion
 
+    // Icon Properties
+    #region
 
     [Header("Knockdown Icon Data")]
     public Sprite knockDownImage;
@@ -795,4 +779,5 @@ public class StatusIconLibrary : MonoBehaviour
     public string masterfulEntrapmentStatusName;
     public string masterfulEntrapmentStatusDescription;
     public int masterfulEntrapmentStatusStacks;
+    #endregion
 }

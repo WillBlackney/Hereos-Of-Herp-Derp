@@ -25,8 +25,9 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public GameObject infoPanelParent;
     public CanvasGroup panelCG;
 
-
-    public void SetUpProperties(StatusIcon iconData)
+    // Initialization + Setup
+    #region
+    public void InitializeSetup(StatusIcon iconData)
     {
         myIconData = iconData;
         statusSprite = iconData.statusSprite;
@@ -42,11 +43,12 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         statusDescriptionText.text = statusDescription;
         infoPanelIconImage.sprite = statusSprite;
 
-        TextLogic.SetStatusIconDescriptionText(this);
-        // Leave panel visible on start to properly scale its visual elements, then hide it
-        //SetInfoPanelVisibility(false);
+        TextLogic.SetStatusIconDescriptionText(this);        
     }
+    #endregion
 
+    // Logic
+    #region
     public void ModifyStatusIconStacks(int stacksGainedOrLost)
     {
         statusStacks += stacksGainedOrLost;
@@ -59,20 +61,25 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         // Make sure status info panel text is updated when stacks data changes
         TextLogic.SetStatusIconDescriptionText(this);
     }
+    #endregion
 
+    // Mouse + Click Events
+    #region
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Status Icon mouse over detected...");
         //SpellInfoBox.Instance.ShowInfoBox(statusName, 0, 0, 0, statusDescription);
         SetInfoPanelVisibility(true);
     }
-
     public void OnPointerExit(PointerEventData eventData)
     {
         //SpellInfoBox.Instance.HideInfoBox();
         SetInfoPanelVisibility(false);
     }
+    #endregion
 
+    // Visibility + View Logic
+    #region
     public void SetInfoPanelVisibility(bool onOroff)
     {
         infoPanelParent.SetActive(onOroff);
@@ -86,4 +93,5 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             panelCG.alpha = 0;
         }
     }
+    #endregion
 }

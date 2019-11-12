@@ -7,7 +7,7 @@ public class WorldEncounter : MonoBehaviour
 {    
     public enum EncounterType { NoType, BasicEnemy, EliteEnemy, Home, CampSite, Shop, Treasure, Mystery};
 
-    [Header("Hexagon Properties")]
+    [Header("Properties")]
     public EncounterType myEncounterType;
     public int column;
     public int position;
@@ -15,7 +15,7 @@ public class WorldEncounter : MonoBehaviour
     public Color32 baseColour;
     public Color32 occupiedColour;
 
-    [Header("Hexagon Component References")]
+    [Header("Component References")]
     public Image myEncounterTypeImage;
     public Image myGraphicMask;
     public Animator myAnimator;
@@ -29,10 +29,11 @@ public class WorldEncounter : MonoBehaviour
     public Sprite treasureEncounterImage;
     public Sprite mysteryEncounterImage;
 
+    // Initialization + Setup
+    #region
     public void InitializeSetup()
     {
-        myAnimator = GetComponent<Animator>();
-        //WorldMap.Instance.allWorldEncounters.Add(this);
+        myAnimator = GetComponent<Animator>();        
         baseColour = myGraphicMask.color;
 
         if (WorldMap.Instance.generateRandomWorld)
@@ -42,85 +43,6 @@ public class WorldEncounter : MonoBehaviour
 
         SetHexagonSprite();
     }
-
-    public void HighlightHexagon()
-    {
-        myAnimator.SetBool("Highlight", true);
-    }
-
-    public void UnHighlightHexagon()
-    {        
-        myAnimator.SetBool("Highlight", false);   
-        if(encounterReached == true)
-        {
-            SetGraphicMaskColour(occupiedColour);
-        }
-        else
-        {
-            SetGraphicMaskColour(baseColour);
-        }        
-    }
-
-    public void OnEncounterButtonClicked()
-    {
-        List<WorldEncounter> viableEncounters = WorldMap.Instance.GetNextViableEncounters(WorldMap.Instance.playerPosition);
-
-        // if were in the middle of an unfinished encounter already, or the encounter clicked on is not valid, return
-        if( WorldMap.Instance.canSelectNewEncounter == false ||
-            viableEncounters.Contains(this) == false)
-        {
-            return;
-        }
-
-        else if(myEncounterType == EncounterType.BasicEnemy)
-        {
-            WorldMap.Instance.SetPlayerPosition(this);
-            Debug.Log("Starting new basic enemy encounter event");            
-            EventManager.Instance.StartNewBasicEncounterEvent();
-        }
-
-        else if (myEncounterType == EncounterType.CampSite)
-        {
-            WorldMap.Instance.SetPlayerPosition(this);
-            Debug.Log("Starting new rest site event");
-            EventManager.Instance.StartNewRestSiteEncounterEvent();
-        }
-
-        else if (myEncounterType == EncounterType.EliteEnemy)
-        {
-            WorldMap.Instance.SetPlayerPosition(this);
-            Debug.Log("Starting new elite event");
-            EventManager.Instance.StartNewEliteEncounterEvent();
-        }
-
-        else if (myEncounterType == EncounterType.Shop)
-        {
-            WorldMap.Instance.SetPlayerPosition(this);
-            Debug.Log("Starting new Shop event");
-            EventManager.Instance.StartShopEncounterEvent();
-        }
-
-        else if (myEncounterType == EncounterType.Treasure)
-        {
-            WorldMap.Instance.SetPlayerPosition(this);
-            Debug.Log("Starting new Treasure Room event");
-            EventManager.Instance.StartNewTreasureRoomEncounterEvent();
-        }
-
-        else if (myEncounterType == EncounterType.Mystery)
-        {
-            WorldMap.Instance.SetPlayerPosition(this);
-            Debug.Log("Starting new Mystery Room event");
-            EventManager.Instance.StartNewMysteryEncounterEvent();
-        }
-    }
-
-    public void SetGraphicMaskColour(Color32 newColour)
-    {
-        Debug.Log("Setting hexagon color");
-        myGraphicMask.color = newColour;
-    }
-
     public void SetRandomTileType(WorldEncounter encounter)
     {
         int randomNumber = Random.Range(1, 101);
@@ -172,7 +94,7 @@ public class WorldEncounter : MonoBehaviour
             int randomNumber3 = Random.Range(1, 101);
 
             // camp site
-            if(randomNumber3 < 33)
+            if (randomNumber3 < 33)
             {
                 bool validPlaceForCampSite = true;
                 if (encounter.column > 2)
@@ -221,7 +143,7 @@ public class WorldEncounter : MonoBehaviour
                             ((enc.column == column - 1) || (enc.column == column + 1)) &&
                             enc.myEncounterType == EncounterType.Shop
                             )
-                        {                            
+                        {
                             validPlaceForShopSite = false;
                             break;
                         }
@@ -334,7 +256,26 @@ public class WorldEncounter : MonoBehaviour
         }
         */
     }
+    #endregion
 
+    // Visibility + View Logic
+    #region
+    public void HighlightHexagon()
+    {
+        myAnimator.SetBool("Highlight", true);
+    }
+    public void UnHighlightHexagon()
+    {        
+        myAnimator.SetBool("Highlight", false);   
+        if(encounterReached == true)
+        {
+            SetGraphicMaskColour(occupiedColour);
+        }
+        else
+        {
+            SetGraphicMaskColour(baseColour);
+        }        
+    }
     public void SetHexagonSprite()
     {
         if (myEncounterType == EncounterType.BasicEnemy)
@@ -372,6 +313,74 @@ public class WorldEncounter : MonoBehaviour
             myEncounterTypeImage.sprite = mysteryEncounterImage;
         }
     }
+    public void SetGraphicMaskColour(Color32 newColour)
+    {
+        Debug.Log("Setting hexagon color");
+        myGraphicMask.color = newColour;
+    }
+    #endregion
+
+    // Mouse + Click Events
+    #region
+    public void OnEncounterButtonClicked()
+    {
+        List<WorldEncounter> viableEncounters = WorldMap.Instance.GetNextViableEncounters(WorldMap.Instance.playerPosition);
+
+        // if were in the middle of an unfinished encounter already, or the encounter clicked on is not valid, return
+        if( WorldMap.Instance.canSelectNewEncounter == false ||
+            viableEncounters.Contains(this) == false)
+        {
+            return;
+        }
+
+        else if(myEncounterType == EncounterType.BasicEnemy)
+        {
+            WorldMap.Instance.SetPlayerPosition(this);
+            Debug.Log("Starting new basic enemy encounter event");            
+            EventManager.Instance.StartNewBasicEncounterEvent();
+        }
+
+        else if (myEncounterType == EncounterType.CampSite)
+        {
+            WorldMap.Instance.SetPlayerPosition(this);
+            Debug.Log("Starting new rest site event");
+            EventManager.Instance.StartNewRestSiteEncounterEvent();
+        }
+
+        else if (myEncounterType == EncounterType.EliteEnemy)
+        {
+            WorldMap.Instance.SetPlayerPosition(this);
+            Debug.Log("Starting new elite event");
+            EventManager.Instance.StartNewEliteEncounterEvent();
+        }
+
+        else if (myEncounterType == EncounterType.Shop)
+        {
+            WorldMap.Instance.SetPlayerPosition(this);
+            Debug.Log("Starting new Shop event");
+            EventManager.Instance.StartShopEncounterEvent();
+        }
+
+        else if (myEncounterType == EncounterType.Treasure)
+        {
+            WorldMap.Instance.SetPlayerPosition(this);
+            Debug.Log("Starting new Treasure Room event");
+            EventManager.Instance.StartNewTreasureRoomEncounterEvent();
+        }
+
+        else if (myEncounterType == EncounterType.Mystery)
+        {
+            WorldMap.Instance.SetPlayerPosition(this);
+            Debug.Log("Starting new Mystery Room event");
+            EventManager.Instance.StartNewMysteryEncounterEvent();
+        }
+    }
+    #endregion
+
+
+
+
+
 
 
 }

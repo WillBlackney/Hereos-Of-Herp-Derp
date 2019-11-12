@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class WorldMap : Singleton<WorldMap>
 {
+    [Header("Properties")]
     public int playerColumn;
-    public WorldEncounter playerPosition;
-    public List<WorldEncounter> allWorldEncounters;
-    public bool canSelectNewEncounter = false;
-
+    public WorldEncounter playerPosition;   
+    public bool canSelectNewEncounter;
     public bool generateRandomWorld;
+    public List<WorldEncounter> allWorldEncounters;
 
     [Header("Testing + Debugging Properties")]
     public bool OnlySpawnBasicEncounters;
@@ -17,9 +17,11 @@ public class WorldMap : Singleton<WorldMap>
     public bool OnlySpawnShopEncounters;
     public bool OnlySpawnEliteEncounters;
 
+    // Initialization + Setup
+    #region
     private void Start()
     {
-        CreateHexagons();
+        CreateWorld();
         OnNewWorldMapLoaded();
         SetWorldMapReadyState();
         UIManager.Instance.OnWorldMapButtonClicked();
@@ -28,15 +30,37 @@ public class WorldMap : Singleton<WorldMap>
     {
         SetPlayerPosition(0, 1);
     }
-
-    public void CreateHexagons()
+    public void CreateWorld()
     {        
         foreach(WorldEncounter encounter in allWorldEncounters)
         {
             encounter.InitializeSetup();
         }
     }
+    #endregion
 
+    // Visibility + View Logic
+    #region
+    public void UnHighlightAllHexagons()
+    {
+        foreach (WorldEncounter encounter in allWorldEncounters)
+        {
+            encounter.UnHighlightHexagon();
+        }
+    }
+    public void HighlightNextAvailableEncounters()
+    {
+        List<WorldEncounter> nextEncounters = GetNextViableEncounters(playerPosition);
+
+        foreach (WorldEncounter encounter in nextEncounters)
+        {
+            encounter.HighlightHexagon();
+        }
+    }
+    #endregion
+
+    // Player + Travel Logic
+    #region
     public void SetPlayerPosition(WorldEncounter encounter)
     {
         playerPosition = encounter;
@@ -44,7 +68,6 @@ public class WorldMap : Singleton<WorldMap>
         encounter.encounterReached = true;
         encounter.SetGraphicMaskColour(encounter.occupiedColour);        
     }   
-
     public void SetPlayerPosition(int column, int position)
     {
         WorldEncounter newLocation = null;
@@ -67,13 +90,15 @@ public class WorldMap : Singleton<WorldMap>
         newLocation.encounterReached = true;        
         newLocation.SetGraphicMaskColour(newLocation.occupiedColour);
     }
+    #endregion
 
+    // Misc Logic
+    #region
     public void PopulateEncountersList()
     {
         WorldEncounter[] encountersFound = FindObjectsOfType<WorldEncounter>();
         allWorldEncounters.AddRange(encountersFound);
     }
-
     public List<WorldEncounter> GetNextViableEncounters(WorldEncounter positionFrom)
     {
         //int currentColumn = positionFrom.column;
@@ -105,28 +130,11 @@ public class WorldMap : Singleton<WorldMap>
         return viableEncounters;
 
     }
-
     public void SetWorldMapReadyState()
     {
         canSelectNewEncounter = true;
         HighlightNextAvailableEncounters();
     }
+    #endregion
 
-    public void UnHighlightAllHexagons()
-    {
-        foreach(WorldEncounter encounter in allWorldEncounters)
-        {
-            encounter.UnHighlightHexagon();
-        }
-    }
-
-    public void HighlightNextAvailableEncounters()
-    {
-        List<WorldEncounter> nextEncounters = GetNextViableEncounters(playerPosition);
-
-        foreach (WorldEncounter encounter in nextEncounters)
-        {
-            encounter.HighlightHexagon();
-        }
-    }
 }

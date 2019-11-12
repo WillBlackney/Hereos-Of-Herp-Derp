@@ -9,7 +9,6 @@ public class TileHover : Singleton<TileHover>
 
     [Header("Properties")]
     public bool isActive;
-
     void Update()
     {
         FollowMouse();

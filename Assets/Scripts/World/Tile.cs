@@ -4,35 +4,34 @@ using UnityEngine.EventSystems;
 public class Tile : MonoBehaviour
 {
     public enum TileType { None, Dirt, Grass, Forest, Rock, Water };
+
+    [Header("Component References")]
+    private SpriteRenderer mySpriteRenderer;
+    public Animator myAnimator;
+    
+    [Header("Properties")]
     public TileType myTileType;
-    public Point GridPosition { get; set; }
     public bool IsEmpty;
     public bool IsWalkable;
-
     public Color32 originalColor;
     public Color32 highlightedColor = Color.white;
-
-    private SpriteRenderer spriteRenderer;
-    public Animator myAnimator;
-    public bool Debugging { get; set; }
-
-    private void Start()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        myAnimator = GetComponent<Animator>();
-        originalColor = spriteRenderer.color;
-    }
-
+    public Point GridPosition { get; set; }
     public Vector2 WorldPosition
     {
         get
-        {
-            // Gets the centre point of the tile
-            // return new Vector2(transform.position.x + (GetComponent<SpriteRenderer>().bounds.size.x / 2), transform.position.y - (GetComponent<SpriteRenderer>().bounds.size.y / 2));
+        {            
             return new Vector2(transform.position.x + 0.5f, transform.position.y - 0.5f);
         }
     }
 
+    // Initialization + Setup
+    #region
+    private void Start()
+    {
+        mySpriteRenderer = GetComponent<SpriteRenderer>();
+        myAnimator = GetComponent<Animator>();
+        originalColor = mySpriteRenderer.color;
+    }    
     public void Setup(Point gridPos, Vector3 worldPos, Transform parent)
     {
         if (myTileType == TileType.Dirt)
@@ -57,14 +56,44 @@ public class Tile : MonoBehaviour
         transform.SetParent(parent);
         LevelManager.Instance.Tiles.Add(gridPos, this);
     }
+    #endregion
 
-    
+    // Set Tile Type
+    #region
+    // Set Tile Type
+    public void RunDirtTileSetup()
+    {
+        IsWalkable = true;
+        IsEmpty = true;
+    }
+    public void RunGrassTileSetup()
+    {
+        IsWalkable = true;
+        IsEmpty = true;
+    }
+    public void RunRockTileSetup()
+    {
+        IsWalkable = true;
+        IsEmpty = true;
+    }
+    public void RunForestTileSetup()
+    {
+        IsWalkable = false;
+        IsEmpty = false;
+    }
+    public void RunWaterTileSetup()
+    {
+        IsWalkable = false;
+        IsEmpty = true;
+    }
+    #endregion
+
+    // Mouse + Click Events
+    #region
     private void OnMouseOver()
     {
         LevelManager.Instance.mousedOverTile = this;
     }
-    
-
     public void OnMouseDown()
     {
         LevelManager.Instance.selectedTile = this;
@@ -101,40 +130,7 @@ public class Tile : MonoBehaviour
         }
 
     }
+    #endregion
 
-    public void ColorTile(Color newColor)
-    {
-        //Debug.Log("Coloring tile...");
-        spriteRenderer.color = newColor;
-    }
-
-    public void RunDirtTileSetup()
-    {
-        IsWalkable = true;
-        IsEmpty = true;
-    }
-
-    public void RunGrassTileSetup()
-    {
-        IsWalkable = true;
-        IsEmpty = true;
-    }
-
-    public void RunRockTileSetup()
-    {
-        IsWalkable = true;
-        IsEmpty = true;
-    }
-
-    public void RunForestTileSetup()
-    {
-        IsWalkable = false;
-        IsEmpty = false;
-    }
-
-    public void RunWaterTileSetup()
-    {
-        IsWalkable = false;
-        IsEmpty = true;
-    }
+    
 }

@@ -6,8 +6,11 @@ using TMPro;
 
 public class DamageEffect : MonoBehaviour
 {
-    public TextMeshProUGUI amountText;    
+    [Header("Component References")]
+    public TextMeshProUGUI amountText;
 
+    // Initialization + Setup
+    #region
     public void InitializeSetup(int damageAmount, bool heal = false)
     {
         transform.position = new Vector2(transform.position.x - 0.2f, transform.position.y);
@@ -26,14 +29,16 @@ public class DamageEffect : MonoBehaviour
         }
         
     }
-
     public void InitializeSetup(string statusName, Color textColor)
     {        
         VisualEffectManager.Instance.dfxQueue.Add(this);       
         amountText.text = statusName;
         amountText.color = textColor;
     }
+    #endregion
 
+    // Logic
+    #region
     public void DestroyThis()
     {
         VisualEffectManager.Instance.queueCount--;
@@ -41,4 +46,5 @@ public class DamageEffect : MonoBehaviour
         
         Destroy(gameObject);
     }
+    #endregion
 }

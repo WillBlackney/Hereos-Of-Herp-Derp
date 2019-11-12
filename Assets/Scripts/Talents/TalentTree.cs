@@ -19,9 +19,10 @@ public class TalentTree : MonoBehaviour
     public Talent talentThree;
     public Talent talentFour;
     public Talent talentFive;
-
     public List<Talent> allTalentButtons;
 
+    // Initialization + Setup
+    #region
     public void InitializeSetup(string _talentTreeName)
     {
         Debug.Log("TalentTree.InitializeSetup() called...");
@@ -60,15 +61,10 @@ public class TalentTree : MonoBehaviour
         // Shaman
         else if (_talentTreeName == "Path of Storms")
         {
-            talentOne.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Chain Lightning"), 1);
-            talentTwo.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Primal Blast"), 2);
-
         }
 
         else if (_talentTreeName == "Path of Fury")
         {
-            talentOne.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Electrical Discharge"), 1);
-            talentTwo.InitializeSetup(this, AbilityLibrary.Instance.GetAbilityByName("Primal Rage"), 2);
         }
 
         // Mage
@@ -107,13 +103,11 @@ public class TalentTree : MonoBehaviour
         //allTalentButtons.Add(talentFour);
         //allTalentButtons.Add(talentFive);
     }
-
     public void SetTalentTreeName(string _talentTreeName)
     {
         talentTreeName = _talentTreeName;
         talentTreeNameText.text = talentTreeName;
     }
-
     public void SetTalentTreePartner(TalentTree partnerTree)
     {
         myPartnerTree = partnerTree;
@@ -123,4 +117,5 @@ public class TalentTree : MonoBehaviour
         talentFour.partnerTalent = partnerTree.talentFour;
         talentFive.partnerTalent = partnerTree.talentFive;
     }
+    #endregion
 }

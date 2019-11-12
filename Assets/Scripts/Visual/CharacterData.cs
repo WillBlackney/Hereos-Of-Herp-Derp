@@ -6,6 +6,8 @@ using TMPro;
 
 public class CharacterData : MonoBehaviour
 {
+    // Properties + Components
+    #region
     [Header("Component References")]
     public GameObject frontPage;
     public GameObject inventoryPage;
@@ -135,7 +137,10 @@ public class CharacterData : MonoBehaviour
     public bool KnowsImprovedWhirlwind;
     public bool KnowsImprovedTelekinesis;
     public bool KnowsImprovedFireBall;
+    #endregion
 
+    // Initialization + Setup
+    #region
     public void InitializeSetup(string characterClass)
     {
         if(characterClass == "Warrior")
@@ -323,7 +328,6 @@ public class CharacterData : MonoBehaviour
         //ModifyTalentPoints(0);
         
     }
-
     public void CreateMyDefenderGameObject()
     {
         List<Tile> possibleSpawnLocations = LevelManager.Instance.GetDefenderSpawnTiles();
@@ -449,8 +453,10 @@ public class CharacterData : MonoBehaviour
             defender.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
         }
     }
+    #endregion
 
-    // Modify stats related
+    // Modify Primary Stats
+    #region
     public void SetCurrentHealth(int newValue)
     {
         CurrentHealth = newValue;
@@ -462,7 +468,6 @@ public class CharacterData : MonoBehaviour
         panelCurrentHealthText.text = CurrentHealth.ToString();
         currentHealthText.text = CurrentHealth.ToString();
     }
-
     public void ModifyCurrentHealth(int healthGainedOrLost)
     {
         CurrentHealth += healthGainedOrLost;
@@ -474,7 +479,6 @@ public class CharacterData : MonoBehaviour
         panelCurrentHealthText.text = CurrentHealth.ToString();
         currentHealthText.text = CurrentHealth.ToString();
     }
-
     public void ModifyMaxHealth(int maxHealthGainedOrLost)
     {
         MaxHealth += maxHealthGainedOrLost;
@@ -486,7 +490,6 @@ public class CharacterData : MonoBehaviour
             ModifyCurrentHealth(-(CurrentHealth - MaxHealth));
         }
     }
-
     public void ModifyStrength(int strengthGainedOrLost)
     {
         Strength += strengthGainedOrLost;
@@ -497,95 +500,91 @@ public class CharacterData : MonoBehaviour
         Wisdom += wisdomGainedOrLost;
         //strengthText.text = Strength.ToString();
     }
-
     public void ModifyDexterity(int dexterityGainedOrLost)
     {
         Dexterity += dexterityGainedOrLost;
         //strengthText.text = Strength.ToString();
     }
-
     public void ModifyMobility(int mobilityGainedOrLost)
     {
         Mobility += mobilityGainedOrLost;
         mobilityText.text = Mobility.ToString();
     }
-
     public void ModifyInitiative(int initiativeGainedOrLost)
     {
         Initiative += initiativeGainedOrLost;
         //initiativeText.text = Initiative.ToString();
     }
-
     public void ModifyEnergy(int energyGainedOrlost)
     {
         Energy += energyGainedOrlost;
         energyText.text = Energy.ToString();
     }
-
     public void ModifyMaxAP(int maxAPGainedOrlost)
     {
         MaxAP += maxAPGainedOrlost;        
     }
+    #endregion
 
-    public void ModifyCurrentXP(int xpGainedOrLost)
-    {        
-        currentXP += xpGainedOrLost;
-        if(currentXP > currentMaxXP)
-        {
-            currentXP = currentXP - currentMaxXP;
-            ModifyCurrentLevel(1);
-            ModifyTalentPoints(1);
-            
-        }
-
-        currentXPText.text = currentXP.ToString();
-    }
-
+    // Modify Passive Stats
+    #region
     public void ModifyStartingBlock(int blockGainedOrLost)
     {
         startingBlock += blockGainedOrLost;
+    }    
+    public void ModifyStartingAPBonus(int apBonusGainedOrLost)
+    {
+        startingAPBonus += apBonusGainedOrLost;
     }
-
+    public void ModifyMeleeRange(int meleeRangeGainedOrLost)
+    {
+        MeleeRange += meleeRangeGainedOrLost;
+    }
+    public void ModifyAdaptive(int adaptiveStacksGainedOrLost)
+    {
+        adaptiveStacks += adaptiveStacksGainedOrLost;
+    }
     public void ModifyThorns(int thornsGainedOrLost)
     {
         thornsStacks += thornsGainedOrLost;
     }
 
-    public void ModifyStartingAPBonus(int apBonusGainedOrLost)
-    {
-        startingAPBonus += apBonusGainedOrLost;
-    }
+    #endregion
 
-    public void ModifyMeleeRange(int meleeRangeGainedOrLost)
-    {
-        MeleeRange += meleeRangeGainedOrLost;
-    }
-
-    public void ModifyAdaptive(int adaptiveStacksGainedOrLost)
-    {
-        adaptiveStacks += adaptiveStacksGainedOrLost;
-    }
-
-    // Modify Level / XP / Talents
+    // Modify Level / XP / Talent Points
+    #region
     public void SetMaxXP(int newValue)
     {
         currentMaxXP = newValue;
         currentMaxXPText.text = currentMaxXP.ToString();
     }
-
     public void ModifyCurrentLevel(int levelsGainedOrLost)
     {
         currentLevel += levelsGainedOrLost;
         currentLevelText.text = currentLevel.ToString();
     }
+    public void ModifyCurrentXP(int xpGainedOrLost)
+    {
+        currentXP += xpGainedOrLost;
+        if (currentXP > currentMaxXP)
+        {
+            currentXP = currentXP - currentMaxXP;
+            ModifyCurrentLevel(1);
+            ModifyTalentPoints(1);
 
+        }
+
+        currentXPText.text = currentXP.ToString();
+    }
     public void ModifyTalentPoints(int talentPointsGainedOrLost)
     {
         talentPoints += talentPointsGainedOrLost;
         talentPointText.text = talentPoints.ToString();
     }
+    #endregion
 
-    // UI related
+    // Mouse + Button + Click Events
+    #region
     public void OnCharacterImageButtonClicked()
     {
         if(CampSiteManager.Instance.awaitingLevelUpChoice == true)
@@ -626,39 +625,22 @@ public class CharacterData : MonoBehaviour
         }
               
     }
-
     public void OnEquiptmentButtonClicked()
     {
         frontPage.SetActive(false);
         inventoryPage.SetActive(true);
     }
-
     public void OnTalentTreeButtonClicked()
     {
         frontPage.SetActive(false);
         talentTreePage.SetActive(true);
         SetTalentButtonVisibilities();
-    }
-
-    public void SetTalentButtonVisibilities()
-    {
-        List<Talent> allTalentButtons = new List<Talent>();
-
-        allTalentButtons.AddRange(talentTreeOne.allTalentButtons);
-        allTalentButtons.AddRange(talentTreeTwo.allTalentButtons);
-
-        foreach(Talent talent in allTalentButtons)
-        {
-            talent.UpdateVisbilityState();
-        }
-    }
-
+    }    
     public void OnTalentTreeBackButtonClicked()
     {
         frontPage.SetActive(true);
         talentTreePage.SetActive(false);
     }
-
     public void OnFrontPageBackButtonClicked()
     {
         frontPage.SetActive(false);
@@ -669,13 +651,11 @@ public class CharacterData : MonoBehaviour
 
         CharacterRoster.Instance.CharacterRosterCloseButton.SetActive(true);
     }
-
     public void OnEquiptmentPageBackButtonClicked()
     {
         inventoryPage.SetActive(false);
         frontPage.SetActive(true);
     }
-
     public void OnAssignItemButtonClicked()
     {
         // assign selected char data
@@ -685,7 +665,22 @@ public class CharacterData : MonoBehaviour
         // set inventory ready state
         InventoryManager.Instance.readyToAcceptNewItem = true;
     }
+    #endregion
 
+    // Visibility + View Logic
+    #region
+    public void SetTalentButtonVisibilities()
+    {
+        List<Talent> allTalentButtons = new List<Talent>();
+
+        allTalentButtons.AddRange(talentTreeOne.allTalentButtons);
+        allTalentButtons.AddRange(talentTreeTwo.allTalentButtons);
+
+        foreach (Talent talent in allTalentButtons)
+        {
+            talent.UpdateVisbilityState();
+        }
+    }
     public void EnableFrontPage()
     {
         Debug.Log("Character image clicked, opening front page");
@@ -699,14 +694,17 @@ public class CharacterData : MonoBehaviour
 
         CharacterRoster.Instance.CharacterRosterCloseButton.SetActive(false);
         frontPage.SetActive(true);
-        
-    }
 
+    }
+    #endregion
+
+    // Items + Inventory Logic
+    #region
     public void AddItemToEquiptment(ItemCard item)
     {
         GameObject newItem = Instantiate(item.gameObject, inventoryItemParent.transform);
         myItems.Add(newItem.GetComponent<ItemCard>());
         ItemLibrary.Instance.AssignItem(this, newItem.GetComponent<ItemCard>().myName);
     }
-
+    #endregion
 }

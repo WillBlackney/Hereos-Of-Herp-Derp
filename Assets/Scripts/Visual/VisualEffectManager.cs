@@ -5,23 +5,29 @@ using UnityEngine.UI;
 
 public class VisualEffectManager : MonoBehaviour
 {
-    public static VisualEffectManager Instance;
+    [Header("Prefab References")]
     public GameObject DamageEffectPrefab;
     public GameObject StatusEffectPrefab;
+
+    [Header("Properties")]
+    public List<DamageEffect> dfxQueue = new List<DamageEffect>();
     public float timeBetweenEffectsInSeconds;
     public int queueCount;
-
     public Color blue;
     public Color red;
-    public Color green;
+    public Color green;    
 
-    public List<DamageEffect> dfxQueue = new List<DamageEffect>();
-
+    // Initialization + Singleton Pattern
+    #region
+    public static VisualEffectManager Instance;
     private void Awake()
     {
         Instance = this;
     }
+    #endregion
 
+    // Create VFX
+    #region
     public IEnumerator CreateDamageEffect(Vector3 location, int damageAmount, bool playFXInstantly)
     {
         if (playFXInstantly == true)
@@ -40,7 +46,6 @@ public class VisualEffectManager : MonoBehaviour
         }
 
     }
-
     public IEnumerator CreateStatusEffect(Vector3 location, string statusEffectName, bool playFXInstantly, string color = "White")
     {
         Color thisColor = Color.white;
@@ -78,7 +83,6 @@ public class VisualEffectManager : MonoBehaviour
         }
         
     }
-
     public IEnumerator CreateHealingEffect(Vector3 location, int healAmount, bool playFXInstantly)
     {
         if (playFXInstantly == true)
@@ -96,6 +100,7 @@ public class VisualEffectManager : MonoBehaviour
         }
 
     }
+    #endregion
 
 
 

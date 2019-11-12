@@ -24,108 +24,12 @@ public class Talent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     public CharacterData myCharacterData;
     public Talent partnerTalent;
     public TalentDataSO myTalentData;
-
     public string talentName;
     public bool talentLearned;
     public int talentTreePosition;
 
-    // On Pointer events
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Debug.Log("Talent.OnPointerClick() called...");
-        if(IsTalentUnlocked() && HasEnoughTalentPoints() && talentLearned == false)
-        {
-            LearnTalent(talentName);
-        }        
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        SetInfoPanelViewState(true);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        SetInfoPanelViewState(false);
-    }
-
-    // Visuals
-    public void SetInfoPanelViewState(bool onOrOff)
-    {
-        if (onOrOff == true)
-        {
-            infoPanelParent.SetActive(true);
-        }
-        else
-        {
-            infoPanelParent.SetActive(false);
-        }
-    }
-
-    public void SetHighlightState(bool onOrOff)
-    {
-        if(onOrOff == true)
-        {
-            highlightUnderlay.SetActive(true);
-        }
-        else
-        {
-            highlightUnderlay.SetActive(false);
-        }
-    }
-
-    public void SetBlackedOutState(bool onOrOff)
-    {
-        if (onOrOff == true)
-        {
-            blackOverlay.SetActive(true);
-        }
-        else
-        {
-            blackOverlay.SetActive(false);
-        }
-    }
-
-    public void UpdateVisbilityState()
-    {
-        if (talentLearned)
-        {
-            SetHighlightState(false);
-            SetBlackedOutState(false);
-        }
-        else if (partnerTalent.talentLearned)
-        {
-            SetHighlightState(false);
-            SetBlackedOutState(true);
-        }
-        else if(IsTalentUnlocked() && myCharacterData.talentPoints > 0)
-        {
-            SetHighlightState(true);
-            SetBlackedOutState(false);
-        }
-        else
-        {
-            SetHighlightState(false);
-            SetBlackedOutState(true);
-        }
-    }
-
-    // Logic
-
-    public void InitializeSetup(TalentTree talentTree, AbilityDataSO data, int treePosition)
-    {
-        myTalentTree = talentTree;
-        myCharacterData = talentTree.myCharacterData;
-        talentTreePosition = treePosition;
-        talentName = data.abilityName;
-        talentNameText.text = data.abilityName;
-        talentDescriptionText.text = data.abilityDescription;
-        talentAPText.text = data.abilityAPCost.ToString();
-        talentRangeText.text = data.abilityRange.ToString();
-        talentCDText.text = data.abilityBaseCooldownTime.ToString();
-        talentImage.sprite = data.abilityImage;
-    }
-
+    // Initialization + Setup
+    #region
     public void InitializeSetup(TalentDataSO talentData, TalentTree talentTree, int treePosition)
     {
         myTalentTree = talentTree;
@@ -153,10 +57,93 @@ public class Talent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
             talentImage.sprite = talentData.talentImage;
         }
 
-       
+
 
     }
+    #endregion
 
+    // Mouse + Click Events
+    #region
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log("Talent.OnPointerClick() called...");
+        if(IsTalentUnlocked() && HasEnoughTalentPoints() && talentLearned == false)
+        {
+            LearnTalent(talentName);
+        }        
+    }
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        SetInfoPanelViewState(true);
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        SetInfoPanelViewState(false);
+    }
+    #endregion
+
+    // Visibility + View Logic
+    #region
+    public void SetInfoPanelViewState(bool onOrOff)
+    {
+        if (onOrOff == true)
+        {
+            infoPanelParent.SetActive(true);
+        }
+        else
+        {
+            infoPanelParent.SetActive(false);
+        }
+    }
+    public void SetHighlightState(bool onOrOff)
+    {
+        if(onOrOff == true)
+        {
+            highlightUnderlay.SetActive(true);
+        }
+        else
+        {
+            highlightUnderlay.SetActive(false);
+        }
+    }
+    public void SetBlackedOutState(bool onOrOff)
+    {
+        if (onOrOff == true)
+        {
+            blackOverlay.SetActive(true);
+        }
+        else
+        {
+            blackOverlay.SetActive(false);
+        }
+    }
+    public void UpdateVisbilityState()
+    {
+        if (talentLearned)
+        {
+            SetHighlightState(false);
+            SetBlackedOutState(false);
+        }
+        else if (partnerTalent.talentLearned)
+        {
+            SetHighlightState(false);
+            SetBlackedOutState(true);
+        }
+        else if(IsTalentUnlocked() && myCharacterData.talentPoints > 0)
+        {
+            SetHighlightState(true);
+            SetBlackedOutState(false);
+        }
+        else
+        {
+            SetHighlightState(false);
+            SetBlackedOutState(true);
+        }
+    }
+    #endregion
+
+    // Talent Logic + Conditional Booleans
+    #region
     public void LearnTalent(string name)
     {
         Debug.Log("Talent.LearnTalent() called, learning talent: " + name);
@@ -327,10 +314,7 @@ public class Talent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         talentLearned = true;
         myCharacterData.ModifyTalentPoints(-1);
         myCharacterData.SetTalentButtonVisibilities();
-    }
-
-   
-
+    }  
     public bool IsTalentUnlocked()
     {
         if (talentTreePosition == 1 && partnerTalent.talentLearned == false)
@@ -361,7 +345,6 @@ public class Talent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
             return false;
         }
     }
-
     public bool HasEnoughTalentPoints()
     {
         if(myCharacterData.talentPoints > 0)
@@ -373,7 +356,8 @@ public class Talent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
             return false;
         }
     }
+    #endregion
 
-   
+
 
 }

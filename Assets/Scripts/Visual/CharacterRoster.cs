@@ -4,23 +4,24 @@ using UnityEngine;
 
 public class CharacterRoster : Singleton<CharacterRoster>
 {
+    [Header("Component References")]
     public GameObject CharacterRosterVisualParent;
     public GameObject CharacterRosterCloseButton;
-
     public CharacterData characterOne;
     public CharacterData characterTwo;
     public CharacterData characterThree;
     public CharacterData characterFour;
 
+    [Header("Properties")]
     public CharacterData selectedCharacterData;
-
     public List<CharacterData> allCharacterDataObjects;
 
+    // Initialization + Setup
+    #region
     private void Start()
     {
         InitializeSetup();
     }
-
     public void InitializeSetup()
     {
         allCharacterDataObjects = new List<CharacterData>();
@@ -70,7 +71,6 @@ public class CharacterRoster : Singleton<CharacterRoster>
         // Disables the roster view on scene load
         //CharacterRosterVisualParent.SetActive(false);
     }
-
     public void InstantiateDefenders()
     {
         foreach(CharacterData character in allCharacterDataObjects)
@@ -78,7 +78,10 @@ public class CharacterRoster : Singleton<CharacterRoster>
             character.CreateMyDefenderGameObject();
         }
     }
+    #endregion
 
+    // Reward Logic
+    #region
     public void RewardAllCharactersXP(int xpRewarded)
     {
         foreach(CharacterData cd in allCharacterDataObjects)
@@ -86,12 +89,12 @@ public class CharacterRoster : Singleton<CharacterRoster>
             RewardCharacterXP(cd, xpRewarded);
         }
     }
-
     public void RewardCharacterXP(CharacterData character, int xpRewarded)
     {
         character.ModifyCurrentXP(xpRewarded);
     }
+    #endregion
 
-   
+
 
 }

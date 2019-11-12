@@ -10,11 +10,9 @@ public class ActivationWindow : MonoBehaviour
     public Image myEntityImage;
     public TextMeshProUGUI rollText;
 
-
     [Header("Properties")]
     public LivingEntity myLivingEntity;
     public bool animateNumberText;
-
     public void InitializeSetup(LivingEntity entity)
     {
         myLivingEntity = entity;

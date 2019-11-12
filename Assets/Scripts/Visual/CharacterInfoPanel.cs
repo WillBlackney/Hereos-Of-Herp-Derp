@@ -6,17 +6,21 @@ using TMPro;
 
 public class CharacterInfoPanel : MonoBehaviour
 {
+    [Header("Properties")]
     public Enemy myEnemy;
-    public TextMeshProUGUI nameText;
-    public Image myCharacterSprite;
+    
+    [Header("Component References")]
     public GameObject panelParent;
-    public GameObject spellToolTipParent;
-
+    public GameObject spellToolTipParent;    
+    public Image myCharacterSprite;
+    public TextMeshProUGUI nameText;
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI energyText;
     public TextMeshProUGUI mobilityText;
     public TextMeshProUGUI strengthText;
 
+    // Initialization + Setup
+    #region
     public void InitializeSetup(Enemy enemyParent)
     {
         myEnemy = enemyParent;
@@ -28,16 +32,18 @@ public class CharacterInfoPanel : MonoBehaviour
         mobilityText.text = myEnemy.baseMobility.ToString();
         strengthText.text = myEnemy.baseStrength.ToString();
     }
+    #endregion
+
+    // Visibility + View Logic
+    #region
     public void EnablePanelView()
     {
         panelParent.SetActive(true);
     }
-
     public void DisablePanelView()
     {
         panelParent.SetActive(false);
     }
-
     public void AddAbilityToolTipToView(Ability ability)
     {
         GameObject newToolTip = Instantiate(PrefabHolder.Instance.spellInfoPrefab, spellToolTipParent.transform);
@@ -49,4 +55,5 @@ public class CharacterInfoPanel : MonoBehaviour
         tooltipData.cdText.text = ability.abilityBaseCooldownTime.ToString();
         tooltipData.descriptionText.text = ability.abilityDescription;
     }
+    #endregion
 }
