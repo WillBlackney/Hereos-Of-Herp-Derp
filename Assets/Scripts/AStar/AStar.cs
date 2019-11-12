@@ -15,7 +15,7 @@ public static class AStar
         nodes = new Dictionary<Point, Node>();
 
         // Loop through all tiles in the game
-        foreach(TileScript tile in LevelManager.Instance.Tiles.Values)
+        foreach(Tile tile in LevelManager.Instance.Tiles.Values)
         {
             // Add the node to the node dictionary
             nodes.Add(tile.GridPosition, new Node(tile));
@@ -113,7 +113,7 @@ public static class AStar
         //GameObject.Find("AStarDebugger").GetComponent<AStarDebugger>().DebugPath(openList, closedList, finalPath);
     }
 
-    // Prevents enemies moving diagonally between two towers
+    // Prevents entities moving diagonally between two other entities / world objects
     private static bool ConnectedDiagonally(Node currentNode, Node neighbourNode)
     {
         Point direction = neighbourNode.GridPosition - currentNode.GridPosition;

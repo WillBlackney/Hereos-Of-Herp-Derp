@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class BlackScreenManager : MonoBehaviour
 {
-
     [Header("Component References")]
     public GameObject visualParent;
     public CanvasGroup canvasGroup;
@@ -16,15 +15,12 @@ public class BlackScreenManager : MonoBehaviour
     public int aboveEverythingExceptUI;
     public int aboveEverything;
     public int behindEverything;
-
     public bool fadingOut;
     public bool fadingIn;
 
-    [Header("Singleton Properties")]
+    // Initialization + Singleton Pattern
+    #region
     public static BlackScreenManager Instance;
-
-
-    // Singleton Pattern
     void Awake()
     {
         SetupSingleton();
@@ -34,13 +30,14 @@ public class BlackScreenManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(this);
     }
+    #endregion
 
-    // Scene Change listeners
+    // Scene Change Listeners + Related
+    #region
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
-
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
@@ -52,16 +49,15 @@ public class BlackScreenManager : MonoBehaviour
         Debug.Log(scene.name);
         Debug.Log(mode);
     }
+    #endregion
 
-
-    // Property Modifiers
-
+    // Visibility + View Logic
+    #region
     public void SetSortingLayer(int newLayer)
     {
         canvas.sortingOrder = newLayer;
         currentSortingLayer = newLayer;
     }
-
     public void SetActive(bool onOrOff)
     {
         if (onOrOff == true)
@@ -73,9 +69,10 @@ public class BlackScreenManager : MonoBehaviour
             visualParent.SetActive(false);
         }
     }
+    #endregion
 
-    // Fade effects
-
+    // Fade In / Out Logic
+    #region
     public Action FadeIn(int sortingLayer, int speed = 2, float alphaTarget = 0, bool setActiveOnComplete = true)
     {
         Action action = new Action();
@@ -108,7 +105,6 @@ public class BlackScreenManager : MonoBehaviour
         action.actionResolved = true;
 
     }
-
     public Action FadeOut(int sortingLayer, int speed = 2, float alphaTarget = 1, bool setActiveOnComplete = false)
     {
         Action action = new Action();
@@ -144,5 +140,5 @@ public class BlackScreenManager : MonoBehaviour
         //SetActive(setActiveOnComplete);
         action.actionResolved = true;
     }
-
+    #endregion
 }

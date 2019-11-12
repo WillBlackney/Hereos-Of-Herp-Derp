@@ -13,20 +13,25 @@ public class ArtifactGO : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public TextMeshProUGUI artifactNameText;
     public TextMeshProUGUI artifactDescriptionText;
 
+    // Initialization + Setup
+    #region
     public void InitializeSetup(ArtifactDataSO artifactData)
     {
         artifactImage.sprite = artifactData.artifactSprite;
         artifactDescriptionText.text = artifactData.artifactDescription;
         artifactNameText.text = artifactData.artifactName;
     }
+    #endregion
 
+    // Mouse / Click events
+    #region
     public void OnPointerEnter(PointerEventData eventData)
     {
         infoPanel.SetActive(true);
     }
-
     public void OnPointerExit(PointerEventData eventData)
     {
         infoPanel.SetActive(false);
     }
+    #endregion
 }

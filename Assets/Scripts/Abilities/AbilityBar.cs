@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class AbilityBar : MonoBehaviour
 {
-    public Defender myDefender;
-   
+    [Header("Properties")]
+    public Defender myDefender;   
 
     [Header("Ability Parent Objects")]
     public GameObject AbilityOneParent;
@@ -18,18 +18,7 @@ public class AbilityBar : MonoBehaviour
     public GameObject AbilityEightParent;
     public GameObject AbilityNineParent;
     public GameObject AbilityTenParent;
-
-    
-    public void CreateButton(string abilityName, GameObject buttonParent, Ability abilitySlot)
-    {
-        GameObject newAbilityGO = Instantiate(PrefabHolder.Instance.AbilityButtonPrefab, buttonParent.transform);
-        abilitySlot = newAbilityGO.GetComponent<Ability>();
-        abilitySlot.SetupBaseProperties(AbilityLibrary.Instance.GetAbilityByName(abilityName));
-        abilitySlot.myLivingEntity = myDefender;
-        myDefender.mySpellBook.myActiveAbilities.Add(myDefender.mySpellBook.AbilityOne);
-
-    }    
-
+ 
     public void PlaceButtonOnNextAvailableSlot(string abilityName)
     {
         if (myDefender.mySpellBook.AbilityOne == null)

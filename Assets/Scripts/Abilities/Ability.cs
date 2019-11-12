@@ -40,6 +40,8 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public bool highlightButton;
     public bool fadingIn;
 
+    // Initialization + Setup
+    #region
     public void SetupBaseProperties(AbilityDataSO abilityFromLibrary)
     {
         myAbilityData = abilityFromLibrary;
@@ -53,6 +55,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
             GetComponent<Image>().sprite = abilityImage;
         }        
 
+        // Set base properties
         abilityName = abilityFromLibrary.abilityName;
         abilityDescription = abilityFromLibrary.abilityDescription;
         abilityBaseCooldownTime = abilityFromLibrary.abilityBaseCooldownTime;
@@ -60,10 +63,10 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         abilityRange = abilityFromLibrary.abilityRange;
         abilityPrimaryValue = abilityFromLibrary.abilityPrimaryValue;
         abilitySecondaryValue = abilityFromLibrary.abilitySecondaryValue;
-
         abilityAttackType = abilityFromLibrary.abilityAttackType;
         abilityDamageType = abilityFromLibrary.abilityDamageType;
 
+        // Modify base properties if character has certain talents before updating text components
         ModifyAbilityPropertiesFromTalents(this);
 
         // Set up info panel for defenders
@@ -77,7 +80,6 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
             descriptionText.text = abilityDescription.ToString();
         }
     }
-
     public void ModifyAbilityPropertiesFromTalents(Ability ability)
     {
         if (myLivingEntity == null || myLivingEntity.defender == null)
@@ -86,29 +88,99 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         }
 
         // Improved Holy Fire
-        if(ability.abilityName == "Holy Fire" && myLivingEntity.defender.myCharacterData.KnowsImprovedHolyFire)
+        if (ability.abilityName == "Holy Fire" && myLivingEntity.defender.myCharacterData.KnowsImprovedHolyFire)
         {
             ability.abilityPrimaryValue++;
-            ability.abilityRange++;            
+            ability.abilityRange++;
         }
         // Improved Telekinesis
         else if (ability.abilityName == "Telekinesis" && myLivingEntity.defender.myCharacterData.KnowsImprovedTelekinesis)
         {
             ability.abilityRange++;
-            ability.abilityBaseCooldownTime--;  
+            ability.abilityBaseCooldownTime--;
         }
     }
+    #endregion
 
+    // Mouse / Click Events
+    #region
     public void OnButtonClick()
     {
         if (myLivingEntity.GetComponent<Defender>())
         {
             myLivingEntity.GetComponent<Defender>().OnAbilityButtonClicked(abilityName);
         }
-    }    
+    }
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (myLivingEntity.GetComponent<Defender>())
+        {
+            SetInfoPanelVisibility(true);
+            highlightButton = true;
+            StartCoroutine(HighLight());
+        }
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (myLivingEntity.GetComponent<Defender>())
+        {
+            highlightButton = false;
+            SetInfoPanelVisibility(false);
+            glowHighlightCG.alpha = 0f;
+        }
 
-    
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        OnButtonClick();
+    }
+    #endregion
 
+    // Logic
+    #region
+    public void ModifyCurrentCooldown(int durationGainedOrReduced)
+    {
+        abilityCurrentCooldownTime += durationGainedOrReduced;
+
+        if (abilityCurrentCooldownTime <= 0)
+        {
+            abilityCurrentCooldownTime = 0;
+
+            if (myLivingEntity.gameObject.GetComponent<Enemy>())
+            {
+                return;
+            }
+
+            else if (myLivingEntity.gameObject.GetComponent<Defender>() == true)
+            {
+                HideCooldownTimer();
+            }
+
+        }
+        else if (abilityCurrentCooldownTime > 0)
+        {
+            if (myLivingEntity.gameObject.GetComponent<Enemy>())
+            {
+                return;
+            }
+
+            else if (myLivingEntity.gameObject.GetComponent<Defender>() == true)
+            {
+                ShowCooldownTimer();
+            }
+
+        }
+
+        myCooldownText.text = abilityCurrentCooldownTime.ToString();
+    }
+    public void ReduceCooldownOnTurnStart()
+    {
+        ModifyCurrentCooldown(-1);
+    }
+    #endregion
+
+    // Visbility / View Logic
+    #region
     public void ShowCooldownTimer()
     {
         Defender defender = myLivingEntity.GetComponent<Defender>();
@@ -124,7 +196,6 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         }
         
     }
-
     public void HideCooldownTimer()
     {
         Defender defender = myLivingEntity.gameObject.GetComponent<Defender>();
@@ -138,69 +209,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         {
             myCooldownText.gameObject.SetActive(false);
         }
-    }
-
-    public void ModifyCurrentCooldown(int durationGainedOrReduced)
-    {
-        abilityCurrentCooldownTime += durationGainedOrReduced;
-        
-        if(abilityCurrentCooldownTime <= 0)
-        {
-            abilityCurrentCooldownTime = 0;
-
-            if (myLivingEntity.gameObject.GetComponent<Enemy>())
-            {
-                return;
-            }
-
-            else if (myLivingEntity.gameObject.GetComponent<Defender>() == true)
-            {
-                HideCooldownTimer();
-            }
-            
-        }
-        else if(abilityCurrentCooldownTime > 0)
-        {
-            if (myLivingEntity.gameObject.GetComponent<Enemy>())
-            {
-                return;
-            }
-
-            else if (myLivingEntity.gameObject.GetComponent<Defender>() == true)
-            {
-                ShowCooldownTimer();
-            }
-            
-        }
-
-        myCooldownText.text = abilityCurrentCooldownTime.ToString();
-    }
-
-    public void ReduceCooldownOnTurnStart()
-    {
-        ModifyCurrentCooldown(-1);
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (myLivingEntity.GetComponent<Defender>())
-        {
-            SetInfoPanelVisibility(true);
-            highlightButton = true;
-            StartCoroutine(HighLight());
-        }
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (myLivingEntity.GetComponent<Defender>())
-        {
-            highlightButton = false;
-            SetInfoPanelVisibility(false);
-            glowHighlightCG.alpha = 0f;
-        }
-
-    }
+    }     
     public void SetInfoPanelVisibility(bool onOrOff)
     {
         myInfoPanel.SetActive(onOrOff);
@@ -219,7 +228,6 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     {               
         StartCoroutine(FadeInInfoPanelCoroutine());
     }
-
     public IEnumerator FadeInInfoPanelCoroutine()
     {
         fadingIn = true;
@@ -229,12 +237,6 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
             yield return new WaitForEndOfFrame();
         }
     }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        OnButtonClick();
-    }
-
     public IEnumerator HighLight()
     {
         while (highlightButton)
@@ -243,4 +245,6 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
             yield return new WaitForEndOfFrame();
         }
     }
+    #endregion
+
 }

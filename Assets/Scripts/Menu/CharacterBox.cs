@@ -6,8 +6,12 @@ using TMPro;
 
 public class CharacterBox : MonoBehaviour
 {
-    public string currentSelectedCharacter;
+    [Header("Component References")]
+    public Image myImageComponent;
+    public TextMeshProUGUI myClassNameText;
 
+    [Header("Properties")]
+    public string currentSelectedCharacter;
     public Sprite warriorSprite;
     public Sprite mageSprite;
     public Sprite rangerSprite;
@@ -16,21 +20,22 @@ public class CharacterBox : MonoBehaviour
     public Sprite shamanSprite;
     public Sprite randomSprite;
 
-    public Image myImageComponent;
-    public TextMeshProUGUI myClassNameText;
-
+    // Initialization + Setup
+    #region
     private void Awake()
     {
         SetCharacterAsRandom();
     }
+    #endregion
 
+    // Set Character
+    #region
     public void SetCharacterAsWarrior()
     {
         currentSelectedCharacter = "Warrior";
         myImageComponent.sprite = warriorSprite;
         myClassNameText.text = "Warrior";
     }
-
     public void SetCharacterAsPriest()
     {
         currentSelectedCharacter = "Priest";
@@ -49,28 +54,28 @@ public class CharacterBox : MonoBehaviour
         myImageComponent.sprite = rangerSprite;
         myClassNameText.text = "Ranger";
     }
-
     public void SetCharacterAsRogue()
     {
         currentSelectedCharacter = "Rogue";
         myImageComponent.sprite = rogueSprite;
         myClassNameText.text = "Rogue";
     }
-
     public void SetCharacterAsShaman()
     {
         currentSelectedCharacter = "Shaman";
         myImageComponent.sprite = shamanSprite;
         myClassNameText.text = "Shaman";
     }
-
     public void SetCharacterAsRandom()
     {
         currentSelectedCharacter = "Random";
         myImageComponent.sprite = randomSprite;
         myClassNameText.text = "Random";
     }
+    #endregion
 
+    // Click + Mouse Events
+    #region
     public void OnNextCharacterButtonClicked()
     {
         Debug.Log("Next Character button clicked...");
@@ -107,7 +112,6 @@ public class CharacterBox : MonoBehaviour
             SetCharacterAsRandom();
         }
     }
-
     public void OnPreviousCharacterButtonClicked()
     {
         Debug.Log("Next Character button clicked...");
@@ -144,5 +148,6 @@ public class CharacterBox : MonoBehaviour
             SetCharacterAsRandom();
         }
     }
+    #endregion
 
 }

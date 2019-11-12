@@ -7,6 +7,10 @@ using UnityEngine.EventSystems;
 
 public class ArtifactSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    [Header("Properties")]
+    public int goldCost;
+    public ArtifactDataSO myArtifactData;
+
     [Header("Component References")]
     public TextMeshProUGUI goldCostText;    
     public Image myArtifactImage;
@@ -14,10 +18,8 @@ public class ArtifactSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public TextMeshProUGUI artifactNameText;
     public TextMeshProUGUI artifactDescriptionText;
 
-    [Header("Properties")]
-    public int goldCost;
-    public ArtifactDataSO myArtifactData;
-
+    // Initialization + Setup
+    #region
     public void InitializeSetup(ArtifactDataSO artifactData)
     {
         myArtifactData = artifactData;
@@ -40,7 +42,27 @@ public class ArtifactSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
         EnableArtifactSlotView();
     }
+    #endregion
 
+    // Mouse + Click Events
+    #region
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        infoPanel.SetActive(true);
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        infoPanel.SetActive(false);
+    }
+    public void OnArtifactSlotButtonClicked()
+    {
+        BuyArtifact();
+        DisableArtifactSlotView();
+    }
+    #endregion
+
+    // Visibility + View Logic
+    #region
     public void EnableArtifactSlotView()
     {
         gameObject.SetActive(true);
@@ -49,18 +71,15 @@ public class ArtifactSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         gameObject.SetActive(false);
     }
+    #endregion
 
+    // Logic
+    #region
     public void SetGoldCost(int newGoldCost)
     {
         goldCost = newGoldCost;
         goldCostText.text = goldCost.ToString();
     }
-    public void OnArtifactSlotButtonClicked()
-    {
-        BuyArtifact();
-        DisableArtifactSlotView();
-    }
-
     public void BuyArtifact()
     {
         if (PlayerDataManager.Instance.currentGold >= goldCost)
@@ -70,14 +89,7 @@ public class ArtifactSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             ArtifactManager.Instance.ObtainArtifact(myArtifactData);
         }
     }
+    #endregion
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        infoPanel.SetActive(true);
-    }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        infoPanel.SetActive(false);
-    }
 }

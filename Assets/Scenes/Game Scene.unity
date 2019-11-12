@@ -819,7 +819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe8e5b7e36482c4aa2d415175d80532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 519420031}
+  unityCamera: {fileID: 0}
   cinemachineCamera: {fileID: 1179699516}
   currentLookAtTarget: {fileID: 0}
 --- !u!1 &242529421
@@ -1085,8 +1085,6 @@ MonoBehaviour:
   - {fileID: 1717127756916970, guid: ebd2dba0630fa7d43af6b69dc8b12d90, type: 3}
   - {fileID: 1717127756916970, guid: 2fcaf039bf69802438c02d5ddcfeb6d4, type: 3}
   - {fileID: 1717127756916970, guid: d5048ed9cfc3be944bf73ba243296a87, type: 3}
-  cameraMovement: {fileID: 519420030}
-  map: {fileID: 1219220507}
   mapTextFiles:
   - {fileID: 4900000, guid: b0f6cf28c275dd14dbbfddd556019545, type: 3}
   - {fileID: 4900000, guid: fd26fa97972bc39439ce651bf378897e, type: 3}
@@ -1095,6 +1093,7 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 9e6eac61d95a5fe4e8e4d1f6c6aae385, type: 3}
   combatBGPrefab: {fileID: 7074628620822196889, guid: 0b6fe73c792677a4db814e03ba989caf,
     type: 3}
+  tileParent: {fileID: 0}
   selectedTile: {fileID: 0}
   currentLevelBG: {fileID: 855710271}
   mousedOverTile: {fileID: 0}
@@ -1858,7 +1857,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.965528, y: -5.2429895, z: 0}
+  m_LocalPosition: {x: 0.95711136, y: -5.2431054, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 237190439}
@@ -2314,10 +2313,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c71691c46e9e65438dd956f360c0d0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allDefenders: []
-  spawnLocations: []
   defendersParent: {fileID: 1953263101}
   selectedDefender: {fileID: 0}
+  allDefenders: []
+  spawnLocations: []
 --- !u!4 &544014072
 Transform:
   m_ObjectHideFlags: 0
@@ -2917,7 +2916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4cecba0ce976a74caee2c1c1a754a1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visualParent: {fileID: 1875362495}
+  myVisualParent: {fileID: 1875362495}
   isActive: 0
 --- !u!1 &836065058
 GameObject:
@@ -4415,15 +4414,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07c0b9863cd2bcd43ba53415b8110d88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefabs:
-  - {fileID: 1009995944954404, guid: 3824691830f71a44983531d123486f1e, type: 3}
   enemiesParent: {fileID: 283997838}
   allEnemies: []
-  spawnLocations: []
-  enemyCurrentlyInActivation: {fileID: 0}
   selectedEnemy: {fileID: 0}
-  currentlyMyTurn: 0
-  allEnemiesHaveActivated: 0
 --- !u!4 &1127929175
 Transform:
   m_ObjectHideFlags: 0
@@ -7900,381 +7893,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6cda32d2702bdff41bb09cde3a3515d7, type: 2}
   - {fileID: 11400000, guid: c9e7f391ae936df4c86fa9a210cd7c4a, type: 2}
   - {fileID: 11400000, guid: ed223b25fe728ae44b424a843be085f3, type: 2}
-  moveImage: {fileID: 21300000, guid: f2fc880836bad7b4d8f1de44a202f40a, type: 3}
-  moveName: Move
-  moveDescription: Move to a tile within range of your mobility.
-  moveCooldownTime: 0
-  moveAPCost: 2
-  moveRange: 0
-  movePrimaryValue: 0
-  moveSecondaryValue: 0
-  strikeImage: {fileID: 21300000, guid: 28db2b314f6432d4293730f91536aaf4, type: 3}
-  strikeName: Strike
-  strikeDescription: Deal 3 damage to a target within melee range
-  strikeCooldownTime: 0
-  strikeAPCost: 2
-  strikeRange: 1
-  strikePrimaryValue: 3
-  strikeSecondaryValue: 0
-  blockImage: {fileID: 21300000, guid: e36a4156a177f7247b5c742fd297606e, type: 3}
-  blockName: Block
-  blockDescription: Gain 3 block
-  blockCooldownTime: 0
-  blockAPCost: 2
-  blockRange: 0
-  blockPrimaryValue: 3
-  blockSecondaryValue: 0
-  chargeImage: {fileID: 21300000, guid: a9bc8cabfb663c6408ce04ae0edb8f8a, type: 3}
-  chargeName: Charge
-  chargeDescription: Charge towards a target enemy within 3 tiles and knock them down
-  chargeCooldownTime: 2
-  chargeAPCost: 2
-  chargeRange: 3
-  chargePrimaryValue: 0
-  chargeSecondaryValue: 0
-  inspireImage: {fileID: 21300000, guid: 24e51024f055b2e448b1d679e6a7512b, type: 3}
-  inspireName: Inspire
-  inspireDescription: Give yourself or a target friendly character +1 strength.
-  inspireCooldownTime: 1
-  inspireAPCost: 0
-  inspireRange: 2
-  inspirePrimaryValue: 1
-  inspireSecondaryValue: 0
-  guardImage: {fileID: 21300000, guid: 372a4c2741d2fa449a1cf0214677a8c3, type: 3}
-  guardName: Guard
-  guardDescription: Target yourself or a friendly character, The next time they take
-    damage, ignore it
-  guardCooldownTime: 3
-  guardAPCost: 2
-  guardRange: 2
-  guardPrimaryValue: 1
-  guardSecondaryValue: 0
-  meteorImage: {fileID: 21300000, guid: b75cd55d5cdb9cf4bb3df9129f2b6f9a, type: 3}
-  meteorName: Meteor
-  meteorDescription: Deal 5 damage to all enemies in a 3x3 area
-  meteorCooldownTime: 4
-  meteorAPCost: 3
-  meteorRange: 3
-  meteorPrimaryValue: 5
-  meteorSecondaryValue: 0
-  telekinesisImage: {fileID: 21300000, guid: 9c81ff137ca18fc44a91844bb5bd0885, type: 3}
-  telekinesisName: Telekinesis
-  telekinesisDescription: Teleport a target to any tile within 1 tile of it's current
-    location.
-  telekinesisCooldownTime: 1
-  telekinesisAPCost: 0
-  telekinesisRange: 3
-  telekinesisPrimaryValue: 1
-  telekinesisSecondaryValue: 0
-  frostboltImage: {fileID: 21300000, guid: 56d1b9108c0c1044490b46337ed938dd, type: 3}
-  frostboltName: Frost Bolt
-  frostboltDescription: Deal 3 magic damage to an enemy target and apply 'Pinned'.
-  frostboltCooldownTime: 2
-  frostboltAPCost: 0
-  frostboltRange: 3
-  frostboltPrimaryValue: 3
-  frostboltSecondaryValue: 0
-  fireballImage: {fileID: 21300000, guid: 817b660af2e88d94dbae91fbf145a852, type: 3}
-  fireballName: Fire Ball
-  fireballDescription: Deal 5 magic damage to a target enemy
-  fireballCooldownTime: 0
-  fireballAPCost: 2
-  fireballRange: 3
-  fireballPrimaryValue: 5
-  fireballSecondaryValue: 0
-  shootImage: {fileID: 21300000, guid: 1f07e0e3156f27b41aad10b1ea3eed30, type: 3}
-  shootName: Shoot
-  shootDescription: Deal 3 physical damage to a target
-  shootCooldownTime: 0
-  shootAPCost: 2
-  shootRange: 2
-  shootPrimaryValue: 3
-  shootSecondaryValue: 0
-  rapidFireImage: {fileID: 21300000, guid: 06f9d857755642d4d80ee6a4d6ef548b, type: 3}
-  rapidFireName: Rapid Fire
-  rapidFireDescription: Spend all your AP. Deal 2 damage to an enemy for each point
-    spent
-  rapidFireCooldownTime: 4
-  rapidFireAPCost: 1
-  rapidFireRange: 3
-  rapidFirePrimaryValue: 2
-  rapidFireSecondaryValue: 0
-  impalingBoltImage: {fileID: 21300000, guid: a4da350a90fb01d478a9d7e6a8cf1745, type: 3}
-  impalingBoltName: Impaling Bolt
-  impalingBoltDescription: Deal 3 physical damage and knock a target back 2 tiles.
-  impalingBoltCooldownTime: 3
-  impalingBoltAPCost: 2
-  impalingBoltRange: 2
-  impalingBoltPrimaryValue: 3
-  impalingBoltSecondaryValue: 2
-  forestMedicineImage: {fileID: 21300000, guid: d444451d1f4be1e41b0cc8f71550bd07,
-    type: 3}
-  forestMedicineName: Forest Medicine
-  forestMedicineDescription: Give a friendly character 5 block.
-  forestMedicineCooldownTime: 3
-  forestMedicineAPCost: 1
-  forestMedicineRange: 2
-  forestMedicinePrimaryValue: 5
-  forestMedicineSecondaryValue: 0
-  whirlwindImage: {fileID: 21300000, guid: 501d8a81e6582c7408644f0720503e4d, type: 3}
-  whirlwindName: Whirlwind
-  whirlwindDescription: Deal 5 physical damage to all enemies within melee range
-  whirlwindCooldownTime: 1
-  whirlwindAPCost: 2
-  whirlwindRange: 1
-  whirlwindPrimaryValue: 5
-  whirlwindSecondaryValue: 0
-  summonUndeadImage: {fileID: 21300000, guid: f1ba9fee1386cc445890a9ce38ea6ee1, type: 3}
-  summonUndeadName: Summon Undead
-  summonUndeadDescription: Summon an undead skeleton within 3 tiles.
-  summonUndeadCooldownTime: 0
-  summonUndeadAPCost: 2
-  summonUndeadRange: 3
-  summonUndeadPrimaryValue: 1
-  summonUndeadSecondaryValue: 1
-  chaosBoltImage: {fileID: 21300000, guid: 12be1468e1ada4441ab273d4701ee24a, type: 3}
-  chaosBoltName: Chaos Bolt
-  chaosBoltDescription: Deal 5 magic damage to target and knock them down
-  chaosBoltCooldownTime: 1
-  chaosBoltAPCost: 2
-  chaosBoltRange: 3
-  chaosBoltPrimaryValue: 5
-  chaosBoltSecondaryValue: 0
-  crushingBlowImage: {fileID: 21300000, guid: e744bf2061b6c494a894b549215e5e4c, type: 3}
-  crushingBlowName: Crushing Blow
-  crushingBlowDescription: Deal 8 physical damage to a target and stun them for 1
-    turn.
-  crushingBlowCooldownTime: 4
-  crushingBlowAPCost: 3
-  crushingBlowRange: 0
-  crushingBlowPrimaryValue: 8
-  crushingBlowSecondaryValue: 0
-  invigorateImage: {fileID: 21300000, guid: f079cdde31cd1eb48b1dc43b300c1807, type: 3}
-  invigorateName: Invigorate
-  invigorateDescription: Give a friendly character +2 AP.
-  invigorateCooldownTime: 1
-  invigorateAPCost: 0
-  invigorateRange: 2
-  invigoratePrimaryValue: 2
-  invigorateSecondaryValue: 0
-  holyFireImage: {fileID: 21300000, guid: 4385fe49951e4f1449b87d69cb88a9c1, type: 3}
-  holyFireName: Holy Fire
-  holyFireDescription: Deal 3 magic damage to an enemy, or give 3 block to an ally
-  holyFireCooldownTime: 0
-  holyFireAPCost: 2
-  holyFireRange: 2
-  holyFirePrimaryValue: 3
-  holyFireSecondaryValue: 0
-  voidBombImage: {fileID: 21300000, guid: 91851b5dfed99e94f8482655b63826a0, type: 3}
-  voidBombName: Void Bomb
-  voidBombDescription: Deal 8 magic damage to an enemy and stun them
-  voidBombCooldownTime: 3
-  voidBombAPCost: 3
-  voidBombRange: 5
-  voidBombPrimaryValue: 8
-  voidBombSecondaryValue: 0
-  nightmareImage: {fileID: 21300000, guid: 7d83b85225f569b49bf403c22dcb8335, type: 3}
-  nightmareName: Nightmare
-  nightmareDescription: Put a target to sleep for 2 turns.
-  nightmareCooldownTime: 4
-  nightmareAPCost: 2
-  nightmareRange: 2
-  nightmarePrimaryValue: 2
-  nightmareSecondaryValue: 0
-  twinStrikeImage: {fileID: 21300000, guid: 3163027ee4838294283e840c1f3cf624, type: 3}
-  twinStrikeName: Twin Strike
-  twinStrikeDescription: Deal 3 physical damage twice.
-  twinStrikeCooldownTime: 1
-  twinStrikeAPCost: 2
-  twinStrikeRange: 1
-  twinStrikePrimaryValue: 3
-  twinStrikeSecondaryValue: 0
-  dashImage: {fileID: 21300000, guid: 522287a635d2b694e8b22048b25173d5, type: 3}
-  dashName: Dash
-  dashDescription: Move to a location within 3 tiles.
-  dashCooldownTime: 1
-  dashAPCost: 0
-  dashRange: 3
-  dashPrimaryValue: 3
-  dashSecondaryValue: 0
-  preparationImage: {fileID: 21300000, guid: 6bbefc0629990374b844a73244b081f5, type: 3}
-  preparationName: Preparation
-  preparationDescription: The next ability you use costs 0 AP
-  preparationCooldownTime: 2
-  preparationAPCost: 0
-  preparationRange: 0
-  preparationPrimaryValue: 0
-  preparationSecondaryValue: 0
-  snipeImage: {fileID: 21300000, guid: f12f77e2cf045f14b9ac703d6bd73499, type: 3}
-  snipeName: Snipe
-  snipeDescription: Deal physical 3 damage to a target
-  snipeCooldownTime: 0
-  snipeAPCost: 2
-  snipeRange: 7
-  snipePrimaryValue: 3
-  snipeSecondaryValue: 0
-  healingLightImage: {fileID: 21300000, guid: 8927dd60d66279c4f9f503c5f08e72b4, type: 3}
-  healingLightName: Healing Light
-  healingLightDescription: Restore 5HP to an ally
-  healingLightCooldownTime: 0
-  healingLightAPCost: 2
-  healingLightRange: 3
-  healingLightPrimaryValue: 5
-  healingLightSecondaryValue: 0
-  rockTossImage: {fileID: 21300000, guid: 688cce28246caf34680f078dabe0a779, type: 3}
-  rockTossName: Rock Toss
-  rockTossDescription: Deal physical 5 damage and knock the a target back 1 tile
-  rockTossCooldownTime: 0
-  rockTossAPCost: 2
-  rockTossRange: 7
-  rockTossPrimaryValue: 5
-  rockTossSecondaryValue: 1
-  siphonLifeImage: {fileID: 21300000, guid: 07962845a507e374cb5a7f51e5296695, type: 3}
-  siphonLifeName: Siphon Life
-  siphonLifeDescription: Target enemy sufers -1 strength. Gain 1 strength.
-  siphonLifeCooldownTime: 3
-  siphonLifeAPCost: 1
-  siphonLifeRange: 3
-  siphonLifePrimaryValue: 1
-  siphonLifeSecondaryValue: 0
-  teleportImage: {fileID: 21300000, guid: 2876045e6103237409f007423c72160a, type: 3}
-  teleportName: Teleport
-  teleportDescription: Teleport to a valid unoccupied tile
-  teleportCooldownTime: 3
-  teleportAPCost: 0
-  teleportRange: 7
-  teleportPrimaryValue: 0
-  teleportSecondaryValue: 0
-  sliceAndDiceImage: {fileID: 21300000, guid: e440874943fa2b24fa09337afff90259, type: 3}
-  sliceAndDiceName: Slice And Dice
-  sliceAndDiceDescription: Spend all your AP. Deal 3 damage to a target fo each point
-    spent
-  sliceAndDiceCooldownTime: 3
-  sliceAndDiceAPCost: 0
-  sliceAndDiceRange: 0
-  sliceAndDicePrimaryValue: 3
-  sliceAndDiceSecondaryValue: 0
-  poisonDartImage: {fileID: 21300000, guid: dcdd68fb3f5938944810f7e6145d2265, type: 3}
-  poisonDartName: Poison Dart
-  poisonDartDescription: Apply 2 poison to a target
-  poisonDartCooldownTime: 1
-  poisonDartAPCost: 2
-  poisonDartRange: 3
-  poisonDartPrimaryValue: 0
-  poisonDartSecondaryValue: 2
-  chemicalReactionImage: {fileID: 21300000, guid: 382eb07a9006ad949b3a950938e4ee68,
-    type: 3}
-  chemicalReactionName: Chemical Reaction
-  chemicalReactionDescription: Double a target's poison
-  chemicalReactionCooldownTime: 3
-  chemicalReactionAPCost: 2
-  chemicalReactionRange: 3
-  chemicalReactionPrimaryValue: 0
-  chemicalReactionSecondaryValue: 0
-  bloodLustImage: {fileID: 21300000, guid: a2678dcb8b1d3254980f84c8c11364e5, type: 3}
-  bloodLustName: Blood Lust
-  bloodLustDescription: Lose 3hp. Gain 2 AP.
-  bloodLustCooldownTime: 1
-  bloodLustAPCost: 0
-  bloodLustRange: 0
-  bloodLustPrimaryValue: 2
-  bloodLustSecondaryValue: 3
-  getDownImage: {fileID: 21300000, guid: e7dfd63ace3b99e458fb936de2efe9bb, type: 3}
-  getDownName: Get Down!
-  getDownDescription: Move to a tile within 2. At the end of the move, give adjacent
-    allies 5 block
-  getDownCooldownTime: 2
-  getDownAPCost: 2
-  getDownRange: 2
-  getDownPrimaryValue: 5
-  getDownSecondaryValue: 0
-  doomImage: {fileID: 21300000, guid: 707fdd621e245374dab0b09b1b3d75d3, type: 3}
-  doomName: Doom
-  doomDescription: All enemies suffer -1 energy
-  doomCooldownTime: 3
-  doomAPCost: 2
-  doomRange: 0
-  doomPrimaryValue: 0
-  doomSecondaryValue: 0
-  smashImage: {fileID: 21300000, guid: 4e79c552ff737cd4882a47983f8ffa68, type: 3}
-  smashName: Smash
-  smashDescription: Deal 4 physical damage and knock a target back 1 tile.
-  smashCooldownTime: 1
-  smashAPCost: 0
-  smashRange: 1
-  smashPrimaryValue: 4
-  smashSecondaryValue: 1
-  lightningShieldImage: {fileID: 21300000, guid: 700e082e2e46154408449d6f88a7d7d7,
-    type: 3}
-  lightningShieldName: Lightning Shield
-  lightningShieldDescription: For one turn, when target ally is attacked, they return
-    3 magic damage.
-  lightningShieldCooldownTime: 2
-  lightningShieldAPCost: 2
-  lightningShieldRange: 3
-  lightningShieldPrimaryValue: 3
-  lightningShieldSecondaryValue: 0
-  electricalDischargeImage: {fileID: 21300000, guid: dabea394e9681274d8811a755dadc07c,
-    type: 3}
-  electricalDischargeName: Electrical Discharge
-  electricalDischargeDescription: Enemies in your melee range take 5 magic damage,
-    allies gain +5 block
-  electricalDischargeCooldownTime: 2
-  electricalDischargeAPCost: 3
-  electricalDischargeRange: 0
-  electricalDischargePrimaryValue: 5
-  electricalDischargeSecondaryValue: 0
-  chainLightningImage: {fileID: 21300000, guid: e5c004e52d6c71f4f8dcc24d8058e2a9,
-    type: 3}
-  chainLightningName: Chain Lightning
-  chainLightningDescription: Deal 3 magic damage to a target. Jumps to an adjacent
-    enemy up to 3 more times
-  chainLightningCooldownTime: 2
-  chainLightningAPCost: 3
-  chainLightningRange: 2
-  chainLightningPrimaryValue: 3
-  chainLightningSecondaryValue: 3
-  primalRageImage: {fileID: 21300000, guid: 364d1fe805f0e1b40924ac69f700947c, type: 3}
-  primalRageName: Primal Rage
-  primalRageDescription: Give an ally +3 strength for 1 turn
-  primalRageCooldownTime: 3
-  primalRageAPCost: 1
-  primalRageRange: 2
-  primalRagePrimaryValue: 3
-  primalRageSecondaryValue: 0
-  primalBlastImage: {fileID: 21300000, guid: 0d1b28b8e3c9f8f40b8d79d8962bc33c, type: 3}
-  primalBlastName: Primal Blast
-  primalBlastDescription: Deal 3 physical damage and then 3 magic damage to a target
-  primalBlastCooldownTime: 3
-  primalBlastAPCost: 1
-  primalBlastRange: 2
-  primalBlastPrimaryValue: 3
-  primalBlastSecondaryValue: 0
-  phaseShiftImage: {fileID: 21300000, guid: 95ca8fae2f0e44b4a961dd1a2a5ffdf4, type: 3}
-  phaseShiftName: Phase Shift
-  phaseShiftDescription: Swap positions with a target character.
-  phaseShiftCooldownTime: 4
-  phaseShiftAPCost: 2
-  phaseShiftRange: 3
-  phaseShiftPrimaryValue: 0
-  phaseShiftSecondaryValue: 0
-  sanctityImage: {fileID: 21300000, guid: 5184c1a5f8deb7644ba87958031839dc, type: 3}
-  sanctityName: Sanctity
-  sanctityDescription: Remove poison, stunned, pinned, vulnerable and weak from an
-    ally
-  sanctityCooldownTime: 4
-  sanctityAPCost: 2
-  sanctityRange: 3
-  sanctityPrimaryValue: 0
-  sanctitySecondaryValue: 0
-  blessImage: {fileID: 21300000, guid: a7ae212e7e5bd1443afe3daca2542de9, type: 3}
-  blessName: Bless
-  blessDescription: Give an ally +1 rune
-  blessCooldownTime: 3
-  blessAPCost: 1
-  blessRange: 3
-  blessPrimaryValue: 1
-  blessSecondaryValue: 0
 --- !u!4 &1970661221
 Transform:
   m_ObjectHideFlags: 0

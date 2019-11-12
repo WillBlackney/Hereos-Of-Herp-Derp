@@ -55,6 +55,7 @@ public class CharacterData : MonoBehaviour
     public int currentLevel;
     public int talentPoints;
 
+    [Header("Item Properties")]
     public List<ItemCard> myItems = new List<ItemCard>();
 
     [Header("Base Passive Properties")]
@@ -82,7 +83,7 @@ public class CharacterData : MonoBehaviour
     public int startingIntiativeBonus;
     public bool venomous;
 
-    [Header("Known Abilities")]
+    [Header("Ability Properties")]
     public bool KnowsMove;
     public bool KnowsStrike;
     public bool KnowsBlock;
@@ -325,8 +326,8 @@ public class CharacterData : MonoBehaviour
 
     public void CreateMyDefenderGameObject()
     {
-        List<TileScript> possibleSpawnLocations = LevelManager.Instance.GetDefenderSpawnTiles();
-        TileScript spawnLocation = null;
+        List<Tile> possibleSpawnLocations = LevelManager.Instance.GetDefenderSpawnTiles();
+        Tile spawnLocation = null;
 
         if (myClass == "Warrior")
         {
@@ -334,7 +335,7 @@ public class CharacterData : MonoBehaviour
             GameObject defenderGO = Instantiate(PrefabHolder.Instance.warriorPrefab, transform.position, Quaternion.identity);
             // Get a reference to the defender script 
             Defender defender = defenderGO.GetComponent<Defender>();
-            foreach(TileScript tile in possibleSpawnLocations)
+            foreach(Tile tile in possibleSpawnLocations)
             {
                 if(tile.IsEmpty && tile.IsWalkable)
                 {
@@ -354,7 +355,7 @@ public class CharacterData : MonoBehaviour
             GameObject defenderGO = Instantiate(PrefabHolder.Instance.magePrefab, transform.position, Quaternion.identity);
             // Get a reference to the defender script 
             Defender defender = defenderGO.GetComponent<Defender>();
-            foreach (TileScript tile in possibleSpawnLocations)
+            foreach (Tile tile in possibleSpawnLocations)
             {
                 if (tile.IsEmpty && tile.IsWalkable)
                 {
@@ -374,7 +375,7 @@ public class CharacterData : MonoBehaviour
             GameObject defenderGO = Instantiate(PrefabHolder.Instance.priestPrefab, transform.position, Quaternion.identity);
             // Get a reference to the defender script 
             Defender defender = defenderGO.GetComponent<Defender>();
-            foreach (TileScript tile in possibleSpawnLocations)
+            foreach (Tile tile in possibleSpawnLocations)
             {
                 if (tile.IsEmpty && tile.IsWalkable)
                 {
@@ -394,7 +395,7 @@ public class CharacterData : MonoBehaviour
             GameObject defenderGO = Instantiate(PrefabHolder.Instance.rangerPrefab, transform.position, Quaternion.identity);
             // Get a reference to the defender script 
             Defender defender = defenderGO.GetComponent<Defender>();
-            foreach (TileScript tile in possibleSpawnLocations)
+            foreach (Tile tile in possibleSpawnLocations)
             {
                 if (tile.IsEmpty && tile.IsWalkable)
                 {
@@ -414,7 +415,7 @@ public class CharacterData : MonoBehaviour
             GameObject defenderGO = Instantiate(PrefabHolder.Instance.roguePrefab, transform.position, Quaternion.identity);
             // Get a reference to the defender script 
             Defender defender = defenderGO.GetComponent<Defender>();
-            foreach (TileScript tile in possibleSpawnLocations)
+            foreach (Tile tile in possibleSpawnLocations)
             {
                 if (tile.IsEmpty && tile.IsWalkable)
                 {
@@ -434,7 +435,7 @@ public class CharacterData : MonoBehaviour
             GameObject defenderGO = Instantiate(PrefabHolder.Instance.shamanPrefab, transform.position, Quaternion.identity);
             // Get a reference to the defender script 
             Defender defender = defenderGO.GetComponent<Defender>();
-            foreach (TileScript tile in possibleSpawnLocations)
+            foreach (Tile tile in possibleSpawnLocations)
             {
                 if (tile.IsEmpty && tile.IsWalkable)
                 {
@@ -680,9 +681,9 @@ public class CharacterData : MonoBehaviour
         // assign selected char data
         CharacterRoster.Instance.selectedCharacterData = this;
         // enable inventory
-        Inventory.Instance.inventoryParent.SetActive(true);
+        InventoryManager.Instance.inventoryParent.SetActive(true);
         // set inventory ready state
-        Inventory.Instance.readyToAcceptNewItem = true;
+        InventoryManager.Instance.readyToAcceptNewItem = true;
     }
 
     public void EnableFrontPage()

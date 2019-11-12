@@ -6,13 +6,14 @@ using TMPro;
 public class ItemSlot : MonoBehaviour
 {
     [Header("Component References")]
-    public TextMeshProUGUI goldCostText;
+    public TextMeshProUGUI myGoldCostText;
     public ItemCard myItemCard;
-
 
     [Header("Properties")]
     public int goldCost;
 
+    // Initialization + Setup
+    #region
     public void SetUpItemSlot(ItemDataSO.ItemRarity rarity)
     {
         EnableItemSlotView();
@@ -41,19 +42,21 @@ public class ItemSlot : MonoBehaviour
         myItemCard.inShop = true;
         SetGoldCost(randomGoldCost);
     }
+    #endregion
 
+    // Item Logic
+    #region
     public void SetGoldCost(int cost)
     {
         goldCost = cost;
-        goldCostText.text = goldCost.ToString();
+        myGoldCostText.text = goldCost.ToString();
     }
-
     public void BuyItem()
     {
         if (PlayerDataManager.Instance.currentGold >= goldCost)
         {
             Debug.Log("Buying Item " + myItemCard.myName + " for " + goldCost.ToString());
-            Inventory.Instance.AddItemToInventory(myItemCard);
+            InventoryManager.Instance.AddItemToInventory(myItemCard);
             PlayerDataManager.Instance.ModifyGold(-goldCost);
             DisableItemSlotView();
         }
@@ -62,16 +65,19 @@ public class ItemSlot : MonoBehaviour
             Debug.Log("Cannot buy item: Not enough gold...");
         }
     }
+    #endregion
 
+    // Visility + View Logic
+    #region
     public void DisableItemSlotView()
     {
         gameObject.SetActive(false);
     }
-
     public void EnableItemSlotView()
     {
         gameObject.SetActive(true);
 
     }
+    #endregion
 
 }

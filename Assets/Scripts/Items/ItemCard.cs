@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    //public enum ItemRarity { NoRarity, Common, Rare, Epic };
+    
     [Header("Component References")]    
     public Image itemImage;
     public Image itemImageFrame;
@@ -30,9 +30,10 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public float originalScale;
     public bool expanding;
     public bool shrinking;
-    
+
 
     // Setup + Initialization
+    #region
     public void RunSetupFromItemData(ItemDataSO data)
     {
         originalScale = GetComponent<RectTransform>().localScale.x;
@@ -61,17 +62,19 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
 
     }
+    #endregion
 
-    // Mouse events
+    // Mouse + Click Events
+    #region
     public void OnItemCardClicked()
     {
         if (inInventory)
         {
-            if(Inventory.Instance.readyToAcceptNewItem == true)
+            if(InventoryManager.Instance.readyToAcceptNewItem == true)
             {
                 CharacterRoster.Instance.selectedCharacterData.AddItemToEquiptment(this);
-                Inventory.Instance.RemoveItemFromInventory(this);
-                Inventory.Instance.readyToAcceptNewItem = false;
+                InventoryManager.Instance.RemoveItemFromInventory(this);
+                InventoryManager.Instance.readyToAcceptNewItem = false;
             }
             return;
         }
@@ -84,7 +87,7 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         Debug.Log("Adding Item to inventory: " + myName);
         // add item to inventory
-        Inventory.Instance.AddItemToInventory(this);
+        InventoryManager.Instance.AddItemToInventory(this);
         RewardScreen.Instance.DestroyAllItemCards();
         Destroy(RewardScreen.Instance.currentItemRewardButton);
         RewardScreen.Instance.currentItemRewardButton = null;        
@@ -109,9 +112,10 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             
 
     }
+    #endregion
 
-    // Visual related
-
+    // Visibility + View Logic
+    #region
     public IEnumerator Expand(int speed)
     {
         shrinking = false;
@@ -127,7 +131,6 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             yield return new WaitForEndOfFrame();
         }        
     }
-
     public IEnumerator Shrink(int speed)
     {
         expanding = false;
@@ -142,5 +145,5 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             yield return new WaitForEndOfFrame();
         }
     }
-
+    #endregion
 }

@@ -7,13 +7,17 @@ using UnityEngine.EventSystems;
 
 public class ArtifactRewardButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    [Header("Properties")]
+    public ArtifactDataSO myArtifactData;
+
+    [Header("Component References")]
     public GameObject infoPanel;
     public TextMeshProUGUI artifactNameText;
-    public Image artifactImage;
-    public ArtifactDataSO myArtifactData;
-    
+    public Image artifactImage;       
     public TextMeshProUGUI artifactDescriptionPanelText;
 
+    // Initialization + Setup
+    #region
     public void InitializeSetup()
     {
         myArtifactData = ArtifactLibrary.Instance.GetRandomViableArtifact();
@@ -25,6 +29,10 @@ public class ArtifactRewardButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
 
     }
+    #endregion
+
+    // Mouse / Click Events
+    #region
     public void OnArtifactRewardButtonClicked()
     {
         ArtifactManager.Instance.ObtainArtifact(myArtifactData);
@@ -34,9 +42,9 @@ public class ArtifactRewardButton : MonoBehaviour, IPointerEnterHandler, IPointe
     {
         infoPanel.SetActive(true);
     }
-
     public void OnPointerExit(PointerEventData eventData)
     {
         infoPanel.SetActive(false);
     }
+    #endregion
 }
