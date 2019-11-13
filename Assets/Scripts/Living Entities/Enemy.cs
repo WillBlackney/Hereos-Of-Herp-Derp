@@ -65,38 +65,11 @@ public class Enemy : LivingEntity
 
     // AI Targeting Logic
     #region
-    public void SetTargetDefender(Defender target)
+    public void SetTargetDefender(LivingEntity target)
     {
         myCurrentTarget = target;
     }
-    public Defender GetClosestDefender()
-    {
-        // TO DO: this method determines which defender is closest by drawing a straight line. It should instead calculate the closest by drawing a path to each with Astar
-
-        Defender closestTarget = null;
-        float minimumDistance = Mathf.Infinity;
-
-        // Declare new temp list for storing defender 
-        List<Defender> defenders = new List<Defender>();
-
-        // Add all active defenders to the temp list
-        foreach (Defender defender in DefenderManager.Instance.allDefenders)
-        {
-            defenders.Add(defender);
-        }
-               
-        // Iterate throught the temp list to find the closest defender to this enemy
-        foreach (Defender defender in defenders)
-        {
-            float distancefromDefender = Vector2.Distance(defender.gameObject.transform.position, transform.position);
-            if (distancefromDefender < minimumDistance)
-            {
-                closestTarget = defender;
-                minimumDistance = distancefromDefender;
-            }
-        }
-        return closestTarget;
-    }       
+    
     public Defender GetMostVulnerableDefender()
     {
         Defender bestTarget = null;
@@ -106,10 +79,6 @@ public class Enemy : LivingEntity
         {
             int myPointScore = 1;
 
-            if (defender.isKnockedDown)
-            {
-                myPointScore++;
-            }
 
             if(myPointScore > pointScore)
             {
@@ -150,49 +119,7 @@ public class Enemy : LivingEntity
 
         return bestTarget;
     }
-    #endregion
-
-    // AI Pathfinding Logic    
-    #region
-    public void GeneratePathToClosestTileWithinRangeOfTarget(LivingEntity target, int rangeFromTarget)
-    {
-        Tile tile = GetClosestValidTile(LevelManager.Instance.GetTilesWithinRange(rangeFromTarget,target.tile));
-        path = AStar.GetPath(gridPosition, tile.GridPosition);
-        SetPath(path);
-        //
-
-    }       
-    public Tile GetClosestValidTile(List<Tile> tiles)
-    {
-        Tile closestTile = null;
-        float minimumDistance = Mathf.Infinity;  
-        
-        foreach (Tile tile in tiles)
-        {
-            if(tile.IsEmpty && tile.IsWalkable)
-            {
-                float distanceFromEnemy = Vector2.Distance(tile.gameObject.transform.position, transform.position);
-                if (distanceFromEnemy < minimumDistance)
-                {
-                    closestTile = tile;
-                    minimumDistance = distanceFromEnemy;
-                }
-            }
-            
-        }
-        
-        return closestTile;
-    }
-    public virtual void SetPath(Stack<Node> newPath)
-    {
-        if(newPath != null)
-        {
-            this.path = newPath;
-            gridPosition = path.Peek().GridPosition;
-            destination = path.Peek().WorldPosition;
-        }
-    }
-    #endregion
+    #endregion    
 
     // Mouse + Click Events
     #region

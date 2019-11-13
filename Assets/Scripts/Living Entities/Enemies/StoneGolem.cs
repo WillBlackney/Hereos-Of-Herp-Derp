@@ -25,17 +25,18 @@ public class StoneGolem : Enemy
         }
 
         // Rock Toss
-        else if (IsTargetInRange(GetClosestDefender(), rockToss.abilityRange) &&
+        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), rockToss.abilityRange) &&
             HasEnoughAP(currentAP, rockToss.abilityAPCost) &&
             IsAbilityOffCooldown(rockToss.abilityCurrentCooldownTime)
             )
         {
             Debug.Log("Skeleton Archer using Impaling Bolt...");
-            SetTargetDefender(GetClosestDefender());
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             // VFX notification
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Rock Toss", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformRockToss(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformRockToss(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
             yield return new WaitForSeconds(1f);
             goto ActionStart;
 

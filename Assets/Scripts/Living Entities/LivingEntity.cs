@@ -54,19 +54,6 @@ public class LivingEntity : MonoBehaviour
     public int currentInitiative;
     public int currentBlock;
 
-    // TO DO: below properties should be moved into a new script in the futre (MyStatusManager);
-    [Header("Buff/Debuff Related Properties ")]
-    public bool isKnockedDown;
-    public bool isPinned;
-    public bool isStunned;
-    public bool hasBarrier;
-    public int currentBarrierStacks;
-    public bool isSleeping;
-    public int currentSleepingStacks;
-    public bool isCamoflaged;
-    public bool isPoisoned;
-    public int poisonStacks;
-
     [Header("Pathing + Location Related ")]
     public Tile tile;
     public Point gridPosition;
@@ -150,153 +137,6 @@ public class LivingEntity : MonoBehaviour
     }
     #endregion
 
-    // Apply + Remove debuffs, buffs, effects
-    #region
-    public virtual void ApplyKnockDown()
-    {
-        if (!CombatLogic.Instance.IsProtectedByRune(this))
-        {
-            isKnockedDown = true;
-            myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Knock Down"), 1);
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Knocked Down!", false, "Red"));
-        }
-        
-    }    
-    public virtual void RemoveKnockDown()
-    {
-        if (isKnockedDown)
-        {
-            isKnockedDown = false;
-            myStatusManager.RemoveStatusIcon(myStatusManager.GetStatusIconByName("Knock Down"));
-        }        
-    }
-    public virtual void ApplyPinned(LivingEntity attacker = null)
-    {
-        if (!CombatLogic.Instance.IsProtectedByRune(this))
-        {
-            isPinned = true;
-            myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Pinned"), 1);
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Pinned!", false, "Red"));
-
-            if(attacker != null && attacker.myPassiveManager.masterfulEntrapmentStacks > 0)
-            {
-                attacker.ModifyCurrentWisdom(attacker.myPassiveManager.masterfulEntrapmentStacks);
-            }
-        }
-            
-    }
-    public virtual void RemovePinned()
-    {
-        if (isPinned)
-        {
-            Debug.Log("RemovePinned() called");
-            isPinned = false;
-            myStatusManager.RemoveStatusIcon(myStatusManager.GetStatusIconByName("Pinned"));
-        }
-        
-    }
-    public virtual void ApplyStunned()
-    {
-        if (!CombatLogic.Instance.IsProtectedByRune(this))
-        {
-            isStunned = true;
-            myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Stunned"), 1);
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Stunned!", false, "Red"));
-        }
-            
-    }
-    public virtual void RemoveStunned()
-    {
-        if (isStunned)
-        {
-            isStunned = false;
-            myStatusManager.RemoveStatusIcon(myStatusManager.GetStatusIconByName("Stunned"));
-        }        
-    }
-    public void ApplyCamoflage()
-    {
-        isCamoflaged = true;
-        myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Camoflage"), 1);
-        StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Camoflage!", false, "Blue"));
-
-    }
-    public void RemoveCamoflage()
-    {
-        if (isCamoflaged)
-        {
-            isCamoflaged = false;
-            myStatusManager.RemoveStatusIcon(myStatusManager.GetStatusIconByName("Camoflage"));
-        }
-    }
-    public void ModifyPoison(int stacks, LivingEntity applier = null)
-    {
-        if(applier != null)
-        {
-            if (applier.myPassiveManager.venomous && stacks > 0)
-            {
-                stacks++;
-            }
-        }
-
-        if (myPassiveManager.poisonImmunity)
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Poison Immunity", false, "Blue"));
-            return;
-        }
-
-        if (stacks > 0)
-        {
-            if (!CombatLogic.Instance.IsProtectedByRune(this))
-            {
-                poisonStacks += stacks;
-                if (poisonStacks > 0)
-                {
-                    isPoisoned = true;
-                    StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Poison + " + stacks.ToString(), false, "Green"));
-                    myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Poison"), stacks);
-                }
-            }
-        }
-
-        // TO DO: implement a way to reduce poison stacks when we have spells that do that
-        // Maybe a new method called (ClearPoison()) 
-
-
-    }
-    public virtual void ModifySleeping(int stacks)
-    {
-        // Increase Sleep
-        if (!CombatLogic.Instance.IsProtectedByRune(this) && stacks > 0)
-        {
-            currentSleepingStacks += stacks;
-            if (currentSleepingStacks > 0)
-            {
-                isSleeping = true;
-            }
-        }
-
-        // Reduce sleep
-        else
-        {
-            currentSleepingStacks += stacks;
-            if (currentSleepingStacks <= 0)
-            {
-                currentSleepingStacks = 0;
-                isSleeping = false;
-            }
-        }     
-        
-        myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Sleeping"), stacks);
-    }
-    public float CalculateHealthBarPosition()
-    {
-        float currentHealthFloat = currentHealth;
-        float currentMaxHealthFloat = currentMaxHealth;
-
-        return currentHealthFloat / currentMaxHealthFloat;
-    }
-    #endregion
-
     // State related booleans and conditional checks.
     #region
     public bool IsAbleToMove()
@@ -306,7 +146,7 @@ public class LivingEntity : MonoBehaviour
 
         if (defender)
         {
-            if (isPinned == false && defender.currentMobility > 0)
+            if (myPassiveManager.pinned == false && defender.currentMobility > 0)
             {
                 return true;
             }
@@ -318,7 +158,7 @@ public class LivingEntity : MonoBehaviour
 
         else if (enemy)
         {
-            if (isPinned == false && enemy.currentMobility > 0)
+            if (myPassiveManager.pinned == false && enemy.currentMobility > 0)
             {
                 return true;
             }
@@ -354,12 +194,12 @@ public class LivingEntity : MonoBehaviour
     }
     public bool IsAbleToTakeActions()
     {
-        if (isStunned)
+        if (myPassiveManager.stunned)
         {
             Debug.Log("Action failed. Unable to take actions while stunned");
             return false;
         }
-        if (isSleeping)
+        if (myPassiveManager.sleeping)
         {
             Debug.Log("Action failed. Unable to take actions while sleeping");
             return false;
@@ -396,7 +236,7 @@ public class LivingEntity : MonoBehaviour
         List<Tile> tilesWithinStealthSight = LevelManager.Instance.GetTilesWithinRange(1, tile);
 
         if (tilesWithinStealthSight.Contains(target.tile) == false && 
-            (target.isCamoflaged || target.myPassiveManager.stealth) &&
+            (target.myPassiveManager.camoflage || target.myPassiveManager.stealth) &&
             (CombatLogic.Instance.IsTargetFriendly(this, target) == false)
             )
         {
@@ -558,27 +398,7 @@ public class LivingEntity : MonoBehaviour
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Energy " + energyGainedOrLost, false, "Red"));
         }
 
-    }
-    public virtual void ModifyCurrentBarrierStacks(int barrierGainedOrLost)
-    {
-        currentBarrierStacks += barrierGainedOrLost;
-        if (currentBarrierStacks >= 1)
-        {
-            hasBarrier = true;
-            myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Barrier"), barrierGainedOrLost);
-        }
-
-        else if (currentBarrierStacks <= 0)
-        {
-            hasBarrier = false;
-            myStatusManager.RemoveStatusIcon(myStatusManager.GetStatusIconByName("Barrier"));
-        }
-
-        if(barrierGainedOrLost > 0)
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Barrier +" + barrierGainedOrLost, false, "Blue"));
-        }
-    }
+    }    
     public virtual void ModifyCurrentBlock(int blockGainedOrLost)
     {
         // if block is being gained
@@ -767,12 +587,7 @@ public class LivingEntity : MonoBehaviour
         timesAttackedThisTurn = 0;
         GainEnergyOnActivationStart();
         ReduceCooldownsOnActivationStart();
-        ModifyBlockOnActivationStart();
-        if (isKnockedDown)
-        {
-            Debug.Log("Removing knockdown");
-            StartCoroutine(StandUp());
-        }
+        ModifyBlockOnActivationStart();        
 
         if (myPassiveManager.growing)
         {
@@ -846,24 +661,24 @@ public class LivingEntity : MonoBehaviour
             myPassiveManager.ModifyExhausted(-1);
         }
 
-        if (isPinned)
+        if (myPassiveManager.pinned)
         {
-            RemovePinned();
+            myPassiveManager.ModifyPinned(-myPassiveManager.pinnedStacks);
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Pinned Removed", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
         }
 
-        if (isStunned)
+        if (myPassiveManager.stunned)
         {
-            RemoveStunned();
+            myPassiveManager.ModifyStunned(-myPassiveManager.stunnedStacks);
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Stunned Removed", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
         }
 
-        if (isSleeping)
+        if (myPassiveManager.sleeping)
         {
             Debug.Log("Removing sleep on turn end...");
-            ModifySleeping(-1);
+            myPassiveManager.ModifySleeping(-1);
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -908,7 +723,7 @@ public class LivingEntity : MonoBehaviour
                         Debug.Log("Character within range of Encouraging presence, granting bonus AP...");
                         defender.ModifyCurrentAP(myPassiveManager.encouragingPresenceStacks);
                     }
-                }
+                }                
             }
 
             else if (enemy)
@@ -922,6 +737,7 @@ public class LivingEntity : MonoBehaviour
                     }
                 }
             }
+            yield return new WaitForSeconds(0.5f);
         }
 
         if (myPassiveManager.soulDrainAura)
@@ -1034,7 +850,7 @@ public class LivingEntity : MonoBehaviour
                 {
                     if (tilesInUnhygienicAuraRange.Contains(enemy.tile))
                     {
-                        enemy.ModifyPoison(myPassiveManager.unhygienicStacks,this);
+                        enemy.myPassiveManager.ModifyPoison(myPassiveManager.unhygienicStacks,this);
                     }
                 }
             }
@@ -1045,7 +861,7 @@ public class LivingEntity : MonoBehaviour
                 {
                     if (tilesInUnhygienicAuraRange.Contains(defender.tile))
                     {
-                        defender.ModifyPoison(myPassiveManager.unhygienicStacks, this);
+                        defender.myPassiveManager.ModifyPoison(myPassiveManager.unhygienicStacks, this);
                     }
                 }
             }
@@ -1060,7 +876,7 @@ public class LivingEntity : MonoBehaviour
 
         // Take damage from poison, bleed etc
 
-        if (isPoisoned)
+        if (myPassiveManager.poison)
         {
             Action poisonDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.poisonousStacks, this, this, false, AbilityDataSO.AttackType.None, AbilityDataSO.DamageType.Poison);
             yield return new WaitUntil(() => poisonDamage.ActionResolved() == true);
@@ -1181,12 +997,7 @@ public class LivingEntity : MonoBehaviour
 
     // Misc
     #region
-    public virtual IEnumerator StandUp()
-    {
-        RemoveKnockDown();
-        //ModifyCurrentAP(-2);
-        yield return new WaitForSeconds(0.5f);
-    }
+    
     public IEnumerator StartQuickReflexesMoveCoroutine(Action action)
     {
         // TO DO: prevent quick reflex movements from occuring on a characters own turn (only triggered during the enemies turn)
@@ -1244,72 +1055,19 @@ public class LivingEntity : MonoBehaviour
             defender.myCurrentMaxHealthTextStatBar.text = currentMaxHealth.ToString();
         }
     }
+    public float CalculateHealthBarPosition()
+    {
+        float currentHealthFloat = currentHealth;
+        float currentMaxHealthFloat = currentMaxHealth;
+
+        return currentHealthFloat / currentMaxHealthFloat;
+    }
     #endregion
 
     // Targeting and tiles
     #region
-    public LivingEntity GetClosestFriendlyTarget()
-    {
-        Defender myDefender = GetComponent<Defender>();
-        Enemy myEnemy = GetComponent<Enemy>();
-
-        LivingEntity closestTarget = null;
-        float minimumDistance = Mathf.Infinity;
-
-        if (myDefender)
-        {
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                float distancefromThisCharacter = Vector2.Distance(defender.gameObject.transform.position, transform.position);
-                if (distancefromThisCharacter < minimumDistance && defender != this)
-                {
-                    closestTarget = defender;
-                    minimumDistance = distancefromThisCharacter;
-                }
-            }
-            
-        }
-
-        else if (myEnemy)
-        {
-            foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
-            {
-                float distancefromThisCharacter = Vector2.Distance(enemy.gameObject.transform.position, transform.position);
-                if (distancefromThisCharacter < minimumDistance && enemy != this)
-                {
-                    closestTarget = enemy;
-                    minimumDistance = distancefromThisCharacter;
-                }
-            }
-            
-        }
-
-        if(closestTarget == null)
-        {
-            closestTarget = this;
-        }
-
-        return closestTarget;
-    }
-    public Tile GetValidGrassTileWithinRange(int range)
-    {
-        Tile closestGrassTile = null;
-        List<Tile> adjacentTiles = LevelManager.Instance.GetTilesWithinMovementRange(range, tile);
-        foreach (Tile tile in adjacentTiles)
-        {
-            if (tile.myTileType == Tile.TileType.Grass && tile.IsEmpty && tile.IsWalkable)
-            {
-                closestGrassTile = tile;
-            }
-        }
-
-        return closestGrassTile;
-    }    
-    public Tile GetFurthestTileFromTargetWithinRange(LivingEntity target, int range)
-    {
-        // method used to enemy AI move away from a defender logically to safety
-        List<Tile> tilesWithinRangeOfOriginCharacter = LevelManager.Instance.GetValidMoveableTilesWithinRange(range, tile);
-        return LevelManager.Instance.GetFurthestTileFromTargetFromList(tilesWithinRangeOfOriginCharacter, target.tile);        
-    }
+    
+    
+    
     #endregion
 }

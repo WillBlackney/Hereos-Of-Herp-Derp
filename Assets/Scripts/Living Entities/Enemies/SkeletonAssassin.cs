@@ -48,8 +48,9 @@ public class SkeletonAssassin : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike", false));
             yield return new WaitForSeconds(0.5f);
 
-            AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
-            
+            Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
@@ -63,8 +64,9 @@ public class SkeletonAssassin : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);
             
-            AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
-            
+            Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
@@ -82,8 +84,9 @@ public class SkeletonAssassin : Enemy
             yield return new WaitForSeconds(0.5f);
 
             Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, dash.abilityPrimaryValue);
-            AbilityLogic.Instance.PerformDash(this, destination);
-            
+            Action movementAction = AbilityLogic.Instance.PerformDash(this, destination);
+            yield return new WaitUntil(() => movementAction.ActionResolved() == true);
+
             // small delay here in order to seperate the two actions a bit.
             yield return new WaitForSeconds(1f);
             goto ActionStart;

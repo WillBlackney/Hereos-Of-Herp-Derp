@@ -29,18 +29,19 @@ public class SkeletonArcher : Enemy
         }        
         
         // Impaling Bolt        
-        else if(IsTargetInRange(GetClosestDefender(), impalingBolt.abilityRange) && 
+        else if(IsTargetInRange(EntityLogic.GetClosestEnemy(this), impalingBolt.abilityRange) && 
             HasEnoughAP(currentAP, impalingBolt.abilityAPCost) && 
             IsAbilityOffCooldown(impalingBolt.abilityCurrentCooldownTime)
             )           
         {
             Debug.Log("Skeleton Archer using Impaling Bolt...");
-            SetTargetDefender(GetClosestDefender());
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             // VFX notification
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Impaling Bolt", false));
             yield return new WaitForSeconds(0.5f);
 
-            AbilityLogic.Instance.PerformImpalingBolt(this, myCurrentTarget);            
+            Action action= AbilityLogic.Instance.PerformImpalingBolt(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
             yield return new WaitForSeconds(1f);
             goto ActionStart;
             
@@ -49,15 +50,16 @@ public class SkeletonArcher : Enemy
 
         // Snipe the most vulnerable target
         else if (IsTargetInRange(GetMostVulnerableDefender(), snipe.abilityRange) &&
-            GetMostVulnerableDefender().isKnockedDown &&
+            //GetMostVulnerableDefender().isKnockedDown &&
             HasEnoughAP(currentAP, snipe.abilityAPCost) &&
             IsAbilityOffCooldown(snipe.abilityCurrentCooldownTime))
         {
             SetTargetDefender(GetMostVulnerableDefender());
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Snipe", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformSnipe(this, myCurrentTarget);
-            
+            Action action = AbilityLogic.Instance.PerformSnipe(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
             // brief delay between actions
             yield return new WaitForSeconds(1f);
             goto ActionStart;
@@ -71,7 +73,8 @@ public class SkeletonArcher : Enemy
             SetTargetDefender(GetDefenderWithLowestCurrentHP());
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Snipe", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformSnipe(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformSnipe(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
 
             // brief delay between actions
             yield return new WaitForSeconds(1f);
@@ -79,14 +82,15 @@ public class SkeletonArcher : Enemy
         }
 
         // Snipe the closest target if the most vulnerable and the weakest cant be targetted
-        else if (IsTargetInRange(GetClosestDefender(), snipe.abilityRange) &&
+        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), snipe.abilityRange) &&
             HasEnoughAP(currentAP, snipe.abilityAPCost) &&
             IsAbilityOffCooldown(snipe.abilityCurrentCooldownTime))
         {
-            SetTargetDefender(GetClosestDefender());
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Snipe", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformSnipe(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformSnipe(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
 
             // brief delay between actions
             yield return new WaitForSeconds(1f);
@@ -98,7 +102,7 @@ public class SkeletonArcher : Enemy
         else if(myPassiveManager.fleetFooted &&
             moveActionsTakenThisTurn == 0 &&
             IsAbleToMove() &&
-            GetValidGrassTileWithinRange(currentMobility) != null &&
+            EntityLogic.GetValidGrassTileWithinRange(this, currentMobility) != null &&
             tile.myTileType != Tile.TileType.Grass            
             )
         {
@@ -106,7 +110,7 @@ public class SkeletonArcher : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
-            Action movementAction = AbilityLogic.Instance.PerformMove(this, GetValidGrassTileWithinRange(currentMobility));
+            Action movementAction = AbilityLogic.Instance.PerformMove(this, EntityLogic.GetValidGrassTileWithinRange(this,currentMobility));
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
@@ -117,14 +121,14 @@ public class SkeletonArcher : Enemy
         else if (myPassiveManager.fleetFooted &&
            moveActionsTakenThisTurn == 0 &&
            IsAbleToMove() &&
-           GetFurthestTileFromTargetWithinRange(GetClosestDefender(), currentMobility) != null &&
-           GetFurthestTileFromTargetWithinRange(GetClosestDefender(), currentMobility) != tile
+           EntityLogic.GetFurthestTileFromTargetWithinRange(this, EntityLogic.GetClosestEnemy(this), currentMobility) != null &&
+           EntityLogic.GetFurthestTileFromTargetWithinRange(this, EntityLogic.GetClosestEnemy(this), currentMobility) != tile
            )
         {            
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
-            Action movementAction = AbilityLogic.Instance.PerformMove(this, GetFurthestTileFromTargetWithinRange(GetClosestDefender(), currentMobility));
+            Action movementAction = AbilityLogic.Instance.PerformMove(this, EntityLogic.GetFurthestTileFromTargetWithinRange(this, EntityLogic.GetClosestEnemy(this), currentMobility));
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);

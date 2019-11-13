@@ -55,7 +55,8 @@ public class Vampire : Enemy
             //SetTargetDefender(GetClosestDefender());
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Siphon Life", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformSiphonLife(this, myCurrentTarget);
+            Action slAction = AbilityLogic.Instance.PerformSiphonLife(this, myCurrentTarget);
+            yield return new WaitUntil(() => slAction.ActionResolved() == true);
             // brief delay between actions
             yield return new WaitForSeconds(1f);
             goto ActionStart;
@@ -63,14 +64,15 @@ public class Vampire : Enemy
 
         // If unable to siphon life the ideal target, siphon the closest valid target
         else if (IsAbilityOffCooldown(siphonLife.abilityCurrentCooldownTime) &&
-            IsTargetInRange(GetClosestDefender(), siphonLife.abilityRange) &&
+            IsTargetInRange(EntityLogic.GetClosestEnemy(this), siphonLife.abilityRange) &&
             HasEnoughAP(currentAP, siphonLife.abilityAPCost)
             )
         {
-            SetTargetDefender(GetClosestDefender());
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Siphon Life", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformSiphonLife(this, myCurrentTarget);
+            Action slAction = AbilityLogic.Instance.PerformSiphonLife(this, myCurrentTarget);
+            yield return new WaitUntil(() => slAction.ActionResolved() == true);
             // brief delay between actions
             yield return new WaitForSeconds(1f);
             goto ActionStart;
@@ -116,31 +118,15 @@ public class Vampire : Enemy
             yield return new WaitForSeconds(0.5f);
 
             Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, dash.abilityPrimaryValue);
-            AbilityLogic.Instance.PerformDash(this, destination);
+            Action dashAction = AbilityLogic.Instance.PerformDash(this, destination);
+            yield return new WaitUntil(() => dashAction.ActionResolved() == true);
 
             // small delay here in order to seperate the two actions a bit.
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
 
-        // Fireball
-        /*
-        else if (IsTargetInRange(myCurrentTarget, fireBall.abilityRange) &&            
-            HasEnoughAP(currentAP, fireBall.abilityAPCost) &&
-            IsAbilityOffCooldown(fireBall.abilityCurrentCooldownTime))
-        {
-            //SetTargetDefender(GetMostVulnerableDefender());
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball", false));
-            yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
-        */
-
-
         // Move
-
         else if (IsTargetInRange(myCurrentTarget,currentMeleeRange) == false &&
             IsAbleToMove() &&
             HasEnoughAP(currentAP, move.abilityAPCost) &&
@@ -157,22 +143,8 @@ public class Vampire : Enemy
             // small delay here in order to seperate the two actions a bit.
             yield return new WaitForSeconds(1f);
             goto ActionStart;
-        }
-        
-        /*
-        else if (AILogic.IsEngagedInMelee(this) &&
-            IsAbilityOffCooldown(teleport.abilityCurrentCooldownTime) &&
-            HasEnoughAP(currentAP, teleport.abilityAPCost)
-                )
-        {            
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Teleport", false));
-            yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformTeleport(this, GetBestTeleportLocation(myCurrentTarget.TileCurrentlyOn));
-
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
-        */
+        }       
+       
 
         EndMyActivation();
     }
@@ -184,7 +156,7 @@ public class Vampire : Enemy
 
         if(randomNumber == 0)
         {
-            SetTargetDefender(GetClosestDefender());
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
         }
 
         else
@@ -216,19 +188,6 @@ public class Vampire : Enemy
                     Debug.Log("Furthest tile distance is now: " + largestDistance.ToString());
                 }
 
-                /*
-                foreach (Defender defender in DefenderManager.Instance.allDefenders)
-                {
-                    distancefromThisTile = Vector2.Distance(defender.TileCurrentlyOn.WorldPosition, tile.WorldPosition);
-
-                    if (distancefromThisTile > largestDistance)
-                    {
-                        furthestTile = tile;
-                        largestDistance = distancefromThisTile;
-                        Debug.Log("Furthest tile distance is now: " + largestDistance.ToString());
-                    }
-                }
-                */
             }          
         }
 

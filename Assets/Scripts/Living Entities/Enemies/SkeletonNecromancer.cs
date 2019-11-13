@@ -26,7 +26,7 @@ public class SkeletonNecromancer : Enemy
 
         ActionStart:
 
-        SetTargetDefender(GetClosestDefender());
+        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
 
         // if unable to do anything, just end activation
         if (IsAbleToTakeActions() == false)
@@ -36,7 +36,7 @@ public class SkeletonNecromancer : Enemy
 
         // try move to grass/better position if there is one in range of mobility
         else if (IsAbleToMove() &&
-            GetValidGrassTileWithinRange(currentMobility) != null &&
+            EntityLogic.GetValidGrassTileWithinRange(this, currentMobility) != null &&
             tile.myTileType != Tile.TileType.Grass &&
             HasEnoughAP(currentAP, move.abilityAPCost)
             )
@@ -44,23 +44,24 @@ public class SkeletonNecromancer : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
-            Action movementAction = AbilityLogic.Instance.PerformMove(this, GetValidGrassTileWithinRange(currentMobility));
+            Action movementAction = AbilityLogic.Instance.PerformMove(this, EntityLogic.GetValidGrassTileWithinRange(this,currentMobility));
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
 
         // Chaos Bolt
-        else if (IsTargetInRange(GetClosestDefender(), chaosBolt.abilityRange) &&
+        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), chaosBolt.abilityRange) &&
             HasEnoughAP(currentAP, chaosBolt.abilityAPCost) &&
             IsAbilityOffCooldown(chaosBolt.abilityCurrentCooldownTime) &&
             IsThereAtleastOneZombie()                      
             )
         {
-            SetTargetDefender(GetClosestDefender());
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Chaos Bolt", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformChaosBolt(this, GetClosestDefender());
+            Action action = AbilityLogic.Instance.PerformChaosBolt(this, EntityLogic.GetClosestEnemy(this));
+            yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
             goto ActionStart;
@@ -72,7 +73,8 @@ public class SkeletonNecromancer : Enemy
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Summon Undead", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformSummonUndead(this, myCurrentTarget);            
+            Action action = AbilityLogic.Instance.PerformSummonUndead(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
             yield return new WaitForSeconds(0.5f);
             goto ActionStart;
         }        

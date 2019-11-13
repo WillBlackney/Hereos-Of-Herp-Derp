@@ -163,17 +163,17 @@ public class CombatLogic : MonoBehaviour
             }
         }
 
-        if (victim.hasBarrier && healthAfter < victim.currentHealth)
+        if (victim.myPassiveManager.barrier && healthAfter < victim.currentHealth)
         {
             adjustedDamageValue = 0;
             healthAfter = victim.currentHealth;
-            victim.ModifyCurrentBarrierStacks(-1);
+            victim.myPassiveManager.ModifyBarrier(-1);
             yield return new WaitForSeconds(0.3f);
         }
 
-        if(victim.isSleeping && healthAfter < victim.currentHealth)
+        if(victim.myPassiveManager.sleeping && healthAfter < victim.currentHealth)
         {
-            victim.ModifySleeping(-victim.currentSleepingStacks);
+            victim.myPassiveManager.ModifySleeping(-victim.myPassiveManager.sleepingStacks);
             yield return new WaitForSeconds(0.3f);
         }
 
@@ -206,15 +206,15 @@ public class CombatLogic : MonoBehaviour
         // Poisonous trait
         if (attacker.myPassiveManager.poisonous && totalLifeLost > 0 && attackType == AbilityDataSO.AttackType.Melee)
         {           
-            victim.ModifyPoison(attacker.myPassiveManager.poisonousStacks, attacker);
+            victim.myPassiveManager.ModifyPoison(attacker.myPassiveManager.poisonousStacks, attacker);
             yield return new WaitForSeconds(0.3f);
         }
 
         // Remove sleeping
-        if (victim.isSleeping && totalLifeLost > 0)
+        if (victim.myPassiveManager.sleeping && totalLifeLost > 0)
         {
             Debug.Log("Damage taken, removing sleep");
-            victim.ModifySleeping(-victim.currentSleepingStacks);
+            victim.myPassiveManager.ModifySleeping(-victim.myPassiveManager.sleepingStacks);
             yield return new WaitForSeconds(0.3f);
         }
 
@@ -316,10 +316,7 @@ public class CombatLogic : MonoBehaviour
         // (e.g. if a character has a buff that makes all it damage types magical
 
         float damageModifier = 1f;
-        if (victim.isKnockedDown)
-        {
-            damageModifier += 0.5f;
-        }
+        
         if (victim.myPassiveManager.exposed && attackType != AbilityDataSO.AttackType.None && DamageType != AbilityDataSO.DamageType.None)
         {
             Debug.Log("Victim exposed, increasing damage by 50%...");

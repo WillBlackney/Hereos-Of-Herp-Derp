@@ -858,6 +858,36 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &272816045
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 272816046}
+  m_Layer: 0
+  m_Name: All Tiles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &272816046
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 272816045}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 298098833}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &274600825
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,7 +1123,7 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 9e6eac61d95a5fe4e8e4d1f6c6aae385, type: 3}
   combatBGPrefab: {fileID: 7074628620822196889, guid: 0b6fe73c792677a4db814e03ba989caf,
     type: 3}
-  tileParent: {fileID: 0}
+  tileParent: {fileID: 272816046}
   selectedTile: {fileID: 0}
   currentLevelBG: {fileID: 855710271}
   mousedOverTile: {fileID: 0}
@@ -1108,7 +1138,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 272816046}
   m_Father: {fileID: 125540712}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1857,7 +1888,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.95711136, y: -5.2431054, z: 0}
+  m_LocalPosition: {x: 0.9710188, y: -5.242913, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 237190439}
@@ -6587,12 +6618,12 @@ MonoBehaviour:
     type: 3}
   StatusEffectPrefab: {fileID: 5797780097810648835, guid: 6830b51eb051664429c60f70a0a2b6d9,
     type: 3}
+  dfxQueue: []
   timeBetweenEffectsInSeconds: 0.5
   queueCount: 0
   blue: {r: 0.18431373, g: 1, b: 0.9372549, a: 1}
   red: {r: 1, g: 0.2627451, b: 0.2627451, a: 1}
   green: {r: 0, g: 1, b: 0.11764706, a: 1}
-  dfxQueue: []
 --- !u!1 &1605336552
 GameObject:
   m_ObjectHideFlags: 0

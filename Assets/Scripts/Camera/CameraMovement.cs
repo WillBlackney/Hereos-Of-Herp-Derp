@@ -38,7 +38,7 @@ public class CameraMovement : MonoBehaviour
     void LateUpdate()
     {
         LookAtTarget();
-        MoveTowardsZoomPosition();
+        //MoveTowardsZoomPosition();
         MoveTowardsLeftRightUpDown();
 
     }
@@ -100,32 +100,7 @@ public class CameraMovement : MonoBehaviour
             else if (cinemachineCamera.m_Lens.OrthographicSize < currentOrthoSize)
             {
                 cinemachineCamera.m_Lens.OrthographicSize += 0.05f;
-            }
-            /*
-                if (cinemachineCamera.m_Lens.OrthographicSize < 2 == false)
-                {
-                    cinemachineCamera.m_Lens.OrthographicSize -= 0.01f;
-
-                    if (cinemachineCamera.m_Lens.OrthographicSize < 2)
-                    {
-                        cinemachineCamera.m_Lens.OrthographicSize = 2;
-                    }
-                }
-            
-
-            // Zoom out smoothly
-            
-            
-                else if (cinemachineCamera.m_Lens.OrthographicSize > 4 == false)
-                {
-                    cinemachineCamera.m_Lens.OrthographicSize += 0.01f;
-
-                    if (cinemachineCamera.m_Lens.OrthographicSize > 4)
-                    {
-                        cinemachineCamera.m_Lens.OrthographicSize = 4;
-                    }
-                }
-                */
+            }            
 
         }
     }
@@ -138,12 +113,14 @@ public class CameraMovement : MonoBehaviour
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
             Debug.Log("HandleZoomInput() detected zoom IN input");
-            SetPreferedOrthographicSize(currentOrthoSize - 0.1f);
+            //SetPreferedOrthographicSize(currentOrthoSize - 0.1f);
+            cinemachineCamera.m_Lens.OrthographicSize -= 0.1f;
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
             Debug.Log("HandleZoomInput() detected zoom OUT input");
-            SetPreferedOrthographicSize(currentOrthoSize + 0.1f);
+            //SetPreferedOrthographicSize(currentOrthoSize + 0.1f);
+            cinemachineCamera.m_Lens.OrthographicSize += 0.1f;
         }
     }
     public void SetPreferedOrthographicSize(float newSize)

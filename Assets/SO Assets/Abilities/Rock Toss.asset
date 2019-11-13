@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c591e3c0f3bb384794b661f28c54c3f, type: 3}
   m_Name: Rock Toss
   m_EditorClassIdentifier: 
-  abilityImage: {fileID: 21300000, guid: 688cce28246caf34680f078dabe0a779, type: 3}
+  sprite: {fileID: 21300000, guid: 688cce28246caf34680f078dabe0a779, type: 3}
   abilityName: Rock Toss
-  abilityDescription: ' physical 5 damage and knock the a target back 1 tile'
-  abilityBaseCooldownTime: 0
-  abilityAPCost: 2
-  abilityRange: 7
-  abilityPrimaryValue: 5
-  abilitySecondaryValue: 1
-  abilityDamageType: 1
-  abilityAttackType: 2
+  description: Deal 5 physical damage and apply 1 'Knock Back'
+  baseCooldownTime: 0
+  apCost: 2
+  range: 3
+  primaryValue: 5
+  secondaryValue: 1
+  damageType: 1
+  attackType: 2
+  abilityType: 3

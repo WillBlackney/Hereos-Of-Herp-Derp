@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c591e3c0f3bb384794b661f28c54c3f, type: 3}
   m_Name: Siphon Life
   m_EditorClassIdentifier: 
-  abilityImage: {fileID: 21300000, guid: 07962845a507e374cb5a7f51e5296695, type: 3}
+  sprite: {fileID: 21300000, guid: 07962845a507e374cb5a7f51e5296695, type: 3}
   abilityName: Siphon Life
-  abilityDescription: Target enemy sufers -1 strength. Gain 1 strength.
-  abilityBaseCooldownTime: 3
-  abilityAPCost: 1
-  abilityRange: 3
-  abilityPrimaryValue: 1
-  abilitySecondaryValue: 0
-  abilityDamageType: 0
-  abilityAttackType: 0
+  description: Steal 1 'Strength' from a target
+  baseCooldownTime: 3
+  apCost: 2
+  range: 3
+  primaryValue: 1
+  secondaryValue: 0
+  damageType: 0
+  attackType: 0
+  abilityType: 1

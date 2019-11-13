@@ -48,7 +48,8 @@ public class SkeletonWarrior : Enemy
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Inspire", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformInspire(this, GetBestInspireTarget());
+            Action action = AbilityLogic.Instance.PerformInspire(this, GetBestInspireTarget());
+            yield return new WaitUntil(() => action.ActionResolved() == true);
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
@@ -60,7 +61,8 @@ public class SkeletonWarrior : Enemy
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Inspire", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformInspire(this, GetBestInspireTargetInRange(inspire.abilityRange));
+            Action action = AbilityLogic.Instance.PerformInspire(this, GetBestInspireTargetInRange(inspire.abilityRange));
+            yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
             goto ActionStart;
@@ -73,22 +75,24 @@ public class SkeletonWarrior : Enemy
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Guard", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformGuard(this, GetBestBarrierTargetInRange(guard.abilityRange));
+            Action action = AbilityLogic.Instance.PerformGuard(this, GetBestBarrierTargetInRange(guard.abilityRange));
+            yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
 
         // Strike
-        else if (IsTargetInRange(GetClosestDefender(), currentMeleeRange) &&
+        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
             HasEnoughAP(currentAP, strike.abilityAPCost) &&
             IsAbilityOffCooldown(strike.abilityCurrentCooldownTime))
         {
-            SetTargetDefender(GetClosestDefender());
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);
 
-            AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
             goto ActionStart;

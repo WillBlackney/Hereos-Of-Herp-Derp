@@ -25,7 +25,7 @@ public class SkeletonBarbarian : Enemy
 
         ActionStart:
 
-        SetTargetDefender(GetClosestDefender());
+        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
         // below line used later to prevent charging this is already in melee with
         List<Tile> tilesInMyMeleeRange = LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, tile);
 
@@ -61,8 +61,9 @@ public class SkeletonBarbarian : Enemy
         {            
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Whirlwind", false));
             yield return new WaitForSeconds(1f);
-            AbilityLogic.Instance.PerformWhirlwind(this);
-            
+            Action action = AbilityLogic.Instance.PerformWhirlwind(this);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
             // brief delay between actions
             yield return new WaitForSeconds(1f);
             goto ActionStart;
@@ -74,7 +75,8 @@ public class SkeletonBarbarian : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);
 
-            AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
             // brief delay between actions
             yield return new WaitForSeconds(1f);
             goto ActionStart;

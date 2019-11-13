@@ -53,7 +53,8 @@ public class SkeletonPriest : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Invigorate", false));
             yield return new WaitForSeconds(0.5f);
 
-            AbilityLogic.Instance.PerformInvigorate(this, GetBestInvigorateTarget(invigorate.abilityRange));            
+            Action action = AbilityLogic.Instance.PerformInvigorate(this, GetBestInvigorateTarget(invigorate.abilityRange));
+            yield return new WaitUntil(() => action.ActionResolved() == true);
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
@@ -67,14 +68,15 @@ public class SkeletonPriest : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Healing Light", false));
             yield return new WaitForSeconds(0.5f);
 
-            AbilityLogic.Instance.PerformHealingLight(this, GetBestHealingLightTarget());
+            Action action = AbilityLogic.Instance.PerformHealingLight(this, GetBestHealingLightTarget());
+            yield return new WaitUntil(() => action.ActionResolved() == true);
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }        
 
         // Move towards an ally to give Encouraging presence bonus
-        else if (GetClosestFriendlyTarget() != this &&
-            IsTargetInRange(GetClosestFriendlyTarget(), currentMobility) == false &&
+        else if (EntityLogic.GetClosestAlly(this) != this &&
+            IsTargetInRange(EntityLogic.GetClosestAlly(this), currentMobility) == false &&
             IsAbleToMove() &&
             HasEnoughAP(currentAP, move.abilityAPCost) &&
             IsAbilityOffCooldown(move.abilityCurrentCooldownTime)
@@ -82,9 +84,9 @@ public class SkeletonPriest : Enemy
         {            
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
-            Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, GetClosestFriendlyTarget(), 1, currentMobility);
+            Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestAlly(this), 1, currentMobility);
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
-            yield return new WaitUntil(() => movementAction.ActionResolved() == true);
+            
 
             // small delay here in order to seperate the two actions a bit.
             yield return new WaitForSeconds(1f);
@@ -92,11 +94,11 @@ public class SkeletonPriest : Enemy
         }
 
         // Strike
-        else if (IsTargetInRange(GetClosestDefender(), currentMeleeRange) &&
+        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
             HasEnoughAP(currentAP, strike.abilityAPCost) &&
             IsAbilityOffCooldown(strike.abilityCurrentCooldownTime))
         {
-            SetTargetDefender(GetClosestDefender());
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);
 

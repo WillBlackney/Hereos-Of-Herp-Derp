@@ -19,7 +19,7 @@ public class SkeletonPeasant : Enemy
 
         ActionStart:
 
-        SetTargetDefender(GetClosestDefender());
+        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
 
         if (IsAbleToTakeActions() == false)
         {
@@ -43,9 +43,9 @@ public class SkeletonPeasant : Enemy
         // Move
         else if (IsTargetInRange(myCurrentTarget, currentMeleeRange) == false && IsAbleToMove() && HasEnoughAP(currentAP, move.abilityAPCost))
         {
-            SetTargetDefender(GetClosestDefender());
-            GeneratePathToClosestTileWithinRangeOfTarget(myCurrentTarget, currentMeleeRange);
-            SetPath(path);
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            //GeneratePathToClosestTileWithinRangeOfTarget(myCurrentTarget, currentMeleeRange);
+            //SetPath(path);
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
             //StartCoroutine(Move());

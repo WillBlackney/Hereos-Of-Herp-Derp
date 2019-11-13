@@ -112,6 +112,24 @@ public class PassiveManager : MonoBehaviour
 
     public bool ignite;
     public int igniteStacks;
+
+    public bool pinned;
+    public int pinnedStacks;
+
+    public bool stunned;
+    public int stunnedStacks;
+
+    public bool sleeping;
+    public int sleepingStacks;
+
+    public bool poison;
+    public int poisonStacks;
+
+    public bool camoflage;
+    public int camoflageStacks;
+
+    public bool barrier;
+    public int barrierStacks;
     #endregion
 
     // Initialization + Setup
@@ -124,6 +142,199 @@ public class PassiveManager : MonoBehaviour
 
     // Learn + Modify Passive Traits
     #region
+
+    public void ModifyPinned(int stacks, LivingEntity applier = null)
+    {
+        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Pinned");
+
+        if (stacks > 0)
+        {
+            if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity))
+            {
+                pinnedStacks += stacks;
+                if (pinnedStacks > 0)
+                {
+                    pinned = true;
+                }
+
+                if (applier != null && applier.myPassiveManager.masterfulEntrapmentStacks > 0)
+                {
+                    applier.ModifyCurrentWisdom(applier.myPassiveManager.masterfulEntrapmentStacks);
+                }
+
+                StartCoroutine(VisualEffectManager.Instance.
+                    CreateStatusEffect(myLivingEntity.transform.position, "Pinned!", false, "Red"));
+            }
+            
+        }
+
+        else if (stacks < 0)
+        {
+            pinnedStacks += stacks;
+            if (pinnedStacks <= 0)
+            {
+                pinned = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyStunned(int stacks)
+    {
+        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Stunned");
+
+        if (stacks > 0)
+        {
+            if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity))
+            {
+                stunnedStacks += stacks;
+                if (stunnedStacks > 0)
+                {
+                    stunned = true;
+                    StartCoroutine(VisualEffectManager.Instance.
+                    CreateStatusEffect(myLivingEntity.transform.position, "Stunned!", false, "Red"));
+                }
+            }
+
+        }
+
+        else if (stacks < 0)
+        {
+            stunnedStacks += stacks;
+            if (stunnedStacks <= 0)
+            {
+                stunned = false;
+                StartCoroutine(VisualEffectManager.Instance.
+                CreateStatusEffect(myLivingEntity.transform.position, "Stun Removed!", false, "Blue"));
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifySleeping(int stacks)
+    {
+        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Sleeping");
+        if(stacks > 0)
+        {
+            if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity))
+            {
+                sleepingStacks += stacks;
+                if (sleepingStacks > 0)
+                {
+                    sleeping = true;
+                }
+                StartCoroutine(VisualEffectManager.Instance.
+                CreateStatusEffect(myLivingEntity.transform.position, "Sleeping + " + stacks.ToString(), false, "Red"));
+
+            }
+        }
+        
+
+        else if (stacks < 0)
+        {
+            sleepingStacks += stacks;
+            if (sleepingStacks <= 0)
+            {
+                sleeping = false;
+                StartCoroutine(VisualEffectManager.Instance.
+                CreateStatusEffect(myLivingEntity.transform.position, "Sleeping Removed!", false, "Blue"));
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyCamoflage(int stacks)
+    {
+        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Camoflage");
+
+        if (stacks > 0)
+        {
+            camoflageStacks += stacks;
+            if (camoflageStacks > 0)
+            {
+                camoflage = true;
+                StartCoroutine(VisualEffectManager.Instance.
+                CreateStatusEffect(myLivingEntity.transform.position, "Camoflage!", false, "Blue"));
+            }           
+
+        }
+
+        else if (stacks < 0)
+        {
+            camoflageStacks += stacks;
+            if (camoflageStacks <= 0)
+            {
+                camoflage = false;
+                StartCoroutine(VisualEffectManager.Instance.
+                CreateStatusEffect(myLivingEntity.transform.position, "Camoflage Removed", false, "Red"));
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyPoison(int stacks, LivingEntity applier = null)
+    {
+        if (applier != null)
+        {
+            if (applier.myPassiveManager.venomous && stacks > 0)
+            {
+                stacks++;
+            }
+        }
+
+        if (poisonImmunity)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Poison Immunity", false, "Blue"));
+            return;
+        }
+
+        if (stacks > 0)
+        {
+            if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity))
+            {
+                poisonStacks += stacks;
+                if (poisonStacks > 0)
+                {
+                    poison = true;
+                    StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Poison + " + stacks.ToString(), false, "Green"));
+                    myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Poison"), stacks);
+                }
+            }
+        }
+        else if (stacks < 0)
+        {
+            poisonStacks += stacks;
+            if (poisonStacks <= 0)
+            {
+                poison = false;
+            }
+        }
+
+    }
+    public void ModifyBarrier(int stacks)
+    {
+        barrierStacks += stacks;
+        if (barrierStacks >= 1)
+        {
+            barrier = true;
+            myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Barrier"), stacks);
+        }
+
+        else if (barrierStacks <= 0)
+        {
+            barrier = false;
+            myLivingEntity.myStatusManager.RemoveStatusIcon(myLivingEntity.myStatusManager.GetStatusIconByName("Barrier"));
+            StartCoroutine(VisualEffectManager.Instance.
+                CreateStatusEffect(myLivingEntity.transform.position, "Barrier " + stacks.ToString(), false, "Red"));
+        }
+
+        if (stacks > 0)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Barrier +" + stacks, false, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.
+                CreateStatusEffect(myLivingEntity.transform.position, "Barrier +" + stacks.ToString(), false, "Blue"));
+        }
+    }
     public void ModifyEnrage(int stacks)
     {
         StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Enrage");

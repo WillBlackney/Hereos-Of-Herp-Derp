@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c591e3c0f3bb384794b661f28c54c3f, type: 3}
   m_Name: Void Bomb
   m_EditorClassIdentifier: 
-  abilityImage: {fileID: 21300000, guid: 91851b5dfed99e94f8482655b63826a0, type: 3}
+  sprite: {fileID: 21300000, guid: 91851b5dfed99e94f8482655b63826a0, type: 3}
   abilityName: Void Bomb
-  abilityDescription: Deal 8 magic damage to an enemy and stun them
-  abilityBaseCooldownTime: 3
-  abilityAPCost: 3
-  abilityRange: 5
-  abilityPrimaryValue: 8
-  abilitySecondaryValue: 0
-  abilityDamageType: 2
-  abilityAttackType: 2
+  description: Deal 7 magic damage and apply 'Stunned'
+  baseCooldownTime: 3
+  apCost: 2
+  range: 3
+  primaryValue: 7
+  secondaryValue: 1
+  damageType: 2
+  attackType: 2
+  abilityType: 3

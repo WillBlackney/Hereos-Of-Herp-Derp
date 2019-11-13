@@ -21,7 +21,7 @@ public class VolatileZombie : Enemy
 
         ActionStart:
 
-        SetTargetDefender(GetClosestDefender());
+        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
 
         if (IsAbleToTakeActions() == false)
         {
@@ -35,7 +35,8 @@ public class VolatileZombie : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);
 
-            AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
             goto ActionStart;
@@ -44,7 +45,7 @@ public class VolatileZombie : Enemy
         // Move
         else if (IsTargetInRange(myCurrentTarget, currentMeleeRange) == false && IsAbleToMove() && HasEnoughAP(currentAP, move.abilityAPCost))
         {
-            SetTargetDefender(GetClosestDefender());
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 

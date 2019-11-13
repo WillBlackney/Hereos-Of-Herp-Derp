@@ -29,17 +29,18 @@ public class SkeletonMage : Enemy
         }
 
         // Frost Bolt
-        else if (IsTargetInRange(GetClosestDefender(), frostBolt.abilityRange) &&
+        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), frostBolt.abilityRange) &&
             HasEnoughAP(currentAP, frostBolt.abilityAPCost) &&
             IsAbilityOffCooldown(frostBolt.abilityCurrentCooldownTime)
             )
         {            
-            SetTargetDefender(GetClosestDefender());
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             // VFX notification
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Frost Bolt", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformFrostBolt(this, myCurrentTarget);
-            
+            Action action = AbilityLogic.Instance.PerformFrostBolt(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
             yield return new WaitForSeconds(1f);
             goto ActionStart;
 
@@ -48,14 +49,15 @@ public class SkeletonMage : Enemy
 
         // Fireball the most vulnerable target
         else if (IsTargetInRange(GetMostVulnerableDefender(), fireBall.abilityRange) &&
-            GetMostVulnerableDefender().isKnockedDown &&
+            //GetMostVulnerableDefender().isKnockedDown &&
             HasEnoughAP(currentAP, fireBall.abilityAPCost) &&
             IsAbilityOffCooldown(fireBall.abilityCurrentCooldownTime))
         {
             SetTargetDefender(GetMostVulnerableDefender());
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
             goto ActionStart;
@@ -70,21 +72,23 @@ public class SkeletonMage : Enemy
             SetTargetDefender(GetDefenderWithLowestCurrentHP());
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
 
         // Fireball the closest target if the most vulnerable and the weakest cant be targetted
-        else if (IsTargetInRange(GetClosestDefender(), fireBall.abilityRange) &&
+        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), fireBall.abilityRange) &&
             HasEnoughAP(currentAP, fireBall.abilityAPCost) &&
             IsAbilityOffCooldown(fireBall.abilityCurrentCooldownTime))
         {
-            SetTargetDefender(GetClosestDefender());
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball", false));
             yield return new WaitForSeconds(0.5f);
-            AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
             goto ActionStart;
@@ -92,12 +96,12 @@ public class SkeletonMage : Enemy
         
         // Move
         else if (
-            IsTargetInRange(GetClosestDefender(), fireBall.abilityRange) == false &&
+            IsTargetInRange(EntityLogic.GetClosestEnemy(this), fireBall.abilityRange) == false &&
             IsAbleToMove() && 
             HasEnoughAP(currentAP, move.abilityAPCost)
             )
         {
-            SetTargetDefender(GetClosestDefender());
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);

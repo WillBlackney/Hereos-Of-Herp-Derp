@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c591e3c0f3bb384794b661f28c54c3f, type: 3}
   m_Name: Guard
   m_EditorClassIdentifier: 
-  abilityImage: {fileID: 21300000, guid: 372a4c2741d2fa449a1cf0214677a8c3, type: 3}
+  sprite: {fileID: 21300000, guid: 372a4c2741d2fa449a1cf0214677a8c3, type: 3}
   abilityName: Guard
-  abilityDescription: Target a friendly character. The next time they take damage,
-    ignore it
-  abilityBaseCooldownTime: 3
-  abilityAPCost: 2
-  abilityRange: 2
-  abilityPrimaryValue: 1
-  abilitySecondaryValue: 0
-  abilityDamageType: 0
-  abilityAttackType: 0
+  description: The next time target ally loses HP, ignore it
+  baseCooldownTime: 3
+  apCost: 2
+  range: 2
+  primaryValue: 1
+  secondaryValue: 0
+  damageType: 0
+  attackType: 0
+  abilityType: 1

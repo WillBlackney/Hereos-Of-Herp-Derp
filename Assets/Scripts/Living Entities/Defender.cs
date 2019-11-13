@@ -108,7 +108,7 @@ public class Defender : LivingEntity
         }
         if (myCharacterData.barrierStacks > 0)
         {
-            ModifyCurrentBarrierStacks(myCharacterData.barrierStacks);
+            myPassiveManager.ModifyBarrier(myCharacterData.barrierStacks);
         }
         if (myCharacterData.cautiousStacks > 0)
         {
@@ -168,7 +168,7 @@ public class Defender : LivingEntity
         }
         if (myCharacterData.camoflage)
         {
-            ApplyCamoflage();
+            myPassiveManager.ModifyCamoflage(1);
         }
         if (myCharacterData.thickOfTheFightStacks > 0)
         {
@@ -568,382 +568,335 @@ public class Defender : LivingEntity
     {
         Ability move = mySpellBook.GetAbilityByName("Move");
 
-        if(IsAbleToMove() == false)
+        if(EntityLogic.IsAbleToMove(this) ||
+           EntityLogic.IsAbilityUseable(this, move))
         {
-            return;
+            Debug.Log("Move button clicked, awaiting move order");
+            awaitingMoveOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetValidMoveableTilesWithinRange(currentMobility, LevelManager.Instance.Tiles[gridPosition]));
         }
 
-        // prevent movement if the character doesnt have enough AP
-        if (HasEnoughAP(currentAP, move.abilityAPCost) == false)
-        {
-            if (myPassiveManager.fleetFooted && moveActionsTakenThisTurn == 0)
-            {
-                // nothing
-            }
-            else
-            {
-                return;
-            }
-            
-        }
-        Debug.Log("Move button clicked, awaiting move order");
-        awaitingMoveOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetValidMoveableTilesWithinRange(currentMobility, LevelManager.Instance.Tiles[gridPosition]));
+        
     }
     public void OnStrikeButtonClicked()
     {
         Ability strike = mySpellBook.GetAbilityByName("Strike");
 
-        if (HasEnoughAP(currentAP, strike.abilityAPCost) == false)
+        if (EntityLogic.IsAbilityUseable(this, strike))
         {
-            return;
-        }
-
-        Debug.Log("Strike button clicked, awaiting strike order");
-        awaitingStrikeOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition]));
+            Debug.Log("Strike button clicked, awaiting strike order");
+            awaitingStrikeOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition]));
+        }        
 
     }
     public void OnSmashButtonClicked()
     {
         Ability smash = mySpellBook.GetAbilityByName("Smash");
 
-        if (HasEnoughAP(currentAP, smash.abilityAPCost) == false)
+        if (EntityLogic.IsAbilityUseable(this, smash))
         {
-            return;
-        }
-
-        Debug.Log("Smash button clicked, awaiting smash order");
-        awaitingSmashOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition]));
+            Debug.Log("Smash button clicked, awaiting smash order");
+            awaitingSmashOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition]));
+        }       
 
     }
     public void OnInspireButtonClicked()
     {
         Ability inspire = mySpellBook.GetAbilityByName("Inspire");
 
-        if (HasEnoughAP(currentAP, inspire.abilityAPCost) == false || IsAbilityOffCooldown(inspire.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, inspire))
         {
-            return;
+            Debug.Log("Inspire button clicked, awaiting inspire order");
+            awaitingInspireOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(inspire.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
         }
 
-        Debug.Log("Inspire button clicked, awaiting inspire order");
-        awaitingInspireOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(inspire.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        
     }
     public void OnChargeButtonClicked()
     {
         Ability charge = mySpellBook.GetAbilityByName("Charge");
 
-        if (HasEnoughAP(currentAP, charge.abilityAPCost) == false
-            || IsAbilityOffCooldown(charge.abilityCurrentCooldownTime) == false ||
-            IsAbleToMove() == false)
+        if (EntityLogic.IsAbilityUseable(this, charge) &&
+            EntityLogic.IsAbleToMove(this))           
         {
-            return;
-        }
-
-        Debug.Log("Charge button clicked, awaiting charge target");
-        awaitingChargeTargetOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(charge.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
+            Debug.Log("Charge button clicked, awaiting charge target");
+            awaitingChargeTargetOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(charge.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
+        }      
 
     }
     public void OnGetDownButtonClicked()
     {
         Ability getDown = mySpellBook.GetAbilityByName("Get Down!");
 
-        if (HasEnoughAP(currentAP, getDown.abilityAPCost) == false
-            || IsAbilityOffCooldown(getDown.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, getDown))            
         {
-            return;
+            Debug.Log("Get Down! button clicked, awaiting Get Down! target");
+            awaitingGetDownOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(getDown.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
         }
 
-        Debug.Log("Get Down! button clicked, awaiting Get Down! target");
-        awaitingGetDownOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(getDown.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
+        
 
     }
     public void OnLightningShieldClicked()
     {
         Ability lightningShield = mySpellBook.GetAbilityByName("Lightning Shield");
 
-        if (HasEnoughAP(currentAP, lightningShield.abilityAPCost) == false
-            || IsAbilityOffCooldown(lightningShield.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, lightningShield))
         {
-            return;
+            Debug.Log("Lightning Shield button clicked, awaiting Lightning Shield target");
+            awaitingLightningShieldOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(lightningShield.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
         }
-
-        Debug.Log("Lightning Shield button clicked, awaiting Lightning Shield target");
-        awaitingLightningShieldOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(lightningShield.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
-
     }
     public void OnGuardButtonClicked()
     {
         Ability guard = mySpellBook.GetAbilityByName("Guard");
 
-        if (HasEnoughAP(currentAP, guard.abilityAPCost) == false || IsAbilityOffCooldown(guard.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, guard))
         {
-            return;
+            Debug.Log("Guard button clicked, awaiting guard target");
+            awaitingGuardOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(guard.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
         }
 
-        Debug.Log("Guard button clicked, awaiting guard target");
-        awaitingGuardOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(guard.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        
     }
     public void OnMeteorButtonClicked()
     {
         Ability meteor = mySpellBook.GetAbilityByName("Meteor");
 
-        if (HasEnoughAP(currentAP, meteor.abilityAPCost) == false || IsAbilityOffCooldown(meteor.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, meteor))
         {
-            return;
-        }
-
-        Debug.Log("Meteor button clicked, awaiting meteor target");
-        awaitingMeteorOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(meteor.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            Debug.Log("Meteor button clicked, awaiting meteor target");
+            awaitingMeteorOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(meteor.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        }        
     }
     public void OnTelekinesisButtonClicked()
     {
-        Ability telekinesis = mySpellBook.GetAbilityByName("Telekinesis");
-        Debug.Log("Telekinesis button clicked, awaiting telekinesis target");
+        Ability telekinesis = mySpellBook.GetAbilityByName("Telekinesis");        
 
-        if (HasEnoughAP(currentAP, telekinesis.abilityAPCost) == false || IsAbilityOffCooldown(telekinesis.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, telekinesis))
         {
-            return;
+            Debug.Log("Telekinesis button clicked, awaiting telekinesis target");
+            awaitingTelekinesisTargetOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(telekinesis.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
         }
 
-        awaitingTelekinesisTargetOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(telekinesis.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
     }
     public void OnFrostBoltButtonClicked()
     {
         Ability frostbolt = mySpellBook.GetAbilityByName("Frost Bolt");
 
-        if (HasEnoughAP(currentAP, frostbolt.abilityAPCost) == false || IsAbilityOffCooldown(frostbolt.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, frostbolt))
         {
-            return;
-        }
-
-        Debug.Log("Frost Bolt button clicked, awaiting Frost Bolt target");
-        awaitingFrostBoltOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(frostbolt.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            Debug.Log("Frost Bolt button clicked, awaiting Frost Bolt target");
+            awaitingFrostBoltOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(frostbolt.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        }        
     }
     public void OnChainLightningButtonClicked()
     {
         Ability chainLightning = mySpellBook.GetAbilityByName("Chain Lightning");
 
-        if (HasEnoughAP(currentAP, chainLightning.abilityAPCost) == false || IsAbilityOffCooldown(chainLightning.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, chainLightning))
         {
-            return;
-        }
-
-        Debug.Log("Chain Lightning button clicked, awaiting Frost Bolt target");
-        awaitingChainLightningOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(chainLightning.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            Debug.Log("Chain Lightning button clicked, awaiting Frost Bolt target");
+            awaitingChainLightningOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(chainLightning.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        }      
     }
     public void OnDashButtonClicked()
     {
         Ability dash = mySpellBook.GetAbilityByName("Dash");
 
-        if (HasEnoughAP(currentAP, dash.abilityAPCost) == false || 
-            IsAbilityOffCooldown(dash.abilityCurrentCooldownTime) == false ||
-            IsAbleToMove() == false)
+        if (EntityLogic.IsAbilityUseable(this, dash) &&
+            EntityLogic.IsAbleToMove(this))
         {
-            return;
+            Debug.Log("Dash button clicked, awaiting Dash tile target");
+            awaitingDashOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(dash.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
         }
 
-        Debug.Log("Dash button clicked, awaiting Dash tile target");
-        awaitingDashOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(dash.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        
     }
     public void OnFireBallButtonClicked()
     {
         Ability fireball = mySpellBook.GetAbilityByName("Fire Ball");
 
-        if (HasEnoughAP(currentAP, fireball.abilityAPCost) == false || IsAbilityOffCooldown(fireball.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, fireball))
         {
-            return;
+            Debug.Log("Fire Ball button clicked, awaiting Frost Bolt target");
+            awaitingFireBallOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(fireball.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
         }
 
-        Debug.Log("Fire Ball button clicked, awaiting Frost Bolt target");
-        awaitingFireBallOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(fireball.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+       
     }
     public void OnShootButtonClicked()
     {
         Ability shoot = mySpellBook.GetAbilityByName("Shoot");
 
-        if (HasEnoughAP(currentAP, shoot.abilityAPCost) == false || IsAbilityOffCooldown(shoot.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, shoot))
         {
-            return;
-        }
-
-        Debug.Log("Shoot button clicked, awaiting Shoot target");
-        awaitingShootOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(shoot.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            Debug.Log("Shoot button clicked, awaiting Shoot target");
+            awaitingShootOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(shoot.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        }       
     }
     public void OnRapidFireButtonClicked()
     {
         Ability rapidFire = mySpellBook.GetAbilityByName("Rapid Fire");
 
-        if (HasEnoughAP(currentAP, rapidFire.abilityAPCost) == false || IsAbilityOffCooldown(rapidFire.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, rapidFire))
         {
-            return;
-        }
-
-        Debug.Log("Rapid Fire button clicked, awaiting Rapid Fire target");
-        awaitingRapidFireOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(rapidFire.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            Debug.Log("Rapid Fire button clicked, awaiting Rapid Fire target");
+            awaitingRapidFireOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(rapidFire.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        }        
     }
     public void OnSliceAndDiceButtonClicked()
     {
         Ability sliceAndDice = mySpellBook.GetAbilityByName("Slice And Dice");
 
-        if (HasEnoughAP(currentAP, sliceAndDice.abilityAPCost) == false || IsAbilityOffCooldown(sliceAndDice.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, sliceAndDice))
         {
-            return;
+            Debug.Log("Slice And Dice button clicked, awaiting Slice and Dice target");
+            awaitingSliceAndDiceOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition]));
         }
 
-        Debug.Log("Slice And Dice button clicked, awaiting Slice and Dice target");
-        awaitingSliceAndDiceOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition]));
+        
     }
     public void OnPoisonDartButtonClicked()
     {
         Ability poisonDart = mySpellBook.GetAbilityByName("Poison Dart");
 
-        if (HasEnoughAP(currentAP, poisonDart.abilityAPCost) == false || IsAbilityOffCooldown(poisonDart.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, poisonDart))
         {
-            return;
-        }
-
-        Debug.Log("Poison Dart button clicked, awaiting Poison Dart target");
-        awaitingPoisonDartOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(poisonDart.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
+            Debug.Log("Poison Dart button clicked, awaiting Poison Dart target");
+            awaitingPoisonDartOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(poisonDart.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
+        }        
     }
     public void OnChemicalReactionButtonClicked()
     {
         Ability chemicalReaction = mySpellBook.GetAbilityByName("Chemical Reaction");
 
-        if (HasEnoughAP(currentAP, chemicalReaction.abilityAPCost) == false || IsAbilityOffCooldown(chemicalReaction.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, chemicalReaction))
         {
-            return;
+            Debug.Log("Chemical Reaction button clicked, awaiting Chemical Reaction target");
+            awaitingChemicalReactionOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(chemicalReaction.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
         }
 
-        Debug.Log("Chemical Reaction button clicked, awaiting Chemical Reaction target");
-        awaitingChemicalReactionOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(chemicalReaction.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
+        
     }
     public void OnImpalingBoltButtonClicked()
     {
         Ability imaplingBolt = mySpellBook.GetAbilityByName("Impaling Bolt");
 
-        if (HasEnoughAP(currentAP, imaplingBolt.abilityAPCost) == false || IsAbilityOffCooldown(imaplingBolt.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, imaplingBolt))
         {
-            return;
+            Debug.Log("Impaling Bolt button clicked, awaiting Impaling Bolt target");
+            awaitingImpalingBoltOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(imaplingBolt.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
         }
-
-        Debug.Log("Impaling Bolt button clicked, awaiting Impaling Bolt target");
-        awaitingImpalingBoltOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(imaplingBolt.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+       
     }
     public void OnForestMedicineButtonClicked()
     {
         Ability forestMedicine = mySpellBook.GetAbilityByName("Forest Medicine");
 
-        if (HasEnoughAP(currentAP, forestMedicine.abilityAPCost) == false || IsAbilityOffCooldown(forestMedicine.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, forestMedicine))
         {
-            return;
-        }
-
-        Debug.Log("Forest Medicine button clicked, awaiting Forest Medicine target");
-        awaitingForestMedicineOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(forestMedicine.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            Debug.Log("Forest Medicine button clicked, awaiting Forest Medicine target");
+            awaitingForestMedicineOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(forestMedicine.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        }       
     }
     public void OnInvigorateButtonClicked()
     {
         Ability invigorate = mySpellBook.GetAbilityByName("Invigorate");
 
-        if (HasEnoughAP(currentAP, invigorate.abilityAPCost) == false || IsAbilityOffCooldown(invigorate.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, invigorate))
         {
-            return;
-        }
-
-        Debug.Log("Invigorate button clicked, awaiting Invigorate target");
-        awaitingInvigorateOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(invigorate.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            Debug.Log("Invigorate button clicked, awaiting Invigorate target");
+            awaitingInvigorateOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(invigorate.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        }        
     }
     public void OnHolyFireButtonClicked()
     {
         Ability holyFire = mySpellBook.GetAbilityByName("Holy Fire");
 
-        if (HasEnoughAP(currentAP, holyFire.abilityAPCost) == false || IsAbilityOffCooldown(holyFire.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, holyFire))
         {
-            return;
-        }
-
-        Debug.Log("Holy Fire button clicked, awaiting Holy Fire target");
-        awaitingHolyFireOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(holyFire.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            Debug.Log("Holy Fire button clicked, awaiting Holy Fire target");
+            awaitingHolyFireOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(holyFire.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        }       
     }
     public void OnPrimalBlastButtonClicked()
     {
         Ability primalBlast = mySpellBook.GetAbilityByName("Primal Blast");
 
-        if (HasEnoughAP(currentAP, primalBlast.abilityAPCost) == false || IsAbilityOffCooldown(primalBlast.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, primalBlast))
         {
-            return;
+            Debug.Log("Primal Blast button clicked, awaiting Primal Blast target");
+            awaitingPrimalBlastOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(primalBlast.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
         }
 
-        Debug.Log("Primal Blast button clicked, awaiting Primal Blast target");
-        awaitingPrimalBlastOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(primalBlast.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        
     }
     public void OnPrimalRageButtonClicked()
     {
-        Ability primalBlast = mySpellBook.GetAbilityByName("Primal Rage");
+        Ability primalRage = mySpellBook.GetAbilityByName("Primal Rage");
 
-        if (HasEnoughAP(currentAP, primalBlast.abilityAPCost) == false || IsAbilityOffCooldown(primalBlast.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, primalRage))
         {
-            return;
+            Debug.Log("Primal Rage button clicked, awaiting Primal Rage target");
+            awaitingPrimalRageOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(primalRage.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
         }
-
-        Debug.Log("Primal Rage button clicked, awaiting Primal Rage target");
-        awaitingPrimalRageOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(primalBlast.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
     }
     public void OnPhaseShiftButtonClicked()
     {
         Ability phaseShift = mySpellBook.GetAbilityByName("Phase Shift");
 
-        if (HasEnoughAP(currentAP, phaseShift.abilityAPCost) == false || IsAbilityOffCooldown(phaseShift.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, phaseShift))
         {
-            return;
+            Debug.Log("Phase Shift button clicked, awaiting Phase Shift target");
+            awaitingPhaseShiftOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(phaseShift.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
         }
 
-        Debug.Log("Phase Shift button clicked, awaiting Phase Shift target");
-        awaitingPhaseShiftOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(phaseShift.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+       
     }
     public void OnSanctityButtonClicked()
     {
         Ability sanctity = mySpellBook.GetAbilityByName("Sanctity");
 
-        if (HasEnoughAP(currentAP, sanctity.abilityAPCost) == false || IsAbilityOffCooldown(sanctity.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, sanctity))
         {
-            return;
+            Debug.Log("Sanctity button clicked, awaiting Sanctity target");
+            awaitingSanctityOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(sanctity.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
         }
 
-        Debug.Log("Sanctity button clicked, awaiting Sanctity target");
-        awaitingSanctityOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(sanctity.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        
     }
     public void OnBlessButtonClicked()
     {
         Ability bless = mySpellBook.GetAbilityByName("Bless");
 
-        if (HasEnoughAP(currentAP, bless.abilityAPCost) == false || IsAbilityOffCooldown(bless.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, bless))
         {
             return;
         }
@@ -956,40 +909,36 @@ public class Defender : LivingEntity
     {
         Ability siphonLife = mySpellBook.GetAbilityByName("Siphon Life");
 
-        if (HasEnoughAP(currentAP, siphonLife.abilityAPCost) == false || IsAbilityOffCooldown(siphonLife.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, siphonLife))
         {
-            return;
-        }
-
-        Debug.Log("Siphon Life button clicked, awaiting Siphon Life target");
-        awaitingSiphonLifeOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(siphonLife.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            Debug.Log("Siphon Life button clicked, awaiting Siphon Life target");
+            awaitingSiphonLifeOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(siphonLife.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        }        
     }
     public void OnVoidBombButtonClicked()
     {
         Ability voidBomb = mySpellBook.GetAbilityByName("Void Bomb");
 
-        if (HasEnoughAP(currentAP, voidBomb.abilityAPCost) == false || IsAbilityOffCooldown(voidBomb.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, voidBomb))
         {
-            return;
-        }
-
-        Debug.Log("Void Bomb button clicked, awaiting Void Bomb target");
-        awaitingVoidBombOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(voidBomb.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            Debug.Log("Void Bomb button clicked, awaiting Void Bomb target");
+            awaitingVoidBombOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(voidBomb.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        }        
     }
     public void OnNightmareButtonClicked()
     {
         Ability nightmare = mySpellBook.GetAbilityByName("Nightmare");
 
-        if (HasEnoughAP(currentAP, nightmare.abilityAPCost) == false || IsAbilityOffCooldown(nightmare.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, nightmare))
         {
-            return;
+            Debug.Log("Nightmare button clicked, awaiting Nightmare target");
+            awaitingNightmareOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(nightmare.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
         }
 
-        Debug.Log("Nightmare button clicked, awaiting Nightmare target");
-        awaitingNightmareOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(nightmare.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        
     }
     public void OnWhirlwindButtonClicked()
     {
@@ -997,12 +946,10 @@ public class Defender : LivingEntity
 
         Ability whirlwind = mySpellBook.GetAbilityByName("Whirlwind");
 
-        if (HasEnoughAP(currentAP, whirlwind.abilityAPCost) == false || IsAbilityOffCooldown(whirlwind.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, whirlwind))
         {
-            return;
-        }
-
-        AbilityLogic.Instance.PerformWhirlwind(this);          
+            AbilityLogic.Instance.PerformWhirlwind(this);
+        }                
       
     }
     public void OnFrostNovaButtonClicked()
@@ -1011,12 +958,12 @@ public class Defender : LivingEntity
 
         Ability frostNova = mySpellBook.GetAbilityByName("Frost Nova");
 
-        if (HasEnoughAP(currentAP, frostNova.abilityAPCost) == false || IsAbilityOffCooldown(frostNova.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, frostNova))
         {
-            return;
+            AbilityLogic.Instance.PerformFrostNova(this);
         }
 
-        AbilityLogic.Instance.PerformFrostNova(this);
+        
 
     }
     public void OnElectricalDischargeButtonClicked()
@@ -1052,14 +999,10 @@ public class Defender : LivingEntity
 
         Ability block = mySpellBook.GetAbilityByName("Block");
 
-        if (HasEnoughAP(currentAP, block.abilityAPCost) == false || IsAbilityOffCooldown(block.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, block))
         {
-            return;
+            AbilityLogic.Instance.PerformBlock(this);
         }
-
-        ModifyCurrentBlock(block.abilityPrimaryValue);
-
-        //OnAbilityUsed(block, this);
 
     }
     public void OnBloodLustButtonClicked()
@@ -1068,15 +1011,11 @@ public class Defender : LivingEntity
 
         Ability bloodLust = mySpellBook.GetAbilityByName("Blood Lust");
 
-        if (HasEnoughAP(currentAP, bloodLust.abilityAPCost) == false || 
-            IsAbilityOffCooldown(bloodLust.abilityCurrentCooldownTime) == false ||
+        if (EntityLogic.IsAbilityUseable(this, bloodLust) &&
             currentHealth <= bloodLust.abilitySecondaryValue)
         {
-            return;
+            AbilityLogic.Instance.PerformBloodLust(this);
         }
-
-        AbilityLogic.Instance.PerformBloodLust(this);
-
     }
     public void OnPreparationButtonClicked()
     {
@@ -1084,53 +1023,49 @@ public class Defender : LivingEntity
 
         Ability preparation = mySpellBook.GetAbilityByName("Preparation");
 
-        if (HasEnoughAP(currentAP, preparation.abilityAPCost) == false || IsAbilityOffCooldown(preparation.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, preparation))
         {
-            return;
-        }
-
-        // check improved preparation talent
-        if (myCharacterData.KnowsImprovedPreparation)
-        {
-            foreach (Ability ability in mySpellBook.myActiveAbilities)
+            // check improved preparation talent
+            if (myCharacterData.KnowsImprovedPreparation)
             {
-                if (ability != preparation)
+                foreach (Ability ability in mySpellBook.myActiveAbilities)
                 {
-                    ability.ModifyCurrentCooldown(-1);
+                    if (ability != preparation)
+                    {
+                        ability.ModifyCurrentCooldown(-1);
+                    }
                 }
             }
+
+            myPassiveManager.ModifyPreparation(1);
         }
+
         
-        
-        //OnAbilityUsed(preparation, this);
-        myPassiveManager.ModifyPreparation(1);
 
     }
     public void OnTwinStrikeButtonClicked()
     {
         Ability twinStrike = mySpellBook.GetAbilityByName("Twin Strike");
 
-        if (HasEnoughAP(currentAP, twinStrike.abilityAPCost) == false || IsAbilityOffCooldown(twinStrike.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, twinStrike))
         {
-            return;
+            Debug.Log("Twin Strike button clicked, awaiting Twin Strike target");
+            awaitingTwinStrikeOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], false));
         }
 
-        Debug.Log("Twin Strike button clicked, awaiting Twin Strike target");
-        awaitingTwinStrikeOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], false));
+       
     }
     public void OnChaosBoltButtonClicked()
     {
         Ability chaosBolt = mySpellBook.GetAbilityByName("Chaos Bolt");
 
-        if (HasEnoughAP(currentAP, chaosBolt.abilityAPCost) == false || IsAbilityOffCooldown(chaosBolt.abilityCurrentCooldownTime) == false)
+        if (EntityLogic.IsAbilityUseable(this, chaosBolt))
         {
-            return;
-        }
-
-        Debug.Log("Chaos Bolt button clicked, awaiting Chaos Bolt target");
-        awaitingChaosBoltOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(chaosBolt.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            Debug.Log("Chaos Bolt button clicked, awaiting Chaos Bolt target");
+            awaitingChaosBoltOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(chaosBolt.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        }       
     }
     #endregion
 

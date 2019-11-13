@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c591e3c0f3bb384794b661f28c54c3f, type: 3}
   m_Name: Chaos Bolt
   m_EditorClassIdentifier: 
-  abilityImage: {fileID: 21300000, guid: 12be1468e1ada4441ab273d4701ee24a, type: 3}
+  sprite: {fileID: 21300000, guid: 12be1468e1ada4441ab273d4701ee24a, type: 3}
   abilityName: Chaos Bolt
-  abilityDescription: Deal 6 magic damage to a target and apply 1 exposed.
-  abilityBaseCooldownTime: 4
-  abilityAPCost: 3
-  abilityRange: 3
-  abilityPrimaryValue: 6
-  abilitySecondaryValue: 1
-  abilityDamageType: 2
-  abilityAttackType: 2
+  description: Deal 6 magic damage and apply 1 'Exposed'
+  baseCooldownTime: 3
+  apCost: 3
+  range: 3
+  primaryValue: 6
+  secondaryValue: 1
+  damageType: 2
+  attackType: 2
+  abilityType: 3

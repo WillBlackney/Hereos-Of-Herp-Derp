@@ -25,110 +25,12 @@ public class GrimReaper : Enemy
         Ability whirlwind = mySpellBook.GetAbilityByName("Whirlwind");
         Ability crushingBlow = mySpellBook.GetAbilityByName("Crushing Blow");
 
-        ActionStart:
-
         if (IsAbleToTakeActions() == false)
         {
             EndMyActivation();
         }
 
-        // Doom
-        else if (IsAbilityOffCooldown(doom.abilityCurrentCooldownTime) &&            
-            HasEnoughAP(currentAP, doom.abilityAPCost)             
-            )
-        {
-            // Doom           
-            
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Doom", false));
-            yield return new WaitForSeconds(0.6f);
-            PerformDoom();            
-            
-            // brief delay between actions
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-
-        }
-
-        // Crushing Blow
-        else if (IsTargetInRange(GetClosestDefender(), currentMeleeRange) &&
-           HasEnoughAP(currentAP, crushingBlow.abilityAPCost) &&
-           IsAbilityOffCooldown(crushingBlow.abilityCurrentCooldownTime))
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Crushing Blow", false));
-            yield return new WaitForSeconds(0.6f);
-            PerformCrushingBlow(GetClosestDefender());
-            // brief delay between actions
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-
-        }
-
-        // try to move to a position that we can hit two or more enemies with a whirlwind from
-        else if(GetClosestTileThatHasTwoAdjacentDefenders() != null &&
-            LevelManager.Instance.IsTileWithinMovementRange(GetClosestTileThatHasTwoAdjacentDefenders(),tile,  currentMobility) &&
-            IsAdjacentToTwoOrMoreDefenders() == false &&
-            HasEnoughAP(currentAP, move.abilityAPCost) &&
-            IsAbilityOffCooldown(move.abilityCurrentCooldownTime) &&
-            IsAbilityOffCooldown(whirlwind.abilityCurrentCooldownTime)
-            )
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
-            SetPath(AStar.GetPath(tile.GridPosition, GetClosestTileThatHasTwoAdjacentDefenders().GridPosition));            
-            yield return new WaitForSeconds(0.6f);
-            //StartCoroutine(Move(currentMobility));
-            //yield return new WaitUntil(() => MovementFinished() == true);
-            
-
-            // small delay here in order to seperate the two actions a bit.
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
-
-        // Whirlwind
-        else if (IsTargetInRange(GetClosestDefender(), currentMeleeRange) &&
-            HasEnoughAP(currentAP, whirlwind.abilityAPCost) &&
-            IsAbilityOffCooldown(whirlwind.abilityCurrentCooldownTime))
-        {
-            //PerformWhirlwind();
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Whirlwind", false));
-            yield return new WaitForSeconds(1f);
-            CombatLogic.Instance.CreateAoEAttackEvent(this, whirlwind, tile, currentMeleeRange, true, false);
-           
-
-            // brief delay between actions
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
-
-        else if (IsTargetInRange(GetClosestDefender(), currentMeleeRange) && HasEnoughAP(currentAP, strike.abilityAPCost))
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
-            yield return new WaitForSeconds(0.6f);
-            //StartCoroutine(AttackTarget(GetClosestDefender(), strike.abilityPrimaryValue, false));
-            StartCoroutine(AttackMovement(GetClosestDefender()));
-            //OnAbilityUsed(strike, this);
-
-            // brief delay between actions
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
-
-        // Move
-        else if (IsTargetInRange(myCurrentTarget, currentMeleeRange) == false && IsAbleToMove() && HasEnoughAP(currentAP, move.abilityAPCost))
-        {
-            SetTargetDefender(GetClosestDefender());
-            GeneratePathToClosestTileWithinRangeOfTarget(myCurrentTarget, currentMeleeRange);
-            SetPath(path);
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
-            yield return new WaitForSeconds(0.6f);
-           // StartCoroutine(Move(currentMobility));
-            //yield return new WaitUntil(() => MovementFinished() == true);
-            //OnAbilityUsed(move, this);
-
-            // small delay here in order to seperate the two actions a bit.
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
+        yield return null;
 
         EndMyActivation();
     }
@@ -196,6 +98,6 @@ public class GrimReaper : Enemy
         
        //StartCoroutine(AttackTarget(target, crushingBlow.abilityPrimaryValue, false));
         StartCoroutine(AttackMovement(target));
-        target.ApplyStunned();
+        //target.ApplyStunned();
     }
 }

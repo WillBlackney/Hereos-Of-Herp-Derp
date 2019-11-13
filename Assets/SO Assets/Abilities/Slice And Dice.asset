@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c591e3c0f3bb384794b661f28c54c3f, type: 3}
   m_Name: Slice And Dice
   m_EditorClassIdentifier: 
-  abilityImage: {fileID: 21300000, guid: e440874943fa2b24fa09337afff90259, type: 3}
+  sprite: {fileID: 21300000, guid: e440874943fa2b24fa09337afff90259, type: 3}
   abilityName: Slice And Dice
-  abilityDescription: Spend all your AP. Deal 3 damage to a target fo each point spent
-  abilityBaseCooldownTime: 3
-  abilityAPCost: 0
-  abilityRange: 0
-  abilityPrimaryValue: 3
-  abilitySecondaryValue: 0
-  abilityDamageType: 1
-  abilityAttackType: 1
+  description: Spend all your AP. For each point spent, melee attack a target for
+    3 physical damage
+  baseCooldownTime: 3
+  apCost: 0
+  range: 0
+  primaryValue: 3
+  secondaryValue: 0
+  damageType: 1
+  attackType: 1
+  abilityType: 2

@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c591e3c0f3bb384794b661f28c54c3f, type: 3}
   m_Name: Blood Lust
   m_EditorClassIdentifier: 
-  abilityImage: {fileID: 21300000, guid: a2678dcb8b1d3254980f84c8c11364e5, type: 3}
+  sprite: {fileID: 21300000, guid: a2678dcb8b1d3254980f84c8c11364e5, type: 3}
   abilityName: Blood Lust
-  abilityDescription: Lose 3hp. Gain 2 AP.
-  abilityBaseCooldownTime: 1
-  abilityAPCost: 0
-  abilityRange: 0
-  abilityPrimaryValue: 2
-  abilitySecondaryValue: 3
-  abilityDamageType: 0
-  abilityAttackType: 0
+  description: Gain +2 AP. Lose 3 HP.
+  baseCooldownTime: 1
+  apCost: 0
+  range: 0
+  primaryValue: 2
+  secondaryValue: 3
+  damageType: 0
+  attackType: 0
+  abilityType: 1

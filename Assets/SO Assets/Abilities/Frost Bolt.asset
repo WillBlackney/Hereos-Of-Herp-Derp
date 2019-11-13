@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c591e3c0f3bb384794b661f28c54c3f, type: 3}
   m_Name: Frost Bolt
   m_EditorClassIdentifier: 
-  abilityImage: {fileID: 21300000, guid: 56d1b9108c0c1044490b46337ed938dd, type: 3}
+  sprite: {fileID: 21300000, guid: 56d1b9108c0c1044490b46337ed938dd, type: 3}
   abilityName: Frost Bolt
-  abilityDescription: Deal 3 magic damage to an enemy target and apply 'Pinned'.
-  abilityBaseCooldownTime: 4
-  abilityAPCost: 1
-  abilityRange: 3
-  abilityPrimaryValue: 3
-  abilitySecondaryValue: 0
-  abilityDamageType: 2
-  abilityAttackType: 2
+  description: Deal 3 magic damage to a target and apply 'Pinned'
+  baseCooldownTime: 4
+  apCost: 1
+  range: 3
+  primaryValue: 3
+  secondaryValue: 1
+  damageType: 2
+  attackType: 2
+  abilityType: 3

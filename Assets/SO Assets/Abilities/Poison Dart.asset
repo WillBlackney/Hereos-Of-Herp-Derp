@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c591e3c0f3bb384794b661f28c54c3f, type: 3}
   m_Name: Poison Dart
   m_EditorClassIdentifier: 
-  abilityImage: {fileID: 21300000, guid: dcdd68fb3f5938944810f7e6145d2265, type: 3}
+  sprite: {fileID: 21300000, guid: dcdd68fb3f5938944810f7e6145d2265, type: 3}
   abilityName: Poison Dart
-  abilityDescription: Apply 2 poison to a target
-  abilityBaseCooldownTime: 1
-  abilityAPCost: 2
-  abilityRange: 3
-  abilityPrimaryValue: 0
-  abilitySecondaryValue: 2
-  abilityDamageType: 0
-  abilityAttackType: 2
+  description: Deal 3 physical damage and apply 1 'Poison'
+  baseCooldownTime: 1
+  apCost: 2
+  range: 2
+  primaryValue: 3
+  secondaryValue: 1
+  damageType: 1
+  attackType: 2
+  abilityType: 3

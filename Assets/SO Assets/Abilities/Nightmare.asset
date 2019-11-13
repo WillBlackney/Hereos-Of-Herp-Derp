@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c591e3c0f3bb384794b661f28c54c3f, type: 3}
   m_Name: Nightmare
   m_EditorClassIdentifier: 
-  abilityImage: {fileID: 21300000, guid: 7d83b85225f569b49bf403c22dcb8335, type: 3}
+  sprite: {fileID: 21300000, guid: 7d83b85225f569b49bf403c22dcb8335, type: 3}
   abilityName: Nightmare
-  abilityDescription: Put a target to sleep for 1 turns.
-  abilityBaseCooldownTime: 4
-  abilityAPCost: 2
-  abilityRange: 2
-  abilityPrimaryValue: 1
-  abilitySecondaryValue: 0
-  abilityDamageType: 0
-  abilityAttackType: 0
+  description: Apply 1 'Sleeping' to an enemy
+  baseCooldownTime: 4
+  apCost: 2
+  range: 3
+  primaryValue: 1
+  secondaryValue: 0
+  damageType: 0
+  attackType: 0
+  abilityType: 1

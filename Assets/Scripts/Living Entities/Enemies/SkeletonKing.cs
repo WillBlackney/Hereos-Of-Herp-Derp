@@ -48,14 +48,14 @@ public class SkeletonKing : Enemy
         }
 
         // Crushing Blow
-        else if (IsTargetInRange(GetClosestDefender(), currentMeleeRange) &&
+        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
            HasEnoughAP(currentAP, crushingBlow.abilityAPCost) &&
            IsAbilityOffCooldown(crushingBlow.abilityCurrentCooldownTime))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Crushing Blow", false));
             yield return new WaitForSeconds(0.6f);
 
-            Action cbAction = AbilityLogic.Instance.PerformCrushingBlow(this, GetClosestDefender());
+            Action cbAction = AbilityLogic.Instance.PerformCrushingBlow(this, EntityLogic.GetClosestEnemy(this));
             yield return new WaitUntil(() => cbAction.ActionResolved() == true);
             // brief delay between actions
             yield return new WaitForSeconds(1f);
@@ -85,7 +85,7 @@ public class SkeletonKing : Enemy
         
 
         // Whirlwind
-        else if (IsTargetInRange(GetClosestDefender(), currentMeleeRange) &&
+        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
             HasEnoughAP(currentAP, whirlwind.abilityAPCost) &&
             IsAbilityOffCooldown(whirlwind.abilityCurrentCooldownTime))
         {            
@@ -100,12 +100,12 @@ public class SkeletonKing : Enemy
         }
 
         // Strike
-        else if (IsTargetInRange(GetClosestDefender(), currentMeleeRange) && HasEnoughAP(currentAP, strike.abilityAPCost))
+        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), currentMeleeRange) && HasEnoughAP(currentAP, strike.abilityAPCost))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);
 
-            Action strikeAction = AbilityLogic.Instance.PerformStrike(this, GetClosestDefender());
+            Action strikeAction = AbilityLogic.Instance.PerformStrike(this, EntityLogic.GetClosestEnemy(this));
             yield return new WaitUntil(() => strikeAction.ActionResolved() == true);
             // brief delay between actions
             yield return new WaitForSeconds(1f);
@@ -113,9 +113,9 @@ public class SkeletonKing : Enemy
         }
 
         // Move
-        else if (IsTargetInRange(GetClosestDefender(), currentMeleeRange) == false && IsAbleToMove() && HasEnoughAP(currentAP, move.abilityAPCost))
+        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), currentMeleeRange) == false && IsAbleToMove() && HasEnoughAP(currentAP, move.abilityAPCost))
         {
-            SetTargetDefender(GetClosestDefender());
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 

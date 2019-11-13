@@ -635,14 +635,14 @@ public class MovementLogic : Singleton<MovementLogic>
     {
         // Check grass tile / camo application or removal
         if (character.tile.myTileType == Tile.TileType.Grass &&
-            character.isCamoflaged == false)
+            character.myPassiveManager.camoflage == false)
         {
-            character.ApplyCamoflage();
+            character.myPassiveManager.ModifyCamoflage(1);
         }
         else if (character.tile.myTileType != Tile.TileType.Grass &&
-            character.isCamoflaged)
+            character.myPassiveManager.camoflage)
         {
-            character.RemoveCamoflage();
+            character.myPassiveManager.ModifyCamoflage(-character.myPassiveManager.camoflageStacks);
         }
     }
     public Action ResolveFreeStrikes(LivingEntity characterMoved, Tile previousLocation, Tile newLocation)
