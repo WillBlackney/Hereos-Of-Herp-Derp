@@ -40,15 +40,14 @@ public class SkeletonPriest : Enemy
 
         ActionStart:
 
-        if (IsAbleToTakeActions() == false)
+        if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();
         }
         
         // Invigorate
-        else if (IsTargetInRange(GetBestInvigorateTarget(invigorate.abilityRange), invigorate.abilityRange) &&
-            IsAbilityOffCooldown(invigorate.abilityCurrentCooldownTime) &&
-            HasEnoughAP(currentAP, invigorate.abilityAPCost))
+        else if (EntityLogic.IsTargetInRange(this, GetBestInvigorateTarget(invigorate.abilityRange), invigorate.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, invigorate))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Invigorate", false));
             yield return new WaitForSeconds(0.5f);
@@ -60,10 +59,9 @@ public class SkeletonPriest : Enemy
         }
 
         // Healing Light
-        else if (IsTargetInRange(GetBestHealingLightTarget(), healingLight.abilityRange) &&
+        else if (EntityLogic.IsTargetInRange(this, GetBestHealingLightTarget(), healingLight.abilityRange) &&
             GetBestHealingLightTarget().currentHealth < GetBestHealingLightTarget().currentMaxHealth &&
-            IsAbilityOffCooldown(healingLight.abilityCurrentCooldownTime) &&
-            HasEnoughAP(currentAP, healingLight.abilityAPCost))
+            EntityLogic.IsAbilityUseable(this, healingLight))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Healing Light", false));
             yield return new WaitForSeconds(0.5f);
@@ -76,10 +74,9 @@ public class SkeletonPriest : Enemy
 
         // Move towards an ally to give Encouraging presence bonus
         else if (EntityLogic.GetClosestAlly(this) != this &&
-            IsTargetInRange(EntityLogic.GetClosestAlly(this), currentMobility) == false &&
-            IsAbleToMove() &&
-            HasEnoughAP(currentAP, move.abilityAPCost) &&
-            IsAbilityOffCooldown(move.abilityCurrentCooldownTime)
+            EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestAlly(this), currentMobility) == false &&
+            EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.IsAbilityUseable(this,move)
             )
         {            
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
@@ -94,9 +91,8 @@ public class SkeletonPriest : Enemy
         }
 
         // Strike
-        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
-            HasEnoughAP(currentAP, strike.abilityAPCost) &&
-            IsAbilityOffCooldown(strike.abilityCurrentCooldownTime))
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, strike))
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
@@ -119,7 +115,7 @@ public class SkeletonPriest : Enemy
         foreach(Enemy enemy in EnemyManager.Instance.allEnemies)
         {
             if(enemy.currentAP < enemy.currentMaxAP &&
-                IsTargetInRange(enemy, range) &&
+                EntityLogic.IsTargetInRange(this, enemy, range) &&
                 enemy != this)
             {
                 bestTarget = enemy;

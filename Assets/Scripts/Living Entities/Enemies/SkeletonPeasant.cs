@@ -21,13 +21,14 @@ public class SkeletonPeasant : Enemy
 
         SetTargetDefender(EntityLogic.GetClosestEnemy(this));
 
-        if (IsAbleToTakeActions() == false)
+        if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();
         }       
 
         // Strike
-        else if (IsTargetInRange(myCurrentTarget, currentMeleeRange) && HasEnoughAP(currentAP, strike.abilityAPCost))
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, strike))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);
@@ -41,7 +42,9 @@ public class SkeletonPeasant : Enemy
         }
 
         // Move
-        else if (IsTargetInRange(myCurrentTarget, currentMeleeRange) == false && IsAbleToMove() && HasEnoughAP(currentAP, move.abilityAPCost))
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
+            EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.IsAbilityUseable(this,move))
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             //GeneratePathToClosestTileWithinRangeOfTarget(myCurrentTarget, currentMeleeRange);

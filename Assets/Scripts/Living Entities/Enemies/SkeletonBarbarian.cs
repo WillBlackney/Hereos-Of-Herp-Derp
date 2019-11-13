@@ -29,17 +29,16 @@ public class SkeletonBarbarian : Enemy
         // below line used later to prevent charging this is already in melee with
         List<Tile> tilesInMyMeleeRange = LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, tile);
 
-        if (IsAbleToTakeActions() == false)
+        if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();
         }
 
         // Charge
-        else if (IsAbilityOffCooldown(charge.abilityCurrentCooldownTime) &&
-            IsTargetInRange(myCurrentTarget, charge.abilityRange) &&
-            HasEnoughAP(currentAP, charge.abilityAPCost) &&
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, charge.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, charge) &&
             tilesInMyMeleeRange.Contains(myCurrentTarget.tile) == false &&
-            IsAbleToMove()
+            EntityLogic.IsAbleToMove(this)
             )
         {            
             Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, charge.abilityRange);
@@ -55,9 +54,8 @@ public class SkeletonBarbarian : Enemy
         }        
 
         // Whirlwind
-        else if (IsTargetInRange(myCurrentTarget, currentMeleeRange) &&
-            HasEnoughAP(currentAP, whirlwind.abilityAPCost) &&
-            IsAbilityOffCooldown(whirlwind.abilityCurrentCooldownTime))
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, whirlwind))
         {            
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Whirlwind", false));
             yield return new WaitForSeconds(1f);
@@ -70,7 +68,8 @@ public class SkeletonBarbarian : Enemy
         }
 
         // Strike
-        else if (IsTargetInRange(myCurrentTarget, currentMeleeRange) && HasEnoughAP(currentAP, strike.abilityAPCost))
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, strike))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);
@@ -83,7 +82,9 @@ public class SkeletonBarbarian : Enemy
         }
 
         // Move
-        else if (IsTargetInRange(myCurrentTarget, currentMeleeRange) == false && IsAbleToMove() && HasEnoughAP(currentAP, move.abilityAPCost))
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false && 
+            EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.IsAbilityUseable(this, move))
         {            
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);

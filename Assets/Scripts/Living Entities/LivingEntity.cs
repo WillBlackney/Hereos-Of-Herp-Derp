@@ -5,10 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 
 public class LivingEntity : MonoBehaviour
-{          
-    public enum Class { None, Warrior, Mage, Ranger, Priest, Rogue, Shaman, Warlock };
-    public Class myClass;
-
+{        
+    
     [Header("Component References")]
     public Slider myHealthBar;
     public CanvasGroup myCG;
@@ -135,133 +133,7 @@ public class LivingEntity : MonoBehaviour
         UpdateCurrentHealthText();
         UpdateCurrentMaxHealthText(currentMaxHealth);
     }
-    #endregion
-
-    // State related booleans and conditional checks.
-    #region
-    public bool IsAbleToMove()
-    {
-        Enemy enemy = GetComponent<Enemy>();
-        Defender defender = GetComponent<Defender>();
-
-        if (defender)
-        {
-            if (myPassiveManager.pinned == false && defender.currentMobility > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        else if (enemy)
-        {
-            if (myPassiveManager.pinned == false && enemy.currentMobility > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        else
-        {
-            Debug.Log("AbleToMove() unable to find 'Defender' or 'Enemy' component");
-            return false;
-        }
-    }
-    public bool HasEnoughAP(int currentAP, int APCostOfAction)
-    {
-        if (currentAP >= APCostOfAction)
-        {
-            return true;
-        }
-
-        else if (myPassiveManager.preparation)
-        {
-            return true;
-        }
-
-        else
-        {
-            Debug.Log("Action failed: Not enough AP");
-            return false;
-        }
-    }
-    public bool IsAbleToTakeActions()
-    {
-        if (myPassiveManager.stunned)
-        {
-            Debug.Log("Action failed. Unable to take actions while stunned");
-            return false;
-        }
-        if (myPassiveManager.sleeping)
-        {
-            Debug.Log("Action failed. Unable to take actions while sleeping");
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-    public bool IsTargetInRange(LivingEntity target, int range)
-    {
-        List<Tile> tilesWithinMyRange = LevelManager.Instance.GetTilesWithinRange(range, tile, false);        
-
-        if(target == null)
-        {
-            Debug.Log("IsTargetInRange() target value is null...");
-        }        
-
-        Tile targetsTile = target.tile;
-
-        if (tilesWithinMyRange.Contains(targetsTile) && IsTargetValid(target))
-        {
-            Debug.Log("Target enemy is range");
-            return true;
-        }
-        else
-        {
-            Debug.Log("Target enemy is NOT range");
-            return false;
-        }
-    }
-    public bool IsTargetValid(LivingEntity target)
-    {
-        List<Tile> tilesWithinStealthSight = LevelManager.Instance.GetTilesWithinRange(1, tile);
-
-        if (tilesWithinStealthSight.Contains(target.tile) == false && 
-            (target.myPassiveManager.camoflage || target.myPassiveManager.stealth) &&
-            (CombatLogic.Instance.IsTargetFriendly(this, target) == false)
-            )
-        {
-            Debug.Log("Invalid target: Target is in stealth/camoflague and more than 1 tile away...");
-            return false;       
-        }
-
-        else
-        {
-            return true;
-        }
-    }
-    public bool IsAbilityOffCooldown(int currentCooldownTimer)
-    {
-        if (currentCooldownTimer == 0)
-        {
-            return true;
-        }
-        else
-        {
-            Debug.Log("Cannot use ability: Ability is on cooldown");
-            return false;
-        }
-    }
-    #endregion
+    #endregion    
 
     // Stat and property modifiers
     #region
@@ -1064,10 +936,4 @@ public class LivingEntity : MonoBehaviour
     }
     #endregion
 
-    // Targeting and tiles
-    #region
-    
-    
-    
-    #endregion
 }

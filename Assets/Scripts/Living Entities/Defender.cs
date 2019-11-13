@@ -19,7 +19,7 @@ public class Defender : LivingEntity
     public TextMeshProUGUI myCurrentHealthTextStatBar;
     public TextMeshProUGUI myCurrentMaxHealthTextStatBar;
 
-    [Header("Defender Properties")]
+    [Header("Ability Orders")]
     public bool awaitingMoveOrder;
     public bool awaitingStrikeOrder;
     public bool awaitingChargeTargetOrder;
@@ -389,7 +389,7 @@ public class Defender : LivingEntity
         ClearAllOrders();
         TileHover.Instance.SetVisibility(true);
 
-        if (IsAbleToTakeActions() == false)
+        if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             TileHover.Instance.SetVisibility(false);
             return;
@@ -972,7 +972,7 @@ public class Defender : LivingEntity
 
         Ability electricalDischarge = mySpellBook.GetAbilityByName("Electrical Discharge");
 
-        if (HasEnoughAP(currentAP, electricalDischarge.abilityAPCost) == false || IsAbilityOffCooldown(electricalDischarge.abilityCurrentCooldownTime) == false)
+        if (!EntityLogic.IsAbilityUseable(this, electricalDischarge))
         {
             return;
         }
@@ -1038,9 +1038,7 @@ public class Defender : LivingEntity
             }
 
             myPassiveManager.ModifyPreparation(1);
-        }
-
-        
+        }       
 
     }
     public void OnTwinStrikeButtonClicked()
@@ -1158,7 +1156,7 @@ public class Defender : LivingEntity
 
         Debug.Log("Defender.StartStrikeProcess() called");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (IsTargetInRange(enemyTarget, currentMeleeRange))
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, currentMeleeRange))
         {
             awaitingStrikeOrder = false;
             AbilityLogic.Instance.PerformStrike(this, enemyTarget);
@@ -1169,7 +1167,7 @@ public class Defender : LivingEntity
         Ability smash = mySpellBook.GetAbilityByName("Smash");
 
         Debug.Log("Defender.StartSmashProcess() called");       
-        if (IsTargetInRange(target, currentMeleeRange))
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
         {
             awaitingSmashOrder = false;            
             AbilityLogic.Instance.PerformSmash(this, target);
@@ -1180,7 +1178,7 @@ public class Defender : LivingEntity
         Ability chainLightning = mySpellBook.GetAbilityByName("Chain Lightning");
 
         Debug.Log("Defender.ChainLightningProcess() called");
-        if (IsTargetInRange(target,chainLightning.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target,chainLightning.abilityRange))
         {
             awaitingChainLightningOrder = false;            
             //StartCoroutine(PerformChainLightning(target));
@@ -1192,7 +1190,7 @@ public class Defender : LivingEntity
         Ability primalBlast = mySpellBook.GetAbilityByName("Primal Blast");
 
         Debug.Log("Defender.ChainLightningProcess() called");
-        if (IsTargetInRange(target, primalBlast.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, primalBlast.abilityRange))
         {
             awaitingPrimalBlastOrder = false;
             
@@ -1209,7 +1207,7 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartInspireProcess() called");
         Ability inspire = mySpellBook.GetAbilityByName("Inspire");
 
-        if (IsAllyInRange(targetOfInspire, inspire.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, targetOfInspire, inspire.abilityRange))
         {
             AbilityLogic.Instance.PerformInspire(this, targetOfInspire);
         }
@@ -1220,7 +1218,7 @@ public class Defender : LivingEntity
 
         Debug.Log("Defender.StartChargeLocationSettingProcess() called");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (IsTargetInRange(enemyTarget, charge.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, charge.abilityRange))
         {
             awaitingChargeLocationOrder = true;
             awaitingChargeTargetOrder = false;
@@ -1271,7 +1269,7 @@ public class Defender : LivingEntity
     {
         Ability guard = mySpellBook.GetAbilityByName("Guard");
 
-        if (IsAllyInRange(targetOfGuard, guard.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, targetOfGuard, guard.abilityRange))
         {
             awaitingGuardOrder = false;
             AbilityLogic.Instance.PerformGuard(this, targetOfGuard);
@@ -1298,7 +1296,7 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartTelekinesisLocationSettingProcess() called");
         //Enemy target = EnemyManager.Instance.selectedEnemy;
         LivingEntity target = targetBeingTeleported;
-        if (IsTargetInRange(target, telekinesis.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, telekinesis.abilityRange))
         {
             awaitingTelekinesisTargetOrder = false;
             awaitingTelekinesisLocationOrder = true;
@@ -1315,7 +1313,7 @@ public class Defender : LivingEntity
         Ability frostbolt = mySpellBook.GetAbilityByName("Frost Bolt");
         Debug.Log("Defender.StartFrostBoltProcess() called");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (IsTargetInRange(enemyTarget, frostbolt.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, frostbolt.abilityRange))
         {                      
             awaitingFrostBoltOrder = false;            
             AbilityLogic.Instance.PerformFrostBolt(this, enemyTarget);
@@ -1325,7 +1323,7 @@ public class Defender : LivingEntity
     {
         Ability fireball = mySpellBook.GetAbilityByName("Fire Ball");
         Debug.Log("Defender.StartFireBallProcess() called");        
-        if (IsTargetInRange(target, fireball.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, fireball.abilityRange))
         {
             awaitingFireBallOrder = false;
             AbilityLogic.Instance.PerformFireBall(this, target);                       
@@ -1336,7 +1334,7 @@ public class Defender : LivingEntity
         Ability shoot = mySpellBook.GetAbilityByName("Shoot");
         Debug.Log("Defender.StartShootProcess() called");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (IsTargetInRange(enemyTarget, shoot.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, shoot.abilityRange))
         {
             //PerformShoot(enemyTarget, CalculateDamage(shoot.abilityPrimaryValue, enemyTarget, this));
             awaitingShootOrder = false;
@@ -1348,7 +1346,7 @@ public class Defender : LivingEntity
         Ability rapidFire = mySpellBook.GetAbilityByName("Rapid Fire");
         Debug.Log("Defender.StartRapidFireProcess() called");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (IsTargetInRange(enemyTarget, rapidFire.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, rapidFire.abilityRange))
         {
             awaitingRapidFireOrder = false;
             AbilityLogic.Instance.PerformRapidFire(this, enemyTarget, currentAP);
@@ -1360,7 +1358,7 @@ public class Defender : LivingEntity
         Ability sliceAndDice = mySpellBook.GetAbilityByName("Slice And Dice");
         Debug.Log("Defender.StartSliceAndDiceProcess() called");
         Enemy enemyTarget = target;
-        if (IsTargetInRange(enemyTarget, currentMeleeRange))
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, currentMeleeRange))
         {
             awaitingSliceAndDiceOrder = false;
             AbilityLogic.Instance.PerformSliceAndDice(this, target);
@@ -1371,7 +1369,7 @@ public class Defender : LivingEntity
         Ability poisonDart = mySpellBook.GetAbilityByName("Poison Dart");
         Debug.Log("Defender.StartPoisonDartProcess() called");
         Enemy enemyTarget = target;
-        if (IsTargetInRange(enemyTarget, poisonDart.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, poisonDart.abilityRange))
         {
             awaitingPoisonDartOrder = false;
             AbilityLogic.Instance.PerformPoisonDart(this, target);
@@ -1384,7 +1382,7 @@ public class Defender : LivingEntity
         Ability chemicalReaction = mySpellBook.GetAbilityByName("Chemical Reaction");
         Debug.Log("Defender.ChemicalReactionProcess() called");
         Enemy enemyTarget = target;
-        if (IsTargetInRange(enemyTarget, chemicalReaction.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, chemicalReaction.abilityRange))
         {
             awaitingChemicalReactionOrder = false;
             LevelManager.Instance.UnhighlightAllTiles();
@@ -1397,7 +1395,7 @@ public class Defender : LivingEntity
         Ability impalingBolt = mySpellBook.GetAbilityByName("Impaling Bolt");
         Debug.Log("Defender.StartRapidFireProcess() called");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (IsTargetInRange(enemyTarget, impalingBolt.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, impalingBolt.abilityRange))
         {
             awaitingImpalingBoltOrder = false;            
             AbilityLogic.Instance.PerformImpalingBolt(this, enemyTarget);
@@ -1412,7 +1410,7 @@ public class Defender : LivingEntity
     public void StartInvigorateProcess(Defender target)
     {
         Ability invigorate = mySpellBook.GetAbilityByName("Invigorate");
-        if (IsTargetInRange(target, invigorate.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, invigorate.abilityRange))
         {
             awaitingInvigorateOrder = false;
             AbilityLogic.Instance.PerformInvigorate(this, target);
@@ -1422,7 +1420,7 @@ public class Defender : LivingEntity
     public void StartLightningShieldProcess(Defender target)
     {
         Ability lightningShield = mySpellBook.GetAbilityByName("Lightning Shield");
-        if (IsTargetInRange(target, lightningShield.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, lightningShield.abilityRange))
         {
             awaitingLightningShieldOrder = false;
             AbilityLogic.Instance.PerformLightningShield(this, target);
@@ -1433,7 +1431,7 @@ public class Defender : LivingEntity
     {   
         Ability holyFire = mySpellBook.GetAbilityByName("Holy Fire");
 
-        if (IsTargetInRange(target, holyFire.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, holyFire.abilityRange))
         {
             awaitingHolyFireOrder = false;
             AbilityLogic.Instance.PerformHolyFire(this, target);
@@ -1443,7 +1441,7 @@ public class Defender : LivingEntity
     {        
         Ability primalRage = mySpellBook.GetAbilityByName("Primal Rage");
 
-        if (IsTargetInRange(target, primalRage.abilityRange) == false)
+        if (EntityLogic.IsTargetInRange(this, target, primalRage.abilityRange) == false)
         {
             return;
         }
@@ -1455,7 +1453,7 @@ public class Defender : LivingEntity
     {
         Ability phaseShift = mySpellBook.GetAbilityByName("Phase Shift");
 
-        if (IsTargetInRange(target, phaseShift.abilityRange) == false)
+        if (EntityLogic.IsTargetInRange(this, target, phaseShift.abilityRange) == false)
         {
             return;
         }
@@ -1468,7 +1466,7 @@ public class Defender : LivingEntity
     {
         Ability siphonLife = mySpellBook.GetAbilityByName("Siphon Life");
 
-        if (IsTargetInRange(target, siphonLife.abilityRange) == false)
+        if (EntityLogic.IsTargetInRange(this, target, siphonLife.abilityRange) == false)
         {
             return;
         }
@@ -1481,7 +1479,7 @@ public class Defender : LivingEntity
     {
         Ability chaosBolt = mySpellBook.GetAbilityByName("Chaos Bolt");
 
-        if (IsTargetInRange(target, chaosBolt.abilityRange) == false)
+        if (EntityLogic.IsTargetInRange(this, target, chaosBolt.abilityRange) == false)
         {
             return;
         }
@@ -1494,21 +1492,19 @@ public class Defender : LivingEntity
     {
         Ability sanctity = mySpellBook.GetAbilityByName("Sanctity");
 
-        if (IsTargetInRange(target, sanctity.abilityRange) == false)
+        if (EntityLogic.IsTargetInRange(this, target, sanctity.abilityRange) == false)
         {
             return;
         }
 
         awaitingSanctityOrder = false;
-        AbilityLogic.Instance.PerformSanctity(this, target);
-        //StartCoroutine(PerformSanctity(target));
-
+        AbilityLogic.Instance.PerformSanctity(this, target);        
     }
     public void StartBlessProcess(LivingEntity target)
     {
         Ability bless = mySpellBook.GetAbilityByName("Bless");
 
-        if (IsTargetInRange(target, bless.abilityRange) == false)
+        if (EntityLogic.IsTargetInRange(this, target, bless.abilityRange) == false)
         {
             return;
         }
@@ -1522,7 +1518,7 @@ public class Defender : LivingEntity
     {
         Ability voidBomb = mySpellBook.GetAbilityByName("Void Bomb");
 
-        if (IsTargetInRange(target, voidBomb.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, voidBomb.abilityRange))
         {
             awaitingVoidBombOrder = false;
             AbilityLogic.Instance.PerformVoidBomb(this, target);
@@ -1531,7 +1527,7 @@ public class Defender : LivingEntity
     public void StartNightmareProcess(LivingEntity target)
     {
         Ability nightmare = mySpellBook.GetAbilityByName("Nightmare");
-        if (IsTargetInRange(target, nightmare.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, nightmare.abilityRange))
         {
             awaitingNightmareOrder = false;
             AbilityLogic.Instance.PerformNightmare(this, target);
@@ -1539,12 +1535,10 @@ public class Defender : LivingEntity
         
     }
     public void StartTwinStrikeProcess(LivingEntity target)
-    {
-        Ability twinStrike = mySpellBook.GetAbilityByName("Twin Strike");
-
+    {        
         Debug.Log("Defender.StartTwinStrikeProcess() called");
         //Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (IsTargetInRange(target, currentMeleeRange))
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
         {
             awaitingTwinStrikeOrder = false;
             AbilityLogic.Instance.PerformTwinStrike(this, target);
@@ -1552,25 +1546,6 @@ public class Defender : LivingEntity
     }
     #endregion
 
-
-    // Bool functions and conditional checks
-    public bool IsAllyInRange(LivingEntity defender, int range)
-    {
-        List<Tile> tilesWithinMyRange = LevelManager.Instance.GetTilesWithinRange(range, tile, false);
-        Tile allyTargetsTile = defender.tile;
-
-        if (tilesWithinMyRange.Contains(allyTargetsTile))
-        {
-            Debug.Log("Target ally is range");
-            return true;
-        }
-        else
-        {
-            Debug.Log("Target ally is NOT range");
-            return false;
-        }
-    }
-    
 
 
 

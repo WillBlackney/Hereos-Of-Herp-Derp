@@ -4,11 +4,8 @@ using UnityEngine;
 
 public static class EntityLogic
 {
-    // Enemy ai logic
-    public static void SetTarget(LivingEntity entity, LivingEntity newTarget)
-    {
-        entity.myCurrentTarget = newTarget;
-    }
+    // Get Living Entity Methods
+    #region
     public static LivingEntity GetClosestEnemy(LivingEntity entity)
     {
         // TO DO: this method determines which defender is closest by drawing a straight line. It should instead calculate the closest by drawing a path to each with Astar
@@ -68,7 +65,7 @@ public static class EntityLogic
 
         return closestAlly;
     }
-    public static LivingEntity GetMostVulnerableDefender(LivingEntity entity)
+    public static LivingEntity GetMostVulnerableEnemy(LivingEntity entity)
     {
         LivingEntity bestTarget = null;
         int pointScore = 0;
@@ -128,8 +125,10 @@ public static class EntityLogic
 
         return bestTarget;
     }
+    #endregion
 
-    // defender logic
+    // Conditional Checks + Booleans
+    #region
     public static bool IsAbleToMove(LivingEntity entity)
     {
         if(entity.myPassiveManager.pinned ||
@@ -240,9 +239,10 @@ public static class EntityLogic
             return false;
         }
     }
+    #endregion
 
-    // LE Logic
-    
+    // Get Tiles + Pathfinding Logic
+    #region
     public static Tile GetValidGrassTileWithinRange(LivingEntity entityFrom, int range)
     {
         Tile closestGrassTile = null;
@@ -264,4 +264,5 @@ public static class EntityLogic
         List<Tile> tilesWithinRangeOfOriginCharacter = LevelManager.Instance.GetValidMoveableTilesWithinRange(range, originCharacter.tile);
         return LevelManager.Instance.GetFurthestTileFromTargetFromList(tilesWithinRangeOfOriginCharacter, target.tile);
     }
+    #endregion
 }

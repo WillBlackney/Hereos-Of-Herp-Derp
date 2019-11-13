@@ -70,55 +70,6 @@ public class Enemy : LivingEntity
         myCurrentTarget = target;
     }
     
-    public Defender GetMostVulnerableDefender()
-    {
-        Defender bestTarget = null;
-        int pointScore = 0;
-
-        foreach(Defender defender in DefenderManager.Instance.allDefenders)
-        {
-            int myPointScore = 1;
-
-
-            if(myPointScore > pointScore)
-            {
-                pointScore = myPointScore;
-                bestTarget = defender;
-            }
-        }
-
-        return bestTarget;
-    }
-    public Defender GetDefenderWithLowestCurrentHP()
-    {
-        Defender bestTarget = null;
-        int lowestHP = 1000;
-
-        // Declare new temp list for storing defender 
-        List<Defender> defenders = new List<Defender>();
-
-        // Add all active defenders to the temp list
-        foreach (Defender defender in DefenderManager.Instance.allDefenders)
-        {
-            defenders.Add(defender);
-        }
-
-        foreach (Defender defender in defenders)
-        {            
-            if (defender.currentHealth < lowestHP)
-            {
-                bestTarget = defender;
-                lowestHP = defender.currentHealth;                
-            }            
-        }
-
-        if(bestTarget == null)
-        {
-            Debug.Log("GetDefenderWithLowestCurrentHP() returning null !!...");
-        }
-
-        return bestTarget;
-    }
     #endregion    
 
     // Mouse + Click Events

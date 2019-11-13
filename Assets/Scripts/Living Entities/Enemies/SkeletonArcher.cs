@@ -23,15 +23,14 @@ public class SkeletonArcher : Enemy
 
         ActionStart:
 
-        if (IsAbleToTakeActions() == false)
+        if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();
         }        
         
         // Impaling Bolt        
-        else if(IsTargetInRange(EntityLogic.GetClosestEnemy(this), impalingBolt.abilityRange) && 
-            HasEnoughAP(currentAP, impalingBolt.abilityAPCost) && 
-            IsAbilityOffCooldown(impalingBolt.abilityCurrentCooldownTime)
+        else if(EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), impalingBolt.abilityRange) && 
+            EntityLogic.IsAbilityUseable(this, impalingBolt)
             )           
         {
             Debug.Log("Skeleton Archer using Impaling Bolt...");
@@ -49,12 +48,10 @@ public class SkeletonArcher : Enemy
         
 
         // Snipe the most vulnerable target
-        else if (IsTargetInRange(GetMostVulnerableDefender(), snipe.abilityRange) &&
-            //GetMostVulnerableDefender().isKnockedDown &&
-            HasEnoughAP(currentAP, snipe.abilityAPCost) &&
-            IsAbilityOffCooldown(snipe.abilityCurrentCooldownTime))
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetMostVulnerableEnemy(this), snipe.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, snipe))
         {
-            SetTargetDefender(GetMostVulnerableDefender());
+            SetTargetDefender(EntityLogic.GetMostVulnerableEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Snipe", false));
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformSnipe(this, myCurrentTarget);
@@ -66,11 +63,10 @@ public class SkeletonArcher : Enemy
         }
 
         // Snipe the target with lowest current HP
-        else if (IsTargetInRange(GetDefenderWithLowestCurrentHP(), snipe.abilityRange) &&
-            HasEnoughAP(currentAP, snipe.abilityAPCost) &&
-            IsAbilityOffCooldown(snipe.abilityCurrentCooldownTime))
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), snipe.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, snipe))
         {
-            SetTargetDefender(GetDefenderWithLowestCurrentHP());
+            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Snipe", false));
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformSnipe(this, myCurrentTarget);
@@ -82,9 +78,8 @@ public class SkeletonArcher : Enemy
         }
 
         // Snipe the closest target if the most vulnerable and the weakest cant be targetted
-        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), snipe.abilityRange) &&
-            HasEnoughAP(currentAP, snipe.abilityAPCost) &&
-            IsAbilityOffCooldown(snipe.abilityCurrentCooldownTime))
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), snipe.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, snipe))
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Snipe", false));
@@ -101,7 +96,7 @@ public class SkeletonArcher : Enemy
         // Take a free move: try to move towards a grass tile first
         else if(myPassiveManager.fleetFooted &&
             moveActionsTakenThisTurn == 0 &&
-            IsAbleToMove() &&
+            EntityLogic.IsAbleToMove(this) &&
             EntityLogic.GetValidGrassTileWithinRange(this, currentMobility) != null &&
             tile.myTileType != Tile.TileType.Grass            
             )
@@ -120,7 +115,7 @@ public class SkeletonArcher : Enemy
         // Take a free move: try to move furthest away from the closest defender if there is no nearby grass tile
         else if (myPassiveManager.fleetFooted &&
            moveActionsTakenThisTurn == 0 &&
-           IsAbleToMove() &&
+           EntityLogic.IsAbleToMove(this) &&
            EntityLogic.GetFurthestTileFromTargetWithinRange(this, EntityLogic.GetClosestEnemy(this), currentMobility) != null &&
            EntityLogic.GetFurthestTileFromTargetWithinRange(this, EntityLogic.GetClosestEnemy(this), currentMobility) != tile
            )

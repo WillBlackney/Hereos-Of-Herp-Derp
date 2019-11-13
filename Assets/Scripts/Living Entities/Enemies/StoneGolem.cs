@@ -19,18 +19,17 @@ public class StoneGolem : Enemy
 
         ActionStart:
         
-        if (IsAbleToTakeActions() == false)
+        if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();
         }
 
         // Rock Toss
-        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), rockToss.abilityRange) &&
-            HasEnoughAP(currentAP, rockToss.abilityAPCost) &&
-            IsAbilityOffCooldown(rockToss.abilityCurrentCooldownTime)
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), rockToss.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this,rockToss )
             )
         {
-            Debug.Log("Skeleton Archer using Impaling Bolt...");
+            
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             // VFX notification
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Rock Toss", false));

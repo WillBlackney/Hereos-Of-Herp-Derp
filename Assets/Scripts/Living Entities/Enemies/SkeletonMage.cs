@@ -23,15 +23,14 @@ public class SkeletonMage : Enemy
 
         ActionStart:
 
-        if (IsAbleToTakeActions() == false)
+        if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();
         }
 
         // Frost Bolt
-        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), frostBolt.abilityRange) &&
-            HasEnoughAP(currentAP, frostBolt.abilityAPCost) &&
-            IsAbilityOffCooldown(frostBolt.abilityCurrentCooldownTime)
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), frostBolt.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, frostBolt)
             )
         {            
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
@@ -48,12 +47,10 @@ public class SkeletonMage : Enemy
 
 
         // Fireball the most vulnerable target
-        else if (IsTargetInRange(GetMostVulnerableDefender(), fireBall.abilityRange) &&
-            //GetMostVulnerableDefender().isKnockedDown &&
-            HasEnoughAP(currentAP, fireBall.abilityAPCost) &&
-            IsAbilityOffCooldown(fireBall.abilityCurrentCooldownTime))
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetMostVulnerableEnemy(this), fireBall.abilityRange) &&            
+            EntityLogic.IsAbilityUseable(this, fireBall))
         {
-            SetTargetDefender(GetMostVulnerableDefender());
+            SetTargetDefender(EntityLogic.GetMostVulnerableEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball", false));
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
@@ -65,11 +62,10 @@ public class SkeletonMage : Enemy
         }
 
         // Fireball the target with lowest current HP
-        else if (IsTargetInRange(GetDefenderWithLowestCurrentHP(), fireBall.abilityRange) &&
-            HasEnoughAP(currentAP, fireBall.abilityAPCost) &&
-            IsAbilityOffCooldown(fireBall.abilityCurrentCooldownTime))
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), fireBall.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, fireBall))
         {
-            SetTargetDefender(GetDefenderWithLowestCurrentHP());
+            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball", false));
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
@@ -80,9 +76,8 @@ public class SkeletonMage : Enemy
         }
 
         // Fireball the closest target if the most vulnerable and the weakest cant be targetted
-        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), fireBall.abilityRange) &&
-            HasEnoughAP(currentAP, fireBall.abilityAPCost) &&
-            IsAbilityOffCooldown(fireBall.abilityCurrentCooldownTime))
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), fireBall.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, fireBall))
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball", false));
@@ -96,9 +91,9 @@ public class SkeletonMage : Enemy
         
         // Move
         else if (
-            IsTargetInRange(EntityLogic.GetClosestEnemy(this), fireBall.abilityRange) == false &&
-            IsAbleToMove() && 
-            HasEnoughAP(currentAP, move.abilityAPCost)
+            EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), fireBall.abilityRange) == false &&
+            EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.IsAbilityUseable(this, move)
             )
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));

@@ -92,6 +92,7 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;        
     }
 
+    // Block
     public Action PerformBlock(LivingEntity caster)
     {
         Action action = new Action();
@@ -104,6 +105,44 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsed(block, caster);
         caster.ModifyCurrentBlock(block.abilityPrimaryValue);
         yield return new WaitForSeconds(0.5f);
+        action.actionResolved = true;
+
+    }
+
+    // Preparation
+    public Action PerformPreparation(LivingEntity caster)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformPreparationCoroutine(caster, action));
+        return action;
+    }
+    public IEnumerator PerformPreparationCoroutine(LivingEntity caster, Action action)
+    {
+        Debug.Log("Preparation button clicked");
+
+        Ability preparation = caster.mySpellBook.GetAbilityByName("Preparation");
+
+        if (EntityLogic.IsAbilityUseable(caster, preparation))
+        {
+            // check improved preparation talent
+            if (caster.defender != null && 
+                caster.defender.myCharacterData.KnowsImprovedPreparation)
+            {
+                foreach (Ability ability in caster.mySpellBook.myActiveAbilities)
+                {
+                    if (ability != preparation)
+                    {
+                        ability.ModifyCurrentCooldown(-1);
+                    }
+                }
+            }
+
+            caster.myPassiveManager.ModifyPreparation(1);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        OnAbilityUsed(preparation, caster);
+
         action.actionResolved = true;
 
     }

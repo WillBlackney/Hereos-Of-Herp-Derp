@@ -36,15 +36,14 @@ public class SkeletonWarrior : Enemy
 
         ActionStart:
         
-        if (IsAbleToTakeActions() == false)
+        if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();
         }
 
         // Inspire best target if they are in range
-        else if(IsTargetInRange(GetBestInspireTarget(),inspire.abilityRange) &&
-            IsAbilityOffCooldown(inspire.abilityCurrentCooldownTime) &&
-            HasEnoughAP(currentAP, inspire.abilityAPCost))
+        else if(EntityLogic.IsTargetInRange(this, GetBestInspireTarget(),inspire.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this,inspire))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Inspire", false));
             yield return new WaitForSeconds(0.5f);
@@ -56,8 +55,7 @@ public class SkeletonWarrior : Enemy
 
         // Inspire something else if the best target is not in range
         else if (GetBestInspireTargetInRange(inspire.abilityRange) != null &&
-            IsAbilityOffCooldown(inspire.abilityCurrentCooldownTime) &&
-            HasEnoughAP(currentAP, inspire.abilityAPCost))
+            EntityLogic.IsAbilityUseable(this,inspire))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Inspire", false));
             yield return new WaitForSeconds(0.5f);
@@ -70,8 +68,7 @@ public class SkeletonWarrior : Enemy
 
         // Guard an ally if they are injured and in range
         else if(GetBestBarrierTargetInRange(guard.abilityRange) != null &&
-            IsAbilityOffCooldown(guard.abilityCurrentCooldownTime) &&
-            HasEnoughAP(currentAP, guard.abilityAPCost))
+            EntityLogic.IsAbilityUseable(this, guard))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Guard", false));
             yield return new WaitForSeconds(0.5f);
@@ -83,9 +80,8 @@ public class SkeletonWarrior : Enemy
         }
 
         // Strike
-        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
-            HasEnoughAP(currentAP, strike.abilityAPCost) &&
-            IsAbilityOffCooldown(strike.abilityCurrentCooldownTime))
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, strike))
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
@@ -99,13 +95,12 @@ public class SkeletonWarrior : Enemy
         }
 
         // Move
-        else if (IsTargetInRange(GetDefenderWithLowestCurrentHP(), currentMeleeRange) == false &&
-            IsAbleToMove() &&
-            HasEnoughAP(currentAP, move.abilityAPCost) &&
-            IsAbilityOffCooldown(move.abilityCurrentCooldownTime)
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) == false &&
+            EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.IsAbilityUseable(this, move)
             )
         {
-            SetTargetDefender(GetDefenderWithLowestCurrentHP());
+            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
 
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
@@ -185,7 +180,7 @@ public class SkeletonWarrior : Enemy
         {
             int myPointScore = 0;
 
-            if (enemy.GetComponent<SkeletonAssassin>() && IsTargetInRange(enemy, range))
+            if (enemy.GetComponent<SkeletonAssassin>() && EntityLogic.IsTargetInRange(this, enemy, range))
             {
                 myPointScore = 5;
                 if (myPointScore > pointScore)
@@ -195,7 +190,7 @@ public class SkeletonWarrior : Enemy
                 }
             }
 
-            else if (enemy.GetComponent<SkeletonArcher>() && IsTargetInRange(enemy, range))
+            else if (enemy.GetComponent<SkeletonArcher>() && EntityLogic.IsTargetInRange(this, enemy, range))
             {
                 myPointScore = 4;
                 if (myPointScore > pointScore)
@@ -205,7 +200,7 @@ public class SkeletonWarrior : Enemy
                 }
             }
 
-            else if (enemy.GetComponent<SkeletonBarbarian>() && IsTargetInRange(enemy, range))
+            else if (enemy.GetComponent<SkeletonBarbarian>() && EntityLogic.IsTargetInRange(this, enemy, range))
             {
                 myPointScore = 3;
                 if (myPointScore > pointScore)
@@ -215,7 +210,7 @@ public class SkeletonWarrior : Enemy
                 }
             }
 
-            else if (enemy.GetComponent<SkeletonWarrior>() && IsTargetInRange(enemy, range))
+            else if (enemy.GetComponent<SkeletonWarrior>() && EntityLogic.IsTargetInRange(this, enemy, range))
             {
                 myPointScore = 2;
                 if (myPointScore > pointScore)
@@ -237,7 +232,7 @@ public class SkeletonWarrior : Enemy
         foreach(Enemy enemy in EnemyManager.Instance.allEnemies)
         {
             if(enemy.currentHealth < lowestHPvalue &&
-                IsTargetInRange(enemy, range) &&
+                EntityLogic.IsTargetInRange(this, enemy, range) &&
                 enemy.currentHealth != enemy.currentMaxHealth)
             {
                 bestTarget = enemy;

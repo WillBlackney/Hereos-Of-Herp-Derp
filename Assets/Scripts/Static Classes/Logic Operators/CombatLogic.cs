@@ -136,8 +136,7 @@ public class CombatLogic : MonoBehaviour
         if (damageType != AbilityDataSO.DamageType.Poison)
         {
             adjustedDamageValue = CalculateDamage(damageAmount, victim, attacker, damageType, attackType, abilityUsed);
-        }
-        
+        }        
 
         int blockAfter = victim.currentBlock;
         int healthAfter = victim.currentHealth;
@@ -253,7 +252,7 @@ public class CombatLogic : MonoBehaviour
             yield return new WaitUntil(() => lightningShieldDamage.ActionResolved() == true);
         }
 
-        if (victim.timesAttackedThisTurn == 0 && victim.myPassiveManager.quickReflexes && victim.IsAbleToMove())
+        if (victim.timesAttackedThisTurn == 0 && victim.myPassiveManager.quickReflexes && EntityLogic.IsAbleToMove(victim))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Quick Reflexes", true, "Blue"));
             Action reflexAction = victim.StartQuickReflexesMove();

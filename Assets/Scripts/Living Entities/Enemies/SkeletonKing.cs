@@ -27,15 +27,13 @@ public class SkeletonKing : Enemy
 
         ActionStart:
 
-        if (IsAbleToTakeActions() == false)
+        if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();
         }
 
         // Doom
-        else if (IsAbilityOffCooldown(doom.abilityCurrentCooldownTime) &&
-            HasEnoughAP(currentAP, doom.abilityAPCost)
-            )
+        else if (EntityLogic.IsAbilityUseable(this, doom))
         {            
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Doom", false));
             yield return new WaitForSeconds(0.5f);
@@ -48,9 +46,8 @@ public class SkeletonKing : Enemy
         }
 
         // Crushing Blow
-        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
-           HasEnoughAP(currentAP, crushingBlow.abilityAPCost) &&
-           IsAbilityOffCooldown(crushingBlow.abilityCurrentCooldownTime))
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
+           EntityLogic.IsAbilityUseable(this, crushingBlow))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Crushing Blow", false));
             yield return new WaitForSeconds(0.6f);
@@ -68,8 +65,8 @@ public class SkeletonKing : Enemy
             IsAdjacentToTwoOrMoreDefenders() == false && 
             GetClosestValidTileThatHasTwoAdjacentDefenders() != null &&             
             LevelManager.Instance.GetTilesWithinRange(currentMobility, tile).Contains(GetClosestValidTileThatHasTwoAdjacentDefenders()) &&
-            HasEnoughAP(currentAP, move.abilityAPCost) &&            
-            IsAbilityOffCooldown(whirlwind.abilityCurrentCooldownTime)
+            EntityLogic.IsAbilityUseable(this, whirlwind) &&
+            EntityLogic.IsAbleToMove(this)
             )
         {   
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
@@ -85,9 +82,8 @@ public class SkeletonKing : Enemy
         
 
         // Whirlwind
-        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
-            HasEnoughAP(currentAP, whirlwind.abilityAPCost) &&
-            IsAbilityOffCooldown(whirlwind.abilityCurrentCooldownTime))
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, whirlwind))
         {            
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Whirlwind", false));
             yield return new WaitForSeconds(1f);
@@ -100,7 +96,8 @@ public class SkeletonKing : Enemy
         }
 
         // Strike
-        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), currentMeleeRange) && HasEnoughAP(currentAP, strike.abilityAPCost))
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, strike))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);
@@ -113,7 +110,9 @@ public class SkeletonKing : Enemy
         }
 
         // Move
-        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), currentMeleeRange) == false && IsAbleToMove() && HasEnoughAP(currentAP, move.abilityAPCost))
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) == false &&
+            EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.IsAbilityUseable(this, move))
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));

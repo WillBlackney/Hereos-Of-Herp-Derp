@@ -41,15 +41,14 @@ public class Vampire : Enemy
             ChooseRandomTargetingLogic();
         }
 
-        if (IsAbleToTakeActions() == false)
+        if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();
         }
 
         // Siphon Life
-        else if(IsAbilityOffCooldown(siphonLife.abilityCurrentCooldownTime) &&
-            IsTargetInRange(myCurrentTarget, siphonLife.abilityRange) &&
-            HasEnoughAP(currentAP, siphonLife.abilityAPCost)
+        else if(EntityLogic.IsTargetInRange(this, myCurrentTarget, siphonLife.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, siphonLife )
             )
         {
             //SetTargetDefender(GetClosestDefender());
@@ -63,9 +62,8 @@ public class Vampire : Enemy
         }
 
         // If unable to siphon life the ideal target, siphon the closest valid target
-        else if (IsAbilityOffCooldown(siphonLife.abilityCurrentCooldownTime) &&
-            IsTargetInRange(EntityLogic.GetClosestEnemy(this), siphonLife.abilityRange) &&
-            HasEnoughAP(currentAP, siphonLife.abilityAPCost)
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), siphonLife.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, siphonLife)
             )
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
@@ -79,9 +77,8 @@ public class Vampire : Enemy
         }
 
         // Twin Strike
-        else if (IsTargetInRange(myCurrentTarget, currentMeleeRange) &&
-            HasEnoughAP(currentAP, twinStrike.abilityAPCost) &&
-            IsAbilityOffCooldown(twinStrike.abilityCurrentCooldownTime))
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, twinStrike))
         {
             //SetTargetDefender(GetDefenderWithLowestCurrentHP());
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike", false));
@@ -93,9 +90,8 @@ public class Vampire : Enemy
         }
 
         // Strike
-        else if (IsTargetInRange(myCurrentTarget, currentMeleeRange) &&
-            HasEnoughAP(currentAP, strike.abilityAPCost) &&
-            IsAbilityOffCooldown(strike.abilityCurrentCooldownTime))
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, strike))
         {
             //SetTargetDefender(GetDefenderWithLowestCurrentHP());
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
@@ -107,10 +103,9 @@ public class Vampire : Enemy
         }
 
         // Dash
-        else if (IsTargetInRange(myCurrentTarget, currentMeleeRange) == false &&
-            IsAbleToMove() &&
-            HasEnoughAP(currentAP, dash.abilityAPCost) &&
-            IsAbilityOffCooldown(dash.abilityCurrentCooldownTime)
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
+            EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.IsAbilityUseable(this, dash)
             )
         {
             
@@ -127,10 +122,9 @@ public class Vampire : Enemy
         }
 
         // Move
-        else if (IsTargetInRange(myCurrentTarget,currentMeleeRange) == false &&
-            IsAbleToMove() &&
-            HasEnoughAP(currentAP, move.abilityAPCost) &&
-            IsAbilityOffCooldown(move.abilityCurrentCooldownTime)
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget,currentMeleeRange) == false &&
+            EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.IsAbilityUseable(this, move)
             )
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
@@ -161,7 +155,7 @@ public class Vampire : Enemy
 
         else
         {
-            SetTargetDefender(GetDefenderWithLowestCurrentHP());
+            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
         }
 
         Debug.Log("ChooseRandomTargetingLogic() set target as: " + myCurrentTarget.name);

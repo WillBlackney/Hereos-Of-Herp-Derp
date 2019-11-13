@@ -25,7 +25,7 @@ public class GrimReaper : Enemy
         Ability whirlwind = mySpellBook.GetAbilityByName("Whirlwind");
         Ability crushingBlow = mySpellBook.GetAbilityByName("Crushing Blow");
 
-        if (IsAbleToTakeActions() == false)
+        if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();
         }

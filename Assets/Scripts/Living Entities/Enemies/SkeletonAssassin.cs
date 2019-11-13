@@ -34,17 +34,16 @@ public class SkeletonAssassin : Enemy
 
         ActionStart:
         
-        if (IsAbleToTakeActions() == false)
+        if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();
         }
 
         // Twin Strike
-        else if (IsTargetInRange(GetDefenderWithLowestCurrentHP(), currentMeleeRange) &&
-            HasEnoughAP(currentAP, twinStrike.abilityAPCost) &&
-            IsAbilityOffCooldown(twinStrike.abilityCurrentCooldownTime))
+        else if (EntityLogic.IsTargetInRange(this,EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, twinStrike))
         {
-            SetTargetDefender(GetDefenderWithLowestCurrentHP());
+            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike", false));
             yield return new WaitForSeconds(0.5f);
 
@@ -56,11 +55,10 @@ public class SkeletonAssassin : Enemy
         }
 
         // Strike
-        else if (IsTargetInRange(GetDefenderWithLowestCurrentHP(), currentMeleeRange) &&
-            HasEnoughAP(currentAP, strike.abilityAPCost) &&
-            IsAbilityOffCooldown(strike.abilityCurrentCooldownTime))
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, strike))
         {
-            SetTargetDefender(GetDefenderWithLowestCurrentHP());
+            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);
             
@@ -72,13 +70,12 @@ public class SkeletonAssassin : Enemy
         }
 
         // Dash
-        else if (IsTargetInRange(GetDefenderWithLowestCurrentHP(), currentMeleeRange) == false &&
-            IsAbleToMove() &&
-            HasEnoughAP(currentAP, dash.abilityAPCost) &&
-            IsAbilityOffCooldown(dash.abilityCurrentCooldownTime)
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) == false &&
+            EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.IsAbilityUseable(this, dash)
             )
         {
-            SetTargetDefender(GetDefenderWithLowestCurrentHP());
+            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
 
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dash", false));
             yield return new WaitForSeconds(0.5f);
@@ -93,13 +90,12 @@ public class SkeletonAssassin : Enemy
         }
 
         // Move
-        else if (IsTargetInRange(GetDefenderWithLowestCurrentHP(), currentMeleeRange) == false &&
-            IsAbleToMove() && 
-            HasEnoughAP(currentAP, move.abilityAPCost) &&
-            IsAbilityOffCooldown(move.abilityCurrentCooldownTime)
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) == false &&
+            EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.IsAbilityUseable(this, move)
             )
         {
-            SetTargetDefender(GetDefenderWithLowestCurrentHP());
+            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
             
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);

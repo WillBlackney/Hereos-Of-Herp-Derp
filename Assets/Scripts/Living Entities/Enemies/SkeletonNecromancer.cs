@@ -29,16 +29,16 @@ public class SkeletonNecromancer : Enemy
         SetTargetDefender(EntityLogic.GetClosestEnemy(this));
 
         // if unable to do anything, just end activation
-        if (IsAbleToTakeActions() == false)
+        if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();
         }
 
         // try move to grass/better position if there is one in range of mobility
-        else if (IsAbleToMove() &&
+        else if (EntityLogic.IsAbleToMove(this) &&
             EntityLogic.GetValidGrassTileWithinRange(this, currentMobility) != null &&
             tile.myTileType != Tile.TileType.Grass &&
-            HasEnoughAP(currentAP, move.abilityAPCost)
+            EntityLogic.IsAbilityUseable(this,move)
             )
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
@@ -51,9 +51,8 @@ public class SkeletonNecromancer : Enemy
         }
 
         // Chaos Bolt
-        else if (IsTargetInRange(EntityLogic.GetClosestEnemy(this), chaosBolt.abilityRange) &&
-            HasEnoughAP(currentAP, chaosBolt.abilityAPCost) &&
-            IsAbilityOffCooldown(chaosBolt.abilityCurrentCooldownTime) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), chaosBolt.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, chaosBolt) &&
             IsThereAtleastOneZombie()                      
             )
         {
@@ -68,8 +67,7 @@ public class SkeletonNecromancer : Enemy
         }
 
         // Summon skeletons
-                else if (IsAbilityOffCooldown(summonUndead.abilityCurrentCooldownTime) &&
-            HasEnoughAP(currentAP, summonUndead.abilityAPCost))
+        else if (EntityLogic.IsAbilityUseable(this, summonUndead))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Summon Undead", false));
             yield return new WaitForSeconds(0.5f);
