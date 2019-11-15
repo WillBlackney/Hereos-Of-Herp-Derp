@@ -1237,6 +1237,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1066991728280752831}
+  - component: {fileID: 6450341234148841241}
+  - component: {fileID: 5068841474653896879}
   m_Layer: 5
   m_Name: 'Stats '
   m_TagString: Untagged
@@ -1267,6 +1269,44 @@ RectTransform:
   m_AnchoredPosition: {x: -118.5, y: -154.88}
   m_SizeDelta: {x: 163.1, y: 34.14}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &6450341234148841241
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6722441841143342740}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 11
+  m_TargetDisplay: 0
+--- !u!114 &5068841474653896879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6722441841143342740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &6933733932633900082
 GameObject:
   m_ObjectHideFlags: 0

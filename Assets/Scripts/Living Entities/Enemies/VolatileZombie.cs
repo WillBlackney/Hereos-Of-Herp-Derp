@@ -30,7 +30,8 @@ public class VolatileZombie : Enemy
         }       
 
         // Strike
-        else if (EntityLogic.IsAbilityUseable(this, strike))
+        else if (EntityLogic.IsAbilityUseable(this, strike) &&
+            EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);

@@ -216,7 +216,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -930,7 +930,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1062,7 +1062,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1922,7 +1922,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -2278,7 +2278,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -2717,7 +2717,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -3372,7 +3372,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -3733,6 +3733,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f76f5fde94dfd5438696b25b1fec11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myImageComponent: {fileID: 1667368024}
+  myClassNameText: {fileID: 2136185977}
   currentSelectedCharacter: 
   warriorSprite: {fileID: 21300000, guid: 6039d6cf6c5aeeb47aa02211985561ff, type: 3}
   mageSprite: {fileID: 21300000, guid: 131c734ef65ed0a45812f973de7e8739, type: 3}
@@ -3741,8 +3743,6 @@ MonoBehaviour:
   rogueSprite: {fileID: 21300000, guid: 696283f8283215b448c150a53090ea14, type: 3}
   shamanSprite: {fileID: 21300000, guid: edd60446d68287a41a593110af8a623c, type: 3}
   randomSprite: {fileID: 21300000, guid: c7bbba8fe88d82c49ba8d78d7e94e399, type: 3}
-  myImageComponent: {fileID: 1667368024}
-  myClassNameText: {fileID: 2136185977}
 --- !u!1 &1295941096
 GameObject:
   m_ObjectHideFlags: 0
@@ -4668,6 +4668,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f76f5fde94dfd5438696b25b1fec11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myImageComponent: {fileID: 70568128}
+  myClassNameText: {fileID: 1272297265}
   currentSelectedCharacter: 
   warriorSprite: {fileID: 21300000, guid: 6039d6cf6c5aeeb47aa02211985561ff, type: 3}
   mageSprite: {fileID: 21300000, guid: 131c734ef65ed0a45812f973de7e8739, type: 3}
@@ -4676,8 +4678,6 @@ MonoBehaviour:
   rogueSprite: {fileID: 21300000, guid: 696283f8283215b448c150a53090ea14, type: 3}
   shamanSprite: {fileID: 21300000, guid: edd60446d68287a41a593110af8a623c, type: 3}
   randomSprite: {fileID: 21300000, guid: c7bbba8fe88d82c49ba8d78d7e94e399, type: 3}
-  myImageComponent: {fileID: 70568128}
-  myClassNameText: {fileID: 1272297265}
 --- !u!1 &1527108147
 GameObject:
   m_ObjectHideFlags: 0
@@ -5361,6 +5361,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f76f5fde94dfd5438696b25b1fec11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myImageComponent: {fileID: 1300007670}
+  myClassNameText: {fileID: 120260304}
   currentSelectedCharacter: 
   warriorSprite: {fileID: 21300000, guid: 6039d6cf6c5aeeb47aa02211985561ff, type: 3}
   mageSprite: {fileID: 21300000, guid: 131c734ef65ed0a45812f973de7e8739, type: 3}
@@ -5369,8 +5371,6 @@ MonoBehaviour:
   rogueSprite: {fileID: 21300000, guid: 696283f8283215b448c150a53090ea14, type: 3}
   shamanSprite: {fileID: 21300000, guid: edd60446d68287a41a593110af8a623c, type: 3}
   randomSprite: {fileID: 21300000, guid: c7bbba8fe88d82c49ba8d78d7e94e399, type: 3}
-  myImageComponent: {fileID: 1300007670}
-  myClassNameText: {fileID: 120260304}
 --- !u!1 &1666357136
 GameObject:
   m_ObjectHideFlags: 0
@@ -5467,7 +5467,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -5976,6 +5976,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f76f5fde94dfd5438696b25b1fec11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myImageComponent: {fileID: 1987651844}
+  myClassNameText: {fileID: 1426708436}
   currentSelectedCharacter: 
   warriorSprite: {fileID: 21300000, guid: 6039d6cf6c5aeeb47aa02211985561ff, type: 3}
   mageSprite: {fileID: 21300000, guid: 131c734ef65ed0a45812f973de7e8739, type: 3}
@@ -5984,8 +5986,6 @@ MonoBehaviour:
   rogueSprite: {fileID: 21300000, guid: 696283f8283215b448c150a53090ea14, type: 3}
   shamanSprite: {fileID: 21300000, guid: edd60446d68287a41a593110af8a623c, type: 3}
   randomSprite: {fileID: 21300000, guid: c7bbba8fe88d82c49ba8d78d7e94e399, type: 3}
-  myImageComponent: {fileID: 1987651844}
-  myClassNameText: {fileID: 1426708436}
 --- !u!1 &1924893282
 GameObject:
   m_ObjectHideFlags: 0

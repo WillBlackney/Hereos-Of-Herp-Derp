@@ -41,22 +41,24 @@ public class EnemySpawner : Singleton<EnemySpawner>
         // select a random enemyWaveSO
         if (enemyType == "Basic")
         {
-            enemyWaveSO = GetRandomWaveSO(viableBasicEnemyWaves, true);
-            if (enemyWaveSO == null)
+            if(viableBasicEnemyWaves.Count == 0)
             {
                 PopulateWaveList(viableBasicEnemyWaves, basicEnemyWaves);
-                enemyWaveSO = GetRandomWaveSO(viableBasicEnemyWaves);
             }
+
+            enemyWaveSO = GetRandomWaveSO(viableBasicEnemyWaves, true);           
         }
+
         else if (enemyType == "Elite")
         {
-            enemyWaveSO = GetRandomWaveSO(viableEliteEnemyWaves, true);
-            if (enemyWaveSO == null)
+            if (viableEliteEnemyWaves.Count == 0)
             {
                 PopulateWaveList(viableEliteEnemyWaves, eliteEnemyWaves);
-                enemyWaveSO = GetRandomWaveSO(viableEliteEnemyWaves);
             }
+
+            enemyWaveSO = GetRandomWaveSO(viableEliteEnemyWaves, true);            
         }
+
         else if (enemyType == "Boss")
         {
             enemyWaveSO = GetRandomWaveSO(bossEnemyWaves);
@@ -82,7 +84,7 @@ public class EnemySpawner : Singleton<EnemySpawner>
     public EnemyWaveSO GetRandomWaveSO(List<EnemyWaveSO> enemyWaves, bool removeWaveFromList = false)
     {
         EnemyWaveSO enemyWaveReturned = enemyWaves[Random.Range(0, enemyWaves.Count)];        
-        if(removeWaveFromList == true && enemyWaveReturned != null)
+        if(removeWaveFromList == true && enemyWaveReturned != null && enemyWaves.Count >= 1)
         {
             enemyWaves.Remove(enemyWaveReturned);
         }

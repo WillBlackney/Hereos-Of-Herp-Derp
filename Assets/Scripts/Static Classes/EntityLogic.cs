@@ -142,14 +142,21 @@ public static class EntityLogic
         }
 
     }
-    public static bool HasEnoughAP(LivingEntity entity, int costOfAction)
+    public static bool HasEnoughAP(LivingEntity entity, Ability ability)
     {
-        if (entity.currentAP >= costOfAction)
+        if (entity.currentAP >= ability.abilityAPCost)
         {
             return true;
         }
 
         else if (entity.myPassiveManager.preparation)
+        {
+            return true;
+        }
+
+        else if (entity.myPassiveManager.fleetFooted &&
+                entity.moveActionsTakenThisTurn == 0 &&
+                ability.abilityName == "Move")
         {
             return true;
         }
@@ -229,7 +236,7 @@ public static class EntityLogic
     }
     public static bool IsAbilityUseable(LivingEntity entity, Ability ability)
     {
-        if(HasEnoughAP(entity, ability.abilityAPCost) &&
+        if(HasEnoughAP(entity, ability) &&
             IsAbilityOffCooldown(ability))
         {
             return true;

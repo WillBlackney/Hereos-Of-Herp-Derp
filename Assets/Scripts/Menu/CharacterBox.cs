@@ -87,13 +87,15 @@ public class CharacterBox : MonoBehaviour
 
         else if(currentSelectedCharacter == "Warrior")
         {
-            SetCharacterAsRanger();
+            SetCharacterAsPriest();
         }
 
+        /*
         else if(currentSelectedCharacter == "Ranger")
         {
             SetCharacterAsPriest();
         }
+        */
 
         else if(currentSelectedCharacter == "Priest")
         {
@@ -105,12 +107,14 @@ public class CharacterBox : MonoBehaviour
         }
         else if (currentSelectedCharacter == "Rogue")
         {
-            SetCharacterAsShaman();
+            SetCharacterAsRandom();
         }
+        /*
         else if (currentSelectedCharacter == "Shaman")
         {
             SetCharacterAsRandom();
         }
+        */
     }
     public void OnPreviousCharacterButtonClicked()
     {
@@ -118,14 +122,8 @@ public class CharacterBox : MonoBehaviour
 
         if (currentSelectedCharacter == "Random")
         {
-            SetCharacterAsShaman();
-        }
-
-        else if (currentSelectedCharacter == "Shaman")
-        {
             SetCharacterAsRogue();
         }
-
         else if (currentSelectedCharacter == "Rogue")
         {
             SetCharacterAsMage();
@@ -137,16 +135,13 @@ public class CharacterBox : MonoBehaviour
         }
         else if (currentSelectedCharacter == "Priest")
         {
-            SetCharacterAsRanger();
-        }
-        else if (currentSelectedCharacter == "Ranger")
-        {
             SetCharacterAsWarrior();
         }
         else if (currentSelectedCharacter == "Warrior")
         {
             SetCharacterAsRandom();
         }
+       
     }
     #endregion
 

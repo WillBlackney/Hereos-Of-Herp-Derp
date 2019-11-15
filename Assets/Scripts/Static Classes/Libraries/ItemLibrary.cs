@@ -98,11 +98,11 @@ public class ItemLibrary : MonoBehaviour
         {
             itemReturned = GetRandomCommonItem();
         }
-        else if (randomNumber >= 70 && randomNumber <= 94)
+        else if (randomNumber >= 70 && randomNumber <= 97)
         {
             itemReturned = GetRandomRareItem();
         }
-        else if (randomNumber >= 95 && randomNumber <= 99)
+        else if (randomNumber >= 98 && randomNumber <= 99)
         {
             itemReturned = GetRandomEpicItem();
         }

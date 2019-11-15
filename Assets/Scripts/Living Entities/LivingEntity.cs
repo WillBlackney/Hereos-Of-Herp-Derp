@@ -324,7 +324,7 @@ public class LivingEntity : MonoBehaviour
     
     // Damage + Death related and events and VFX
     #region
-    public virtual IEnumerator HandleDeath()
+    public IEnumerator HandleDeath()
     {
         LevelManager.Instance.SetTileAsUnoccupied(tile);
         LivingEntityManager.Instance.allLivingEntities.Remove(this);
@@ -374,7 +374,13 @@ public class LivingEntity : MonoBehaviour
         myOnActivationEndEffectsFinished = true;
         ActivationManager.Instance.activationOrder.Remove(this);
         Destroy(myActivationWindow.gameObject);
-        ActivationManager.Instance.MoveArrowTowardsTargetPanelPos(ActivationManager.Instance.entityActivated.myActivationWindow);
+
+        // Update panel arrow position
+        if(ActivationManager.Instance.entityActivated != this)
+        {
+            Debug.Log("Updating Panel Arrow Pos");
+            ActivationManager.Instance.MoveArrowTowardsTargetPanelPos(ActivationManager.Instance.entityActivated.myActivationWindow, 0.5f);
+        }        
         Destroy(gameObject,0.1f);
     }
     public void PlayDeathAnimation()
@@ -750,7 +756,7 @@ public class LivingEntity : MonoBehaviour
 
         if (myPassiveManager.poison)
         {
-            Action poisonDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.poisonousStacks, this, this, false, AbilityDataSO.AttackType.None, AbilityDataSO.DamageType.Poison);
+            Action poisonDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.poisonStacks, this, this, false, AbilityDataSO.AttackType.None, AbilityDataSO.DamageType.Poison);
             yield return new WaitUntil(() => poisonDamage.ActionResolved() == true);
             yield return new WaitForSeconds(0.5f);
         }

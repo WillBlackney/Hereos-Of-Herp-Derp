@@ -385,9 +385,17 @@ public class Defender : LivingEntity
     #region
     public void OnAbilityButtonClicked(string abilityName)
     {
+        // Clear all previous view settings and defender orders
+        bool enableTileHover = true;
         LevelManager.Instance.UnhighlightAllTiles();
         ClearAllOrders();
-        TileHover.Instance.SetVisibility(true);
+
+        // Enable tile hover if ability is usable, and requires targetting
+        Ability ability = mySpellBook.GetAbilityByName(abilityName);
+        if (!EntityLogic.IsAbilityUseable(this, ability))
+        {
+            enableTileHover = false;
+        }
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
@@ -406,6 +414,7 @@ public class Defender : LivingEntity
         else if (abilityName == "Block")
         {
             OnBlockButtonClicked();
+            enableTileHover = false;
         }
         else if (abilityName == "Charge")
         {
@@ -454,10 +463,12 @@ public class Defender : LivingEntity
         else if (abilityName == "Whirlwind")
         {
             OnWhirlwindButtonClicked();
+            enableTileHover = false;
         }
         else if (abilityName == "Frost Nova")
         {
             OnFrostNovaButtonClicked();
+            enableTileHover = false;
         }
 
         else if (abilityName == "Invigorate")
@@ -493,6 +504,7 @@ public class Defender : LivingEntity
         else if (abilityName == "Preparation")
         {
             OnPreparationButtonClicked();
+            enableTileHover = false;
         }
 
         else if (abilityName == "Slice And Dice")
@@ -511,6 +523,7 @@ public class Defender : LivingEntity
         else if (abilityName == "Blood Lust")
         {
             OnBloodLustButtonClicked();
+            enableTileHover = false;
         }
         else if (abilityName == "Get Down!")
         {
@@ -563,12 +576,21 @@ public class Defender : LivingEntity
         {
             OnChaosBoltButtonClicked();
         }
+
+        if (enableTileHover)
+        {
+            TileHover.Instance.SetVisibility(true);
+        }
+        else if (!enableTileHover)
+        {
+            TileHover.Instance.SetVisibility(false);
+        }
     }
     public void OnMoveButtonClicked()
     {
         Ability move = mySpellBook.GetAbilityByName("Move");
 
-        if(EntityLogic.IsAbleToMove(this) ||
+        if(EntityLogic.IsAbleToMove(this) &&
            EntityLogic.IsAbilityUseable(this, move))
         {
             Debug.Log("Move button clicked, awaiting move order");
@@ -632,7 +654,8 @@ public class Defender : LivingEntity
     {
         Ability getDown = mySpellBook.GetAbilityByName("Get Down!");
 
-        if (EntityLogic.IsAbilityUseable(this, getDown))            
+        if (EntityLogic.IsAbilityUseable(this, getDown) &&
+            EntityLogic.IsAbleToMove(this))            
         {
             Debug.Log("Get Down! button clicked, awaiting Get Down! target");
             awaitingGetDownOrder = true;
@@ -1025,19 +1048,7 @@ public class Defender : LivingEntity
 
         if (EntityLogic.IsAbilityUseable(this, preparation))
         {
-            // check improved preparation talent
-            if (myCharacterData.KnowsImprovedPreparation)
-            {
-                foreach (Ability ability in mySpellBook.myActiveAbilities)
-                {
-                    if (ability != preparation)
-                    {
-                        ability.ModifyCurrentCooldown(-1);
-                    }
-                }
-            }
-
-            myPassiveManager.ModifyPreparation(1);
+            AbilityLogic.Instance.PerformPreparation(this);
         }       
 
     }

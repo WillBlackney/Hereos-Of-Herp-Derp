@@ -84,20 +84,41 @@ public class RewardScreen : MonoBehaviour
     }
     public void PopulateItemScreen()
     {
+        // Generate random item for item reward 1
         GameObject newItemOne = Instantiate(PrefabHolder.Instance.ItemCard, ChooseItemScreenContent.transform);
         ItemCard itemOne = newItemOne.GetComponent<ItemCard>();
-        itemOne.RunSetupFromItemData(ItemLibrary.Instance.GetRandomLootRewardItem());
+        itemOne.RunSetupFromItemData(ItemLibrary.Instance.GetRandomLootRewardItem());        
         currentItemOne = newItemOne;
 
+        // Generate random item for item reward 2
         GameObject newItemTwo = Instantiate(PrefabHolder.Instance.ItemCard, ChooseItemScreenContent.transform);
         ItemCard itemTwo = newItemTwo.GetComponent<ItemCard>();
         itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomLootRewardItem());
         currentItemTwo = newItemTwo;
 
+        // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
+        while (itemTwo.myName == itemOne.myName)
+        {
+            Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item two");
+            itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomLootRewardItem());
+            currentItemTwo = newItemTwo;
+        }
+
+        // Generate random item for item reward 3
         GameObject newItemThree = Instantiate(PrefabHolder.Instance.ItemCard, ChooseItemScreenContent.transform);
         ItemCard itemThree = newItemThree.GetComponent<ItemCard>();
         itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomLootRewardItem());
         currentItemThree = newItemThree;
+
+        // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
+        while (itemThree.myName == itemOne.myName ||
+            itemThree.myName == itemTwo.myName)
+        {
+            Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item three");
+            itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomLootRewardItem());
+            currentItemThree = newItemThree;
+        }
+        
     }
     public void DestroyAllItemCards()
     {

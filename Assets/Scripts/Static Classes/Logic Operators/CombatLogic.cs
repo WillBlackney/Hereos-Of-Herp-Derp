@@ -328,8 +328,8 @@ public class CombatLogic : MonoBehaviour
         }
         if(PositionLogic.Instance.IsWithinTargetsBackArc(attacker, victim) && attackType == AbilityDataSO.AttackType.Melee)
         {
-            damageModifier += 1f;
-            Debug.Log("Attacker striking victims back arc, increasing damage by 100%...");
+            //damageModifier += 1f;
+            //Debug.Log("Attacker striking victims back arc, increasing damage by 100%...");
         }
         
         if (victim.myPassiveManager.magicImmunity && DamageType == AbilityDataSO.DamageType.Magic)

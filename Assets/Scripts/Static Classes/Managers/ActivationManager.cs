@@ -49,7 +49,10 @@ public class ActivationManager : Singleton<ActivationManager>
     }
     public IEnumerator StartNewTurnSequenceCoroutine(Action action)
     {
-        TurnManager.Instance.currentTurnCount++;        
+        TurnManager.Instance.currentTurnCount++;
+
+        // hide arrow and move it to the position 0
+        MoveArrowTowardsTargetPanelPos(activationOrder[0].myActivationWindow,0,1000);
 
         Action rolls = CalculateActivationOrder();
         yield return new WaitUntil(() => rolls.ActionResolved() == true);
@@ -171,15 +174,25 @@ public class ActivationManager : Singleton<ActivationManager>
             yield return new WaitForEndOfFrame();
         }
     }
-    public IEnumerator MoveArrowTowardsTargetPanelPos(ActivationWindow window)
+
+    public Action MoveArrowTowardsTargetPanelPos(ActivationWindow window, float moveDelay = 0f, float arrowMoveSpeed = 400)
     {
-        Vector3 destination =  new Vector2(window.transform.position.x, panelArrow.transform.position.y);
-        
+        Debug.Log("ActivationManager.MoveArrowTowardsTargetPanelPos() called....");
+        Action action = new Action();
+        StartCoroutine(MoveArrowTowardsTargetPanelPosCoroutine(window, action, moveDelay, arrowMoveSpeed));
+        return action;
+    }
+    public IEnumerator MoveArrowTowardsTargetPanelPosCoroutine(ActivationWindow window, Action action, float moveDelay = 0, float arrowMoveSpeed = 400)
+    {        
+        yield return new WaitForSeconds(moveDelay);
+        Vector3 destination = new Vector2(window.transform.position.x, panelArrow.transform.position.y);
+
         while (panelArrow.transform.position != destination)
         {
-            panelArrow.transform.position = Vector2.MoveTowards(panelArrow.transform.position, destination, 400 * Time.deltaTime);
+            panelArrow.transform.position = Vector2.MoveTowards(panelArrow.transform.position, destination, arrowMoveSpeed * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
+        action.actionResolved = true;
     }
     public void SetActivationWindowViewState(bool onOrOff)
     {
@@ -200,7 +213,7 @@ public class ActivationManager : Singleton<ActivationManager>
         Debug.Log("Activating entity: " + entity.name);
         entityActivated = entity;
         CameraManager.Instance.SetCameraLookAtTarget(entity.gameObject);
-        StartCoroutine(MoveArrowTowardsTargetPanelPos(entity.myActivationWindow));
+        MoveArrowTowardsTargetPanelPos(entity.myActivationWindow);
 
         if (entity.defender)
         {

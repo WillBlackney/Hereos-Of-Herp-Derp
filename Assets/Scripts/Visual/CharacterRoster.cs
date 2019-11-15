@@ -75,12 +75,17 @@ public class CharacterRoster : Singleton<CharacterRoster>
     {
         foreach(CharacterData character in allCharacterDataObjects)
         {
-            character.CreateMyDefenderGameObject();
+            // Prevent spawning dead characters
+            if (CanCharacterSpawn(character))
+            {
+                character.CreateMyDefenderGameObject();
+            }
+            
         }
     }
     #endregion
 
-    // Reward Logic
+    // Logic
     #region
     public void RewardAllCharactersXP(int xpRewarded)
     {
@@ -92,6 +97,17 @@ public class CharacterRoster : Singleton<CharacterRoster>
     public void RewardCharacterXP(CharacterData character, int xpRewarded)
     {
         character.ModifyCurrentXP(xpRewarded);
+    }
+    public bool CanCharacterSpawn(CharacterData character)
+    {
+        if(character.CurrentHealth > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     #endregion
 

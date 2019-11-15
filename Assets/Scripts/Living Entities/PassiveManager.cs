@@ -389,7 +389,7 @@ public class PassiveManager : MonoBehaviour
         StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Preparation");
         preparation = true;
         preparationStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Preparation"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
         StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Preparation", false, "Blue"));
     }
     public void ModifyStealth()

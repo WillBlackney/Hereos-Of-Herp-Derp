@@ -460,10 +460,17 @@ public class CharacterData : MonoBehaviour
     public void SetCurrentHealth(int newValue)
     {
         CurrentHealth = newValue;
+
         // prevent healing past max HP
         if (CurrentHealth > MaxHealth)
         {
             CurrentHealth = MaxHealth;
+        }
+
+        // Prevent damaging into negative health
+        if (CurrentHealth < 0)
+        {
+            CurrentHealth = 0;
         }
         panelCurrentHealthText.text = CurrentHealth.ToString();
         currentHealthText.text = CurrentHealth.ToString();
@@ -471,10 +478,17 @@ public class CharacterData : MonoBehaviour
     public void ModifyCurrentHealth(int healthGainedOrLost)
     {
         CurrentHealth += healthGainedOrLost;
+
         // prevent healing past max HP
         if(CurrentHealth > MaxHealth)
         {
             CurrentHealth = MaxHealth;
+        }
+
+        // Prevent damaging into negative health
+        if(CurrentHealth < 0)
+        {
+            CurrentHealth = 0;
         }
         panelCurrentHealthText.text = CurrentHealth.ToString();
         currentHealthText.text = CurrentHealth.ToString();

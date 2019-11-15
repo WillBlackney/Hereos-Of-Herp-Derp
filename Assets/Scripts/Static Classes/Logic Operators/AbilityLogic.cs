@@ -26,9 +26,7 @@ public class AbilityLogic : MonoBehaviour
         // temp variables
         int finalApCost = ability.abilityAPCost;
         int finalCD = ability.abilityBaseCooldownTime;
-        // Set ability on cooldown
-        
-
+       
         // Reduce AP by cost of the ability
         // check for preparation here
         if (livingEntity.myPassiveManager.preparation && ability.abilityName != "Preparation" && ability.abilityName != "Slice And Dice")
@@ -121,30 +119,25 @@ public class AbilityLogic : MonoBehaviour
         Debug.Log("Preparation button clicked");
 
         Ability preparation = caster.mySpellBook.GetAbilityByName("Preparation");
-
-        if (EntityLogic.IsAbilityUseable(caster, preparation))
-        {
-            // check improved preparation talent
-            if (caster.defender != null && 
-                caster.defender.myCharacterData.KnowsImprovedPreparation)
-            {
-                foreach (Ability ability in caster.mySpellBook.myActiveAbilities)
-                {
-                    if (ability != preparation)
-                    {
-                        ability.ModifyCurrentCooldown(-1);
-                    }
-                }
-            }
-
-            caster.myPassiveManager.ModifyPreparation(1);
-            yield return new WaitForSeconds(0.5f);
-        }
-
         OnAbilityUsed(preparation, caster);
 
-        action.actionResolved = true;
+        // check for 'Improved Preparation' talent
+        if (caster.defender != null &&
+            caster.defender.myCharacterData.KnowsImprovedPreparation)
+        {
+            foreach (Ability ability in caster.mySpellBook.myActiveAbilities)
+            {
+                if (ability != preparation)
+                {
+                    ability.ModifyCurrentCooldown(-1);
+                }
+            }
+        }
 
+        caster.myPassiveManager.ModifyPreparation(1);
+        yield return new WaitForSeconds(0.5f);
+
+        action.actionResolved = true;
     }
 
     //Strike
