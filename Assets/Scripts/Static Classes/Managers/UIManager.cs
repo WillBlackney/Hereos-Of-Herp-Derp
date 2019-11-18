@@ -19,8 +19,8 @@ public class UIManager : Singleton<UIManager>
     {
         CharacterRoster.SetActive(false);
         // prevent player bugging camp site and getting double choices
-        CampSiteManager.Instance.awaitingHealChoice = false;
-        CampSiteManager.Instance.awaitingLevelUpChoice = false;
+        CampSiteManager.Instance.awaitingTriageChoice = false;
+        CampSiteManager.Instance.awaitingTrainChoice = false;
     }
     public void OnCharacterPanelButtonClicked()
     {
@@ -106,7 +106,7 @@ public class UIManager : Singleton<UIManager>
     public void DisableCharacterRosterView()
     {
         CharacterRoster.SetActive(false);
-        CampSiteManager.Instance.awaitingLevelUpChoice = false;
+        CampSiteManager.Instance.awaitingTrainChoice = false;
     }
     public void DisableEndTurnButton()
     {

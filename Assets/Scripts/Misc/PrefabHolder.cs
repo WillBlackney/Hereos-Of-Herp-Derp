@@ -8,6 +8,7 @@ public class PrefabHolder : Singleton<PrefabHolder>
     public GameObject AbilityButtonPrefab;
     public GameObject spellInfoPrefab;
     public GameObject activationWindowPrefab;
+    public GameObject statePrefab;
 
     [Header("Defender Game Object Prefabs")]
     public GameObject warriorPrefab;

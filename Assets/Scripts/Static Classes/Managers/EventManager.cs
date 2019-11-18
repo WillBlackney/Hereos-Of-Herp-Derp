@@ -38,8 +38,8 @@ public class EventManager : Singleton<EventManager>
         CharacterRoster.Instance.InstantiateDefenders();  
         
         // Instantiate enemies
-        EnemySpawner.Instance.SpawnEnemyWave();
-               
+        EnemySpawner.Instance.SpawnEnemyWave();      
+
         // disable world map view
         UIManager.Instance.DisableWorldMapView();
         currentEncounterType = WorldEncounter.EncounterType.BasicEnemy;
@@ -47,6 +47,14 @@ public class EventManager : Singleton<EventManager>
         // Fade scene back in, wait until completed
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+
+        // Apply Relevant State Effects
+        Action stateApplications = StateManager.Instance.ApplyAllStateEffectsToCharacters();
+        yield return new WaitUntil(() => stateApplications.ActionResolved() == true);
+
+        // Check for expired states and remove them
+        Action stateExpirations = StateManager.Instance.CheckForStateExpirationsOnCombatStart();
+        yield return new WaitUntil(() => stateExpirations.ActionResolved() == true);
 
         // Start activations / combat start events
         ActivationManager.Instance.OnNewCombatEventStarted();
@@ -82,7 +90,7 @@ public class EventManager : Singleton<EventManager>
         CharacterRoster.Instance.InstantiateDefenders();
 
         // Instantiate enemies
-        EnemySpawner.Instance.SpawnEnemyWave("Elite");
+        EnemySpawner.Instance.SpawnEnemyWave("Elite");        
 
         // disable world map view
         UIManager.Instance.DisableWorldMapView();
@@ -91,6 +99,14 @@ public class EventManager : Singleton<EventManager>
         // Fade scene back in, wait until completed
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+
+        // Apply Relevant State Effects
+        Action stateApplications = StateManager.Instance.ApplyAllStateEffectsToCharacters();
+        yield return new WaitUntil(() => stateApplications.ActionResolved() == true);
+
+        // Check for expired states and remove them
+        Action stateExpirations = StateManager.Instance.CheckForStateExpirationsOnCombatStart();
+        yield return new WaitUntil(() => stateExpirations.ActionResolved() == true);
 
         // Start activations / combat start events
         ActivationManager.Instance.OnNewCombatEventStarted();

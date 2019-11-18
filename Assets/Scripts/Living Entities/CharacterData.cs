@@ -19,6 +19,7 @@ public class CharacterData : MonoBehaviour
     public string myClass;
     public TalentTree talentTreeOne;
     public TalentTree talentTreeTwo;
+    public CampSiteCharacter myCampSiteCharacter;
 
     [Header("Button Page Components")]
     public TextMeshProUGUI panelCurrentHealthText;
@@ -474,6 +475,7 @@ public class CharacterData : MonoBehaviour
         }
         panelCurrentHealthText.text = CurrentHealth.ToString();
         currentHealthText.text = CurrentHealth.ToString();
+
     }
     public void ModifyCurrentHealth(int healthGainedOrLost)
     {
@@ -492,6 +494,10 @@ public class CharacterData : MonoBehaviour
         }
         panelCurrentHealthText.text = CurrentHealth.ToString();
         currentHealthText.text = CurrentHealth.ToString();
+        if (myCampSiteCharacter != null)
+        {
+            myCampSiteCharacter.ModifyCurrentHealthText(CurrentHealth);
+        }
     }
     public void ModifyMaxHealth(int maxHealthGainedOrLost)
     {
@@ -502,6 +508,10 @@ public class CharacterData : MonoBehaviour
         if(CurrentHealth > MaxHealth)
         {
             ModifyCurrentHealth(-(CurrentHealth - MaxHealth));
+        }
+        if (myCampSiteCharacter != null)
+        {
+            myCampSiteCharacter.ModifyMaxHealthText(MaxHealth);
         }
     }
     public void ModifyStrength(int strengthGainedOrLost)
@@ -589,6 +599,10 @@ public class CharacterData : MonoBehaviour
         }
 
         currentXPText.text = currentXP.ToString();
+        if(myCampSiteCharacter != null)
+        {
+            myCampSiteCharacter.ModifyCurrentXPText(currentXP);
+        }
     }
     public void ModifyTalentPoints(int talentPointsGainedOrLost)
     {
@@ -601,7 +615,8 @@ public class CharacterData : MonoBehaviour
     #region
     public void OnCharacterImageButtonClicked()
     {
-        if(CampSiteManager.Instance.awaitingLevelUpChoice == true)
+        /*
+        if(CampSiteManager.Instance.awaitingTrainChoice == true)
         {
             if(ArtifactManager.Instance.HasArtifact("Kettle Bell"))
             {
@@ -619,9 +634,9 @@ public class CharacterData : MonoBehaviour
             CampSiteManager.Instance.DisableAllButtonViews();
             CampSiteManager.Instance.EnableContinueButtonView();
             CampSiteManager.Instance.playerHasMadeChoice = true;
-            CampSiteManager.Instance.awaitingLevelUpChoice = false;
+            CampSiteManager.Instance.awaitingTrainChoice = false;
         }
-        else if(CampSiteManager.Instance.awaitingHealChoice == true)
+        else if(CampSiteManager.Instance.awaitingTriageChoice == true)
         {
             // heal 50%
             ModifyCurrentHealth(MaxHealth / 2);
@@ -631,13 +646,16 @@ public class CharacterData : MonoBehaviour
             CampSiteManager.Instance.DisableAllButtonViews();
             CampSiteManager.Instance.EnableContinueButtonView();
             CampSiteManager.Instance.playerHasMadeChoice = true;
-            CampSiteManager.Instance.awaitingHealChoice = false;
+            CampSiteManager.Instance.awaitingTriageChoice = false;
         }
+        
         else
         {
             EnableFrontPage();
         }
-              
+        */
+        EnableFrontPage();
+
     }
     public void OnEquiptmentButtonClicked()
     {

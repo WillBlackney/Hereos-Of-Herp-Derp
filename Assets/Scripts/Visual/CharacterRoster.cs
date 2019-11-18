@@ -44,6 +44,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 characterOne.InitializeSetup(characterData);
                 characterOneSetupComplete = true;
                 allCharacterDataObjects.Add(characterOne);
+                CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[0], characterOne);
             }
 
             else if (characterTwoSetupComplete == false)
@@ -51,6 +52,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 characterTwo.InitializeSetup(characterData);
                 characterTwoSetupComplete = true;
                 allCharacterDataObjects.Add(characterTwo);
+                CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[1], characterTwo);
             }
 
             else if (characterThreeSetupComplete == false)
@@ -58,6 +60,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 characterThree.InitializeSetup(characterData);
                 characterThreeSetupComplete = true;
                 allCharacterDataObjects.Add(characterThree);
+                CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[2], characterThree);
             }
 
             else if (characterFourSetupComplete == false)
@@ -65,6 +68,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 characterFour.InitializeSetup(characterData);
                 characterFourSetupComplete = true;
                 allCharacterDataObjects.Add(characterFour);
+                CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[3], characterFour);
             }
         }
 
