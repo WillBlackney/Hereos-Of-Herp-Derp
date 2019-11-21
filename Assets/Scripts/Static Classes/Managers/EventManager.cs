@@ -10,13 +10,13 @@ public class EventManager : Singleton<EventManager>
 
     // Start New Encounter Events
     #region
-    public Action StartNewBasicEncounterEvent()
+    public Action StartNewBasicEncounterEvent(EnemyWaveSO enemyWave = null)
     {
         Action action = new Action();
-        StartCoroutine(StartNewBasicEncounterEventCoroutine(action));
+        StartCoroutine(StartNewBasicEncounterEventCoroutine(action, enemyWave));
         return action;
     }
-    public IEnumerator StartNewBasicEncounterEventCoroutine(Action action)
+    public IEnumerator StartNewBasicEncounterEventCoroutine(Action action, EnemyWaveSO enemyWave = null)
     {
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldMap.Instance.canSelectNewEncounter = false;
@@ -28,8 +28,9 @@ public class EventManager : Singleton<EventManager>
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
 
-        // Destroy the previous level and tiles + reset values/properties
+        // Destroy the previous level and tiles + reset values/properties, turn off unneeded views
         ClearPreviousEncounter();
+        StoryEventManager.Instance.DisableEventScreen();    
 
         // Create a new level
         LevelManager.Instance.CreateLevel();
@@ -38,7 +39,7 @@ public class EventManager : Singleton<EventManager>
         CharacterRoster.Instance.InstantiateDefenders();  
         
         // Instantiate enemies
-        EnemySpawner.Instance.SpawnEnemyWave();      
+        EnemySpawner.Instance.SpawnEnemyWave("Basic", enemyWave);      
 
         // disable world map view
         UIManager.Instance.DisableWorldMapView();
@@ -185,15 +186,65 @@ public class EventManager : Singleton<EventManager>
         // Instantiate treasure chest and populate it with loot
         CreateNewTreasureChest();
     }
-    public void StartNewMysteryEncounterEvent()
+    public Action StartNewStoryEvent()
+    {
+        Action action = new Action();
+        StartCoroutine(StartNewStoryEventCoroutine(action));
+        return action;
+
+    }
+    public IEnumerator StartNewStoryEventCoroutine(Action action)
+    {
+        // Disable player's ability to click on encounter buttons and start new encounters
+        WorldMap.Instance.canSelectNewEncounter = false;
+
+        // turn off hexagon highlights
+        WorldMap.Instance.UnHighlightAllHexagons();
+
+        // fade out view, wait until completed
+        Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
+        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
+
+        // Destroy the previous level and tiles + reset values/properties
+        ClearPreviousEncounter();
+
+        // Load a random event + set up story event screen
+        StoryEventManager.Instance.LoadNewStoryEvent();
+
+        /* LOGIC FOR GENREATING A NEW STORY EVENT GOES HERE
+         * 
+         * 
+         */
+
+        // Fade scene back in, wait until completed
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+
+        // declare this event complete
+        action.actionResolved = true;
+    }
+    public Action StartNewMysteryEncounterEvent()
+    {
+        Action action = new Action();
+        StartCoroutine(StartNewMysteryEncounterEventCoroutine(action));
+        return action;
+    }
+    public IEnumerator StartNewMysteryEncounterEventCoroutine(Action action)
     {
         int randomNumber = Random.Range(1, 101);
 
-        if (randomNumber >= 1 && randomNumber <= 50)
+        if (randomNumber >= 1 && randomNumber <= 100)
         {
-            StartNewBasicEncounterEvent();
+            if(StoryEventManager.Instance.viableStoryEvents.Count > 0)
+            {
+                StartNewStoryEvent();
+            }
+            else
+            {
+                StartNewBasicEncounterEvent();
+            }
         }
-        else if (randomNumber >= 51 && randomNumber <= 70)
+        else if (randomNumber >= 61 && randomNumber <= 70)
         {
             StartNewTreasureRoomEncounterEvent();
         }
@@ -203,8 +254,13 @@ public class EventManager : Singleton<EventManager>
         }
         else if (randomNumber >= 91 && randomNumber <= 100)
         {
-            StartNewEliteEncounterEvent();
+            StartNewBasicEncounterEvent();
         }
+
+        yield return null;
+        action.actionResolved = true;
+
+        
     }
     public void StartNewLootRewardEvent(bool basicEnemy = true)
     {
@@ -374,6 +430,7 @@ public class EventManager : Singleton<EventManager>
         // Hide Shop view screen if open
         ShopScreenManager.Instance.DisableShopScreenView();
         // Destroy active treasure chest if it exists
+        StoryEventManager.Instance.ResetStoryEventWindow();
         if(activeTreasureChest != null)
         {
             activeTreasureChest.DestroyChest();

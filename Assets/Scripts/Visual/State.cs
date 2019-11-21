@@ -27,6 +27,7 @@ public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         myStateData = stateData;
         sprite = stateData.sprite;
+        myImageComponent.sprite = sprite;
         Name = stateData.Name;
         description = stateData.description;
         expirationCondition = stateData.expirationCondition;

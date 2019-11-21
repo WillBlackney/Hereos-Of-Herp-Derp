@@ -16,6 +16,7 @@ public class WorldMap : Singleton<WorldMap>
     public bool OnlySpawnCampSiteEncounters;
     public bool OnlySpawnShopEncounters;
     public bool OnlySpawnEliteEncounters;
+    public bool OnlySpawnMysteryEncounters;
 
     // Initialization + Setup
     #region

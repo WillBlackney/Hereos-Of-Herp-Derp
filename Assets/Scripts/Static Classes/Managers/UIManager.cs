@@ -17,10 +17,7 @@ public class UIManager : Singleton<UIManager>
     #region
     public void OnCharacterPanelBackButtonClicked()
     {
-        CharacterRoster.SetActive(false);
-        // prevent player bugging camp site and getting double choices
-        CampSiteManager.Instance.awaitingTriageChoice = false;
-        CampSiteManager.Instance.awaitingTrainChoice = false;
+        CharacterRoster.SetActive(false);        
     }
     public void OnCharacterPanelButtonClicked()
     {
@@ -63,10 +60,12 @@ public class UIManager : Singleton<UIManager>
             DisableInventoryView();
             DisableCharacterRosterView();
             EnableWorldMapView();
+            /*
             if(WorldMap.Instance.canSelectNewEncounter == true)
             {
                 WorldMap.Instance.HighlightNextAvailableEncounters();
             }
+            */
             
             
         }
@@ -78,6 +77,10 @@ public class UIManager : Singleton<UIManager>
     public void EnableWorldMapView()
     {
         worldMap.SetActive(true);
+        if (WorldMap.Instance.canSelectNewEncounter == true)
+        {
+            WorldMap.Instance.HighlightNextAvailableEncounters();
+        }
     }
     public void DisableWorldMapView()
     {

@@ -45,6 +45,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 characterOneSetupComplete = true;
                 allCharacterDataObjects.Add(characterOne);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[0], characterOne);
+                StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[0], characterOne);
             }
 
             else if (characterTwoSetupComplete == false)
@@ -53,6 +54,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 characterTwoSetupComplete = true;
                 allCharacterDataObjects.Add(characterTwo);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[1], characterTwo);
+                StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[1], characterTwo);
             }
 
             else if (characterThreeSetupComplete == false)
@@ -61,6 +63,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 characterThreeSetupComplete = true;
                 allCharacterDataObjects.Add(characterThree);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[2], characterThree);
+                StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[2], characterThree);
             }
 
             else if (characterFourSetupComplete == false)
@@ -69,6 +72,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 characterFourSetupComplete = true;
                 allCharacterDataObjects.Add(characterFour);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[3], characterFour);
+                StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[3], characterFour);
             }
         }
 

@@ -48,9 +48,16 @@ public class WorldEncounter : MonoBehaviour
         int randomNumber = Random.Range(1, 101);
 
         // REMOVE THIS LATER: FOR TESTING CAMP SITE STATE BUFFS
+        /*
         if(column == 1)
         {
             encounter.myEncounterType = EncounterType.CampSite;
+            return;
+        }
+        */
+        if (WorldMap.Instance.OnlySpawnMysteryEncounters)
+        {
+            encounter.myEncounterType = EncounterType.Mystery;
             return;
         }
 

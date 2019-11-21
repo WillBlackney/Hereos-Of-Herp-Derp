@@ -142,8 +142,11 @@ public class MovementLogic : Singleton<MovementLogic>
     }
 
     // Knock Back
-    public void KnockBackEntity(LivingEntity attacker, LivingEntity target, int pushBackDistance)
+    public Action KnockBackEntity(LivingEntity attacker, LivingEntity target, int pushBackDistance)
     {
+        Action action = new Action();
+        
+
         Debug.Log("CreateKnockBackEvent() called, starting new knockback event...");
         // First, deal the initial bolt damage
         // HandleDamage(CalculateDamage(damageAmount, target, attacker), attacker);
@@ -580,16 +583,16 @@ public class MovementLogic : Singleton<MovementLogic>
         LevelManager.Instance.SetTileAsUnoccupied(target.tile);
         target.gridPosition = finalDestination.GridPosition;
         target.tile = finalDestination;
-        //target.transform.position = finalDestination.WorldPosition;
-        StartCoroutine(KnockBackEntityCoroutine(target, finalDestination.WorldPosition));
+        StartCoroutine(KnockBackEntityCoroutine(target, finalDestination.WorldPosition, action));
         LevelManager.Instance.SetTileAsOccupied(finalDestination);
 
 
         Debug.Log("Tiles on path: " + tilesOnPath.Count.ToString());
         Debug.Log("Target is " + direction + " of the the attacker");
+        return action;
 
     }
-    public IEnumerator KnockBackEntityCoroutine(LivingEntity entityMoved, Vector3 destination)
+    public IEnumerator KnockBackEntityCoroutine(LivingEntity entityMoved, Vector3 destination, Action action)
     {
         Debug.Log("KnockBackMove() called by CombatLogic.cs....");
         bool movementCompleted = false;
@@ -606,6 +609,7 @@ public class MovementLogic : Singleton<MovementLogic>
         }
 
         OnNewTileSet(entityMoved);
+        action.actionResolved = true;
     }
     #endregion
 

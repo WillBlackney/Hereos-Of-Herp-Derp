@@ -8,6 +8,7 @@ public class EnemySpawner : Singleton<EnemySpawner>
     public List<EnemyWaveSO> basicEnemyWaves;
     public List<EnemyWaveSO> eliteEnemyWaves;
     public List<EnemyWaveSO> bossEnemyWaves;
+    public List<EnemyWaveSO> storyEventEnemyWaves;
 
     [Header("Current Viable Encounters Lists")]
     public List<EnemyWaveSO> viableBasicEnemyWaves;
@@ -32,37 +33,42 @@ public class EnemySpawner : Singleton<EnemySpawner>
 
     // Enemy Spawning + Related
     #region
-    public void SpawnEnemyWave(string enemyType = "Basic")
+    public void SpawnEnemyWave(string enemyType = "Basic", EnemyWaveSO enemyWave = null)
     {
         Debug.Log("SpawnEnemyWave() Called....");
         PopulateEnemySpawnLocations();
+        EnemyWaveSO enemyWaveSO = enemyWave;
 
-        EnemyWaveSO enemyWaveSO = null;
-        // select a random enemyWaveSO
-        if (enemyType == "Basic")
+        // If we have not given a specific enemy wave to spawn, get a random one
+        if(enemyWaveSO == null)
         {
-            if(viableBasicEnemyWaves.Count == 0)
+            // select a random enemyWaveSO
+            if (enemyType == "Basic")
             {
-                PopulateWaveList(viableBasicEnemyWaves, basicEnemyWaves);
+                if (viableBasicEnemyWaves.Count == 0)
+                {
+                    PopulateWaveList(viableBasicEnemyWaves, basicEnemyWaves);
+                }
+
+                enemyWaveSO = GetRandomWaveSO(viableBasicEnemyWaves, true);
             }
 
-            enemyWaveSO = GetRandomWaveSO(viableBasicEnemyWaves, true);           
-        }
-
-        else if (enemyType == "Elite")
-        {
-            if (viableEliteEnemyWaves.Count == 0)
+            else if (enemyType == "Elite")
             {
-                PopulateWaveList(viableEliteEnemyWaves, eliteEnemyWaves);
+                if (viableEliteEnemyWaves.Count == 0)
+                {
+                    PopulateWaveList(viableEliteEnemyWaves, eliteEnemyWaves);
+                }
+
+                enemyWaveSO = GetRandomWaveSO(viableEliteEnemyWaves, true);
             }
 
-            enemyWaveSO = GetRandomWaveSO(viableEliteEnemyWaves, true);            
+            else if (enemyType == "Boss")
+            {
+                enemyWaveSO = GetRandomWaveSO(bossEnemyWaves);
+            }
         }
-
-        else if (enemyType == "Boss")
-        {
-            enemyWaveSO = GetRandomWaveSO(bossEnemyWaves);
-        }
+        
 
 
         foreach (EnemyGroup enemyGroup in enemyWaveSO.enemyGroups)
@@ -89,6 +95,27 @@ public class EnemySpawner : Singleton<EnemySpawner>
             enemyWaves.Remove(enemyWaveReturned);
         }
         return enemyWaveReturned;
+    }
+    public EnemyWaveSO GetEnemyWaveByName(string name)
+    {
+        List<EnemyWaveSO> allWaves = new List<EnemyWaveSO>();
+        EnemyWaveSO waveReturned = null;
+
+        allWaves.AddRange(basicEnemyWaves);
+        allWaves.AddRange(eliteEnemyWaves);
+        allWaves.AddRange(bossEnemyWaves);
+        allWaves.AddRange(storyEventEnemyWaves);
+
+        foreach(EnemyWaveSO wave in allWaves)
+        {
+            if(wave.waveName == name)
+            {
+                waveReturned = wave;
+                break;
+            }
+        }
+
+        return waveReturned;
     }
     #endregion
 

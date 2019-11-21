@@ -4,7 +4,8 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "New EnemyWaveSO", menuName = "EnemyWaveSO", order = 51)]
 public class EnemyWaveSO : ScriptableObject
-{    
+{
+    public string waveName;
     public List<EnemyGroup> enemyGroups;
 }
 

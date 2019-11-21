@@ -9,13 +9,16 @@ public class CampSiteManager : MonoBehaviour
     #region
     [Header("Component References")]
     public GameObject visualParent;
-    public GameObject triageButton;
-    public GameObject trainButton;
     public GameObject continueButton;
     public TextMeshProUGUI actionPointsText;
 
     public TextMeshProUGUI restButtonDescriptionText;
     public TextMeshProUGUI trainButtonDescriptionText;
+
+    [Header("Button Script References")]
+    public CampSiteButton triageButton;
+    public CampSiteButton trainButton;
+    public CampSiteButton prayButton;
 
     [Header("Properties")]
     public List<CampSiteCharacter> allCharacterSlots;
@@ -46,7 +49,6 @@ public class CampSiteManager : MonoBehaviour
         restPointCost = 2;
         prayPointCost = 3;
     }
-
     public void SetupCampSiteCharacter(CampSiteCharacter characterSlot, CharacterData characterData)
     {
         characterSlot.InitializeSetup(characterData);
@@ -57,46 +59,53 @@ public class CampSiteManager : MonoBehaviour
     #region
     public void OnTriageButtonClicked()
     {
+        ClearAllOrders();
+
         if (HasEnoughCampSitePoints(triagePointCost))
         {
-            Debug.Log("OnRestButtonClicked() called...");
-            //UIManager.Instance.EnableCharacterRosterView();
-            UIManager.Instance.DisableInventoryView();
-            UIManager.Instance.DisableWorldMapView();
-
+            triageButton.SetGlowOutilineViewState(true);
+            SetCharacterPanelGlowOutlineViewStates(true);
             awaitingTriageChoice = true;
-            // To do: make triage button and character buttons flash to indicate a choice is being awaited
         }
 
     }        
     public void OnTrainButtonClicked()
     {
+        ClearAllOrders();
         if (HasEnoughCampSitePoints(trainPointCost))
         {
-            Debug.Log("OnLevelUpButtonClicked() called...");
-            //UIManager.Instance.EnableCharacterRosterView();
-            UIManager.Instance.DisableInventoryView();
-            UIManager.Instance.DisableWorldMapView();
-
+            trainButton.SetGlowOutilineViewState(true);
+            SetCharacterPanelGlowOutlineViewStates(true);
             awaitingTrainChoice = true;
         }           
     }
     public void OnPrayButtonClicked()
     {
+        ClearAllOrders();
         if (HasEnoughCampSitePoints(prayPointCost))
         {
-            Debug.Log("OnRestButtonClicked() called...");
-            //UIManager.Instance.EnableCharacterRosterView();
-            UIManager.Instance.DisableInventoryView();
-            UIManager.Instance.DisableWorldMapView();
+            bool atLeastOneCharacterIsDead = false;
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                if (character.CurrentHealth == 0)
+                {
+                    atLeastOneCharacterIsDead = true;
+                    character.myCampSiteCharacter.SetGlowOutilineViewState(true);
+                }
+            }
 
-            awaitingPrayChoice = true;
-            // To do: make triage button and character buttons flash to indicate a choice is being awaited
+            if (atLeastOneCharacterIsDead)
+            {
+                prayButton.SetGlowOutilineViewState(true);
+                awaitingPrayChoice = true;
+            }
+            
         }
 
     }
     public void OnFeastButtonClicked()
     {
+        ClearAllOrders();
         if (HasEnoughCampSitePoints(feastPointCost))
         {
             PerformFeast();
@@ -104,6 +113,7 @@ public class CampSiteManager : MonoBehaviour
     }
     public void OnRestButtonClicked()
     {
+        ClearAllOrders();
         if (HasEnoughCampSitePoints(restPointCost))
         {
             PerformRest();
@@ -131,48 +141,36 @@ public class CampSiteManager : MonoBehaviour
     {
         visualParent.SetActive(false);
     }
-    public void EnableRestButtonView()
+    public void SetCharacterPanelGlowOutlineViewStates(bool onOrOff)
     {
-        triageButton.SetActive(true);
+        foreach(CampSiteCharacter character in allCharacterSlots)
+        {
+            character.SetGlowOutilineViewState(onOrOff);
+        }
     }
-    public void DisableRestButtonView()
+    public void DisableAllButtonGlows()
     {
-        triageButton.SetActive(false);
+        triageButton.SetGlowOutilineViewState(false);
+        trainButton.SetGlowOutilineViewState(false);
+        prayButton.SetGlowOutilineViewState(false);
     }
-    public void EnableLevelUpButtonView()
+    public void ClearAllOrders()
     {
-        trainButton.SetActive(true);
+        awaitingTrainChoice = false;
+        awaitingTriageChoice = false;
+        awaitingPrayChoice = false;
+        SetCharacterPanelGlowOutlineViewStates(false);
+        DisableAllButtonGlows();
+
     }
-    public void DisableLevelUpButtonView()
-    {
-        trainButton.SetActive(false);
-    }
-    public void EnableContinueButtonView()
-    {
-        continueButton.SetActive(true);
-    }
-    public void DisableContinueButtonView()
-    {
-        continueButton.SetActive(false);
-    }
-    public void DisableAllButtonViews()
-    {
-        DisableRestButtonView();
-        DisableLevelUpButtonView();
-    }
-    public void EnableAllButtonViews()
-    {
-        //EnableRestButtonView();
-        //EnableLevelUpButtonView();
-    }
+    
     #endregion
 
     // Misc
     #region
     public void ResetEventProperties()
     {
-        ModifyCurrentCampSitePoints(maxActionPoints - currentActionPoints);
-        EnableAllButtonViews();
+        ModifyCurrentCampSitePoints(maxActionPoints - currentActionPoints);        
     }
     public bool HasEnoughCampSitePoints(int actionCost)
     {
@@ -201,6 +199,8 @@ public class CampSiteManager : MonoBehaviour
         characterClicked.myCharacterData.ModifyCurrentHealth(characterClicked.myCharacterData.MaxHealth / 2);
         ModifyCurrentCampSitePoints(-triagePointCost);
         awaitingTriageChoice = false;
+        triageButton.SetGlowOutilineViewState(false);
+        SetCharacterPanelGlowOutlineViewStates(false);
     }
     public void PerformTrain(CampSiteCharacter characterClicked)
     {
@@ -219,6 +219,8 @@ public class CampSiteManager : MonoBehaviour
         }
         ModifyCurrentCampSitePoints(-trainPointCost);
         awaitingTrainChoice = false;
+        trainButton.SetGlowOutilineViewState(false);
+        SetCharacterPanelGlowOutlineViewStates(false);
     }
     public void PerformPray(CampSiteCharacter characterClicked)
     {
@@ -228,6 +230,8 @@ public class CampSiteManager : MonoBehaviour
         characterClicked.myCharacterData.ModifyCurrentHealth(characterClicked.myCharacterData.MaxHealth / 2);
         ModifyCurrentCampSitePoints(-prayPointCost);
         awaitingPrayChoice = false;
+        prayButton.SetGlowOutilineViewState(false);
+        SetCharacterPanelGlowOutlineViewStates(false);
     }
     public void PerformFeast()
     {

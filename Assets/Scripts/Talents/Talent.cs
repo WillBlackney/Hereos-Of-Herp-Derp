@@ -323,17 +323,18 @@ public class Talent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         }
 
         else if (
-            (talentTreePosition == 2 && 
-            (myTalentTree.talentOne.talentLearned == true) || myTalentTree.myPartnerTree.talentOne.talentLearned == true) &&
-            partnerTalent.talentLearned == false            
+            talentTreePosition == 2 &&
+            partnerTalent.talentLearned == false &&
+            (myTalentTree.talentOne.talentLearned == true || myTalentTree.talentOne.partnerTalent.talentLearned == true)
             )
         {
             return true;
         }
         else if (
-            (talentTreePosition == 3 &&
-            (myTalentTree.talentTwo.talentLearned == true) || myTalentTree.myPartnerTree.talentTwo.talentLearned == true) &&
-            partnerTalent.talentLearned == false
+            talentTreePosition == 3 &&
+            partnerTalent.talentLearned == false &&
+            (myTalentTree.talentOne.talentLearned == true || myTalentTree.talentOne.partnerTalent.talentLearned == true) &&
+            (myTalentTree.talentTwo.talentLearned == true || myTalentTree.talentTwo.partnerTalent.talentLearned == true)
             )
         {
             return true;

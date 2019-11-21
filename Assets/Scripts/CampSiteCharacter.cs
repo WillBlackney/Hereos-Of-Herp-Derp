@@ -15,6 +15,8 @@ public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
     public TextMeshProUGUI maxHealthText;
     public TextMeshProUGUI currentXPText;
     public Image myImageComponent;
+    public Image myGlowOutline;
+    public CanvasGroup myGlowCG;
 
     public void InitializeSetup(CharacterData data)
     {
@@ -25,7 +27,6 @@ public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
         currentXPText.text = data.currentXP.ToString();
         myImageComponent.sprite = data.myImageComponent.sprite;
     }
-
     public void ModifyCurrentHealthText(int newValue)
     {
         currentHealthText.text = newValue.ToString();
@@ -38,7 +39,6 @@ public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
     {
         currentXPText.text = newValue.ToString();
     }
-
     public void OnPointerClick(PointerEventData eventData)
     {
         if (CampSiteManager.Instance.awaitingTriageChoice)
@@ -54,5 +54,10 @@ public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
         {
             CampSiteManager.Instance.PerformPray(this);
         }
+    }
+    public void SetGlowOutilineViewState(bool onOrOff)
+    {
+        myGlowOutline.gameObject.SetActive(onOrOff);       
+
     }
 }

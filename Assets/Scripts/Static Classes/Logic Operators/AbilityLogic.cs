@@ -184,6 +184,26 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;
     }
 
+    // Mork Smash
+    public Action PerformMorkSmash(LivingEntity attacker, LivingEntity victim)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformMorkSmashCoroutine(attacker, victim, action));
+        return action;
+    }
+    public IEnumerator PerformMorkSmashCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    {
+        Ability morkSmash = attacker.mySpellBook.GetAbilityByName("Mork Smash!");
+        OnAbilityUsed(morkSmash, attacker);
+        StartCoroutine(attacker.AttackMovement(victim));
+        Action abilityAction = CombatLogic.Instance.HandleDamage(morkSmash.abilityPrimaryValue, attacker, victim, false, morkSmash.abilityAttackType, morkSmash.abilityDamageType);
+        yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+
+        // Knock back.
+        Action knockBackAction = MovementLogic.Instance.KnockBackEntity(attacker, victim, morkSmash.abilitySecondaryValue);
+        yield return new WaitUntil(() => knockBackAction.ActionResolved() == true);        
+        action.actionResolved = true;
+    }
     // Fire Ball
     public Action PerformFireBall(LivingEntity attacker, LivingEntity victim)
     {
