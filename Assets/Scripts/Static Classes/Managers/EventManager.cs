@@ -19,10 +19,10 @@ public class EventManager : Singleton<EventManager>
     public IEnumerator StartNewBasicEncounterEventCoroutine(Action action, EnemyWaveSO enemyWave = null)
     {
         // Disable player's ability to click on encounter buttons and start new encounters
-        WorldMap.Instance.canSelectNewEncounter = false;
+        WorldManager.Instance.canSelectNewEncounter = false;
 
         // turn off hexagon highlights
-        WorldMap.Instance.UnHighlightAllHexagons();
+        //WorldMap.Instance.UnHighlightAllHexagons();
 
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
@@ -72,10 +72,10 @@ public class EventManager : Singleton<EventManager>
     public IEnumerator StartNewEliteEncounterEventCoroutine(Action action)
     {
         // Disable player's ability to click on encounter buttons and start new encounters
-        WorldMap.Instance.canSelectNewEncounter = false;
+        WorldManager.Instance.canSelectNewEncounter = false;
 
         // turn off hexagon highlights
-        WorldMap.Instance.UnHighlightAllHexagons();
+        //WorldMap.Instance.UnHighlightAllHexagons();
 
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
@@ -122,12 +122,12 @@ public class EventManager : Singleton<EventManager>
     public IEnumerator StartNewRestSiteEncounterEventCoroutine()
     {
         // Disable player's ability to click on encounter buttons and start new encounters
-        WorldMap.Instance.canSelectNewEncounter = false;
+        //WorldMap.Instance.canSelectNewEncounter = false;
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
         // turn off hexagon highlights
-        WorldMap.Instance.UnHighlightAllHexagons();
+        WorldManager.Instance.UnhighlightAllHexagons();
         // Destroy the previous level and tiles + reset values/properties
         ClearPreviousEncounter();
         CampSiteManager.Instance.EnableCampSiteView();
@@ -149,12 +149,12 @@ public class EventManager : Singleton<EventManager>
     public IEnumerator StartShopEncounterEventCoroutine(Action action)
     {
         // Disable player's ability to click on encounter buttons and start new encounters
-        WorldMap.Instance.canSelectNewEncounter = true;
+        WorldManager.Instance.canSelectNewEncounter = true;
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
         // turn off hexagon highlights
-        WorldMap.Instance.UnHighlightAllHexagons();
+        WorldManager.Instance.UnhighlightAllHexagons();
         // Destroy the previous level and tiles + reset values/properties
         ClearPreviousEncounter();
         ShopScreenManager.Instance.EnableShopScreenView();
@@ -172,9 +172,9 @@ public class EventManager : Singleton<EventManager>
     public void StartNewTreasureRoomEncounterEvent()
     {
         // Disable player's ability to click on encounter buttons and start new encounters
-        WorldMap.Instance.canSelectNewEncounter = true;
+        WorldManager.Instance.canSelectNewEncounter = true;
         // turn off hexagon highlights
-        WorldMap.Instance.UnHighlightAllHexagons();
+        //WorldMap.Instance.UnHighlightAllHexagons();
         // Destroy the previous level and tiles + reset values/properties
         ClearPreviousEncounter();
         // Create a new level
@@ -196,10 +196,10 @@ public class EventManager : Singleton<EventManager>
     public IEnumerator StartNewStoryEventCoroutine(Action action)
     {
         // Disable player's ability to click on encounter buttons and start new encounters
-        WorldMap.Instance.canSelectNewEncounter = false;
+        WorldManager.Instance.canSelectNewEncounter = false;
 
         // turn off hexagon highlights
-        WorldMap.Instance.UnHighlightAllHexagons();
+        //WorldMap.Instance.UnHighlightAllHexagons();
 
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
@@ -310,7 +310,7 @@ public class EventManager : Singleton<EventManager>
         CharacterRoster.Instance.RewardAllCharactersXP(20);      
         //SpellInfoBox.Instance.HideInfoBox();       
         // re enable world map + get next viable enocunter hexagon tiles
-        WorldMap.Instance.SetWorldMapReadyState();
+        WorldManager.Instance.SetWorldMapReadyState();
         // Start loot creation/display process
         StartNewLootRewardEvent();
         yield return null;
@@ -338,7 +338,7 @@ public class EventManager : Singleton<EventManager>
         CharacterRoster.Instance.RewardAllCharactersXP(50);
 //        SpellInfoBox.Instance.HideInfoBox();
         // re enable world map + get next viable enocunter hexagon tiles
-        WorldMap.Instance.SetWorldMapReadyState();
+        WorldManager.Instance.SetWorldMapReadyState();
         // Start loot creation/display process
         StartNewLootRewardEvent(false);        
         action.actionResolved = true;
@@ -349,7 +349,7 @@ public class EventManager : Singleton<EventManager>
         RewardScreen.Instance.ClearRewards();
         UIManager.Instance.DisableRewardScreenView();
         UIManager.Instance.EnableWorldMapView();
-        WorldMap.Instance.HighlightNextAvailableEncounters();
+        WorldManager.Instance.HighlightNextAvailableEncounters();
     }
     #endregion
 

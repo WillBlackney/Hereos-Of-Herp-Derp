@@ -59,15 +59,7 @@ public class UIManager : Singleton<UIManager>
         {
             DisableInventoryView();
             DisableCharacterRosterView();
-            EnableWorldMapView();
-            /*
-            if(WorldMap.Instance.canSelectNewEncounter == true)
-            {
-                WorldMap.Instance.HighlightNextAvailableEncounters();
-            }
-            */
-            
-            
+            EnableWorldMapView();            
         }
     }
     #endregion
@@ -77,9 +69,9 @@ public class UIManager : Singleton<UIManager>
     public void EnableWorldMapView()
     {
         worldMap.SetActive(true);
-        if (WorldMap.Instance.canSelectNewEncounter == true)
+        if (WorldManager.Instance.canSelectNewEncounter == true)
         {
-            WorldMap.Instance.HighlightNextAvailableEncounters();
+            WorldManager.Instance.HighlightNextAvailableEncounters();
         }
     }
     public void DisableWorldMapView()

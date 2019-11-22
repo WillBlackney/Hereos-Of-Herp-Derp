@@ -165,7 +165,7 @@ public class StoryEventManager : Singleton<StoryEventManager>
     public void OnContinueButtonClicked()
     {
         DisableEventScreen();
-        WorldMap.Instance.canSelectNewEncounter = true;
+        WorldManager.Instance.canSelectNewEncounter = true;
         UIManager.Instance.EnableWorldMapView();
 
     }

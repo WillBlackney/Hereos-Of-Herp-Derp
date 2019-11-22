@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class WorldMap : Singleton<WorldMap>
 {
+    /*
     [Header("Properties")]
     public int playerColumn;
     public WorldEncounter playerPosition;   
-    public bool canSelectNewEncounter;
+    //public bool canSelectNewEncounter;
     public bool generateRandomWorld;
     public List<WorldEncounter> allWorldEncounters;
 
@@ -46,7 +47,7 @@ public class WorldMap : Singleton<WorldMap>
     {
         foreach (WorldEncounter encounter in allWorldEncounters)
         {
-            encounter.UnHighlightHexagon();
+            //encounter.UnHighlightHexagon();
         }
     }
     public void HighlightNextAvailableEncounters()
@@ -55,7 +56,7 @@ public class WorldMap : Singleton<WorldMap>
 
         foreach (WorldEncounter encounter in nextEncounters)
         {
-            encounter.HighlightHexagon();
+            encounter.PlayBreatheAnimation();
         }
     }
     #endregion
@@ -67,7 +68,7 @@ public class WorldMap : Singleton<WorldMap>
         playerPosition = encounter;
         playerColumn = encounter.column;
         encounter.encounterReached = true;
-        encounter.SetGraphicMaskColour(encounter.occupiedColour);        
+        //encounter.SetGraphicMaskColour(encounter.occupiedColour);        
     }   
     public void SetPlayerPosition(int column, int position)
     {
@@ -75,7 +76,7 @@ public class WorldMap : Singleton<WorldMap>
 
         foreach(WorldEncounter encounter in allWorldEncounters)
         {
-            if(encounter.column == column && encounter.position == position)
+            if(encounter.column == column)
             {
                 newLocation = encounter;
             }
@@ -89,7 +90,7 @@ public class WorldMap : Singleton<WorldMap>
 
         playerPosition = newLocation;
         newLocation.encounterReached = true;        
-        newLocation.SetGraphicMaskColour(newLocation.occupiedColour);
+        //newLocation.SetGraphicMaskColour(newLocation.occupiedColour);
     }
     #endregion
 
@@ -103,10 +104,11 @@ public class WorldMap : Singleton<WorldMap>
     public List<WorldEncounter> GetNextViableEncounters(WorldEncounter positionFrom)
     {
         //int currentColumn = positionFrom.column;
-        int currentPosition = positionFrom.position;    
+        //int currentPosition = positionFrom.position;    
 
+        
         List<WorldEncounter> viableEncounters = new List<WorldEncounter>();
-
+        /*
         foreach (WorldEncounter encounter in allWorldEncounters)
         {
             if (
@@ -127,8 +129,9 @@ public class WorldMap : Singleton<WorldMap>
                 viableEncounters.Add(encounter);
             }
         }
-
+        
         return viableEncounters;
+        
 
     }
     public void SetWorldMapReadyState()
@@ -139,4 +142,5 @@ public class WorldMap : Singleton<WorldMap>
     }
     #endregion
 
+    */
 }

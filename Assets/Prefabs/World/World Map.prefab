@@ -538,6 +538,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerColumn: 0
   playerPosition: {fileID: 0}
+  canSelectNewEncounter: 0
+  generateRandomWorld: 1
   allWorldEncounters:
   - {fileID: 6488468940989468167}
   - {fileID: 6488468941133982091}
@@ -588,9 +590,11 @@ MonoBehaviour:
   - {fileID: 6488468940942625017}
   - {fileID: 6488468940105383349}
   - {fileID: 6488468940811099309}
-  canSelectNewEncounter: 0
-  generateRandomWorld: 1
   OnlySpawnBasicEncounters: 0
+  OnlySpawnCampSiteEncounters: 0
+  OnlySpawnShopEncounters: 0
+  OnlySpawnEliteEncounters: 0
+  OnlySpawnMysteryEncounters: 0
 --- !u!1 &8001969361097318919
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,6 +841,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hexagon
       objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -942,21 +961,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6459776697821447448 stripped
@@ -988,6 +992,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -1094,21 +1113,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479597602212 stripped
@@ -1140,6 +1144,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -1246,21 +1265,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468941015993457 stripped
@@ -1292,6 +1296,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -1398,16 +1412,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 265167783903682337, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
       propertyPath: m_Sprite
@@ -1445,6 +1449,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -1551,21 +1570,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468940942625017 stripped
@@ -1597,6 +1601,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -1703,21 +1722,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479666601645 stripped
@@ -1749,6 +1753,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -1855,21 +1874,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479493702825 stripped
@@ -1901,6 +1905,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -2007,21 +2026,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479510540663 stripped
@@ -2053,6 +2057,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -2159,21 +2178,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468940811099309 stripped
@@ -2205,6 +2209,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -2311,21 +2330,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479345764495 stripped
@@ -2357,6 +2361,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -2463,21 +2482,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479344894410 stripped
@@ -2509,6 +2513,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -2615,21 +2634,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479402071931 stripped
@@ -2661,6 +2665,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -2767,21 +2786,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479171283490 stripped
@@ -2813,6 +2817,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -2919,21 +2938,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479158933230 stripped
@@ -2965,6 +2969,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -3071,21 +3090,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999480136494359 stripped
@@ -3117,6 +3121,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -3223,21 +3242,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999480159545845 stripped
@@ -3269,6 +3273,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -3375,21 +3394,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479944413491 stripped
@@ -3421,6 +3425,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -3527,21 +3546,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479951075898 stripped
@@ -3573,6 +3577,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -3679,21 +3698,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999480031652265 stripped
@@ -3725,6 +3729,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -3831,21 +3850,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999480065840481 stripped
@@ -3877,6 +3881,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -3983,21 +4002,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468941253213849 stripped
@@ -4029,6 +4033,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -4135,21 +4154,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479714553722 stripped
@@ -4181,6 +4185,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -4287,21 +4306,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468941155599485 stripped
@@ -4333,6 +4337,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -4439,21 +4458,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479743904673 stripped
@@ -4485,6 +4489,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -4591,21 +4610,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479764577658 stripped
@@ -4637,6 +4641,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -4743,21 +4762,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999478565892637 stripped
@@ -4789,6 +4793,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -4895,21 +4914,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468939809026025 stripped
@@ -4941,6 +4945,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -5047,21 +5066,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468939805995387 stripped
@@ -5093,6 +5097,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -5199,21 +5218,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999478404408016 stripped
@@ -5245,6 +5249,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -5351,21 +5370,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468939757533109 stripped
@@ -5397,6 +5401,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -5503,21 +5522,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999478455824703 stripped
@@ -5549,6 +5553,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -5655,21 +5674,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468939578812442 stripped
@@ -5701,6 +5705,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -5807,21 +5826,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468939572861229 stripped
@@ -5853,6 +5857,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -5959,21 +5978,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999478110633321 stripped
@@ -6005,6 +6009,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -6111,21 +6130,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468939503389039 stripped
@@ -6157,6 +6161,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -6263,21 +6282,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468939466180649 stripped
@@ -6309,6 +6313,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -6415,21 +6434,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479051947696 stripped
@@ -6461,6 +6465,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -6567,21 +6586,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999479051097171 stripped
@@ -6613,6 +6617,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -6719,21 +6738,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468940484955189 stripped
@@ -6765,6 +6769,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -6871,21 +6890,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468940398306727 stripped
@@ -6917,6 +6921,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -7023,21 +7042,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468940298813694 stripped
@@ -7069,6 +7073,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -7175,21 +7194,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468940247555435 stripped
@@ -7221,6 +7225,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -7327,21 +7346,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468940208722772 stripped
@@ -7373,6 +7377,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -7479,21 +7498,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468940165220775 stripped
@@ -7525,6 +7529,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -7631,21 +7650,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999478618835780 stripped
@@ -7677,6 +7681,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -7783,21 +7802,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468940108414940 stripped
@@ -7829,6 +7833,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -7935,21 +7954,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!224 &7827999478667325765 stripped
@@ -7981,6 +7985,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -8087,21 +8106,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}
 --- !u!114 &6488468940038312681 stripped
@@ -8133,6 +8137,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexagon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: myEncounterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: column
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
+        type: 3}
+      propertyPath: position
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 265167784090234500, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
         type: 3}
@@ -8238,21 +8257,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: myEncounterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: column
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821049898794834037, guid: 5f3516020b2e2bb469033cbb1e34c4e5,
-        type: 3}
-      propertyPath: position
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3516020b2e2bb469033cbb1e34c4e5, type: 3}

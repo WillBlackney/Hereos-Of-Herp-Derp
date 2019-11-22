@@ -126,7 +126,7 @@ public class CampSiteManager : MonoBehaviour
         UIManager.Instance.OnWorldMapButtonClicked();
         UIManager.Instance.EnableWorldMapView();
         // re enable world map + get next viable enocunter hexagon tiles
-        WorldMap.Instance.SetWorldMapReadyState();
+        WorldManager.Instance.SetWorldMapReadyState();
     }
     #endregion
 
