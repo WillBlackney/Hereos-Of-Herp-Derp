@@ -135,6 +135,7 @@ public class WorldMap : Singleton<WorldMap>
     {
         canSelectNewEncounter = true;
         HighlightNextAvailableEncounters();
+        
     }
     #endregion
 

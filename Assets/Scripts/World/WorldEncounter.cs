@@ -8,6 +8,7 @@ public class WorldEncounter : MonoBehaviour
     public enum EncounterType { NoType, BasicEnemy, EliteEnemy, Home, CampSite, Shop, Treasure, Mystery};
 
     [Header("Properties")]
+    public List<WorldEncounter> connectingEncounters;
     public EncounterType myEncounterType;
     public int column;
     public int position;
