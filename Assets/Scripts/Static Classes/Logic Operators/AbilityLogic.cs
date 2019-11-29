@@ -158,6 +158,26 @@ public class AbilityLogic : MonoBehaviour
         
     }
 
+    //Rend
+    public Action PerformRend(LivingEntity attacker, LivingEntity victim)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformRendCoroutine(attacker, victim, action));
+        return action;
+    }
+    public IEnumerator PerformRendCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    {
+        Ability rend = attacker.mySpellBook.GetAbilityByName("Rend");
+        OnAbilityUsed(rend, attacker);
+        attacker.StartCoroutine(attacker.AttackMovement(victim));
+        Action abilityAction = CombatLogic.Instance.HandleDamage(rend.abilityPrimaryValue, attacker, victim, false, rend.abilityAttackType, rend.abilityDamageType);
+        yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+        victim.myPassiveManager.ModifyExhausted(rend.abilitySecondaryValue);
+        yield return new WaitForSeconds(0.5f);
+        action.actionResolved = true;
+
+    }
+
     // Twin Strike
     public Action PerformTwinStrike(LivingEntity attacker, LivingEntity victim)
     {
@@ -521,8 +541,8 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability guard = caster.mySpellBook.GetAbilityByName("Guard");
         OnAbilityUsed(guard, caster);
-        target.myPassiveManager.ModifyBarrier(guard.abilityPrimaryValue);
-        yield return new WaitForSeconds(0.5f);
+        target.ModifyCurrentBlock(guard.abilityPrimaryValue);
+        yield return new WaitForSeconds(1f);
         action.actionResolved = true;
         
     }
@@ -607,6 +627,26 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
         
+    }
+
+    // Poison Dart
+    public Action PerformAcidSpit(LivingEntity caster, LivingEntity victim)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformAcidSpitCoroutine(caster, victim, action));
+        return action;
+    }
+    public IEnumerator PerformAcidSpitCoroutine(LivingEntity caster, LivingEntity victim, Action action)
+    {
+        Ability acidSpit = caster.mySpellBook.GetAbilityByName("Acid Spit");
+        OnAbilityUsed(acidSpit, caster);
+        StartCoroutine(caster.AttackMovement(victim));
+        Action abilityAction = CombatLogic.Instance.HandleDamage(acidSpit.abilityPrimaryValue, caster, victim, false, acidSpit.abilityAttackType, acidSpit.abilityDamageType, acidSpit);        
+        yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+        victim.myPassiveManager.ModifyPoison(acidSpit.abilitySecondaryValue, caster);
+        yield return new WaitForSeconds(0.5f);
+        action.actionResolved = true;
+
     }
 
     // Chemical Reaction

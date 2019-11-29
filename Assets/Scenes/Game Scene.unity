@@ -1190,7 +1190,7 @@ RectTransform:
   m_Children:
   - {fileID: 1349284321}
   m_Father: {fileID: 1605336556}
-  m_RootOrder: 11
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2046,7 +2046,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.96424866, y: -5.2430067, z: 0}
+  m_LocalPosition: {x: 0.9710188, y: -5.242913, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 237190439}
@@ -6785,6 +6785,10 @@ MonoBehaviour:
   masterfulEntrapmentStatusName: Masterful Entrapment
   masterfulEntrapmentStatusDescription: Whenever you apply pinned, gain +1 wisdom
   masterfulEntrapmentStatusStacks: 0
+  undeadImage: {fileID: 21300000, guid: 49502b53c9fcd854c90447b8e11c789c, type: 3}
+  undeadStatusName: Undead
+  undeadStatusDescription: Immune to poison
+  undeadStatusStacks: 0
 --- !u!4 &1508365663
 Transform:
   m_ObjectHideFlags: 0
@@ -7134,13 +7138,13 @@ RectTransform:
   - {fileID: 1030671010}
   - {fileID: 1792119602}
   - {fileID: 452651931}
+  - {fileID: 274600826}
   - {fileID: 295297922}
   - {fileID: 1466148428}
-  - {fileID: 274600826}
   - {fileID: 242529422}
   - {fileID: 188584132}
-  - {fileID: 1339844062}
   - {fileID: 2126798330}
+  - {fileID: 1339844062}
   m_Father: {fileID: 569704688}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8580,6 +8584,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c9e7f391ae936df4c86fa9a210cd7c4a, type: 2}
   - {fileID: 11400000, guid: ed223b25fe728ae44b424a843be085f3, type: 2}
   - {fileID: 11400000, guid: ec5cee4acc1115844b0fdf5f1aeeb0f8, type: 2}
+  - {fileID: 11400000, guid: e762515bed6769343bc0e385d0474200, type: 2}
+  - {fileID: 11400000, guid: 3fe6d093fd6ebd94d8b53f63680b70f3, type: 2}
 --- !u!4 &1970661221
 Transform:
   m_ObjectHideFlags: 0
@@ -9005,13 +9011,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1368eaab5424fe94d96bd6325686fd4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldMapPrefabs:
-  - {fileID: 1221582495502255042, guid: 7cc635350c5d9734385fda3ad06a40cd, type: 3}
   currentWorld: {fileID: 0}
-  worldMapParent: {fileID: 2126798329}
   playerColumnPosition: 0
   playerEncounterPosition: {fileID: 0}
   canSelectNewEncounter: 0
+  worldMapPrefabs:
+  - {fileID: 1221582495502255042, guid: 7cc635350c5d9734385fda3ad06a40cd, type: 3}
+  worldMapParent: {fileID: 2126798329}
 --- !u!1 &2023316531
 GameObject:
   m_ObjectHideFlags: 0
@@ -9585,7 +9591,7 @@ RectTransform:
   - {fileID: 1127213970}
   - {fileID: 422528130}
   m_Father: {fileID: 1605336556}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

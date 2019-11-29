@@ -14,7 +14,7 @@ public class SkeletonAssassin : Enemy
         mySpellBook.EnemyLearnAbility("Twin Strike");
         mySpellBook.EnemyLearnAbility("Dash");
 
-        //myPassiveManager.LearnPoisonous(1);
+        myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyStealth();
     }
 

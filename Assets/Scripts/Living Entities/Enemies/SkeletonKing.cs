@@ -14,6 +14,7 @@ public class SkeletonKing : Enemy
         mySpellBook.EnemyLearnAbility("Whirlwind");
         mySpellBook.EnemyLearnAbility("Crushing Blow");
 
+        myPassiveManager.ModifyUndead();
         myPassiveManager.ModifySoulDrainAura(1);
     }
 

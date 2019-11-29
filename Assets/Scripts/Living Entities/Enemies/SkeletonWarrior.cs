@@ -13,7 +13,9 @@ public class SkeletonWarrior : Enemy
         mySpellBook.EnemyLearnAbility("Guard");
         mySpellBook.EnemyLearnAbility("Inspire");
 
+        myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyThorns(2);
+
     }
 
     public override IEnumerator StartMyActivationCoroutine()
@@ -95,12 +97,12 @@ public class SkeletonWarrior : Enemy
         }
 
         // Move
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) == false &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move)
             )
         {
-            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
 
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);

@@ -130,6 +130,8 @@ public class PassiveManager : MonoBehaviour
 
     public bool barrier;
     public int barrierStacks;
+
+    public bool undead;    
     #endregion
 
     // Initialization + Setup
@@ -282,7 +284,7 @@ public class PassiveManager : MonoBehaviour
             }
         }
 
-        if (poisonImmunity)
+        if (poisonImmunity || undead)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Poison Immunity", false, "Blue"));
             return;
@@ -396,7 +398,13 @@ public class PassiveManager : MonoBehaviour
     {
         StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Stealth");
         stealth = true;        
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Stealth"), 1);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, 1);
+    }
+    public void ModifyUndead()
+    {
+        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Undead");
+        undead = true;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, 1);
     }
     public void ModifyUnwavering()
     {

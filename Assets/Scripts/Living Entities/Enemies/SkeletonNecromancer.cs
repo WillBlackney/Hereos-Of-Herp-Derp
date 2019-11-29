@@ -15,7 +15,9 @@ public class SkeletonNecromancer : Enemy
         mySpellBook.EnemyLearnAbility("Summon Undead");        
         mySpellBook.EnemyLearnAbility("Chaos Bolt");
 
+        myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyUnhygienic(2);
+        
     }
 
     public override IEnumerator StartMyActivationCoroutine()

@@ -888,20 +888,8 @@ public class LivingEntity : MonoBehaviour
 
             if (destination != null)
             {
-                Action moveAction = MovementLogic.Instance.MoveEntity(defender, destinationTile);
-                yield return new WaitUntil(() => moveAction.ActionResolved() == true);
-                /*
-                if (enemy)
-                {
-                    //enemy.SetPath(AStar.GetPath(TileCurrentlyOn.GridPosition, destinationTile.GridPosition));
-                    //StartCoroutine(enemy.Move(currentMobility, 3));
-                }
-
-                else if (defender)
-                {
-                    MovementLogic.Instance.MoveEntity(defender, destinationTile);
-                }
-                */
+                Action moveAction = MovementLogic.Instance.MoveEntity(defender, destinationTile, 3, true);
+                yield return new WaitUntil(() => moveAction.ActionResolved() == true);                
             }
 
         }

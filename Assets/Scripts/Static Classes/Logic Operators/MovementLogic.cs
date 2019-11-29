@@ -43,13 +43,13 @@ public class MovementLogic : Singleton<MovementLogic>
     #region
 
     // Movement 
-    public Action MoveEntity(LivingEntity characterMoved, Tile destination, float speed = 3)
+    public Action MoveEntity(LivingEntity characterMoved, Tile destination, float speed = 3, bool freeStrikeImmune = false)
     {
         Action action = new Action();
-        StartCoroutine(MoveEntityCoroutine(characterMoved, destination, action, speed));
+        StartCoroutine(MoveEntityCoroutine(characterMoved, destination, action, speed, freeStrikeImmune));
         return action;
     }
-    public IEnumerator MoveEntityCoroutine(LivingEntity characterMoved, Tile destination, Action action, float speed = 3)
+    public IEnumerator MoveEntityCoroutine(LivingEntity characterMoved, Tile destination, Action action, float speed = 3, bool freeStrikeImmune = false)
     {
         // Set properties
         float originalSpeed = characterMoved.speed;
@@ -66,8 +66,7 @@ public class MovementLogic : Singleton<MovementLogic>
         PositionLogic.Instance.CalculateWhichDirectionToFace(characterMoved, destination);  
 
         // Commence movement
-        while (hasCompletedMovement == false)
-        {
+        while (hasCompletedMovement == false)        {
             
             Debug.Log("Running MoveAcrossPath() coroutine...");
             characterMoved.transform.position = Vector2.MoveTowards(characterMoved.transform.position, characterMoved.destination, speedOfThisMovement * Time.deltaTime);
@@ -85,7 +84,7 @@ public class MovementLogic : Singleton<MovementLogic>
                     characterMoved.tile = LevelManager.Instance.GetTileFromPointReference(characterMoved.gridPosition);
                     // Set our current tile to be occupied, so other characters cant stack ontop of it.
                     LevelManager.Instance.SetTileAsOccupied(characterMoved.tile);
-                    Action moveToNewLocation = OnLocationMovedTo(characterMoved, characterMoved.tile, previousTile);
+                    Action moveToNewLocation = OnLocationMovedTo(characterMoved, characterMoved.tile, previousTile, freeStrikeImmune);
                     yield return new WaitUntil(() => moveToNewLocation.ActionResolved() == true);
                     characterMoved.destination = characterMoved.path.Pop().WorldPosition;
                 }
@@ -102,7 +101,7 @@ public class MovementLogic : Singleton<MovementLogic>
                     LevelManager.Instance.SetTileAsOccupied(characterMoved.tile);
                     // Prevent character from being able to move again
                     //hasMovedThisTurn = true;
-                    Action moveToNewLocation = OnLocationMovedTo(characterMoved, characterMoved.tile, previousTile);
+                    Action moveToNewLocation = OnLocationMovedTo(characterMoved, characterMoved.tile, previousTile, freeStrikeImmune);
                     yield return new WaitUntil(() => moveToNewLocation.ActionResolved() == true);
                     Debug.Log("Final point reached, movement finished");
                     characterMoved.myAnimator.SetTrigger("Idle");
@@ -615,23 +614,24 @@ public class MovementLogic : Singleton<MovementLogic>
 
     // New Location Set Logic
     #region
-    public Action OnLocationMovedTo(LivingEntity character, Tile newLocation, Tile previousLocation)
+    public Action OnLocationMovedTo(LivingEntity character, Tile newLocation, Tile previousLocation, bool freeStrikeImmune = false)
     {
         Debug.Log("OnLocationMovedToCalled() called....");
         Action action = new Action();
-        StartCoroutine(OnLocationMovedToCoroutine(character, newLocation, previousLocation,action));
+        StartCoroutine(OnLocationMovedToCoroutine(character, newLocation, previousLocation,action, freeStrikeImmune));
         return action;
     }
-    public IEnumerator OnLocationMovedToCoroutine(LivingEntity character, Tile newLocation, Tile previousLocation, Action action)
+    public IEnumerator OnLocationMovedToCoroutine(LivingEntity character, Tile newLocation, Tile previousLocation, Action action, bool freeStrikeImmune = false)
     {
-        Debug.Log("OnLocationMovedToCalledCoroutine() called....");
-        //TileScript previousLocation = character.TileCurrentlyOn;
-        //SetCharacterLocation(character, newLocation);
+        Debug.Log("OnLocationMovedToCalledCoroutine() called....");        
+
         // check for free strikes
-        Action freeStrikeEvents = ResolveFreeStrikes(character, previousLocation, newLocation);
-        yield return new WaitUntil(() => freeStrikeEvents.ActionResolved() == true);
-        OnNewTileSet(character);
-        //PositionLogic.Instance.CheckForFlanking();
+        if(freeStrikeImmune == false)
+        {
+            Action freeStrikeEvents = ResolveFreeStrikes(character, previousLocation, newLocation);
+            yield return new WaitUntil(() => freeStrikeEvents.ActionResolved() == true);
+        }        
+        OnNewTileSet(character);       
         action.actionResolved = true;       
         
     }

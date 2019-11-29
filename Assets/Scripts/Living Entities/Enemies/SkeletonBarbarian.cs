@@ -13,6 +13,7 @@ public class SkeletonBarbarian : Enemy
         mySpellBook.EnemyLearnAbility("Charge");
         mySpellBook.EnemyLearnAbility("Whirlwind");
 
+        myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyEnrage(1);
     }       
     

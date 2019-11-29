@@ -233,6 +233,7 @@ public class CombatLogic : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
         }        
 
+        // Thorns
         if (victim.myPassiveManager.thorns)
         {           
             // TO DO: this needs be updated when we implement damage and attack types
@@ -245,6 +246,7 @@ public class CombatLogic : MonoBehaviour
             }                      
         }
 
+        // Lightning Shield
         if (victim.myPassiveManager.lightningShield && attackType != AbilityDataSO.AttackType.None)
         {
             Debug.Log("Victim has lightning shield and was attacked, returning damage...");
@@ -252,6 +254,7 @@ public class CombatLogic : MonoBehaviour
             yield return new WaitUntil(() => lightningShieldDamage.ActionResolved() == true);
         }
 
+        // Quick Reflexes
         if (victim.timesAttackedThisTurn == 0 && victim.myPassiveManager.quickReflexes && EntityLogic.IsAbleToMove(victim))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Quick Reflexes", true, "Blue"));

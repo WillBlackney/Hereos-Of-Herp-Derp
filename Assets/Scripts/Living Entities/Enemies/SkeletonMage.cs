@@ -12,6 +12,7 @@ public class SkeletonMage : Enemy
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Frost Bolt");
 
+        myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyQuickReflexes(1);
     }
 

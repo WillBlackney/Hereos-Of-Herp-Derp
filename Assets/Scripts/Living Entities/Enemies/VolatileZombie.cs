@@ -11,6 +11,7 @@ public class VolatileZombie : Enemy
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Strike");
 
+        myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyVolatile(5);
     }
 

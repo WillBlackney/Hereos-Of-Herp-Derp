@@ -16,6 +16,7 @@ public class StatusIconLibrary : MonoBehaviour
     }
     public void PopulateStatusIconLibrary()
     {
+        CreateUndeadIconData();
         CreateKnockdownIconData();
         CreateStrengthIconData();
         CreateWisdomIconData();
@@ -499,6 +500,15 @@ public class StatusIconLibrary : MonoBehaviour
         masterfulEntrapment.statusStacks = masterfulEntrapmentStatusStacks;
         allIcons.Add(masterfulEntrapment);
     }
+    public void CreateUndeadIconData()
+    {
+        StatusIcon undead = gameObject.AddComponent<StatusIcon>();
+        undead.statusSprite = undeadImage;
+        undead.statusName = undeadStatusName;
+        undead.statusDescription = undeadStatusDescription;
+        undead.statusStacks = undeadStatusStacks;
+        allIcons.Add(undead);
+    }
     #endregion
 
     // Icon Properties
@@ -779,5 +789,11 @@ public class StatusIconLibrary : MonoBehaviour
     public string masterfulEntrapmentStatusName;
     public string masterfulEntrapmentStatusDescription;
     public int masterfulEntrapmentStatusStacks;
+
+    [Header("Undead Data")]
+    public Sprite undeadImage;
+    public string undeadStatusName;
+    public string undeadStatusDescription;
+    public int undeadStatusStacks;
     #endregion
 }

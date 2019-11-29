@@ -12,6 +12,7 @@ public class SkeletonPriest : Enemy
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Invigorate");
         mySpellBook.EnemyLearnAbility("Healing Light");
+        myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyEncouragingPresence(1);
 
     }
