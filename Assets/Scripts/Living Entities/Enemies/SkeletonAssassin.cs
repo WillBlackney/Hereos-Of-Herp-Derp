@@ -109,6 +109,38 @@ public class SkeletonAssassin : Enemy
             goto ActionStart;
         }
 
+        // If, for whatever reason, we cant attack or move towards the weakest enemy, attack the nearest enemy
+
+        // Twin Strike
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, twinStrike))
+        {
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike", false));
+            yield return new WaitForSeconds(0.5f);
+
+            Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
+        // Strike
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, strike))
+        {
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
+            yield return new WaitForSeconds(0.5f);
+
+            Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
         EndMyActivation();
 
     }

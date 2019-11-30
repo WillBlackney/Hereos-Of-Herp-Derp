@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -176,9 +176,7 @@ public class CombatLogic : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
         }
 
-        int totalLifeLost = victim.currentHealth - healthAfter;
-
-        
+        int totalLifeLost = victim.currentHealth - healthAfter;        
 
         victim.currentHealth = healthAfter;
         victim.SetCurrentBlock(blockAfter);
@@ -194,7 +192,7 @@ public class CombatLogic : MonoBehaviour
 
         if (victim.defender != null)
         {
-            victim.defender.myCharacterData.SetCurrentHealth(victim.currentHealth);
+            victim.defender.myCharacterData.ModifyCurrentHealth(-(victim.currentMaxHealth - victim.currentHealth));
         }
 
         // Life steal

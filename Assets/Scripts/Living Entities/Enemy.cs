@@ -26,8 +26,15 @@ public class Enemy : LivingEntity
     // Activation + Related
     #region
     public virtual void StartMyActivation()
-    {       
-        StartCoroutine(StartMyActivationCoroutine());
+    {
+        if (!inDeathProcess)
+        {
+            StartCoroutine(StartMyActivationCoroutine());
+        }
+        else
+        {
+            Debug.Log("Enemy.StartMyActivation() on " + enemy.myName + " detected that bool 'inDeathProcess' is true, stopping activation from starting...");
+        }
     }
     public virtual IEnumerator StartMyActivationCoroutine()
     {

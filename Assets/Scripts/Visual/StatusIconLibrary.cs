@@ -63,6 +63,7 @@ public class StatusIconLibrary : MonoBehaviour
         CreateUnwaveringIconData();
         CreateIgniteIconData();
         CreateMasterfulEntrapmentIconData();
+        CreateSoulLinkIconData();
     }
     #endregion
 
@@ -509,6 +510,15 @@ public class StatusIconLibrary : MonoBehaviour
         undead.statusStacks = undeadStatusStacks;
         allIcons.Add(undead);
     }
+    public void CreateSoulLinkIconData()
+    {
+        StatusIcon soulLink = gameObject.AddComponent<StatusIcon>();
+        soulLink.statusSprite = soulLinkImage;
+        soulLink.statusName = soulLinkStatusName;
+        soulLink.statusDescription = soulLinkStatusDescription;
+        soulLink.statusStacks = soulLinkStatusStacks;
+        allIcons.Add(soulLink);
+    }
     #endregion
 
     // Icon Properties
@@ -789,6 +799,12 @@ public class StatusIconLibrary : MonoBehaviour
     public string masterfulEntrapmentStatusName;
     public string masterfulEntrapmentStatusDescription;
     public int masterfulEntrapmentStatusStacks;
+
+    [Header("Soul Link Data")]
+    public Sprite soulLinkImage;
+    public string soulLinkStatusName;
+    public string soulLinkStatusDescription;
+    public int soulLinkStatusStacks;
 
     [Header("Undead Data")]
     public Sprite undeadImage;

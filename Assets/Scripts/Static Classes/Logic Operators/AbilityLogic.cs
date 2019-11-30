@@ -1165,6 +1165,62 @@ public class AbilityLogic : MonoBehaviour
 
     }
 
+    // Summon Undead
+    public Action PerformSummonSkeleton(LivingEntity caster, LivingEntity target)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformSummonSkeletonCoroutine(caster, target, action));
+        return action;
+    }
+    public IEnumerator PerformSummonSkeletonCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    {
+        Ability summonUndead = caster.mySpellBook.GetAbilityByName("Summon Skeleton");
+        OnAbilityUsed(summonUndead, caster);
+        List<Tile> allPossibleSpawnLocations = LevelManager.Instance.GetValidMoveableTilesWithinRange(summonUndead.abilityRange, caster.tile);
+        List<Tile> finalList = new List<Tile>();
+
+        // if target is to the left
+        if (target.gridPosition.X <= caster.gridPosition.X)
+        {
+            foreach (Tile tile in allPossibleSpawnLocations)
+            {
+                if (tile.GridPosition.X >= target.gridPosition.X && tile.GridPosition.X <= caster.gridPosition.X)
+                {
+                    finalList.Add(tile);
+                }
+            }
+        }
+
+        // if target is to the right
+        else if (target.gridPosition.X > caster.gridPosition.X)
+        {
+            foreach (Tile tile in allPossibleSpawnLocations)
+            {
+                if (tile.GridPosition.X <= target.gridPosition.X && tile.GridPosition.X >= caster.gridPosition.X)
+                {
+                    finalList.Add(tile);
+                }
+            }
+        }
+
+        // summon skeletons loop
+        for (int skeletonsSummoned = 0; skeletonsSummoned < summonUndead.abilityPrimaryValue; skeletonsSummoned++)
+        {
+            Tile spawnLocation = LevelManager.Instance.GetClosestValidTile(finalList, target.tile);
+
+            // GameObject newSkeletonGO = Instantiate(PrefabHolder.Instance.skeletonPrefabs[Random.Range(0,PrefabHolder.Instance.skeletonPrefabs.Count)]);
+            GameObject newSkeletonGO = Instantiate(PrefabHolder.Instance.SkeletonPeasantPrefab);
+ 
+            Enemy newSkeleton = newSkeletonGO.GetComponent<Enemy>();
+
+            newSkeleton.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
+        }
+
+        yield return new WaitForSeconds(1f);
+        action.actionResolved = true;
+
+    }
+
     // Healing Light
     public Action PerformHealingLight(LivingEntity caster, LivingEntity target)
     {

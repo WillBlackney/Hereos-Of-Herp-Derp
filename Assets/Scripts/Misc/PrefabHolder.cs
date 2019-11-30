@@ -31,5 +31,7 @@ public class PrefabHolder : Singleton<PrefabHolder>
 
     [Header("Enemy Related")]
     public GameObject ZombiePrefab;
+    public GameObject SkeletonPeasantPrefab;
+    public List<GameObject> skeletonPrefabs;
 
 }

@@ -2046,7 +2046,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.9710188, y: -5.242913, z: 0}
+  m_LocalPosition: {x: 0.96101046, y: -5.2430506, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 237190439}
@@ -6737,13 +6737,13 @@ MonoBehaviour:
   exhaustedStatusDescription: Reduce all damage dealt by 50%
   exhaustedStatusStacks: 0
   magicImmunityImage: {fileID: 21300000, guid: 2f9aa849df13a364dba42f5190920fa3, type: 3}
-  magicImmunityStatusName: Immune to magical damage
-  magicImmunityStatusDescription: x
+  magicImmunityStatusName: Magic Immunity
+  magicImmunityStatusDescription: Immune to magical damage
   magicImmunityStatusStacks: 0
   physicalImmunityImage: {fileID: 21300000, guid: 1ec53c240a4282a4ba682f2cafa5ff08,
     type: 3}
-  physicalImmunityStatusName: Immune to physical damage
-  physicalImmunityStatusDescription: 
+  physicalImmunityStatusName: Physical Immunity
+  physicalImmunityStatusDescription: Immune to physical damage
   physicalImmunityStatusStacks: 0
   flankedImage: {fileID: 21300000, guid: 9a4dacf02dfc3244b80df960cbb6ea86, type: 3}
   flankedStatusName: Flanked
@@ -6785,6 +6785,10 @@ MonoBehaviour:
   masterfulEntrapmentStatusName: Masterful Entrapment
   masterfulEntrapmentStatusDescription: Whenever you apply pinned, gain +1 wisdom
   masterfulEntrapmentStatusStacks: 0
+  soulLinkImage: {fileID: 21300000, guid: 162f1c301c11de94fbf82f536b98da30, type: 3}
+  soulLinkStatusName: Soul Link
+  soulLinkStatusDescription: Whenever an ally dies, lose 5 HP.
+  soulLinkStatusStacks: 0
   undeadImage: {fileID: 21300000, guid: 49502b53c9fcd854c90447b8e11c789c, type: 3}
   undeadStatusName: Undead
   undeadStatusDescription: Immune to poison
@@ -8586,6 +8590,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ec5cee4acc1115844b0fdf5f1aeeb0f8, type: 2}
   - {fileID: 11400000, guid: e762515bed6769343bc0e385d0474200, type: 2}
   - {fileID: 11400000, guid: 3fe6d093fd6ebd94d8b53f63680b70f3, type: 2}
+  - {fileID: 11400000, guid: 76c5e8feaa59d544cb15833b0344b5c7, type: 2}
 --- !u!4 &1970661221
 Transform:
   m_ObjectHideFlags: 0
@@ -9082,6 +9087,13 @@ MonoBehaviour:
   LevelBG: {fileID: 3111062959990947664, guid: 37e8b36c9804c8e41b8baeb8a7b48c3a, type: 3}
   ZombiePrefab: {fileID: 331731056945787492, guid: 47f5564b9ebf0b245aebf669a401e825,
     type: 3}
+  SkeletonPeasantPrefab: {fileID: 1009995944954404, guid: 3824691830f71a44983531d123486f1e,
+    type: 3}
+  skeletonPrefabs:
+  - {fileID: 373655118092026611, guid: 8a014843bb672954d9f9537b880605eb, type: 3}
+  - {fileID: 1009995944954404, guid: fee2adbba5bc0984b8e8689269446dc3, type: 3}
+  - {fileID: 8772430764602110221, guid: ab22489449c99cc43847547320a906b6, type: 3}
+  - {fileID: 1009995944954404, guid: d6e2bd705b4c2da48879dfceb3b270ed, type: 3}
 --- !u!4 &2023316533
 Transform:
   m_ObjectHideFlags: 0

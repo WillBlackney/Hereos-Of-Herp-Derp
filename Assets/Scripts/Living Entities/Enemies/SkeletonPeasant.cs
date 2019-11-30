@@ -9,8 +9,8 @@ public class SkeletonPeasant : Enemy
         base.SetBaseProperties();
         mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Move");
+        myPassiveManager.ModifyUndead();
     }
-
 
     public override IEnumerator StartMyActivationCoroutine()
     {
@@ -24,42 +24,41 @@ public class SkeletonPeasant : Enemy
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();
-        }       
+
+        }
 
         // Strike
-        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, strike))
+        else if (EntityLogic.IsAbilityUseable(this, strike) &&
+            EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);
-           // StartCoroutine(AttackTarget(myCurrentTarget, strike.abilityPrimaryValue));
-            ModifyCurrentAP(-strike.abilityAPCost);
-            //yield return new WaitUntil(() => AttackFinished() == true);
 
-            // brief delay between actions
-            yield return new WaitForSeconds(0.5f);
+            Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
 
         // Move
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.IsAbilityUseable(this,move))
+            EntityLogic.IsAbilityUseable(this, move))
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
-            //GeneratePathToClosestTileWithinRangeOfTarget(myCurrentTarget, currentMeleeRange);
-            //SetPath(path);
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
-            //StartCoroutine(Move());
-            ModifyCurrentAP(-move.abilityAPCost);
-           // yield return new WaitUntil(() => MovementFinished() == true);
+
+            Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility);
+            Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
+            yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 
             // small delay here in order to seperate the two actions a bit.
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
 
-        EndMyActivation();                                                                                                                                                                    
+        EndMyActivation();
     }
 }

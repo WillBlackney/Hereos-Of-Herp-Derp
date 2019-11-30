@@ -37,7 +37,7 @@ public class ArtifactManager : MonoBehaviour
         {
             CampSiteManager.Instance.trainButtonDescriptionText.text = "Choose a character to gain 2 levels";
         }
-        else if (artifactObtained.Name == "Ferryman Token")
+        else if (artifactObtained.Name == "Ferryman Coin")
         {
             PlayerDataManager.Instance.ModifyGold(200);
         }

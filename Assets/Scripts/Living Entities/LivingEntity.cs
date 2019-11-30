@@ -183,6 +183,11 @@ public class LivingEntity : MonoBehaviour
     }
     public virtual void ModifyCurrentStrength(int strengthGainedOrLost)
     {
+        if(strengthGainedOrLost == 0)
+        {
+            return;
+        }
+
         int previousStrength = currentStrength;
         currentStrength += strengthGainedOrLost;
 
@@ -337,6 +342,18 @@ public class LivingEntity : MonoBehaviour
             CombatLogic.Instance.CreateAoEAttackEvent(this, myPassiveManager.volatileStacks, tile, 1, true, true,AbilityDataSO.DamageType.Physical);
         }
 
+        // check for soul link and damage allies if they have it
+        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if (entity.myPassiveManager.soulLink && CombatLogic.Instance.IsTargetFriendly(this, entity))
+            {
+                //StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Soul Link", false));
+               // yield return new WaitForSeconds(0.5f);
+                Action soulLinkDamage = CombatLogic.Instance.HandleDamage(5, this, entity);
+                //yield return new WaitUntil(() => soulLinkDamage.ActionResolved() == true);
+            }
+        }
+
         // Check if the player has lost all characters and thus the game
         if (defender)
         {
@@ -346,6 +363,8 @@ public class LivingEntity : MonoBehaviour
         DisableWorldSpaceCanvas();
         PlayDeathAnimation();
         yield return new WaitUntil(() => MyDeathAnimationFinished() == true);
+
+        
 
         // Check all enemies are dead, end combat event
         if (enemy)

@@ -112,8 +112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40798a35ea639d64aaf5cf05bd2adb05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  myClass: 0
   myHealthBar: {fileID: 5555770202915690943}
   myCG: {fileID: 0}
   myWorldSpaceCanvasParent: {fileID: 2185314035005042152}
@@ -130,9 +128,9 @@ MonoBehaviour:
   defender: {fileID: 0}
   enemy: {fileID: 0}
   baseMobility: 1
-  baseMaxHealth: 15
-  baseStartingHealth: 15
-  baseEnergy: 0
+  baseMaxHealth: 20
+  baseStartingHealth: 20
+  baseEnergy: 4
   baseStartingAP: 0
   baseMaxAP: 6
   baseMeleeRange: 1
@@ -153,22 +151,14 @@ MonoBehaviour:
   currentDexterity: 0
   currentInitiative: 0
   currentBlock: 0
-  isKnockedDown: 0
-  isPinned: 0
-  isStunned: 0
-  hasBarrier: 0
-  currentBarrierStacks: 0
-  isSleeping: 0
-  currentSleepingStacks: 0
-  isCamoflaged: 0
-  isPoisoned: 0
-  poisonStacks: 0
+  tile: {fileID: 0}
+  myCurrentTarget: {fileID: 0}
+  destination: {x: 0, y: 0, z: 0}
+  speed: 3
   currentInitiativeRoll: 0
   moveActionsTakenThisTurn: 0
   timesAttackedThisTurn: 0
-  TileCurrentlyOn: {fileID: 0}
-  myCurrentTarget: {fileID: 0}
-  destination: {x: 0, y: 0, z: 0}
+  inDeathProcess: 0
   facingRight: 0
   spriteImportedFacingRight: 1
   myDeathAnimationFinished: 0
@@ -176,10 +166,6 @@ MonoBehaviour:
   myInfoPanel: {fileID: 2095069968850433237}
   myName: Skeleton Peasant
   currentlyActivated: 0
-  attackFinished: 0
-  attackAnimationFinished: 0
-  attackAnimationMomentOfAttackReached: 0
-  movementFinished: 0
 --- !u!95 &2301848599627426498
 Animator:
   serializedVersion: 3
@@ -263,6 +249,7 @@ MonoBehaviour:
   KnowsBless: 0
   KnowsSiphonLife: 0
   KnowsChaosBolt: 0
+  KnowsFrostNova: 0
 --- !u!114 &7109844203329741766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,62 +263,87 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myLivingEntity: {fileID: 0}
-  Enrage: 0
+  enrage: 0
   enrageStacks: 0
-  Growing: 0
+  growing: 0
   growingStacks: 0
   Volatile: 0
   volatileStacks: 0
-  Cautious: 0
+  cautious: 0
   cautiousStacks: 0
-  FleetFooted: 0
+  fleetFooted: 0
   fleetFootedStacks: 0
-  EncouragingPresence: 0
+  encouragingPresence: 0
   encouragingPresenceStacks: 0
-  Poisonous: 0
+  poisonous: 0
   poisonousStacks: 0
-  Preparation: 0
+  preparation: 0
   preparationStacks: 0
-  Stealth: 0
-  Thorns: 0
+  stealth: 0
+  unwavering: 0
+  thorns: 0
   thornsStacks: 0
-  Unhygienic: 0
+  unhygienic: 0
   unhygienicStacks: 0
-  QuickReflexes: 0
+  quickReflexes: 0
   quickReflexesStacks: 0
-  Regeneration: 0
+  regeneration: 0
   regenerationStacks: 0
-  Adaptive: 0
+  adaptive: 0
   adaptiveStacks: 0
-  PoisonImmunity: 0
-  HatefulPresence: 0
+  poisonImmunity: 0
+  soulLink: 0
+  hatefulPresence: 0
   hatefulPresenceStacks: 0
-  SoulDrainAura: 0
+  fieryPresence: 0
+  fieryPresenceStacks: 0
+  guardianPresence: 0
+  guardianPresenceStacks: 0
+  soulDrainAura: 0
   soulDrainAuraStacks: 0
-  LightningShield: 0
+  lightningShield: 0
   lightningShieldStacks: 0
-  ThickOfTheFight: 0
+  masterfulEntrapment: 0
+  masterfulEntrapmentStacks: 0
+  thickOfTheFight: 0
   thickOfTheFightStacks: 0
-  TemporaryStrength: 0
+  temporaryStrength: 0
   temporaryStrengthStacks: 0
-  TemporaryInitiative: 0
+  temporaryInitiative: 0
   temporaryInitiativeStacks: 0
-  Rune: 0
+  temporaryMobility: 0
+  temporaryMobilityStacks: 0
+  rune: 0
   runeStacks: 0
-  Exposed: 0
+  exposed: 0
   exposedStacks: 0
-  Exhausted: 0
+  exhausted: 0
   exhaustedStacks: 0
-  MagicImmunity: 0
+  magicImmunity: 0
   magicImmunityStacks: 0
-  PhysicalImmunity: 0
+  physicalImmunity: 0
   physicalImmunityStacks: 0
-  Flanked: 0
-  flankedStacks: 0
-  TrueSight: 0
+  trueSight: 0
   trueSightStacks: 0
-  LifeSteal: 0
+  lifeSteal: 0
   lifeStealStacks: 0
+  venomous: 0
+  venomousStacks: 0
+  ignite: 0
+  igniteStacks: 0
+  pinned: 0
+  pinnedStacks: 0
+  stunned: 0
+  stunnedStacks: 0
+  sleeping: 0
+  sleepingStacks: 0
+  poison: 0
+  poisonStacks: 0
+  camoflage: 0
+  camoflageStacks: 0
+  barrier: 0
+  barrierStacks: 0
+  undead: 0
 --- !u!1 &2185314035005042152
 GameObject:
   m_ObjectHideFlags: 0

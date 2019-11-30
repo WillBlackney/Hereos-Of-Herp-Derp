@@ -55,6 +55,7 @@ public class PassiveManager : MonoBehaviour
     public int adaptiveStacks;
 
     public bool poisonImmunity;
+    public bool soulLink;
 
     public bool hatefulPresence;
     public int hatefulPresenceStacks;
@@ -267,8 +268,8 @@ public class PassiveManager : MonoBehaviour
             if (camoflageStacks <= 0)
             {
                 camoflage = false;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Camoflage Removed", false, "Red"));
+                //StartCoroutine(VisualEffectManager.Instance.
+                //CreateStatusEffect(myLivingEntity.transform.position, "Camoflage Removed", false, "Red"));
             }
         }
 
@@ -398,6 +399,12 @@ public class PassiveManager : MonoBehaviour
     {
         StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Stealth");
         stealth = true;        
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, 1);
+    }
+    public void ModifySoulLink()
+    {
+        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Soul Link");
+        soulLink = true;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, 1);
     }
     public void ModifyUndead()
