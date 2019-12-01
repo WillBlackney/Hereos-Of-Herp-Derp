@@ -11,6 +11,8 @@ public class LivingEntity : MonoBehaviour
     public Slider myHealthBar;
     public CanvasGroup myCG;
     public GameObject myWorldSpaceCanvasParent;
+    public GameObject mySpriteParent;
+    public GameObject myModelParent;
     public GameObject myBlockIcon;
     public TextMeshProUGUI myBlockText;
     public TextMeshProUGUI myCurrentHealthText;
@@ -66,8 +68,8 @@ public class LivingEntity : MonoBehaviour
     public int timesAttackedThisTurn;
     public bool inDeathProcess;
     public bool facingRight;
-    public bool spriteImportedFacingRight;   
-   
+    public bool spriteImportedFacingRight;
+
 
     // Initialization / Setup
     #region
@@ -79,7 +81,11 @@ public class LivingEntity : MonoBehaviour
         // Get component references        
         mySpriteRenderer = GetComponent<SpriteRenderer>();
         myCG = GetComponent<CanvasGroup>();
-        myAnimator = GetComponent<Animator>();
+        if (myAnimator == null)
+        {
+            myAnimator = GetComponent<Animator>();
+        }
+        
         defender = GetComponent<Defender>();
         enemy = GetComponent<Enemy>();
         myPassiveManager = GetComponent<PassiveManager>();
@@ -104,6 +110,7 @@ public class LivingEntity : MonoBehaviour
         {
             PositionLogic.Instance.SetDirection(this, "Right");
         }
+
         else if (enemy)
         {
             PositionLogic.Instance.SetDirection(this, "Left");
