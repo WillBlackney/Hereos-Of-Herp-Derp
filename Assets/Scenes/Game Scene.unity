@@ -355,6 +355,7 @@ Transform:
   - {fileID: 1741962675}
   - {fileID: 1042938415}
   - {fileID: 2004752179}
+  - {fileID: 261390486}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1131,6 +1132,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &261390485
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 261390486}
+  - component: {fileID: 261390487}
+  m_Layer: 0
+  m_Name: Tile Sprite Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &261390486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261390485}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 125540712}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &261390487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261390485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0752b8149dc4c3942a66585801701fa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  edgePrefabGO: {fileID: 9035488440995809067, guid: e7f114ca5106af64f84730a664095593,
+    type: 3}
+  northEdge: {fileID: 21300000, guid: 0ffee209ebc58af4d8207a524fdcba3a, type: 3}
+  southEdge: {fileID: 21300000, guid: 4ba83de357d36c44eb02d1206e560123, type: 3}
+  westEdge: {fileID: 21300000, guid: 41ccfa37a0cbd8d4fa071b6518be424e, type: 3}
+  eastEdge: {fileID: 21300000, guid: 8ce7a8c1bc907e54c83dabfd262c94a9, type: 3}
+  northEastEdge: {fileID: 21300000, guid: bc17ba011a6f90546bda2da82f0751c4, type: 3}
+  northWestEdge: {fileID: 21300000, guid: f69d2647209f72143a8d542034c3aadd, type: 3}
+  southEastEdge: {fileID: 21300000, guid: eb2919b296e71f74bb7a526a30bc0af3, type: 3}
+  southWestEdge: {fileID: 21300000, guid: 61886260f37911f4d9cb9bf06cafea11, type: 3}
 --- !u!1 &272816045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1785,7 +1839,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: b048794371994be4bbb158993b0e8925, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.47843137}
   m_FlipX: 0

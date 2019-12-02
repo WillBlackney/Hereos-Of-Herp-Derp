@@ -4,7 +4,9 @@ using System.Collections.Generic;
 
 namespace Spriter2UnityDX {
 	[DisallowMultipleComponent, ExecuteInEditMode, AddComponentMenu("")]
-	public class EntityRenderer : MonoBehaviour {
+	public class EntityRenderer : MonoBehaviour
+    {
+        [SerializeField] public LivingEntity myEntity;
 		private SpriteRenderer[] renderers = new SpriteRenderer [0];
 		private SortingOrderUpdater[] updaters = new SortingOrderUpdater [0];
 		private SpriteRenderer _first;
@@ -77,6 +79,7 @@ namespace Spriter2UnityDX {
 
 		private void Awake () {
 			RefreshRenders ();
+            myEntity = GetComponentInParent<LivingEntity>();
 		}
 
 		private void OnEnable () {
@@ -98,5 +101,10 @@ namespace Spriter2UnityDX {
 			for (var i = 0; i < length; i++) updaters [i].SpriteCount = length;
 			_first = null;
 		}
+
+        public void SetDeathAnimationAsFinished()
+        {
+            myEntity.SetDeathAnimAsFinished();
+        }
 	}
 }

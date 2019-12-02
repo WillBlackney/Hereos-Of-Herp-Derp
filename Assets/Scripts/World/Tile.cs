@@ -28,8 +28,7 @@ public class Tile : MonoBehaviour
     #region
     private void Start()
     {
-        mySpriteRenderer = GetComponent<SpriteRenderer>();
-        myAnimator = GetComponent<Animator>();
+        mySpriteRenderer = GetComponent<SpriteRenderer>();        
         originalColor = mySpriteRenderer.color;
     }    
     public void Setup(Point gridPos, Vector3 worldPos, Transform parent)

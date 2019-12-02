@@ -181,6 +181,7 @@ public class CombatLogic : MonoBehaviour
         victim.currentHealth = healthAfter;
         victim.SetCurrentBlock(blockAfter);
         victim.myHealthBar.value = victim.CalculateHealthBarPosition();
+        victim.myActivationWindow.myHealthBar.value = victim.CalculateHealthBarPosition();
         victim.UpdateCurrentHealthText();
 
         if (adjustedDamageValue > 0)

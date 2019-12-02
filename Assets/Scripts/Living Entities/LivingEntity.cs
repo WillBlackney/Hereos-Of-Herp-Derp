@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Spriter2UnityDX;
 
 public class LivingEntity : MonoBehaviour
 {        
@@ -13,6 +14,7 @@ public class LivingEntity : MonoBehaviour
     public GameObject myWorldSpaceCanvasParent;
     public GameObject mySpriteParent;
     public GameObject myModelParent;
+    public EntityRenderer myEntityRenderer;
     public GameObject myBlockIcon;
     public TextMeshProUGUI myBlockText;
     public TextMeshProUGUI myCurrentHealthText;
@@ -69,6 +71,8 @@ public class LivingEntity : MonoBehaviour
     public bool inDeathProcess;
     public bool facingRight;
     public bool spriteImportedFacingRight;
+    public Color normalColour;
+    public Color highlightColour;
 
 
     // Initialization / Setup
@@ -115,6 +119,9 @@ public class LivingEntity : MonoBehaviour
         {
             PositionLogic.Instance.SetDirection(this, "Left");
         }
+        
+        myEntityRenderer = GetComponentInChildren<EntityRenderer>();
+        
         // Set up all base properties and values (damage, mobility etc)
         SetBaseProperties();
     }    
@@ -135,10 +142,15 @@ public class LivingEntity : MonoBehaviour
         ModifyCurrentDexterity(baseDexterity);
         ModifyCurrentInitiative(baseInitiative);
         myHealthBar.value = CalculateHealthBarPosition();
+        myActivationWindow.myHealthBar.value = CalculateHealthBarPosition();
         ModifyCurrentBlock(baseStartingBlock);
         ModifyCurrentAP(baseStartingAP);
         UpdateCurrentHealthText();
         UpdateCurrentMaxHealthText(currentMaxHealth);
+        // Set up Colors
+        //normalColour = new Color(217, 217, 217);
+        //highlightColour = new Color(255, 255, 255);
+        SetColor(normalColour);
     }
     #endregion    
 
@@ -185,6 +197,7 @@ public class LivingEntity : MonoBehaviour
             StartCoroutine(VisualEffectManager.Instance.CreateHealingEffect(transform.position, healthGainedOrLost, false));
         }
         myHealthBar.value = CalculateHealthBarPosition();
+        myActivationWindow.myHealthBar.value = CalculateHealthBarPosition();
         UpdateCurrentHealthText();
 
     }
@@ -956,4 +969,21 @@ public class LivingEntity : MonoBehaviour
     }
     #endregion
 
+    // Mouse + Input Related
+    #region
+    public virtual void OnMouseEnter()
+    {
+        SetColor(highlightColour);
+    }
+    public void OnMouseExit()
+    {
+        SetColor(normalColour);
+    }
+
+    public void SetColor(Color newColor)
+    {
+        Debug.Log("Setting Entity Color....");
+        myEntityRenderer.Color = new Color(newColor.r, newColor.g, newColor.b, myEntityRenderer.Color.a);
+    }
+    #endregion
 }

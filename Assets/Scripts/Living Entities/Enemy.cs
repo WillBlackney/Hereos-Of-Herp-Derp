@@ -87,7 +87,7 @@ public class Enemy : LivingEntity
         EnemyManager.Instance.SelectEnemy(this);
     }
     public void OnMouseOver()
-    {
+    {        
         if(Input.GetMouseButtonDown(1))
         {
             myInfoPanel.EnablePanelView();

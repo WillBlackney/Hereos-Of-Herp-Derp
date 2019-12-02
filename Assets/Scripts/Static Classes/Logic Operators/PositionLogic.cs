@@ -8,14 +8,6 @@ public class PositionLogic : Singleton<PositionLogic>
     #region
     public void FlipCharacterSprite(LivingEntity character, bool faceRight)
     {
-        /*
-        float myScale = 0;
-        if(character.mySpriteParent != null)
-        {
-            myScale = System.Math.Abs(character.mySpriteParent.transform.localScale.x);
-        }
-        */
-
         if(character.spriteImportedFacingRight == true)
         {
             if (faceRight == true)
@@ -192,6 +184,188 @@ public class PositionLogic : Singleton<PositionLogic>
     }
     #endregion
 
+    // Get adjacent NSEW tile logic
+    #region
+    public Tile GetAdjacentNorthernTile(Tile location)
+    {
+        List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
+        Tile tileReturned = null;
 
+        foreach (Tile tile in allTiles)
+        {
+            if (tile.GridPosition.Y == location.GridPosition.Y - 1 &&
+                tile.GridPosition.X == location.GridPosition.X)
+            {
+                tileReturned = tile;
+                break;
+            }
+        }
+
+        if (tileReturned == null)
+        {
+            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+        }
+
+        return tileReturned;
+    }
+    public Tile GetAdjacentSouthernTile(Tile location)
+    {
+        List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
+        Tile tileReturned = null;
+
+        foreach (Tile tile in allTiles)
+        {
+            if (tile.GridPosition.Y == location.GridPosition.Y + 1 &&
+                tile.GridPosition.X == location.GridPosition.X)
+            {
+                tileReturned = tile;
+                break;
+            }
+        }
+
+        if (tileReturned == null)
+        {
+            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+        }
+
+        return tileReturned;
+    }
+    public Tile GetAdjacentEasternTile(Tile location)
+    {
+        List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
+        Tile tileReturned = null;
+
+        foreach (Tile tile in allTiles)
+        {
+            if (tile.GridPosition.X == location.GridPosition.X + 1 &&
+                tile.GridPosition.Y == location.GridPosition.Y)
+            {
+                tileReturned = tile;
+                break;
+            }
+        }
+
+        if (tileReturned == null)
+        {
+            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+        }
+
+        return tileReturned;
+    }
+    public Tile GetAdjacentWesternTile(Tile location)
+    {
+        List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
+        Tile tileReturned = null;
+
+        foreach (Tile tile in allTiles)
+        {
+            if (tile.GridPosition.X == location.GridPosition.X - 1 &&
+                tile.GridPosition.Y == location.GridPosition.Y)
+            {
+                tileReturned = tile;
+                break;
+            }
+        }
+
+        if (tileReturned == null)
+        {
+            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+        }
+
+        return tileReturned;
+    }
+    #endregion
+
+    // Get adjacent NE, NW, SE, SW tile logic
+    #region
+    public Tile GetAdjacentNorthEastTile(Tile location)
+    {
+        List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
+        Tile tileReturned = null;
+
+        foreach (Tile tile in allTiles)
+        {
+            if (tile.GridPosition.Y == location.GridPosition.Y - 1 &&
+                tile.GridPosition.X == location.GridPosition.X + 1)
+            {
+                tileReturned = tile;
+                break;
+            }
+        }
+
+        if (tileReturned == null)
+        {
+            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+        }
+
+        return tileReturned;
+    }
+    public Tile GetAdjacentNorthWestTile(Tile location)
+    {
+        List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
+        Tile tileReturned = null;
+
+        foreach (Tile tile in allTiles)
+        {
+            if (tile.GridPosition.Y == location.GridPosition.Y - 1 &&
+                tile.GridPosition.X == location.GridPosition.X - 1)
+            {
+                tileReturned = tile;
+                break;
+            }
+        }
+
+        if (tileReturned == null)
+        {
+            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+        }
+
+        return tileReturned;
+    }
+    public Tile GetAdjacentSouthEastTile(Tile location)
+    {
+        List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
+        Tile tileReturned = null;
+
+        foreach (Tile tile in allTiles)
+        {
+            if (tile.GridPosition.Y == location.GridPosition.Y + 1 &&
+                tile.GridPosition.X == location.GridPosition.X + 1)
+            {
+                tileReturned = tile;
+                break;
+            }
+        }
+
+        if (tileReturned == null)
+        {
+            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+        }
+
+        return tileReturned;
+    }
+    public Tile GetAdjacentSouthWestTile(Tile location)
+    {
+        List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
+        Tile tileReturned = null;
+
+        foreach (Tile tile in allTiles)
+        {
+            if (tile.GridPosition.Y == location.GridPosition.Y + 1 &&
+                tile.GridPosition.X == location.GridPosition.X - 1)
+            {
+                tileReturned = tile;
+                break;
+            }
+        }
+
+        if (tileReturned == null)
+        {
+            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+        }
+
+        return tileReturned;
+    }
+    #endregion
 
 }

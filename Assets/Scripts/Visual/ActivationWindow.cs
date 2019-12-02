@@ -9,6 +9,7 @@ public class ActivationWindow : MonoBehaviour
     [Header("Component References")]
     public Image myEntityImage;
     public TextMeshProUGUI rollText;
+    public Slider myHealthBar;
 
     [Header("Properties")]
     public LivingEntity myLivingEntity;

@@ -25,20 +25,19 @@ public class LevelManager : Singleton<LevelManager>
     #region
     public void CreateLevel()
     {
+        // Clear previous level tiles and declare new list
         Tiles = new Dictionary<Point, Tile>();
 
+        // Read level data from text file
         string[] mapData = ReadMapTextAssetData();
 
+        // Set properties for level construction
         mapSize = new Point(mapData[0].ToCharArray().Length, mapData.Length);
-
         int mapX = mapData[0].ToCharArray().Length;
         int mapY = mapData.Length;
+        Vector3 worldStart = new Vector3(0,0,0);
 
-        Vector3 maxTile = Vector3.zero;
-
-        //Vector3 worldStart = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height));
-        Vector3 worldStart = new Vector3( 0,0,0);
-
+        // Create all tiles
         for (int y = 0; y < mapY; y++) // the y positions
         {
             char[] newTiles = mapData[y].ToCharArray();
@@ -47,28 +46,19 @@ public class LevelManager : Singleton<LevelManager>
             {
                 PlaceTile(newTiles[x].ToString(), x,y, worldStart);
             }
-        }
+        }     
 
-        maxTile = Tiles[new Point(mapX - 1, mapY - 1)].transform.position;
-
-        Debug.Log("Tiles currently in existence = " + FindObjectsOfType<Tile>().Length);
-        // create a new combat scene BG GO from prefab
-        // GameObject bg = Instantiate(combatBGPrefab);
-        // bg.transform.position = GetWorldCentreTile().WorldPosition;
-        // position camera on centre tile
-        ToggleLevelBackgroundView(true);
-        //Camera.main.transform.position = new Vector3(GetWorldCentreTile().WorldPosition.x, GetWorldCentreTile().WorldPosition.y, -10);
+        // Turn on level background
+        ToggleLevelBackgroundView(true);      
+        
+        // Move camera to focus on the centre tile
         FindObjectOfType<CameraMovement>().cinemachineCamera.transform.position = new Vector3(GetWorldCentreTile().WorldPosition.x, GetWorldCentreTile().WorldPosition.y + 0.5f, -10);
 
     }
     public void CreateLevelBackground()
     {
         GameObject newLevelBG = Instantiate(PrefabHolder.Instance.LevelBG);
-        currentLevelBG = newLevelBG;
-        // newLevelBG.transform.position = GetWorldCentreTile().WorldPosition;
-        // newLevelBG.transform.position = GetWorldCentreTile().transform.position;
-
-        // TO DO: modifying the z position makes the level BG render behind the level for now, but in future this should be done with sorting order/layer
+        currentLevelBG = newLevelBG;        
         newLevelBG.transform.position = new Vector3(0, -4, 0.001F);
     }
     private void PlaceTile(string tileType, int x, int y, Vector3 worldStart)
@@ -84,7 +74,6 @@ public class LevelManager : Singleton<LevelManager>
     {
         TextAsset bindData = mapTextFiles[UnityEngine.Random.Range(0, mapTextFiles.Count)];
         string data = bindData.text.Replace(Environment.NewLine, string.Empty);
-
         return data.Split('-');
     }
     #endregion
