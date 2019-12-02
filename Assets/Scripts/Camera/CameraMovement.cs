@@ -110,13 +110,13 @@ public class CameraMovement : MonoBehaviour
     #region
     public void HandleZoomInput()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 && cinemachineCamera.m_Lens.OrthographicSize > 1)
         {
             Debug.Log("HandleZoomInput() detected zoom IN input");
             //SetPreferedOrthographicSize(currentOrthoSize - 0.1f);
             cinemachineCamera.m_Lens.OrthographicSize -= 0.1f;
         }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && cinemachineCamera.m_Lens.OrthographicSize < 4f)
         {
             Debug.Log("HandleZoomInput() detected zoom OUT input");
             //SetPreferedOrthographicSize(currentOrthoSize + 0.1f);
@@ -149,10 +149,52 @@ public class CameraMovement : MonoBehaviour
     }
     public void LookAtTarget()
     {
-        if(CameraManager.Instance.currentLookAtTarget != null)
+        if (CameraManager.Instance.currentLookAtTarget != null)
         {
+            
+            bool movingSouth = false;
+            bool movingNorth = false;
+            bool movingEast = false;
+            bool movingWest = false;
+
             Vector3 desiredPosition = CameraManager.Instance.currentLookAtTarget.transform.position + offset;
+            
+            // anticipate which directions the camera will attempt to move in
+            if(desiredPosition.x > cinemachineCamera.transform.position.x)
+            {
+                movingEast = true;
+            }
+            if (desiredPosition.x < cinemachineCamera.transform.position.x)
+            {
+                movingWest = true;
+            }
+            if (desiredPosition.y > cinemachineCamera.transform.position.y)
+            {
+                movingNorth = true;
+            }
+            if (desiredPosition.y < cinemachineCamera.transform.position.y)
+            {
+                movingSouth = true;
+            }
+
+            // Detect and prevent moving camera over the boundary
+            if(
+                (IsGameObjectVisible(northCollider) && movingNorth) ||
+                (IsGameObjectVisible(southCollider) && movingSouth))
+            {
+                desiredPosition = new Vector3(CameraManager.Instance.currentLookAtTarget.transform.position.x, cinemachineCamera.transform.position.y, cinemachineCamera.transform.position.z) + offset;
+            }
+            if (
+                (IsGameObjectVisible(eastCollider) && movingEast) ||
+                (IsGameObjectVisible(westCollider) && movingWest))
+            {
+                desiredPosition = new Vector3(cinemachineCamera.transform.position.x, CameraManager.Instance.currentLookAtTarget.transform.position.y, cinemachineCamera.transform.position.z) + offset;
+            }
+            
+
+            //Vector3 desiredPosition = CameraManager.Instance.currentLookAtTarget.transform.position + offset;
             Vector3 smoothPosition = Vector3.Lerp(cinemachineCamera.transform.position, desiredPosition, smoothSpeed);
+            
             cinemachineCamera.transform.position = smoothPosition;
             if (cinemachineCamera.transform.position == desiredPosition)
             {
