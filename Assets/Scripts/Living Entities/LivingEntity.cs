@@ -983,7 +983,11 @@ public class LivingEntity : MonoBehaviour
     public void SetColor(Color newColor)
     {
         Debug.Log("Setting Entity Color....");
-        myEntityRenderer.Color = new Color(newColor.r, newColor.g, newColor.b, myEntityRenderer.Color.a);
+        if(myEntityRenderer != null)
+        {
+            myEntityRenderer.Color = new Color(newColor.r, newColor.g, newColor.b, myEntityRenderer.Color.a);
+        }
+        
     }
     #endregion
 }
