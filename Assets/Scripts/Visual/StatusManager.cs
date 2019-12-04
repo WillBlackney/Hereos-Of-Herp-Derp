@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class StatusManager : MonoBehaviour
+public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Component + Prefab References")]
     public GameObject statusIconPrefab;
+    public LivingEntity myLivingEntity;
     List<StatusIcon> myStatusIcons = new List<StatusIcon>();
 
     // Add, Update, and Remove Status Icon Logic
@@ -94,5 +96,30 @@ public class StatusManager : MonoBehaviour
 
         return iconReturned;
     }
+    public void SetPanelViewState(bool onOrOff)
+    {
+        gameObject.SetActive(onOrOff);
+    }
+    private void Start()
+    {
+        myLivingEntity = GetComponentInParent<LivingEntity>();
+    }
     #endregion
+
+    // Mouse + Input Events
+    #region
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("Status Manager mouse over detected");
+        myLivingEntity.mouseIsOverStatusIconPanel = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        myLivingEntity.mouseIsOverStatusIconPanel = false;
+        //SetPanelViewState(false);
+    }
+
+    #endregion
+
 }

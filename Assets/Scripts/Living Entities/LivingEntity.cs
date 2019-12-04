@@ -10,7 +10,8 @@ public class LivingEntity : MonoBehaviour
     
     [Header("Component References")]
     public Slider myHealthBar;
-    public CanvasGroup myCG;
+    //public CanvasGroup myCG;
+    public MouseOverObject myMouseObject;
     public GameObject myWorldSpaceCanvasParent;
     public GameObject mySpriteParent;
     public GameObject myModelParent;
@@ -65,6 +66,8 @@ public class LivingEntity : MonoBehaviour
 
     [Header("Miscealaneous Properties ")]
     public float speed;
+    public float smTimer;
+    public bool mouseIsOverStatusIconPanel;
     public int currentInitiativeRoll;
     public int moveActionsTakenThisTurn;
     public int timesAttackedThisTurn;
@@ -73,7 +76,6 @@ public class LivingEntity : MonoBehaviour
     public bool spriteImportedFacingRight;
     public Color normalColour;
     public Color highlightColour;
-
 
     // Initialization / Setup
     #region
@@ -84,7 +86,7 @@ public class LivingEntity : MonoBehaviour
         Debug.Log("Calling LivingEntity.InitializeSetup...");
         // Get component references        
         mySpriteRenderer = GetComponent<SpriteRenderer>();
-        myCG = GetComponent<CanvasGroup>();
+        //myCG = GetComponent<CanvasGroup>();
         if (myAnimator == null)
         {
             myAnimator = GetComponent<Animator>();
@@ -121,7 +123,9 @@ public class LivingEntity : MonoBehaviour
         }
         
         myEntityRenderer = GetComponentInChildren<EntityRenderer>();
-        
+        myMouseObject = GetComponentInChildren<MouseOverObject>();
+        myStatusManager.SetPanelViewState(true);
+
         // Set up all base properties and values (damage, mobility etc)
         SetBaseProperties();
     }    
@@ -152,6 +156,7 @@ public class LivingEntity : MonoBehaviour
         //highlightColour = new Color(255, 255, 255);
         SetColor(normalColour);
     }
+    
     #endregion    
 
     // Stat and property modifiers
@@ -974,12 +979,47 @@ public class LivingEntity : MonoBehaviour
     public virtual void OnMouseEnter()
     {
         SetColor(highlightColour);
+        myStatusManager.SetPanelViewState(true);
     }
     public void OnMouseExit()
     {
         SetColor(normalColour);
+        /*
+        if(myMouseObject.mousedOver == false)
+        {
+            myStatusManager.SetPanelViewState(false);
+        }
+        */
+        //myStatusManager.SetPanelViewState(false);
+
     }
 
+    public void OnMouseOver()
+    {
+        SetStatusManagerTimer(0.5f);
+    }
+
+    public void SetStatusManagerTimer(float seconds)
+    {
+        smTimer = seconds;
+    }
+    public void CountDownStatusManagerTimer()
+    {        
+        if(smTimer > 0)
+        {
+            smTimer -= 1 * Time.deltaTime;
+            Debug.Log("Countdown timer is at:" + smTimer.ToString());
+            if (smTimer < 0)
+            {
+                smTimer = 0;
+                if (!mouseIsOverStatusIconPanel)
+                {
+                    //myStatusManager.SetPanelViewState(false);
+                }
+            }
+        }      
+        
+    }
     public void SetColor(Color newColor)
     {
         Debug.Log("Setting Entity Color....");
