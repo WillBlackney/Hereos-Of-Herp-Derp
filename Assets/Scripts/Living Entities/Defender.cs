@@ -243,7 +243,8 @@ public class Defender : LivingEntity
         Defender selectedDefender = DefenderManager.Instance.selectedDefender;
 
         // this statment prevents the user from clicking through UI elements and selecting a defender
-        if (!EventSystem.current.IsPointerOverGameObject() == false)
+        if (!EventSystem.current.IsPointerOverGameObject() == false &&
+             ActivationManager.Instance.panelIsMousedOver == false)
         {
             Debug.Log("Clicked on the UI, returning...");
             return;
@@ -289,13 +290,11 @@ public class Defender : LivingEntity
         }
         else if (selectedDefender != null && selectedDefender.awaitingHolyFireOrder)
         {
-            //selectedDefender.awaitingHolyFireOrder = false;
             selectedDefender.StartHolyFireProcess(this);
             return;
         }
         else if (selectedDefender != null && selectedDefender.awaitingPrimalRageOrder)
         {
-            //selectedDefender.awaitingHolyFireOrder = false;
             selectedDefender.StartPrimalRageProcess(this);
             return;
         }
@@ -318,11 +317,15 @@ public class Defender : LivingEntity
         else
         {
             Debug.Log("Defender selection attempt detected");
+            SelectDefender();
+            /*
+            Debug.Log("Defender selection attempt detected");
             if (ActivationManager.Instance.IsEntityActivated(this))
             {
                 SelectDefender();
             }
-            
+            */
+
         }
 
     }
@@ -385,6 +388,13 @@ public class Defender : LivingEntity
     #region
     public void OnAbilityButtonClicked(string abilityName)
     {
+        // Prevent player from using character abilities when it is not their turn
+        if(ActivationManager.Instance.IsEntityActivated(this) == false)
+        {
+            // to do in future: warning message to player here "Not this characters activation!"
+            return;
+        }
+
         // Clear all previous view settings and defender orders
         bool enableTileHover = true;
         LevelManager.Instance.UnhighlightAllTiles();

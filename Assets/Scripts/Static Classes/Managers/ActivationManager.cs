@@ -6,22 +6,31 @@ using System.Linq;
 public class ActivationManager : Singleton<ActivationManager>
 {
     [Header("Component References")]
+    public GameObject activationSlotContentParent;
     public GameObject activationWindowContentParent;
+    public GameObject windowStartPos;
     public GameObject activationPanelParent;
     public GameObject panelArrow;
+    public GameObject panelSlotPrefab;
 
     [Header("Properties")]
     public List<LivingEntity> activationOrder;
+    public List<GameObject> panelSlots;
     public LivingEntity entityActivated;
+    public bool panelIsMousedOver;
     
 
     // Setup + Initializaton
     #region   
     public void CreateActivationWindow(LivingEntity entity)
     {
+        GameObject newSlot = Instantiate(panelSlotPrefab, activationSlotContentParent.transform);
+        panelSlots.Add(newSlot);
+        //GameObject newWindow = Instantiate(PrefabHolder.Instance.activationWindowPrefab, activationWindowContentParent.transform);
         GameObject newWindow = Instantiate(PrefabHolder.Instance.activationWindowPrefab, activationWindowContentParent.transform);
+        newWindow.transform.position = windowStartPos.transform.position;       
         ActivationWindow newWindowScript = newWindow.GetComponent<ActivationWindow>();
-        newWindowScript.InitializeSetup(entity);
+        newWindowScript.InitializeSetup(entity);        
         activationOrder.Add(entity);
     }
     #endregion
@@ -66,7 +75,7 @@ public class ActivationManager : Singleton<ActivationManager>
     public void ClearAllWindowsFromActivationPanel()
     {
         activationOrder.Clear();
-        foreach (Transform child in activationWindowContentParent.transform)
+        foreach (Transform child in activationSlotContentParent.transform)
         {
             Destroy(child.gameObject);
         }
@@ -115,7 +124,7 @@ public class ActivationManager : Singleton<ActivationManager>
         activationOrder = sortedList;
 
         // Move activation windows to their new positions
-        ArrangeActivationWindowPositions();
+        //ArrangeActivationWindowPositions();
         yield return new WaitForSeconds(1f);
 
         // Disable roll number text components
@@ -146,7 +155,7 @@ public class ActivationManager : Singleton<ActivationManager>
     }
     public IEnumerator OnEndTurnButtonClickedCoroutine()
     {
-        UIManager.Instance.DisableEndTurnButton();
+        UIManager.Instance.DisableEndTurnButtonInteractions();
         Debug.Log("OnEndTurnButtonClickedCoroutine() started...");        
         // endplayer turn will trigger all player end turn effects, BEFORE switching to enemy turn
         Action endTurnEvent = EndEntityActivation(entityActivated);
@@ -217,12 +226,16 @@ public class ActivationManager : Singleton<ActivationManager>
 
         if (entity.defender)
         {
-            UIManager.Instance.EnableEndTurnButton();
+            UIManager.Instance.SetEndTurnButtonText("End Activation");
+            UIManager.Instance.EnableEndTurnButtonView();
+            UIManager.Instance.EnableEndTurnButtonInteractions();
             entity.defender.SelectDefender();
         }
         else if (entity.enemy)
         {
-            UIManager.Instance.DisableEndTurnButton();
+            UIManager.Instance.EnableEndTurnButtonView();
+            UIManager.Instance.SetEndTurnButtonText("Enemy Activation...");
+            UIManager.Instance.DisableEndTurnButtonInteractions();
         }
 
         entity.myOnActivationEndEffectsFinished = false;

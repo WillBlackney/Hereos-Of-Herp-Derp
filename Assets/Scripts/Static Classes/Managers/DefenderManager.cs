@@ -25,6 +25,18 @@ public class DefenderManager : Singleton<DefenderManager>
         }
 
         selectedDefender = defender;
+        if (ActivationManager.Instance.IsEntityActivated(selectedDefender) == false)
+        {
+            UIManager.Instance.SetEndTurnButtonText("Not Your Activation!");
+            UIManager.Instance.SetEndTurnButtonSprite(UIManager.Instance.EndTurnButtonDisabledSprite);
+            UIManager.Instance.DisableEndTurnButtonInteractions();
+        }
+        else if (ActivationManager.Instance.IsEntityActivated(selectedDefender))
+        {
+            UIManager.Instance.SetEndTurnButtonText("End Activation");
+            UIManager.Instance.SetEndTurnButtonSprite(UIManager.Instance.EndTurnButtonEnabledSprite);
+            UIManager.Instance.EnableEndTurnButtonInteractions();
+        }
         CameraManager.Instance.SetCameraLookAtTarget(selectedDefender.gameObject);
         Debug.Log("Selected defender: " + selectedDefender.gameObject.name);
     }

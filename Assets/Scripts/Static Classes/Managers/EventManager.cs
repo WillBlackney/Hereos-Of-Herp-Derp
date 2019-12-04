@@ -299,7 +299,7 @@ public class EventManager : Singleton<EventManager>
         // Show combat end visual events before loot reward screen appears
         preLootScreenEventFinished = false;
         // Disable end turn button
-        UIManager.Instance.DisableEndTurnButton();
+        UIManager.Instance.DisableEndTurnButtonView();
         // Unselect defender to hide ability bar UI, prevent null behaviors
         DefenderManager.Instance.ClearSelectedDefender();
         // Hide ability info panel
@@ -327,7 +327,7 @@ public class EventManager : Singleton<EventManager>
         // Show combat end visual events before loot reward screen appears
         preLootScreenEventFinished = false;
         // Disable end turn button
-        UIManager.Instance.DisableEndTurnButton();
+        UIManager.Instance.DisableEndTurnButtonView();
         // Unselect defender to hide ability bar UI, prevent null behaviors
         DefenderManager.Instance.ClearSelectedDefender();
         // Hide ability info panel

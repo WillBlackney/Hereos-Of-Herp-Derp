@@ -386,10 +386,12 @@ public class LivingEntity : MonoBehaviour
         }
 
         DisableWorldSpaceCanvas();
+        Action destroyWindowAction = myActivationWindow.DestroyWindow();        
         PlayDeathAnimation();
         yield return new WaitUntil(() => MyDeathAnimationFinished() == true);
-
-        
+        myAnimator.enabled = false;
+        yield return new WaitUntil(() => destroyWindowAction.ActionResolved() == true);
+        //ActivationManager.Instance.activationOrder.Remove(this);
 
         // Check all enemies are dead, end combat event
         if (enemy)
@@ -416,11 +418,12 @@ public class LivingEntity : MonoBehaviour
 
         // end turn and activation triggers just incase        
         myOnActivationEndEffectsFinished = true;
-        ActivationManager.Instance.activationOrder.Remove(this);
-        Destroy(myActivationWindow.gameObject);
+        
+        
+        
 
         // Update panel arrow position
-        if(ActivationManager.Instance.entityActivated != this)
+        if (ActivationManager.Instance.entityActivated != this)
         {
             Debug.Log("Updating Panel Arrow Pos");
             ActivationManager.Instance.MoveArrowTowardsTargetPanelPos(ActivationManager.Instance.entityActivated.myActivationWindow, 0.5f);

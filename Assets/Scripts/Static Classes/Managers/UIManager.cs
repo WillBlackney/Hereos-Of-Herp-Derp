@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : Singleton<UIManager>
 {
-    [Header("UI Component References")]
-    public Button EndTurnButton;
+    [Header("UI Component References")]    
     public GameObject GameOverCanvas;
     public GameObject CharacterRoster;
     public GameObject worldMap;
     public GameObject rewardScreen;
     public GameObject Inventory;
+
+    [Header("End Turn Button Component References")]
+    public Button EndTurnButton;
+    public Image EndTurnButtonBGImage;
+    public TextMeshProUGUI EndTurnButtonText;
+    public Sprite EndTurnButtonDisabledSprite;
+    public Sprite EndTurnButtonEnabledSprite;
+
 
     // Mouse + Click Events
     #region
@@ -103,13 +111,31 @@ public class UIManager : Singleton<UIManager>
         CharacterRoster.SetActive(false);
         CampSiteManager.Instance.awaitingTrainChoice = false;
     }
-    public void DisableEndTurnButton()
+    public void DisableEndTurnButtonInteractions()
+    {
+        EndTurnButton.interactable = false;
+        SetEndTurnButtonSprite(EndTurnButtonDisabledSprite);
+    }
+    public void EnableEndTurnButtonInteractions()
+    {        
+        EndTurnButton.interactable = true;
+        SetEndTurnButtonSprite(EndTurnButtonEnabledSprite);
+    }
+    public void DisableEndTurnButtonView()
     {
         EndTurnButton.gameObject.SetActive(false);
     }
-    public void EnableEndTurnButton()
+    public void EnableEndTurnButtonView()
     {
         EndTurnButton.gameObject.SetActive(true);
+    }
+    public void SetEndTurnButtonSprite(Sprite newSprite)
+    {
+        EndTurnButtonBGImage.sprite = newSprite;
+    }
+    public void SetEndTurnButtonText(string newText)
+    {
+        EndTurnButtonText.text = newText;
     }
     public void EnableGameOverCanvas()
     {

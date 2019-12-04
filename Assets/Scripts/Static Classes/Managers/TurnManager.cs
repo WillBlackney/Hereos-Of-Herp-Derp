@@ -105,7 +105,7 @@ public class TurnManager : Singleton<TurnManager>
     {
         // disable defender spell bars to stop player doing stuff during enemy turn
         DefenderManager.Instance.ClearSelectedDefender();
-        UIManager.Instance.DisableEndTurnButton();
+        UIManager.Instance.DisableEndTurnButtonInteractions();
         currentlyPlayersTurn = false;
         StartCoroutine(EndPlayerTurnCoroutine());
         // disable en turn button
