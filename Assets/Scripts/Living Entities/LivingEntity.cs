@@ -185,7 +185,8 @@ public class LivingEntity : MonoBehaviour
 
         if(APGainedOrLost > 0 && showVFX == true)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "AP +" + APGainedOrLost, false, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "AP +" + APGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
         }
     }
     public virtual void ModifyCurrentHealth(int healthGainedOrLost)
@@ -226,7 +227,8 @@ public class LivingEntity : MonoBehaviour
        
         if (strengthGainedOrLost > 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strength +" + strengthGainedOrLost, false, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strength +" + strengthGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
         }
 
         if (strengthGainedOrLost < 0)
@@ -250,12 +252,13 @@ public class LivingEntity : MonoBehaviour
 
         if (wisdomGainedOrLost > 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Wisdom +" + wisdomGainedOrLost, false, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Wisdom +" + wisdomGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
         }
 
         if (wisdomGainedOrLost < 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Wisdom " + wisdomGainedOrLost, false, "Red"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Wisdom " + wisdomGainedOrLost, false));
         }
 
     }
@@ -270,6 +273,7 @@ public class LivingEntity : MonoBehaviour
         if (dexterityGainedOrLost > 0)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dexterity +" + dexterityGainedOrLost, false, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
         }
 
         if (dexterityGainedOrLost < 0)
@@ -293,6 +297,7 @@ public class LivingEntity : MonoBehaviour
         if (energyGainedOrLost > 0)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Energy +" + energyGainedOrLost, false, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
         }
 
         if (energyGainedOrLost < 0)
@@ -303,10 +308,12 @@ public class LivingEntity : MonoBehaviour
     }    
     public virtual void ModifyCurrentBlock(int blockGainedOrLost)
     {
+
         // if block is being gained
         if(blockGainedOrLost >= 0)
         {
-            currentBlock += blockGainedOrLost + currentDexterity;
+            blockGainedOrLost += currentDexterity;
+            currentBlock += blockGainedOrLost;
         }
         // else if block is being reduced
         else if(blockGainedOrLost < 0)
@@ -316,7 +323,8 @@ public class LivingEntity : MonoBehaviour
 
         if (blockGainedOrLost > 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Block +" + (blockGainedOrLost + currentDexterity).ToString(), false, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.CreateGainBlockEffect(transform.position, blockGainedOrLost));          
+
         }
 
         if (currentBlock <= 0)
@@ -997,44 +1005,10 @@ public class LivingEntity : MonoBehaviour
         if (!inDeathProcess)
         {
             myActivationWindow.myGlowOutline.SetActive(false);
-        }
-        
-        /*
-        if(myMouseObject.mousedOver == false)
-        {
-            myStatusManager.SetPanelViewState(false);
-        }
-        */
-        //myStatusManager.SetPanelViewState(false);
+        }       
 
     }
 
-    public void OnMouseOver()
-    {
-        SetStatusManagerTimer(0.5f);
-    }
-
-    public void SetStatusManagerTimer(float seconds)
-    {
-        smTimer = seconds;
-    }
-    public void CountDownStatusManagerTimer()
-    {        
-        if(smTimer > 0)
-        {
-            smTimer -= 1 * Time.deltaTime;
-            Debug.Log("Countdown timer is at:" + smTimer.ToString());
-            if (smTimer < 0)
-            {
-                smTimer = 0;
-                if (!mouseIsOverStatusIconPanel)
-                {
-                    //myStatusManager.SetPanelViewState(false);
-                }
-            }
-        }      
-        
-    }
     public void SetColor(Color newColor)
     {
         Debug.Log("Setting Entity Color....");

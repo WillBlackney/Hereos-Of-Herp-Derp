@@ -394,6 +394,7 @@ public class PassiveManager : MonoBehaviour
         preparationStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
         StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Preparation", false, "Blue"));
+        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
     }
     public void ModifyStealth()
     {
@@ -707,6 +708,7 @@ public class PassiveManager : MonoBehaviour
         if(stacks > 0)
         {
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Rune + " + runeStacks.ToString(), false, "Blue");
+            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
         }
         else if(stacks < 0)
         {

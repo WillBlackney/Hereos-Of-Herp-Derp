@@ -10,6 +10,8 @@ public class VisualEffectManager : MonoBehaviour
     public GameObject StatusEffectPrefab;
     public GameObject ImpactEffectPrefab;
     public GameObject MeleeAttackEffectPrefab;
+    public GameObject GainBlockEffectPrefab;
+    public GameObject BuffEffectPrefab;
 
     [Header("Properties")]
     public List<DamageEffect> dfxQueue = new List<DamageEffect>();
@@ -34,23 +36,7 @@ public class VisualEffectManager : MonoBehaviour
     {
         GameObject damageEffect = Instantiate(DamageEffectPrefab, location, Quaternion.identity);
         damageEffect.GetComponent<DamageEffect>().InitializeSetup(damageAmount);
-        yield return null;
-        /*
-        if (playFXInstantly == true)
-        {
-            queueCount++;
-            GameObject damageEffect = Instantiate(DamageEffectPrefab, location, Quaternion.identity);
-            damageEffect.GetComponent<DamageEffect>().InitializeSetup(damageAmount);
-        }
-
-        else
-        {
-            yield return new WaitForSeconds(queueCount * timeBetweenEffectsInSeconds);
-            queueCount++;
-            GameObject damageEffect = Instantiate(DamageEffectPrefab, location, Quaternion.identity);
-            damageEffect.GetComponent<DamageEffect>().InitializeSetup(damageAmount);
-        }
-        */
+        yield return null;       
 
     }
     public IEnumerator CreateStatusEffect(Vector3 location, string statusEffectName, bool playFXInstantly, string color = "White")
@@ -132,7 +118,19 @@ public class VisualEffectManager : MonoBehaviour
         newImpactVFX.GetComponent<MeleeAttackEffect>().InitializeSetup();
         yield return null;
     }
-   
+    public IEnumerator CreateGainBlockEffect(Vector3 location, int blockGained)
+    {
+        GameObject newImpactVFX = Instantiate(GainBlockEffectPrefab, location, Quaternion.identity);
+        newImpactVFX.GetComponent<GainArmorEffect>().InitializeSetup(location, blockGained);
+        yield return null;
+    }
+    public IEnumerator CreateBuffEffect(Vector3 location)
+    {
+        GameObject newImpactVFX = Instantiate(BuffEffectPrefab, location, Quaternion.identity);
+        newImpactVFX.GetComponent<BuffEffect>().InitializeSetup(location);
+        yield return null;
+    }
+
     #endregion
 
 
