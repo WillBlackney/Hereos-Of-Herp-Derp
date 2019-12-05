@@ -61,7 +61,7 @@ public class ActivationManager : Singleton<ActivationManager>
         TurnManager.Instance.currentTurnCount++;
 
         // hide arrow and move it to the position 0
-        MoveArrowTowardsTargetPanelPos(activationOrder[0].myActivationWindow,0,1000);
+        //MoveArrowTowardsTargetPanelPos(activationOrder[0].myActivationWindow,0,1000);
 
         Action rolls = CalculateActivationOrder();
         yield return new WaitUntil(() => rolls.ActionResolved() == true);
@@ -84,6 +84,10 @@ public class ActivationManager : Singleton<ActivationManager>
 
     // Logic + Calculations
     #region
+    private void Update()
+    {
+        MoveArrowTowardsEntityActivatedWindow();
+    }
     public int CalculateInitiativeRoll(LivingEntity entity)
     {
         return entity.currentInitiative + Random.Range(1, 4);
@@ -135,14 +139,7 @@ public class ActivationManager : Singleton<ActivationManager>
 
         panelArrow.SetActive(true);
         action.actionResolved = true;        
-    }
-    public void ArrangeActivationWindowPositions()
-    {
-        foreach(LivingEntity entity in activationOrder)
-        {
-            entity.myActivationWindow.gameObject.transform.SetSiblingIndex(activationOrder.IndexOf(entity));            
-        }
-    }
+    }  
    
     #endregion 
 
@@ -183,7 +180,6 @@ public class ActivationManager : Singleton<ActivationManager>
             yield return new WaitForEndOfFrame();
         }
     }
-
     public Action MoveArrowTowardsTargetPanelPos(ActivationWindow window, float moveDelay = 0f, float arrowMoveSpeed = 400)
     {
         Debug.Log("ActivationManager.MoveArrowTowardsTargetPanelPos() called....");
@@ -202,6 +198,34 @@ public class ActivationManager : Singleton<ActivationManager>
             yield return new WaitForEndOfFrame();
         }
         action.actionResolved = true;
+    }
+
+    public void MoveArrowTowardsEntityActivatedWindow()
+    {
+        int currentActivationIndex = 0;
+
+        if(activationOrder.Count > 0)
+        {
+            for (int i = 0; i < activationOrder.Count; i++)
+            {
+                //Check if GameObject is in the List
+                if (activationOrder[i] == entityActivated)
+                {
+                    //It is. Return the current index
+                    currentActivationIndex = i;
+                    break;
+                }
+            }
+
+            if (panelSlots[currentActivationIndex] != null && panelSlots.Count > 0)
+            {
+                Vector3 destination = new Vector2(panelSlots[currentActivationIndex].transform.position.x, panelArrow.transform.position.y);
+                panelArrow.transform.position = Vector2.MoveTowards(panelArrow.transform.position, destination, 400 * Time.deltaTime);
+            }
+        }
+       
+
+
     }
     public void SetActivationWindowViewState(bool onOrOff)
     {
@@ -222,7 +246,7 @@ public class ActivationManager : Singleton<ActivationManager>
         Debug.Log("Activating entity: " + entity.name);
         entityActivated = entity;
         CameraManager.Instance.SetCameraLookAtTarget(entity.gameObject);
-        MoveArrowTowardsTargetPanelPos(entity.myActivationWindow);
+        //MoveArrowTowardsTargetPanelPos(entity.myActivationWindow);
 
         if (entity.defender)
         {

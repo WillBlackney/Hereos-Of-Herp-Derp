@@ -389,9 +389,11 @@ public class LivingEntity : MonoBehaviour
         Action destroyWindowAction = myActivationWindow.DestroyWindow();        
         PlayDeathAnimation();
         yield return new WaitUntil(() => MyDeathAnimationFinished() == true);
+        Debug.Log("LivingEntity.HandleDeath() finished waiting for death anim to finish");
         myAnimator.enabled = false;
         yield return new WaitUntil(() => destroyWindowAction.ActionResolved() == true);
-        //ActivationManager.Instance.activationOrder.Remove(this);
+        Debug.Log("LivingEntity.HandleDeath() finished waiting for activation window to be destroyed");
+
 
         // Check all enemies are dead, end combat event
         if (enemy)
@@ -426,7 +428,7 @@ public class LivingEntity : MonoBehaviour
         if (ActivationManager.Instance.entityActivated != this)
         {
             Debug.Log("Updating Panel Arrow Pos");
-            ActivationManager.Instance.MoveArrowTowardsTargetPanelPos(ActivationManager.Instance.entityActivated.myActivationWindow, 0.5f);
+            //ActivationManager.Instance.MoveArrowTowardsTargetPanelPos(ActivationManager.Instance.entityActivated.myActivationWindow, 0.5f);
         }        
         Destroy(gameObject,0.1f);
     }
@@ -449,7 +451,7 @@ public class LivingEntity : MonoBehaviour
     public void SetDeathAnimAsFinished()
     {
         myDeathAnimationFinished = true;
-        mySpriteRenderer.enabled = false;
+        //mySpriteRenderer.enabled = false;
     }
     public void DisableWorldSpaceCanvas()
     {
@@ -983,10 +985,20 @@ public class LivingEntity : MonoBehaviour
     {
         SetColor(highlightColour);
         myStatusManager.SetPanelViewState(true);
+        if (!inDeathProcess)
+        {
+            myActivationWindow.myGlowOutline.SetActive(true);
+        }
+        
     }
     public void OnMouseExit()
     {
         SetColor(normalColour);
+        if (!inDeathProcess)
+        {
+            myActivationWindow.myGlowOutline.SetActive(false);
+        }
+        
         /*
         if(myMouseObject.mousedOver == false)
         {

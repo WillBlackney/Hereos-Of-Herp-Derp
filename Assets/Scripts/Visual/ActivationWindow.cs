@@ -14,10 +14,10 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public GameObject myGlowOutline;
     public CanvasGroup myCanvasGroup;
 
-
     [Header("Properties")]
     public LivingEntity myLivingEntity;
     public bool animateNumberText;
+    public bool dontFollowSlot;
     public void InitializeSetup(LivingEntity entity)
     {
         myLivingEntity = entity;
@@ -49,7 +49,6 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
         }
         
     }
-
     public Action DestroyWindow()
     {
         Action action = new Action();
@@ -68,26 +67,32 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 ActivationManager.Instance.panelSlots.Remove(slotDestroyed);                
                 Destroy(slotDestroyed);
                 Destroy(gameObject);
+                action.actionResolved = true;
             }
             yield return new WaitForEndOfFrame();
         }        
-        action.actionResolved = true;
+        
 
     }
     public void MoveTowardsSlotPosition(GameObject slot)
     {
-        transform.position = Vector2.MoveTowards(transform.position, slot.transform.position, 400 * Time.deltaTime);
+        //Vector3 targetPos = new Vector3(slot.transform.position.x, slot.transform.position.y - 80, slot.transform.position.z);
+        if (!dontFollowSlot)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, slot.transform.position, 400 * Time.deltaTime);
+        }
+        
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("ActivationWindow.OnPointerClick() running....");
+        Debug.Log("ActivationWindow.OnPointerClick() called...");
         // Clicking on a character's activation window performs the same logic as clicking on the character itself
-        if(myLivingEntity.GetComponent<Defender>())
+        if (myLivingEntity.GetComponent<Defender>())
         {
             myLivingEntity.defender.OnMouseDown();
         }
-        else if(myLivingEntity.GetComponent<Enemy>())
+        else if (myLivingEntity.GetComponent<Enemy>())
         {
             myLivingEntity.enemy.OnMouseDown();
         }
@@ -95,21 +100,27 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("ActivationWindow.OnPointerEnter() called...");
         ActivationManager.Instance.panelIsMousedOver = true;
         myGlowOutline.SetActive(true);
-        if(myLivingEntity != null)
+        if (myLivingEntity != null)
         {
             myLivingEntity.SetColor(myLivingEntity.highlightColour);
-        }        
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        Debug.Log("ActivationWindow.OnMouseEnter called...");
         ActivationManager.Instance.panelIsMousedOver = false;
         myGlowOutline.SetActive(false);
-        if(myLivingEntity != null)
+        if (myLivingEntity != null)
         {
             myLivingEntity.SetColor(myLivingEntity.normalColour);
-        }        
+        }
+    }    
+    public void ButtonTest()
+    {
+        Debug.Log("BUTTON CLICK DETECTED");
     }
 }

@@ -133,6 +133,18 @@ public class CombatLogic : MonoBehaviour
     {
         int adjustedDamageValue = damageAmount;
 
+        // play VFX
+
+        if (attackType != AbilityDataSO.AttackType.None)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateImpactEffect(victim.transform.position));
+            if (attackType == AbilityDataSO.AttackType.Melee)
+            {
+                StartCoroutine(VisualEffectManager.Instance.CreateMeleeAttackEffect(victim.transform.position));
+            }
+
+        }
+
         if (damageType != AbilityDataSO.DamageType.Poison)
         {
             adjustedDamageValue = CalculateDamage(damageAmount, victim, attacker, damageType, attackType, abilityUsed);
@@ -187,7 +199,18 @@ public class CombatLogic : MonoBehaviour
         if (adjustedDamageValue > 0)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateDamageEffect(victim.transform.position, adjustedDamageValue, playVFXInstantly));
-            ImpactVFXManager.Instance.CreateImpactVFX(victim.tile.WorldPosition);
+            
+            /*
+            if (attackType != AbilityDataSO.AttackType.None)
+            {
+                StartCoroutine(VisualEffectManager.Instance.CreateImpactEffect(victim.transform.position));
+                if (attackType == AbilityDataSO.AttackType.Melee)
+                {
+                    StartCoroutine(VisualEffectManager.Instance.CreateMeleeAttackEffect(victim.transform.position));
+                }
+                    
+            }
+            */
             yield return new WaitForSeconds(0.3f);
         }
 

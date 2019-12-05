@@ -351,7 +351,6 @@ Transform:
   - {fileID: 761450629}
   - {fileID: 1436726062}
   - {fileID: 2144904916}
-  - {fileID: 1386425396}
   - {fileID: 1741962675}
   - {fileID: 1042938415}
   - {fileID: 2004752179}
@@ -624,7 +623,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &159590895
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1196,7 +1195,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 125540712}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &261390487
 MonoBehaviour:
@@ -2360,9 +2359,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 611378929}
-  - {fileID: 362819728}
   - {fileID: 1499445845}
+  - {fileID: 362819728}
+  - {fileID: 611378929}
   - {fileID: 159590895}
   m_Father: {fileID: 242529422}
   m_RootOrder: 0
@@ -3032,7 +3031,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 524527859}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3883,11 +3882,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ec8866c3287e64f8aa72980139858f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerPrefab: {fileID: 6409797628594634772, guid: 151df5c4f6572c44998a35df0ad41e6f,
-    type: 3}
-  sprite: {fileID: 21300000, guid: 1c56d2d405150bd43b2a19b1da0641cf, type: 3}
-  goldPrice: 2
-  priceText: {fileID: 1216106575}
 --- !u!114 &849814235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4122,7 +4116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02747736401a158469ee7b6112314bdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldText: {fileID: 360147576}
 --- !u!4 &908181797
 Transform:
   m_ObjectHideFlags: 0
@@ -4459,7 +4452,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 125540712}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1042938416
 MonoBehaviour:
@@ -5124,11 +5117,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ec8866c3287e64f8aa72980139858f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerPrefab: {fileID: 4061598805563127624, guid: 6fd9952882ef7ce4f899ee4c05bfc5cb,
-    type: 3}
-  sprite: {fileID: 21300000, guid: 1c56d2d405150bd43b2a19b1da0641cf, type: 3}
-  goldPrice: 2
-  priceText: {fileID: 174840344}
 --- !u!114 &1230233809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5700,7 +5688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6065,61 +6053,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ec8866c3287e64f8aa72980139858f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerPrefab: {fileID: 6927301199644507142, guid: ffbc29eea846820489b872bdea9e5f3b,
-    type: 3}
-  sprite: {fileID: 21300000, guid: 1c56d2d405150bd43b2a19b1da0641cf, type: 3}
-  goldPrice: 2
-  priceText: {fileID: 836065060}
---- !u!1 &1386425395
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1386425396}
-  - component: {fileID: 1386425397}
-  m_Layer: 0
-  m_Name: Impact VFX Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1386425396
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1386425395}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 125540712}
-  m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1386425397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1386425395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08c3047394414b049991ab44efa06793, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  impactPrefabOne: {fileID: 4690478903707493205, guid: af43cf0aca671bc4cb0a7c76efa83f58,
-    type: 3}
-  randomImpactSprites:
-  - {fileID: -3209329921882447785, guid: 11c158bb08ee21f4689db0588b97438b, type: 3}
-  - {fileID: 6745237032385147025, guid: 11c158bb08ee21f4689db0588b97438b, type: 3}
-  - {fileID: 2075690089275449717, guid: 11c158bb08ee21f4689db0588b97438b, type: 3}
-  - {fileID: 3387021108039545288, guid: 11c158bb08ee21f4689db0588b97438b, type: 3}
 --- !u!114 &1402826722 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5148551053851706384, guid: ea7737f515fe6814eb3df41cc0794647,
@@ -6411,12 +6344,12 @@ RectTransform:
   m_Children:
   - {fileID: 1315836595}
   m_Father: {fileID: 524527859}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 125.2}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1508365661
 GameObject:
@@ -6903,6 +6836,10 @@ MonoBehaviour:
     type: 3}
   StatusEffectPrefab: {fileID: 5797780097810648835, guid: 6830b51eb051664429c60f70a0a2b6d9,
     type: 3}
+  ImpactEffectPrefab: {fileID: 5459196617035357197, guid: c6ab9898cb4507945b5b2cb47eca12dc,
+    type: 3}
+  MeleeAttackEffectPrefab: {fileID: 7111592337171538870, guid: fc78381c0368c204b8e96b6e2017502b,
+    type: 3}
   dfxQueue: []
   timeBetweenEffectsInSeconds: 0.5
   queueCount: 0
@@ -7165,11 +7102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ec8866c3287e64f8aa72980139858f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerPrefab: {fileID: 3559319376487774995, guid: 14a6101350844a84b9c05a65d602dc93,
-    type: 3}
-  sprite: {fileID: 21300000, guid: 1c56d2d405150bd43b2a19b1da0641cf, type: 3}
-  goldPrice: 2
-  priceText: {fileID: 597586715}
 --- !u!114 &1726674858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7304,7 +7236,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 125540712}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1741962676
 MonoBehaviour:
@@ -8677,7 +8609,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 125540712}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2004752180
 MonoBehaviour:
