@@ -12,6 +12,7 @@ public class VisualEffectManager : MonoBehaviour
     public GameObject MeleeAttackEffectPrefab;
     public GameObject GainBlockEffectPrefab;
     public GameObject BuffEffectPrefab;
+    public GameObject DebuffEffectPrefab;
 
     [Header("Properties")]
     public List<DamageEffect> dfxQueue = new List<DamageEffect>();
@@ -125,6 +126,12 @@ public class VisualEffectManager : MonoBehaviour
         yield return null;
     }
     public IEnumerator CreateBuffEffect(Vector3 location)
+    {
+        GameObject newImpactVFX = Instantiate(BuffEffectPrefab, location, Quaternion.identity);
+        newImpactVFX.GetComponent<BuffEffect>().InitializeSetup(location);
+        yield return null;
+    }
+    public IEnumerator CreateDebuffEffect(Vector3 location)
     {
         GameObject newImpactVFX = Instantiate(BuffEffectPrefab, location, Quaternion.identity);
         newImpactVFX.GetComponent<BuffEffect>().InitializeSetup(location);

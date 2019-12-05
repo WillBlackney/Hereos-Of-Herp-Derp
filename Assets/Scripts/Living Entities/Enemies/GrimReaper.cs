@@ -97,7 +97,7 @@ public class GrimReaper : Enemy
         Ability crushingBlow = mySpellBook.GetAbilityByName("Crushing Blow");
         
        //StartCoroutine(AttackTarget(target, crushingBlow.abilityPrimaryValue, false));
-        StartCoroutine(AttackMovement(target));
+        StartCoroutine(PlayMeleeAttackAnimation(target));
         //target.ApplyStunned();
     }
 }

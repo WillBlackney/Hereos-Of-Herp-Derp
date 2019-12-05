@@ -83,7 +83,7 @@ public class AbilityLogic : MonoBehaviour
         // wait until this is resolved
         // continue
         Ability strike = attacker.mySpellBook.GetAbilityByName("Strike");
-        attacker.StartCoroutine(attacker.AttackMovement(victim));
+        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(strike.abilityPrimaryValue, attacker, victim, false, strike.abilityAttackType, strike.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         yield return new WaitForSeconds(1f);
@@ -151,7 +151,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability strike = attacker.mySpellBook.GetAbilityByName("Strike");
         OnAbilityUsed(strike, attacker);
-        attacker.StartCoroutine(attacker.AttackMovement(victim));        
+        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));        
         Action abilityAction = CombatLogic.Instance.HandleDamage(strike.abilityPrimaryValue, attacker, victim, false, strike.abilityAttackType, strike.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         action.actionResolved = true;
@@ -169,7 +169,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability rend = attacker.mySpellBook.GetAbilityByName("Rend");
         OnAbilityUsed(rend, attacker);
-        attacker.StartCoroutine(attacker.AttackMovement(victim));
+        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(rend.abilityPrimaryValue, attacker, victim, false, rend.abilityAttackType, rend.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         victim.myPassiveManager.ModifyExhausted(rend.abilitySecondaryValue);
@@ -189,14 +189,14 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability twinStrike = attacker.mySpellBook.GetAbilityByName("Twin Strike");
         OnAbilityUsed(twinStrike, attacker);
-        StartCoroutine(attacker.AttackMovement(victim));
+        StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(twinStrike.abilityPrimaryValue, attacker, victim, false, twinStrike.abilityAttackType, twinStrike.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         yield return new WaitForSeconds(0.3f);
         // check to make sure the enemy wasnt killed by the first attack
         if (victim.currentHealth > 0 && victim != null)
         {
-            StartCoroutine(attacker.AttackMovement(victim));
+            StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
             Action abilityAction2 = CombatLogic.Instance.HandleDamage(twinStrike.abilityPrimaryValue, attacker, victim, false, twinStrike.abilityAttackType, twinStrike.abilityDamageType);
             yield return new WaitUntil(() => abilityAction2.ActionResolved() == true);
         }
@@ -215,7 +215,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability morkSmash = attacker.mySpellBook.GetAbilityByName("Mork Smash!");
         OnAbilityUsed(morkSmash, attacker);
-        StartCoroutine(attacker.AttackMovement(victim));
+        StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(morkSmash.abilityPrimaryValue, attacker, victim, false, morkSmash.abilityAttackType, morkSmash.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
@@ -235,7 +235,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability fireball = attacker.mySpellBook.GetAbilityByName("Fire Ball");
         OnAbilityUsed(fireball, attacker);
-        attacker.StartCoroutine(attacker.AttackMovement(victim));
+        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(fireball.abilityPrimaryValue, attacker, victim, false, fireball.abilityAttackType, fireball.abilityDamageType, fireball);
         // check for improved fireball talent
         if(attacker.defender && attacker.defender.myCharacterData.KnowsImprovedFireBall)
@@ -259,7 +259,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability chaosBolt = attacker.mySpellBook.GetAbilityByName("Chaos Bolt");
         OnAbilityUsed(chaosBolt, attacker);
-        attacker.StartCoroutine(attacker.AttackMovement(victim));
+        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(chaosBolt.abilityPrimaryValue, attacker, victim, false, chaosBolt.abilityAttackType, chaosBolt.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         victim.myPassiveManager.ModifyExposed(chaosBolt.abilitySecondaryValue);
@@ -277,7 +277,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability snipe = attacker.mySpellBook.GetAbilityByName("Snipe");
         OnAbilityUsed(snipe, attacker);
-        StartCoroutine(attacker.AttackMovement(victim));
+        StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(snipe.abilityPrimaryValue, attacker, victim, false, snipe.abilityAttackType, snipe.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         action.actionResolved = true;
@@ -348,7 +348,7 @@ public class AbilityLogic : MonoBehaviour
         Ability smash = attacker.mySpellBook.GetAbilityByName("Smash");
         OnAbilityUsed(smash, attacker);
         // Attack
-        StartCoroutine(attacker.AttackMovement(victim));
+        StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(smash.abilityPrimaryValue, attacker, victim, false, smash.abilityAttackType, smash.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
@@ -371,7 +371,7 @@ public class AbilityLogic : MonoBehaviour
         Debug.Log("Performing Chain Lightning...");
         Ability chainLightning = attacker.mySpellBook.GetAbilityByName("Chain Lightning");
         OnAbilityUsed(chainLightning, attacker);
-        StartCoroutine(attacker.AttackMovement(victim));
+        StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
 
         LivingEntity currentTarget = victim;
         LivingEntity previousTarget = victim;
@@ -418,7 +418,7 @@ public class AbilityLogic : MonoBehaviour
         Debug.Log("Performing Primal Blast...");
         Ability strike = attacker.mySpellBook.GetAbilityByName("Primal Blast");
         OnAbilityUsed(strike, attacker);
-        StartCoroutine(attacker.AttackMovement(target));
+        StartCoroutine(attacker.PlayMeleeAttackAnimation(target));
 
         Action abilityAction = CombatLogic.Instance.HandleDamage(strike.abilityPrimaryValue, attacker, target, false, strike.abilityAttackType, AbilityDataSO.DamageType.Physical);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -558,7 +558,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability frostbolt = attacker.mySpellBook.GetAbilityByName("Frost Bolt");
         OnAbilityUsed(frostbolt, attacker);
-        attacker.StartCoroutine(attacker.AttackMovement(victim));
+        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(frostbolt.abilityPrimaryValue, attacker, victim, false, frostbolt.abilityAttackType, frostbolt.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         victim.myPassiveManager.ModifyPinned(1, attacker);
@@ -622,7 +622,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability poisonDart = caster.mySpellBook.GetAbilityByName("Poison Dart");
         OnAbilityUsed(poisonDart, caster);
-        StartCoroutine(caster.AttackMovement(victim));        
+        StartCoroutine(caster.PlayMeleeAttackAnimation(victim));        
         victim.myPassiveManager.ModifyPoison(poisonDart.abilitySecondaryValue, caster);
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
@@ -640,7 +640,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability acidSpit = caster.mySpellBook.GetAbilityByName("Acid Spit");
         OnAbilityUsed(acidSpit, caster);
-        StartCoroutine(caster.AttackMovement(victim));
+        StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(acidSpit.abilityPrimaryValue, caster, victim, false, acidSpit.abilityAttackType, acidSpit.abilityDamageType, acidSpit);        
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         victim.myPassiveManager.ModifyPoison(acidSpit.abilitySecondaryValue, caster);
@@ -660,7 +660,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability chemicalReaction = caster.mySpellBook.GetAbilityByName("Chemical Reaction");
         OnAbilityUsed(chemicalReaction, caster);
-        StartCoroutine(caster.AttackMovement(victim));
+        StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
         victim.myPassiveManager.ModifyPoison(victim.myPassiveManager.poisonStacks, caster);
         
         yield return null;
@@ -681,7 +681,7 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsed(sliceAndDice, attacker);        
 
         AttackLoopStart:
-        StartCoroutine(attacker.AttackMovement(victim));
+        StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(sliceAndDice.abilityPrimaryValue, attacker, victim, false, sliceAndDice.abilityAttackType, sliceAndDice.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         yield return new WaitForSeconds(0.3f);
@@ -708,7 +708,7 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsed(impalingBolt, attacker);
 
         // Attack
-        StartCoroutine(attacker.AttackMovement(victim));
+        StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(impalingBolt.abilityPrimaryValue, attacker, victim, false, impalingBolt.abilityAttackType, impalingBolt.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
@@ -731,7 +731,7 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsed(rockToss, attacker);
 
         // Attack
-        StartCoroutine(attacker.AttackMovement(victim));
+        StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(rockToss.abilityPrimaryValue, attacker, victim, false, rockToss.abilityAttackType, rockToss.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         // Knockback
@@ -1018,7 +1018,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitUntil(() => moveAction.ActionResolved() == true);
 
         // Charge attack
-        attacker.StartCoroutine(attacker.AttackMovement(victim));
+        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(charge.abilityPrimaryValue, attacker, victim, false, charge.abilityAttackType, charge.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         // Apply exposed
@@ -1100,7 +1100,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability crushingBlow = attacker.mySpellBook.GetAbilityByName("Crushing Blow");
         OnAbilityUsed(crushingBlow, attacker);
-        attacker.StartCoroutine(attacker.AttackMovement(victim));
+        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
 
         Action abilityAction = CombatLogic.Instance.HandleDamage(crushingBlow.abilityPrimaryValue, attacker, victim, false, crushingBlow.abilityAttackType, crushingBlow.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);

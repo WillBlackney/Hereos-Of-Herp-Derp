@@ -465,7 +465,7 @@ public class LivingEntity : MonoBehaviour
     {
         myWorldSpaceCanvasParent.SetActive(false);
     }
-    public virtual IEnumerator AttackMovement(LivingEntity entityMovedTowards)
+    public virtual IEnumerator PlayMeleeAttackAnimation(LivingEntity entityMovedTowards)
     {
         PositionLogic.Instance.CalculateWhichDirectionToFace(this, entityMovedTowards.tile);
 
@@ -475,11 +475,12 @@ public class LivingEntity : MonoBehaviour
         bool hasCompletedMovement = false;
         bool hasReachedTarget = false;
 
+        myAnimator.SetTrigger("Melee Attack");
         while (hasCompletedMovement == false)   
         {
             if(hasReachedTarget == false)
             {
-                transform.position = Vector2.MoveTowards(transform.position, targetPos, 10f * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, targetPos, 3f * Time.deltaTime);
                 if(transform.position == targetPos)
                 {
                     hasReachedTarget = true;
@@ -489,7 +490,7 @@ public class LivingEntity : MonoBehaviour
 
             else if(hasReachedTarget == true)
             {
-                transform.position = Vector2.MoveTowards(transform.position, startingPos, 7f * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, startingPos, 3f * Time.deltaTime);
                 if(transform.position == startingPos)
                 {
                     hasCompletedMovement = true;

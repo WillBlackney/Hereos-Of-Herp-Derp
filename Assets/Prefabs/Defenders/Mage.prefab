@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 3559319376487774994}
   - component: {fileID: 3996102918064119220}
   - component: {fileID: 6081495575557254973}
-  - component: {fileID: 1646235546}
   m_Layer: 0
   m_Name: Mage
   m_TagString: Untagged
@@ -100,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myHealthBar: {fileID: 514193474698196891}
-  myCG: {fileID: 0}
+  myMouseObject: {fileID: 0}
   myWorldSpaceCanvasParent: {fileID: 7011339800491289726}
   mySpriteParent: {fileID: 2881896829377826632}
   myModelParent: {fileID: 8094321331232239471}
@@ -145,6 +144,8 @@ MonoBehaviour:
   myCurrentTarget: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   speed: 3
+  smTimer: 0
+  mouseIsOverStatusIconPanel: 0
   currentInitiativeRoll: 0
   moveActionsTakenThisTurn: 0
   timesAttackedThisTurn: 0
@@ -372,25 +373,6 @@ MonoBehaviour:
   barrier: 0
   barrierStacks: 0
   undead: 0
---- !u!95 &1646235546
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3559319376487774995}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ba9fd95dc44aa1547858d77772fdb988, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8094321331232239471
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,7 +686,7 @@ PrefabInstance:
       objectReference: {fileID: 561052340659415046}
     - target: {fileID: 1147854594062252, guid: e19847e01c9eac04bb790cca6130bcf5, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 212768522792165910, guid: e19847e01c9eac04bb790cca6130bcf5,
         type: 3}
@@ -724,7 +706,12 @@ PrefabInstance:
     - target: {fileID: 212768522792165910, guid: e19847e01c9eac04bb790cca6130bcf5,
         type: 3}
       propertyPath: m_Color.a
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212768522792165910, guid: e19847e01c9eac04bb790cca6130bcf5,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 212268591467508202, guid: e19847e01c9eac04bb790cca6130bcf5,
         type: 3}
