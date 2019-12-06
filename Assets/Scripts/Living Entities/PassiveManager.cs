@@ -195,7 +195,8 @@ public class PassiveManager : MonoBehaviour
                 {
                     stunned = true;
                     StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Stunned!", false, "Red"));
+                    CreateStatusEffect(myLivingEntity.transform.position, "Stunned!", false));
+                    StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
                 }
             }
 
@@ -227,7 +228,8 @@ public class PassiveManager : MonoBehaviour
                     sleeping = true;
                 }
                 StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Sleeping + " + stacks.ToString(), false, "Red"));
+                CreateStatusEffect(myLivingEntity.transform.position, "Sleeping + " + stacks.ToString(), false));
+                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
 
             }
         }
@@ -299,7 +301,8 @@ public class PassiveManager : MonoBehaviour
                 if (poisonStacks > 0)
                 {
                     poison = true;
-                    StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Poison + " + stacks.ToString(), false, "Green"));
+                    StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Poison + " + stacks.ToString(), false));
+                    StartCoroutine(VisualEffectManager.Instance.CreatePoisonAppliedEffect(myLivingEntity.transform.position));
                     myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Poison"), stacks);
                 }
             }
@@ -309,6 +312,7 @@ public class PassiveManager : MonoBehaviour
             poisonStacks += stacks;
             if (poisonStacks <= 0)
             {
+                poisonStacks = 0;
                 poison = false;
             }
         }
@@ -602,6 +606,7 @@ public class PassiveManager : MonoBehaviour
             if (exposedStacks > 0)
             {
                 exposed = true;
+                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
 
@@ -626,6 +631,7 @@ public class PassiveManager : MonoBehaviour
             if (exhaustedStacks > 0)
             {
                 exhausted = true;
+                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
 
@@ -650,6 +656,7 @@ public class PassiveManager : MonoBehaviour
             if (igniteStacks > 0)
             {
                 ignite = true;
+                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
 

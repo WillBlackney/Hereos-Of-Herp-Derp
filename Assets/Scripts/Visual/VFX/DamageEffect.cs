@@ -16,7 +16,7 @@ public class DamageEffect : MonoBehaviour
     {
         transform.position = new Vector2(transform.position.x - 0.2f, transform.position.y);
 
-        VisualEffectManager.Instance.dfxQueue.Add(this);
+        VisualEffectManager.Instance.vfxQueue.Add(this);
         if(heal == false)
         {
             amountText.text = "-" + damageAmount.ToString();
@@ -34,7 +34,7 @@ public class DamageEffect : MonoBehaviour
     }
     public void InitializeSetup(string statusName, Color textColor)
     {        
-        VisualEffectManager.Instance.dfxQueue.Add(this);       
+        VisualEffectManager.Instance.vfxQueue.Add(this);       
         amountText.text = statusName;
         amountText.color = textColor;
     }
@@ -45,7 +45,7 @@ public class DamageEffect : MonoBehaviour
     public void DestroyThis()
     {
         VisualEffectManager.Instance.queueCount--;
-        VisualEffectManager.Instance.dfxQueue.Remove(this);
+        VisualEffectManager.Instance.vfxQueue.Remove(this);
         
         Destroy(gameObject);
     }

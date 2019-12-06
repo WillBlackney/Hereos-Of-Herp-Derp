@@ -6844,7 +6844,17 @@ MonoBehaviour:
     type: 3}
   BuffEffectPrefab: {fileID: 4847328283017062249, guid: 6bc9acabc39c77f44ae01ba13e8ef17d,
     type: 3}
-  dfxQueue: []
+  DebuffEffectPrefab: {fileID: 4847328283017062249, guid: 6b6ba4adfd4744540ba2c3a86f51acfe,
+    type: 3}
+  PoisonAppliedEffectPrefab: {fileID: 4847328283017062249, guid: fc1de9b39efcabb45935cfaac576a006,
+    type: 3}
+  DamagedByPoisonEffect: {fileID: 4262080138937027028, guid: 5d0716471a8f47f44a960abd6b6f61fd,
+    type: 3}
+  TeleportEffectPrefab: {fileID: 4847328283017062249, guid: d4873497363b8e7439dffbd66f21baad,
+    type: 3}
+  HealEffectPrefab: {fileID: 4847328283017062249, guid: 3a96451ecd6359c49806f8b50afbc9ea,
+    type: 3}
+  vfxQueue: []
   timeBetweenEffectsInSeconds: 0.5
   queueCount: 0
   blue: {r: 0.18431373, g: 1, b: 0.9372549, a: 1}
@@ -8363,7 +8373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basicEnemyWaves:
-  - {fileID: 11400000, guid: a925a91cb3c75e64cadf1f518e9a621e, type: 2}
+  - {fileID: 11400000, guid: c953b6a2b85d9ca439cae347a00ce672, type: 2}
   eliteEnemyWaves:
   - {fileID: 11400000, guid: 001c99eae2d3afd44a6633643c5971ab, type: 2}
   bossEnemyWaves: []

@@ -131,6 +131,7 @@ public class CombatLogic : MonoBehaviour
     }
     public IEnumerator HandleDamageCoroutine(int damageAmount, LivingEntity attacker, LivingEntity victim, Action action, bool playVFXInstantly = false, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None, AbilityDataSO.DamageType damageType = AbilityDataSO.DamageType.None, Ability abilityUsed = null)
     {
+        int totalLifeLost = 0;
         int adjustedDamageValue = damageAmount;
 
         // play VFX
@@ -188,7 +189,7 @@ public class CombatLogic : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
         }
 
-        int totalLifeLost = victim.currentHealth - healthAfter;        
+        totalLifeLost = victim.currentHealth - healthAfter;        
 
         victim.currentHealth = healthAfter;
         victim.SetCurrentBlock(blockAfter);
@@ -198,20 +199,11 @@ public class CombatLogic : MonoBehaviour
 
         if (adjustedDamageValue > 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateDamageEffect(victim.transform.position, adjustedDamageValue, playVFXInstantly));
-            
-            /*
-            if (attackType != AbilityDataSO.AttackType.None)
+            StartCoroutine(VisualEffectManager.Instance.CreateDamageEffect(victim.transform.position, adjustedDamageValue, playVFXInstantly));      
+            if(damageType == AbilityDataSO.DamageType.Poison)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateImpactEffect(victim.transform.position));
-                if (attackType == AbilityDataSO.AttackType.Melee)
-                {
-                    StartCoroutine(VisualEffectManager.Instance.CreateMeleeAttackEffect(victim.transform.position));
-                }
-                    
+                StartCoroutine(VisualEffectManager.Instance.CreateDamagedByPoisonEffect(victim.transform.position));
             }
-            */
-            yield return new WaitForSeconds(0.3f);
         }
 
         if (victim.defender != null)
@@ -292,6 +284,10 @@ public class CombatLogic : MonoBehaviour
             // from stuff like free strikes
             victim.StopAllCoroutines();
             StartCoroutine(victim.HandleDeath());
+        }
+        else if(victim.currentHealth > 0 && totalLifeLost > 0)
+        {
+            victim.myAnimator.SetTrigger("Hurt");
         }
 
         action.actionResolved = true;

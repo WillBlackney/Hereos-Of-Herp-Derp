@@ -73,7 +73,6 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        //SpellInfoBox.Instance.HideInfoBox();
         SetInfoPanelVisibility(false);
     }
     #endregion

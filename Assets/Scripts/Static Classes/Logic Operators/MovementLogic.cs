@@ -130,10 +130,25 @@ public class MovementLogic : Singleton<MovementLogic>
         if (!switchingPosWithAnotherEntity)
         {
             LevelManager.Instance.SetTileAsUnoccupied(target.tile);
-        }        
+        }
+
+        // Make target vanish
+        target.myModelParent.SetActive(false);
+        target.myWorldSpaceCanvasParent.SetActive(false);
+        StartCoroutine(VisualEffectManager.Instance.CreateTeleportEffect(target.transform.position));
+        yield return new WaitForSeconds(0.5f);
+
+        // Move to new location
         target.gridPosition = destination.GridPosition;
         target.tile = destination;
         target.transform.position = destination.WorldPosition;
+
+        // Make target reappear
+        StartCoroutine(VisualEffectManager.Instance.CreateTeleportEffect(target.transform.position));
+        target.myModelParent.SetActive(true);
+        target.myWorldSpaceCanvasParent.SetActive(true);
+
+        // Set new tile location, resolve event
         LevelManager.Instance.SetTileAsOccupied(destination);
         OnNewTileSet(target);
         action.actionResolved = true;

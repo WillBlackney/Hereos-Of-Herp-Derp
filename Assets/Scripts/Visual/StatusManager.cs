@@ -103,6 +103,7 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private void Start()
     {
         myLivingEntity = GetComponentInParent<LivingEntity>();
+        SetPanelViewState(false);
     }
     #endregion
 
@@ -117,7 +118,19 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerExit(PointerEventData eventData)
     {
         myLivingEntity.mouseIsOverStatusIconPanel = false;
-        //SetPanelViewState(false);
+        if (myLivingEntity.mouseIsOverCharacter == false)
+        {
+            SetPanelViewState(false);
+            DisableAllMyIcons();
+        }        
+    }
+
+    public void DisableAllMyIcons()
+    {
+        foreach(StatusIcon icon in myStatusIcons)
+        {
+            icon.SetInfoPanelVisibility(false);
+        }
     }
 
     #endregion

@@ -757,7 +757,7 @@ public class AbilityLogic : MonoBehaviour
         {
             target.myPassiveManager.ModifyTemporaryMobility(1);
         }
-        ParticleManager.Instance.CreateParticleEffect(target.tile.WorldPosition, ParticleManager.Instance.basicParticlePrefab);
+        //ParticleManager.Instance.CreateParticleEffect(target.tile.WorldPosition, ParticleManager.Instance.basicParticlePrefab);
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
       

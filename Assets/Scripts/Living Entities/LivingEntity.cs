@@ -65,9 +65,9 @@ public class LivingEntity : MonoBehaviour
     public Vector3 destination;
 
     [Header("Miscealaneous Properties ")]
-    public float speed;
-    public float smTimer;
+    public float speed;   
     public bool mouseIsOverStatusIconPanel;
+    public bool mouseIsOverCharacter;
     public int currentInitiativeRoll;
     public int moveActionsTakenThisTurn;
     public int timesAttackedThisTurn;
@@ -200,7 +200,7 @@ public class LivingEntity : MonoBehaviour
 
         if(currentHealth > originalHealth)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateHealingEffect(transform.position, healthGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateHealEffect(transform.position, healthGainedOrLost));
         }
         myHealthBar.value = CalculateHealthBarPosition();
         myActivationWindow.myHealthBar.value = CalculateHealthBarPosition();
@@ -233,7 +233,8 @@ public class LivingEntity : MonoBehaviour
 
         if (strengthGainedOrLost < 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strength " + strengthGainedOrLost, false, "Red"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strength " + strengthGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
         }
 
     }
@@ -259,6 +260,7 @@ public class LivingEntity : MonoBehaviour
         if (wisdomGainedOrLost < 0)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Wisdom " + wisdomGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
         }
 
     }
@@ -278,7 +280,8 @@ public class LivingEntity : MonoBehaviour
 
         if (dexterityGainedOrLost < 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dexterity " + dexterityGainedOrLost, false, "Red"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dexterity " + dexterityGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
         }
 
     }
@@ -302,7 +305,8 @@ public class LivingEntity : MonoBehaviour
 
         if (energyGainedOrLost < 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Energy " + energyGainedOrLost, false, "Red"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Energy " + energyGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
         }
 
     }    
@@ -992,6 +996,7 @@ public class LivingEntity : MonoBehaviour
     #region
     public virtual void OnMouseEnter()
     {
+        mouseIsOverCharacter = true;
         SetColor(highlightColour);
         myStatusManager.SetPanelViewState(true);
         if (!inDeathProcess)
@@ -1002,7 +1007,12 @@ public class LivingEntity : MonoBehaviour
     }
     public void OnMouseExit()
     {
+        mouseIsOverCharacter = false;
         SetColor(normalColour);
+        if(mouseIsOverStatusIconPanel == false)
+        {
+            myStatusManager.SetPanelViewState(false);
+        }
         if (!inDeathProcess)
         {
             myActivationWindow.myGlowOutline.SetActive(false);
