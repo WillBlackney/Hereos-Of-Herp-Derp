@@ -32,27 +32,11 @@ public class ParticleSpawner : MonoBehaviour
     }
 	
 
-    public IEnumerator ShootFireball(Vector3 startPosition, Vector3 endPosition, Action action, float speed = 7)
-    {
-        Rigidbody rocketInstance = Instantiate(Weapon1[1], startPosition, SpawnPos.rotation) as Rigidbody;
-        ExplodeOnHit myExplodeOnHit = rocketInstance.gameObject.GetComponent<ExplodeOnHit>();
-
-        while (rocketInstance.transform.position != endPosition)
-        {
-            rocketInstance.transform.position = Vector2.MoveTowards(rocketInstance.transform.position, endPosition, speed * Time.deltaTime);
-            if(rocketInstance.transform.position == endPosition)
-            {
-                myExplodeOnHit.Explode();
-                action.actionResolved = true;
-            }
-            yield return new WaitForEndOfFrame();
-        }
-    }
 
 	// Update is called once per frame
 	void Update ()
     {
-        /*
+        
 
         //Select Weapon Type
         if (Input.GetKeyDown("2"))
@@ -132,7 +116,7 @@ public class ParticleSpawner : MonoBehaviour
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
             Instantiate(Weapon4[currentWeapon], worldPos, Quaternion.identity);
         }
-        */
+        
     }
 
     void SwitchWeapon(int index)

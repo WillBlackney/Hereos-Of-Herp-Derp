@@ -76,6 +76,7 @@ public class LivingEntity : MonoBehaviour
     public bool spriteImportedFacingRight;
     public Color normalColour;
     public Color highlightColour;
+    public bool myRangedAttackFinished;
 
     // Initialization / Setup
     #region
@@ -465,11 +466,23 @@ public class LivingEntity : MonoBehaviour
         myDeathAnimationFinished = true;
         //mySpriteRenderer.enabled = false;
     }
+    public void PlayRangedAttackAnimation()
+    {
+        myAnimator.SetTrigger("Ranged Attack");
+    }
+    public void SetRangedAttackAnimAsFinished()
+    {
+        myRangedAttackFinished = true;
+    }
+    public void RefreshRangedAttackBool()
+    {
+        myRangedAttackFinished = false;
+    }
     public void DisableWorldSpaceCanvas()
     {
         myWorldSpaceCanvasParent.SetActive(false);
     }
-    public virtual IEnumerator PlayMeleeAttackAnimation(LivingEntity entityMovedTowards)
+    public virtual IEnumerator PlayMeleeAttackAnimation(LivingEntity entityMovedTowards, float speed = 3)
     {
         PositionLogic.Instance.CalculateWhichDirectionToFace(this, entityMovedTowards.tile);
 
@@ -484,7 +497,7 @@ public class LivingEntity : MonoBehaviour
         {
             if(hasReachedTarget == false)
             {
-                transform.position = Vector2.MoveTowards(transform.position, targetPos, 3f * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
                 if(transform.position == targetPos)
                 {
                     hasReachedTarget = true;
@@ -494,7 +507,7 @@ public class LivingEntity : MonoBehaviour
 
             else if(hasReachedTarget == true)
             {
-                transform.position = Vector2.MoveTowards(transform.position, startingPos, 3f * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, startingPos, speed * Time.deltaTime);
                 if(transform.position == startingPos)
                 {
                     hasCompletedMovement = true;

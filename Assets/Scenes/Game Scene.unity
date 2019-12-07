@@ -6816,8 +6816,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1706871633}
+  m_Children: []
   m_Father: {fileID: 125540712}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6833,7 +6832,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 692608f8dce236644adb48a08dbbf7f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleSpawner: {fileID: 1706871634}
   DamageEffectPrefab: {fileID: 4231728771203878851, guid: 41e0b29e8e16a2d43b3dbfde09abfee8,
     type: 3}
   StatusEffectPrefab: {fileID: 5797780097810648835, guid: 6830b51eb051664429c60f70a0a2b6d9,
@@ -6855,6 +6853,16 @@ MonoBehaviour:
   TeleportEffectPrefab: {fileID: 4847328283017062249, guid: d4873497363b8e7439dffbd66f21baad,
     type: 3}
   HealEffectPrefab: {fileID: 4847328283017062249, guid: 3a96451ecd6359c49806f8b50afbc9ea,
+    type: 3}
+  AoeMeleeAttackEffectPrefab: {fileID: 4847328283017062249, guid: a7ea972cf2ed11b4281570b74c079667,
+    type: 3}
+  ArrowPrefab: {fileID: 375551705613102201, guid: 2b8247eda953b284ba187d84a5eea5d4,
+    type: 3}
+  FireBallPrefab: {fileID: 1191906834451126, guid: ac4dcba5f15326f43b0bd8047e3ad6b2,
+    type: 3}
+  ShadowBallPrefab: {fileID: 1430343821873738, guid: 4ef8c008d375467428c5f207e8630367,
+    type: 3}
+  FrostBoltPrefab: {fileID: 1626682765528968, guid: 04e74dcb278e1b548bf6afe547338aef,
     type: 3}
   vfxQueue: []
   timeBetweenEffectsInSeconds: 0.5
@@ -7065,97 +7073,6 @@ Transform:
   m_Father: {fileID: 125540712}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1706871632
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1706871633}
-  - component: {fileID: 1706871634}
-  m_Layer: 0
-  m_Name: Projectile Spawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1706871633
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1706871632}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7093649, w: 0.70484143}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1576146512}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90.367004}
---- !u!114 &1706871634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1706871632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee66fd590dcf03b4da969c6c30e15af3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SpawnPos: {fileID: 1706871633}
-  rocketPrefab: {fileID: 54570984970806510, guid: b3c1bd7ac04e4484cb9dd19f495396ff,
-    type: 3}
-  projectile: {fileID: 54963009641906178, guid: b1873d34022394b47ba39d69847850fc,
-    type: 3}
-  fireDelta: 0
-  SpawnAtmouse: {fileID: 54298543574308780, guid: 4e12d164b5618b649be657ad8163e78e,
-    type: 3}
-  Homing: {fileID: 1219438630237162, guid: 46ac112802aeee64c936f718f50047e2, type: 3}
-  Weapon1:
-  - {fileID: 54212630721139466, guid: 959a5191be46fba4cae3f1fa4e858ea0, type: 3}
-  - {fileID: 54097005022014024, guid: ac4dcba5f15326f43b0bd8047e3ad6b2, type: 3}
-  - {fileID: 54351388307699182, guid: 57fb40bdf08c5b04b91db9981c5e2135, type: 3}
-  - {fileID: 54539599405914472, guid: 9824eb91321637746b677c76c924e39f, type: 3}
-  - {fileID: 54204002305384538, guid: 4ef8c008d375467428c5f207e8630367, type: 3}
-  - {fileID: 54666114934503336, guid: 8e957980304090b49b37a801094bec38, type: 3}
-  - {fileID: 54623530127766534, guid: 6edce155e0ffc054d9726fc9f13272af, type: 3}
-  - {fileID: 54674899224796138, guid: c38ac39139c6a0f4aa3ed2a0cfdb5866, type: 3}
-  - {fileID: 54570984970806510, guid: b3c1bd7ac04e4484cb9dd19f495396ff, type: 3}
-  - {fileID: 54462266105733980, guid: 66b6aa0dfdc9fb3478319b49b0b16d39, type: 3}
-  - {fileID: 54986541144444646, guid: 90ddc65b3c5c7fb4fb6209c86b599d90, type: 3}
-  - {fileID: 54852708961809898, guid: fe88ddfe78b50004db156a0cf1ebd80b, type: 3}
-  - {fileID: 54249864081698468, guid: baa438ddef0b6094ab7ea395f743dbc0, type: 3}
-  - {fileID: 54000668681379056, guid: 1c32f97ee2fe1b84a899271a6f19b076, type: 3}
-  Weapon2:
-  - {fileID: 54368158204317722, guid: f245f496f0fd7d742919cf4dbf604001, type: 3}
-  - {fileID: 54963009641906178, guid: b1873d34022394b47ba39d69847850fc, type: 3}
-  - {fileID: 54818095954018942, guid: 1f01c68977de9764dbdad61393d4bfaa, type: 3}
-  Weapon3:
-  - {fileID: 54298543574308780, guid: 4e12d164b5618b649be657ad8163e78e, type: 3}
-  - {fileID: 54137645198370494, guid: 91f63c9c57d8110498724b674e53b881, type: 3}
-  Weapon4:
-  - {fileID: 1219438630237162, guid: 46ac112802aeee64c936f718f50047e2, type: 3}
-  - {fileID: 1898575611252450, guid: 213848e09d084074bac5a93177a5f1c3, type: 3}
-  - {fileID: 1322668471227900, guid: 07622ca9b7433754bbc08a550f95a9f1, type: 3}
-  - {fileID: 1512324151846090, guid: 905489b869e013c40be80e4826826de1, type: 3}
-  - {fileID: 1980258142625090, guid: b88e087b45b942a4e859bed6bc11739e, type: 3}
-  - {fileID: 1924046133703864, guid: 5677259a918a4584799e729fbdb4fbeb, type: 3}
-  - {fileID: 1159021572926382, guid: a6c6a49e9dc17ad45a4bb79c63342af2, type: 3}
-  - {fileID: 1614168630753250, guid: e675b51c546b2484eaf113dc0f0a9461, type: 3}
-  - {fileID: 1683108381857506, guid: 579a7c7de927ce349ab9164bf16d635c, type: 3}
-  - {fileID: 1756649615194622, guid: 3396b75ec5c3c1641b8b380b3d1c23ea, type: 3}
-  - {fileID: 1155336350727594, guid: ffb7582ad3c51774c89a1db55a7ca499, type: 3}
-  - {fileID: 1242679848706966, guid: 5b66a44162efd5249ae88fb66b1d1062, type: 3}
-  - {fileID: 1509116603792328, guid: d947fb35aafcfb74caf1f83ce37850d7, type: 3}
-  - {fileID: 1332558998953250, guid: b8b41b27a861d8c44a0f465d4bce6bfc, type: 3}
-  currentWeapon: 0
-  Travelspeed: 200
 --- !u!1 &1726674855
 GameObject:
   m_ObjectHideFlags: 0
@@ -8466,7 +8383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basicEnemyWaves:
-  - {fileID: 11400000, guid: c953b6a2b85d9ca439cae347a00ce672, type: 2}
+  - {fileID: 11400000, guid: a925a91cb3c75e64cadf1f518e9a621e, type: 2}
   eliteEnemyWaves:
   - {fileID: 11400000, guid: 001c99eae2d3afd44a6633643c5971ab, type: 2}
   bossEnemyWaves: []

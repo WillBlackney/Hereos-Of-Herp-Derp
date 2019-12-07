@@ -264,12 +264,26 @@ public class AbilityLogic : MonoBehaviour
     }
     public IEnumerator PerformChaosBoltCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
     {
+        // Initialize
         Ability chaosBolt = attacker.mySpellBook.GetAbilityByName("Chaos Bolt");
         OnAbilityUsed(chaosBolt, attacker);
+
+        // Play Attack animation
         attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        yield return new WaitForSeconds(0.15f);
+
+        // Shoot shadow ball
+        Action shootAction = VisualEffectManager.Instance.ShootShadowBall(attacker.tile.WorldPosition, victim.tile.WorldPosition);
+        yield return new WaitUntil(() => shootAction.ActionResolved() == true);
+
+        // Resolve damage
         Action abilityAction = CombatLogic.Instance.HandleDamage(chaosBolt.abilityPrimaryValue, attacker, victim, false, chaosBolt.abilityAttackType, chaosBolt.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+
+        // Apply exposed
         victim.myPassiveManager.ModifyExposed(chaosBolt.abilitySecondaryValue);
+
+        // Resolve event
         action.actionResolved = true;
     }
 
@@ -464,8 +478,12 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability whirlwind = attacker.mySpellBook.GetAbilityByName("Whirlwind");
         OnAbilityUsed(whirlwind, attacker);
-        CombatLogic.Instance.CreateAoEAttackEvent(attacker, whirlwind, attacker.tile, 1, true, false);
 
+        // Create whirlwind VFX
+        StartCoroutine(VisualEffectManager.Instance.CreateAoeMeleeAttackEffect(attacker.transform.position));
+        attacker.myAnimator.SetTrigger("Melee Attack");
+        CombatLogic.Instance.CreateAoEAttackEvent(attacker, whirlwind, attacker.tile, 1, true, false);
+        
         // Improved Whirlwind talent
         if(attacker.defender != null)
         {
@@ -566,8 +584,14 @@ public class AbilityLogic : MonoBehaviour
         Ability frostbolt = attacker.mySpellBook.GetAbilityByName("Frost Bolt");
         OnAbilityUsed(frostbolt, attacker);
         attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        yield return new WaitForSeconds(0.15f);
+
+        Action frostBoltAction = VisualEffectManager.Instance.ShootFrostBolt(attacker.tile.WorldPosition, victim.tile.WorldPosition);
+        yield return new WaitUntil(() => frostBoltAction.ActionResolved() == true);
+
         Action abilityAction = CombatLogic.Instance.HandleDamage(frostbolt.abilityPrimaryValue, attacker, victim, false, frostbolt.abilityAttackType, frostbolt.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+
         victim.myPassiveManager.ModifyPinned(1, attacker);
         action.actionResolved = true;
     }
@@ -583,10 +607,18 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability shoot = attacker.mySpellBook.GetAbilityByName("Shoot");
         OnAbilityUsed(shoot, attacker);
+
+        // Ranged attack anim
+        attacker.PlayRangedAttackAnimation();
+        yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
+
+        Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
+        yield return new WaitUntil(() => shootAction.ActionResolved() == true);
+
         Action abilityAction = CombatLogic.Instance.HandleDamage(shoot.abilityPrimaryValue, attacker, victim, false, shoot.abilityAttackType, shoot.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-        action.actionResolved = true;
-      
+
+        action.actionResolved = true;      
     }
 
     // Rapid Fire
