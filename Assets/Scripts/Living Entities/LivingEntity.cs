@@ -950,7 +950,7 @@ public class LivingEntity : MonoBehaviour
 
             if (destination != null)
             {
-                Action moveAction = MovementLogic.Instance.MoveEntity(defender, destinationTile, 3, true);
+                Action moveAction = MovementLogic.Instance.MoveEntity(this, destinationTile, 3, true);
                 yield return new WaitUntil(() => moveAction.ActionResolved() == true);                
             }
 

@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class VisualEffectManager : MonoBehaviour
 {
+    [Header("Component References")]
+    public ParticleSpawner particleSpawner;
+
     [Header("Prefab References")]
     public GameObject DamageEffectPrefab;
     public GameObject StatusEffectPrefab;
@@ -32,7 +35,7 @@ public class VisualEffectManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-    }
+    }   
     #endregion
 
     // Create VFX
@@ -88,8 +91,7 @@ public class VisualEffectManager : MonoBehaviour
         }
         */
         
-    }
-  
+    }  
     public IEnumerator CreateImpactEffect(Vector3 location)
     {
         GameObject damageEffect = Instantiate(ImpactEffectPrefab, location, Quaternion.identity);
@@ -150,6 +152,14 @@ public class VisualEffectManager : MonoBehaviour
     
 
     #endregion
+
+    // Projectiles
+    public Action ShootFireball(Vector3 startPos, Vector3 endPos)
+    {
+        Action action = new Action();
+        StartCoroutine(particleSpawner.ShootFireball(startPos, endPos, action));
+        return action;
+    }
 
 
 

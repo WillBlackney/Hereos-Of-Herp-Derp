@@ -236,6 +236,13 @@ public class AbilityLogic : MonoBehaviour
         Ability fireball = attacker.mySpellBook.GetAbilityByName("Fire Ball");
         OnAbilityUsed(fireball, attacker);
         attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        yield return new WaitForSeconds(0.15f);
+
+        // Create fireball from prefab and play animation
+        Action fireballHit = VisualEffectManager.Instance.ShootFireball(attacker.tile.WorldPosition, victim.tile.WorldPosition);
+        // wait until fireball has hit the target
+        yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
+
         Action abilityAction = CombatLogic.Instance.HandleDamage(fireball.abilityPrimaryValue, attacker, victim, false, fireball.abilityAttackType, fireball.abilityDamageType, fireball);
         // check for improved fireball talent
         if(attacker.defender && attacker.defender.myCharacterData.KnowsImprovedFireBall)
