@@ -4173,6 +4173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f19920b92e49a9c41aff71da782002b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementPaused: 0
 --- !u!1 &963834425
 GameObject:
   m_ObjectHideFlags: 0
@@ -6386,15 +6387,17 @@ MonoBehaviour:
   knockDownStatusName: Knock Down
   knockDownStatusDescription: Damage taken increased by 50%
   knockDownStatusStacks: 0
-  strengthImage: {fileID: 21300000, guid: 13133af29279ae84796ff09cf36115bd, type: 3}
+  strengthImage: {fileID: 21300000, guid: f3731a6f454c0f7498fd84fdf91fbdfa, type: 3}
   strengthStatusName: Strength
   strengthStatusDescription: Increases physical damage from attacks.
   strengthStatusStacks: 0
-  wisdomImage: {fileID: 21300000, guid: 9c81ff137ca18fc44a91844bb5bd0885, type: 3}
+  wisdomImage: {fileID: -4897232276557823649, guid: 4d066704994154f46b3b62a5faa0af7d,
+    type: 3}
   wisdomStatusName: Wisdom
   wisdomStatusDescription: Increases magic damage from attacks
   wisdomStatusStacks: 0
-  dexterityImage: {fileID: 21300000, guid: cc89b9ed69a100c44be448871b1e450c, type: 3}
+  dexterityImage: {fileID: -6825879303547692364, guid: 4d066704994154f46b3b62a5faa0af7d,
+    type: 3}
   dexterityStatusName: Dexterity
   dexterityStatusDescription: Increass the amount of block gained by this amount
   dexterityStatusStacks: 0
@@ -6402,7 +6405,8 @@ MonoBehaviour:
   stunnedStatusName: Stunned
   stunnedStatusDescription: Unable to take any action
   stunnedStatusStacks: 0
-  pinnedImage: {fileID: 21300000, guid: 2aea15c3a1f55324d9b7d6bea2d9c6a5, type: 3}
+  pinnedImage: {fileID: 7153220218491489731, guid: 4d066704994154f46b3b62a5faa0af7d,
+    type: 3}
   pinnedStatusName: Pinned
   pinnedStatusDescription: Unable to move
   pinnedStatusStacks: 0
@@ -6426,7 +6430,8 @@ MonoBehaviour:
   sleepingStatusName: Sleeping
   sleepingStatusDescription: Unable to take actions. Taking damage will cancel this.
   sleepingStatusStacks: 0
-  camoflageImage: {fileID: 21300000, guid: f94bd916f012fdd469bb9c8ee125ca40, type: 3}
+  camoflageImage: {fileID: 1814403928670378988, guid: 4d066704994154f46b3b62a5faa0af7d,
+    type: 3}
   camoflageStatusName: Camoflage
   camoflageStatusDescription: Can't be targetted by abilities further than 1 tile
     away. Cancelled upon taking or dealing damage
@@ -6449,7 +6454,8 @@ MonoBehaviour:
   encouragingPresenceStatusDescription: At the end of turn, give adjacent allies +1
     AP
   encouragingPresenceStatusStacks: 0
-  poisonousImage: {fileID: 21300000, guid: 0239340819ea4c444bded2b657cbd0ee, type: 3}
+  poisonousImage: {fileID: 4627660684100555933, guid: 4d066704994154f46b3b62a5faa0af7d,
+    type: 3}
   poisonousStatusName: Poisonous
   poisonousStatusDescription: Whenever this character reduces HP with an attack, it
     applies poison
@@ -6458,7 +6464,8 @@ MonoBehaviour:
   preparationStatusName: Preparation
   preparationStatusDescription: The next ability used costs 0 AP
   preparationStatusStacks: 0
-  stealthImage: {fileID: 21300000, guid: 97360e023b27d1542b52276949f14363, type: 3}
+  stealthImage: {fileID: -1154921835690149427, guid: 4d066704994154f46b3b62a5faa0af7d,
+    type: 3}
   stealthStatusName: Stealth
   stealthStatusDescription: Cannot be targeted by abilities further than 1 tile away
   stealthStatusStacks: 0
@@ -6475,7 +6482,8 @@ MonoBehaviour:
   quickReflexesStatusDescription: The first time this character is attacked each turn,
     it moves to a random adjacent tile.
   quickReflexesStatusStacks: 0
-  regenerationImage: {fileID: 21300000, guid: 18d7651aa9ff925428af004080302feb, type: 3}
+  regenerationImage: {fileID: -2848502210572723141, guid: 4d066704994154f46b3b62a5faa0af7d,
+    type: 3}
   regenerationStatusName: Regeneration
   regenerationStatusDescription: At the end of turn, recover HP
   regenerationStatusStacks: 0
@@ -6531,7 +6539,8 @@ MonoBehaviour:
   exposedStatusName: Exposed
   exposedStatusDescription: Increase all damage taken by 50%
   exposedStatusStacks: 0
-  exhaustedImage: {fileID: 21300000, guid: 5882e9df35d3054478432b192ce3515e, type: 3}
+  exhaustedImage: {fileID: 6600490110711354194, guid: 4d066704994154f46b3b62a5faa0af7d,
+    type: 3}
   exhaustedStatusName: Exhausted
   exhaustedStatusDescription: Reduce all damage dealt by 50%
   exhaustedStatusStacks: 0
@@ -6548,11 +6557,13 @@ MonoBehaviour:
   flankedStatusName: Flanked
   flankedStatusDescription: Damage from attacks is increased by 50%
   flankedStatusStacks: 0
-  trueSightImage: {fileID: 21300000, guid: f12f77e2cf045f14b9ac703d6bd73499, type: 3}
+  trueSightImage: {fileID: 4951507625661114888, guid: 4d066704994154f46b3b62a5faa0af7d,
+    type: 3}
   trueSightStatusName: True Sight
   trueSightStatusDescription: Ignore stealth and camoflage when using abilities
   trueSightStatusStacks: 0
-  lifeStealImage: {fileID: 21300000, guid: 86681c9b5cc37c447ba2af5ae9700c4b, type: 3}
+  lifeStealImage: {fileID: 1558831364684674145, guid: 4d066704994154f46b3b62a5faa0af7d,
+    type: 3}
   lifeStealStatusName: Life Steal
   lifeStealStatusDescription: Whenever this character reduces health with a melee
     attack, it heals for that amount
@@ -6575,7 +6586,8 @@ MonoBehaviour:
   unwaveringStatusName: Unwavering
   unwaveringStatusDescription: Block does not expire on activation start
   unwaveringStatusStacks: 0
-  igniteImage: {fileID: 21300000, guid: 8a6cc6be3cfd27c49b477efeb39c6e44, type: 3}
+  igniteImage: {fileID: 532399575716531134, guid: 4d066704994154f46b3b62a5faa0af7d,
+    type: 3}
   igniteStatusName: Ignite
   igniteStatusDescription: Damage taken by 'Fire Ball' ability increased
   igniteStatusStacks: 0
@@ -6588,7 +6600,8 @@ MonoBehaviour:
   soulLinkStatusName: Soul Link
   soulLinkStatusDescription: Whenever an ally dies, lose 5 HP.
   soulLinkStatusStacks: 0
-  undeadImage: {fileID: 21300000, guid: 49502b53c9fcd854c90447b8e11c789c, type: 3}
+  undeadImage: {fileID: -1281527153342638638, guid: 854029c16361a1c49976e491c305411d,
+    type: 3}
   undeadStatusName: Undead
   undeadStatusDescription: Immune to poison
   undeadStatusStacks: 0

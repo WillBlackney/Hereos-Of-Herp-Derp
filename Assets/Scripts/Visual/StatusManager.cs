@@ -8,7 +8,12 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [Header("Component + Prefab References")]
     public GameObject statusIconPrefab;
     public LivingEntity myLivingEntity;
+    public CanvasGroup myCG;
     List<StatusIcon> myStatusIcons = new List<StatusIcon>();
+
+    [Header("Properties")]
+    public bool fadingIn;
+    public bool fadingOut;
 
     // Add, Update, and Remove Status Icon Logic
     #region
@@ -80,7 +85,7 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
     #endregion
 
-    // Misc Logic
+    // Misc Logic + View Logic
     #region
     public StatusIcon GetStatusIconByName(string iconName)
     {
@@ -98,7 +103,60 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
     public void SetPanelViewState(bool onOrOff)
     {
-        gameObject.SetActive(onOrOff);
+        if(onOrOff == true)
+        {
+            gameObject.SetActive(true);
+        }        
+        StartCoroutine(SetPanelViewStateCoroutine(onOrOff));
+    }
+    public IEnumerator SetPanelViewStateCoroutine(bool onOrOff)
+    {
+        if (onOrOff == true)
+        {
+            FadeIn();
+        }
+        else
+        {
+            Action fadeAction = FadeOut();
+            yield return new WaitUntil(() => fadeAction.ActionResolved() == true);
+            gameObject.SetActive(false);
+        }
+    }
+    public Action FadeIn()
+    {
+        Action action = new Action();
+        StartCoroutine(FadeInCoroutine(action));
+        return action;
+    }
+    public IEnumerator FadeInCoroutine(Action action)
+    {
+        fadingOut = false;
+        fadingIn = true;        
+
+        while(fadingIn && myCG.alpha < 1)
+        {
+            myCG.alpha += 0.1f;
+            yield return new WaitForEndOfFrame();
+        }
+        action.actionResolved = true;
+    }
+    public Action FadeOut()
+    {
+        Action action = new Action();
+        StartCoroutine(FadeOutCoroutine(action));
+        return action;
+    }
+    public IEnumerator FadeOutCoroutine(Action action)
+    {
+        fadingIn = false;
+        fadingOut = true;
+
+        while (fadingOut && myCG.alpha > 0)
+        {
+            myCG.alpha -= 0.1f;
+            yield return new WaitForEndOfFrame();
+        }
+        action.actionResolved = true;
     }
     private void Start()
     {
@@ -114,7 +172,6 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         Debug.Log("Status Manager mouse over detected");
         myLivingEntity.mouseIsOverStatusIconPanel = true;
     }
-
     public void OnPointerExit(PointerEventData eventData)
     {
         myLivingEntity.mouseIsOverStatusIconPanel = false;
@@ -124,7 +181,6 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             DisableAllMyIcons();
         }        
     }
-
     public void DisableAllMyIcons()
     {
         foreach(StatusIcon icon in myStatusIcons)
