@@ -287,6 +287,7 @@ public class CombatLogic : MonoBehaviour
         }
         else if(victim.currentHealth > 0 && totalLifeLost > 0)
         {
+            victim.myAnimator.enabled = true;
             victim.myAnimator.SetTrigger("Hurt");
         }
 

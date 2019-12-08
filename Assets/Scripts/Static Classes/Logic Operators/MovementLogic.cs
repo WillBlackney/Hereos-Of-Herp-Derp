@@ -6,6 +6,7 @@ using System.Linq;
 public class MovementLogic : Singleton<MovementLogic>
 {
     // Path Generation + AStar Logic
+    public bool movementPaused;
     #region
     public Stack<Node> GeneratePath(Point start, Point end)
     {
@@ -70,18 +71,14 @@ public class MovementLogic : Singleton<MovementLogic>
         while (hasCompletedMovement == false)
         {
             // Check for free strikes first
-            if(freeStrikesOnThisTileResolved == false && characterMoved.path.Count > 0)
+            if (freeStrikesOnThisTileResolved == false && characterMoved.path.Count > 0)
             {
                 Debug.Log("Checking for free strikes...");
-                if (LowOverheadFreeStrikeCheck(characterMoved))
-                {
-                    Action freeStrikeCheck = ResolveFreeStrikes(characterMoved, characterMoved.tile, characterMoved.path.Peek().TileRef);
-                    yield return new WaitUntil(() => freeStrikeCheck.ActionResolved() == true);
-                }
-                
+                Action freeStrikeCheck = ResolveFreeStrikes(characterMoved, characterMoved.tile, characterMoved.path.Peek().TileRef);
+                yield return new WaitUntil(() => freeStrikeCheck.ActionResolved() == true);
                 freeStrikesOnThisTileResolved = true;
             }
-
+            
             Debug.Log("Moving to next tile on path...");
             characterMoved.transform.position = Vector2.MoveTowards(characterMoved.transform.position, characterMoved.destination, speedOfThisMovement * Time.deltaTime);
 
@@ -134,6 +131,7 @@ public class MovementLogic : Singleton<MovementLogic>
             yield return null;
         }
         
+
     }
 
     // Teleportation
@@ -714,10 +712,16 @@ public class MovementLogic : Singleton<MovementLogic>
                     characterMoved.inDeathProcess == false)
                 {
                     Debug.Log("ResolveFreeStrikesCoroutine() detected that " + characterMoved.name + " triggered a free strike from " + entity.name);
-                    characterMoved.myAnimator.enabled = false;
+                    movementPaused = true;
+                    //characterMoved.myAnimator.enabled = false;
+                    characterMoved.myAnimator.SetTrigger("Idle");
                     Action freeStrikeAction = AbilityLogic.Instance.PerformFreeStrike(entity, characterMoved);
-                    yield return new WaitUntil(() => freeStrikeAction.ActionResolved() == true);
-                    characterMoved.myAnimator.enabled = true;
+                    yield return new WaitUntil(() => freeStrikeAction.ActionResolved() == true);                    
+                      
+                    // Resume movement
+                    //characterMoved.myAnimator.enabled = true;
+                    characterMoved.myAnimator.SetTrigger("Move");
+                    movementPaused = false;
                 }
             }
         }        

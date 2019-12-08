@@ -78,15 +78,11 @@ public class AbilityLogic : MonoBehaviour
     {
         StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "Free Strike", false, "Blue"));
         yield return new WaitForSeconds(0.5f);
-        // to do: this should
-        // AbilityLogic.Instance.PerformFreeStrike
-        // wait until this is resolved
-        // continue
         Ability strike = attacker.mySpellBook.GetAbilityByName("Strike");
         attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(strike.abilityPrimaryValue, attacker, victim, false, strike.abilityAttackType, strike.abilityDamageType);
-        yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         yield return new WaitForSeconds(1f);
+        yield return new WaitUntil(() => abilityAction.ActionResolved() == true);        
         action.actionResolved = true;        
     }
 
@@ -336,7 +332,7 @@ public class AbilityLogic : MonoBehaviour
     {  
         Ability getDown = caster.mySpellBook.GetAbilityByName("Get Down!");
         OnAbilityUsed(getDown, caster);
-        Action moveAction = MovementLogic.Instance.MoveEntity(caster, destination, 5);
+        Action moveAction = MovementLogic.Instance.MoveEntity(caster, destination, 4);
 
         // yield wait until movement complete
         yield return new WaitUntil(() => moveAction.ActionResolved() == true);
@@ -352,7 +348,7 @@ public class AbilityLogic : MonoBehaviour
                 livingEntity.ModifyCurrentBlock(getDown.abilityPrimaryValue);
             }
         }
-
+        caster.myAnimator.SetTrigger("Idle");
         action.actionResolved = true;
     }
 
@@ -1007,7 +1003,8 @@ public class AbilityLogic : MonoBehaviour
         Action movementAction = MovementLogic.Instance.MoveEntity(characterMoved, destination);
 
         yield return new WaitUntil(() => movementAction.ActionResolved() == true);
-        action.actionResolved = true;  
+        action.actionResolved = true;
+        characterMoved.myAnimator.SetTrigger("Idle");
     }
 
     // Dash
@@ -1023,7 +1020,7 @@ public class AbilityLogic : MonoBehaviour
 
         OnAbilityUsed(dash, characterMoved);
 
-        Action dashAction = MovementLogic.Instance.MoveEntity(characterMoved, destination, 5);
+        Action dashAction = MovementLogic.Instance.MoveEntity(characterMoved, destination, 4);
         
         yield return new WaitUntil(() => dashAction.ActionResolved() == true);
 
@@ -1035,6 +1032,7 @@ public class AbilityLogic : MonoBehaviour
             }
         }
 
+        characterMoved.myAnimator.SetTrigger("Idle");
         action.actionResolved = true;
 
     }
@@ -1051,7 +1049,7 @@ public class AbilityLogic : MonoBehaviour
         Ability charge = attacker.mySpellBook.GetAbilityByName("Charge");
         OnAbilityUsed(charge, attacker);
         // Charge movement
-        Action moveAction = MovementLogic.Instance.MoveEntity(attacker, destination, 5);
+        Action moveAction = MovementLogic.Instance.MoveEntity(attacker, destination, 4);
 
         // yield wait until movement complete
         yield return new WaitUntil(() => moveAction.ActionResolved() == true);
@@ -1062,7 +1060,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         // Apply exposed
         victim.myPassiveManager.ModifyExposed(charge.abilitySecondaryValue);
-
+        attacker.myAnimator.SetTrigger("Idle");
         action.actionResolved = true;
                
     }
