@@ -55,6 +55,7 @@ public class MovementLogic : Singleton<MovementLogic>
         float originalSpeed = characterMoved.speed;
         float speedOfThisMovement = speed;
         bool hasCompletedMovement = false;
+        bool freeStrikesOnThisTileResolved = false;
 
         // Set path + destination
         SetPath(characterMoved, GeneratePath(characterMoved.gridPosition, destination.GridPosition));
@@ -66,9 +67,22 @@ public class MovementLogic : Singleton<MovementLogic>
         PositionLogic.Instance.CalculateWhichDirectionToFace(characterMoved, destination);  
 
         // Commence movement
-        while (hasCompletedMovement == false)        {
-            
-            Debug.Log("Running MoveAcrossPath() coroutine...");
+        while (hasCompletedMovement == false)
+        {
+            // Check for free strikes first
+            if(freeStrikesOnThisTileResolved == false && characterMoved.path.Count > 0)
+            {
+                Debug.Log("Checking for free strikes...");
+                if (LowOverheadFreeStrikeCheck(characterMoved))
+                {
+                    Action freeStrikeCheck = ResolveFreeStrikes(characterMoved, characterMoved.tile, characterMoved.path.Peek().TileRef);
+                    yield return new WaitUntil(() => freeStrikeCheck.ActionResolved() == true);
+                }
+                
+                freeStrikesOnThisTileResolved = true;
+            }
+
+            Debug.Log("Moving to next tile on path...");
             characterMoved.transform.position = Vector2.MoveTowards(characterMoved.transform.position, characterMoved.destination, speedOfThisMovement * Time.deltaTime);
 
             if (characterMoved.transform.position == characterMoved.destination)
@@ -76,6 +90,7 @@ public class MovementLogic : Singleton<MovementLogic>
                 // if we have reached the next tile in our path
                 if (characterMoved.path != null && characterMoved.path.Count > 0)
                 {
+                    Debug.Log("Next tile on path reached...");
                     Tile previousTile = characterMoved.tile;
                     characterMoved.gridPosition = characterMoved.path.Peek().GridPosition;
                     // Free up the tile we were standing on before we moved
@@ -87,11 +102,13 @@ public class MovementLogic : Singleton<MovementLogic>
                     Action moveToNewLocation = OnLocationMovedTo(characterMoved, characterMoved.tile, previousTile, freeStrikeImmune);
                     yield return new WaitUntil(() => moveToNewLocation.ActionResolved() == true);
                     characterMoved.destination = characterMoved.path.Pop().WorldPosition;
+                    freeStrikesOnThisTileResolved = false;
                 }
 
                 // if we have reached the final destination
                 else if (characterMoved.path != null && characterMoved.path.Count == 0)
                 {
+                    Debug.Log("Last tile on path reached...");
                     Tile previousTile = characterMoved.tile;
                     // Free up the tile we were standing on before we moved
                     LevelManager.Instance.SetTileAsUnoccupied(characterMoved.tile);
@@ -105,6 +122,7 @@ public class MovementLogic : Singleton<MovementLogic>
                     yield return new WaitUntil(() => moveToNewLocation.ActionResolved() == true);
                     Debug.Log("Final point reached, movement finished");
                     characterMoved.myAnimator.SetTrigger("Idle");
+                    freeStrikesOnThisTileResolved = false;
                     hasCompletedMovement = true;
                     action.actionResolved = true;
                 }
@@ -641,13 +659,16 @@ public class MovementLogic : Singleton<MovementLogic>
         Debug.Log("OnLocationMovedToCalledCoroutine() called....");        
 
         // check for free strikes
+        /*
         if(freeStrikeImmune == false)
         {
             Action freeStrikeEvents = ResolveFreeStrikes(character, previousLocation, newLocation);
             yield return new WaitUntil(() => freeStrikeEvents.ActionResolved() == true);
-        }        
+        }       
+        */
         OnNewTileSet(character);       
-        action.actionResolved = true;       
+        action.actionResolved = true;
+        yield return null;
         
     }
     public void OnNewTileSet(LivingEntity character)
@@ -702,6 +723,39 @@ public class MovementLogic : Singleton<MovementLogic>
         }        
 
         action.actionResolved = true;
+    }
+
+    public bool LowOverheadFreeStrikeCheck(LivingEntity characterMoved)
+    {
+        List<Tile> adjacentTiles = LevelManager.Instance.GetTilesWithinRange(1, characterMoved.tile);
+        bool boolReturned = false;
+
+        if (characterMoved.defender)
+        {
+            foreach(Enemy enemy in EnemyManager.Instance.allEnemies)
+            {
+                if (adjacentTiles.Contains(enemy.tile))
+                {
+                    boolReturned = true;
+                    break;
+                }
+            }
+        }
+
+        else if (characterMoved.enemy)
+        {
+            foreach (Defender defender in DefenderManager.Instance.allDefenders)
+            {
+                if (adjacentTiles.Contains(defender.tile))
+                {
+                    boolReturned = true;
+                    break;
+                }
+            }
+        }
+
+        return boolReturned;
+
     }
     #endregion
 
