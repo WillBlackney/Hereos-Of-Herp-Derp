@@ -4,10 +4,13 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Defender : LivingEntity
 {
     [Header("Defender Component References ")]
+    public Slider myApBar;
+    public Slider myHealthBarStatPanel;
     public AbilityBar myAbilityBar;
     public GameObject myUIParent;
     public CharacterData myCharacterData;
@@ -18,6 +21,9 @@ public class Defender : LivingEntity
     public TextMeshProUGUI myCurrentAPStatText;
     public TextMeshProUGUI myCurrentHealthTextStatBar;
     public TextMeshProUGUI myCurrentMaxHealthTextStatBar;
+    public TextMeshProUGUI myCurrentApBarText;
+    public TextMeshProUGUI myCurrentMaxApBarText;
+
 
     [Header("Ability Orders")]
     public bool awaitingMoveOrder;
@@ -56,6 +62,10 @@ public class Defender : LivingEntity
     public bool awaitingSiphonLifeOrder;
     public bool awaitingChaosBoltOrder;
 
+    [Header("Ability Orders")]
+    public bool apBarPositionCurrentlyUpdating;
+    public bool healthBarPositionCurrentlyUpdating;
+
 
     // Initialization + Setup
     #region
@@ -77,6 +87,7 @@ public class Defender : LivingEntity
         UpdateCurrentAPStatText(currentEnergy);        
         UpdateCurrentStrengthStatText(currentStrength);
         UpdateCurrentMobilityStatText(currentMobility);
+        SetUpAPBarDividers();
         
     }
     public void RunSetupFromCharacterData()
@@ -1109,7 +1120,7 @@ public class Defender : LivingEntity
     #endregion
 
 
-    // Text Component Updates
+    // Text + UI Component Updates
     #region
     public void UpdateCurrentStrengthStatText(int newValue)
     {
@@ -1130,6 +1141,86 @@ public class Defender : LivingEntity
     public void UpdateCurrentMobilityStatText(int newMobilityValue)
     {
         myCurrentMobilityStatText.text = newMobilityValue.ToString();
+    }
+    public float CalculateAPBarPosition()
+    {
+        float currentAPFloat = currentAP;
+        float currentMaxAPFloat = currentMaxAP;
+
+        return currentAPFloat / currentMaxAPFloat;
+    }
+    public void UpdateAPBarPosition()
+    {
+        float finalValue = CalculateAPBarPosition();
+        myCurrentApBarText.text = currentAP.ToString();
+        myCurrentMaxApBarText.text = currentMaxAP.ToString();
+        apBarPositionCurrentlyUpdating = false;
+        StartCoroutine(UpdateAPBarPositionCoroutine(finalValue));
+
+    }    
+    public IEnumerator UpdateHealthBarPanelPosition(float finalValue)
+    {
+        float needleMoveSpeed = 0.02f;
+        healthBarPositionCurrentlyUpdating = true;
+
+        while (myHealthBarStatPanel.value != finalValue && healthBarPositionCurrentlyUpdating == true)
+        {
+            if (myHealthBarStatPanel.value > finalValue)
+            {
+                myHealthBarStatPanel.value -= needleMoveSpeed;
+                if (myHealthBarStatPanel.value < finalValue)
+                {
+                    myHealthBarStatPanel.value = finalValue;
+                }
+            }
+            else if (myHealthBarStatPanel.value < finalValue)
+            {
+                myHealthBarStatPanel.value += needleMoveSpeed;
+                if (myHealthBarStatPanel.value > finalValue)
+                {
+                    myHealthBarStatPanel.value = finalValue;
+                }
+            }
+            yield return new WaitForEndOfFrame();
+        }
+    }
+    public IEnumerator UpdateAPBarPositionCoroutine(float finalValue)
+    {
+        float needleMoveSpeed = 0.02f;
+        apBarPositionCurrentlyUpdating = true;
+
+        while (myApBar.value != finalValue && apBarPositionCurrentlyUpdating == true)
+        {
+            if(myApBar.value > finalValue)
+            {
+                myApBar.value -= needleMoveSpeed;
+                if(myApBar.value < finalValue)
+                {
+                    myApBar.value = finalValue;
+                }
+            }
+            else if (myApBar.value < finalValue)
+            {
+                myApBar.value += needleMoveSpeed;
+                if (myApBar.value > finalValue)
+                {
+                    myApBar.value = finalValue;
+                }
+            }
+            yield return new WaitForEndOfFrame();
+        }
+    }
+    public void SetUpAPBarDividers()
+    {
+        GameObject dividersParent = myApBar.transform.Find("Line Dividers Parent").gameObject;
+        if(dividersParent != null)
+        {
+            int dividersToAdd = currentMaxAP - 1;
+            for(int i = 0; i < dividersToAdd; i++)
+            {
+                Instantiate(PrefabHolder.Instance.apBarDividerPrefab, dividersParent.transform);
+            }
+        }
     }
     #endregion
 

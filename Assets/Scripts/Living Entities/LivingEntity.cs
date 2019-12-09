@@ -10,8 +10,6 @@ public class LivingEntity : MonoBehaviour
     
     [Header("Component References")]
     public Slider myHealthBar;
-    //public CanvasGroup myCG;
-    public MouseOverObject myMouseObject;
     public GameObject myWorldSpaceCanvasParent;
     public GameObject mySpriteParent;
     public GameObject myModelParent;
@@ -124,7 +122,6 @@ public class LivingEntity : MonoBehaviour
         }
         
         myEntityRenderer = GetComponentInChildren<EntityRenderer>();
-        myMouseObject = GetComponentInChildren<MouseOverObject>();
         myStatusManager.SetPanelViewState(true);
 
         // Set up all base properties and values (damage, mobility etc)
@@ -141,20 +138,15 @@ public class LivingEntity : MonoBehaviour
         currentHealth = baseStartingHealth;
         currentMaxAP = baseMaxAP;
         currentEnergy = baseEnergy;              
-        currentMeleeRange = baseMeleeRange;         
+        currentMeleeRange = baseMeleeRange;  
+        
         ModifyCurrentStrength(baseStrength);
         ModifyCurrentWisdom(baseWisdom);
         ModifyCurrentDexterity(baseDexterity);
-        ModifyCurrentInitiative(baseInitiative);
-        myHealthBar.value = CalculateHealthBarPosition();
-        myActivationWindow.myHealthBar.value = CalculateHealthBarPosition();
+        ModifyCurrentInitiative(baseInitiative);        
         ModifyCurrentBlock(baseStartingBlock);
-        ModifyCurrentAP(baseStartingAP);
-        UpdateCurrentHealthText();
-        UpdateCurrentMaxHealthText(currentMaxHealth);
-        // Set up Colors
-        //normalColour = new Color(217, 217, 217);
-        //highlightColour = new Color(255, 255, 255);
+        ModifyCurrentAP(baseStartingAP);           
+        UpdateHealthGUIElements();
         SetColor(normalColour);
     }
     
@@ -189,6 +181,10 @@ public class LivingEntity : MonoBehaviour
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "AP +" + APGainedOrLost, false));
             StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
         }
+        if (defender)
+        {
+            defender.UpdateAPBarPosition();
+        }
     }
     public virtual void ModifyCurrentHealth(int healthGainedOrLost)
     {
@@ -203,9 +199,7 @@ public class LivingEntity : MonoBehaviour
         {
             StartCoroutine(VisualEffectManager.Instance.CreateHealEffect(transform.position, healthGainedOrLost));
         }
-        myHealthBar.value = CalculateHealthBarPosition();
-        myActivationWindow.myHealthBar.value = CalculateHealthBarPosition();
-        UpdateCurrentHealthText();
+        UpdateHealthGUIElements();
 
     }
     public virtual void ModifyCurrentStrength(int strengthGainedOrLost)
@@ -915,7 +909,7 @@ public class LivingEntity : MonoBehaviour
 
         if (defender)
         {
-            defender.UpdateCurrentAPText(currentAP);
+            defender.UpdateAPBarPosition();
         }
     }
     public void ReduceCooldownsOnActivationStart()
@@ -979,29 +973,29 @@ public class LivingEntity : MonoBehaviour
     public void UpdateBlockAmountText(int newBlockValue)
     {
         myBlockText.text = newBlockValue.ToString();
-    }
-    public void UpdateCurrentHealthText()
-    {
-        myCurrentHealthText.text = currentHealth.ToString();
-        if (defender)
-        {
-            defender.myCurrentHealthTextStatBar.text = currentHealth.ToString();
-        }
-    }
-    public void UpdateCurrentMaxHealthText(int newMaxHealthValue)
-    {
-        myCurrentMaxHealthText.text = newMaxHealthValue.ToString();
-        if (defender)
-        {
-            defender.myCurrentMaxHealthTextStatBar.text = currentMaxHealth.ToString();
-        }
-    }
+    }       
     public float CalculateHealthBarPosition()
     {
         float currentHealthFloat = currentHealth;
         float currentMaxHealthFloat = currentMaxHealth;
 
         return currentHealthFloat / currentMaxHealthFloat;
+    }
+    public void UpdateHealthGUIElements()
+    {
+        float finalValue = CalculateHealthBarPosition();
+        myHealthBar.value = finalValue;
+        myActivationWindow.myHealthBar.value = finalValue;
+        myCurrentHealthText.text = currentHealth.ToString();
+        myCurrentMaxHealthText.text = currentMaxHealth.ToString();
+        if (defender)
+        {
+            defender.healthBarPositionCurrentlyUpdating = false;
+            defender.myCurrentHealthTextStatBar.text = currentHealth.ToString();
+            defender.myCurrentMaxHealthTextStatBar.text = currentMaxHealth.ToString();
+            StartCoroutine(defender.UpdateHealthBarPanelPosition(finalValue));
+        }
+
     }
     #endregion
 
