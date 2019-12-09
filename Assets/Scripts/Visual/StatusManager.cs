@@ -107,9 +107,9 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             gameObject.SetActive(true);
         }        
-        StartCoroutine(SetPanelViewStateCoroutine(onOrOff));
+        SetPanelViewStateCoroutine(onOrOff);
     }
-    public IEnumerator SetPanelViewStateCoroutine(bool onOrOff)
+    public void SetPanelViewStateCoroutine(bool onOrOff)
     {
         if (onOrOff == true)
         {
@@ -118,8 +118,6 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         else
         {
             Action fadeAction = FadeOut();
-            yield return new WaitUntil(() => fadeAction.ActionResolved() == true);
-            gameObject.SetActive(false);
         }
     }
     public Action FadeIn()
@@ -154,6 +152,10 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         while (fadingOut && myCG.alpha > 0)
         {
             myCG.alpha -= 0.1f;
+            if(myCG.alpha == 0)
+            {
+                gameObject.SetActive(false);
+            }
             yield return new WaitForEndOfFrame();
         }
         action.actionResolved = true;
