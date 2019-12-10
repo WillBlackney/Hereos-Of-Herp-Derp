@@ -834,6 +834,11 @@ public class AbilityLogic : MonoBehaviour
         }
         else
         {
+            // Create holy fire from prefab and play animation
+            Action holyFireHit = VisualEffectManager.Instance.ShootHolyFire( target.tile.WorldPosition);
+            // wait until holy fire has hit the target
+            yield return new WaitUntil(() => holyFireHit.ActionResolved() == true);
+            // damage event
             Action abilityAction = CombatLogic.Instance.HandleDamage(holyFire.abilityPrimaryValue, caster, target, false, holyFire.abilityAttackType, holyFire.abilityDamageType);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         }

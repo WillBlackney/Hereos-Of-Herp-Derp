@@ -78,6 +78,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
             apCostText.text = abilityAPCost.ToString();
             nameText.text = abilityName.ToString();
             descriptionText.text = abilityDescription.ToString();
+            //TextLogic.SetAbilityDescriptionText(this);
         }
     }
     public void ModifyAbilityPropertiesFromTalents(Ability ability)

@@ -160,19 +160,31 @@ public class CombatLogic : MonoBehaviour
             blockAfter = 0;
         }
 
-        else if (victim.currentBlock > 0 && damageType != AbilityDataSO.DamageType.Poison)
+        else if (victim.currentBlock > 0)
         {
-            blockAfter = victim.currentBlock;
-            Debug.Log("block after = " + blockAfter);
-            blockAfter = blockAfter - adjustedDamageValue;
-            Debug.Log("block after = " + blockAfter);
-            if (blockAfter < 0)
+            if(damageType != AbilityDataSO.DamageType.Poison)
             {
-                healthAfter = victim.currentHealth;
-                healthAfter += blockAfter;
-                blockAfter = 0;
+                blockAfter = victim.currentBlock;
                 Debug.Log("block after = " + blockAfter);
+                blockAfter = blockAfter - adjustedDamageValue;
+                Debug.Log("block after = " + blockAfter);
+                if (blockAfter < 0)
+                {
+                    healthAfter = victim.currentHealth;
+                    healthAfter += blockAfter;
+                    blockAfter = 0;
+                    Debug.Log("block after = " + blockAfter);
+                }
             }
+
+            else if (damageType == AbilityDataSO.DamageType.Poison)
+            {
+                blockAfter = victim.currentBlock;
+                Debug.Log("block after = " + blockAfter);
+                healthAfter = victim.currentHealth - adjustedDamageValue;
+            }
+
+
         }
 
         if (victim.myPassiveManager.barrier && healthAfter < victim.currentHealth)
@@ -197,10 +209,21 @@ public class CombatLogic : MonoBehaviour
 
         if (adjustedDamageValue > 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateDamageEffect(victim.transform.position, adjustedDamageValue, playVFXInstantly));      
+                 
             if(damageType == AbilityDataSO.DamageType.Poison)
             {
+                // Create damaged by poison effect
                 StartCoroutine(VisualEffectManager.Instance.CreateDamagedByPoisonEffect(victim.transform.position));
+            }
+            else if(totalLifeLost == 0)
+            {
+                // Create Lose Armor Effect
+                StartCoroutine(VisualEffectManager.Instance.CreateLoseBlockEffect(victim.transform.position, adjustedDamageValue));
+            }
+            else if (totalLifeLost != 0)
+            {
+                // Create Lose hp / damage effect
+                StartCoroutine(VisualEffectManager.Instance.CreateDamageEffect(victim.transform.position, adjustedDamageValue, playVFXInstantly));
             }
         }
 

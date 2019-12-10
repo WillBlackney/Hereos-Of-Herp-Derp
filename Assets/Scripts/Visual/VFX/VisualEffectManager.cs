@@ -11,6 +11,7 @@ public class VisualEffectManager : MonoBehaviour
     public GameObject ImpactEffectPrefab;
     public GameObject MeleeAttackEffectPrefab;
     public GameObject GainBlockEffectPrefab;
+    public GameObject LoseBlockEffectPrefab;
     public GameObject BuffEffectPrefab;
     public GameObject DebuffEffectPrefab;
     public GameObject PoisonAppliedEffectPrefab;
@@ -24,6 +25,7 @@ public class VisualEffectManager : MonoBehaviour
     public GameObject FireBallPrefab;
     public GameObject ShadowBallPrefab;
     public GameObject FrostBoltPrefab;
+    public GameObject HolyFirePrefab;
 
     [Header("Properties")]
     public List<DamageEffect> vfxQueue = new List<DamageEffect>();
@@ -44,10 +46,10 @@ public class VisualEffectManager : MonoBehaviour
 
     // Create VFX
     #region
-    public IEnumerator CreateDamageEffect(Vector3 location, int damageAmount, bool playFXInstantly = true)
+    public IEnumerator CreateDamageEffect(Vector3 location, int damageAmount, bool heal = false, bool healthLost = true)
     {
         GameObject damageEffect = Instantiate(DamageEffectPrefab, location, Quaternion.identity);
-        damageEffect.GetComponent<DamageEffect>().InitializeSetup(damageAmount);
+        damageEffect.GetComponent<DamageEffect>().InitializeSetup(damageAmount, heal, healthLost);
         yield return null;       
 
     }
@@ -113,6 +115,13 @@ public class VisualEffectManager : MonoBehaviour
     {
         GameObject newImpactVFX = Instantiate(GainBlockEffectPrefab, location, Quaternion.identity);
         newImpactVFX.GetComponent<GainArmorEffect>().InitializeSetup(location, blockGained);
+        yield return null;
+    }
+    public IEnumerator CreateLoseBlockEffect(Vector3 location, int blockLost)
+    {
+        GameObject newImpactVFX = Instantiate(LoseBlockEffectPrefab, location, Quaternion.identity);
+        newImpactVFX.GetComponent<GainArmorEffect>().InitializeSetup(location, blockLost);
+        StartCoroutine(CreateDamageEffect(location, blockLost, false, false));
         yield return null;
     }
     public IEnumerator CreateBuffEffect(Vector3 location)
@@ -222,6 +231,20 @@ public class VisualEffectManager : MonoBehaviour
             }
             yield return new WaitForEndOfFrame();
         }
+    }
+    public Action ShootHolyFire(Vector3 endPos)
+    {
+        Action action = new Action();
+        StartCoroutine(ShootHolyFireCoroutine(endPos, action));
+        return action;
+    }
+    public IEnumerator ShootHolyFireCoroutine(Vector3 endPosition, Action action)
+    {
+        GameObject holyFire = Instantiate(HolyFirePrefab, endPosition, HolyFirePrefab.transform.rotation);
+        Destroy(holyFire, 3);
+        action.actionResolved = true;
+        yield return null;
+        
     }
     public Action ShootFrostBolt(Vector3 startPos, Vector3 endPos)
     {

@@ -9,6 +9,8 @@ public static class TextLogic
     public static string brown = "<color=#968300>";
     public static string blue = "<color=#00BEFF>";
     public static string yellow = "<color=#FFF91C>";
+    public static string purple = "<color=#CF01BC>";
+    public static string darkRed = "<color=#AB0500>";
 
     public static void SetStatusIconDescriptionText(StatusIcon icon)
     {
@@ -202,6 +204,129 @@ public static class TextLogic
                 " turn(s)";
         }
 
+    }
+    public static void SetAbilityDescriptionText(Ability ability)
+    {
+        if (ability.abilityName == "Strike")
+        {
+            ability.descriptionText.text =
+                "Deal " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Physical", brown) +
+                " damage to a target";
+        }
+        else if (ability.abilityName == "Block")
+        {
+            ability.descriptionText.text =
+                "Gain " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Block", blue);
+        }
+        else if (ability.abilityName == "Move")
+        {
+            ability.descriptionText.text =
+                "Move to a tile within " + ReturnColoredText(ability.myLivingEntity.currentMobility.ToString(), yellow) +
+                " of your current position";
+        }
+        else if (ability.abilityName == "Inspire")
+        {
+            ability.descriptionText.text =
+                "Increase a target's" + ReturnColoredText("Strength", yellow) + " by " +
+                ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow);
+        }
+
+        else if (ability.abilityName == "Charge")
+        {
+            ability.descriptionText.text =
+                "Move to a target enemy within " + ReturnColoredText(ability.abilityRange.ToString(), yellow) +
+                " tiles. At the end of the movement, deal " +
+                ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Physical", brown) + " damage, and apply " +
+                ReturnColoredText(ability.abilitySecondaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Exposed", darkRed);
+        }
+
+        else if (ability.abilityName == "Whirlwind")
+        {
+            string tile = "tile";
+            if (ability.myLivingEntity.currentMeleeRange > 1)
+            {
+                tile = "tiles";
+            }
+
+            ability.descriptionText.text =
+                "Deal " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Physical", brown) +
+                " damage to all enemies within " +
+                ReturnColoredText(ability.myLivingEntity.currentMeleeRange.ToString(), yellow) + " " +
+                tile;
+        }
+
+        else if (ability.abilityName == "Fire Ball")
+        {
+            ability.descriptionText.text =
+                "Deal " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Magic", purple) +
+                " damage to a target";
+        }
+        else if (ability.abilityName == "Frost Bolt")
+        {
+            ability.descriptionText.text =
+                "Deal " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Magic", purple) +
+                " damage to a target, and apply " +
+                ReturnColoredText(ability.abilitySecondaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Pinned", darkRed);
+        }
+        else if (ability.abilityName == "Telekinesis")
+        {
+            ability.descriptionText.text =
+                "Teleport a target anywhere within " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) +
+                " tile of its current position";
+        }
+        else if (ability.abilityName == "Twin Strike")
+        {
+            ability.descriptionText.text =
+                "Deal " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Physical", brown) +
+                " damage to a target twice";
+        }
+        else if (ability.abilityName == "Dash")
+        {
+            ability.descriptionText.text =
+                "Move to a tile within " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) +
+                " of your current position";
+        }
+
+        else if (ability.abilityName == "Preparation")
+        {
+            ability.descriptionText.text =
+                "The next ability you use costs " + ReturnColoredText("0", yellow) +
+                " action points";
+        }
+        else if (ability.abilityName == "Holy Fire")
+        {
+            ability.descriptionText.text =
+                "Give " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Block", blue) +
+                " to an ally, or deal " +
+                ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Magic", purple) +
+                " damage to an enemy";
+        }
+        else if (ability.abilityName == "Invigorate")
+        {
+            ability.descriptionText.text =
+                "Give an ally " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) +
+                " action points";
+        }
+        else if (ability.abilityName == "Chaos Bolt")
+        {
+            ability.descriptionText.text =
+                "Deal " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Magic", purple) +
+                " damage to a target, and apply " +
+                ReturnColoredText(ability.abilitySecondaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Exposed", darkRed);
+        }
     }
 
     public static string ReturnColoredText(string text, string color)

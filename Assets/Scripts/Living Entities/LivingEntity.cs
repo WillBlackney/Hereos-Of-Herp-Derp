@@ -393,7 +393,7 @@ public class LivingEntity : MonoBehaviour
         }
 
         DisableWorldSpaceCanvas();
-        Action destroyWindowAction = myActivationWindow.DestroyWindow();        
+        Action destroyWindowAction = myActivationWindow.FadeOutWindow();        
         PlayDeathAnimation();
         yield return new WaitUntil(() => MyDeathAnimationFinished() == true);
         Debug.Log("LivingEntity.HandleDeath() finished waiting for death anim to finish");
@@ -423,20 +423,17 @@ public class LivingEntity : MonoBehaviour
                 }                
 
             }
+            
         }
 
         // end turn and activation triggers just incase        
         myOnActivationEndEffectsFinished = true;
-        
-        
-        
 
-        // Update panel arrow position
-        if (ActivationManager.Instance.entityActivated != this)
+        if (ActivationManager.Instance.entityActivated == this)
         {
-            Debug.Log("Updating Panel Arrow Pos");
-            //ActivationManager.Instance.MoveArrowTowardsTargetPanelPos(ActivationManager.Instance.entityActivated.myActivationWindow, 0.5f);
-        }        
+            ActivationManager.Instance.ActivateNextEntity();
+        }
+        ActivationManager.Instance.activationOrder.Remove(this);
         Destroy(gameObject,0.1f);
     }
     public void PlayDeathAnimation()
@@ -1008,7 +1005,11 @@ public class LivingEntity : MonoBehaviour
         myStatusManager.SetPanelViewState(true);
         if (!inDeathProcess)
         {
-            myActivationWindow.myGlowOutline.SetActive(true);
+            if(myActivationWindow != null)
+            {
+                myActivationWindow.myGlowOutline.SetActive(true);
+            }
+            
         }
         
     }
@@ -1022,7 +1023,11 @@ public class LivingEntity : MonoBehaviour
         }
         if (!inDeathProcess)
         {
-            myActivationWindow.myGlowOutline.SetActive(false);
+            if(myActivationWindow != null)
+            {
+                myActivationWindow.myGlowOutline.SetActive(false);
+            }
+            
         }       
 
     }

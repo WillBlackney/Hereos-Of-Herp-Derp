@@ -87,6 +87,7 @@ public class Defender : LivingEntity
         UpdateCurrentAPStatText(currentEnergy);        
         UpdateCurrentStrengthStatText(currentStrength);
         UpdateCurrentMobilityStatText(currentMobility);
+        mySpellBook.SetNewAbilityDescriptions();
         SetUpAPBarDividers();
         
     }

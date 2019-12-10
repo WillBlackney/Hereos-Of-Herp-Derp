@@ -18,6 +18,9 @@ public class EventManager : Singleton<EventManager>
     }
     public IEnumerator StartNewBasicEncounterEventCoroutine(Action action, EnemyWaveSO enemyWave = null)
     {
+        // Destroy the previous level and tiles + reset values/properties, turn off unneeded views
+        ClearPreviousEncounter();
+
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = false;
 
@@ -27,13 +30,14 @@ public class EventManager : Singleton<EventManager>
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
-
-        // Destroy the previous level and tiles + reset values/properties, turn off unneeded views
-        ClearPreviousEncounter();
+        
         StoryEventManager.Instance.DisableEventScreen();    
 
         // Create a new level
         LevelManager.Instance.CreateLevel();
+
+        // Set up activation window holders
+        ActivationManager.Instance.CreateSlotAndWindowHolders();
 
         // Create defender GO's        
         CharacterRoster.Instance.InstantiateDefenders();  
@@ -71,6 +75,9 @@ public class EventManager : Singleton<EventManager>
     }
     public IEnumerator StartNewEliteEncounterEventCoroutine(Action action)
     {
+        // Destroy the previous level and tiles + reset values/properties
+        ClearPreviousEncounter();
+
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = false;
 
@@ -79,10 +86,7 @@ public class EventManager : Singleton<EventManager>
 
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
-        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
-
-        // Destroy the previous level and tiles + reset values/properties
-        ClearPreviousEncounter();
+        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);        
 
         // Create a new level
         LevelManager.Instance.CreateLevel();
@@ -295,6 +299,7 @@ public class EventManager : Singleton<EventManager>
     }
     public IEnumerator StartNewEndBasicEncounterEventCoroutine()
     {
+        ActivationManager.Instance.ClearAllWindowsFromActivationPanel();
         Debug.Log("StartNewEndBasicEncounterEvent() coroutine started...");
         // Show combat end visual events before loot reward screen appears
         preLootScreenEventFinished = false;

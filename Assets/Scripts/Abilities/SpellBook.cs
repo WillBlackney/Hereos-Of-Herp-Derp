@@ -309,6 +309,17 @@ public class SpellBook : MonoBehaviour
 
 
     }
+    public void SetNewAbilityDescriptions()
+    {
+        if (myLivingEntity.defender)
+        {
+            foreach (Ability ability in myActiveAbilities)
+            {
+                TextLogic.SetAbilityDescriptionText(ability);
+            }
+        }
+        
+    }
     #endregion
 
     // Logic

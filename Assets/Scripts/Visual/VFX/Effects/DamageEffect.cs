@@ -8,19 +8,29 @@ public class DamageEffect : MonoBehaviour
 {
     [Header("Component References")]
     public TextMeshProUGUI amountText;
+    public GameObject myImageParent;
+    public Image heartImage;
+    public Image shieldImage;
     public Animator myAnim;
 
     // Initialization + Setup
     #region
-    public void InitializeSetup(int damageAmount, bool heal = false)
+    public void InitializeSetup(int damageAmount, bool heal = false, bool healthLost = true)
     {
         transform.position = new Vector2(transform.position.x - 0.2f, transform.position.y);
+        if (healthLost)
+        {
+            heartImage.gameObject.SetActive(true);  
+        }
+        else
+        {
+            shieldImage.gameObject.SetActive(true);
+        }
 
         VisualEffectManager.Instance.vfxQueue.Add(this);
         if(heal == false)
         {
             amountText.text = "-" + damageAmount.ToString();
-            //amountText.color = Color.red;
         }
 
         else if(heal == true)

@@ -12,12 +12,15 @@ public class ActivationManager : Singleton<ActivationManager>
     public GameObject activationPanelParent;
     public GameObject panelArrow;
     public GameObject panelSlotPrefab;
+    public GameObject slotHolderPrefab;
+    public GameObject windowHolderPrefab;
 
     [Header("Properties")]
     public List<LivingEntity> activationOrder;
     public List<GameObject> panelSlots;
     public LivingEntity entityActivated;
     public bool panelIsMousedOver;
+    public bool updateWindowPositions;
     
 
     // Setup + Initializaton
@@ -50,6 +53,12 @@ public class ActivationManager : Singleton<ActivationManager>
         action.actionResolved = true;
         yield return null;
     }
+    public void CreateSlotAndWindowHolders()
+    {
+        updateWindowPositions = true;
+        activationSlotContentParent = Instantiate(slotHolderPrefab, activationPanelParent.transform);
+        activationWindowContentParent = Instantiate(windowHolderPrefab, activationPanelParent.transform);
+    }
     public Action StartNewTurnSequence()
     {
         Action action = new Action();
@@ -59,9 +68,6 @@ public class ActivationManager : Singleton<ActivationManager>
     public IEnumerator StartNewTurnSequenceCoroutine(Action action)
     {
         TurnManager.Instance.currentTurnCount++;
-
-        // hide arrow and move it to the position 0
-        //MoveArrowTowardsTargetPanelPos(activationOrder[0].myActivationWindow,0,1000);
 
         Action rolls = CalculateActivationOrder();
         yield return new WaitUntil(() => rolls.ActionResolved() == true);
@@ -74,11 +80,22 @@ public class ActivationManager : Singleton<ActivationManager>
     }
     public void ClearAllWindowsFromActivationPanel()
     {
-        activationOrder.Clear();
-        foreach (Transform child in activationSlotContentParent.transform)
+        updateWindowPositions = false;
+        foreach(LivingEntity entity in activationOrder)
         {
-            Destroy(child.gameObject);
+            if(entity.myActivationWindow != null)
+            {
+
+                entity.myActivationWindow.DestroyWindowOnCombatEnd();
+            }
+            
         }
+
+        activationOrder.Clear();
+        panelSlots.Clear();
+        Destroy(activationSlotContentParent);
+        Destroy(activationWindowContentParent);        
+        
     }
     #endregion
 
@@ -296,7 +313,17 @@ public class ActivationManager : Singleton<ActivationManager>
         int currentIndex = activationOrder.IndexOf(entityActivated);
         if (currentIndex != lastIndex)
         {
-            ActivateEntity(activationOrder[currentIndex + 1]);
+            // if 2 or more living entities are killed at the same time, this will find the next valid entity to activate, then activate it
+            int nextEntityCount = 1;
+            if(activationOrder[currentIndex + nextEntityCount].inDeathProcess)
+            {
+                nextEntityCount++;
+                if (activationOrder[currentIndex + nextEntityCount].inDeathProcess)
+                {
+                    nextEntityCount++;
+                }
+            }
+            ActivateEntity(activationOrder[currentIndex + nextEntityCount]);
         }
         else
         {

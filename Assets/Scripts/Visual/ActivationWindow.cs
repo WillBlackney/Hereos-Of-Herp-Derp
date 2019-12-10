@@ -18,6 +18,7 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public LivingEntity myLivingEntity;
     public bool animateNumberText;
     public bool dontFollowSlot;
+    public bool update;
     public void InitializeSetup(LivingEntity entity)
     {
         myLivingEntity = entity;
@@ -28,34 +29,40 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     private void Update()
     {
-        
         int myCurrentActivationOrderIndex = 0;
 
-        for (int i = 0; i < ActivationManager.Instance.activationOrder.Count; i++)
+        if (ActivationManager.Instance.activationOrder.Count > 0 
+            && ActivationManager.Instance.updateWindowPositions == true)
         {
-            //Check if GameObject is in the List
-            if (ActivationManager.Instance.activationOrder[i] == myLivingEntity)
+            for (int i = 0; i < ActivationManager.Instance.activationOrder.Count; i++)
             {
-                //It is. Return the current index
-                myCurrentActivationOrderIndex = i;
-                break;
+                // Check if GameObject is in the List
+                if (ActivationManager.Instance.activationOrder[i] == myLivingEntity)
+                {
+                    // It is. Return the current index
+                    myCurrentActivationOrderIndex = i;
+                    break;
+                }
             }
-        }
 
-        if (ActivationManager.Instance.panelSlots[myCurrentActivationOrderIndex] != null &&
-            transform.position != ActivationManager.Instance.panelSlots[myCurrentActivationOrderIndex].transform.position)
-        {
-            MoveTowardsSlotPosition(ActivationManager.Instance.panelSlots[myCurrentActivationOrderIndex]);
-        }
+            if (ActivationManager.Instance.panelSlots != null &&
+                ActivationManager.Instance.panelSlots.Count -1 >= myCurrentActivationOrderIndex &&
+                ActivationManager.Instance.panelSlots[myCurrentActivationOrderIndex] != null &&
+                transform.position != ActivationManager.Instance.panelSlots[myCurrentActivationOrderIndex].transform.position)
+            {
+                MoveTowardsSlotPosition(ActivationManager.Instance.panelSlots[myCurrentActivationOrderIndex]);
+            }
+        }    
+        
         
     }
-    public Action DestroyWindow()
+    public Action FadeOutWindow()
     {
         Action action = new Action();
-        StartCoroutine(DestroyWindowCoroutine(action));
+        StartCoroutine(FadeOutWindowCoroutine(action));
         return action;
     }
-    public IEnumerator DestroyWindowCoroutine(Action action)
+    public IEnumerator FadeOutWindowCoroutine(Action action)
     {
         while (myCanvasGroup.alpha > 0)
         {
@@ -63,7 +70,10 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
             if (myCanvasGroup.alpha == 0)
             {
                 GameObject slotDestroyed = ActivationManager.Instance.panelSlots[ActivationManager.Instance.panelSlots.Count - 1];
-                ActivationManager.Instance.activationOrder.Remove(myLivingEntity);
+                if (ActivationManager.Instance.activationOrder.Contains(myLivingEntity))
+                {
+                    ActivationManager.Instance.activationOrder.Remove(myLivingEntity);
+                }                
                 ActivationManager.Instance.panelSlots.Remove(slotDestroyed);                
                 Destroy(slotDestroyed);
                 Destroy(gameObject);
@@ -73,6 +83,11 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
         }        
         
 
+    }
+
+    public void DestroyWindowOnCombatEnd()
+    {
+        Destroy(gameObject);
     }
     public void MoveTowardsSlotPosition(GameObject slot)
     {

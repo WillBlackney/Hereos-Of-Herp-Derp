@@ -117,7 +117,7 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
         else
         {
-            Action fadeAction = FadeOut();
+            FadeOut();
         }
     }
     public Action FadeIn()
