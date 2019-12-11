@@ -131,28 +131,28 @@ public class CombatLogic : MonoBehaviour
     }
     public IEnumerator HandleDamageCoroutine(int damageAmount, LivingEntity attacker, LivingEntity victim, Action action, bool playVFXInstantly = false, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None, AbilityDataSO.DamageType damageType = AbilityDataSO.DamageType.None, Ability abilityUsed = null)
     {
+        // Establish properties for this damage event
         int totalLifeLost = 0;
         int adjustedDamageValue = damageAmount;
+        int blockAfter = victim.currentBlock;
+        int healthAfter = victim.currentHealth;
 
-        // play VFX
-
+        // play impact VFX
         if (attackType != AbilityDataSO.AttackType.None)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateImpactEffect(victim.transform.position));
+
+            // if melee attack, play melee attack vfx
             if (attackType == AbilityDataSO.AttackType.Melee)
             {
                 StartCoroutine(VisualEffectManager.Instance.CreateMeleeAttackEffect(victim.transform.position));
             }
-
         }
 
         if (damageType != AbilityDataSO.DamageType.Poison)
         {
             adjustedDamageValue = CalculateDamage(damageAmount, victim, attacker, damageType, attackType, abilityUsed);
-        }        
-
-        int blockAfter = victim.currentBlock;
-        int healthAfter = victim.currentHealth;
+        }           
 
         if (victim.currentBlock == 0)
         {
@@ -183,8 +183,6 @@ public class CombatLogic : MonoBehaviour
                 Debug.Log("block after = " + blockAfter);
                 healthAfter = victim.currentHealth - adjustedDamageValue;
             }
-
-
         }
 
         if (victim.myPassiveManager.barrier && healthAfter < victim.currentHealth)
@@ -201,15 +199,16 @@ public class CombatLogic : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
         }
 
-        totalLifeLost = victim.currentHealth - healthAfter;        
-
-        victim.currentHealth = healthAfter;
+        // Finished calculating the final damage, health lost and armor lost: p
+        totalLifeLost = victim.currentHealth - healthAfter;
+        //victim.currentHealth = healthAfter;
+        victim.ModifyCurrentHealth(-totalLifeLost);
         victim.SetCurrentBlock(blockAfter);
-        victim.UpdateHealthGUIElements();
+        //victim.UpdateHealthGUIElements();
 
+        // Play VFX depending on whether the victim lost health, block, or was damaged by poison
         if (adjustedDamageValue > 0)
-        {
-                 
+        {                 
             if(damageType == AbilityDataSO.DamageType.Poison)
             {
                 // Create damaged by poison effect
@@ -228,16 +227,20 @@ public class CombatLogic : MonoBehaviour
             }
         }
 
+        // Update character data if victim is a defender
         if (victim.defender != null && totalLifeLost > 0)
         {
             victim.defender.myCharacterData.ModifyCurrentHealth(-totalLifeLost);
         }
+
+        // Check the victim's and attacker's passive traits that are related to taking damage 
 
         // Life steal
         if (attacker.myPassiveManager.lifeSteal && totalLifeLost > 0)
         {
             attacker.ModifyCurrentHealth(totalLifeLost);
         }
+
         // Poisonous trait
         if (attacker.myPassiveManager.poisonous && totalLifeLost > 0 && attackType == AbilityDataSO.AttackType.Melee)
         {           
@@ -271,10 +274,7 @@ public class CombatLogic : MonoBehaviour
 
         // Thorns
         if (victim.myPassiveManager.thorns)
-        {           
-            // TO DO: this needs be updated when we implement damage and attack types
-            // if two characters with thorns attack each other, they will continously thorns damage each other until 1 dies
-            // thorns damage can only be triggered by a melee attack
+        {  
             if(attackType == AbilityDataSO.AttackType.Melee)
             {
                 Debug.Log("Victim has thorns and was struck by a melee attack, returning damage...");
@@ -299,22 +299,26 @@ public class CombatLogic : MonoBehaviour
             Action reflexAction = victim.StartQuickReflexesMove();
             yield return new WaitUntil(() => reflexAction.ActionResolved() == true);
         }
+
         victim.timesAttackedThisTurnCycle++;
 
+        // Check if the victim was killed by the damage
         if (victim.currentHealth <= 0 && victim.inDeathProcess == false)
         {
+            // the victim was killed, start death process
             victim.inDeathProcess = true;
-            // prevent enemy scripts from continuing their activations when killed mid activation
-            // from stuff like free strikes
             victim.StopAllCoroutines();
             StartCoroutine(victim.HandleDeath());
         }
+
         else if(victim.currentHealth > 0 && totalLifeLost > 0)
         {
-            victim.myAnimator.enabled = true;
+            // the victim wasn't killed, play 'hurt' animation
+            // victim.myAnimator.enabled = true;
             victim.myAnimator.SetTrigger("Hurt");
         }
 
+        // Send 'actiom resolved' message back up the stack
         action.actionResolved = true;
     }
     public int CalculateDamage(int abilityBaseDamage, LivingEntity victim, LivingEntity attacker, AbilityDataSO.DamageType damageType, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None, Ability abilityUsed = null)

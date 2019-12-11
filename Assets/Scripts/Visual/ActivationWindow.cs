@@ -25,9 +25,8 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
         myEntityImage.sprite = entity.mySpriteRenderer.sprite;
         entity.myActivationWindow = this;
         myCanvasGroup = GetComponent<CanvasGroup>();
-
-        // weird unity bug means we need to set sorting order twice to make health bar render correctly
-        myHealthBar.GetComponent<Canvas>().sortingOrder = 21;
+        gameObject.SetActive(false);
+        gameObject.SetActive(true);
     }
 
     private void Update()
@@ -37,6 +36,12 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
         if (ActivationManager.Instance.activationOrder.Count > 0 
             && ActivationManager.Instance.updateWindowPositions == true)
         {
+            // TO DO: 2 lines below prevent buggy behabiour in unity that prevents the activation window's health bar
+            // from rendering correctly. Doing this in update degrades performance. fix in the future
+
+            ActivationManager.Instance.activationPanelParent.GetComponent<Canvas>().overrideSorting = true;
+            ActivationManager.Instance.activationPanelParent.GetComponent<Canvas>().sortingOrder = 19;
+
             for (int i = 0; i < ActivationManager.Instance.activationOrder.Count; i++)
             {
                 // Check if GameObject is in the List
