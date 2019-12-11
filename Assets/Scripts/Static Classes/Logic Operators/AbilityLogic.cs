@@ -42,12 +42,12 @@ public class AbilityLogic : MonoBehaviour
         if(ability.abilityName == "Move")
         {
             // if character has a free move available
-            if (livingEntity.moveActionsTakenThisTurn == 0 && livingEntity.myPassiveManager.fleetFooted)
+            if (livingEntity.moveActionsTakenThisActivation == 0 && livingEntity.myPassiveManager.fleetFooted)
             {
                 livingEntity.StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(livingEntity.transform.position, "Fleet Footed", true, "Blue"));
                 finalApCost = 0;
             }
-            livingEntity.moveActionsTakenThisTurn++;
+            livingEntity.moveActionsTakenThisActivation++;
         }
 
         else if (ability.abilityName == "Slice And Dice")
@@ -189,8 +189,10 @@ public class AbilityLogic : MonoBehaviour
         Action abilityAction = CombatLogic.Instance.HandleDamage(twinStrike.abilityPrimaryValue, attacker, victim, false, twinStrike.abilityAttackType, twinStrike.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         yield return new WaitForSeconds(0.3f);
-        // check to make sure the enemy wasnt killed by the first attack
-        if (victim.currentHealth > 0 && victim != null)
+
+        // check to make sure the target is still valid for the second attack
+        if (victim.inDeathProcess == false && 
+            EntityLogic.IsTargetInRange(attacker, victim, attacker.currentMeleeRange))
         {
             StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
             Action abilityAction2 = CombatLogic.Instance.HandleDamage(twinStrike.abilityPrimaryValue, attacker, victim, false, twinStrike.abilityAttackType, twinStrike.abilityDamageType);

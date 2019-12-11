@@ -91,6 +91,9 @@ public class EventManager : Singleton<EventManager>
         // Create a new level
         LevelManager.Instance.CreateLevel();
 
+        // Set up activation window holders
+        ActivationManager.Instance.CreateSlotAndWindowHolders();
+
         // Create defender GO's        
         CharacterRoster.Instance.InstantiateDefenders();
 
@@ -183,6 +186,8 @@ public class EventManager : Singleton<EventManager>
         ClearPreviousEncounter();
         // Create a new level
         LevelManager.Instance.CreateLevel();
+        // Set up activation window holders
+        ActivationManager.Instance.CreateSlotAndWindowHolders();
         //EnemySpawner.Instance.PopulateEnemySpawnLocations();        
         CharacterRoster.Instance.InstantiateDefenders();        
         // disable world map view
@@ -298,9 +303,10 @@ public class EventManager : Singleton<EventManager>
         StartCoroutine(StartNewEndBasicEncounterEventCoroutine());        
     }
     public IEnumerator StartNewEndBasicEncounterEventCoroutine()
-    {
-        ActivationManager.Instance.ClearAllWindowsFromActivationPanel();
+    {        
         Debug.Log("StartNewEndBasicEncounterEvent() coroutine started...");
+        // Destroy windows
+        ActivationManager.Instance.ClearAllWindowsFromActivationPanel();
         // Show combat end visual events before loot reward screen appears
         preLootScreenEventFinished = false;
         // Disable end turn button
@@ -329,6 +335,8 @@ public class EventManager : Singleton<EventManager>
     public IEnumerator StartNewEndEliteEncounterEventCoroutine(Action action)
     {
         Debug.Log("StartNewEndEliteEncounterEvent() coroutine started...");
+        // Destroy windows
+        ActivationManager.Instance.ClearAllWindowsFromActivationPanel();
         // Show combat end visual events before loot reward screen appears
         preLootScreenEventFinished = false;
         // Disable end turn button

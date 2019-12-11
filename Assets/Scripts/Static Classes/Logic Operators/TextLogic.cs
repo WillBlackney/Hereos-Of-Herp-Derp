@@ -63,8 +63,8 @@ public static class TextLogic
         else if (icon.statusName == "Volatile")
         {
             icon.statusDescriptionText.text =
-                "Upon death, this character explodes, dealing " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
-                + " damage to ALL adjacent characters";
+                "On death, this character explodes, dealing " + ReturnColoredText(icon.statusStacks.ToString(), yellow) + " " +
+                ReturnColoredText("Physical", brown) + " damage to ALL adjacent characters";
         }
         else if (icon.statusName == "Camoflage")
         {
@@ -128,7 +128,7 @@ public static class TextLogic
         else if (icon.statusName == "Quick Reflexes")
         {
             icon.statusDescriptionText.text =
-                "The first time this character is damaged each turn, it moves to a random adjacent tile";
+                "The first time this character is attacked each turn cycle, it teleports to a random adjacent tile";
         }
         else if (icon.statusName == "Regeneration")
         {

@@ -29,9 +29,10 @@ public class ActivationManager : Singleton<ActivationManager>
     {
         GameObject newSlot = Instantiate(panelSlotPrefab, activationSlotContentParent.transform);
         panelSlots.Add(newSlot);
-        //GameObject newWindow = Instantiate(PrefabHolder.Instance.activationWindowPrefab, activationWindowContentParent.transform);
+
         GameObject newWindow = Instantiate(PrefabHolder.Instance.activationWindowPrefab, activationWindowContentParent.transform);
-        newWindow.transform.position = windowStartPos.transform.position;       
+        newWindow.transform.position = windowStartPos.transform.position;      
+        
         ActivationWindow newWindowScript = newWindow.GetComponent<ActivationWindow>();
         newWindowScript.InitializeSetup(entity);        
         activationOrder.Add(entity);
@@ -54,10 +55,10 @@ public class ActivationManager : Singleton<ActivationManager>
         yield return null;
     }
     public void CreateSlotAndWindowHolders()
-    {
-        updateWindowPositions = true;
+    {        
         activationSlotContentParent = Instantiate(slotHolderPrefab, activationPanelParent.transform);
         activationWindowContentParent = Instantiate(windowHolderPrefab, activationPanelParent.transform);
+        updateWindowPositions = true;
     }
     public Action StartNewTurnSequence()
     {
@@ -68,6 +69,10 @@ public class ActivationManager : Singleton<ActivationManager>
     public IEnumerator StartNewTurnSequenceCoroutine(Action action)
     {
         TurnManager.Instance.currentTurnCount++;
+        foreach(LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            entity.OnNewTurnCycleStarted();
+        }
 
         Action rolls = CalculateActivationOrder();
         yield return new WaitUntil(() => rolls.ActionResolved() == true);

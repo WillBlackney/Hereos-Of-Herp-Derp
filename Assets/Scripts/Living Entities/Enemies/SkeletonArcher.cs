@@ -119,7 +119,7 @@ public class SkeletonArcher : Enemy
 
         // If we have no AP but can still make a feee move, try to move towards a grass tile first
         else if (myPassiveManager.fleetFooted &&
-            moveActionsTakenThisTurn == 0 &&
+            moveActionsTakenThisActivation == 0 &&
             currentAP == 0 &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.GetValidGrassTileWithinRange(this, currentMobility) != null &&

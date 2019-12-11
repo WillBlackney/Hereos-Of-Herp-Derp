@@ -1,9 +1,9 @@
-﻿using System.Collections;
+﻿using Spriter2UnityDX;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using Spriter2UnityDX;
 
 public class LivingEntity : MonoBehaviour
 {        
@@ -67,8 +67,8 @@ public class LivingEntity : MonoBehaviour
     public bool mouseIsOverStatusIconPanel;
     public bool mouseIsOverCharacter;
     public int currentInitiativeRoll;
-    public int moveActionsTakenThisTurn;
-    public int timesAttackedThisTurn;
+    public int moveActionsTakenThisActivation;
+    public int timesAttackedThisTurnCycle;
     public bool inDeathProcess;
     public bool facingRight;
     public bool spriteImportedFacingRight;
@@ -357,6 +357,10 @@ public class LivingEntity : MonoBehaviour
 
         UpdateBlockAmountText(currentBlock);
     }
+    public void OnNewTurnCycleStarted()
+    {
+        timesAttackedThisTurnCycle = 0;
+    }
     #endregion
     
     // Damage + Death related and events and VFX
@@ -509,12 +513,7 @@ public class LivingEntity : MonoBehaviour
 
         }
     }
-    public Action StartQuickReflexesMove()
-    {
-        Action action = new Action();
-        StartCoroutine(StartQuickReflexesMoveCoroutine(action));
-        return action;
-    }
+   
     #endregion
 
     // Turn + activation related
@@ -527,8 +526,8 @@ public class LivingEntity : MonoBehaviour
     }
     public IEnumerator OnActivationStartCoroutine(Action action)
     {
-        moveActionsTakenThisTurn = 0;
-        timesAttackedThisTurn = 0;
+        moveActionsTakenThisActivation = 0;
+        timesAttackedThisTurnCycle = 0;
         GainEnergyOnActivationStart();
         ReduceCooldownsOnActivationStart();
         ModifyBlockOnActivationStart();        
@@ -941,7 +940,12 @@ public class LivingEntity : MonoBehaviour
 
     // Misc
     #region
-    
+    public Action StartQuickReflexesMove()
+    {
+        Action action = new Action();
+        StartCoroutine(StartQuickReflexesMoveCoroutine(action));
+        return action;
+    }
     public IEnumerator StartQuickReflexesMoveCoroutine(Action action)
     {
         // TO DO: prevent quick reflex movements from occuring on a characters own turn (only triggered during the enemies turn)
@@ -954,8 +958,8 @@ public class LivingEntity : MonoBehaviour
 
             if (destination != null)
             {
-                Action moveAction = MovementLogic.Instance.MoveEntity(this, destinationTile, 3, true);
-                yield return new WaitUntil(() => moveAction.ActionResolved() == true);                
+                Action teleportAction = MovementLogic.Instance.TeleportEntity(this, tile, destinationTile);
+                yield return new WaitUntil(() => teleportAction.ActionResolved() == true);                
             }
 
         }

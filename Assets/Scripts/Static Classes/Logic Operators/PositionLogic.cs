@@ -69,12 +69,23 @@ public class PositionLogic : Singleton<PositionLogic>
     public void CalculateWhichDirectionToFace(LivingEntity character, Tile tileToFace)
     {
         // flip the sprite's x axis depending on the direction of movement
-        if (LevelManager.Instance.IsDestinationTileToTheRight(character.tile, tileToFace))
+
+        // if the target is already on the same X axis, dont flip sprite
+        if (LevelManager.Instance.IsDestinationTileToTheLeft(character.tile, tileToFace) == false &&
+            LevelManager.Instance.IsDestinationTileToTheRight(character.tile, tileToFace) == false)
+        {
+            Debug.Log("CalculateWhichDirectionToFace() detected character is already aligned with target, not flipping...");
+            return;
+        }
+        
+        // if the target is to the right, flip and face right
+        else if (LevelManager.Instance.IsDestinationTileToTheRight(character.tile, tileToFace))
         {
             Debug.Log("CalculateWhichDirectionToFace() facing character towards the right...");
             SetDirection(character,"Right");            
         }
 
+        // if the target is to the left, flip and face left
         else if (LevelManager.Instance.IsDestinationTileToTheRight(character.tile, tileToFace) == false)
         {
             Debug.Log("CalculateWhichDirectionToFace() facing character towards the left...");

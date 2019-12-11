@@ -155,7 +155,7 @@ public static class EntityLogic
         }
 
         else if (entity.myPassiveManager.fleetFooted &&
-                entity.moveActionsTakenThisTurn == 0 &&
+                entity.moveActionsTakenThisActivation == 0 &&
                 ability.abilityName == "Move")
         {
             return true;

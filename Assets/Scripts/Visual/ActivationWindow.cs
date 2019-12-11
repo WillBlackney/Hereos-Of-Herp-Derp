@@ -25,6 +25,9 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
         myEntityImage.sprite = entity.mySpriteRenderer.sprite;
         entity.myActivationWindow = this;
         myCanvasGroup = GetComponent<CanvasGroup>();
+
+        // weird unity bug means we need to set sorting order twice to make health bar render correctly
+        myHealthBar.GetComponent<Canvas>().sortingOrder = 21;
     }
 
     private void Update()

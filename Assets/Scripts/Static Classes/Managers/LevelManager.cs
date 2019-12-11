@@ -152,6 +152,22 @@ public class LevelManager : Singleton<LevelManager>
             return false;
         }
     }
+    public bool IsDestinationTileToTheLeft(Tile tileFrom, Tile destination)
+    {
+        if (tileFrom.GridPosition.X > destination.GridPosition.X)
+        {
+            return true;
+        }
+        else if (tileFrom.GridPosition.X < destination.GridPosition.X)
+        {
+            return false;
+        }
+
+        else
+        {
+            return false;
+        }
+    }
 
     #endregion
 
@@ -498,7 +514,7 @@ public class LevelManager : Singleton<LevelManager>
 
         List<Tile> tilesToDestroy = new List<Tile>();
 
-        if (Tiles != null)
+        if (Tiles != null && Tiles.Count > 0)
         {
             tilesToDestroy.AddRange(GetAllTilesFromCurrentLevelDictionary());
             Tiles.Clear();

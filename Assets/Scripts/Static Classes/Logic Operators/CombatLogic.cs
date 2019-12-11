@@ -214,22 +214,23 @@ public class CombatLogic : MonoBehaviour
             {
                 // Create damaged by poison effect
                 StartCoroutine(VisualEffectManager.Instance.CreateDamagedByPoisonEffect(victim.transform.position));
+                StartCoroutine(VisualEffectManager.Instance.CreateDamageEffect(victim.transform.position, totalLifeLost, playVFXInstantly));
             }
             else if(totalLifeLost == 0)
             {
                 // Create Lose Armor Effect
                 StartCoroutine(VisualEffectManager.Instance.CreateLoseBlockEffect(victim.transform.position, adjustedDamageValue));
             }
-            else if (totalLifeLost != 0)
+            else if (totalLifeLost > 0)
             {
                 // Create Lose hp / damage effect
-                StartCoroutine(VisualEffectManager.Instance.CreateDamageEffect(victim.transform.position, adjustedDamageValue, playVFXInstantly));
+                StartCoroutine(VisualEffectManager.Instance.CreateDamageEffect(victim.transform.position, totalLifeLost, playVFXInstantly));
             }
         }
 
-        if (victim.defender != null)
+        if (victim.defender != null && totalLifeLost > 0)
         {
-            victim.defender.myCharacterData.ModifyCurrentHealth(-(victim.currentMaxHealth - victim.currentHealth));
+            victim.defender.myCharacterData.ModifyCurrentHealth(-totalLifeLost);
         }
 
         // Life steal
@@ -290,13 +291,15 @@ public class CombatLogic : MonoBehaviour
         }
 
         // Quick Reflexes
-        if (victim.timesAttackedThisTurn == 0 && victim.myPassiveManager.quickReflexes && EntityLogic.IsAbleToMove(victim))
+        if (victim.timesAttackedThisTurnCycle == 0 &&
+            victim.myPassiveManager.quickReflexes && 
+            attackType != AbilityDataSO.AttackType.None)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Quick Reflexes", true, "Blue"));
             Action reflexAction = victim.StartQuickReflexesMove();
             yield return new WaitUntil(() => reflexAction.ActionResolved() == true);
         }
-        victim.timesAttackedThisTurn++;
+        victim.timesAttackedThisTurnCycle++;
 
         if (victim.currentHealth <= 0 && victim.inDeathProcess == false)
         {
