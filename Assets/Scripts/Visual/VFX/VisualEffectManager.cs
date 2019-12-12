@@ -157,9 +157,9 @@ public class VisualEffectManager : MonoBehaviour
     public IEnumerator CreateHealEffect(Vector3 location, int healAmount)
     {
         GameObject damageEffect = Instantiate(DamageEffectPrefab, location, Quaternion.identity);
-        damageEffect.GetComponent<DamageEffect>().InitializeSetup(healAmount, true);        
-        GameObject newImpactVFX = Instantiate(HealEffectPrefab, location, Quaternion.identity);
-        newImpactVFX.GetComponent<BuffEffect>().InitializeSetup(location);
+        damageEffect.GetComponent<DamageEffect>().InitializeSetup(healAmount, true, false);        
+        GameObject newHealVFX = Instantiate(HealEffectPrefab, location, Quaternion.identity);
+        newHealVFX.GetComponent<BuffEffect>().InitializeSetup(location);
         yield return null;
     }
     public IEnumerator CreateAoeMeleeAttackEffect(Vector3 location)

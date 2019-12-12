@@ -424,7 +424,12 @@ public class LivingEntity : MonoBehaviour
                 {
                     //StartCoroutine(EventManager.Instance.StartNewEndBasicEncounterEvent());
                     EventManager.Instance.StartNewEndBasicEncounterEvent();
-                }                
+                }
+                else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.Boss)
+                {
+                    //StartCoroutine(EventManager.Instance.StartNewEndBasicEncounterEvent());
+                    EventManager.Instance.StartNewEndBossEncounterEvent();
+                }
 
             }
             
@@ -950,16 +955,18 @@ public class LivingEntity : MonoBehaviour
     {
         // TO DO: prevent quick reflex movements from occuring on a characters own turn (only triggered during the enemies turn)
         if (ActivationManager.Instance.entityActivated != this)
-        {
-            Tile destinationTile = null;
-            List<Tile> availableTiles = LevelManager.Instance.GetValidMoveableTilesWithinRange(currentMobility, tile);
+        {           
+            List<Tile> availableTiles = LevelManager.Instance.GetTilesWithinRange(1, tile);
+            Tile destinationTile = LevelManager.Instance.GetRandomValidMoveableTile(availableTiles);
 
-            destinationTile = availableTiles[Random.Range(0, availableTiles.Count)];
-
-            if (destination != null)
+            if (destinationTile != null)
             {
                 Action teleportAction = MovementLogic.Instance.TeleportEntity(this, tile, destinationTile);
                 yield return new WaitUntil(() => teleportAction.ActionResolved() == true);                
+            }
+            else
+            {
+                Debug.Log("StartQuickReflexesMoveCoroutine() could not find a valid adjacent tile to teleport to...");
             }
 
         }

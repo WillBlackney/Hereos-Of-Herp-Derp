@@ -122,6 +122,60 @@ public class EventManager : Singleton<EventManager>
         // declare this event complete
         action.actionResolved = true;
     }
+    public Action StartNewBossEncounterEvent(EnemyWaveSO enemyWave = null)
+    {
+        Action action = new Action();
+        StartCoroutine(StartNewBossEncounterEventCoroutine(action, enemyWave));
+        return action;
+    }
+    public IEnumerator StartNewBossEncounterEventCoroutine(Action action, EnemyWaveSO enemyWave = null)
+    {
+        // Destroy the previous level and tiles + reset values/properties, turn off unneeded views
+        ClearPreviousEncounter();
+
+        // Disable player's ability to click on encounter buttons and start new encounters
+        WorldManager.Instance.canSelectNewEncounter = false;
+
+        // fade out view, wait until completed
+        Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
+        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
+
+        StoryEventManager.Instance.DisableEventScreen();
+
+        // Create a new level
+        LevelManager.Instance.CreateLevel();
+
+        // Set up activation window holders
+        ActivationManager.Instance.CreateSlotAndWindowHolders();
+
+        // Create defender GO's        
+        CharacterRoster.Instance.InstantiateDefenders();
+
+        // Instantiate enemies
+        EnemySpawner.Instance.SpawnEnemyWave("Boss", enemyWave);
+
+        // disable world map view
+        UIManager.Instance.DisableWorldMapView();
+        currentEncounterType = WorldEncounter.EncounterType.Boss;
+
+        // Fade scene back in, wait until completed
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+
+        // Apply Relevant State Effects
+        Action stateApplications = StateManager.Instance.ApplyAllStateEffectsToCharacters();
+        yield return new WaitUntil(() => stateApplications.ActionResolved() == true);
+
+        // Check for expired states and remove them
+        Action stateExpirations = StateManager.Instance.CheckForStateExpirationsOnCombatStart();
+        yield return new WaitUntil(() => stateExpirations.ActionResolved() == true);
+
+        // Start activations / combat start events
+        ActivationManager.Instance.OnNewCombatEventStarted();
+
+        // declare this event complete
+        action.actionResolved = true;
+    }
     public void StartNewRestSiteEncounterEvent()
     {
         StartCoroutine(StartNewRestSiteEncounterEventCoroutine());
@@ -356,6 +410,34 @@ public class EventManager : Singleton<EventManager>
         StartNewLootRewardEvent(false);        
         action.actionResolved = true;
         
+    }
+    public void StartNewEndBossEncounterEvent()
+    {
+        StartCoroutine(StartNewEndBossEncounterEventCoroutine());
+    }
+    public IEnumerator StartNewEndBossEncounterEventCoroutine()
+    {
+        Debug.Log("StartNewEndBossEncounterEvent() coroutine started...");
+        // Destroy windows
+        ActivationManager.Instance.ClearAllWindowsFromActivationPanel();
+        // Show combat end visual events before loot reward screen appears
+        preLootScreenEventFinished = false;
+        // Disable end turn button
+        UIManager.Instance.DisableEndTurnButtonView();
+        // Unselect defender to hide ability bar UI, prevent null behaviors
+        DefenderManager.Instance.ClearSelectedDefender();
+        // Hide ability info panel
+        // Show xp rewards + level ups
+        Action lootEvent = StartPreLootScreenVisualEvent(100);
+        yield return new WaitUntil(() => lootEvent.ActionResolved() == true);
+        // Give characters xp
+        CharacterRoster.Instance.RewardAllCharactersXP(100);
+        //SpellInfoBox.Instance.HideInfoBox();       
+        // re enable world map + get next viable enocunter hexagon tiles
+        WorldManager.Instance.SetWorldMapReadyState();
+        // Start loot creation/display process
+        StartNewLootRewardEvent();
+        yield return null;
     }
     public void EndNewLootRewardEvent()
     {

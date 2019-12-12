@@ -15,10 +15,10 @@ public class DamageEffect : MonoBehaviour
 
     // Initialization + Setup
     #region
-    public void InitializeSetup(int damageAmount, bool heal = false, bool healthLost = true)
+    public void InitializeSetup(int damageAmount, bool heal = false, bool healthModified = true)
     {
         transform.position = new Vector2(transform.position.x - 0.2f, transform.position.y);
-        if (healthLost)
+        if (healthModified)
         {
             heartImage.gameObject.SetActive(true);  
         }

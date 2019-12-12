@@ -67,8 +67,7 @@ public class EnemySpawner : Singleton<EnemySpawner>
             {
                 enemyWaveSO = GetRandomWaveSO(bossEnemyWaves);
             }
-        }
-        
+        }        
 
 
         foreach (EnemyGroup enemyGroup in enemyWaveSO.enemyGroups)

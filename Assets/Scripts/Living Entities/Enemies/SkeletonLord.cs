@@ -38,8 +38,6 @@ public class SkeletonLord : Enemy
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformSummonSkeleton(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
-            // update panel arrow pos
-            //ActivationManager.Instance.MoveArrowTowardsTargetPanelPos(ActivationManager.Instance.entityActivated.myActivationWindow);
             yield return new WaitForSeconds(0.5f);
             goto ActionStart;
         }

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {    
-    public enum EncounterType { NoType, BasicEnemy, EliteEnemy, Home, CampSite, Shop, Treasure, Mystery};
+    public enum EncounterType { NoType, BasicEnemy, EliteEnemy, Home, CampSite, Shop, Treasure, Mystery, Boss};
 
     [Header("Properties")]
     public List<WorldEncounter> connectingEncounters;
@@ -99,6 +99,13 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             myEncounterTypeImage.sprite = mysteryEncounterImage;
             myEncounterTypeShadowImage.sprite = mysteryEncounterShadowImage;
         }
+        else if (myEncounterType == EncounterType.Boss)
+        {
+            myEncounterTypeImage.sprite = eliteEncounterImage;
+            myEncounterTypeShadowImage.sprite = eliteEncounterShadowImage;
+            myEncounterTypeImage.color = Color.red;
+            myEncounterTypeShadowImage.color = Color.red;
+        }
     }
     
     #endregion
@@ -157,6 +164,13 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             WorldManager.Instance.SetPlayerPosition(this);
             Debug.Log("Starting new Mystery Room event");
             EventManager.Instance.StartNewMysteryEncounterEvent();
+        }
+
+        else if (myEncounterType == EncounterType.Boss)
+        {
+            WorldManager.Instance.SetPlayerPosition(this);
+            Debug.Log("Starting new Mystery Room event");
+            EventManager.Instance.StartNewBossEncounterEvent();
         }
 
         WorldManager.Instance.UnhighlightAllHexagons();
