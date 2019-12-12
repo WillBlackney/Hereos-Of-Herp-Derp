@@ -439,6 +439,29 @@ public class EventManager : Singleton<EventManager>
         StartNewLootRewardEvent();
         yield return null;
     }
+    public void StartNewGameOverDefeatedEvent()
+    {
+        StartCoroutine(StartNewGameOverDefeatedEventCoroutine());
+    }
+    public IEnumerator StartNewGameOverDefeatedEventCoroutine()
+    {
+        Debug.Log("StartNewGameOverDefeatedEventCoroutine() coroutine started...");
+        // Destroy windows
+        ActivationManager.Instance.ClearAllWindowsFromActivationPanel();
+        // Show combat end visual events before loot reward screen appears
+        preLootScreenEventFinished = false;
+        // Disable end turn button
+        UIManager.Instance.DisableEndTurnButtonView();
+        // Unselect defender to hide ability bar UI, prevent null behaviors
+        DefenderManager.Instance.ClearSelectedDefender();
+        // Fade In 'Game Over' screen
+        Action fadeAction = UIManager.Instance.FadeInGameOverScreen();
+        yield return new WaitUntil(() => fadeAction.ActionResolved() == true);
+
+        // TO DO: score board visual event and calculations occur as a coroutine here
+
+
+    }
     public void EndNewLootRewardEvent()
     {
         RewardScreen.Instance.ClearRewards();

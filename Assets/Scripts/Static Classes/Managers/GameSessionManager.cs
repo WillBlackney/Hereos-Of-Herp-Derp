@@ -4,9 +4,4 @@ using UnityEngine;
 
 public class GameSessionManager : Singleton<GameSessionManager>
 {
-    public void StartGameOverEvent()
-    {
-        StopAllCoroutines();
-        UIManager.Instance.EnableGameOverCanvas();
-    }
 }

@@ -7,11 +7,12 @@ using TMPro;
 public class UIManager : Singleton<UIManager>
 {
     [Header("UI Component References")]    
-    public GameObject GameOverCanvas;
+    public GameObject GameOverScreenParent;
     public GameObject CharacterRoster;
     public GameObject worldMap;
     public GameObject rewardScreen;
     public GameObject Inventory;
+    //public GameObject
 
     [Header("End Turn Button Component References")]
     public Button EndTurnButton;
@@ -137,9 +138,26 @@ public class UIManager : Singleton<UIManager>
     {
         EndTurnButtonText.text = newText;
     }
-    public void EnableGameOverCanvas()
+    
+    public Action FadeInGameOverScreen()
     {
-        GameOverCanvas.gameObject.SetActive(true);
+        Action action = new Action();
+        StartCoroutine(FadeInGameOverScreenCoroutine(action));
+        return action;
+    }
+    public IEnumerator FadeInGameOverScreenCoroutine(Action action)
+    {
+        GameOverScreenParent.SetActive(true);
+        CanvasGroup gameOverScreenCG = GameOverScreenParent.GetComponent<CanvasGroup>();
+
+        gameOverScreenCG.alpha = 0;
+        while(gameOverScreenCG.alpha < 1)
+        {
+            gameOverScreenCG.alpha += 0.02f;            
+            yield return new WaitForEndOfFrame();
+        }
+
+        action.actionResolved = true;
     }
     #endregion
 }
