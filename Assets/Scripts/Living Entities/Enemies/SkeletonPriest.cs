@@ -24,21 +24,6 @@ public class SkeletonPriest : Enemy
         Ability invigorate = mySpellBook.GetAbilityByName("Invigorate");
         Ability healingLight = mySpellBook.GetAbilityByName("Healing Light");
 
-
-        /* AI LOGIC
-        if invigorate ready, invigorate
-        Find the closest wounded ally
-        if heal ready and wounded ally in range, heal. 
-        If closest wounded ally is not in range and move ready, move towards them. 
-        Check if all allies are at full hp
-        GetClosestAlly(dont include self)
-        If all allies are at full health, and move ready, move towards ally
-        will try to move adjacent to an ally to give the protector bonus. 
-        If no allies are in range to move next to, it will try to move into a grass tile. 
-        If no grass tile is within range, it will stand still. 
-        Only attacks enemies with strike if all allies are dead, and will target the closest enemy.
-        */
-
         ActionStart:
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
@@ -77,12 +62,13 @@ public class SkeletonPriest : Enemy
         else if (EntityLogic.GetClosestAlly(this) != this &&
             EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestAlly(this), currentMobility) == false &&
             EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.IsAbilityUseable(this,move)
+            EntityLogic.IsAbilityUseable(this,move) &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestAlly(this), 1, currentMobility) != null
             )
         {            
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
-            Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestAlly(this), 1, currentMobility);
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestAlly(this), 1, currentMobility);
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             
 

@@ -72,7 +72,8 @@ public class SkeletonAssassin : Enemy
         // Dash
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.IsAbilityUseable(this, dash)
+            EntityLogic.IsAbilityUseable(this, dash) &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, dash.abilityPrimaryValue) != null
             )
         {
             SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
@@ -80,7 +81,7 @@ public class SkeletonAssassin : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dash", false));
             yield return new WaitForSeconds(0.5f);
 
-            Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, dash.abilityPrimaryValue);
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, dash.abilityPrimaryValue);
             Action movementAction = AbilityLogic.Instance.PerformDash(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 
@@ -92,7 +93,8 @@ public class SkeletonAssassin : Enemy
         // Move
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.IsAbilityUseable(this, move)
+            EntityLogic.IsAbilityUseable(this, move) &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility) != null
             )
         {
             SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
@@ -100,7 +102,7 @@ public class SkeletonAssassin : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
-            Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility);
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility);
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 

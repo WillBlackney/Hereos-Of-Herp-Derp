@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public static class EntityLogic
 {
@@ -270,6 +271,51 @@ public static class EntityLogic
         // method used to enemy AI move away from a defender logically to safety
         List<Tile> tilesWithinRangeOfOriginCharacter = LevelManager.Instance.GetValidMoveableTilesWithinRange(range, originCharacter.tile);
         return LevelManager.Instance.GetFurthestTileFromTargetFromList(tilesWithinRangeOfOriginCharacter, target.tile);
+    }
+    public static Tile GetBestValidMoveLocationBetweenMeAndTarget(LivingEntity characterActing, LivingEntity target, int rangeFromTarget, int movePoints)
+    {
+        Tile tileReturned = null;
+        Tile tile = LevelManager.Instance.GetClosestValidTile(LevelManager.Instance.GetTilesWithinRange(rangeFromTarget, target.tile), characterActing.tile);
+        if (tile == null)
+        {
+            return tileReturned;
+        }
+
+        Stack<Node> pathFromMeToIdealTile = AStar.GetPath(characterActing.tile.GridPosition, tile.GridPosition);
+
+        Debug.Log("GetBestValidMoveLocationBetweenMeAndTarget() generated a path with " +
+            pathFromMeToIdealTile.Count.ToString() + " tiles on it"
+            );
+
+        if (pathFromMeToIdealTile.Count > 2)
+        {
+            tileReturned = pathFromMeToIdealTile.ElementAt(movePoints - 1).TileRef;
+        }
+        else if (pathFromMeToIdealTile.Count == 2)
+        {
+            tileReturned = pathFromMeToIdealTile.ElementAt(0).TileRef;
+        }
+        else
+        {
+            if (pathFromMeToIdealTile.Count == 1)
+            {
+                if (pathFromMeToIdealTile.ElementAt(0) != null &&
+                pathFromMeToIdealTile.ElementAt(0).TileRef != null)
+                {
+                    tileReturned = pathFromMeToIdealTile.ElementAt(0).TileRef;
+                }
+            }
+
+        }
+
+        if (tileReturned == null)
+        {
+            Debug.Log("GetBestValidMoveLocationBetweenMeAndTarget() could not draw a valid path from" + characterActing.name +
+                " to " + target.name + ", returning a null Tile destination...");
+        }
+
+        return tileReturned;
+
     }
     #endregion
 }

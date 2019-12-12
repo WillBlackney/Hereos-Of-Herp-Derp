@@ -1133,6 +1133,29 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;
     }
 
+    // Empower Binding
+    public Action PerformEmpowerBinding(LivingEntity caster)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformEmpowerBindingCoroutine(caster, action));
+        return action;
+    }
+    public IEnumerator PerformEmpowerBindingCoroutine(LivingEntity caster, Action action)
+    {
+        Ability empowerBinding = caster.mySpellBook.GetAbilityByName("Empower Binding");
+        OnAbilityUsed(empowerBinding, caster);
+        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if (CombatLogic.Instance.IsTargetFriendly(caster, entity) &&
+                entity.myPassiveManager.undead)
+            {
+                entity.ModifyCurrentStrength(1);
+            }
+        }
+        yield return new WaitForSeconds(1f);
+        action.actionResolved = true;
+    }
+
     // Crushing Blow
     public Action PerformCrushingBlow(LivingEntity caster, LivingEntity target)
     {

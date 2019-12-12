@@ -64,6 +64,7 @@ public class SpellBook : MonoBehaviour
     public bool KnowsSiphonLife;
     public bool KnowsChaosBolt;
     public bool KnowsFrostNova;
+    public bool KnowsEmpowerBinding;
     #endregion
 
     // Initialization + Setup
@@ -1072,6 +1073,23 @@ public class SpellBook : MonoBehaviour
         else if (enemy)
         {
             EnemyLearnAbility("Chaos Bolt");
+        }
+
+    }
+    public void LearnEmpowerBinding()
+    {
+        KnowsEmpowerBinding = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Empower Binding");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Empower Binding");
         }
 
     }

@@ -39,10 +39,11 @@ public class SkeletonBarbarian : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, charge.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, charge) &&
             tilesInMyMeleeRange.Contains(myCurrentTarget.tile) == false &&
-            EntityLogic.IsAbleToMove(this)
+            EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, charge.abilityRange) != null
             )
         {            
-            Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, charge.abilityRange);
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, charge.abilityRange);
             
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Charge", false));
             yield return new WaitForSeconds(0.5f);
@@ -85,12 +86,14 @@ public class SkeletonBarbarian : Enemy
         // Move
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false && 
             EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.IsAbilityUseable(this, move))
+            EntityLogic.IsAbilityUseable(this, move) &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility) != null
+            )
         {            
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
-            Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility);
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility);
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 

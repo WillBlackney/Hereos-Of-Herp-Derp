@@ -103,12 +103,17 @@ public class SkeletonArcher : Enemy
             EntityLogic.IsAbilityUseable(this, move)
             )
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));            
+
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, currentMobility);
+            if (destination == null)
+            {
+                goto End;
+            }
 
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
-            Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, currentMobility);
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 
@@ -117,7 +122,7 @@ public class SkeletonArcher : Enemy
             goto ActionStart;
         }
 
-        // If we have no AP but can still make a feee move, try to move towards a grass tile first
+        // If we have no AP but can still make a free move, try to move towards a grass tile first
         else if (myPassiveManager.fleetFooted &&
             moveActionsTakenThisActivation == 0 &&
             currentAP == 0 &&
@@ -137,92 +142,7 @@ public class SkeletonArcher : Enemy
             goto ActionStart;
         }
 
-        /*
-        // Snipe the most vulnerable target
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetMostVulnerableEnemy(this), snipe.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, snipe))
-        {
-            SetTargetDefender(EntityLogic.GetMostVulnerableEnemy(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Snipe", false));
-            yield return new WaitForSeconds(0.5f);
-            Action action = AbilityLogic.Instance.PerformSnipe(this, myCurrentTarget);
-            yield return new WaitUntil(() => action.ActionResolved() == true);
-
-            // brief delay between actions
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
-
-        // Snipe the target with lowest current HP
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), snipe.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, snipe))
-        {
-            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Snipe", false));
-            yield return new WaitForSeconds(0.5f);
-            Action action = AbilityLogic.Instance.PerformSnipe(this, myCurrentTarget);
-            yield return new WaitUntil(() => action.ActionResolved() == true);
-
-            // brief delay between actions
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
-
-        // Snipe the closest target if the most vulnerable and the weakest cant be targetted
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), snipe.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, snipe))
-        {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Snipe", false));
-            yield return new WaitForSeconds(0.5f);
-            Action action = AbilityLogic.Instance.PerformSnipe(this, myCurrentTarget);
-            yield return new WaitUntil(() => action.ActionResolved() == true);
-
-            // brief delay between actions
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
-
-
-        // Take a free move: try to move towards a grass tile first
-        else if(myPassiveManager.fleetFooted &&
-            moveActionsTakenThisTurn == 0 &&
-            EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.GetValidGrassTileWithinRange(this, currentMobility) != null &&
-            tile.myTileType != Tile.TileType.Grass            
-            )
-        {
-            
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
-            yield return new WaitForSeconds(0.5f);
-
-            Action movementAction = AbilityLogic.Instance.PerformMove(this, EntityLogic.GetValidGrassTileWithinRange(this,currentMobility));
-            yield return new WaitUntil(() => movementAction.ActionResolved() == true);
-
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
-
-        // Take a free move: try to move furthest away from the closest defender if there is no nearby grass tile
-        else if (myPassiveManager.fleetFooted &&
-           moveActionsTakenThisTurn == 0 &&
-           EntityLogic.IsAbleToMove(this) &&
-           EntityLogic.GetFurthestTileFromTargetWithinRange(this, EntityLogic.GetClosestEnemy(this), currentMobility) != null &&
-           EntityLogic.GetFurthestTileFromTargetWithinRange(this, EntityLogic.GetClosestEnemy(this), currentMobility) != tile
-           )
-        {            
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
-            yield return new WaitForSeconds(0.5f);
-
-            Action movementAction = AbilityLogic.Instance.PerformMove(this, EntityLogic.GetFurthestTileFromTargetWithinRange(this, EntityLogic.GetClosestEnemy(this), currentMobility));
-            yield return new WaitUntil(() => movementAction.ActionResolved() == true);
-
-            yield return new WaitForSeconds(1f);
-
-            goto ActionStart;
-        }      
-        */
-
+        End:
         EndMyActivation();
     }
     

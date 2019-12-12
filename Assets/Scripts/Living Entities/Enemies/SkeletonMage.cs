@@ -94,7 +94,8 @@ public class SkeletonMage : Enemy
         else if (
             EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), fireBall.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.IsAbilityUseable(this, move)
+            EntityLogic.IsAbilityUseable(this, move) &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, fireBall.abilityRange, currentMobility) != null
             )
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
@@ -102,7 +103,7 @@ public class SkeletonMage : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
-            Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, fireBall.abilityRange, currentMobility);
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, fireBall.abilityRange, currentMobility);
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 

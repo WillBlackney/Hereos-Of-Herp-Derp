@@ -123,6 +123,7 @@ public class LivingEntity : MonoBehaviour
         
         myEntityRenderer = GetComponentInChildren<EntityRenderer>();
         myStatusManager.SetPanelViewState(true);
+        MovementLogic.Instance.OnNewTileSet(this);
 
         // Set up all base properties and values (damage, mobility etc)
         SetBaseProperties();

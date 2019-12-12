@@ -25,17 +25,6 @@ public class SkeletonWarrior : Enemy
         Ability guard = mySpellBook.GetAbilityByName("Guard");
         Ability inspire = mySpellBook.GetAbilityByName("Inspire");
 
-        /* AI LOGIC
-        If inspire is ready and best inspire target is in range and inspire ready, inspire
-        prioritise archer>assassin>barbarian>warrior>self)
-        if best inspire target is not in range, inspire something random within range
-        if an ally is not at max hp and in range of barrier and barrier is ready, barrier them        
-        if in melee range of closest target and strike ready, strike
-        if move ready and not on grass and a grass tile is within movement range, move to grass
-        if not in melee range of closest target and both move and strike ready, move towards them 
-        (stops Ai from moving onto grass, then off the grass towards an enemy without being able to attack)
-        */
-
         ActionStart:
         
         if (EntityLogic.IsAbleToTakeActions(this) == false)
@@ -99,7 +88,8 @@ public class SkeletonWarrior : Enemy
         // Move
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.IsAbilityUseable(this, move)
+            EntityLogic.IsAbilityUseable(this, move) &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility) != null
             )
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
@@ -107,7 +97,7 @@ public class SkeletonWarrior : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
-            Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility);
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility);
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 

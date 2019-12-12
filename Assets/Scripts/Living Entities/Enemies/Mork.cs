@@ -53,10 +53,17 @@ public class Mork : Enemy
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move))
         {
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility);
+            if (destination == null)
+            {
+                goto End;
+            }
+
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
-            Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility);
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 
@@ -64,6 +71,8 @@ public class Mork : Enemy
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
+
+        End:
 
         EndMyActivation();
     }

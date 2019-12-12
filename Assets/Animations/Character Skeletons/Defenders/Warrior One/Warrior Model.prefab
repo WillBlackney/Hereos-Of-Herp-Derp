@@ -33,7 +33,7 @@ Transform:
   - {fileID: 4699812131817626}
   m_Father: {fileID: 4014152851467258}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 178.77792}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90.64636}
 --- !u!1 &1052766516827354
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,7 +103,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: b8581e7058b19cd498e48a9c2b262221, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2d02d6562dbaeb44fa3386ac6e722cb4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -162,7 +162,7 @@ Transform:
   - {fileID: 4300102361587598}
   m_Father: {fileID: 4026771342071260}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 176.4046}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 168.68079}
 --- !u!1 &1095363663248346
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,7 +809,7 @@ Transform:
   - {fileID: 4124530012868528}
   m_Father: {fileID: 4014152851467258}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -19.458572}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -121.9239}
 --- !u!1 &1674592747352338
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,7 +841,7 @@ Transform:
   - {fileID: 4999166096073334}
   m_Father: {fileID: 4083741781959424}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -9.766197}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -18.800007}
 --- !u!1 &1796041419281162
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,7 +858,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4898998160825254
 Transform:
   m_ObjectHideFlags: 0
@@ -872,7 +872,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4014152851467258}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 5.0711803}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 5.0711794}
 --- !u!212 &212010566117052948
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -952,7 +952,7 @@ Transform:
   - {fileID: 4705831732588798}
   m_Father: {fileID: 4026771342071260}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 167.95947}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -170.1075}
 --- !u!1 &1811301897530936
 GameObject:
   m_ObjectHideFlags: 0
@@ -1142,7 +1142,7 @@ Transform:
   - {fileID: 4774792545008798}
   m_Father: {fileID: 4026771342071260}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.3168795}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.62026614}
 --- !u!1 &1967408743301452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1534,6 +1534,25 @@ AnimationClip:
     path: bone_006/bone_007/Face 01
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: SlashFX
+    classID: 1
+    script: {fileID: 0}
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 2
@@ -2375,6 +2394,25 @@ AnimationClip:
     attribute: m_LocalPosition.z
     path: bone_006
     classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: SlashFX
+    classID: 1
     script: {fileID: 0}
   m_EulerEditorCurves:
   - curve:
@@ -18512,6 +18550,25 @@ AnimationClip:
     path: bone_006/bone_002/bone_003/Weapon
     classID: 212
     script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: SlashFX
+    classID: 1
+    script: {fileID: 0}
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 2
@@ -23042,6 +23099,25 @@ AnimationClip:
     path: SlashFX
     classID: 4
     script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: SlashFX
+    classID: 1
+    script: {fileID: 0}
   m_EulerEditorCurves:
   - curve:
       serializedVersion: 2
@@ -25639,7 +25715,26 @@ AnimationClip:
       m_RotationOrder: 4
     path: bone_006
   m_ScaleCurves: []
-  m_FloatCurves: []
+  m_FloatCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: SlashFX
+    classID: 1
+    script: {fileID: 0}
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 2
@@ -27520,6 +27615,25 @@ AnimationClip:
     attribute: m_LocalPosition.z
     path: bone_006
     classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: SlashFX
+    classID: 1
     script: {fileID: 0}
   m_EulerEditorCurves:
   - curve:

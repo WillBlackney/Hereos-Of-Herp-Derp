@@ -49,11 +49,16 @@ public class GoblinShooty : Enemy
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move))
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));            
+
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, currentMobility);
+            if (destination == null)
+            {
+                goto End;
+            }
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
-            Tile destination = AILogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, currentMobility);
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 
@@ -62,6 +67,7 @@ public class GoblinShooty : Enemy
             goto ActionStart;
         }
 
+        End:
         EndMyActivation();
     }
 }
