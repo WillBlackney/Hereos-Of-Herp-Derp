@@ -22,6 +22,10 @@ public class Mork : Enemy
         Ability morkSmash = mySpellBook.GetAbilityByName("Mork Smash!");
 
         ActionStart:
+        while (EventManager.Instance.gameOverEventStarted)
+        {
+            yield return null;
+        }
 
         SetTargetDefender(EntityLogic.GetClosestEnemy(this));
         // below line used later to prevent charging this is already in melee with

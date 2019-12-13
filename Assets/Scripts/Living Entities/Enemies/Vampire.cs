@@ -29,7 +29,13 @@ public class Vampire : Enemy
 
         ChooseRandomTargetingLogic();
 
-        ActionStart:     
+        ActionStart:
+       
+
+        while (EventManager.Instance.gameOverEventStarted)
+        {
+            yield return null;
+        }
         
 
         if(myCurrentTarget.currentHealth <= 0 || myCurrentTarget == null)

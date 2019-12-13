@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class UIManager : Singleton<UIManager>
 {
     [Header("UI Component References")]    
     public GameObject GameOverScreenParent;
+    public TextMeshProUGUI GameOverScreenTitleText;
     public GameObject CharacterRoster;
     public GameObject worldMap;
     public GameObject rewardScreen;
@@ -153,11 +155,25 @@ public class UIManager : Singleton<UIManager>
         gameOverScreenCG.alpha = 0;
         while(gameOverScreenCG.alpha < 1)
         {
-            gameOverScreenCG.alpha += 0.02f;            
+            gameOverScreenCG.alpha += 0.05f;            
             yield return new WaitForEndOfFrame();
         }
 
         action.actionResolved = true;
+    }
+
+    public void OnMainMenuButtonClicked()
+    {
+        StartCoroutine(OnMainMenuButtonClickedCoroutine());
+    }
+    public IEnumerator OnMainMenuButtonClickedCoroutine()
+    {        
+        // Start screen fade transistion
+        Action fadeAction = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 2, 1, true);
+        yield return new WaitUntil(() => fadeAction.ActionResolved() == true);
+
+        // Load menu scene
+        SceneManager.LoadScene("Menu Scene");
     }
     #endregion
 }

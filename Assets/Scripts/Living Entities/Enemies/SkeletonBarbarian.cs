@@ -25,6 +25,10 @@ public class SkeletonBarbarian : Enemy
         Ability whirlwind = mySpellBook.GetAbilityByName("Whirlwind");
 
         ActionStart:
+        while (EventManager.Instance.gameOverEventStarted)
+        {
+            yield return null;
+        }
 
         SetTargetDefender(EntityLogic.GetClosestEnemy(this));
         // below line used later to prevent charging this is already in melee with

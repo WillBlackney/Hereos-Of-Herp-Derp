@@ -75,6 +75,7 @@ public class LivingEntity : MonoBehaviour
     public Color normalColour;
     public Color highlightColour;
     public bool myRangedAttackFinished;
+    public bool hasActivatedThisTurn;
 
     // Initialization / Setup
     #region
@@ -136,6 +137,7 @@ public class LivingEntity : MonoBehaviour
         {
             baseStartingHealth = (int) (baseMaxHealth * 0.8f);
         }
+
         currentHealth = baseStartingHealth;
         currentMaxAP = baseMaxAP;
         currentEnergy = baseEnergy;              
@@ -361,6 +363,7 @@ public class LivingEntity : MonoBehaviour
     public void OnNewTurnCycleStarted()
     {
         timesAttackedThisTurnCycle = 0;
+        hasActivatedThisTurn = false;
     }
     #endregion
     
@@ -384,18 +387,9 @@ public class LivingEntity : MonoBehaviour
         {
             if (entity.myPassiveManager.soulLink && CombatLogic.Instance.IsTargetFriendly(this, entity))
             {
-                //StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Soul Link", false));
-               // yield return new WaitForSeconds(0.5f);
                 Action soulLinkDamage = CombatLogic.Instance.HandleDamage(5, this, entity);
-                //yield return new WaitUntil(() => soulLinkDamage.ActionResolved() == true);
             }
-        }
-
-        // Check if the player has lost all characters and thus the game
-        if (defender)
-        {
-            DefenderManager.Instance.allDefenders.Remove(defender);
-        }
+        }               
 
         DisableWorldSpaceCanvas();
         Action destroyWindowAction = myActivationWindow.FadeOutWindow();        
@@ -406,6 +400,17 @@ public class LivingEntity : MonoBehaviour
         yield return new WaitUntil(() => destroyWindowAction.ActionResolved() == true);
         Debug.Log("LivingEntity.HandleDeath() finished waiting for activation window to be destroyed");
 
+        // Check if the player has lost all characters and thus the game
+        if (defender)
+        {
+            DefenderManager.Instance.allDefenders.Remove(defender);
+            if (DefenderManager.Instance.allDefenders.Count == 0)
+            {
+                //LivingEntityManager.Instance.StopAllEntityCoroutines();
+                EventManager.Instance.StartNewGameOverDefeatedEvent();
+
+            }
+        }
 
         // Check all enemies are dead, end combat event
         if (enemy)
@@ -435,6 +440,8 @@ public class LivingEntity : MonoBehaviour
             }
             
         }
+
+        
 
         // end turn and activation triggers just incase        
         myOnActivationEndEffectsFinished = true;

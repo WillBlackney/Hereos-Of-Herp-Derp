@@ -23,6 +23,10 @@ public class SkeletonMage : Enemy
         Ability frostBolt = mySpellBook.GetAbilityByName("Frost Bolt");
 
         ActionStart:
+        while (EventManager.Instance.gameOverEventStarted)
+        {
+            yield return null;
+        }
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {

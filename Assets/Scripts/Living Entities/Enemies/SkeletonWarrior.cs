@@ -26,7 +26,11 @@ public class SkeletonWarrior : Enemy
         Ability inspire = mySpellBook.GetAbilityByName("Inspire");
 
         ActionStart:
-        
+        while (EventManager.Instance.gameOverEventStarted)
+        {
+            yield return null;
+        }
+
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();

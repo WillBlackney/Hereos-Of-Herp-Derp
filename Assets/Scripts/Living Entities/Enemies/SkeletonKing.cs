@@ -27,6 +27,10 @@ public class SkeletonKing : Enemy
         Ability crushingBlow = mySpellBook.GetAbilityByName("Crushing Blow");
 
         ActionStart:
+        while (EventManager.Instance.gameOverEventStarted)
+        {
+            yield return null;
+        }
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {

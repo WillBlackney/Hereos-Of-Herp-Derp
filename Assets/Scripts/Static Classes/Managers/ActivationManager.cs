@@ -267,8 +267,8 @@ public class ActivationManager : Singleton<ActivationManager>
     {
         Debug.Log("Activating entity: " + entity.name);
         entityActivated = entity;
+        entity.hasActivatedThisTurn = true;
         CameraManager.Instance.SetCameraLookAtTarget(entity.gameObject);
-        //MoveArrowTowardsTargetPanelPos(entity.myActivationWindow);
 
         if (entity.defender)
         {
@@ -314,6 +314,36 @@ public class ActivationManager : Singleton<ActivationManager>
     }
     public void ActivateNextEntity()
     {
+        LivingEntity nextEntityToActivate = null;
+        if (AllEntitiesHaveActivatedThisTurn())
+        {
+            StartNewTurnSequence();
+        }
+        else
+        {
+            for (int index = 0; index < activationOrder.Count; index++)
+            {
+                if (activationOrder[index].inDeathProcess == false &&
+                   activationOrder[index].hasActivatedThisTurn == false)
+                {
+                    nextEntityToActivate = activationOrder[index];
+                    break;
+                }
+            }
+
+
+            if (nextEntityToActivate == null)
+            {
+                StartNewTurnSequence();
+            }
+            else
+            {
+                ActivateEntity(nextEntityToActivate);
+            }
+        }
+        
+
+        /*
         int lastIndex = activationOrder.Count() - 1;
         int currentIndex = activationOrder.IndexOf(entityActivated);
         if (currentIndex != lastIndex)
@@ -334,6 +364,7 @@ public class ActivationManager : Singleton<ActivationManager>
         {
             StartNewTurnSequence();
         }
+        */
     }
     public bool IsEntityActivated(LivingEntity entity)
     {
@@ -345,6 +376,19 @@ public class ActivationManager : Singleton<ActivationManager>
         {
             return false;
         }
+    }
+
+    public bool AllEntitiesHaveActivatedThisTurn()
+    {
+        bool boolReturned = true;
+        foreach(LivingEntity entity in activationOrder)
+        {
+            if (entity.hasActivatedThisTurn == false)
+            {
+                boolReturned = false;
+            }
+        }
+        return boolReturned;
     }
     #endregion
 

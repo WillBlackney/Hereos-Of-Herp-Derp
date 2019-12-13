@@ -18,6 +18,10 @@ public class SkeletonPeasant : Enemy
         Ability move = mySpellBook.GetAbilityByName("Move");
 
         ActionStart:
+        while (EventManager.Instance.gameOverEventStarted)
+        {
+            yield return null;
+        }
 
         SetTargetDefender(EntityLogic.GetClosestEnemy(this));
 

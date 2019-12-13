@@ -18,7 +18,11 @@ public class StoneGolem : Enemy
         
 
         ActionStart:
-        
+        while (EventManager.Instance.gameOverEventStarted)
+        {
+            yield return null;
+        }
+
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();

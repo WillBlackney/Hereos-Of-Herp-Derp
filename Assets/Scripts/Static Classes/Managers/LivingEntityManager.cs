@@ -13,6 +13,15 @@ public class LivingEntityManager : MonoBehaviour
     {
         Instance = this;
     }
+
+    // Call this when the player loses the game
+    public void StopAllEntityCoroutines()
+    {
+        foreach(LivingEntity entity in allLivingEntities)
+        {
+            entity.StopAllCoroutines();
+        }
+    }
     #endregion
 
 

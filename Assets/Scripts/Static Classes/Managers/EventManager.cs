@@ -5,6 +5,7 @@ using UnityEngine;
 public class EventManager : Singleton<EventManager>
 {
     [Header("Properties")]
+    public bool gameOverEventStarted;
     public TreasureChest activeTreasureChest;
     public WorldEncounter.EncounterType currentEncounterType;
 
@@ -432,11 +433,7 @@ public class EventManager : Singleton<EventManager>
         yield return new WaitUntil(() => lootEvent.ActionResolved() == true);
         // Give characters xp
         CharacterRoster.Instance.RewardAllCharactersXP(100);
-        //SpellInfoBox.Instance.HideInfoBox();       
-        // re enable world map + get next viable enocunter hexagon tiles
-        WorldManager.Instance.SetWorldMapReadyState();
-        // Start loot creation/display process
-        StartNewLootRewardEvent();
+        StartNewGameOverVictoryEvent();
         yield return null;
     }
     public void StartNewGameOverDefeatedEvent()
@@ -446,14 +443,52 @@ public class EventManager : Singleton<EventManager>
     public IEnumerator StartNewGameOverDefeatedEventCoroutine()
     {
         Debug.Log("StartNewGameOverDefeatedEventCoroutine() coroutine started...");
+        gameOverEventStarted = true;
         // Destroy windows
-        ActivationManager.Instance.ClearAllWindowsFromActivationPanel();
-        // Show combat end visual events before loot reward screen appears
-        preLootScreenEventFinished = false;
-        // Disable end turn button
-        UIManager.Instance.DisableEndTurnButtonView();
+        //ActivationManager.Instance.ClearAllWindowsFromActivationPanel();
+
         // Unselect defender to hide ability bar UI, prevent null behaviors
         DefenderManager.Instance.ClearSelectedDefender();
+
+        // Stop all coroutines
+        LivingEntityManager.Instance.StopAllEntityCoroutines();
+        CombatLogic.Instance.StopAllCoroutines();
+        MovementLogic.Instance.StopAllCoroutines();
+        ActivationManager.Instance.StopAllCoroutines();
+
+        // Disable end turn button
+        UIManager.Instance.DisableEndTurnButtonView();
+        UIManager.Instance.GameOverScreenTitleText.text = "Defeat!";
+
+        // Fade In 'Game Over' screen
+        Action fadeAction = UIManager.Instance.FadeInGameOverScreen();
+        // to do in future: changing the text should be handled by 'ScoreManager' class, not UIManager
+        yield return new WaitUntil(() => fadeAction.ActionResolved() == true);
+
+        // TO DO: score board visual event and calculations occur as a coroutine here
+
+
+    }
+    public void StartNewGameOverVictoryEvent()
+    {
+        StartCoroutine(StartNewGameOverVictoryEventCoroutine());
+    }
+    public IEnumerator StartNewGameOverVictoryEventCoroutine()
+    {
+        Debug.Log("StartNewGameOverDefeatedEventCoroutine() coroutine started...");
+        gameOverEventStarted = true;
+
+        // Stop all coroutines
+        LivingEntityManager.Instance.StopAllEntityCoroutines();
+        CombatLogic.Instance.StopAllCoroutines();
+        MovementLogic.Instance.StopAllCoroutines();
+        ActivationManager.Instance.StopAllCoroutines();
+
+        // Disable end turn button
+        UIManager.Instance.DisableEndTurnButtonView();
+        // to do in future: changing the text should be handled by 'ScoreManager' class, not UIManager
+        UIManager.Instance.GameOverScreenTitleText.text = "Victory!";
+
         // Fade In 'Game Over' screen
         Action fadeAction = UIManager.Instance.FadeInGameOverScreen();
         yield return new WaitUntil(() => fadeAction.ActionResolved() == true);

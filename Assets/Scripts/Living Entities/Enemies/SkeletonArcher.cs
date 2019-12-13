@@ -25,6 +25,10 @@ public class SkeletonArcher : Enemy
         Ability impalingBolt = mySpellBook.GetAbilityByName("Impaling Bolt");
 
         ActionStart:
+        while (EventManager.Instance.gameOverEventStarted)
+        {
+            yield return null;
+        }
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {

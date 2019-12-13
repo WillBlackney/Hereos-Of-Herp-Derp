@@ -28,6 +28,11 @@ public class Ghoul : Enemy
 
         ActionStart:
 
+        while (EventManager.Instance.gameOverEventStarted)
+        {
+            yield return null;
+        }
+
         SetTargetDefender(EntityLogic.GetClosestEnemy(this));
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)

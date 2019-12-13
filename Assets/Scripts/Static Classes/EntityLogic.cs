@@ -189,6 +189,7 @@ public static class EntityLogic
         if (target == null)
         {
             Debug.Log("IsTargetInRange() target value is null...");
+            return false;
         }
 
         Tile targetsTile = target.tile;
@@ -207,6 +208,12 @@ public static class EntityLogic
     public static bool IsTargetVisible(LivingEntity caster, LivingEntity target)
     {
         List<Tile> tilesWithinStealthSight = LevelManager.Instance.GetTilesWithinRange(1, caster.tile);
+
+        if(target == null)
+        {
+            Debug.Log("IsTargetVisible() target recieved is null, returning false...");
+            return false;
+        }
 
         if (tilesWithinStealthSight.Contains(target.tile) == false &&
             (target.myPassiveManager.camoflage || target.myPassiveManager.stealth) &&
@@ -276,10 +283,13 @@ public static class EntityLogic
     {
         Tile tileReturned = null;
         Tile tile = LevelManager.Instance.GetClosestValidTile(LevelManager.Instance.GetTilesWithinRange(rangeFromTarget, target.tile), characterActing.tile);
+
+        /*
         if (tile == null)
         {
             return tileReturned;
         }
+        */
 
         Stack<Node> pathFromMeToIdealTile = AStar.GetPath(characterActing.tile.GridPosition, tile.GridPosition);
 
@@ -317,5 +327,6 @@ public static class EntityLogic
         return tileReturned;
 
     }
+
     #endregion
 }

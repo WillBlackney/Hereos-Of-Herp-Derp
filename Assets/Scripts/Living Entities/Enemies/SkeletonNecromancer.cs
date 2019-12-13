@@ -27,6 +27,10 @@ public class SkeletonNecromancer : Enemy
         Ability chaosBolt = mySpellBook.GetAbilityByName("Chaos Bolt");
 
         ActionStart:
+        while (EventManager.Instance.gameOverEventStarted)
+        {
+            yield return null;
+        }
 
         SetTargetDefender(EntityLogic.GetClosestEnemy(this));
 

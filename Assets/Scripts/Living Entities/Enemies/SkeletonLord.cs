@@ -25,6 +25,10 @@ public class SkeletonLord : Enemy
         Ability empowerBinding = mySpellBook.GetAbilityByName("Empower Binding");
 
         ActionStart:
+        while (EventManager.Instance.gameOverEventStarted)
+        {
+            yield return null;
+        }
 
         SetTargetDefender(EntityLogic.GetClosestEnemy(this));
 
