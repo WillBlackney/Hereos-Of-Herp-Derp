@@ -155,7 +155,7 @@ public class UIManager : Singleton<UIManager>
         gameOverScreenCG.alpha = 0;
         while(gameOverScreenCG.alpha < 1)
         {
-            gameOverScreenCG.alpha += 0.05f;            
+            gameOverScreenCG.alpha += 0.1f;            
             yield return new WaitForEndOfFrame();
         }
 

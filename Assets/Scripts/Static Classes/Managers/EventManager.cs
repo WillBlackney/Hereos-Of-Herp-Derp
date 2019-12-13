@@ -493,6 +493,9 @@ public class EventManager : Singleton<EventManager>
         Action fadeAction = UIManager.Instance.FadeInGameOverScreen();
         yield return new WaitUntil(() => fadeAction.ActionResolved() == true);
 
+        Action scoreReveal = ScoreManager.Instance.CalculateFinalScore();
+        yield return new WaitUntil(() => scoreReveal.ActionResolved() == true);
+
         // TO DO: score board visual event and calculations occur as a coroutine here
 
 
