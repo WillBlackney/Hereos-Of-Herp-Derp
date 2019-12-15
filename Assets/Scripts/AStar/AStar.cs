@@ -8,14 +8,32 @@ public static class AStar
 {
     private static Dictionary<Point, Node> nodes;
 
+    public static void ClearNodes()
+    {
+        /*
+        if(nodes != null)
+        {
+            nodes.Clear();
+        }
+        */
+        
+    }
     // Create a node for every tile in the game
     private static void CreateNodes()
     {
         // Create a new dictionary
         nodes = new Dictionary<Point, Node>();
 
+        /*
         // Loop through all tiles in the game
         foreach(Tile tile in LevelManager.Instance.Tiles.Values)
+        {
+            // Add the node to the node dictionary
+            nodes.Add(tile.GridPosition, new Node(tile));
+        }
+        */
+        // Loop through all tiles in the game
+        foreach (Tile tile in LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary())
         {
             // Add the node to the node dictionary
             nodes.Add(tile.GridPosition, new Node(tile));

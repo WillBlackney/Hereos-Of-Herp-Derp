@@ -59,7 +59,6 @@ public class Tile : MonoBehaviour
 
     // Set Tile Type
     #region
-    // Set Tile Type
     public void RunDirtTileSetup()
     {
         IsWalkable = true;

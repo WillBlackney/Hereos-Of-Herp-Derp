@@ -24,7 +24,8 @@ public class MovementLogic : Singleton<MovementLogic>
     #region
     public bool IsLocationMoveable(Tile destination, LivingEntity characterMoved, int range)
     {
-        List<Tile> validTilesWithinMovementRange = LevelManager.Instance.GetValidMoveableTilesWithinRange(range, LevelManager.Instance.Tiles[characterMoved.gridPosition]);
+        //List<Tile> validTilesWithinMovementRange = LevelManager.Instance.GetValidMoveableTilesWithinRange(range, LevelManager.Instance.Tiles[characterMoved.gridPosition]);
+        List<Tile> validTilesWithinMovementRange = LevelManager.Instance.GetValidMoveableTilesWithinRange(range, characterMoved.tile);
 
         if (validTilesWithinMovementRange.Contains(destination) &&
             destination.IsEmpty &&

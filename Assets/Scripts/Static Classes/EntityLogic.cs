@@ -293,8 +293,9 @@ public static class EntityLogic
 
         Tile tileReturned = null;
         Tile tileClosestToTarget = LevelManager.Instance.GetClosestValidTile(LevelManager.Instance.GetTilesWithinRange(rangeFromTarget, target.tile), characterActing.tile);
-        
-        Stack<Node> pathFromMeToIdealTile = AStar.GetPath(characterActing.tile.GridPosition, tileClosestToTarget.GridPosition);
+
+        //Stack<Node> pathFromMeToIdealTile = AStar.GetPath(characterActing.tile.GridPosition, tileClosestToTarget.GridPosition);
+        Stack<Node> pathFromMeToIdealTile = MovementLogic.Instance.GeneratePath(characterActing.tile.GridPosition, tileClosestToTarget.GridPosition);
 
         Debug.Log("GetBestValidMoveLocationBetweenMeAndTarget() generated a path with " +
             pathFromMeToIdealTile.Count.ToString() + " tiles on it"
@@ -303,10 +304,21 @@ public static class EntityLogic
         if (pathFromMeToIdealTile.Count > 2)
         {
             tileReturned = pathFromMeToIdealTile.ElementAt(movePoints - 1).TileRef;
+
+            if(pathFromMeToIdealTile.ElementAt(movePoints - 1).TileRef == null)
+            {
+                Debug.Log("GetBestValidMoveLocationBetweenMeAndTarget() detected that a node's tile ref was null...");
+            }
         }
         else if (pathFromMeToIdealTile.Count == 2)
         {
             tileReturned = pathFromMeToIdealTile.ElementAt(0).TileRef;
+
+            if (pathFromMeToIdealTile.ElementAt(0).TileRef == null)
+            {
+                Debug.Log("GetBestValidMoveLocationBetweenMeAndTarget() detected that a node's tile ref was null...");
+            }
+
         }
         else
         {

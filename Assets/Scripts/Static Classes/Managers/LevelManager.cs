@@ -25,6 +25,7 @@ public class LevelManager : Singleton<LevelManager>
     #region
     public void CreateLevel()
     {
+        
         // Clear previous level tiles and declare new list
         Tiles = new Dictionary<Point, Tile>();
 
@@ -175,13 +176,15 @@ public class LevelManager : Singleton<LevelManager>
     #region
     public List<Tile> GetAllTilesFromCurrentLevelDictionary()
     {
-
         List<Tile> listReturned = new List<Tile>();
 
         foreach (KeyValuePair<Point, Tile> kvp in Tiles)
         {
             listReturned.Add(kvp.Value);
         }
+
+        Debug.Log("GetAllTilesFromCurrentLevelDictionary() found " + listReturned.Count.ToString() +
+            " tiles");
 
         return listReturned;
     }
@@ -233,8 +236,8 @@ public class LevelManager : Singleton<LevelManager>
     }
     public List<Tile> GetValidMoveableTilesWithinRange(int range, Tile tileFrom)
     {
-        // iterate through every tile, and add those within range to the temp list        
-        Tile[] allTiles = FindObjectsOfType<Tile>();
+        // iterate through every tile, and add those within range to the temp list
+        List<Tile> allTiles = GetAllTilesFromCurrentLevelDictionary();
         List<Tile> allTilesWithinXPosRange = new List<Tile>();
         List<Tile> allTilesWithinRange = new List<Tile>();
         List<Tile> allTilesWithinMobilityRange = new List<Tile>();
@@ -290,7 +293,7 @@ public class LevelManager : Singleton<LevelManager>
     public List<Tile> GetTilesWithinMovementRange(int range, Tile tileFrom)
     {
         // iterate through every tile, and add those within range to the temp list        
-        Tile[] allTiles = FindObjectsOfType<Tile>();
+        List<Tile> allTiles = GetAllTilesFromCurrentLevelDictionary();
         List<Tile> allTilesWithinXPosRange = new List<Tile>();
         List<Tile> allTilesWithinRange = new List<Tile>();
         List<Tile> allTilesWithinMobilityRange = new List<Tile>();
@@ -526,8 +529,9 @@ public class LevelManager : Singleton<LevelManager>
             Destroy(tile);
         }
 
+        AStar.ClearNodes();
         // Destroy(currentLevelBG);
-        
+
     }
     public float TileSize
     {
