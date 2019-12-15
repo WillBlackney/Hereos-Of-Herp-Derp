@@ -281,17 +281,20 @@ public static class EntityLogic
     }
     public static Tile GetBestValidMoveLocationBetweenMeAndTarget(LivingEntity characterActing, LivingEntity target, int rangeFromTarget, int movePoints)
     {
-        Tile tileReturned = null;
-        Tile tile = LevelManager.Instance.GetClosestValidTile(LevelManager.Instance.GetTilesWithinRange(rangeFromTarget, target.tile), characterActing.tile);
-
-        /*
-        if (tile == null)
+        // Debugging checks
+        if(characterActing == null)
         {
-            return tileReturned;
+            Debug.Log("GetBestValidMoveLocationBetweenMeAndTarget() was given a null value for 'characterActing' argument");
         }
-        */
+        if (target == null)
+        {
+            Debug.Log("GetBestValidMoveLocationBetweenMeAndTarget() was given a null value for 'target' argument");
+        }
 
-        Stack<Node> pathFromMeToIdealTile = AStar.GetPath(characterActing.tile.GridPosition, tile.GridPosition);
+        Tile tileReturned = null;
+        Tile tileClosestToTarget = LevelManager.Instance.GetClosestValidTile(LevelManager.Instance.GetTilesWithinRange(rangeFromTarget, target.tile), characterActing.tile);
+        
+        Stack<Node> pathFromMeToIdealTile = AStar.GetPath(characterActing.tile.GridPosition, tileClosestToTarget.GridPosition);
 
         Debug.Log("GetBestValidMoveLocationBetweenMeAndTarget() generated a path with " +
             pathFromMeToIdealTile.Count.ToString() + " tiles on it"

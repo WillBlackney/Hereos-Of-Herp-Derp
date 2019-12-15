@@ -1021,22 +1021,22 @@ public class LivingEntity : MonoBehaviour
     {
         mouseIsOverCharacter = true;
         SetColor(highlightColour);
-        myStatusManager.SetPanelViewState(true);
+        
         if (!inDeathProcess)
         {
-            if(myActivationWindow != null)
+            myStatusManager.SetPanelViewState(true);
+
+            if (myActivationWindow != null)
             {
                 myActivationWindow.myGlowOutline.SetActive(true);
-            }
-            
-        }
-        
+            }            
+        }        
     }
     public void OnMouseExit()
     {
         mouseIsOverCharacter = false;
         SetColor(normalColour);
-        if(mouseIsOverStatusIconPanel == false)
+        if(mouseIsOverStatusIconPanel == false && inDeathProcess == false)
         {
             myStatusManager.SetPanelViewState(false);
         }

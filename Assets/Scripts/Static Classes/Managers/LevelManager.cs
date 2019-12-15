@@ -388,7 +388,7 @@ public class LevelManager : Singleton<LevelManager>
         // Iterate throught the temp list to find the closest defender to this enemy
         foreach (Tile tile in tiles)
         {
-            float distancefromTileFrom = Vector2.Distance(tile.gameObject.transform.position, transform.position);
+            float distancefromTileFrom = Vector2.Distance(tile.gameObject.transform.position, tileFrom.WorldPosition);
             if (distancefromTileFrom < minimumDistance && tile.IsEmpty && tile.IsWalkable)
             {
                 closestTile = tile;

@@ -33,6 +33,9 @@ public class SkeletonAssassin : Enemy
         */
 
         ActionStart:
+
+        SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
+
         while (EventManager.Instance.gameOverEventStarted)
         {
             yield return null;
@@ -60,7 +63,7 @@ public class SkeletonAssassin : Enemy
 
         // Strike
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, strike))
+            EntityLogic.IsAbilityUseable(this, strike)) 
         {
             SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
@@ -77,7 +80,7 @@ public class SkeletonAssassin : Enemy
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, dash) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, dash.abilityPrimaryValue) != null
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange, dash.abilityPrimaryValue) != null
             )
         {
             SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));

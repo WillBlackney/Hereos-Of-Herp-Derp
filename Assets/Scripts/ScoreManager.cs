@@ -136,6 +136,8 @@ public class ScoreManager : Singleton<ScoreManager>
             StartCoroutine(scoreElement.FadeInPanel());
             yield return new WaitForSeconds(0.3f);
         }
+
+        action.actionResolved = true;
     }
     public void CreateScoreElement(string name, int amount, int finalScoreValue, string description)
     {

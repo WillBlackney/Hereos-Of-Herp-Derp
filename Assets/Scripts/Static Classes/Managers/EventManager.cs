@@ -456,14 +456,16 @@ public class EventManager : Singleton<EventManager>
         MovementLogic.Instance.StopAllCoroutines();
         ActivationManager.Instance.StopAllCoroutines();
 
-        // Disable end turn button
+        // Disable end turn button + UI Changes
         UIManager.Instance.DisableEndTurnButtonView();
         UIManager.Instance.GameOverScreenTitleText.text = "Defeat!";
 
         // Fade In 'Game Over' screen
         Action fadeAction = UIManager.Instance.FadeInGameOverScreen();
-        // to do in future: changing the text should be handled by 'ScoreManager' class, not UIManager
         yield return new WaitUntil(() => fadeAction.ActionResolved() == true);
+
+        Action scoreReveal = ScoreManager.Instance.CalculateFinalScore();
+        yield return new WaitUntil(() => scoreReveal.ActionResolved() == true);
 
         // TO DO: score board visual event and calculations occur as a coroutine here
 
@@ -484,9 +486,8 @@ public class EventManager : Singleton<EventManager>
         MovementLogic.Instance.StopAllCoroutines();
         ActivationManager.Instance.StopAllCoroutines();
 
-        // Disable end turn button
+        // Disable end turn button + UI changes
         UIManager.Instance.DisableEndTurnButtonView();
-        // to do in future: changing the text should be handled by 'ScoreManager' class, not UIManager
         UIManager.Instance.GameOverScreenTitleText.text = "Victory!";
 
         // Fade In 'Game Over' screen
@@ -495,9 +496,6 @@ public class EventManager : Singleton<EventManager>
 
         Action scoreReveal = ScoreManager.Instance.CalculateFinalScore();
         yield return new WaitUntil(() => scoreReveal.ActionResolved() == true);
-
-        // TO DO: score board visual event and calculations occur as a coroutine here
-
 
     }
     public void EndNewLootRewardEvent()

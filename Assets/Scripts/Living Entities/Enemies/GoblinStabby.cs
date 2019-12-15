@@ -66,9 +66,11 @@ public class GoblinStabby : Enemy
         // Move
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.IsAbilityUseable(this, move))
+            EntityLogic.IsAbilityUseable(this, move) &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility) != null
+            )
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            //SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 

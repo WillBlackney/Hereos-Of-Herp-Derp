@@ -9,7 +9,7 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public GameObject statusIconPrefab;
     public LivingEntity myLivingEntity;
     public CanvasGroup myCG;
-    List<StatusIcon> myStatusIcons = new List<StatusIcon>();
+    public List<StatusIcon> myStatusIcons;
 
     [Header("Properties")]
     public bool fadingIn;
@@ -131,9 +131,13 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         fadingOut = false;
         fadingIn = true;        
 
-        while(fadingIn && myCG.alpha < 1)
+        while(fadingIn && myCG.alpha < 1 && myLivingEntity.inDeathProcess == false)
         {
             myCG.alpha += 0.1f;
+            if(myCG.alpha == 1)
+            {
+                fadingIn = false;
+            }
             yield return new WaitForEndOfFrame();
         }
         action.actionResolved = true;
@@ -149,11 +153,12 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         fadingIn = false;
         fadingOut = true;
 
-        while (fadingOut && myCG.alpha > 0)
+        while (fadingOut && myCG.alpha > 0 && myLivingEntity.inDeathProcess == false)
         {
             myCG.alpha -= 0.1f;
             if(myCG.alpha == 0)
             {
+                fadingOut = false;
                 gameObject.SetActive(false);
             }
             yield return new WaitForEndOfFrame();

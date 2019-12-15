@@ -26,6 +26,9 @@ public class SkeletonWarrior : Enemy
         Ability inspire = mySpellBook.GetAbilityByName("Inspire");
 
         ActionStart:
+
+        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+
         while (EventManager.Instance.gameOverEventStarted)
         {
             yield return null;
