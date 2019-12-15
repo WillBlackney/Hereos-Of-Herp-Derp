@@ -25,7 +25,6 @@ public class LevelManager : Singleton<LevelManager>
     #region
     public void CreateLevel()
     {
-        
         // Clear previous level tiles and declare new list
         Tiles = new Dictionary<Point, Tile>();
 
@@ -36,7 +35,7 @@ public class LevelManager : Singleton<LevelManager>
         mapSize = new Point(mapData[0].ToCharArray().Length, mapData.Length);
         int mapX = mapData[0].ToCharArray().Length;
         int mapY = mapData.Length;
-        Vector3 worldStart = new Vector3(0,0,0);
+        Vector3 worldStart = new Vector3(0, 0, 0);
 
         // Create all tiles
         for (int y = 0; y < mapY; y++) // the y positions
@@ -45,16 +44,16 @@ public class LevelManager : Singleton<LevelManager>
 
             for (int x = 0; x < mapX; x++) // the x positions
             {
-                PlaceTile(newTiles[x].ToString(), x,y, worldStart);
+                PlaceTile(newTiles[x].ToString(), x, y, worldStart);
             }
-        }     
+        }
 
         // Turn on level background
-        ToggleLevelBackgroundView(true);      
-        
+        ToggleLevelBackgroundView(true);
+
         // Move camera to focus on the centre tile
         FindObjectOfType<CameraMovement>().cinemachineCamera.transform.position = new Vector3(GetWorldCentreTile().WorldPosition.x, GetWorldCentreTile().WorldPosition.y + 0.5f, -10);
-
+        
     }
     public void CreateLevelBackground()
     {
@@ -513,6 +512,7 @@ public class LevelManager : Singleton<LevelManager>
     #region
     public void DestroyCurrentLevel()
     {
+        
         Debug.Log("Destroying all tiles...");
 
         List<Tile> tilesToDestroy = new List<Tile>();
@@ -531,6 +531,7 @@ public class LevelManager : Singleton<LevelManager>
 
         AStar.ClearNodes();
         // Destroy(currentLevelBG);
+        
 
     }
     public float TileSize

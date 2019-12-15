@@ -15,6 +15,7 @@ public struct Point
         X = x;
         Y = y;
     }
+    
     #endregion
 
     // Operator Definitions
