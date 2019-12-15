@@ -1188,7 +1188,7 @@ public class Defender : LivingEntity
     }
     public IEnumerator UpdateAPBarPositionCoroutine(float finalValue)
     {
-        float needleMoveSpeed = 0.02f;
+        float needleMoveSpeed = 0.04f;
         apBarPositionCurrentlyUpdating = true;
 
         while (myApBar.value != finalValue && apBarPositionCurrentlyUpdating == true)

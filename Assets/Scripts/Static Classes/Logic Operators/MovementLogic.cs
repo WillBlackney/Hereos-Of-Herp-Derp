@@ -75,7 +75,8 @@ public class MovementLogic : Singleton<MovementLogic>
             if (freeStrikesOnThisTileResolved == false && characterMoved.path.Count > 0)
             {
                 Debug.Log("Checking for free strikes...");
-                Action freeStrikeCheck = ResolveFreeStrikes(characterMoved, characterMoved.tile, characterMoved.path.Peek().TileRef);
+                Tile nextTile = LevelManager.Instance.GetTileFromPointReference(characterMoved.path.Peek().GridPosition);                
+                Action freeStrikeCheck = ResolveFreeStrikes(characterMoved, characterMoved.tile, nextTile);
                 yield return new WaitUntil(() => freeStrikeCheck.ActionResolved() == true);
                 freeStrikesOnThisTileResolved = true;
             }
@@ -657,14 +658,6 @@ public class MovementLogic : Singleton<MovementLogic>
     {
         Debug.Log("OnLocationMovedToCalledCoroutine() called....");        
 
-        // check for free strikes
-        /*
-        if(freeStrikeImmune == false)
-        {
-            Action freeStrikeEvents = ResolveFreeStrikes(character, previousLocation, newLocation);
-            yield return new WaitUntil(() => freeStrikeEvents.ActionResolved() == true);
-        }       
-        */
         OnNewTileSet(character);       
         action.actionResolved = true;
         yield return null;
@@ -708,8 +701,8 @@ public class MovementLogic : Singleton<MovementLogic>
 
             foreach (LivingEntity entity in unfriendlyEntities)
             {
-                if (PositionLogic.Instance.GetTargetsFrontArcTiles(entity).Contains(previousLocation) &&
-                    PositionLogic.Instance.GetTargetsFrontArcTiles(entity).Contains(newLocation) == false &&
+                if (PositionLogic.Instance.GetTilesInCharactersMeleeRange(entity).Contains(previousLocation) &&
+                    PositionLogic.Instance.GetTilesInCharactersMeleeRange(entity).Contains(newLocation) == false &&
                     characterMoved.inDeathProcess == false)
                 {
                     Debug.Log("ResolveFreeStrikesCoroutine() detected that " + characterMoved.name + " triggered a free strike from " + entity.name);
@@ -730,38 +723,6 @@ public class MovementLogic : Singleton<MovementLogic>
         action.actionResolved = true;
     }
 
-    public bool LowOverheadFreeStrikeCheck(LivingEntity characterMoved)
-    {
-        List<Tile> adjacentTiles = LevelManager.Instance.GetTilesWithinRange(1, characterMoved.tile);
-        bool boolReturned = false;
-
-        if (characterMoved.defender)
-        {
-            foreach(Enemy enemy in EnemyManager.Instance.allEnemies)
-            {
-                if (adjacentTiles.Contains(enemy.tile))
-                {
-                    boolReturned = true;
-                    break;
-                }
-            }
-        }
-
-        else if (characterMoved.enemy)
-        {
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                if (adjacentTiles.Contains(defender.tile))
-                {
-                    boolReturned = true;
-                    break;
-                }
-            }
-        }
-
-        return boolReturned;
-
-    }
     #endregion
 
 

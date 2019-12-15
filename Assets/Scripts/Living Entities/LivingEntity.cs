@@ -389,16 +389,8 @@ public class LivingEntity : MonoBehaviour
             {
                 Action soulLinkDamage = CombatLogic.Instance.HandleDamage(5, this, entity);
             }
-        }               
+        }
 
-        DisableWorldSpaceCanvas();
-        Action destroyWindowAction = myActivationWindow.FadeOutWindow();        
-        PlayDeathAnimation();
-        yield return new WaitUntil(() => MyDeathAnimationFinished() == true);
-        Debug.Log("LivingEntity.HandleDeath() finished waiting for death anim to finish");
-        myAnimator.enabled = false;
-        yield return new WaitUntil(() => destroyWindowAction.ActionResolved() == true);
-        Debug.Log("LivingEntity.HandleDeath() finished waiting for activation window to be destroyed");
 
         // Check if the player has lost all characters and thus the game
         if (defender)
@@ -422,7 +414,7 @@ public class LivingEntity : MonoBehaviour
                 DefenderManager.Instance.allDefenders.Count >= 1)
             {
                 // End combat event, loot screen etc
-                if(EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.EliteEnemy)
+                if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.EliteEnemy)
                 {
                     EventManager.Instance.StartNewEndEliteEncounterEvent();
                 }
@@ -438,10 +430,17 @@ public class LivingEntity : MonoBehaviour
                 }
 
             }
-            
+
         }
 
-        
+        DisableWorldSpaceCanvas();
+        Action destroyWindowAction = myActivationWindow.FadeOutWindow();        
+        PlayDeathAnimation();
+        yield return new WaitUntil(() => MyDeathAnimationFinished() == true);
+        Debug.Log("LivingEntity.HandleDeath() finished waiting for death anim to finish");
+        myAnimator.enabled = false;
+        yield return new WaitUntil(() => destroyWindowAction.ActionResolved() == true);
+        Debug.Log("LivingEntity.HandleDeath() finished waiting for activation window to be destroyed");          
 
         // end turn and activation triggers just incase        
         myOnActivationEndEffectsFinished = true;
@@ -969,7 +968,7 @@ public class LivingEntity : MonoBehaviour
 
             if (destinationTile != null)
             {
-                Action teleportAction = MovementLogic.Instance.TeleportEntity(this, tile, destinationTile);
+                Action teleportAction = MovementLogic.Instance.TeleportEntity(this, destinationTile);
                 yield return new WaitUntil(() => teleportAction.ActionResolved() == true);                
             }
             else

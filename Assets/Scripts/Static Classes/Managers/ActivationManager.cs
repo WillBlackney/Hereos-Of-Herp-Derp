@@ -49,6 +49,7 @@ public class ActivationManager : Singleton<ActivationManager>
     }
     public IEnumerator OnNewCombatEventStartedCoroutine(Action action)
     {
+        TurnManager.Instance.currentTurnCount = 0;
         SetActivationWindowViewState(true);
         StartNewTurnSequence();
         action.actionResolved = true;

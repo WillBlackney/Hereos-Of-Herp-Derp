@@ -23,6 +23,9 @@ public class SkeletonMage : Enemy
         Ability frostBolt = mySpellBook.GetAbilityByName("Frost Bolt");
 
         ActionStart:
+
+        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+
         while (EventManager.Instance.gameOverEventStarted)
         {
             yield return null;
@@ -99,7 +102,7 @@ public class SkeletonMage : Enemy
             EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), fireBall.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, fireBall.abilityRange, currentMobility) != null
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestEnemy(this), fireBall.abilityRange, currentMobility) != null
             )
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));

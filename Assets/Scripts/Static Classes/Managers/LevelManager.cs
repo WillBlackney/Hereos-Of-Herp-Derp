@@ -53,7 +53,9 @@ public class LevelManager : Singleton<LevelManager>
 
         // Move camera to focus on the centre tile
         FindObjectOfType<CameraMovement>().cinemachineCamera.transform.position = new Vector3(GetWorldCentreTile().WorldPosition.x, GetWorldCentreTile().WorldPosition.y + 0.5f, -10);
-        
+        // Set camera zoom positions
+        FindObjectOfType<CameraMovement>().cinemachineCamera.m_Lens.OrthographicSize = 4;
+
     }
     public void CreateLevelBackground()
     {
@@ -494,7 +496,16 @@ public class LevelManager : Singleton<LevelManager>
     }
     public Tile GetTileFromPointReference(Point point)
     {
-        return Tiles[point];
+        Tile tileReturned = null;
+        foreach(Tile tile in GetAllTilesFromCurrentLevelDictionary())
+        {
+            if(tile.GridPosition == point)
+            {
+                tileReturned = tile;
+                break;
+            }
+        }
+        return tileReturned;
     }   
     public void SetTileAsOccupied(Tile tile)
     {

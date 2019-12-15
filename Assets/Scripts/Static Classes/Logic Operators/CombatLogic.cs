@@ -116,7 +116,7 @@ public class CombatLogic : MonoBehaviour
         foreach (LivingEntity livingEntity in finalList)
         {
             //livingEntity.HandleDamage(livingEntity.CalculateDamage(damage, livingEntity, attacker), attacker, true);
-            HandleDamage(damage, attacker, livingEntity,true);
+            HandleDamage(damage, attacker, livingEntity);
         }
     }
     #endregion

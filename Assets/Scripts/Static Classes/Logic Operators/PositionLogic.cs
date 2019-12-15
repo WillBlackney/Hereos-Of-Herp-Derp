@@ -97,14 +97,15 @@ public class PositionLogic : Singleton<PositionLogic>
 
     // Get Front + Back Arcs
     #region
-    public List<Tile> GetTargetsFrontArcTiles(LivingEntity character)
+    public List<Tile> GetTilesInCharactersMeleeRange(LivingEntity character)
     {
-        List<Tile> adjacentTiles = LevelManager.Instance.GetTilesWithinRange(1, character.tile);
+        return LevelManager.Instance.GetTilesWithinRange(character.currentMeleeRange, character.tile);
+        /*
         List<Tile> frontArcTiles = new List<Tile>();
 
         if (character.facingRight)
         {
-            foreach(Tile tile in adjacentTiles)
+            foreach(Tile tile in meleeRangeTiles)
             {
                 if (
                     (tile.GridPosition.X == character.tile.GridPosition.X + 1 || 
@@ -120,7 +121,7 @@ public class PositionLogic : Singleton<PositionLogic>
         }
         else
         {
-            foreach (Tile tile in adjacentTiles)
+            foreach (Tile tile in meleeRangeTiles)
             {
                 if (
                     (tile.GridPosition.X == character.tile.GridPosition.X - 1 ||
@@ -134,9 +135,10 @@ public class PositionLogic : Singleton<PositionLogic>
                 }
             }
         }
-
+       
         Debug.Log("GetTargetsFrontArcTiles() returned " + frontArcTiles.Count.ToString() + " tiles");
         return frontArcTiles;
+         */
     }
     public List<Tile> GetTargetsBackArcTiles(LivingEntity character)
     {

@@ -282,68 +282,45 @@ public static class EntityLogic
     public static Tile GetBestValidMoveLocationBetweenMeAndTarget(LivingEntity characterActing, LivingEntity target, int rangeFromTarget, int movePoints)
     {
         Tile tileReturned = null;
-
         Tile tileClosestToTarget = LevelManager.Instance.GetClosestValidTile(LevelManager.Instance.GetTilesWithinRange(rangeFromTarget, target.tile), characterActing.tile);
 
         Stack<Node> pathFromMeToIdealTile = MovementLogic.Instance.GeneratePath(characterActing.tile.GridPosition, tileClosestToTarget.GridPosition);
 
-        Debug.Log("GetBestValidMoveLocationBetweenMeAndTarget() generated a path with " +
-            pathFromMeToIdealTile.Count.ToString() + " tiles on it"
-            );
-        
+        Debug.Log("GetBestValidMoveLocationBetweenMeAndTarget() generated a path with " + pathFromMeToIdealTile.Count.ToString() + " tiles on it");        
 
-        if (pathFromMeToIdealTile.Count > 2)
+        if (pathFromMeToIdealTile.Count > 1)
         {
-            tileReturned = pathFromMeToIdealTile.ElementAt(movePoints - 1).TileRef;
+            tileReturned = LevelManager.Instance.GetTileFromPointReference(pathFromMeToIdealTile.ElementAt(movePoints - 1).GridPosition);
 
-            if (pathFromMeToIdealTile.ElementAt(movePoints - 1).TileRef == null)
+            /*
+            // find a tile in the level that matches the grid pos of the node
+            foreach (Tile tile in LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary())
             {
-                Debug.Log("GetBestValidMoveLocationBetweenMeAndTarget() detected that a node's tile ref was null...");
-
-                foreach(Tile tile in LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary())
+                if (pathFromMeToIdealTile.ElementAt(movePoints - 1).GridPosition == tile.GridPosition)
                 {
-                    if(pathFromMeToIdealTile.ElementAt(movePoints - 1).GridPosition == tile.GridPosition)
-                    {
-                        tileReturned = tile;
-                        break;
-                    }
+                    tileReturned = tile;
+                    break;
                 }
-            }
+            }      
+            */
         }
 
-        else if (pathFromMeToIdealTile.Count == 2)
+        else if (pathFromMeToIdealTile.Count == 1)
         {
-            tileReturned = pathFromMeToIdealTile.ElementAt(0).TileRef;
-
-            if (pathFromMeToIdealTile.ElementAt(0).TileRef == null)
+            tileReturned = LevelManager.Instance.GetTileFromPointReference(pathFromMeToIdealTile.ElementAt(0).GridPosition);
+            /*
+            // find a tile in the level that matches the grid pos of the node
+            foreach (Tile tile in LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary())
             {
-                Debug.Log("GetBestValidMoveLocationBetweenMeAndTarget() detected that a node's tile ref was null...");
-                foreach (Tile tile in LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary())
+                if (pathFromMeToIdealTile.ElementAt(0).GridPosition == tile.GridPosition)
                 {
-                    if (pathFromMeToIdealTile.ElementAt(0).GridPosition == tile.GridPosition)
-                    {
-                        tileReturned = tile;
-                        break;
-                    }
+                    tileReturned = tile;
+                    break;
                 }
-            }
+            }           
+            */
 
-        }
-
-        else
-        {
-            if (pathFromMeToIdealTile.Count == 1)
-            {
-                foreach (Tile tile in LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary())
-                {
-                    if (pathFromMeToIdealTile.ElementAt(0).GridPosition == tile.GridPosition)
-                    {
-                        tileReturned = tile;
-                        break;
-                    }
-                }
-            }
-        }        
+        }      
 
         if (tileReturned == null)
         {

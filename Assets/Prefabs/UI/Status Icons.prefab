@@ -565,7 +565,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -293.9493, y: -164.341}
-  m_SizeDelta: {x: 0.9086, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &2385887526560654705
 MonoBehaviour:
@@ -607,6 +607,9 @@ MonoBehaviour:
     type: 3}
   myLivingEntity: {fileID: 0}
   myCG: {fileID: 6811670577156987828}
+  myStatusIcons: []
+  fadingIn: 0
+  fadingOut: 0
 --- !u!114 &7847280677703711645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -619,7 +622,7 @@ MonoBehaviour:
   m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
+  m_HorizontalFit: 2
   m_VerticalFit: 2
 --- !u!222 &6066630960278560664
 CanvasRenderer:
