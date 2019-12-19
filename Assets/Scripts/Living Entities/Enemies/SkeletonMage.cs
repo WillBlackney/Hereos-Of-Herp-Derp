@@ -102,6 +102,7 @@ public class SkeletonMage : Enemy
             EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), fireBall.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, fireBall, this) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestEnemy(this), fireBall.abilityRange, currentMobility) != null
             )
         {

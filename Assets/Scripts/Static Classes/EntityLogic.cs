@@ -15,26 +15,26 @@ public static class EntityLogic
         float minimumDistance = Mathf.Infinity;
 
         // Declare new temp list for storing valid entities
-        List<LivingEntity> entities = new List<LivingEntity>();
+        List<LivingEntity> potentialEnemies = new List<LivingEntity>();
 
         // Add all active entities that are NOT friendly to the temp list
         foreach (LivingEntity entityy in LivingEntityManager.Instance.allLivingEntities)
         {
             if(!CombatLogic.Instance.IsTargetFriendly(entity, entityy))
             {
-                entities.Add(entityy);
+                potentialEnemies.Add(entityy);
             }
             
         }
 
-        // Iterate throught the temp list to find the closest defender to this enemy
-        foreach (LivingEntity entityyy in entities)
+        // Iterate throught the temp list to find the closest enemy to this character
+        foreach (LivingEntity enemy in potentialEnemies)
         {
-            float distancefromDefender = Vector2.Distance(entityyy.gameObject.transform.position, entity.transform.position);
-            if (distancefromDefender < minimumDistance)
+            float distancefromCharacter = Vector2.Distance(enemy.gameObject.transform.position, entity.transform.position);
+            if (distancefromCharacter < minimumDistance)
             {
-                closestTarget = entityyy;
-                minimumDistance = distancefromDefender;
+                closestTarget = enemy;
+                minimumDistance = distancefromCharacter;
             }
         }
         return closestTarget;
@@ -126,6 +126,7 @@ public static class EntityLogic
 
         return bestTarget;
     }
+    
     #endregion
 
     // Conditional Checks + Booleans
@@ -221,12 +222,13 @@ public static class EntityLogic
              caster.myPassiveManager.trueSight == false
             )
         {
-            Debug.Log("Invalid target: Target is in stealth/camoflague and more than 1 tile away...");
+            Debug.Log("IsTargetVisible() determined that " + target.name + " CANNOT be seen by "+ caster.name + "...");
             return false;
         }
 
         else
         {
+            Debug.Log("IsTargetVisible() determined that " + target.name + " CAN be seen by " + caster.name + "...");
             return true;
         }
     }
@@ -247,6 +249,25 @@ public static class EntityLogic
         if(HasEnoughAP(entity, ability) &&
             IsAbilityOffCooldown(ability))
         {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public static bool CanPerformAbilityTwoAfterAbilityOne(Ability abilityOne, Ability abilityTwo, LivingEntity entity)
+    {
+        // method is mainly used to stop enemies from move forward too agressively.
+        // prevents enemies from move into a defenders range without being able to attack.
+        // some enemies should only advance if they can make attacks after moving (like squishy melee fighters, or ranged attackers)
+
+        int currentAP = entity.currentAP;
+
+        if(currentAP - abilityOne.abilityAPCost >= abilityTwo.abilityAPCost)
+        {
+            Debug.Log("CanPerformAbilityTwoAfterAbilityOne() calculated that " + entity.name + " has enougn AP to perform " + 
+                abilityTwo.abilityName + " after " + abilityOne.abilityName);
             return true;
         }
         else
@@ -291,41 +312,22 @@ public static class EntityLogic
         if (pathFromMeToIdealTile.Count > 1)
         {
             tileReturned = LevelManager.Instance.GetTileFromPointReference(pathFromMeToIdealTile.ElementAt(movePoints - 1).GridPosition);
-
-            /*
-            // find a tile in the level that matches the grid pos of the node
-            foreach (Tile tile in LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary())
-            {
-                if (pathFromMeToIdealTile.ElementAt(movePoints - 1).GridPosition == tile.GridPosition)
-                {
-                    tileReturned = tile;
-                    break;
-                }
-            }      
-            */
         }
 
         else if (pathFromMeToIdealTile.Count == 1)
         {
             tileReturned = LevelManager.Instance.GetTileFromPointReference(pathFromMeToIdealTile.ElementAt(0).GridPosition);
-            /*
-            // find a tile in the level that matches the grid pos of the node
-            foreach (Tile tile in LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary())
-            {
-                if (pathFromMeToIdealTile.ElementAt(0).GridPosition == tile.GridPosition)
-                {
-                    tileReturned = tile;
-                    break;
-                }
-            }           
-            */
-
-        }      
+        }
 
         if (tileReturned == null)
         {
             Debug.Log("GetBestValidMoveLocationBetweenMeAndTarget() could not draw a valid path from" + characterActing.name +
                 " to " + target.name + ", returning a null Tile destination...");
+        }
+        else if (tileReturned != null)
+        {
+            Debug.Log("GetBestValidMoveLocationBetweenMeAndTarget() determined that the best move location between " +
+                characterActing.name + " and " + target.name + " is Tile " + tileReturned.GridPosition.X.ToString() + ", " + tileReturned.GridPosition.Y.ToString());
         }
 
         return tileReturned;

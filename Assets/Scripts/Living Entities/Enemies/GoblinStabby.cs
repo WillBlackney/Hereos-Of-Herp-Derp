@@ -67,6 +67,7 @@ public class GoblinStabby : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, strike, this) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility) != null
             )
         {

@@ -14,7 +14,6 @@ public class Vampire : Enemy
         mySpellBook.EnemyLearnAbility("Siphon Life");
         mySpellBook.EnemyLearnAbility("Dash");
         myPassiveManager.ModifyLifeSteal(1);
-
     }
 
     public override IEnumerator StartMyActivationCoroutine()
@@ -108,6 +107,7 @@ public class Vampire : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, dash) &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(dash, strike, this) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, dash.abilityPrimaryValue) != null
             )
         {
@@ -128,6 +128,7 @@ public class Vampire : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget,currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, strike, this) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility) != null
             )
         {

@@ -48,6 +48,7 @@ public class SkeletonPeasant : Enemy
         // Move
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, strike, this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility) != null)
         {

@@ -85,15 +85,13 @@ public class Ghoul : Enemy
         // Move
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, strike, this) &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility) != null &&
             EntityLogic.IsAbilityUseable(this, move))
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
 
-            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility);
-            if (destination == null)
-            {
-                goto End;
-            }
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility);           
 
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
@@ -106,7 +104,6 @@ public class Ghoul : Enemy
             goto ActionStart;
         }
 
-        End:
         EndMyActivation();
     }
     public Enemy GetBestBarrierTargetInRange(int range)

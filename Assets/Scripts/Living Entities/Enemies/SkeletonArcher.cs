@@ -101,20 +101,20 @@ public class SkeletonArcher : Enemy
             goto ActionStart;
         }
 
+        // Is any target in range and valid?
+
         // Try move into range
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), shoot.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, shoot, this) &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestEnemy(this), shoot.abilityRange, currentMobility) != null &&
             EntityLogic.IsAbilityUseable(this, move)
             )
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));            
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, currentMobility);
-            if (destination == null)
-            {
-                goto End;
-            }
-
+            
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
@@ -135,7 +135,6 @@ public class SkeletonArcher : Enemy
             tile.myTileType != Tile.TileType.Grass
             )
         {
-
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
@@ -146,7 +145,6 @@ public class SkeletonArcher : Enemy
             goto ActionStart;
         }
 
-        End:
         EndMyActivation();
     }
     

@@ -52,6 +52,7 @@ public class GoblinShooty : Enemy
         // Move
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, shoot.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, strike, this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, currentMobility) != null
             )

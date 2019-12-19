@@ -80,6 +80,7 @@ public class SkeletonAssassin : Enemy
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, dash) &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(dash, strike, this) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange, dash.abilityPrimaryValue) != null
             )
         {
@@ -101,7 +102,8 @@ public class SkeletonAssassin : Enemy
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility) != null
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility) != null &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, strike, this)
             )
         {
             SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
