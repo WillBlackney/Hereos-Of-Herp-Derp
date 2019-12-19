@@ -8,7 +8,7 @@ public class Tile : MonoBehaviour
     [Header("Component References")]
     private SpriteRenderer mySpriteRenderer;
     public Animator myAnimator;
-    
+
     [Header("Properties")]
     public TileType myTileType;
     public bool IsEmpty;
@@ -19,7 +19,7 @@ public class Tile : MonoBehaviour
     public Vector2 WorldPosition
     {
         get
-        {            
+        {
             return new Vector2(transform.position.x + 0.5f, transform.position.y - 0.5f);
         }
     }
@@ -28,9 +28,9 @@ public class Tile : MonoBehaviour
     #region
     private void Start()
     {
-        mySpriteRenderer = GetComponent<SpriteRenderer>();        
+        mySpriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = mySpriteRenderer.color;
-    }    
+    }
     public void Setup(Point gridPos, Vector3 worldPos, Transform parent)
     {
         if (myTileType == TileType.Dirt)
@@ -45,7 +45,7 @@ public class Tile : MonoBehaviour
         {
             RunRockTileSetup();
         }
-        else if(myTileType== TileType.Water)
+        else if (myTileType == TileType.Water)
         {
             RunWaterTileSetup();
         }
@@ -91,6 +91,25 @@ public class Tile : MonoBehaviour
     private void OnMouseOver()
     {
         LevelManager.Instance.mousedOverTile = this;
+        OnTileMousedOver();
+    }
+    public void OnTileMousedOver()
+    {
+        if (PathRenderer.Instance.active && DefenderManager.Instance.selectedDefender != null)
+        {
+            Defender selectedDefender = DefenderManager.Instance.selectedDefender;
+
+            if (selectedDefender.awaitingMoveOrder ||
+                selectedDefender.awaitingChargeLocationOrder ||
+                selectedDefender.awaitingDashOrder ||
+                selectedDefender.awaitingGetDownOrder)
+            {
+                PathRenderer.Instance.DrawPath();
+            }
+        }
+        
+
+
     }
     public void OnMouseDown()
     {

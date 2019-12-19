@@ -617,8 +617,9 @@ public class Defender : LivingEntity
         {
             Debug.Log("Move button clicked, awaiting move order");
             awaitingMoveOrder = true;
-            //LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetValidMoveableTilesWithinRange(currentMobility, LevelManager.Instance.Tiles[gridPosition]));
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetValidMoveableTilesWithinRange(currentMobility, tile));
+            PathRenderer.Instance.SetReadyState(true);
+            PathRenderer.Instance.DrawPath();
         }
 
         
