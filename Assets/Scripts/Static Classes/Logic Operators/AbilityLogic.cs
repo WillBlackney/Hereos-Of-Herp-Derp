@@ -22,6 +22,7 @@ public class AbilityLogic : MonoBehaviour
         // Disable tile hover + tile highlights
         TileHover.Instance.SetVisibility(false);
         LevelManager.Instance.UnhighlightAllTiles();
+        PathRenderer.Instance.DeactivatePathRenderer();
 
         // temp variables
         int finalApCost = ability.abilityAPCost;

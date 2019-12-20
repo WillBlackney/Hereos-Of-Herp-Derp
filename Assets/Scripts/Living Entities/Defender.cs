@@ -329,15 +329,7 @@ public class Defender : LivingEntity
         else
         {
             Debug.Log("Defender selection attempt detected");
-            SelectDefender();
-            /*
-            Debug.Log("Defender selection attempt detected");
-            if (ActivationManager.Instance.IsEntityActivated(this))
-            {
-                SelectDefender();
-            }
-            */
-
+            SelectDefender();            
         }
 
     }
@@ -390,6 +382,7 @@ public class Defender : LivingEntity
 
         TileHover.Instance.SetVisibility(false);
         LevelManager.Instance.UnhighlightAllTiles();
+        PathRenderer.Instance.DeactivatePathRenderer();
 
         myCurrentTarget = null;
     }
@@ -618,8 +611,7 @@ public class Defender : LivingEntity
             Debug.Log("Move button clicked, awaiting move order");
             awaitingMoveOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetValidMoveableTilesWithinRange(currentMobility, tile));
-            PathRenderer.Instance.SetReadyState(true);
-            PathRenderer.Instance.DrawPath();
+            PathRenderer.Instance.ActivatePathRenderer();
         }
 
         
@@ -671,6 +663,7 @@ public class Defender : LivingEntity
             Debug.Log("Charge button clicked, awaiting charge target");
             awaitingChargeTargetOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(charge.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
+            PathRenderer.Instance.ActivatePathRenderer();
         }      
 
     }
@@ -684,6 +677,7 @@ public class Defender : LivingEntity
             Debug.Log("Get Down! button clicked, awaiting Get Down! target");
             awaitingGetDownOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(getDown.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
+            PathRenderer.Instance.ActivatePathRenderer();
         }
 
         
@@ -768,6 +762,7 @@ public class Defender : LivingEntity
             Debug.Log("Dash button clicked, awaiting Dash tile target");
             awaitingDashOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(dash.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            PathRenderer.Instance.ActivatePathRenderer();
         }
 
         

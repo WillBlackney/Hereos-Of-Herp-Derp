@@ -3252,6 +3252,63 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4076f8597776e0646aa60ba57ddddee4, type: 2}
   - {fileID: 11400000, guid: e94ffc48cad701c44af23ab9d4442bd6, type: 2}
   - {fileID: 11400000, guid: 7de8aadd47b846b419c235115edb302d, type: 2}
+--- !u!1001 &828552118
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1943341086875006, guid: 00858f8f55bb30a45b4b2bbb7aee0fd9, type: 3}
+      propertyPath: m_Name
+      value: Dirt Tile
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842115474280780, guid: 00858f8f55bb30a45b4b2bbb7aee0fd9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842115474280780, guid: 00858f8f55bb30a45b4b2bbb7aee0fd9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842115474280780, guid: 00858f8f55bb30a45b4b2bbb7aee0fd9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842115474280780, guid: 00858f8f55bb30a45b4b2bbb7aee0fd9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842115474280780, guid: 00858f8f55bb30a45b4b2bbb7aee0fd9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842115474280780, guid: 00858f8f55bb30a45b4b2bbb7aee0fd9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842115474280780, guid: 00858f8f55bb30a45b4b2bbb7aee0fd9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842115474280780, guid: 00858f8f55bb30a45b4b2bbb7aee0fd9, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842115474280780, guid: 00858f8f55bb30a45b4b2bbb7aee0fd9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842115474280780, guid: 00858f8f55bb30a45b4b2bbb7aee0fd9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842115474280780, guid: 00858f8f55bb30a45b4b2bbb7aee0fd9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 00858f8f55bb30a45b4b2bbb7aee0fd9, type: 3}
 --- !u!1 &834080289
 GameObject:
   m_ObjectHideFlags: 0
@@ -6146,7 +6203,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1527206034
 Transform:
   m_ObjectHideFlags: 0
@@ -6169,7 +6226,7 @@ LineRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1527206033}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 0
@@ -6178,7 +6235,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 91de5998f9380a34d8d5f2b851039e20, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6204,13 +6261,13 @@ LineRenderer:
   - {x: 1, y: 5, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.20305707
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.4835167
-        value: 0.08450508
+        time: 0.027468562
+        value: 0.49295807
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -6222,7 +6279,7 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.1745283, g: 0.49824247, b: 1, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}

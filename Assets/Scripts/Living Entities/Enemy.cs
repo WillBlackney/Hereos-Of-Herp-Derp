@@ -9,6 +9,7 @@ public class Enemy : LivingEntity
 {
     [Header("Enemy Components")]
     public CharacterInfoPanel myInfoPanel;
+    public GameObject freeStrikeIndicator;
     [Header("Enemy Properties")]
     public string myName;
 
@@ -91,6 +92,19 @@ public class Enemy : LivingEntity
         if(Input.GetMouseButtonDown(1))
         {
             myInfoPanel.EnablePanelView();
+        }
+    }
+
+    // View + UI Logic
+    public void SetFreeStrikeIndicatorViewState(bool onOrOff)
+    {
+        if(onOrOff == true)
+        {
+            freeStrikeIndicator.GetComponent<CanvasGroup>().alpha = 1;
+        }
+        else
+        {
+            freeStrikeIndicator.GetComponent<CanvasGroup>().alpha = 0;
         }
     }
     #endregion
