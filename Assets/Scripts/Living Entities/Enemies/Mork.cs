@@ -27,7 +27,7 @@ public class Mork : Enemy
             yield return null;
         }
 
-        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+        SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
         // below line used later to prevent charging this is already in melee with
         List<Tile> tilesInMyMeleeRange = LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, tile);
 
@@ -57,7 +57,7 @@ public class Mork : Enemy
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move))
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility);
             if (destination == null)

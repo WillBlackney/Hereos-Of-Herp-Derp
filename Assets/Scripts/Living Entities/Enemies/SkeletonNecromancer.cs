@@ -32,7 +32,7 @@ public class SkeletonNecromancer : Enemy
             yield return null;
         }
 
-        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+        SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
 
         // if unable to do anything, just end activation
         if (EntityLogic.IsAbleToTakeActions(this) == false)
@@ -57,12 +57,12 @@ public class SkeletonNecromancer : Enemy
         }
 
         // Blight
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), blight.abilityRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), blight.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, blight) &&
             IsThereAtleastOneZombie()                      
             )
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Blight", false));
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformBlight(this, myCurrentTarget);
@@ -84,14 +84,14 @@ public class SkeletonNecromancer : Enemy
         }
 
         // Move in range for Blight
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), blight.abilityRange) == false &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), blight.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, blight.abilityRange, currentMobility) != null &&
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, blight, this)
             )
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
 
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);

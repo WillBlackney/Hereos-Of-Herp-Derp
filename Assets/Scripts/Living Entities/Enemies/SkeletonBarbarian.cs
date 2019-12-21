@@ -30,7 +30,7 @@ public class SkeletonBarbarian : Enemy
             yield return null;
         }
 
-        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+        SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
         // below line used later to prevent charging this is already in melee with
         List<Tile> tilesInMyMeleeRange = LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, tile);
 

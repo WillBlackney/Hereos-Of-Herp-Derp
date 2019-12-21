@@ -81,10 +81,10 @@ public class SkeletonPriest : Enemy
         }
 
         // Strike
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, strike))
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);
 

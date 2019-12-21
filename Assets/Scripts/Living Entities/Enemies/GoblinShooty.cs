@@ -27,7 +27,7 @@ public class GoblinShooty : Enemy
             yield return null;
         }
 
-        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+        SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
@@ -57,7 +57,7 @@ public class GoblinShooty : Enemy
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, currentMobility) != null
             )
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
 
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);

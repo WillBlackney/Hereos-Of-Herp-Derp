@@ -24,7 +24,7 @@ public class SkeletonMage : Enemy
 
         ActionStart:
 
-        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+        SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
 
         while (EventManager.Instance.gameOverEventStarted)
         {
@@ -37,11 +37,11 @@ public class SkeletonMage : Enemy
         }
 
         // Frost Bolt
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), frostBolt.abilityRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), frostBolt.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, frostBolt)
             )
         {            
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
             // VFX notification
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Frost Bolt", false));
             yield return new WaitForSeconds(0.5f);
@@ -84,10 +84,10 @@ public class SkeletonMage : Enemy
         }
 
         // Fireball the closest target if the most vulnerable and the weakest cant be targetted
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), fireBall.abilityRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), fireBall.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, fireBall))
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball", false));
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
@@ -99,14 +99,14 @@ public class SkeletonMage : Enemy
         
         // Move
         else if (
-            EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), fireBall.abilityRange) == false &&
+            EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), fireBall.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, fireBall, this) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestEnemy(this), fireBall.abilityRange, currentMobility) != null
             )
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
             
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);

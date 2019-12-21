@@ -39,6 +39,42 @@ public static class EntityLogic
         }
         return closestTarget;
     }
+    public static LivingEntity GetClosestValidEnemy(LivingEntity entity)
+    {
+        // TO DO: this method determines which defender is closest by drawing a straight line. It should instead calculate the closest by drawing a path to each with Astar
+
+        LivingEntity closestTarget = null;
+        float minimumDistance = Mathf.Infinity;
+
+        // Declare new temp list for storing valid entities
+        List<LivingEntity> potentialEnemies = new List<LivingEntity>();
+
+        // Add all active entities that are NOT friendly to the temp list
+        foreach (LivingEntity entityy in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if (!CombatLogic.Instance.IsTargetFriendly(entity, entityy))
+            {
+                potentialEnemies.Add(entityy);
+            }
+
+        }
+
+        // Iterate throught the temp list to find the closest VALID enemy to this character
+        foreach (LivingEntity enemy in potentialEnemies)
+        {
+            if (IsTargetVisible(entity, enemy))
+            {
+                float distancefromCharacter = Vector2.Distance(enemy.gameObject.transform.position, entity.transform.position);
+                if (distancefromCharacter < minimumDistance)
+                {
+                    closestTarget = enemy;
+                    minimumDistance = distancefromCharacter;
+                }
+            }
+            
+        }
+        return closestTarget;
+    }
     public static LivingEntity GetClosestAlly(LivingEntity entity, bool includeSelf = true)
     {
         LivingEntity closestAlly = null;

@@ -51,13 +51,13 @@ public class SkeletonKing : Enemy
         }
 
         // Crushing Blow
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), currentMeleeRange) &&
            EntityLogic.IsAbilityUseable(this, crushingBlow))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Crushing Blow", false));
             yield return new WaitForSeconds(0.6f);
 
-            Action cbAction = AbilityLogic.Instance.PerformCrushingBlow(this, EntityLogic.GetClosestEnemy(this));
+            Action cbAction = AbilityLogic.Instance.PerformCrushingBlow(this, EntityLogic.GetClosestValidEnemy(this));
             yield return new WaitUntil(() => cbAction.ActionResolved() == true);
             // brief delay between actions
             yield return new WaitForSeconds(1f);
@@ -87,7 +87,7 @@ public class SkeletonKing : Enemy
         
 
         // Whirlwind
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, whirlwind))
         {            
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Whirlwind", false));
@@ -101,13 +101,13 @@ public class SkeletonKing : Enemy
         }
 
         // Strike
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, strike))
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);
 
-            Action strikeAction = AbilityLogic.Instance.PerformStrike(this, EntityLogic.GetClosestEnemy(this));
+            Action strikeAction = AbilityLogic.Instance.PerformStrike(this, EntityLogic.GetClosestValidEnemy(this));
             yield return new WaitUntil(() => strikeAction.ActionResolved() == true);
             // brief delay between actions
             yield return new WaitForSeconds(1f);

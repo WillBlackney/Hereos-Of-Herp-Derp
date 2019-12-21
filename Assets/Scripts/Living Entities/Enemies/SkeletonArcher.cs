@@ -36,12 +36,12 @@ public class SkeletonArcher : Enemy
         }
 
         // Impaling Bolt        
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), impalingBolt.abilityRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), impalingBolt.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, impalingBolt)
             )
         {
             Debug.Log("Skeleton Archer using Impaling Bolt...");
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
             // VFX notification
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Impaling Bolt", false));
             yield return new WaitForSeconds(0.5f);
@@ -87,10 +87,10 @@ public class SkeletonArcher : Enemy
         }
 
         // Snipe the closest target if the most vulnerable and the weakest cant be targetted
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), shoot.abilityRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), shoot.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, shoot))
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot", false));
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformShoot(this, myCurrentTarget);
@@ -104,14 +104,14 @@ public class SkeletonArcher : Enemy
         // Is any target in range and valid?
 
         // Try move into range
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), shoot.abilityRange) == false &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), shoot.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, shoot, this) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestEnemy(this), shoot.abilityRange, currentMobility) != null &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestValidEnemy(this), shoot.abilityRange, currentMobility) != null &&
             EntityLogic.IsAbilityUseable(this, move)
             )
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));            
+            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));            
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, currentMobility);
             

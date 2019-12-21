@@ -123,10 +123,10 @@ public class SkeletonAssassin : Enemy
         // If, for whatever reason, we cant attack or move towards the weakest enemy, attack the nearest enemy
 
         // Twin Strike
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, twinStrike))
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike", false));
             yield return new WaitForSeconds(0.5f);
 
@@ -138,10 +138,10 @@ public class SkeletonAssassin : Enemy
         }
 
         // Strike
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, strike))
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
             yield return new WaitForSeconds(0.5f);
 

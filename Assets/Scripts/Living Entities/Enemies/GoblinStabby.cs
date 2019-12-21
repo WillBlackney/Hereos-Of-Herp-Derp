@@ -27,7 +27,7 @@ public class GoblinStabby : Enemy
             yield return null;
         }
 
-        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+        SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
