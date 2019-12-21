@@ -63,16 +63,15 @@ public class SkeletonPriest : Enemy
         }        
 
         // Move towards an ally to give Encouraging presence bonus
-        else if (EntityLogic.GetClosestAlly(this) != this &&
-            EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestAlly(this), currentMobility) == false &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestAlly(this, false), currentMobility) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this,move) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestAlly(this), 1, currentMobility) != null
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestAlly(this, false), 1, currentMobility) != null
             )
         {            
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
-            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestAlly(this), 1, currentMobility);
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestAlly(this, false), 1, currentMobility);
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             
 

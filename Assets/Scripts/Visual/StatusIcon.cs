@@ -81,16 +81,27 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     #region
     public void SetInfoPanelVisibility(bool onOroff)
     {
-        infoPanelParent.SetActive(onOroff);
-
         if(onOroff == true)
         {
+            // quickly turning on and off prevents content size fitter from strecthing incorrectly
+            /*
+            infoPanelParent.SetActive(false);
+            infoPanelParent.SetActive(true);
             panelCG.alpha = 1;
+            panelCG.alpha = 0;
+            panelCG.alpha = 1;
+            infoPanelParent.SetActive(false);
+            infoPanelParent.SetActive(true);
+            */
+            panelCG.alpha = 1;
+
         }
         else
         {
-            panelCG.alpha = 0;
+            //infoPanelParent.SetActive(false);
+            panelCG.alpha = 0.001f;
         }
+        
     }
     #endregion
 }

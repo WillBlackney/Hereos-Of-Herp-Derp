@@ -229,7 +229,7 @@ public static class TextLogic
         else if (ability.abilityName == "Inspire")
         {
             ability.descriptionText.text =
-                "Increase a target's" + ReturnColoredText("Strength", yellow) + " by " +
+                "Increase a target's " + ReturnColoredText("Strength", yellow) + " by " +
                 ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow);
         }
 

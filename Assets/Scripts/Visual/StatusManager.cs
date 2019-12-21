@@ -111,14 +111,18 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
     public void SetPanelViewStateCoroutine(bool onOrOff)
     {
-        if (onOrOff == true)
+        if(gameObject.activeSelf == true)
         {
-            FadeIn();
+            if (onOrOff == true)
+            {
+                FadeIn();
+            }
+            else
+            {
+                FadeOut();
+            }
         }
-        else
-        {
-            FadeOut();
-        }
+        
     }
     public Action FadeIn()
     {

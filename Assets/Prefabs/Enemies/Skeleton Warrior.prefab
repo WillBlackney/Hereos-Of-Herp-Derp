@@ -171,6 +171,7 @@ MonoBehaviour:
   myDeathAnimationFinished: 0
   myOnActivationEndEffectsFinished: 0
   myInfoPanel: {fileID: 2095069968850433237}
+  freeStrikeIndicator: {fileID: 7221693735101132410}
   myName: Skeleton Warrior
   currentlyActivated: 0
 --- !u!114 &-2275895814606721917
@@ -566,6 +567,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5161094004121175669, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1940622545411342988, guid: b6d0a0a634ea79d43b0b51bbd7497198,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -836,6 +842,31 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 637890696911172433, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178388966685942961, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -293.48996
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178388966685942961, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -165.071
+      objectReference: {fileID: 0}
+    - target: {fileID: 8950358737474751639, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -293.48996
+      objectReference: {fileID: 0}
+    - target: {fileID: 8950358737474751639, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -165.071
+      objectReference: {fileID: 0}
     - target: {fileID: 7056163513605051722, guid: b6d0a0a634ea79d43b0b51bbd7497198,
         type: 3}
       propertyPath: m_Color.a
@@ -921,6 +952,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7221693735101132410 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6765210319058281865, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+    type: 3}
+  m_PrefabInstance: {fileID: 4168722202362596339}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7019698876840657861
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1100,6 +1137,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton Warrior Model
       objectReference: {fileID: 0}
+    - target: {fileID: 4738598830145977455, guid: 805de8cd606e31d4db37cb8bf688871c,
+        type: 3}
+      propertyPath: myEntity
+      value: 
+      objectReference: {fileID: 8889074023644783072}
     - target: {fileID: 7978168512703339627, guid: 805de8cd606e31d4db37cb8bf688871c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1165,11 +1207,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.11
       objectReference: {fileID: 0}
-    - target: {fileID: 4738598830145977455, guid: 805de8cd606e31d4db37cb8bf688871c,
-        type: 3}
-      propertyPath: myEntity
-      value: 
-      objectReference: {fileID: 8889074023644783072}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 805de8cd606e31d4db37cb8bf688871c, type: 3}
 --- !u!1 &2320591474294903245 stripped

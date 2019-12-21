@@ -12,8 +12,8 @@ public class SkeletonNecromancer : Enemy
         
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Strike");
-        mySpellBook.EnemyLearnAbility("Summon Undead");        
-        mySpellBook.EnemyLearnAbility("Chaos Bolt");
+        mySpellBook.EnemyLearnAbility("Summon Undead");
+        mySpellBook.EnemyLearnAbility("Blight");
 
         myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyUnhygienic(2);
@@ -24,7 +24,7 @@ public class SkeletonNecromancer : Enemy
     {
         Ability move = mySpellBook.GetAbilityByName("Move");
         Ability summonUndead = mySpellBook.GetAbilityByName("Summon Undead");        
-        Ability chaosBolt = mySpellBook.GetAbilityByName("Chaos Bolt");
+        Ability blight = mySpellBook.GetAbilityByName("Blight");
 
         ActionStart:
         while (EventManager.Instance.gameOverEventStarted)
@@ -56,16 +56,16 @@ public class SkeletonNecromancer : Enemy
             goto ActionStart;
         }
 
-        // Chaos Bolt
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), chaosBolt.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, chaosBolt) &&
+        // Blight
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), blight.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, blight) &&
             IsThereAtleastOneZombie()                      
             )
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Chaos Bolt", false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Blight", false));
             yield return new WaitForSeconds(0.5f);
-            Action action = AbilityLogic.Instance.PerformChaosBolt(this, EntityLogic.GetClosestEnemy(this));
+            Action action = AbilityLogic.Instance.PerformBlight(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
@@ -81,8 +81,29 @@ public class SkeletonNecromancer : Enemy
             yield return new WaitUntil(() => action.ActionResolved() == true);
             yield return new WaitForSeconds(0.5f);
             goto ActionStart;
-        }        
+        }
 
+        // Move in range for Blight
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), blight.abilityRange) == false &&
+            EntityLogic.IsAbleToMove(this) &&
+            EntityLogic.IsAbilityUseable(this, move) &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, blight.abilityRange, currentMobility) != null &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, blight, this)
+            )
+        {
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
+            yield return new WaitForSeconds(0.5f);
+
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, blight.abilityRange, currentMobility);
+            Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
+            yield return new WaitUntil(() => movementAction.ActionResolved() == true);
+
+            // small delay here in order to seperate the two actions a bit.
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
         EndMyActivation();
     }
 

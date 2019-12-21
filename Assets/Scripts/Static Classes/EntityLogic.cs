@@ -39,7 +39,7 @@ public static class EntityLogic
         }
         return closestTarget;
     }
-    public static LivingEntity GetClosestAlly(LivingEntity entity)
+    public static LivingEntity GetClosestAlly(LivingEntity entity, bool includeSelf = true)
     {
         LivingEntity closestAlly = null;
         float minimumDistance = Mathf.Infinity;
@@ -51,8 +51,14 @@ public static class EntityLogic
                 float distancefromThisCharacter = Vector2.Distance(entityy.gameObject.transform.position, entity.transform.position);
                 if (distancefromThisCharacter < minimumDistance && entityy != entity)
                 {
-                    closestAlly = entityy;
-                    minimumDistance = distancefromThisCharacter;
+                    if(
+                        (includeSelf == true && entityy == entity) ||
+                        (includeSelf == false && entityy != entity))
+                    {
+                        closestAlly = entityy;
+                        minimumDistance = distancefromThisCharacter;
+                    }
+                    
                 }
             }
             

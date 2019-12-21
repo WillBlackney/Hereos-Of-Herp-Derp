@@ -285,6 +285,37 @@ public class AbilityLogic : MonoBehaviour
         // Resolve event
         action.actionResolved = true;
     }
+    // Chaos Bolt
+    public Action PerformShadowBlast(LivingEntity attacker, LivingEntity victim)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformShadowBlastCoroutine(attacker, victim, action));
+        return action;
+    }
+    public IEnumerator PerformShadowBlastCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    {
+        // Initialize
+        Ability shadowBlast = attacker.mySpellBook.GetAbilityByName("Shadow Blast");
+        OnAbilityUsed(shadowBlast, attacker);
+
+        // Play Attack animation
+        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        yield return new WaitForSeconds(0.15f);
+
+        // Shoot shadow ball
+        Action shootAction = VisualEffectManager.Instance.ShootShadowBall(attacker.tile.WorldPosition, victim.tile.WorldPosition);
+        yield return new WaitUntil(() => shootAction.ActionResolved() == true);
+
+        // Resolve damage
+        Action abilityAction = CombatLogic.Instance.HandleDamage(shadowBlast.abilityPrimaryValue, attacker, victim, false, shadowBlast.abilityAttackType, shadowBlast.abilityDamageType);
+        yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+
+        // Apply exposed
+        victim.myPassiveManager.ModifyExposed(shadowBlast.abilitySecondaryValue);
+
+        // Resolve event
+        action.actionResolved = true;
+    }
 
     // Snipe
     public Action PerformSnipe(LivingEntity attacker, LivingEntity victim)
@@ -667,7 +698,25 @@ public class AbilityLogic : MonoBehaviour
         
     }
 
-    // Poison Dart
+    // Blight 
+    public Action PerformBlight(LivingEntity caster, LivingEntity victim)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformBlightCoroutine(caster, victim, action));
+        return action;
+    }
+    public IEnumerator PerformBlightCoroutine(LivingEntity caster, LivingEntity victim, Action action)
+    {
+        Ability blight = caster.mySpellBook.GetAbilityByName("Blight");
+        OnAbilityUsed(blight, caster);
+        StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
+        victim.myPassiveManager.ModifyPoison(blight.abilityPrimaryValue, caster);
+        yield return new WaitForSeconds(0.5f);
+        action.actionResolved = true;
+
+    }
+
+    // Acid Spit
     public Action PerformAcidSpit(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action();
