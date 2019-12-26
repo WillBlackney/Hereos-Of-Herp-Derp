@@ -238,7 +238,7 @@ public class ItemLibrary : MonoBehaviour
     }   
     public void AssignCrystalFragment(CharacterData character)
     {
-        character.ModifyEnergy(1);
+        character.ModifyStamina(1);
     }    
     public void AssignOrcishWarPaint(CharacterData character)
     {
@@ -266,7 +266,7 @@ public class ItemLibrary : MonoBehaviour
     }
     public void AssignCopperRing(CharacterData character)
     {
-        character.ModifyMaxAP(2);
+        character.ModifyMaxEnergy(2);
     }
     public void AssignCopperPlate(CharacterData character)
     {
@@ -286,7 +286,7 @@ public class ItemLibrary : MonoBehaviour
     }
     public void AssignCocaine(CharacterData character)
     {
-        character.ModifyStartingAPBonus(2);
+        character.ModifyStartingEnergyBonus(2);
     }
     public void AssignNinjaBoots(CharacterData character)
     {

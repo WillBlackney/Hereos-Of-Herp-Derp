@@ -53,11 +53,11 @@ public class AbilityLogic : MonoBehaviour
 
         else if (ability.abilityName == "Slice And Dice")
         {
-            finalApCost = livingEntity.currentAP;
+            finalApCost = livingEntity.currentEnergy;
         }
 
         // Modify AP
-        livingEntity.ModifyCurrentAP(-finalApCost);
+        livingEntity.ModifyCurrentEnergy(-finalApCost);
         // Modify Cooldown
         ability.ModifyCurrentCooldown(finalCD);
 
@@ -581,7 +581,7 @@ public class AbilityLogic : MonoBehaviour
         Action selfDamageAction = CombatLogic.Instance.HandleDamage(bloodLust.abilitySecondaryValue, attacker, attacker, false, AbilityDataSO.AttackType.None, AbilityDataSO.DamageType.None);
         yield return new WaitUntil(() => selfDamageAction.ActionResolved() == true);
         yield return new WaitForSeconds(0.5f);
-        attacker.ModifyCurrentAP(bloodLust.abilityPrimaryValue);
+        attacker.ModifyCurrentEnergy(bloodLust.abilityPrimaryValue);
         action.actionResolved = true;        
     }
 
@@ -669,7 +669,7 @@ public class AbilityLogic : MonoBehaviour
         Action abilityAction = CombatLogic.Instance.HandleDamage(rapidFire.abilityPrimaryValue, attacker, victim, false, rapidFire.abilityAttackType, rapidFire.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         shotsFired++;
-        attacker.ModifyCurrentAP(-1);
+        attacker.ModifyCurrentEnergy(-1);
         yield return new WaitForSeconds(0.5f);
         if (victim != null && shotsFired < shots)
         {
@@ -762,7 +762,7 @@ public class AbilityLogic : MonoBehaviour
     }
     public IEnumerator PerformSliceAndDiceCoroutine(LivingEntity attacker, LivingEntity victim,  Action action)
     {
-        int totalAttacks = attacker.currentAP;
+        int totalAttacks = attacker.currentEnergy;
         int timesAttacked = 0;
         Ability sliceAndDice = attacker.mySpellBook.GetAbilityByName("Slice And Dice");
         OnAbilityUsed(sliceAndDice, attacker);        
@@ -839,7 +839,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability invigorate = caster.mySpellBook.GetAbilityByName("Invigorate");
         OnAbilityUsed(invigorate, caster);
-        target.ModifyCurrentAP(invigorate.abilityPrimaryValue);
+        target.ModifyCurrentEnergy(invigorate.abilityPrimaryValue);
         if (TalentLogic.Instance.DoesCharacterHaveTalent(caster, "Improved Invigorate"))
         {
             target.myPassiveManager.ModifyTemporaryMobility(1);
@@ -1176,7 +1176,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if(CombatLogic.Instance.IsTargetFriendly(caster, entity) == false)
             {
-                entity.ModifyCurrentEnergy(-1);
+                entity.ModifyCurrentStamina(-1);
             }
         }
         yield return new WaitForSeconds(1f);

@@ -88,7 +88,7 @@ public class GrimReaper : Enemy
     {
         foreach (Defender defender in DefenderManager.Instance.allDefenders)
         {
-            defender.ModifyCurrentEnergy(-1);
+            defender.ModifyCurrentStamina(-1);
         }
     }
 

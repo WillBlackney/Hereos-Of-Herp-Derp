@@ -344,7 +344,7 @@ public class EventManager : Singleton<EventManager>
             UIManager.Instance.EnableRewardScreenView();
             RewardScreen.Instance.CreateGoldRewardButton();
             RewardScreen.Instance.CreateItemRewardButton();
-            RewardScreen.Instance.CreateArtifactRewardButton();
+            //RewardScreen.Instance.CreateArtifactRewardButton();
             RewardScreen.Instance.PopulateItemScreen();
         }
 

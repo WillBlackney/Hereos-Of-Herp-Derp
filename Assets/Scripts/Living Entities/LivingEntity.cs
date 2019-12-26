@@ -31,28 +31,30 @@ public class LivingEntity : MonoBehaviour
     public int baseMobility;
     public int baseMaxHealth;
     public int baseStartingHealth;
-    public int baseEnergy;
-    public int baseStartingAP;
-    public int baseMaxAP;
+    public int baseStamina;    
+    public int baseMaxEnergy;
     public int baseMeleeRange;
     public int baseStrength;
     public int baseWisdom;
     public int baseDexterity;
     public int baseInitiative;
+    public int baseCriticalChance;
     public int baseStartingBlock;
+    public int baseStartingEnergyBonus;
 
     [Header("Current Trait Properties")]
     public int currentMobility;
     public int currentMaxHealth;
     public int currentHealth;
-    public int currentMaxAP;
+    public int currentMaxEnergy;
+    public int currentStamina;
     public int currentEnergy;
-    public int currentAP;
     public int currentMeleeRange;
     public int currentStrength;
     public int currentWisdom;
     public int currentDexterity;
     public int currentInitiative;
+    public int currentCriticalChance;
     public int currentBlock;
 
     [Header("Pathing + Location Related ")]
@@ -81,12 +83,10 @@ public class LivingEntity : MonoBehaviour
     #region
     public virtual void InitializeSetup(Point startingGridPosition, Tile startingTile)
     {
-        // Create Portal vfx
-        //ParticleManager.Instance.CreateParticleEffect(startingTile.WorldPosition, ParticleManager.Instance.portalParticlePrefab);
         Debug.Log("Calling LivingEntity.InitializeSetup...");
+
         // Get component references        
         mySpriteRenderer = GetComponent<SpriteRenderer>();
-        //myCG = GetComponent<CanvasGroup>();
         if (myAnimator == null)
         {
             myAnimator = GetComponent<Animator>();
@@ -139,8 +139,8 @@ public class LivingEntity : MonoBehaviour
         }
 
         currentHealth = baseStartingHealth;
-        currentMaxAP = baseMaxAP;
-        currentEnergy = baseEnergy;              
+        currentMaxEnergy = baseMaxEnergy;
+        currentStamina = baseStamina;              
         currentMeleeRange = baseMeleeRange;  
         
         ModifyCurrentStrength(baseStrength);
@@ -148,7 +148,8 @@ public class LivingEntity : MonoBehaviour
         ModifyCurrentDexterity(baseDexterity);
         ModifyCurrentInitiative(baseInitiative);        
         ModifyCurrentBlock(baseStartingBlock);
-        ModifyCurrentAP(baseStartingAP);           
+        ModifyCurrentEnergy(baseStartingEnergyBonus);
+        ModifyCurrentCriticalChance(baseCriticalChance);
         UpdateHealthGUIElements();
         SetColor(normalColour);
     }
@@ -165,18 +166,18 @@ public class LivingEntity : MonoBehaviour
             currentMobility = 0;
         }        
     }
-    public virtual void ModifyCurrentAP(int APGainedOrLost, bool showVFX = true)
+    public virtual void ModifyCurrentEnergy(int APGainedOrLost, bool showVFX = true)
     {
-        currentAP += APGainedOrLost;
+        currentEnergy += APGainedOrLost;
 
-        if (currentAP > currentMaxAP)
+        if (currentEnergy > currentMaxEnergy)
         {
-            currentAP = currentMaxAP;
+            currentEnergy = currentMaxEnergy;
         }
 
-        if (currentAP < 0)
+        if (currentEnergy < 0)
         {
-            currentAP = 0;
+            currentEnergy = 0;
         }
 
         if(APGainedOrLost > 0 && showVFX == true)
@@ -186,7 +187,7 @@ public class LivingEntity : MonoBehaviour
         }
         if (defender)
         {
-            defender.UpdateAPBarPosition();
+            defender.UpdateEnergyBarPosition();
         }
     }
     public virtual void ModifyCurrentHealth(int healthGainedOrLost)
@@ -287,13 +288,9 @@ public class LivingEntity : MonoBehaviour
     {
         currentInitiative += initiativeGainedOrLost;     
     }
-    public virtual void ModifyCurrentEnergy(int energyGainedOrLost)
+    public virtual void ModifyCurrentStamina(int energyGainedOrLost)
     {
-        currentEnergy += energyGainedOrLost;
-        if (currentDexterity != 0)
-        {
-           // myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Dexterity"), energyGainedOrLost);
-        }
+        currentStamina += energyGainedOrLost;
 
         if (energyGainedOrLost > 0)
         {
@@ -307,7 +304,11 @@ public class LivingEntity : MonoBehaviour
             StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
         }
 
-    }    
+    }
+    public virtual void ModifyCurrentCriticalChance(int criticalGainedOrLost)
+    {
+        currentCriticalChance += criticalGainedOrLost;
+    }
     public virtual void ModifyCurrentBlock(int blockGainedOrLost)
     {
 
@@ -379,7 +380,7 @@ public class LivingEntity : MonoBehaviour
 
         if (myPassiveManager.Volatile)
         {
-            CombatLogic.Instance.CreateAoEAttackEvent(this, myPassiveManager.volatileStacks, tile, 1, true, true,AbilityDataSO.DamageType.Physical);
+            CombatLogic.Instance.CreateAoEAttackEvent(this, myPassiveManager.volatileStacks, tile, 1, true, true, AbilityDataSO.DamageType.Physical);
         }
 
         // check for soul link and damage allies if they have it
@@ -387,7 +388,7 @@ public class LivingEntity : MonoBehaviour
         {
             if (entity.myPassiveManager.soulLink && CombatLogic.Instance.IsTargetFriendly(this, entity))
             {
-                Action soulLinkDamage = CombatLogic.Instance.HandleDamage(5, this, entity);
+                Action soulLinkDamage = CombatLogic.Instance.HandleDamage(10, this, entity);
             }
         }
 
@@ -588,7 +589,7 @@ public class LivingEntity : MonoBehaviour
             {
                 VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Thick Of The Fight", false, "Blue");
                 yield return new WaitForSeconds(0.5f);
-                ModifyCurrentAP(myPassiveManager.thickOfTheFightStacks);
+                ModifyCurrentEnergy(myPassiveManager.thickOfTheFightStacks);
             }
             
         }
@@ -676,7 +677,7 @@ public class LivingEntity : MonoBehaviour
                     if (tilesInEncouragingPresenceRange.Contains(defender.tile))
                     {
                         Debug.Log("Character within range of Encouraging presence, granting bonus AP...");
-                        defender.ModifyCurrentAP(myPassiveManager.encouragingPresenceStacks);
+                        defender.ModifyCurrentEnergy(myPassiveManager.encouragingPresenceStacks);
                     }
                 }                
             }
@@ -688,7 +689,7 @@ public class LivingEntity : MonoBehaviour
                 {
                     if (tilesInEncouragingPresenceRange.Contains(enemy.tile))
                     {
-                        enemy.ModifyCurrentAP(myPassiveManager.encouragingPresenceStacks);
+                        enemy.ModifyCurrentEnergy(myPassiveManager.encouragingPresenceStacks);
                     }
                 }
             }
@@ -877,7 +878,7 @@ public class LivingEntity : MonoBehaviour
 
         if (defender &&
            ArtifactManager.Instance.HasArtifact("Crown Of Kings") &&
-           currentAP == currentMaxAP)
+           currentEnergy == currentMaxEnergy)
         {
             ModifyCurrentStrength(1);
             yield return new WaitForSeconds(0.5f);
@@ -903,21 +904,21 @@ public class LivingEntity : MonoBehaviour
     }
     public virtual void GainEnergyOnActivationStart()
     {        
-        currentAP += currentEnergy;
+        currentEnergy += currentStamina;
 
-        if (currentAP > currentMaxAP)
+        if (currentEnergy > currentMaxEnergy)
         {
-            currentAP = currentMaxAP;
+            currentEnergy = currentMaxEnergy;
         }
 
-        if (currentAP < 0)
+        if (currentEnergy < 0)
         {
-            currentAP = 0;
+            currentEnergy = 0;
         }
 
         if (defender)
         {
-            defender.UpdateAPBarPosition();
+            defender.UpdateEnergyBarPosition();
         }
     }
     public void ReduceCooldownsOnActivationStart()

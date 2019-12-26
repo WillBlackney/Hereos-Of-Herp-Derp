@@ -32,7 +32,7 @@ public class CharacterData : MonoBehaviour
     [Header("Front Page Components")]
     public TextMeshProUGUI strengthText;
     public TextMeshProUGUI mobilityText;
-    public TextMeshProUGUI energyText;
+    public TextMeshProUGUI staminaText;
     public TextMeshProUGUI currentHealthText;
     public TextMeshProUGUI maxHealthText;
     public TextMeshProUGUI classNameText;
@@ -45,9 +45,9 @@ public class CharacterData : MonoBehaviour
     public int Mobility;
     public int MaxHealth;
     public int CurrentHealth;
-    public int Energy;
+    public int Stamina;
     public int Initiative;
-    public int MaxAP;
+    public int MaxEnergy;
     public int MeleeRange;
     public int Strength;
     public int Wisdom;
@@ -72,7 +72,7 @@ public class CharacterData : MonoBehaviour
     public int poisonousStacks;
     public int thornsStacks;
     public int startingBlock;
-    public int startingAPBonus;
+    public int startingEnergyBonus;
     public int adaptiveStacks;
     public int hatefulPresenceStacks;
     public int fieryPresenceStacks;
@@ -155,9 +155,9 @@ public class CharacterData : MonoBehaviour
             myClass = "Warrior";
             ModifyMobility(1);
             ModifyStrength(0);
-            ModifyMaxHealth(60);
-            ModifyCurrentHealth(60);
-            ModifyEnergy(4);
+            ModifyMaxHealth(100);
+            ModifyCurrentHealth(100);
+            ModifyStamina(40);
             ModifyInitiative(3);
             ModifyMeleeRange(1);
 
@@ -170,7 +170,7 @@ public class CharacterData : MonoBehaviour
             KnowsInspire = true;
             KnowsWhirlwind = true;
 
-            MaxAP = 6;
+            MaxEnergy = 60;
 
             talentTreeOne.InitializeSetup("Path of Rage");
             talentTreeTwo.InitializeSetup("Path of the Guardian");            
@@ -186,12 +186,12 @@ public class CharacterData : MonoBehaviour
             myClass = "Mage";
             ModifyMobility(1);
             ModifyStrength(0);
-            ModifyMaxHealth(45);            
-            ModifyCurrentHealth(45);            
-            ModifyEnergy(4);
+            ModifyMaxHealth(90);            
+            ModifyCurrentHealth(90);            
+            ModifyStamina(40);
             ModifyInitiative(3);
             ModifyMeleeRange(1);
-            MaxAP = 6;
+            MaxEnergy = 60;
 
             fleetFootedStacks = 1;
             KnowsMove = true;
@@ -217,12 +217,12 @@ public class CharacterData : MonoBehaviour
             myClass = "Ranger";
             ModifyMobility(5);
             ModifyStrength(0);
-            ModifyMaxHealth(45);
-            ModifyCurrentHealth(45);
-            ModifyEnergy(4);
+            ModifyMaxHealth(90);
+            ModifyCurrentHealth(90);
+            ModifyStamina(40);
             ModifyInitiative(3);
             ModifyMeleeRange(1);
-            MaxAP = 6;
+            MaxEnergy = 60;
                         
         }
 
@@ -235,14 +235,14 @@ public class CharacterData : MonoBehaviour
             myClass = "Priest";
             ModifyMobility(1);
             ModifyStrength(0);
-            ModifyMaxHealth(50);
-            ModifyCurrentHealth(50);
-            ModifyEnergy(4);
+            ModifyMaxHealth(100);
+            ModifyCurrentHealth(100);
+            ModifyStamina(40);
             ModifyInitiative(3);
             ModifyMeleeRange(1);
-            MaxAP = 6;
+            MaxEnergy = 60;
 
-            encouragingPresenceStacks = 1;
+            encouragingPresenceStacks = 10;
 
             KnowsMove = true;
             KnowsStrike = true;
@@ -268,13 +268,13 @@ public class CharacterData : MonoBehaviour
             myClass = "Rogue";
             ModifyMobility(1);
             ModifyStrength(0);
-            ModifyMaxHealth(45);
-            ModifyCurrentHealth(45);
-            ModifyEnergy(4);
+            ModifyMaxHealth(95);
+            ModifyCurrentHealth(95);
+            ModifyStamina(40);
             ModifyInitiative(3);
             ModifyMeleeRange(1);
             poisonousStacks = 1;
-            MaxAP = 6;
+            MaxEnergy = 60;
 
             KnowsMove = true;
             KnowsStrike = true;
@@ -298,12 +298,12 @@ public class CharacterData : MonoBehaviour
             myClass = "Shaman";
             ModifyMobility(1);
             ModifyStrength(0);
-            ModifyMaxHealth(50);
-            ModifyCurrentHealth(50);
-            ModifyEnergy(4);
+            ModifyMaxHealth(100);
+            ModifyCurrentHealth(100);
+            ModifyStamina(40);
             ModifyInitiative(3);
             ModifyMeleeRange(1);
-            MaxAP = 6;
+            MaxEnergy = 60;
 
             KnowsMove = true;
             KnowsStrike = true;
@@ -548,14 +548,18 @@ public class CharacterData : MonoBehaviour
         Initiative += initiativeGainedOrLost;
         //initiativeText.text = Initiative.ToString();
     }
-    public void ModifyEnergy(int energyGainedOrlost)
+    public void ModifyStamina(int energyGainedOrlost)
     {
-        Energy += energyGainedOrlost;
-        energyText.text = Energy.ToString();
+        Stamina += energyGainedOrlost;
+        if(staminaText != null)
+        {
+            staminaText.text = Stamina.ToString();
+        }
+        
     }
-    public void ModifyMaxAP(int maxAPGainedOrlost)
+    public void ModifyMaxEnergy(int maxAPGainedOrlost)
     {
-        MaxAP += maxAPGainedOrlost;        
+        MaxEnergy += maxAPGainedOrlost;        
     }
     #endregion
 
@@ -565,9 +569,9 @@ public class CharacterData : MonoBehaviour
     {
         startingBlock += blockGainedOrLost;
     }    
-    public void ModifyStartingAPBonus(int apBonusGainedOrLost)
+    public void ModifyStartingEnergyBonus(int apBonusGainedOrLost)
     {
-        startingAPBonus += apBonusGainedOrLost;
+        startingEnergyBonus += apBonusGainedOrLost;
     }
     public void ModifyMeleeRange(int meleeRangeGainedOrLost)
     {

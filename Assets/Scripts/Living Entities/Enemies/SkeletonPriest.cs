@@ -13,7 +13,7 @@ public class SkeletonPriest : Enemy
         mySpellBook.EnemyLearnAbility("Invigorate");
         mySpellBook.EnemyLearnAbility("Healing Light");
         myPassiveManager.ModifyUndead();
-        myPassiveManager.ModifyEncouragingPresence(1);
+        myPassiveManager.ModifyEncouragingPresence(10);
 
     }
 
@@ -104,7 +104,7 @@ public class SkeletonPriest : Enemy
 
         foreach(Enemy enemy in EnemyManager.Instance.allEnemies)
         {
-            if(enemy.currentAP < enemy.currentMaxAP &&
+            if(enemy.currentEnergy < enemy.currentMaxEnergy &&
                 EntityLogic.IsTargetInRange(this, enemy, range) &&
                 enemy != this)
             {

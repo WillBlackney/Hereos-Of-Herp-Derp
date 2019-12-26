@@ -52,13 +52,13 @@ public static class TextLogic
         {
             icon.statusDescriptionText.text =
                 "Whenever this character loses HP, it gains " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
-                + " strength";
+                + " Strength";
         }
         else if (icon.statusName == "Growing")
         {
             icon.statusDescriptionText.text =
                 "At the start of this characters activation, it gains  " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
-                + " strength";
+                + " Strength";
         }        
         else if (icon.statusName == "Volatile")
         {
@@ -93,7 +93,7 @@ public static class TextLogic
         else if (icon.statusName == "Encouraging Presence")
         {
             icon.statusDescriptionText.text =
-                "At the end of this character's activation, it grants " + ReturnColoredText(icon.statusStacks.ToString(), yellow) + " AP to adjacent allies";
+                "At the end of this character's activation, it grants " + ReturnColoredText(icon.statusStacks.ToString(), yellow) + " Energy to adjacent allies";
         }
         else if (icon.statusName == "Poisonous")
         {
@@ -140,19 +140,19 @@ public static class TextLogic
         {
             icon.statusDescriptionText.text =
                 "Whenever this character loses HP, it gains " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
-                + " block";
+                + " Block";
         }
         else if (icon.statusName == "Hateful Presence")
         {
             icon.statusDescriptionText.text =
                 "At the end of this character's activation, it grants " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
-                + " strength to adjacent allies";
+                + " Strength to adjacent allies";
         }
         else if (icon.statusName == "Soul Drain Aura")
         {
             icon.statusDescriptionText.text =
                 "At the end of this character's activation, it steals " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
-                + " strength from adjacent enemies";
+                + "Sstrength from adjacent enemies";
         }
         else if (icon.statusName == "Lightning Shield")
         {
@@ -166,21 +166,21 @@ public static class TextLogic
             icon.statusDescriptionText.text =
                 "At the start of this character's activation, if there is an enemy within melee range, it gains " +
                 ReturnColoredText(icon.statusStacks.ToString(), yellow) + 
-                " AP";
+                " Energy";
         }
         else if (icon.statusName == "Temporary Strength")
         {
             icon.statusDescriptionText.text =
                 "At the end of this character's activation, it loses " +
                 ReturnColoredText(icon.statusStacks.ToString(), yellow) +
-                " strength";
+                " Strength";
         }
         else if (icon.statusName == "Temporary Initiative")
         {
             icon.statusDescriptionText.text =
                 "At the end of this character's activation, it loses " +
                 ReturnColoredText(icon.statusStacks.ToString(), yellow) +
-                " initiative";
+                " Initiative";
         }
         else if (icon.statusName == "Rune")
         {
@@ -300,7 +300,7 @@ public static class TextLogic
         {
             ability.descriptionText.text =
                 "The next ability you use costs " + ReturnColoredText("0", yellow) +
-                " action points";
+                " Energy";
         }
         else if (ability.abilityName == "Holy Fire")
         {
@@ -316,7 +316,7 @@ public static class TextLogic
         {
             ability.descriptionText.text =
                 "Give an ally " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) +
-                " action points";
+                " Energy";
         }
         else if (ability.abilityName == "Chaos Bolt")
         {

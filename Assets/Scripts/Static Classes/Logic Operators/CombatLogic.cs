@@ -63,8 +63,7 @@ public class CombatLogic : MonoBehaviour
         foreach (LivingEntity livingEntity in finalList)
         {
             //livingEntity.HandleDamage(livingEntity.CalculateDamage(abilityUsed.abilityPrimaryValue, livingEntity, attacker), attacker, true);
-            Action abilityAction = HandleDamage(abilityUsed.abilityPrimaryValue, attacker, livingEntity, false, abilityUsed.abilityAttackType, abilityUsed.abilityDamageType);
-            
+            Action abilityAction = HandleDamage(abilityUsed.abilityPrimaryValue, attacker, livingEntity, false, abilityUsed.abilityAttackType, abilityUsed.abilityDamageType);            
         }
     }
 
@@ -136,6 +135,7 @@ public class CombatLogic : MonoBehaviour
         int adjustedDamageValue = damageAmount;
         int blockAfter = victim.currentBlock;
         int healthAfter = victim.currentHealth;
+        bool criticalSuccesful = RollForCritical(attacker);
 
         // play impact VFX
         if (attackType != AbilityDataSO.AttackType.None)
@@ -151,7 +151,7 @@ public class CombatLogic : MonoBehaviour
 
         if (damageType != AbilityDataSO.DamageType.Poison)
         {
-            adjustedDamageValue = CalculateDamage(damageAmount, victim, attacker, damageType, attackType, abilityUsed);
+            adjustedDamageValue = CalculateDamage(damageAmount, victim, attacker, damageType, criticalSuccesful, attackType, abilityUsed);
         }           
 
         if (victim.currentBlock == 0)
@@ -204,11 +204,16 @@ public class CombatLogic : MonoBehaviour
         //victim.currentHealth = healthAfter;
         victim.ModifyCurrentHealth(-totalLifeLost);
         victim.SetCurrentBlock(blockAfter);
-        //victim.UpdateHealthGUIElements();
 
         // Play VFX depending on whether the victim lost health, block, or was damaged by poison
         if (adjustedDamageValue > 0)
-        {                 
+        {
+            if (criticalSuccesful)
+            {
+                // Create critical status effect text
+                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL", false, "Yellow"));
+            }
+
             if(damageType == AbilityDataSO.DamageType.Poison)
             {
                 // Create damaged by poison effect
@@ -278,7 +283,7 @@ public class CombatLogic : MonoBehaviour
             if(attackType == AbilityDataSO.AttackType.Melee)
             {
                 Debug.Log("Victim has thorns and was struck by a melee attack, returning damage...");
-                Action thornsDamage = HandleDamage(CalculateDamage(victim.myPassiveManager.thornsStacks, attacker, victim, AbilityDataSO.DamageType.Physical), victim, attacker);                
+                Action thornsDamage = HandleDamage(CalculateDamage(victim.myPassiveManager.thornsStacks, attacker, victim, AbilityDataSO.DamageType.Physical, false), victim, attacker);                
             }                      
         }
 
@@ -286,7 +291,7 @@ public class CombatLogic : MonoBehaviour
         if (victim.myPassiveManager.lightningShield && attackType != AbilityDataSO.AttackType.None)
         {
             Debug.Log("Victim has lightning shield and was attacked, returning damage...");
-            Action lightningShieldDamage = HandleDamage(CalculateDamage(victim.myPassiveManager.lightningShieldStacks, victim, attacker, AbilityDataSO.DamageType.Magic), attacker, victim);
+            Action lightningShieldDamage = HandleDamage(CalculateDamage(victim.myPassiveManager.lightningShieldStacks, victim, attacker, AbilityDataSO.DamageType.Magic, false), attacker, victim);
             yield return new WaitUntil(() => lightningShieldDamage.ActionResolved() == true);
         }
 
@@ -321,7 +326,7 @@ public class CombatLogic : MonoBehaviour
         // Send 'actiom resolved' message back up the stack
         action.actionResolved = true;
     }
-    public int CalculateDamage(int abilityBaseDamage, LivingEntity victim, LivingEntity attacker, AbilityDataSO.DamageType damageType, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None, Ability abilityUsed = null)
+    public int CalculateDamage(int abilityBaseDamage, LivingEntity victim, LivingEntity attacker, AbilityDataSO.DamageType damageType, bool critical, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None, Ability abilityUsed = null)
     {
         int newDamageValue = 0;
 
@@ -351,42 +356,56 @@ public class CombatLogic : MonoBehaviour
         Debug.Log("Damage value after ignite added: " + newDamageValue);
 
         // multiply/divide the damage value based on factors like vulnerable, knock down, magic vulnerability, etc
-        newDamageValue = (int)(newDamageValue * CalculateAndGetDamagePercentageModifier(attacker, victim, damageType, attackType));
+        newDamageValue = (int)(newDamageValue * CalculateAndGetDamagePercentageModifier(attacker, victim, damageType, critical, attackType));
         Debug.Log("Damage value after percentage modifers like knockdown added: " + newDamageValue);
 
         return newDamageValue;
     }
-    public float CalculateAndGetDamagePercentageModifier(LivingEntity attacker, LivingEntity victim, AbilityDataSO.DamageType damageType, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None)
+    public float CalculateAndGetDamagePercentageModifier(LivingEntity attacker, LivingEntity victim, AbilityDataSO.DamageType damageType, bool critical, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None)
     {
         // Get damage type first
         AbilityDataSO.DamageType DamageType = damageType;
 
-        // TO DO in future: this is where we modify the damage type based on character traits 
-        // (e.g. if a character has a buff that makes all it damage types magical
-
         float damageModifier = 1f;
         
+        // exposed
         if (victim.myPassiveManager.exposed && attackType != AbilityDataSO.AttackType.None && DamageType != AbilityDataSO.DamageType.None)
         {
             Debug.Log("Victim exposed, increasing damage by 50%...");
             damageModifier += 0.5f;
         }
+
+        // check for critical
+        if(attackType != AbilityDataSO.AttackType.None)
+        {
+            if (RollForCritical(attacker))
+            {
+                damageModifier += 0.5f;
+            }
+        }
+
+        // exhausted
         if (attacker.myPassiveManager.exhausted)
         {
             damageModifier -= 0.5f;
             Debug.Log("Attacker exhausted, decreasing damage by 50%...");
         }
+
+        // back arc
         if(PositionLogic.Instance.IsWithinTargetsBackArc(attacker, victim) && attackType == AbilityDataSO.AttackType.Melee)
         {
             //damageModifier += 1f;
             //Debug.Log("Attacker striking victims back arc, increasing damage by 100%...");
         }
         
+        // magic immunity
         if (victim.myPassiveManager.magicImmunity && DamageType == AbilityDataSO.DamageType.Magic)
         {
             damageModifier = 0;
             Debug.Log("Victim has Magic immunity, damage reduced to 0%...");
         }
+
+        // physical immunity
         if (victim.myPassiveManager.physicalImmunity && DamageType == AbilityDataSO.DamageType.Physical)
         {
             damageModifier = 0;
@@ -453,6 +472,24 @@ public class CombatLogic : MonoBehaviour
         }
         else
         {
+            return false;
+        }
+    }
+    public bool RollForCritical(LivingEntity character)
+    {
+        int critChance = character.currentCriticalChance;
+
+        int roll = Random.Range(1, 101);
+        Debug.Log(character.gameObject.name + " rolled a " + roll.ToString() + " to crit");
+
+        if (roll <= critChance)
+        {
+            Debug.Log(character.gameObject.name + " successfully rolled a critical");
+            return true;
+        }
+        else
+        {
+            Debug.Log(character.gameObject.name + " failed to roll a critical ");
             return false;
         }
     }

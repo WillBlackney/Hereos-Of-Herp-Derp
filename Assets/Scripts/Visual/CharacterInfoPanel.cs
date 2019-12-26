@@ -28,7 +28,7 @@ public class CharacterInfoPanel : MonoBehaviour
         myCharacterSprite.sprite = myEnemy.mySpriteRenderer.sprite;
 
         healthText.text = myEnemy.baseMaxHealth.ToString();
-        energyText.text = myEnemy.baseEnergy.ToString();
+        energyText.text = myEnemy.baseStamina.ToString();
         mobilityText.text = myEnemy.baseMobility.ToString();
         strengthText.text = myEnemy.baseStrength.ToString();
     }

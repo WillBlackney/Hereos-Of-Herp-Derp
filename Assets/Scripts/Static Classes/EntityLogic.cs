@@ -188,7 +188,7 @@ public static class EntityLogic
     }
     public static bool HasEnoughAP(LivingEntity entity, Ability ability)
     {
-        if (entity.currentAP >= ability.abilityAPCost)
+        if (entity.currentEnergy >= ability.abilityAPCost)
         {
             return true;
         }
@@ -304,7 +304,7 @@ public static class EntityLogic
         // prevents enemies from move into a defenders range without being able to attack.
         // some enemies should only advance if they can make attacks after moving (like squishy melee fighters, or ranged attackers)
 
-        int currentAP = entity.currentAP;
+        int currentAP = entity.currentEnergy;
 
         if(currentAP - abilityOne.abilityAPCost >= abilityTwo.abilityAPCost)
         {

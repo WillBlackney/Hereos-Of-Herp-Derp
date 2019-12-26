@@ -64,7 +64,7 @@ public class StateManager : Singleton<StateManager>
         {
             foreach (Defender defender in DefenderManager.Instance.allDefenders)
             {
-                defender.ModifyCurrentEnergy(1);
+                defender.ModifyCurrentStamina(1);
                 Debug.Log("StateManager applying Well Rested...");
             }
             yield return new WaitForSeconds(1);

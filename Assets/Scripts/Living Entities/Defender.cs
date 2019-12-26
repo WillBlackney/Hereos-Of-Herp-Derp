@@ -9,20 +9,20 @@ using UnityEngine.UI;
 public class Defender : LivingEntity
 {
     [Header("Defender Component References ")]
-    public Slider myApBar;
+    public Slider myEnergyBar;
     public Slider myHealthBarStatPanel;
     public AbilityBar myAbilityBar;
     public GameObject myUIParent;
     public CharacterData myCharacterData;
-    public TextMeshProUGUI myCurrentAPText;
-    public TextMeshProUGUI myCurrentMaxAPText;
+    public TextMeshProUGUI myCurrentEnergyText;
+    public TextMeshProUGUI myCurrentMaxEnergyText;
     public TextMeshProUGUI myCurrentStrengthStatText;
     public TextMeshProUGUI myCurrentMobilityStatText;
-    public TextMeshProUGUI myCurrentAPStatText;
+    public TextMeshProUGUI myCurrentStaminaStatText;
     public TextMeshProUGUI myCurrentHealthTextStatBar;
     public TextMeshProUGUI myCurrentMaxHealthTextStatBar;
-    public TextMeshProUGUI myCurrentApBarText;
-    public TextMeshProUGUI myCurrentMaxApBarText;
+    public TextMeshProUGUI myCurrentEnergyBarText;
+    public TextMeshProUGUI myCurrentMaxEnergyBarText;
 
 
     [Header("Ability Orders")]
@@ -63,7 +63,7 @@ public class Defender : LivingEntity
     public bool awaitingChaosBoltOrder;
 
     [Header("Ability Orders")]
-    public bool apBarPositionCurrentlyUpdating;
+    public bool energyBarPositionCurrentlyUpdating;
     public bool healthBarPositionCurrentlyUpdating;
 
 
@@ -82,13 +82,13 @@ public class Defender : LivingEntity
         RunSetupFromArtifactData();
         base.SetBaseProperties();
         // Set up visuals
-        UpdateCurrentAPText(currentAP);
-        UpdateCurrentMaxAPText(currentMaxAP);
-        UpdateCurrentAPStatText(currentEnergy);        
+        UpdateCurrentEnergyText(currentEnergy);
+        UpdateCurrentMaxEnergyText(currentMaxEnergy);
+        UpdateCurrentStaminaText(currentStamina);        
         UpdateCurrentStrengthStatText(currentStrength);
         UpdateCurrentMobilityStatText(currentMobility);
         mySpellBook.SetNewAbilityDescriptions();
-        SetUpAPBarDividers();
+        //SetUpAPBarDividers();
         
     }
     public void RunSetupFromCharacterData()
@@ -103,9 +103,9 @@ public class Defender : LivingEntity
         baseWisdom = myCharacterData.Wisdom;
         baseDexterity = myCharacterData.Dexterity;
         baseMobility = myCharacterData.Mobility;
-        baseEnergy = myCharacterData.Energy;
+        baseStamina = myCharacterData.Stamina;
         baseInitiative = myCharacterData.Initiative;
-        baseMaxAP = myCharacterData.MaxAP;
+        baseMaxEnergy = myCharacterData.MaxEnergy;
         baseStartingBlock = myCharacterData.startingBlock;
         baseMeleeRange = myCharacterData.MeleeRange;
 
@@ -162,9 +162,9 @@ public class Defender : LivingEntity
         {
             myPassiveManager.ModifyAdaptive(myCharacterData.adaptiveStacks);
         }
-        if (myCharacterData.startingAPBonus > 0)
+        if (myCharacterData.startingEnergyBonus > 0)
         {
-            baseStartingAP += myCharacterData.startingAPBonus;
+            baseStartingEnergyBonus += myCharacterData.startingEnergyBonus;
         }
         if (myCharacterData.Stealth)
         {
@@ -217,7 +217,7 @@ public class Defender : LivingEntity
         }
         if (ArtifactManager.Instance.HasArtifact("Coffee Dripper"))
         {
-            baseEnergy += 1;
+            baseStamina += 1;
         }
         if (ArtifactManager.Instance.HasArtifact("Bottomless Backpack"))
         {
@@ -229,11 +229,11 @@ public class Defender : LivingEntity
         }
         if (ArtifactManager.Instance.HasArtifact("Bendy Spoon"))
         {
-            baseMaxAP += 2;
+            baseMaxEnergy += 2;
         }
         if (ArtifactManager.Instance.HasArtifact("Energy Biscuit"))
         {
-            baseStartingAP += baseMaxAP;
+            baseStartingEnergyBonus += baseMaxEnergy;
         }
         if (ArtifactManager.Instance.HasArtifact("Blacksmith Pliers"))
         {
@@ -1105,10 +1105,10 @@ public class Defender : LivingEntity
         base.ModifyCurrentMobility(mobilityGainedOrLost);
         UpdateCurrentMobilityStatText(currentMobility);
     }
-    public override void ModifyCurrentAP(int APGainedOrLost, bool showVFX = true)
+    public override void ModifyCurrentEnergy(int APGainedOrLost, bool showVFX = true)
     {
-        base.ModifyCurrentAP(APGainedOrLost, showVFX);
-        UpdateCurrentAPText(currentAP);
+        base.ModifyCurrentEnergy(APGainedOrLost, showVFX);
+        UpdateCurrentEnergyText(currentEnergy);
     }
     public override void ModifyCurrentStrength(int strengthGainedOrLost)
     {
@@ -1124,36 +1124,36 @@ public class Defender : LivingEntity
     {
         myCurrentStrengthStatText.text = newValue.ToString();
     }       
-    public void UpdateCurrentAPText(int newAPValue)
+    public void UpdateCurrentEnergyText(int newEnergyValue)
     {
-        myCurrentAPText.text = newAPValue.ToString();
+        //myCurrentEnergyText.text = newEnergyValue.ToString();
     }
-    public void UpdateCurrentAPStatText(int newAPStatValue)
+    public void UpdateCurrentStaminaText(int newAPStatValue)
     {
-        myCurrentAPStatText.text = newAPStatValue.ToString();
+        //myCurrentStaminaStatText.text = newAPStatValue.ToString();
     }
-    public void UpdateCurrentMaxAPText(int newMaxAPValue)
+    public void UpdateCurrentMaxEnergyText(int newMaxAPValue)
     {
-        myCurrentMaxAPText.text = newMaxAPValue.ToString();
+        //myCurrentMaxEnergyText.text = newMaxAPValue.ToString();
     }
     public void UpdateCurrentMobilityStatText(int newMobilityValue)
     {
         myCurrentMobilityStatText.text = newMobilityValue.ToString();
     }
-    public float CalculateAPBarPosition()
+    public float CalculateEnergyBarPosition()
     {
-        float currentAPFloat = currentAP;
-        float currentMaxAPFloat = currentMaxAP;
+        float currentAPFloat = currentEnergy;
+        float currentMaxAPFloat = currentMaxEnergy;
 
         return currentAPFloat / currentMaxAPFloat;
     }
-    public void UpdateAPBarPosition()
+    public void UpdateEnergyBarPosition()
     {
-        float finalValue = CalculateAPBarPosition();
-        myCurrentApBarText.text = currentAP.ToString();
-        myCurrentMaxApBarText.text = currentMaxAP.ToString();
-        apBarPositionCurrentlyUpdating = false;
-        StartCoroutine(UpdateAPBarPositionCoroutine(finalValue));
+        float finalValue = CalculateEnergyBarPosition();
+        myCurrentEnergyBarText.text = currentEnergy.ToString();
+        myCurrentMaxEnergyBarText.text = currentMaxEnergy.ToString();
+        energyBarPositionCurrentlyUpdating = false;
+        StartCoroutine(UpdateEnergyBarPositionCoroutine(finalValue));
 
     }    
     public IEnumerator UpdateHealthBarPanelPosition(float finalValue)
@@ -1182,27 +1182,27 @@ public class Defender : LivingEntity
             yield return new WaitForEndOfFrame();
         }
     }
-    public IEnumerator UpdateAPBarPositionCoroutine(float finalValue)
+    public IEnumerator UpdateEnergyBarPositionCoroutine(float finalValue)
     {
         float needleMoveSpeed = 0.04f;
-        apBarPositionCurrentlyUpdating = true;
+        energyBarPositionCurrentlyUpdating = true;
 
-        while (myApBar.value != finalValue && apBarPositionCurrentlyUpdating == true)
+        while (myEnergyBar.value != finalValue && energyBarPositionCurrentlyUpdating == true)
         {
-            if(myApBar.value > finalValue)
+            if(myEnergyBar.value > finalValue)
             {
-                myApBar.value -= needleMoveSpeed;
-                if(myApBar.value < finalValue)
+                myEnergyBar.value -= needleMoveSpeed;
+                if(myEnergyBar.value < finalValue)
                 {
-                    myApBar.value = finalValue;
+                    myEnergyBar.value = finalValue;
                 }
             }
-            else if (myApBar.value < finalValue)
+            else if (myEnergyBar.value < finalValue)
             {
-                myApBar.value += needleMoveSpeed;
-                if (myApBar.value > finalValue)
+                myEnergyBar.value += needleMoveSpeed;
+                if (myEnergyBar.value > finalValue)
                 {
-                    myApBar.value = finalValue;
+                    myEnergyBar.value = finalValue;
                 }
             }
             yield return new WaitForEndOfFrame();
@@ -1210,10 +1210,10 @@ public class Defender : LivingEntity
     }
     public void SetUpAPBarDividers()
     {
-        GameObject dividersParent = myApBar.transform.Find("Line Dividers Parent").gameObject;
+        GameObject dividersParent = myEnergyBar.transform.Find("Line Dividers Parent").gameObject;
         if(dividersParent != null)
         {
-            int dividersToAdd = currentMaxAP - 1;
+            int dividersToAdd = currentMaxEnergy - 1;
             for(int i = 0; i < dividersToAdd; i++)
             {
                 Instantiate(PrefabHolder.Instance.apBarDividerPrefab, dividersParent.transform);
@@ -1459,7 +1459,7 @@ public class Defender : LivingEntity
         if (EntityLogic.IsTargetInRange(this, enemyTarget, rapidFire.abilityRange))
         {
             awaitingRapidFireOrder = false;
-            AbilityLogic.Instance.PerformRapidFire(this, enemyTarget, currentAP);
+            AbilityLogic.Instance.PerformRapidFire(this, enemyTarget, currentEnergy);
             //StartCoroutine(PerformRapidFire(enemyTarget, CalculateDamage(rapidFire.abilityPrimaryValue, enemyTarget, this), currentAP));
         }
     }

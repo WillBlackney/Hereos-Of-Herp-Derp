@@ -129,7 +129,7 @@ public class SkeletonArcher : Enemy
         // If we have no AP but can still make a free move, try to move towards a grass tile first
         else if (myPassiveManager.fleetFooted &&
             moveActionsTakenThisActivation == 0 &&
-            currentAP == 0 &&
+            currentEnergy == 0 &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.GetValidGrassTileWithinRange(this, currentMobility) != null &&
             tile.myTileType != Tile.TileType.Grass

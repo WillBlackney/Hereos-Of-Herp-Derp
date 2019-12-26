@@ -33,7 +33,8 @@ public class VisualEffectManager : MonoBehaviour
     public int queueCount;
     public Color blue;
     public Color red;
-    public Color green;    
+    public Color green;
+    public Color yellow;
 
     // Initialization + Singleton Pattern
     #region
@@ -74,6 +75,11 @@ public class VisualEffectManager : MonoBehaviour
         {
             //thisColor = green;
             thisColor = Color.white;
+        }
+        else if (color == "Yellow")
+        {
+            //thisColor = green;
+            thisColor = Color.yellow;
         }
         queueCount++;
         GameObject damageEffect = Instantiate(StatusEffectPrefab, location, Quaternion.identity);
