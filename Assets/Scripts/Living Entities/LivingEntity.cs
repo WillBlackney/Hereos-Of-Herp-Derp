@@ -166,9 +166,9 @@ public class LivingEntity : MonoBehaviour
             currentMobility = 0;
         }        
     }
-    public virtual void ModifyCurrentEnergy(int APGainedOrLost, bool showVFX = true)
+    public virtual void ModifyCurrentEnergy(int energyGainedOrLost, bool showVFX = true)
     {
-        currentEnergy += APGainedOrLost;
+        currentEnergy += energyGainedOrLost;
 
         if (currentEnergy > currentMaxEnergy)
         {
@@ -180,9 +180,9 @@ public class LivingEntity : MonoBehaviour
             currentEnergy = 0;
         }
 
-        if(APGainedOrLost > 0 && showVFX == true)
+        if(energyGainedOrLost > 0 && showVFX == true)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "AP +" + APGainedOrLost, false));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Energy +" + energyGainedOrLost, false));
             StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
         }
         if (defender)
@@ -676,7 +676,7 @@ public class LivingEntity : MonoBehaviour
                 {
                     if (tilesInEncouragingPresenceRange.Contains(defender.tile))
                     {
-                        Debug.Log("Character within range of Encouraging presence, granting bonus AP...");
+                        Debug.Log("Character within range of Encouraging presence, granting bonus Energy...");
                         defender.ModifyCurrentEnergy(myPassiveManager.encouragingPresenceStacks);
                     }
                 }                
@@ -844,9 +844,6 @@ public class LivingEntity : MonoBehaviour
         if(tile.myTileType == Tile.TileType.Grass)
         {
             Debug.Log("Turn ended on grass: applying stealth...");
-            // Gain stealth
-            //ApplyCamoflage();
-            //yield return new WaitForSeconds(0.5f);
 
             // Snake ring 
             if (defender &&

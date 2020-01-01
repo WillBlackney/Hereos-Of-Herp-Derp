@@ -51,7 +51,8 @@ public class CharacterData : MonoBehaviour
     public int MeleeRange;
     public int Strength;
     public int Wisdom;
-    public int Dexterity;    
+    public int Dexterity;
+    public int CriticalChance;
 
     [Header("XP/Level Properties")]
     public int currentXP;
@@ -158,8 +159,10 @@ public class CharacterData : MonoBehaviour
             ModifyMaxHealth(100);
             ModifyCurrentHealth(100);
             ModifyStamina(40);
+            ModifyMaxEnergy(60);
             ModifyInitiative(3);
             ModifyMeleeRange(1);
+            ModifyCriticalChance(5);
 
             // Abiltiies + Passives
             cautiousStacks = 5;
@@ -170,7 +173,7 @@ public class CharacterData : MonoBehaviour
             KnowsInspire = true;
             KnowsWhirlwind = true;
 
-            MaxEnergy = 60;
+            
 
             talentTreeOne.InitializeSetup("Path of Rage");
             talentTreeTwo.InitializeSetup("Path of the Guardian");            
@@ -190,8 +193,9 @@ public class CharacterData : MonoBehaviour
             ModifyCurrentHealth(90);            
             ModifyStamina(40);
             ModifyInitiative(3);
+            ModifyMaxEnergy(60);
             ModifyMeleeRange(1);
-            MaxEnergy = 60;
+            ModifyCriticalChance(5);
 
             fleetFootedStacks = 1;
             KnowsMove = true;
@@ -220,9 +224,10 @@ public class CharacterData : MonoBehaviour
             ModifyMaxHealth(90);
             ModifyCurrentHealth(90);
             ModifyStamina(40);
+            ModifyMaxEnergy(60);
             ModifyInitiative(3);
             ModifyMeleeRange(1);
-            MaxEnergy = 60;
+            ModifyCriticalChance(5);
                         
         }
 
@@ -238,9 +243,10 @@ public class CharacterData : MonoBehaviour
             ModifyMaxHealth(100);
             ModifyCurrentHealth(100);
             ModifyStamina(40);
+            ModifyMaxEnergy(60);
             ModifyInitiative(3);
             ModifyMeleeRange(1);
-            MaxEnergy = 60;
+            ModifyCriticalChance(5);
 
             encouragingPresenceStacks = 10;
 
@@ -271,10 +277,11 @@ public class CharacterData : MonoBehaviour
             ModifyMaxHealth(95);
             ModifyCurrentHealth(95);
             ModifyStamina(40);
+            ModifyMaxEnergy(60);
             ModifyInitiative(3);
             ModifyMeleeRange(1);
+            ModifyCriticalChance(5);
             poisonousStacks = 1;
-            MaxEnergy = 60;
 
             KnowsMove = true;
             KnowsStrike = true;
@@ -302,8 +309,9 @@ public class CharacterData : MonoBehaviour
             ModifyCurrentHealth(100);
             ModifyStamina(40);
             ModifyInitiative(3);
+            ModifyMaxEnergy(60);
             ModifyMeleeRange(1);
-            MaxEnergy = 60;
+            ModifyCriticalChance(5);
 
             KnowsMove = true;
             KnowsStrike = true;
@@ -531,12 +539,10 @@ public class CharacterData : MonoBehaviour
     public void ModifyWisdom(int wisdomGainedOrLost)
     {
         Wisdom += wisdomGainedOrLost;
-        //strengthText.text = Strength.ToString();
     }
     public void ModifyDexterity(int dexterityGainedOrLost)
     {
         Dexterity += dexterityGainedOrLost;
-        //strengthText.text = Strength.ToString();
     }
     public void ModifyMobility(int mobilityGainedOrLost)
     {
@@ -546,7 +552,10 @@ public class CharacterData : MonoBehaviour
     public void ModifyInitiative(int initiativeGainedOrLost)
     {
         Initiative += initiativeGainedOrLost;
-        //initiativeText.text = Initiative.ToString();
+    }
+    public void ModifyCriticalChance(int criticalGainedOrLost)
+    {
+        CriticalChance += criticalGainedOrLost;
     }
     public void ModifyStamina(int energyGainedOrlost)
     {
@@ -557,9 +566,9 @@ public class CharacterData : MonoBehaviour
         }
         
     }
-    public void ModifyMaxEnergy(int maxAPGainedOrlost)
+    public void ModifyMaxEnergy(int maxEnergyGainedOrlost)
     {
-        MaxEnergy += maxAPGainedOrlost;        
+        MaxEnergy += maxEnergyGainedOrlost;        
     }
     #endregion
 

@@ -12,7 +12,7 @@ public class VolatileZombie : Enemy
         mySpellBook.EnemyLearnAbility("Strike");
 
         myPassiveManager.ModifyUndead();
-        myPassiveManager.ModifyVolatile(5);
+        myPassiveManager.ModifyVolatile(10);
     }
 
     public override IEnumerator StartMyActivationCoroutine()

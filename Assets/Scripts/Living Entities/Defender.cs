@@ -108,6 +108,7 @@ public class Defender : LivingEntity
         baseMaxEnergy = myCharacterData.MaxEnergy;
         baseStartingBlock = myCharacterData.startingBlock;
         baseMeleeRange = myCharacterData.MeleeRange;
+        baseCriticalChance = myCharacterData.CriticalChance;
 
         // Edit passive traits
         if (myCharacterData.enrageStacks > 0)
