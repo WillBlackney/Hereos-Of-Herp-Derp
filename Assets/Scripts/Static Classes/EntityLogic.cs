@@ -227,7 +227,7 @@ public static class EntityLogic
     }
     public static bool IsTargetInRange(LivingEntity caster, LivingEntity target, int range)
     {
-        List<Tile> tilesWithinMyRange = LevelManager.Instance.GetTilesWithinRange(range, caster.tile, false);
+        List<Tile> tilesWithinMyRange = LevelManager.Instance.GetTilesWithinRange(range, caster.tile, false, false);
 
         if (target == null)
         {
@@ -251,13 +251,17 @@ public static class EntityLogic
     public static bool IsTargetVisible(LivingEntity caster, LivingEntity target)
     {
         List<Tile> tilesWithinStealthSight = LevelManager.Instance.GetTilesWithinRange(1, caster.tile);
+        bool passedStealthCheck = false;
+        bool passedLosCheck = false;
 
+        // check for null target
         if(target == null)
         {
             Debug.Log("IsTargetVisible() target recieved is null, returning false...");
             return false;
         }
 
+        // check for stealth
         if (tilesWithinStealthSight.Contains(target.tile) == false &&
             (target.myPassiveManager.camoflage || target.myPassiveManager.stealth) &&
             (CombatLogic.Instance.IsTargetFriendly(caster, target) == false) &&
@@ -265,13 +269,35 @@ public static class EntityLogic
             )
         {
             Debug.Log("IsTargetVisible() determined that " + target.name + " CANNOT be seen by "+ caster.name + "...");
-            return false;
+            passedStealthCheck = false;
         }
 
         else
         {
             Debug.Log("IsTargetVisible() determined that " + target.name + " CAN be seen by " + caster.name + "...");
+            passedStealthCheck = true;
+        }
+
+        // check for LoS
+        if(PositionLogic.Instance.IsThereLosFromAtoB(caster.tile, target.tile))
+        {
+            Debug.Log("IsTargetVisible() determined that " + caster.name + " has line of sight to " + target.name + "...");
+            passedLosCheck = true;
+        }
+        else
+        {
+            Debug.Log("IsTargetVisible() determined that " + caster.name + " DOES NOT have line of sight to " + target.name + "...");
+            passedLosCheck = false;
+        }
+
+        // return the result of the checks
+        if(passedLosCheck && passedStealthCheck)
+        {
             return true;
+        }
+        else
+        {
+            return false;
         }
     }
     public static bool IsAbilityOffCooldown(Ability ability)
@@ -324,7 +350,7 @@ public static class EntityLogic
     public static Tile GetValidGrassTileWithinRange(LivingEntity entityFrom, int range)
     {
         Tile closestGrassTile = null;
-        List<Tile> adjacentTiles = LevelManager.Instance.GetTilesWithinMovementRange(range, entityFrom.tile);
+        List<Tile> adjacentTiles = LevelManager.Instance.GetValidMoveableTilesWithinRange(range, entityFrom.tile);
 
         foreach (Tile tile in adjacentTiles)
         {

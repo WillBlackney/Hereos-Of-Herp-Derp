@@ -58,7 +58,7 @@ public static class AStar
                 {
                     Point neighbourPos = new Point(currentNode.GridPosition.X - x, currentNode.GridPosition.Y - y);
 
-                    if (LevelManager.Instance.InBounds(neighbourPos) && LevelManager.Instance.Tiles[neighbourPos].IsWalkable && LevelManager.Instance.Tiles[neighbourPos].IsEmpty && neighbourPos != currentNode.GridPosition)
+                    if (LevelManager.Instance.InBounds(neighbourPos) && LevelManager.Instance.GetTileFromPointReference(neighbourPos).IsWalkable && LevelManager.Instance.GetTileFromPointReference(neighbourPos).IsEmpty && neighbourPos != currentNode.GridPosition)
                     {
                         int gCost = 0;
                         if (Math.Abs(x - y) == 1)
@@ -67,15 +67,17 @@ public static class AStar
                         }
                         else
                         {
+                            gCost = 14;
+                            /*
                             if (!ConnectedDiagonally(currentNode, nodes[neighbourPos]))
                             {
                                 continue;
                             }
                             gCost = 14;
+                            */
                         }
 
                         Node neighbour = nodes[neighbourPos];
-
 
 
                         if (openList.Contains(neighbour))
@@ -130,14 +132,16 @@ public static class AStar
         Point first = new Point(currentNode.GridPosition.X + direction.X, currentNode.GridPosition.Y);
         Point second = new Point(currentNode.GridPosition.X, currentNode.GridPosition.Y + direction.Y);
 
-        if(LevelManager.Instance.InBounds(first) && !LevelManager.Instance.Tiles[first].IsWalkable)
+        if(LevelManager.Instance.InBounds(first) && !LevelManager.Instance.GetTileFromPointReference(first).IsWalkable)
         {
             return false;
         }
-        if(LevelManager.Instance.InBounds(second) && !LevelManager.Instance.Tiles[second].IsWalkable)
+
+        if(LevelManager.Instance.InBounds(second) && !LevelManager.Instance.GetTileFromPointReference(second).IsWalkable)
         {
             return false;
         }
+
         else
         {
             return true;

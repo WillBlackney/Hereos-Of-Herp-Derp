@@ -238,6 +238,24 @@ public class CombatLogic : MonoBehaviour
             victim.defender.myCharacterData.ModifyCurrentHealth(-totalLifeLost);
         }
 
+        // Remove camoflage from victim if damage was taken
+        if (victim.myPassiveManager.camoflage)
+        {
+            victim.myPassiveManager.ModifyCamoflage(-1);
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        // TO DO: removing stealth from ability use shouldnt be in HandleDamage(). should make a whole new system for 
+        // resolving abilities being used and their effects
+
+        // Remove camoflage from attacker if ability used was not 'Move'
+        if (abilityUsed != null &&
+            abilityUsed.abilityName != "Move")
+        {
+            attacker.myPassiveManager.ModifyCamoflage(1);
+            yield return new WaitForSeconds(0.3f);
+        }
+
         // Check the victim's and attacker's passive traits that are related to taking damage 
 
         // Life steal
@@ -392,7 +410,7 @@ public class CombatLogic : MonoBehaviour
         }
 
         // back arc
-        if(PositionLogic.Instance.IsWithinTargetsBackArc(attacker, victim) && attackType == AbilityDataSO.AttackType.Melee)
+        if(PositionLogic.Instance.CanEntityBackStrikeTarget(attacker, victim) && attackType == AbilityDataSO.AttackType.Melee)
         {
             //damageModifier += 1f;
             //Debug.Log("Attacker striking victims back arc, increasing damage by 100%...");
@@ -478,6 +496,8 @@ public class CombatLogic : MonoBehaviour
     public bool RollForCritical(LivingEntity character)
     {
         int critChance = character.currentCriticalChance;
+
+        // TO DO: increase crit chance here based on things like back strike trait
 
         int roll = Random.Range(1, 101);
         Debug.Log(character.gameObject.name + " rolled a " + roll.ToString() + " to crit");

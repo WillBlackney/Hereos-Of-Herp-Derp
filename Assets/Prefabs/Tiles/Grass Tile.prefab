@@ -52,6 +52,7 @@ MonoBehaviour:
   myTileType: 2
   IsEmpty: 0
   IsWalkable: 0
+  BlocksLoS: 0
   originalColor:
     serializedVersion: 2
     rgba: 0
@@ -130,7 +131,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.95, y: 0.95}
   m_EdgeRadius: 0
 --- !u!1 &834362316570143857
 GameObject:

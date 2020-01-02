@@ -259,7 +259,7 @@ public class PassiveManager : MonoBehaviour
             {
                 camoflage = true;
                 StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Camoflage!", false, "Blue"));
+                CreateStatusEffect(myLivingEntity.transform.position, "Camoflage", false, "Blue"));
             }           
 
         }
@@ -270,8 +270,8 @@ public class PassiveManager : MonoBehaviour
             if (camoflageStacks <= 0)
             {
                 camoflage = false;
-                //StartCoroutine(VisualEffectManager.Instance.
-                //CreateStatusEffect(myLivingEntity.transform.position, "Camoflage Removed", false, "Red"));
+                StartCoroutine(VisualEffectManager.Instance.
+                CreateStatusEffect(myLivingEntity.transform.position, "Camoflage Removed", false, "Red"));
             }
         }
 

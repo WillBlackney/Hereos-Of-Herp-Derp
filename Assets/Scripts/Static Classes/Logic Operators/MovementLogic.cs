@@ -665,6 +665,7 @@ public class MovementLogic : Singleton<MovementLogic>
     }
     public void OnNewTileSet(LivingEntity character)
     {
+        /*
         // Check grass tile / camo application or removal
         if (character.tile.myTileType == Tile.TileType.Grass &&
             character.myPassiveManager.camoflage == false)
@@ -676,6 +677,7 @@ public class MovementLogic : Singleton<MovementLogic>
         {
             character.myPassiveManager.ModifyCamoflage(-character.myPassiveManager.camoflageStacks);
         }
+        */
     }
     public Action ResolveFreeStrikes(LivingEntity characterMoved, Tile previousLocation, Tile newLocation)
     {

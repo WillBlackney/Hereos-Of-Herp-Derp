@@ -51,7 +51,7 @@ public class CameraMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             ClearLookAtTarget();
-            if (IsGameObjectVisible(northCollider) == false)
+            //if (IsGameObjectVisible(northCollider) == false)
             {
                 cinemachineCamera.transform.position += Vector3.up * Time.deltaTime * cameraMoveSpeed;
             }
@@ -60,7 +60,7 @@ public class CameraMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.S))
         {
             ClearLookAtTarget();
-            if (IsGameObjectVisible(southCollider) == false)
+            //if (IsGameObjectVisible(southCollider) == false)
             {
                 cinemachineCamera.transform.position += Vector3.down * Time.deltaTime * cameraMoveSpeed;
             }
@@ -69,7 +69,7 @@ public class CameraMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             ClearLookAtTarget();
-            if (IsGameObjectVisible(westCollider) == false)
+            //if (IsGameObjectVisible(westCollider) == false)
             {
                 cinemachineCamera.transform.position += Vector3.left * Time.deltaTime * cameraMoveSpeed;
             }
@@ -78,7 +78,7 @@ public class CameraMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             ClearLookAtTarget();
-            if (IsGameObjectVisible(eastCollider) == false)
+            //if (IsGameObjectVisible(eastCollider) == false)
             {
                 cinemachineCamera.transform.position += Vector3.right * Time.deltaTime * cameraMoveSpeed;
             }
@@ -113,13 +113,11 @@ public class CameraMovement : MonoBehaviour
         if (Input.GetAxis("Mouse ScrollWheel") > 0 && cinemachineCamera.m_Lens.OrthographicSize > 1)
         {
             Debug.Log("HandleZoomInput() detected zoom IN input");
-            //SetPreferedOrthographicSize(currentOrthoSize - 0.1f);
             cinemachineCamera.m_Lens.OrthographicSize -= 0.1f;
         }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && cinemachineCamera.m_Lens.OrthographicSize < 4f)
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && cinemachineCamera.m_Lens.OrthographicSize < 5f)
         {
             Debug.Log("HandleZoomInput() detected zoom OUT input");
-            //SetPreferedOrthographicSize(currentOrthoSize + 0.1f);
             cinemachineCamera.m_Lens.OrthographicSize += 0.1f;
         }
     }

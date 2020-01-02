@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class Tile : MonoBehaviour
 {
-    public enum TileType { None, Dirt, Grass, Forest, Rock, Water };
+    public enum TileType { None, Dirt, Grass, Tree, Water };
 
     [Header("Component References")]
     private SpriteRenderer mySpriteRenderer;
@@ -13,6 +13,7 @@ public class Tile : MonoBehaviour
     public TileType myTileType;
     public bool IsEmpty;
     public bool IsWalkable;
+    public bool BlocksLoS;
     public Color32 originalColor;
     public Color32 highlightedColor = Color.white;
     public Point GridPosition { get; set; }
@@ -41,10 +42,7 @@ public class Tile : MonoBehaviour
         {
             RunGrassTileSetup();
         }
-        else if (myTileType == TileType.Rock)
-        {
-            RunRockTileSetup();
-        }
+        
         else if (myTileType == TileType.Water)
         {
             RunWaterTileSetup();
@@ -63,26 +61,25 @@ public class Tile : MonoBehaviour
     {
         IsWalkable = true;
         IsEmpty = true;
+        BlocksLoS = false;
     }
     public void RunGrassTileSetup()
     {
         IsWalkable = true;
         IsEmpty = true;
-    }
-    public void RunRockTileSetup()
-    {
-        IsWalkable = true;
-        IsEmpty = true;
-    }
-    public void RunForestTileSetup()
+        BlocksLoS = false;
+    }   
+    public void RunTreeTileSetup()
     {
         IsWalkable = false;
         IsEmpty = false;
+        BlocksLoS = true;
     }
     public void RunWaterTileSetup()
     {
         IsWalkable = false;
-        IsEmpty = true;
+        IsEmpty = false;
+        BlocksLoS = false;
     }
     #endregion
 

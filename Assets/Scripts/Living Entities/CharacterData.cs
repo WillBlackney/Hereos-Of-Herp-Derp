@@ -154,7 +154,7 @@ public class CharacterData : MonoBehaviour
             classNameText.text = CharacterLibrary.Instance.warriorClassName;
 
             myClass = "Warrior";
-            ModifyMobility(1);
+            ModifyMobility(2);
             ModifyStrength(0);
             ModifyMaxHealth(100);
             ModifyCurrentHealth(100);
@@ -187,7 +187,7 @@ public class CharacterData : MonoBehaviour
             classSprite.sprite = CharacterLibrary.Instance.mageSprite;
             classNameText.text = CharacterLibrary.Instance.mageClassName;
             myClass = "Mage";
-            ModifyMobility(1);
+            ModifyMobility(2);
             ModifyStrength(0);
             ModifyMaxHealth(90);            
             ModifyCurrentHealth(90);            
@@ -238,7 +238,7 @@ public class CharacterData : MonoBehaviour
             classSprite.sprite = CharacterLibrary.Instance.priestSprite;
             classNameText.text = CharacterLibrary.Instance.priestClassName;
             myClass = "Priest";
-            ModifyMobility(1);
+            ModifyMobility(2);
             ModifyStrength(0);
             ModifyMaxHealth(100);
             ModifyCurrentHealth(100);
@@ -272,7 +272,7 @@ public class CharacterData : MonoBehaviour
             classSprite.sprite = CharacterLibrary.Instance.rogueSprite;
             classNameText.text = CharacterLibrary.Instance.rogueClassName;
             myClass = "Rogue";
-            ModifyMobility(1);
+            ModifyMobility(2);
             ModifyStrength(0);
             ModifyMaxHealth(95);
             ModifyCurrentHealth(95);
@@ -303,7 +303,7 @@ public class CharacterData : MonoBehaviour
             classSprite.sprite = CharacterLibrary.Instance.shamanSprite;
             classNameText.text = CharacterLibrary.Instance.shamanClassName;
             myClass = "Shaman";
-            ModifyMobility(1);
+            ModifyMobility(2);
             ModifyStrength(0);
             ModifyMaxHealth(100);
             ModifyCurrentHealth(100);

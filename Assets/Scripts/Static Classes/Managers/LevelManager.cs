@@ -49,7 +49,7 @@ public class LevelManager : Singleton<LevelManager>
         }
 
         // Turn on level background
-        ToggleLevelBackgroundView(true);
+        //ToggleLevelBackgroundView(true);
 
         // Move camera to focus on the centre tile
         FindObjectOfType<CameraMovement>().cinemachineCamera.transform.position = new Vector3(GetWorldCentreTile().WorldPosition.x, GetWorldCentreTile().WorldPosition.y + 0.5f, -10);
@@ -98,14 +98,12 @@ public class LevelManager : Singleton<LevelManager>
         Debug.Log("Highlighting tiles");
         foreach (Tile tile in tilesToHighlight)
         {
-            //tile.ColorTile(tile.highlightedColor);
             HighlightTile(tile);
         }
     }
     public void HighlightTile(Tile tile)
     {
         HighlightedTiles.Add(tile);
-        //tile.ColorTile(tile.highlightedColor);
         tile.myAnimator.SetBool("Highlight", true);
     }        
     public void UnhighlightAllTiles()
@@ -117,7 +115,6 @@ public class LevelManager : Singleton<LevelManager>
 
         HighlightedTiles.Clear();
     }
-
     #endregion
 
     // Conditional Logic + Booleans
@@ -170,7 +167,6 @@ public class LevelManager : Singleton<LevelManager>
             return false;
         }
     }
-
     #endregion
 
     // Get Tile + Level Data
@@ -189,12 +185,14 @@ public class LevelManager : Singleton<LevelManager>
 
         return listReturned;
     }
-    public List<Tile> GetTilesWithinRange(int range, Tile tileFrom, bool removeTileFrom = true)
+    public List<Tile> GetTilesWithinRange(int range, Tile tileFrom, bool removeTileFrom = true, bool ignoreLos = true)
     {
         // iterate through every tile, and add those within range to the temp list        
         List<Tile> allTiles = GetAllTilesFromCurrentLevelDictionary();
         List<Tile> allTilesWithinXPosRange = new List<Tile>();
         List<Tile> allTilesWithinRange = new List<Tile>();
+        List<Tile> allTilesWithinRangeAndLos = new List<Tile>();
+        List<Tile> finalList = new List<Tile>();
 
         // first, filter in all tiles with an X grid position within movement range
         foreach (Tile tile in allTiles)
@@ -230,10 +228,28 @@ public class LevelManager : Singleton<LevelManager>
         {
             allTilesWithinRange.Remove(tileFrom);
         }
+
+        // check for LoS, if required
+        if(ignoreLos == true)
+        {
+            finalList.AddRange(allTilesWithinRange);
+        }
+
+        else
+        {
+            foreach(Tile tile in allTilesWithinRange)
+            {
+                if(PositionLogic.Instance.IsThereLosFromAtoB(tileFrom, tile))
+                {
+                    allTilesWithinRangeAndLos.Add(tile);
+                }
+            }
+
+            finalList.AddRange(allTilesWithinRangeAndLos);
+        }
+
+        return finalList;
         
-        
-        //Debug.Log("Tiles within movement range: " + allTilesWithinRange.Count);
-        return allTilesWithinRange;
     }
     public List<Tile> GetValidMoveableTilesWithinRange(int range, Tile tileFrom)
     {
@@ -290,63 +306,7 @@ public class LevelManager : Singleton<LevelManager>
 
         //Debug.Log("Tiles within range: " + allTilesWithinRange.Count);
         return allTilesWithinMobilityRange;
-    }
-    public List<Tile> GetTilesWithinMovementRange(int range, Tile tileFrom)
-    {
-        // iterate through every tile, and add those within range to the temp list        
-        List<Tile> allTiles = GetAllTilesFromCurrentLevelDictionary();
-        List<Tile> allTilesWithinXPosRange = new List<Tile>();
-        List<Tile> allTilesWithinRange = new List<Tile>();
-        List<Tile> allTilesWithinMobilityRange = new List<Tile>();
-
-        // first, filter in all tiles with an X grid position within movement range
-        foreach (Tile tile in allTiles)
-        {
-            int myXPos = tile.GridPosition.X;
-
-            if (
-                (myXPos >= tileFrom.GridPosition.X && (myXPos <= tileFrom.GridPosition.X + range)) ||
-                (myXPos <= tileFrom.GridPosition.X && (myXPos >= tileFrom.GridPosition.X - range))
-                )
-            {
-                //only add tiles to the list if they are walkable and unoccupied
-                if (tile.IsEmpty == true && tile.IsWalkable == true)
-                {
-                    allTilesWithinXPosRange.Add(tile);
-                }
-            }
-        }
-
-        // second, filter out all tiles outside of Y range, then add the remainding tiles to the final list.
-        foreach (Tile Xtile in allTilesWithinXPosRange)
-        {
-            int myYPos = Xtile.GridPosition.Y;
-
-            if (
-                (myYPos >= tileFrom.GridPosition.Y && myYPos <= tileFrom.GridPosition.Y + range) ||
-                (myYPos <= tileFrom.GridPosition.Y && (myYPos >= tileFrom.GridPosition.Y - range))
-                )
-            {
-                allTilesWithinRange.Add(Xtile);
-            }
-        }
-
-        // third, remove the 'fromTile' from the list
-        allTilesWithinRange.Remove(tileFrom);
-
-        // fourth, draw a path to each tile in the list, filtering the ones within mobility range
-        foreach(Tile tile in allTilesWithinRange)
-        {
-            Stack<Node> path = AStar.GetPath(tileFrom.GridPosition, tile.GridPosition);
-            if(path.Count <= range)
-            {
-                allTilesWithinMobilityRange.Add(tile);
-            }
-        }
-
-        //Debug.Log("Tiles within range: " + allTilesWithinRange.Count);
-        return allTilesWithinMobilityRange;
-    }    
+    }   
     public List<Tile> GetEnemySpawnTiles()
     {
         List<Tile> allTiles = GetAllTilesFromCurrentLevelDictionary();
@@ -355,8 +315,8 @@ public class LevelManager : Singleton<LevelManager>
         foreach (Tile tile in allTiles)
         {
             if (
-                (tile.GridPosition.X == 6) 
-                && (tile.GridPosition.Y == 1 || tile.GridPosition.Y == 2 || tile.GridPosition.Y == 3 || tile.GridPosition.Y == 4)
+                (tile.GridPosition.X == 12) 
+                && (tile.GridPosition.Y == 3 || tile.GridPosition.Y == 4 || tile.GridPosition.Y == 5 || tile.GridPosition.Y == 6)
                 )
             {
                 enemySpawnTiles.Add(tile);
@@ -411,16 +371,10 @@ public class LevelManager : Singleton<LevelManager>
         Tile furthestTile = null;
         float minimumDistance = 0;
 
-        // Declare new temp list for storing defender 
-        //List<Defender> defenders = new List<Defender>();
-
-        // Add all active defenders to the temp list
-
-
         // Iterate throught the temp list to find the closest defender to this enemy
         foreach (Tile tile in tiles)
         {
-            float distancefromTileFrom = Vector2.Distance(tile.gameObject.transform.position, transform.position);
+            float distancefromTileFrom = Vector2.Distance(tile.WorldPosition, tileFrom.WorldPosition);
             if (distancefromTileFrom > minimumDistance && tile.IsEmpty && tile.IsWalkable)
             {
                 furthestTile = tile;

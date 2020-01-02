@@ -602,7 +602,7 @@ public class LivingEntity : MonoBehaviour
         StartCoroutine(OnActivationEndCoroutine(action));
         return action;
     }
-    public virtual IEnumerator OnActivationEndCoroutine(Action action)
+    protected virtual IEnumerator OnActivationEndCoroutine(Action action)
     {
         Debug.Log("OnActivationEndCoroutine() called...");
 
@@ -843,24 +843,11 @@ public class LivingEntity : MonoBehaviour
 
         if(tile.myTileType == Tile.TileType.Grass)
         {
-            Debug.Log("Turn ended on grass: applying stealth...");
-
-            // Snake ring 
-            if (defender &&
-                ArtifactManager.Instance.HasArtifact("Snake Ring")
-                )
+            Debug.Log("Turn ended on grass: applying Camoflage...");
+            if (myPassiveManager.camoflage == false)
             {
-                ModifyCurrentStrength(1);
-                yield return new WaitForSeconds(0.5f);
+                myPassiveManager.ModifyCamoflage(1);
             }
-        }
-
-        if (tile.myTileType == Tile.TileType.Rock)
-        {
-            Debug.Log("Turn ended on grass: applying stealth...");
-            // Gain 5 block
-            ModifyCurrentBlock(5);
-            yield return new WaitForSeconds(0.5f);            
         }
 
         // Artifact related events

@@ -100,45 +100,6 @@ public class PositionLogic : Singleton<PositionLogic>
     public List<Tile> GetTilesInCharactersMeleeRange(LivingEntity character)
     {
         return LevelManager.Instance.GetTilesWithinRange(character.currentMeleeRange, character.tile);
-        /*
-        List<Tile> frontArcTiles = new List<Tile>();
-
-        if (character.facingRight)
-        {
-            foreach(Tile tile in meleeRangeTiles)
-            {
-                if (
-                    (tile.GridPosition.X == character.tile.GridPosition.X + 1 || 
-                    tile.GridPosition.X == character.tile.GridPosition.X) &&
-                    ((tile.GridPosition.Y == character.tile.GridPosition.Y) || 
-                    (tile.GridPosition.Y == character.tile.GridPosition.Y +1) || 
-                    (tile.GridPosition.Y == character.tile.GridPosition.Y - 1)
-                    ))                    
-                {
-                    frontArcTiles.Add(tile);
-                }
-            }
-        }
-        else
-        {
-            foreach (Tile tile in meleeRangeTiles)
-            {
-                if (
-                    (tile.GridPosition.X == character.tile.GridPosition.X - 1 ||
-                    tile.GridPosition.X == character.tile.GridPosition.X) &&
-                    ((tile.GridPosition.Y == character.tile.GridPosition.Y) ||
-                    (tile.GridPosition.Y == character.tile.GridPosition.Y + 1) ||
-                    (tile.GridPosition.Y == character.tile.GridPosition.Y - 1)
-                    ))
-                {
-                    frontArcTiles.Add(tile);
-                }
-            }
-        }
-       
-        Debug.Log("GetTargetsFrontArcTiles() returned " + frontArcTiles.Count.ToString() + " tiles");
-        return frontArcTiles;
-         */
     }
     public List<Tile> GetTargetsBackArcTiles(LivingEntity character)
     {
@@ -181,7 +142,7 @@ public class PositionLogic : Singleton<PositionLogic>
 
     // Conditional Checks
     #region
-    public bool IsWithinTargetsBackArc(LivingEntity attacker, LivingEntity target)
+    public bool CanEntityBackStrikeTarget(LivingEntity attacker, LivingEntity target)
     {     
         List<Tile> backArcLocations = GetTargetsBackArcTiles(target);
 
@@ -378,6 +339,33 @@ public class PositionLogic : Singleton<PositionLogic>
         }
 
         return tileReturned;
+    }
+    #endregion
+
+    // Line of Sight Logic
+    #region
+    public bool IsThereLosFromAtoB(Tile a, Tile b)
+    {
+        bool hasLoS = true;
+
+        // first ray cast and check from the tile the attacker is on        
+        RaycastHit2D[] hits = Physics2D.LinecastAll(a.WorldPosition, b.WorldPosition);
+
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.transform.GetComponent<Tile>())
+            {
+                Debug.Log("IsThereLosFromAtoB() raycast hit a tile!");
+            }
+
+            if (hit.transform.GetComponent<Tile>().BlocksLoS == true)
+            {
+                hasLoS = false;
+                break;
+            }
+        }
+
+        return hasLoS;
     }
     #endregion
 

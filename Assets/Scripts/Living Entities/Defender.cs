@@ -625,7 +625,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Strike button clicked, awaiting strike order");
             awaitingStrikeOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition]));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
         }        
 
     }
@@ -637,7 +637,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Smash button clicked, awaiting smash order");
             awaitingSmashOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition]));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
         }       
 
     }
@@ -649,7 +649,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Inspire button clicked, awaiting inspire order");
             awaitingInspireOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(inspire.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(inspire.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }
 
         
@@ -663,7 +663,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Charge button clicked, awaiting charge target");
             awaitingChargeTargetOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(charge.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(charge.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
             PathRenderer.Instance.ActivatePathRenderer();
         }      
 
@@ -677,7 +677,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Get Down! button clicked, awaiting Get Down! target");
             awaitingGetDownOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(getDown.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(getDown.abilityRange, LevelManager.Instance.Tiles[gridPosition], true));
             PathRenderer.Instance.ActivatePathRenderer();
         }
 
@@ -692,7 +692,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Lightning Shield button clicked, awaiting Lightning Shield target");
             awaitingLightningShieldOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(lightningShield.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(lightningShield.abilityRange, LevelManager.Instance.Tiles[gridPosition],true, false));
         }
     }
     public void OnGuardButtonClicked()
@@ -703,7 +703,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Guard button clicked, awaiting guard target");
             awaitingGuardOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(guard.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(guard.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }
 
         
@@ -716,7 +716,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Meteor button clicked, awaiting meteor target");
             awaitingMeteorOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(meteor.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(meteor.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }        
     }
     public void OnTelekinesisButtonClicked()
@@ -727,7 +727,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Telekinesis button clicked, awaiting telekinesis target");
             awaitingTelekinesisTargetOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(telekinesis.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(telekinesis.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
         }
 
     }
@@ -739,7 +739,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Frost Bolt button clicked, awaiting Frost Bolt target");
             awaitingFrostBoltOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(frostbolt.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(frostbolt.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }        
     }
     public void OnChainLightningButtonClicked()
@@ -750,7 +750,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Chain Lightning button clicked, awaiting Frost Bolt target");
             awaitingChainLightningOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(chainLightning.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(chainLightning.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }      
     }
     public void OnDashButtonClicked()
@@ -776,7 +776,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Fire Ball button clicked, awaiting Frost Bolt target");
             awaitingFireBallOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(fireball.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(fireball.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
         }
 
        
@@ -789,7 +789,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Shoot button clicked, awaiting Shoot target");
             awaitingShootOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(shoot.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(shoot.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }       
     }
     public void OnRapidFireButtonClicked()
@@ -800,7 +800,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Rapid Fire button clicked, awaiting Rapid Fire target");
             awaitingRapidFireOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(rapidFire.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(rapidFire.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }        
     }
     public void OnSliceAndDiceButtonClicked()
@@ -811,7 +811,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Slice And Dice button clicked, awaiting Slice and Dice target");
             awaitingSliceAndDiceOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition]));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
         }
 
         
@@ -824,7 +824,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Poison Dart button clicked, awaiting Poison Dart target");
             awaitingPoisonDartOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(poisonDart.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(poisonDart.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
         }        
     }
     public void OnChemicalReactionButtonClicked()
@@ -835,7 +835,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Chemical Reaction button clicked, awaiting Chemical Reaction target");
             awaitingChemicalReactionOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(chemicalReaction.abilityRange, LevelManager.Instance.Tiles[gridPosition]));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(chemicalReaction.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
         }
 
         
@@ -848,7 +848,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Impaling Bolt button clicked, awaiting Impaling Bolt target");
             awaitingImpalingBoltOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(imaplingBolt.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(imaplingBolt.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
         }
        
     }
@@ -860,7 +860,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Forest Medicine button clicked, awaiting Forest Medicine target");
             awaitingForestMedicineOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(forestMedicine.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(forestMedicine.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, true));
         }       
     }
     public void OnInvigorateButtonClicked()
@@ -871,7 +871,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Invigorate button clicked, awaiting Invigorate target");
             awaitingInvigorateOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(invigorate.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(invigorate.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }        
     }
     public void OnHolyFireButtonClicked()
@@ -882,7 +882,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Holy Fire button clicked, awaiting Holy Fire target");
             awaitingHolyFireOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(holyFire.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(holyFire.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }       
     }
     public void OnPrimalBlastButtonClicked()
@@ -893,7 +893,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Primal Blast button clicked, awaiting Primal Blast target");
             awaitingPrimalBlastOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(primalBlast.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(primalBlast.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }
 
         
@@ -906,7 +906,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Primal Rage button clicked, awaiting Primal Rage target");
             awaitingPrimalRageOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(primalRage.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(primalRage.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }
     }
     public void OnPhaseShiftButtonClicked()
@@ -917,7 +917,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Phase Shift button clicked, awaiting Phase Shift target");
             awaitingPhaseShiftOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(phaseShift.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(phaseShift.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }
 
        
@@ -930,7 +930,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Sanctity button clicked, awaiting Sanctity target");
             awaitingSanctityOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(sanctity.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(sanctity.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }
 
         
@@ -946,7 +946,7 @@ public class Defender : LivingEntity
 
         Debug.Log("Bless button clicked, awaiting Bless target");
         awaitingBlessOrder = true;
-        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(bless.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(bless.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
     }
     public void OnSiphonLifeButtonClicked()
     {
@@ -956,7 +956,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Siphon Life button clicked, awaiting Siphon Life target");
             awaitingSiphonLifeOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(siphonLife.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(siphonLife.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }        
     }
     public void OnVoidBombButtonClicked()
@@ -967,7 +967,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Void Bomb button clicked, awaiting Void Bomb target");
             awaitingVoidBombOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(voidBomb.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(voidBomb.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }        
     }
     public void OnNightmareButtonClicked()
@@ -978,7 +978,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Nightmare button clicked, awaiting Nightmare target");
             awaitingNightmareOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(nightmare.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(nightmare.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }
 
         
@@ -1080,7 +1080,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Twin Strike button clicked, awaiting Twin Strike target");
             awaitingTwinStrikeOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
         }
 
        
@@ -1093,7 +1093,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Chaos Bolt button clicked, awaiting Chaos Bolt target");
             awaitingChaosBoltOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(chaosBolt.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(chaosBolt.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
         }       
     }
     #endregion

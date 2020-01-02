@@ -49,7 +49,7 @@ public class PathRenderer : Singleton<PathRenderer>
                 Tile currentTile = currentPath[index];
                 foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
                 {
-                    List<Tile> enemyMeleeRange = LevelManager.Instance.GetTilesWithinRange(enemy.currentMeleeRange, enemy.tile);
+                    List<Tile> enemyMeleeRange = LevelManager.Instance.GetTilesWithinRange(enemy.currentMeleeRange, enemy.tile,true, false);
                     // is current tile index in melee range of the enemy?
                     if (enemyMeleeRange.Contains(currentTile))
                     {
