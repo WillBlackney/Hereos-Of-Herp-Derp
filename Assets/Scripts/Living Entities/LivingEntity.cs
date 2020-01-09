@@ -39,8 +39,17 @@ public class LivingEntity : MonoBehaviour
     public int baseDexterity;
     public int baseInitiative;
     public int baseCriticalChance;
+    public int baseDodgeChance;
+    public int baseParryChance;
     public int baseStartingBlock;
     public int baseStartingEnergyBonus;
+
+    public int basePhysicalResistance;
+    public int baseFireResistance;
+    public int baseFrostResistance;
+    public int baseShadowResistance;
+    public int basePoisonResistance;
+    public int baseAirResistance;
 
     [Header("Current Trait Properties")]
     public int currentMobility;
@@ -55,7 +64,16 @@ public class LivingEntity : MonoBehaviour
     public int currentDexterity;
     public int currentInitiative;
     public int currentCriticalChance;
+    public int currentDodgeChance;
+    public int currentParryChance;
     public int currentBlock;
+    public int currentPhysicalResistance;
+    public int currentFireResistance;
+    public int currentFrostResistance;
+    public int currentShadowResistance;
+    public int currentPoisonResistance;
+    public int currentAirResistance;
+    public ItemDataSO myMainHandWeapon;
 
     [Header("Pathing + Location Related ")]
     public Tile tile;
@@ -150,6 +168,8 @@ public class LivingEntity : MonoBehaviour
         ModifyCurrentBlock(baseStartingBlock);
         ModifyCurrentEnergy(baseStartingEnergyBonus);
         ModifyCurrentCriticalChance(baseCriticalChance);
+        ModifyCurrentDodgeChance(baseDodgeChance);
+        ModifyCurrentParryChance(baseParryChance);
         UpdateHealthGUIElements();
         SetColor(normalColour);
     }
@@ -309,6 +329,14 @@ public class LivingEntity : MonoBehaviour
     {
         currentCriticalChance += criticalGainedOrLost;
     }
+    public virtual void ModifyCurrentDodgeChance(int dodgeGainedOrLost)
+    {
+        currentDodgeChance += dodgeGainedOrLost;
+    }
+    public virtual void ModifyCurrentParryChance(int parryGainedOrLost)
+    {
+        currentParryChance += parryGainedOrLost;
+    }
     public virtual void ModifyCurrentBlock(int blockGainedOrLost)
     {
 
@@ -360,6 +388,32 @@ public class LivingEntity : MonoBehaviour
         }
 
         UpdateBlockAmountText(currentBlock);
+    }
+
+    // resistances
+    public void ModifyFireResistance(int fireResistanceGainedOrLost)
+    {
+        currentFireResistance += fireResistanceGainedOrLost;
+    }
+    public void ModifyShadowResistance(int shadowResistanceGainedOrLost)
+    {
+        currentShadowResistance += shadowResistanceGainedOrLost;
+    }
+    public void ModifyAirResistance(int airResistanceGainedOrLost)
+    {
+        currentAirResistance += airResistanceGainedOrLost;
+    }
+    public void ModifyPoisonResistance(int poisonResistanceGainedOrLost)
+    {
+        currentPoisonResistance += poisonResistanceGainedOrLost;
+    }
+    public void ModifyFrostResistance(int frostResistanceGainedOrLost)
+    {
+        currentFrostResistance += frostResistanceGainedOrLost;
+    }
+    public void ModifyPhysicalResistance(int physicalResistanceGainedOrLost)
+    {
+        currentPhysicalResistance += physicalResistanceGainedOrLost;
     }
     public void OnNewTurnCycleStarted()
     {

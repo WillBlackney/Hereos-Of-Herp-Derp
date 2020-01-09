@@ -493,27 +493,458 @@ public class CombatLogic : MonoBehaviour
             return false;
         }
     }
-    public bool RollForCritical(LivingEntity character)
-    {
-        int critChance = character.currentCriticalChance;
+    
+    #endregion
 
-        // TO DO: increase crit chance here based on things like back strike trait
+    // Damage and Combat Calculators
+    public int GetBaseDamageValue(LivingEntity entity, ItemDataSO weaponUsed, Ability abilityUsed)
+    {
+        Debug.Log("CombatLogic.GetBaseDamageValue() called...");
+        int baseDamageValueReturned = 0;
+
+        // Add damage from weapon
+        baseDamageValueReturned += weaponUsed.baseDamage;
+
+        // Add damage from modifiers (strenght, etc)
+        baseDamageValueReturned += entity.currentStrength;
+
+        // multiply by ability damage multiplier
+        baseDamageValueReturned = (int)(baseDamageValueReturned * abilityUsed.weaponDamagePercentage);
+
+        // return
+        return baseDamageValueReturned;
+
+    }
+    public int GetDamageValueAfterResistances(int damageValue, string attackDamageType, LivingEntity target)
+    {
+        Debug.Log("CombatLogic.GetDamageValueAfterResistances() called...");
+        Debug.Log("Damage Type detected: " + attackDamageType);
+
+        int damageValueReturned = damageValue;
+        int targetResistance = 0;
+        float resistanceMultiplier = 0;
+
+        // get the targets resistance value
+        if (attackDamageType == "Physical")
+        {
+            targetResistance = target.currentPhysicalResistance;
+        }
+        else if (attackDamageType == "Fire")
+        {
+            targetResistance = target.currentFireResistance;
+        }
+        else if (attackDamageType == "Air")
+        {
+            targetResistance = target.currentAirResistance;
+        }
+        else if (attackDamageType == "Poison")
+        {
+            targetResistance = target.currentPoisonResistance;
+        }
+        else if (attackDamageType == "Shadow")
+        {
+            targetResistance = target.currentShadowResistance;
+        }
+        else if (attackDamageType == "Frost")
+        {
+            targetResistance = target.currentFrostResistance;
+        }
+
+        Debug.Log("Target has " + targetResistance + " " + attackDamageType + " Resistance...");
+
+        // invert the resistance value from 100. (as in, 80% fire resistance means the attack will deal 20% of it original damage
+        int invertedResistanceValue = 100 - targetResistance;
+        Debug.Log("Resitance value after inversion: " + invertedResistanceValue.ToString());
+
+        // convert target resistance to float to multiply against base damage value
+        resistanceMultiplier = invertedResistanceValue / 100;
+        Debug.Log("Resitance multiplier as float value: " + resistanceMultiplier.ToString());
+
+        // apply final resistance calculations to the value returned
+        damageValueReturned = (int)(damageValueReturned * resistanceMultiplier);
+        Debug.Log("Final damage value calculated: " + damageValueReturned.ToString());
+
+        return damageValueReturned;
+    }
+    public int GetDamageValueAfterNonResistanceModifiers(int damageValue, LivingEntity attacker, LivingEntity target, Ability abilityUsed, bool critical)
+    {
+        Debug.Log("CombatLogic.GetDamageValueAfterNonResistanceModifiers() called...");
+
+        int damageValueReturned = damageValue;
+        float damageModifier = 1f;
+
+        // vulnerable
+        if (attacker.myPassiveManager.exposed)
+        {
+            damageModifier += 0.5f;
+        }
+
+        // weakened
+        if (attacker.myPassiveManager.exhausted)
+        {
+            damageModifier -= 0.5f;
+        }
+
+        // critical
+        if (critical)
+        {
+            damageModifier += 0.5f;
+        }
+
+        // back strike bonuses
+        if (PositionLogic.Instance.CanEntityBackStrikeTarget(attacker, target) && abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        {
+            // TO DO: update this when we implement opportunist passive
+        }
+
+        // prevent modifier from going negative
+        if (damageModifier < 0)
+        {
+            damageModifier = 0;
+        }
+
+        damageValueReturned = (int) (damageValueReturned * damageModifier);
+        Debug.Log("Final damage value returned: " + damageValueReturned);
+
+        return damageValueReturned;
+
+    }
+    public int GetFinalDamageValueAfterAllCalculations(LivingEntity attacker, LivingEntity target, ItemDataSO weaponUsed, Ability abilityUsed, string attackDamageType, bool critical)
+    {
+        Debug.Log("CombatLogic.GetFinalDamageValueAfterAllCalculations() called...");
+        int finalDamageValueReturned = 0;
+
+        // calculate base damage
+        finalDamageValueReturned = GetBaseDamageValue(attacker, weaponUsed, abilityUsed);
+
+        // calculate damage after standard modifiers
+        finalDamageValueReturned = GetDamageValueAfterNonResistanceModifiers(finalDamageValueReturned, attacker, target, abilityUsed, critical);
+
+        // calcualte damage value after resistances
+        finalDamageValueReturned = GetDamageValueAfterResistances(finalDamageValueReturned, attackDamageType, target);
+
+        // return final value
+        return finalDamageValueReturned;
+
+    }
+    public string CalculateFinalDamageTypeOfAttack(LivingEntity entity, Ability abilityUsed, ItemDataSO itemUsed)
+    {
+        Debug.Log("CombatLogic.CalculateFinalDamageTypeOfAttack() called...");
+        // preferences
+        string damageTypeReturned = "None";
+
+        // draw damage type from ability
+        damageTypeReturned = AbilityLogic.Instance.GetDamageTypeFromAbility(abilityUsed);
+
+        // if ability uses melee weapon, get damage type from weapon
+        if (abilityUsed.myAbilityData.requiresMeleeWeapon)
+        {
+            damageTypeReturned = ItemManager.Instance.GetDamageTypeFromWeapon(itemUsed);
+            Debug.Log("Damage type from weapon (" + itemUsed.Name + ") is: " + damageTypeReturned);
+        }
+
+        // if ability uses ranged weapon, get damage type from weapon
+        if (abilityUsed.myAbilityData.requiresRangedWeapon)
+        {
+            damageTypeReturned = ItemManager.Instance.GetDamageTypeFromWeapon(itemUsed);
+            Debug.Log("Damage type from weapon (" + itemUsed.Name + ") is: " + damageTypeReturned);
+        }
+
+        // after all this, try draw from passive traits that effect damage type output
+        // override this damage type if the character has a temporary damage type buff
+
+        // to do: once more passive traits about damage typing have been implemented, add the logic above
+
+
+
+
+        return damageTypeReturned;
+    }
+    public int CalculateCriticalStrikeChance(LivingEntity character)
+    {
+        Debug.Log("CombatLogic.CalculateCriticalChance() called...");
+        // TO DO: when more passive traits are added that effect crit chance (ambusher, predator, etc), update this method
+        int critChanceReturned = 0;
+
+        critChanceReturned += character.currentCriticalChance;
+
+        return critChanceReturned;
+    }
+    public int CalculateParryChance(LivingEntity target)
+    {
+        Debug.Log("CombatLogic.CalculateParryChance() called...");
+        // TO DO: when more passive traits are added that effect crit chance (ambusher, predator, etc), update this method
+        int parryChanceReturned = 0;
+
+        parryChanceReturned += target.currentParryChance;
+
+        return parryChanceReturned;
+    }
+    public int CalculateDodgeChance(LivingEntity target)
+    {
+        Debug.Log("CombatLogic.CalculateDodgeChance() called...");
+        // TO DO: when more passive traits are added that effect crit chance (ambusher, predator, etc), update this method
+        int dodgeChanceReturned = 0;
+
+        dodgeChanceReturned += target.currentDodgeChance;
+
+        return dodgeChanceReturned;
+    }
+
+    // Roll for Crit, Parry and Dodge
+    public bool RollForCritical(LivingEntity attacker)
+    {
+        Debug.Log("CombatLogic.RollForCritical() called...");
+        int critChance = CalculateCriticalStrikeChance(attacker);
 
         int roll = Random.Range(1, 101);
-        Debug.Log(character.gameObject.name + " rolled a " + roll.ToString() + " to crit");
+        Debug.Log(attacker.gameObject.name + " rolled a " + roll.ToString() + " to crit");
 
         if (roll <= critChance)
         {
-            Debug.Log(character.gameObject.name + " successfully rolled a critical");
+            Debug.Log(attacker.gameObject.name + " successfully rolled a critical");
             return true;
         }
         else
         {
-            Debug.Log(character.gameObject.name + " failed to roll a critical ");
+            Debug.Log(attacker.gameObject.name + " failed to roll a critical ");
             return false;
         }
     }
-    #endregion
+    public bool RollForParry(LivingEntity target)
+    {
+        Debug.Log("CombatLogic.RollForParry() called...");
+        int parryChance = CalculateParryChance(target);
+
+        int roll = Random.Range(1, 101);
+        Debug.Log(target.gameObject.name + " rolled a " + roll.ToString() + " to parry");
+
+        if (roll <= parryChance)
+        {
+            Debug.Log(target.gameObject.name + " successfully rolled a parry");
+            return true;
+        }
+        else
+        {
+            Debug.Log(target.gameObject.name + " failed to roll a parry ");
+            return false;
+        }
+    }
+    public bool RollForDodge(LivingEntity target)
+    {
+        Debug.Log("CombatLogic.RollForDodge() called...");
+        int dodgeChance = CalculateDodgeChance(target);
+
+        int roll = Random.Range(1, 101);
+        Debug.Log(target.gameObject.name + " rolled a " + roll.ToString() + " to dodge");
+
+        if (roll <= dodgeChance)
+        {
+            Debug.Log(target.gameObject.name + " successfully rolled a dodge");
+            return true;
+        }
+        else
+        {
+            Debug.Log(target.gameObject.name + " failed to roll a dodge");
+            return false;
+        }
+    }
+
+    // Attack + Ability Specific Events
+    public Action NewHandleDamage(int damageAmount, LivingEntity attacker, LivingEntity victim, string damageType, Ability abilityUsed = null)
+    {
+        Debug.Log("CombatLogic.NewHandleDamage() called...");
+        Action action = new Action();
+        StartCoroutine(NewHandleDamageCoroutine(damageAmount, attacker, victim, damageType, action, abilityUsed));
+        return action;
+    }
+    private IEnumerator NewHandleDamageCoroutine(int damageAmount, LivingEntity attacker, LivingEntity victim, string damageType, Action action, Ability abilityUsed = null)
+    {
+        // Establish properties for this damage event
+        int totalLifeLost = 0;
+        int adjustedDamageValue = damageAmount;
+        int blockAfter = victim.currentBlock;
+        int healthAfter = victim.currentHealth;
+
+        // play impact VFX
+        if (abilityUsed.abilityType != AbilityDataSO.AbilityType.None)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateImpactEffect(victim.transform.position));
+
+            // if melee attack, play melee attack vfx
+            if (abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+            {
+                StartCoroutine(VisualEffectManager.Instance.CreateMeleeAttackEffect(victim.transform.position));
+            }
+        }
+
+        // Check for block
+        if (victim.currentBlock == 0)
+        {
+            healthAfter = victim.currentHealth - adjustedDamageValue;
+            blockAfter = 0;
+        }
+
+        else if (victim.currentBlock > 0)
+        {
+            blockAfter = victim.currentBlock;
+            Debug.Log("block after = " + blockAfter);
+            blockAfter = blockAfter - adjustedDamageValue;
+            Debug.Log("block after = " + blockAfter);
+            if (blockAfter < 0)
+            {
+                healthAfter = victim.currentHealth;
+                healthAfter += blockAfter;
+                blockAfter = 0;
+                Debug.Log("block after = " + blockAfter);
+            }
+
+        }
+
+        // Check for barrier
+        if (victim.myPassiveManager.barrier && healthAfter < victim.currentHealth)
+        {
+            adjustedDamageValue = 0;
+            healthAfter = victim.currentHealth;
+            victim.myPassiveManager.ModifyBarrier(-1);
+            yield return new WaitForSeconds(0.3f);
+        }        
+
+        // Finished calculating the final damage, health lost and armor lost: p
+        totalLifeLost = victim.currentHealth - healthAfter;
+        victim.ModifyCurrentHealth(-totalLifeLost);
+        victim.SetCurrentBlock(blockAfter);
+
+        // Play VFX depending on whether the victim lost health, block, or was damaged by poison
+        if (adjustedDamageValue > 0)
+        {
+            if (totalLifeLost == 0)
+            {
+                // Create Lose Armor Effect
+                StartCoroutine(VisualEffectManager.Instance.CreateLoseBlockEffect(victim.transform.position, adjustedDamageValue));
+            }
+            else if (totalLifeLost > 0)
+            {
+                // Create Lose hp / damage effect
+                StartCoroutine(VisualEffectManager.Instance.CreateDamageEffect(victim.transform.position, totalLifeLost));
+            }
+        }
+
+        // Update character data if victim is a defender
+        if (victim.defender != null && totalLifeLost > 0)
+        {
+            victim.defender.myCharacterData.ModifyCurrentHealth(-totalLifeLost);
+        }
+
+        // Remove camoflage from victim if damage was taken
+        if (victim.myPassiveManager.camoflage)
+        {
+            victim.myPassiveManager.ModifyCamoflage(-1);
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        // Remove Sleeping
+        if (victim.myPassiveManager.sleeping && healthAfter < victim.currentHealth)
+        {
+            victim.myPassiveManager.ModifySleeping(-victim.myPassiveManager.sleepingStacks);
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        // Life steal
+        if (attacker.myPassiveManager.lifeSteal && totalLifeLost > 0 && 
+            abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        {
+            attacker.ModifyCurrentHealth(totalLifeLost);
+        }
+
+        // Poisonous trait
+        if (attacker.myPassiveManager.poisonous && totalLifeLost > 0 && 
+            (abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack ||
+            abilityUsed.abilityType == AbilityDataSO.AbilityType.RangedAttack))
+        {
+            victim.myPassiveManager.ModifyPoison(attacker.myPassiveManager.poisonousStacks, attacker);
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        // Remove sleeping
+        if (victim.myPassiveManager.sleeping && totalLifeLost > 0)
+        {
+            Debug.Log("Damage taken, removing sleep");
+            victim.myPassiveManager.ModifySleeping(-victim.myPassiveManager.sleepingStacks);
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        // Enrage
+        if (victim.myPassiveManager.enrage && totalLifeLost > 0)
+        {
+            Debug.Log("Enrage triggered, gaining strength");
+            victim.ModifyCurrentStrength(victim.myPassiveManager.enrageStacks);
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        // Adaptive
+        if (victim.myPassiveManager.adaptive && totalLifeLost > 0)
+        {
+            Debug.Log("Adaptive triggered, gaining block");
+            victim.ModifyCurrentBlock(victim.myPassiveManager.adaptiveStacks);
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        // Thorns
+        if (victim.myPassiveManager.thorns)
+        {
+            if (abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+            {
+                Debug.Log("Victim has thorns and was struck by a melee attack, returning damage...");
+                Action thornsDamage = HandleDamage(CalculateDamage(victim.myPassiveManager.thornsStacks, attacker, victim, AbilityDataSO.DamageType.Physical, false), victim, attacker);
+            }
+        }
+
+        // Quick Reflexes
+        if (victim.timesAttackedThisTurnCycle == 0 &&
+            victim.myPassiveManager.quickReflexes &&
+            abilityUsed.abilityType != AbilityDataSO.AbilityType.None)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Quick Reflexes", true, "Blue"));
+            Action reflexAction = victim.StartQuickReflexesMove();
+            yield return new WaitUntil(() => reflexAction.ActionResolved() == true);
+        }
+
+        victim.timesAttackedThisTurnCycle++;
+
+        // Check if the victim was killed by the damage
+        if (victim.currentHealth <= 0 && victim.inDeathProcess == false)
+        {
+            // the victim was killed, start death process
+            victim.inDeathProcess = true;
+            victim.StopAllCoroutines();
+            StartCoroutine(victim.HandleDeath());
+        }
+
+        // if not dead but hurt, play hurt animation
+        else if (victim.currentHealth > 0 && totalLifeLost > 0)
+        {
+            victim.myAnimator.SetTrigger("Hurt");
+        }
+
+        action.actionResolved = true;
+    }
+
+    public Action HandleParry(LivingEntity attacker, LivingEntity target)
+    {
+        Debug.Log("CombatLogic.HandleParry() called...");
+        Action action = new Action();
+        StartCoroutine(HandleParryCoroutine(attacker, target, action));
+        return action;
+    }
+    private IEnumerator HandleParryCoroutine(LivingEntity attacker, LivingEntity target, Action action)
+    {
+        // TO DO: all parry logic
+        // target does parry animation
+        // passive effects related to parrying trigger and resolve here (riposte, etc)
 
 
+        yield return null;
+        action.actionResolved = true;
+    }
 }

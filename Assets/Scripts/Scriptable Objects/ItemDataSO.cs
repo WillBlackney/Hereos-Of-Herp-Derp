@@ -3,16 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New ItemDataSO", menuName = "ItemDataSO", order = 52)]
-//[System.Serializable]
 public class ItemDataSO : ScriptableObject
 {
     public enum ItemRarity { NoRarity, Common, Rare, Epic };
-    public Color commonColour = Color.white;
-    public Color rareColour = Color.blue;
-    public Color epicColour = Color.red;
+    public enum ItemType { None, Head, Chest, Gloves, Legs, Ring, Trinket, Offhand, Shield, MeleeOneHand, MeleeTwoHand, RangedTwoHand };
+    public enum WeaponDamageType { None, Physical, Poison, Fire, Frost, Shadow, Air };
+    public enum GrantsAbility { None, Strike, Shoot, Block};
+    public enum ItemEffect { None};
 
+    [Header("Primary Properties")]
     public Sprite sprite;
     public string Name;
     public string itemDescription;
     public ItemRarity itemRarity;
+    public ItemType itemType;
+    public GrantsAbility grantsAbility;
+
+    [Header("Item Effect Properties")]
+    public ItemEffect itemEffectOne;
+    public int itemEffectOneValue;
+    public ItemEffect itemEffectTwo;
+    public int itemEffectTwoValue;
+    public ItemEffect itemEffectThree;
+    public int itemEffectThreeValue;
+
+    [Header("Weapon Specific Properties")]
+    public WeaponDamageType weaponDamageType;
+    public int baseDamage;
+
+    [Header("Color Properties")]
+    // to do in future: color properties should not be here. they should be in ItemManager or something else
+    public Color commonColour = Color.white;
+    public Color rareColour = Color.blue;
+    public Color epicColour = Color.red;
+
 }

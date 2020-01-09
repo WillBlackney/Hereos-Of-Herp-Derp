@@ -17,13 +17,13 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     // Add, Update, and Remove Status Icon Logic
     #region
-    public void StartAddStatusProcess(StatusIcon iconData, int stacksGainedOrLost)
+    public void StartAddStatusProcess(StatusIconDataSO iconData, int stacksGainedOrLost)
     {
         Debug.Log("StartAddStatusProcess() called");
 
         if (myStatusIcons.Count > 0)
         {
-            StatusIcon si = null;
+            StatusIconDataSO si = null;
             int stacks = 0;
             bool iconUpdated = false;
 
@@ -31,7 +31,7 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             {
                 if (iconData.statusName == icon.statusName)
                 {
-                    // Icon already exists
+                    // Icon already exists in character's list
                     UpdateStatusIcon(icon, stacksGainedOrLost);
                     iconUpdated = true;
                     break;
@@ -57,12 +57,12 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         
         
     }
-    public void AddNewStatusIcon(StatusIcon iconData, int stacksGained)
+    public void AddNewStatusIcon(StatusIconDataSO iconData, int stacksGained)
     {
         Debug.Log("AddNewStatusProcess() called");
         GameObject newIconGO = Instantiate(statusIconPrefab, gameObject.transform);
         StatusIcon newStatus = newIconGO.GetComponent<StatusIcon>();
-        newStatus.InitializeSetup(StatusIconLibrary.Instance.GetStatusIconByName(iconData.statusName));
+        newStatus.InitializeSetup(iconData);
         newStatus.ModifyStatusIconStacks(stacksGained);
         myStatusIcons.Add(newStatus);
 

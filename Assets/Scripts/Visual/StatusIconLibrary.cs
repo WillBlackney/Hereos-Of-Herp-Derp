@@ -4,18 +4,20 @@ using UnityEngine;
 public class StatusIconLibrary : MonoBehaviour
 {
     [Header("Properties")]
-    public List<StatusIcon> allIcons = new List<StatusIcon>();
+    public List<StatusIconDataSO> allIcons;
 
     // Initialization + Singleton Pattern
     #region
     public static StatusIconLibrary Instance;
+   
     private void Awake()
     {
         Instance = this;
-        PopulateStatusIconLibrary();
+        //PopulateStatusIconLibrary();
     }
     public void PopulateStatusIconLibrary()
     {
+        /*
         CreateUndeadIconData();
         CreateKnockdownIconData();
         CreateStrengthIconData();
@@ -64,16 +66,17 @@ public class StatusIconLibrary : MonoBehaviour
         CreateIgniteIconData();
         CreateMasterfulEntrapmentIconData();
         CreateSoulLinkIconData();
+        */
     }
     #endregion
 
     // Logic
     #region
-    public StatusIcon GetStatusIconByName(string name)
+    public StatusIconDataSO GetStatusIconByName(string name)
     {
-        StatusIcon iconReturned = null;
+        StatusIconDataSO iconReturned = null;
 
-        foreach (StatusIcon icon in allIcons)
+        foreach (StatusIconDataSO icon in allIcons)
         {
             if (icon.statusName == name)
             {
@@ -81,12 +84,20 @@ public class StatusIconLibrary : MonoBehaviour
             }
         }
 
+        if(iconReturned == null)
+        {
+            Debug.Log("StatusIconLibrary.GetStatusIconByName() could not find a status with the name " +
+                name + ", returning null...");
+        }
+
         return iconReturned;
     }
     #endregion
 
+    
     // Create Individual Icon Data
     #region
+        /*
     public void CreateKnockdownIconData()
     {
         StatusIcon knockDown = gameObject.AddComponent<StatusIcon>();
@@ -519,6 +530,7 @@ public class StatusIconLibrary : MonoBehaviour
         soulLink.statusStacks = soulLinkStatusStacks;
         allIcons.Add(soulLink);
     }
+    */
     #endregion
 
     // Icon Properties

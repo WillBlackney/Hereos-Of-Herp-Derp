@@ -8,7 +8,7 @@ using TMPro;
 public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Properties")]
-    public StatusIcon myIconData;
+    public StatusIconDataSO myIconData;
     public string statusName;
     public string statusDescription;
     public int statusStacks;
@@ -27,7 +27,7 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     // Initialization + Setup
     #region
-    public void InitializeSetup(StatusIcon iconData)
+    public void InitializeSetup(StatusIconDataSO iconData)
     {
         myIconData = iconData;
         statusSprite = iconData.statusSprite;
@@ -35,9 +35,9 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         statusName = iconData.statusName;        
         statusDescription = iconData.statusDescription;
-        statusStacks = iconData.statusStacks;
+        //statusStacks = iconData.statusStacks;
         statusStacksText.text = statusStacks.ToString();
-
+        
         // info panel set up
         statusNameText.text = TextLogic.ReturnColoredText(statusName, TextLogic.yellow);
         statusDescriptionText.text = statusDescription;
@@ -68,7 +68,6 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Status Icon mouse over detected...");
-        //SpellInfoBox.Instance.ShowInfoBox(statusName, 0, 0, 0, statusDescription);
         SetInfoPanelVisibility(true);
     }
     public void OnPointerExit(PointerEventData eventData)
@@ -83,22 +82,11 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if(onOroff == true)
         {
-            // quickly turning on and off prevents content size fitter from strecthing incorrectly
-            /*
-            infoPanelParent.SetActive(false);
-            infoPanelParent.SetActive(true);
-            panelCG.alpha = 1;
-            panelCG.alpha = 0;
-            panelCG.alpha = 1;
-            infoPanelParent.SetActive(false);
-            infoPanelParent.SetActive(true);
-            */
             panelCG.alpha = 1;
 
         }
         else
         {
-            //infoPanelParent.SetActive(false);
             panelCG.alpha = 0.001f;
         }
         

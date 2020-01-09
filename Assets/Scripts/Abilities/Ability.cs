@@ -33,8 +33,10 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public int abilityRange;
     public int abilityPrimaryValue;
     public int abilitySecondaryValue;
+    public float weaponDamagePercentage;
     public AbilityDataSO.AttackType abilityAttackType;
     public AbilityDataSO.DamageType abilityDamageType;
+    public AbilityDataSO.AbilityType abilityType;
 
     [Header("VFX + View Properties")]
     public bool highlightButton;
@@ -65,6 +67,8 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         abilitySecondaryValue = abilityFromLibrary.secondaryValue;
         abilityAttackType = abilityFromLibrary.attackType;
         abilityDamageType = abilityFromLibrary.damageType;
+        abilityType = abilityFromLibrary.abilityType;
+        weaponDamagePercentage = abilityFromLibrary.weaponDamagePercentage;
 
         // Modify base properties if character has certain talents before updating text components
         ModifyAbilityPropertiesFromTalents(this);

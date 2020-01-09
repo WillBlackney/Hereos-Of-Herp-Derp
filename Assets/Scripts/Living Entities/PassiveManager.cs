@@ -148,7 +148,7 @@ public class PassiveManager : MonoBehaviour
 
     public void ModifyPinned(int stacks, LivingEntity applier = null)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Pinned");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Pinned");
 
         if (stacks > 0)
         {
@@ -184,7 +184,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyStunned(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Stunned");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Stunned");
 
         if (stacks > 0)
         {
@@ -217,7 +217,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifySleeping(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Sleeping");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Sleeping");
         if(stacks > 0)
         {
             if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity))
@@ -250,7 +250,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyCamoflage(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Camoflage");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Camoflage");
 
         if (stacks > 0)
         {
@@ -344,56 +344,56 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyEnrage(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Enrage");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Enrage");
         enrage = true;
         enrageStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Enrage"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyGrowing(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Growing");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Growing");
         growing = true;
         growingStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Growing"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyVolatile(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Volatile");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Volatile");
         Volatile = true;
         volatileStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Volatile"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyCautious(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Cautious");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Cautious");
         cautious = true;
         cautiousStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Cautious"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyFleetFooted(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Fleet Footed");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Fleet Footed");
         fleetFooted = true;
         fleetFootedStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Fleet Footed"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyEncouragingPresence(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Encouraging Presence");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Encouraging Presence");
         encouragingPresence = true;
         encouragingPresenceStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Encouraging Presence"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyPoisonous(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Poisonous");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Poisonous");
         poisonous = true;
         poisonousStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Poisonous"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyPreparation(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Preparation");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Preparation");
         preparation = true;
         preparationStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
@@ -402,124 +402,124 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyStealth()
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Stealth");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Stealth");
         stealth = true;        
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, 1);
     }
     public void ModifySoulLink()
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Soul Link");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Soul Link");
         soulLink = true;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, 1);
     }
     public void ModifyUndead()
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Undead");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Undead");
         undead = true;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, 1);
     }
     public void ModifyUnwavering()
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Unwavering");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Unwavering");
         unwavering = true;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, 1);
     }
     public void ModifyPoisonImmunity()
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Poison Immunity");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Poison Immunity");
         poisonImmunity = true;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Poison Immunity"), 1);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, 1);
     }
     public void ModifyThorns(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Thorns");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Thorns");
         thorns = true;
         thornsStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Thorns"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyUnhygienic(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Unhygienic");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Unhygienic");
         unhygienic = true;
         unhygienicStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Unhygienic"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyQuickReflexes(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Quick Reflexes");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Quick Reflexes");
         quickReflexes = true;
         quickReflexesStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Quick Reflexes"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyRegeneration(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Regeneration");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Regeneration");
         regeneration = true;
         regenerationStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Regeneration"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyAdaptive(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Adaptive");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Adaptive");
         adaptive = true;
         adaptiveStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Adaptive"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyHatefulPresence(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Hateful Presence");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Hateful Presence");
         hatefulPresence = true;
         hatefulPresenceStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyFieryPresence(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Fiery Presence");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Fiery Presence");
         fieryPresence = true;
         fieryPresenceStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyGuardianPresence(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Guardian Presence");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Guardian Presence");
         guardianPresence = true;
         guardianPresenceStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifySoulDrainAura(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Soul Drain Aura");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Soul Drain Aura");
         soulDrainAura = true;
         soulDrainAuraStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyMasterfulEntrapment(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Masterful Entrapment");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Masterful Entrapment");
         masterfulEntrapment = true;
         masterfulEntrapmentStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyLightningShield(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Lightning Shield");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Lightning Shield");
         lightningShield = true;
         lightningShieldStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Lightning Shield"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyThickOfTheFight(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Thick Of The Fight");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Thick Of The Fight");
         thickOfTheFight  = true;
         thickOfTheFightStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Thick Of The Fight"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyTemporaryStrength(int stacks)
     {
         // apply only the strength bonus if protected by rune
         if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
         {
-            StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Strength");            
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Strength");            
             temporaryStrengthStacks += stacks;
             myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
             myLivingEntity.ModifyCurrentStrength(stacks);
@@ -534,7 +534,7 @@ public class PassiveManager : MonoBehaviour
         }
         else if(stacks < 0)
         {
-            StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Strength");            
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Strength");            
             temporaryStrengthStacks += stacks;
             myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
             myLivingEntity.ModifyCurrentStrength(stacks);
@@ -548,7 +548,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTemporaryMobility(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Mobility");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Mobility");
 
         // apply only the mobility bonus if protected by rune
         if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
@@ -580,13 +580,13 @@ public class PassiveManager : MonoBehaviour
     {
         if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
         {
-            StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Initiative");
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Initiative");
             temporaryInitiativeStacks += stacks;
             myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
         }
         else if (stacks < 0)
         {
-            StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Initiative");
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Initiative");
             temporaryInitiativeStacks += stacks;
             myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
         }
@@ -599,7 +599,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyExposed(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Exposed");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Exposed");
         if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
         {
             exposedStacks += stacks;
@@ -623,7 +623,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyExhausted(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Exhausted");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Exhausted");
 
         if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
         {
@@ -648,7 +648,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyIgnite(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Ignite");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Ignite");
 
         if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
         {
@@ -673,42 +673,42 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyMagicImmunity(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Magic Immunity");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Magic Immunity");
         magicImmunity = true;
         magicImmunityStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Magic Immunity"), stacks);
     }
     public void ModifyPhysicalImmunity(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Physical Immunity");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Physical Immunity");
         physicalImmunity = true;
         physicalImmunityStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Physical Immunity"), stacks);
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyTrueSight(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("True Sight");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("True Sight");
         trueSight = true;
         trueSightStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyVenomous(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Venomous");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Venomous");
         venomous = true;
         venomousStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyLifeSteal(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Life Steal");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Life Steal");
         lifeSteal = true;
         lifeStealStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyRune(int stacks)
     {
-        StatusIcon iconData = StatusIconLibrary.Instance.GetStatusIconByName("Rune");
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Rune");
         
         runeStacks += stacks;
 
