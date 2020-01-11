@@ -13,7 +13,7 @@ public class SkeletonMage : Enemy
         mySpellBook.EnemyLearnAbility("Frost Bolt");
 
         myPassiveManager.ModifyUndead();
-        myPassiveManager.ModifyQuickReflexes(1);
+        myPassiveManager.ModifyPhasing(1);
     }
 
     public override IEnumerator StartMyActivationCoroutine()

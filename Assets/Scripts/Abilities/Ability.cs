@@ -38,6 +38,11 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public AbilityDataSO.DamageType abilityDamageType;
     public AbilityDataSO.AbilityType abilityType;
 
+    [Header("Ability Requirments")]
+    public bool requiresMeleeWeapon;
+    public bool requiresRangedWeapon;
+    public bool requiresShield;
+
     [Header("VFX + View Properties")]
     public bool highlightButton;
     public bool fadingIn;
@@ -61,7 +66,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         abilityName = abilityFromLibrary.abilityName;
         abilityDescription = abilityFromLibrary.description;
         abilityBaseCooldownTime = abilityFromLibrary.baseCooldownTime;
-        abilityAPCost = abilityFromLibrary.apCost;
+        abilityAPCost = abilityFromLibrary.energyCost;
         abilityRange = abilityFromLibrary.range;
         abilityPrimaryValue = abilityFromLibrary.primaryValue;
         abilitySecondaryValue = abilityFromLibrary.secondaryValue;
@@ -69,6 +74,9 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         abilityDamageType = abilityFromLibrary.damageType;
         abilityType = abilityFromLibrary.abilityType;
         weaponDamagePercentage = abilityFromLibrary.weaponDamagePercentage;
+        requiresMeleeWeapon = abilityFromLibrary.requiresMeleeWeapon;
+        requiresRangedWeapon = abilityFromLibrary.requiresRangedWeapon;
+        requiresShield = abilityFromLibrary.requiresShield;
 
         // Modify base properties if character has certain talents before updating text components
         ModifyAbilityPropertiesFromTalents(this);

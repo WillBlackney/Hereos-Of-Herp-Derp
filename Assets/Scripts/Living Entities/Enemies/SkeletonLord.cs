@@ -13,8 +13,8 @@ public class SkeletonLord : Enemy
         mySpellBook.EnemyLearnAbility("Summon Skeleton");
         mySpellBook.EnemyLearnAbility("Empower Binding");
         myPassiveManager.ModifySoulLink();
-        myPassiveManager.ModifyPhysicalImmunity(1);
-        myPassiveManager.ModifyMagicImmunity(1);       
+        //myPassiveManager.ModifyPhysicalImmunity(1);
+        //myPassiveManager.ModifyMagicImmunity(1);       
 
     }
     public override IEnumerator StartMyActivationCoroutine()

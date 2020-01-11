@@ -10,9 +10,11 @@ public class VolatileZombie : Enemy
 
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Strike");
+       // ModifyCurrentParryChance(100);
+       // ModifyCurrentCriticalChance(100);
 
-        myPassiveManager.ModifyUndead();
-        myPassiveManager.ModifyVolatile(10);
+        //myPassiveManager.ModifyUndead();
+        // myPassiveManager.ModifyVolatile(10);
     }
 
     public override IEnumerator StartMyActivationCoroutine()

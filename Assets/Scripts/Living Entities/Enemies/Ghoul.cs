@@ -15,7 +15,7 @@ public class Ghoul : Enemy
         mySpellBook.EnemyLearnAbility("Guard");
 
         myPassiveManager.ModifyUndead();
-        myPassiveManager.ModifyUnhygienic(2);
+        myPassiveManager.ModifyToxicAura(2);
 
     }
 

@@ -193,9 +193,9 @@ public class CombatLogic : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
         }
 
-        if(victim.myPassiveManager.sleeping && healthAfter < victim.currentHealth)
+        if(victim.myPassiveManager.sleep && healthAfter < victim.currentHealth)
         {
-            victim.myPassiveManager.ModifySleeping(-victim.myPassiveManager.sleepingStacks);
+            victim.myPassiveManager.ModifySleep(-victim.myPassiveManager.sleepStacks);
             yield return new WaitForSeconds(0.3f);
         }
 
@@ -267,15 +267,15 @@ public class CombatLogic : MonoBehaviour
         // Poisonous trait
         if (attacker.myPassiveManager.poisonous && totalLifeLost > 0 && attackType == AbilityDataSO.AttackType.Melee)
         {           
-            victim.myPassiveManager.ModifyPoison(attacker.myPassiveManager.poisonousStacks, attacker);
+            victim.myPassiveManager.ModifyPoisoned(attacker.myPassiveManager.poisonousStacks, attacker);
             yield return new WaitForSeconds(0.3f);
         }
 
         // Remove sleeping
-        if (victim.myPassiveManager.sleeping && totalLifeLost > 0)
+        if (victim.myPassiveManager.sleep && totalLifeLost > 0)
         {
             Debug.Log("Damage taken, removing sleep");
-            victim.myPassiveManager.ModifySleeping(-victim.myPassiveManager.sleepingStacks);
+            victim.myPassiveManager.ModifySleep(-victim.myPassiveManager.sleepStacks);
             yield return new WaitForSeconds(0.3f);
         }
 
@@ -288,10 +288,10 @@ public class CombatLogic : MonoBehaviour
         }
 
         // Adaptive
-        if (victim.myPassiveManager.adaptive && totalLifeLost > 0)
+        if (victim.myPassiveManager.tenacious && totalLifeLost > 0)
         {
             Debug.Log("Adaptive triggered, gaining block");
-            victim.ModifyCurrentBlock(victim.myPassiveManager.adaptiveStacks);
+            victim.ModifyCurrentBlock(victim.myPassiveManager.tenaciousStacks);
             yield return new WaitForSeconds(0.3f);
         }        
 
@@ -313,12 +313,12 @@ public class CombatLogic : MonoBehaviour
             yield return new WaitUntil(() => lightningShieldDamage.ActionResolved() == true);
         }
 
-        // Quick Reflexes
+        // Phasing
         if (victim.timesAttackedThisTurnCycle == 0 &&
-            victim.myPassiveManager.quickReflexes && 
+            victim.myPassiveManager.phasing && 
             attackType != AbilityDataSO.AttackType.None)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Quick Reflexes", true, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Phasing", true, "Blue"));
             Action reflexAction = victim.StartQuickReflexesMove();
             yield return new WaitUntil(() => reflexAction.ActionResolved() == true);
         }
@@ -366,13 +366,6 @@ public class CombatLogic : MonoBehaviour
         }
         Debug.Log("Damage value after wisdom added: " + newDamageValue);
 
-        // Add ignite damage bonus if fireball used
-        if (abilityUsed != null && abilityUsed.abilityName == "Fire Ball" && victim.myPassiveManager.ignite)
-        {
-            newDamageValue += victim.myPassiveManager.igniteStacks;
-        }
-        Debug.Log("Damage value after ignite added: " + newDamageValue);
-
         // multiply/divide the damage value based on factors like vulnerable, knock down, magic vulnerability, etc
         newDamageValue = (int)(newDamageValue * CalculateAndGetDamagePercentageModifier(attacker, victim, damageType, critical, attackType));
         Debug.Log("Damage value after percentage modifers like knockdown added: " + newDamageValue);
@@ -387,7 +380,7 @@ public class CombatLogic : MonoBehaviour
         float damageModifier = 1f;
         
         // exposed
-        if (victim.myPassiveManager.exposed && attackType != AbilityDataSO.AttackType.None && DamageType != AbilityDataSO.DamageType.None)
+        if (victim.myPassiveManager.vulnerable && attackType != AbilityDataSO.AttackType.None && DamageType != AbilityDataSO.DamageType.None)
         {
             Debug.Log("Victim exposed, increasing damage by 50%...");
             damageModifier += 0.5f;
@@ -403,7 +396,7 @@ public class CombatLogic : MonoBehaviour
         }
 
         // exhausted
-        if (attacker.myPassiveManager.exhausted)
+        if (attacker.myPassiveManager.weakened)
         {
             damageModifier -= 0.5f;
             Debug.Log("Attacker exhausted, decreasing damage by 50%...");
@@ -416,20 +409,6 @@ public class CombatLogic : MonoBehaviour
             //Debug.Log("Attacker striking victims back arc, increasing damage by 100%...");
         }
         
-        // magic immunity
-        if (victim.myPassiveManager.magicImmunity && DamageType == AbilityDataSO.DamageType.Magic)
-        {
-            damageModifier = 0;
-            Debug.Log("Victim has Magic immunity, damage reduced to 0%...");
-        }
-
-        // physical immunity
-        if (victim.myPassiveManager.physicalImmunity && DamageType == AbilityDataSO.DamageType.Physical)
-        {
-            damageModifier = 0;
-            Debug.Log("Victim has Physical immunity, damage reduced to 0%...");
-        }
-
         // prevent modifier from going negative
         if(damageModifier < 0)
         {
@@ -504,12 +483,15 @@ public class CombatLogic : MonoBehaviour
 
         // Add damage from weapon
         baseDamageValueReturned += weaponUsed.baseDamage;
+        Debug.Log(weaponUsed.Name + " base damage is: " + weaponUsed.baseDamage.ToString());
 
         // Add damage from modifiers (strenght, etc)
         baseDamageValueReturned += entity.currentStrength;
+        Debug.Log("Base damage after strength and related modifiers added: " + baseDamageValueReturned.ToString());
 
         // multiply by ability damage multiplier
         baseDamageValueReturned = (int)(baseDamageValueReturned * abilityUsed.weaponDamagePercentage);
+        Debug.Log("Base damage ability percentage modifer " + baseDamageValueReturned.ToString());
 
         // return
         return baseDamageValueReturned;
@@ -574,13 +556,13 @@ public class CombatLogic : MonoBehaviour
         float damageModifier = 1f;
 
         // vulnerable
-        if (attacker.myPassiveManager.exposed)
+        if (attacker.myPassiveManager.vulnerable)
         {
             damageModifier += 0.5f;
         }
 
         // weakened
-        if (attacker.myPassiveManager.exhausted)
+        if (attacker.myPassiveManager.weakened)
         {
             damageModifier -= 0.5f;
         }
@@ -844,9 +826,9 @@ public class CombatLogic : MonoBehaviour
         }
 
         // Remove Sleeping
-        if (victim.myPassiveManager.sleeping && healthAfter < victim.currentHealth)
+        if (victim.myPassiveManager.sleep && healthAfter < victim.currentHealth)
         {
-            victim.myPassiveManager.ModifySleeping(-victim.myPassiveManager.sleepingStacks);
+            victim.myPassiveManager.ModifySleep(-victim.myPassiveManager.sleepStacks);
             yield return new WaitForSeconds(0.3f);
         }
 
@@ -862,15 +844,15 @@ public class CombatLogic : MonoBehaviour
             (abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack ||
             abilityUsed.abilityType == AbilityDataSO.AbilityType.RangedAttack))
         {
-            victim.myPassiveManager.ModifyPoison(attacker.myPassiveManager.poisonousStacks, attacker);
+            victim.myPassiveManager.ModifyPoisoned(attacker.myPassiveManager.poisonousStacks, attacker);
             yield return new WaitForSeconds(0.3f);
         }
 
         // Remove sleeping
-        if (victim.myPassiveManager.sleeping && totalLifeLost > 0)
+        if (victim.myPassiveManager.sleep && totalLifeLost > 0)
         {
             Debug.Log("Damage taken, removing sleep");
-            victim.myPassiveManager.ModifySleeping(-victim.myPassiveManager.sleepingStacks);
+            victim.myPassiveManager.ModifySleep(-victim.myPassiveManager.sleepStacks);
             yield return new WaitForSeconds(0.3f);
         }
 
@@ -883,10 +865,10 @@ public class CombatLogic : MonoBehaviour
         }
 
         // Adaptive
-        if (victim.myPassiveManager.adaptive && totalLifeLost > 0)
+        if (victim.myPassiveManager.cautious && totalLifeLost > 0)
         {
             Debug.Log("Adaptive triggered, gaining block");
-            victim.ModifyCurrentBlock(victim.myPassiveManager.adaptiveStacks);
+            victim.ModifyCurrentBlock(victim.myPassiveManager.cautiousStacks);
             yield return new WaitForSeconds(0.3f);
         }
 
@@ -902,10 +884,10 @@ public class CombatLogic : MonoBehaviour
 
         // Quick Reflexes
         if (victim.timesAttackedThisTurnCycle == 0 &&
-            victim.myPassiveManager.quickReflexes &&
+            victim.myPassiveManager.phasing &&
             abilityUsed.abilityType != AbilityDataSO.AbilityType.None)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Quick Reflexes", true, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Phasing", true, "Blue"));
             Action reflexAction = victim.StartQuickReflexesMove();
             yield return new WaitUntil(() => reflexAction.ActionResolved() == true);
         }
@@ -938,13 +920,19 @@ public class CombatLogic : MonoBehaviour
         return action;
     }
     private IEnumerator HandleParryCoroutine(LivingEntity attacker, LivingEntity target, Action action)
-    {
-        // TO DO: all parry logic
-        // target does parry animation
-        // passive effects related to parrying trigger and resolve here (riposte, etc)
+    {                
+        if (target.myPassiveManager.riposte)
+        {
+            Debug.Log(target.name + " parried an attack AND has riposte, performing riposte attack...");
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Riposte!", true, "Yellow"));
+            // perform riposte attack
+        }
+        else
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Parry!", true, "Yellow"));
+        }
+        yield return new WaitForSeconds(0.5f);
 
-
-        yield return null;
         action.actionResolved = true;
     }
 }

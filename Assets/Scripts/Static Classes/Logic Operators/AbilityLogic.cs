@@ -43,7 +43,7 @@ public class AbilityLogic : MonoBehaviour
         if(ability.abilityName == "Move")
         {
             // if character has a free move available
-            if (livingEntity.moveActionsTakenThisActivation == 0 && livingEntity.myPassiveManager.fleetFooted)
+            if (livingEntity.moveActionsTakenThisActivation == 0 && livingEntity.myPassiveManager.flux)
             {
                 livingEntity.StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(livingEntity.transform.position, "Fleet Footed", true, "Blue"));
                 finalApCost = 0;
@@ -74,7 +74,43 @@ public class AbilityLogic : MonoBehaviour
             }
         }
     }
+    public bool DoesAbilityMeetWeaponRequirements(LivingEntity entity, Ability ability)
+    {
+        Debug.Log("AbilityLogic.DoesAbilityMeetWeaponRequirements() called...");
 
+        bool boolReturned = false;
+
+        if(ability.requiresMeleeWeapon == false &&
+           ability.requiresRangedWeapon == false &&
+           ability.requiresShield == false)
+        {
+            boolReturned = true;
+        }
+        else if(ability.requiresMeleeWeapon == true &&
+            (entity.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand || 
+            entity.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeTwoHand)
+            )
+        {
+            boolReturned = true;
+        }
+        else if(ability.requiresMeleeWeapon &&
+            entity.myMainHandWeapon.itemType == ItemDataSO.ItemType.RangedTwoHand)
+        {
+            boolReturned = true;
+        }
+        else if(ability.requiresShield &&
+            entity.myOffHandWeapon.itemType == ItemDataSO.ItemType.Shield)
+        {
+            boolReturned = true;
+        }
+        else
+        {
+            Debug.Log(entity.name +" does not meet the requirments of " + ability.abilityName);
+            boolReturned = false;
+        }
+
+        return boolReturned;
+    }
     public string GetDamageTypeFromAbility(Ability ability)
     {
         Debug.Log("GetDamageTypeFromAbility() called...");
@@ -111,8 +147,193 @@ public class AbilityLogic : MonoBehaviour
     }
     #endregion
 
-    // Specific Ability Logic
+    // Misc Abilities
     #region
+
+    //Strike
+    public Action PerformStrike(LivingEntity attacker, LivingEntity victim)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformStrikeCoroutine(attacker, victim, action));
+        return action;
+    }
+    public IEnumerator PerformStrikeCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    {
+        // Set up properties
+        Ability strike = attacker.mySpellBook.GetAbilityByName("Strike");
+        bool critical = CombatLogic.Instance.RollForCritical(attacker);
+        bool parry = CombatLogic.Instance.RollForParry(victim);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, strike, attacker.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, attacker.myMainHandWeapon, strike, damageType, critical);
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(strike, attacker);
+
+        // Play attack animation
+        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+
+        // if the target successfully parried, dont do HandleDamage: do parry stuff instead
+        if (parry)
+        {
+            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+            yield return new WaitUntil(() => parryAction.ActionResolved() == true);
+        }
+
+        // if the target did not parry, handle damage event normally
+        else
+        {
+            if (critical)
+            {
+                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+            }
+            Action abilityAction = CombatLogic.Instance.NewHandleDamage(finalDamageValue, attacker, victim, damageType, strike);
+            yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+        }
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(strike, attacker);
+        action.actionResolved = true;
+
+    }
+
+    // Defend
+    public Action PerformDefend(LivingEntity caster)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformDefendCoroutine(caster, action));
+        return action;
+    }
+    private IEnumerator PerformDefendCoroutine(LivingEntity caster, Action action)
+    {
+        Ability block = caster.mySpellBook.GetAbilityByName("Block");
+        OnAbilityUsedStart(block, caster);
+        caster.ModifyCurrentBlock(block.abilityPrimaryValue);
+        yield return new WaitForSeconds(0.5f);
+        action.actionResolved = true;
+
+    }
+
+    // Move
+    public Action PerformMove(LivingEntity characterMoved, Tile destination)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformMoveCoroutine(characterMoved, destination, action));
+        return action;
+    }
+    public IEnumerator PerformMoveCoroutine(LivingEntity characterMoved, Tile destination, Action action)
+    {
+        Ability move = characterMoved.mySpellBook.GetAbilityByName("Move");
+        OnAbilityUsedStart(move, characterMoved);
+        Action movementAction = MovementLogic.Instance.MoveEntity(characterMoved, destination);
+
+        yield return new WaitUntil(() => movementAction.ActionResolved() == true);
+        action.actionResolved = true;
+        characterMoved.myAnimator.SetTrigger("Idle");
+    }
+
+    // Shoot
+    public Action PerformShoot(LivingEntity attacker, LivingEntity victim)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformShootCoroutine(attacker, victim, action));
+        return action;
+    }
+    public IEnumerator PerformShootCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    {
+        Ability shoot = attacker.mySpellBook.GetAbilityByName("Shoot");
+        OnAbilityUsedStart(shoot, attacker);
+
+        // Ranged attack anim
+        attacker.PlayRangedAttackAnimation();
+        yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
+
+        Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
+        yield return new WaitUntil(() => shootAction.ActionResolved() == true);
+
+        Action abilityAction = CombatLogic.Instance.HandleDamage(shoot.abilityPrimaryValue, attacker, victim, false, shoot.abilityAttackType, shoot.abilityDamageType);
+        yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+
+        action.actionResolved = true;
+    }
+
+    #endregion
+
+
+    // Brawler Abilities
+    #region
+    // Whirlwind
+    public Action PerformWhirlwind(LivingEntity attacker)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformWhirlwindCoroutine(attacker, action));
+        return action;
+    }
+    public IEnumerator PerformWhirlwindCoroutine(LivingEntity attacker, Action action)
+    {
+        // Set up properties
+        Ability whirlwind = attacker.mySpellBook.GetAbilityByName("Whirlwind");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, whirlwind, attacker.myMainHandWeapon);
+        List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(attacker, attacker.currentMeleeRange);
+
+        // Pay energy cost
+        OnAbilityUsedStart(whirlwind, attacker);
+
+        // Create whirlwind VFX
+        StartCoroutine(VisualEffectManager.Instance.CreateAoeMeleeAttackEffect(attacker.transform.position));
+        attacker.myAnimator.SetTrigger("Melee Attack");
+
+        // Resolve hits against targets
+        foreach(LivingEntity entity in targetsInRange)
+        {
+            bool critical = CombatLogic.Instance.RollForCritical(attacker);
+            bool parry = CombatLogic.Instance.RollForParry(entity);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, attacker.myMainHandWeapon, whirlwind, damageType, critical);
+
+            // if the target successfully parried, dont do HandleDamage: do parry stuff instead
+            if (parry)
+            {
+                Action parryAction = CombatLogic.Instance.HandleParry(attacker, entity);
+            }
+
+            // if the target did not parry, handle damage event normally
+            else
+            {
+                if (critical)
+                {
+                    StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                }
+
+                Action abilityAction = CombatLogic.Instance.NewHandleDamage(finalDamageValue, attacker, entity, damageType, whirlwind);
+                //yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+            }
+
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        action.actionResolved = true;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // Free Strike
     public Action PerformFreeStrike(LivingEntity attacker, LivingEntity victim)
@@ -133,18 +354,26 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;        
     }
 
-    // Block
-    public Action PerformBlock(LivingEntity caster)
+   
+
+
+    
+
+    //Rend
+    public Action PerformRend(LivingEntity attacker, LivingEntity victim)
     {
         Action action = new Action();
-        StartCoroutine(PerformBlockCoroutine(caster, action));
+        StartCoroutine(PerformRendCoroutine(attacker, victim, action));
         return action;
     }
-    public IEnumerator PerformBlockCoroutine(LivingEntity caster,  Action action)
+    public IEnumerator PerformRendCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
     {
-        Ability block = caster.mySpellBook.GetAbilityByName("Block");
-        OnAbilityUsedStart(block, caster);
-        caster.ModifyCurrentBlock(block.abilityPrimaryValue);
+        Ability rend = attacker.mySpellBook.GetAbilityByName("Rend");
+        OnAbilityUsedStart(rend, attacker);
+        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        Action abilityAction = CombatLogic.Instance.HandleDamage(rend.abilityPrimaryValue, attacker, victim, false, rend.abilityAttackType, rend.abilityDamageType);
+        yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+        victim.myPassiveManager.ModifyWeakened(rend.abilitySecondaryValue);
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
 
@@ -182,69 +411,6 @@ public class AbilityLogic : MonoBehaviour
 
         action.actionResolved = true;
     }
-
-    //Strike
-    public Action PerformStrike(LivingEntity attacker, LivingEntity victim)
-    {
-        Action action = new Action();
-        StartCoroutine(PerformStrikeCoroutine(attacker, victim, action));
-        return action;
-    }
-    public IEnumerator PerformStrikeCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
-    {
-        // Set up properties
-        Ability strike = attacker.mySpellBook.GetAbilityByName("Strike");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker);
-        bool parry = CombatLogic.Instance.RollForParry(victim);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, strike, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, attacker.myMainHandWeapon, strike, damageType, critical);
-
-        // Pay energy cost, + etc
-        OnAbilityUsedStart(strike, attacker);
-
-        // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
-
-        // if the target successfully parried, dont do HandleDamage: do parry stuff instead
-        if (parry)
-        {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
-            yield return new WaitUntil(() => parryAction.ActionResolved() == true);
-        }
-
-        // if the target did not parry, handle damage event
-        else
-        {
-            Action abilityAction = CombatLogic.Instance.NewHandleDamage(finalDamageValue, attacker, victim, damageType, strike);
-            yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-        }
-
-        // remove camoflage, etc
-        OnAbilityUsedFinish(strike, attacker);
-        action.actionResolved = true;
-        
-    }
-
-    //Rend
-    public Action PerformRend(LivingEntity attacker, LivingEntity victim)
-    {
-        Action action = new Action();
-        StartCoroutine(PerformRendCoroutine(attacker, victim, action));
-        return action;
-    }
-    public IEnumerator PerformRendCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
-    {
-        Ability rend = attacker.mySpellBook.GetAbilityByName("Rend");
-        OnAbilityUsedStart(rend, attacker);
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
-        Action abilityAction = CombatLogic.Instance.HandleDamage(rend.abilityPrimaryValue, attacker, victim, false, rend.abilityAttackType, rend.abilityDamageType);
-        yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-        victim.myPassiveManager.ModifyExhausted(rend.abilitySecondaryValue);
-        yield return new WaitForSeconds(0.5f);
-        action.actionResolved = true;
-
-    }
-
     // Twin Strike
     public Action PerformTwinStrike(LivingEntity attacker, LivingEntity victim)
     {
@@ -313,11 +479,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
 
         Action abilityAction = CombatLogic.Instance.HandleDamage(fireball.abilityPrimaryValue, attacker, victim, false, fireball.abilityAttackType, fireball.abilityDamageType, fireball);
-        // check for improved fireball talent
-        if(attacker.defender && attacker.defender.myCharacterData.KnowsImprovedFireBall)
-        {
-            victim.myPassiveManager.ModifyIgnite(1);
-        }
+       
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
         action.actionResolved = true;
@@ -350,7 +512,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
         // Apply exposed
-        victim.myPassiveManager.ModifyExposed(chaosBolt.abilitySecondaryValue);
+        victim.myPassiveManager.ModifyVulnerable(chaosBolt.abilitySecondaryValue);
 
         // Resolve event
         action.actionResolved = true;
@@ -381,7 +543,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
         // Apply exposed
-        victim.myPassiveManager.ModifyExposed(shadowBlast.abilitySecondaryValue);
+        victim.myPassiveManager.ModifyVulnerable(shadowBlast.abilitySecondaryValue);
 
         // Resolve event
         action.actionResolved = true;
@@ -567,45 +729,7 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;        
     }
 
-    // Whirlwind
-    public Action PerformWhirlwind(LivingEntity attacker)
-    {
-        Action action = new Action();
-        StartCoroutine(PerformWhirlwindCoroutine(attacker, action));
-        return action;
-    }
-    public IEnumerator PerformWhirlwindCoroutine(LivingEntity attacker, Action action)
-    {
-        Ability whirlwind = attacker.mySpellBook.GetAbilityByName("Whirlwind");
-        OnAbilityUsedStart(whirlwind, attacker);
-
-        // Create whirlwind VFX
-        StartCoroutine(VisualEffectManager.Instance.CreateAoeMeleeAttackEffect(attacker.transform.position));
-        attacker.myAnimator.SetTrigger("Melee Attack");
-        CombatLogic.Instance.CreateAoEAttackEvent(attacker, whirlwind, attacker.tile, 1, true, false);
-        
-        // Improved Whirlwind talent
-        if(attacker.defender != null)
-        {
-            if (attacker.defender.myCharacterData.KnowsImprovedWhirlwind)
-            {
-                List<Tile> tilesInWhirlwindRange = LevelManager.Instance.GetTilesWithinRange(1, attacker.tile);
-                foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
-                {
-                    if (CombatLogic.Instance.IsTargetFriendly(attacker, entity) == false &&
-                        tilesInWhirlwindRange.Contains(entity.tile))
-                    {
-                        entity.myPassiveManager.ModifyExhausted(1);
-                        entity.myPassiveManager.ModifyExposed(1);
-                    }
-                }
-            }
-            
-        }
-        yield return new WaitForSeconds(1f);
-        action.actionResolved = true;
-        
-    }
+    
 
     // Frost Nova
     public Action PerformFrostNova(LivingEntity attacker)
@@ -628,7 +752,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if(!CombatLogic.Instance.IsTargetFriendly(attacker, entity) && tilesInNovaRange.Contains(entity.tile))
             {
-                entity.myPassiveManager.ModifyPinned(1, attacker);
+                entity.myPassiveManager.ModifyImmobilized(1);
             }
         }
         
@@ -692,34 +816,11 @@ public class AbilityLogic : MonoBehaviour
         Action abilityAction = CombatLogic.Instance.HandleDamage(frostbolt.abilityPrimaryValue, attacker, victim, false, frostbolt.abilityAttackType, frostbolt.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
-        victim.myPassiveManager.ModifyPinned(1, attacker);
+        victim.myPassiveManager.ModifyImmobilized(1);
         action.actionResolved = true;
     }
 
-    // Shoot
-    public Action PerformShoot(LivingEntity attacker, LivingEntity victim)
-    {
-        Action action = new Action();
-        StartCoroutine(PerformShootCoroutine(attacker, victim, action));
-        return action;
-    }
-    public IEnumerator PerformShootCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
-    {
-        Ability shoot = attacker.mySpellBook.GetAbilityByName("Shoot");
-        OnAbilityUsedStart(shoot, attacker);
-
-        // Ranged attack anim
-        attacker.PlayRangedAttackAnimation();
-        yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
-
-        Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
-        yield return new WaitUntil(() => shootAction.ActionResolved() == true);
-
-        Action abilityAction = CombatLogic.Instance.HandleDamage(shoot.abilityPrimaryValue, attacker, victim, false, shoot.abilityAttackType, shoot.abilityDamageType);
-        yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-
-        action.actionResolved = true;      
-    }
+    
 
     // Rapid Fire
     public Action PerformRapidFire(LivingEntity attacker, LivingEntity victim, int shots)
@@ -762,7 +863,7 @@ public class AbilityLogic : MonoBehaviour
         Ability poisonDart = caster.mySpellBook.GetAbilityByName("Poison Dart");
         OnAbilityUsedStart(poisonDart, caster);
         StartCoroutine(caster.PlayMeleeAttackAnimation(victim));        
-        victim.myPassiveManager.ModifyPoison(poisonDart.abilitySecondaryValue, caster);
+        victim.myPassiveManager.ModifyPoisoned(poisonDart.abilitySecondaryValue, caster);
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
         
@@ -780,7 +881,7 @@ public class AbilityLogic : MonoBehaviour
         Ability blight = caster.mySpellBook.GetAbilityByName("Blight");
         OnAbilityUsedStart(blight, caster);
         StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
-        victim.myPassiveManager.ModifyPoison(blight.abilityPrimaryValue, caster);
+        victim.myPassiveManager.ModifyPoisoned(blight.abilityPrimaryValue, caster);
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
 
@@ -800,7 +901,7 @@ public class AbilityLogic : MonoBehaviour
         StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
         Action abilityAction = CombatLogic.Instance.HandleDamage(acidSpit.abilityPrimaryValue, caster, victim, false, acidSpit.abilityAttackType, acidSpit.abilityDamageType, acidSpit);        
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-        victim.myPassiveManager.ModifyPoison(acidSpit.abilitySecondaryValue, caster);
+        victim.myPassiveManager.ModifyPoisoned(acidSpit.abilitySecondaryValue, caster);
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
 
@@ -818,7 +919,7 @@ public class AbilityLogic : MonoBehaviour
         Ability chemicalReaction = caster.mySpellBook.GetAbilityByName("Chemical Reaction");
         OnAbilityUsedStart(chemicalReaction, caster);
         StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
-        victim.myPassiveManager.ModifyPoison(victim.myPassiveManager.poisonStacks, caster);
+        victim.myPassiveManager.ModifyPoisoned(victim.myPassiveManager.poisonedStacks, caster);
         
         yield return null;
     }
@@ -910,10 +1011,7 @@ public class AbilityLogic : MonoBehaviour
         Ability invigorate = caster.mySpellBook.GetAbilityByName("Invigorate");
         OnAbilityUsedStart(invigorate, caster);
         target.ModifyCurrentEnergy(invigorate.abilityPrimaryValue);
-        if (TalentLogic.Instance.DoesCharacterHaveTalent(caster, "Improved Invigorate"))
-        {
-            target.myPassiveManager.ModifyTemporaryMobility(1);
-        }
+        
         //ParticleManager.Instance.CreateParticleEffect(target.tile.WorldPosition, ParticleManager.Instance.basicParticlePrefab);
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
@@ -981,7 +1079,7 @@ public class AbilityLogic : MonoBehaviour
         Ability primalRage = caster.mySpellBook.GetAbilityByName("Primal Rage");
         OnAbilityUsedStart(primalRage, caster);
         target.ModifyCurrentStrength(primalRage.abilityPrimaryValue);
-        target.myPassiveManager.ModifyTemporaryStrength(primalRage.abilityPrimaryValue);
+        //target.myPassiveManager.ModifyTemporaryStrength(primalRage.abilityPrimaryValue);
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
     }
@@ -1045,17 +1143,17 @@ public class AbilityLogic : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
             target.myPassiveManager.ModifyStunned(-target.myPassiveManager.stunnedStacks);
         }
-        if (target.myPassiveManager.pinned)
+        if (target.myPassiveManager.immobilized)
         {
-            VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Pinned Removed", false, "Blue");
+            VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Immobilized Removed", false, "Blue");
             yield return new WaitForSeconds(0.2f);
-            target.myPassiveManager.ModifyPinned(-target.myPassiveManager.pinnedStacks);
+            target.myPassiveManager.ModifyImmobilized(-target.myPassiveManager.immobilizedStacks);
         }
-        if (target.myPassiveManager.poison)
+        if (target.myPassiveManager.poisoned)
         {
             VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Poison Removed", false, "Blue");
             yield return new WaitForSeconds(0.2f);
-            target.myPassiveManager.ModifyPoison(-target.myPassiveManager.poisonStacks);
+            target.myPassiveManager.ModifyPoisoned(-target.myPassiveManager.poisonedStacks);
         }
         // remove vulnerable
         // remove weakened
@@ -1111,28 +1209,12 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability nightmare = caster.mySpellBook.GetAbilityByName("Nightmare");
         OnAbilityUsedStart(nightmare, caster);
-        target.myPassiveManager.ModifySleeping(nightmare.abilityPrimaryValue);
+        target.myPassiveManager.ModifySleep(nightmare.abilityPrimaryValue);
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;        
     }
 
-    // Move
-    public Action PerformMove(LivingEntity characterMoved, Tile destination)
-    {
-        Action action = new Action();
-        StartCoroutine(PerformMoveCoroutine(characterMoved, destination, action));
-        return action;
-    }
-    public IEnumerator PerformMoveCoroutine(LivingEntity characterMoved, Tile destination, Action action)
-    {
-        Ability move = characterMoved.mySpellBook.GetAbilityByName("Move");
-        OnAbilityUsedStart(move, characterMoved);
-        Action movementAction = MovementLogic.Instance.MoveEntity(characterMoved, destination);
-
-        yield return new WaitUntil(() => movementAction.ActionResolved() == true);
-        action.actionResolved = true;
-        characterMoved.myAnimator.SetTrigger("Idle");
-    }
+   
 
     // Dash
     public Action PerformDash(LivingEntity characterMoved, Tile destination)
@@ -1150,15 +1232,7 @@ public class AbilityLogic : MonoBehaviour
         Action dashAction = MovementLogic.Instance.MoveEntity(characterMoved, destination, 4);
         
         yield return new WaitUntil(() => dashAction.ActionResolved() == true);
-
-        if (characterMoved.defender)
-        {
-            if (characterMoved.defender.myCharacterData.KnowsImprovedDash)
-            {
-                characterMoved.myPassiveManager.ModifyTemporaryStrength(2);
-            }
-        }
-
+        
         characterMoved.myAnimator.SetTrigger("Idle");
         action.actionResolved = true;
 
@@ -1186,7 +1260,7 @@ public class AbilityLogic : MonoBehaviour
         Action abilityAction = CombatLogic.Instance.HandleDamage(charge.abilityPrimaryValue, attacker, victim, false, charge.abilityAttackType, charge.abilityDamageType);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         // Apply exposed
-        victim.myPassiveManager.ModifyExposed(charge.abilitySecondaryValue);
+        victim.myPassiveManager.ModifyVulnerable(charge.abilitySecondaryValue);
         attacker.myAnimator.SetTrigger("Idle");
         action.actionResolved = true;
                

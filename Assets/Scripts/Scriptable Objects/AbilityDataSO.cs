@@ -20,7 +20,7 @@ public class AbilityDataSO : ScriptableObject
     public string abilityName;
     public string description;    
     public int baseCooldownTime;    
-    public int apCost;
+    public int energyCost;
     public int range;
     public int primaryValue;
     public int secondaryValue;

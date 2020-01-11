@@ -74,6 +74,7 @@ public class LivingEntity : MonoBehaviour
     public int currentPoisonResistance;
     public int currentAirResistance;
     public ItemDataSO myMainHandWeapon;
+    public ItemDataSO myOffHandWeapon;
 
     [Header("Pathing + Location Related ")]
     public Tile tile;
@@ -172,6 +173,9 @@ public class LivingEntity : MonoBehaviour
         ModifyCurrentParryChance(baseParryChance);
         UpdateHealthGUIElements();
         SetColor(normalColour);
+
+        // remove this in future
+        ItemManager.Instance.AssignWeaponToCharacter(this, ItemLibrary.Instance.GetItemByName("Simple Sword"));
     }
     
     #endregion    
@@ -661,19 +665,19 @@ public class LivingEntity : MonoBehaviour
         Debug.Log("OnActivationEndCoroutine() called...");
 
         // Remove/apply relevant status effects and passives
-        if (myPassiveManager.exposed)
+        if (myPassiveManager.vulnerable)
         {
-            myPassiveManager.ModifyExposed(-1);
+            myPassiveManager.ModifyVulnerable(-1);
         }
 
-        if (myPassiveManager.exhausted)
+        if (myPassiveManager.weakened)
         {
-            myPassiveManager.ModifyExhausted(-1);
+            myPassiveManager.ModifyWeakened(-1);
         }
 
-        if (myPassiveManager.pinned)
+        if (myPassiveManager.immobilized)
         {
-            myPassiveManager.ModifyPinned(-myPassiveManager.pinnedStacks);
+            myPassiveManager.ModifyImmobilized(-myPassiveManager.immobilizedStacks);
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Pinned Removed", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
         }
@@ -685,13 +689,13 @@ public class LivingEntity : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
-        if (myPassiveManager.sleeping)
+        if (myPassiveManager.sleep)
         {
             Debug.Log("Removing sleep on turn end...");
-            myPassiveManager.ModifySleeping(-1);
+            myPassiveManager.ModifySleep(-1);
             yield return new WaitForSeconds(0.5f);
         }
-
+        /*
         if (myPassiveManager.temporaryStrength)
         {
             myPassiveManager.ModifyTemporaryStrength(-myPassiveManager.temporaryStrengthStacks);            
@@ -709,6 +713,7 @@ public class LivingEntity : MonoBehaviour
             myPassiveManager.ModifyTemporaryMobility(-myPassiveManager.temporaryMobilityStacks);
             yield return new WaitForSeconds(0.5f);
         }
+        */
 
         if (myPassiveManager.cautious)
         {
@@ -718,9 +723,9 @@ public class LivingEntity : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
-        if (myPassiveManager.encouragingPresence)
+        if (myPassiveManager.encouragingAura)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Encouraging Presence", false, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Encouraging Aura", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
 
             if (defender)
@@ -731,7 +736,7 @@ public class LivingEntity : MonoBehaviour
                     if (tilesInEncouragingPresenceRange.Contains(defender.tile))
                     {
                         Debug.Log("Character within range of Encouraging presence, granting bonus Energy...");
-                        defender.ModifyCurrentEnergy(myPassiveManager.encouragingPresenceStacks);
+                        defender.ModifyCurrentEnergy(myPassiveManager.encouragingAuraStacks);
                     }
                 }                
             }
@@ -743,7 +748,7 @@ public class LivingEntity : MonoBehaviour
                 {
                     if (tilesInEncouragingPresenceRange.Contains(enemy.tile))
                     {
-                        enemy.ModifyCurrentEnergy(myPassiveManager.encouragingPresenceStacks);
+                        enemy.ModifyCurrentEnergy(myPassiveManager.encouragingAuraStacks);
                     }
                 }
             }
@@ -784,9 +789,9 @@ public class LivingEntity : MonoBehaviour
             }
         }
 
-        if (myPassiveManager.hatefulPresence)
+        if (myPassiveManager.hatefulAura)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Hateful Presence", false, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Hateful Aura", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
 
             if (defender)
@@ -796,8 +801,8 @@ public class LivingEntity : MonoBehaviour
                 {
                     if (tilesInHatefulPresenceRange.Contains(defender.tile))
                     {
-                        Debug.Log("Character within range of Hateful Presence, granting bonus Strength...");
-                        defender.ModifyCurrentStrength(myPassiveManager.hatefulPresenceStacks);
+                        Debug.Log("Character within range of Hateful Aura, granting bonus Strength...");
+                        defender.ModifyCurrentStrength(myPassiveManager.hatefulAuraStacks);
                     }
                 }
             }
@@ -809,14 +814,14 @@ public class LivingEntity : MonoBehaviour
                 {
                     if (tilesInHatefulPresenceRange.Contains(enemy.tile))
                     {
-                        enemy.ModifyCurrentStrength(myPassiveManager.hatefulPresenceStacks);
+                        enemy.ModifyCurrentStrength(myPassiveManager.hatefulAuraStacks);
                     }
                 }
             }
         }
-        if (myPassiveManager.fieryPresence)
+        if (myPassiveManager.fieryAura)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fiery Presence", false, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fiery Aura", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
 
             List<Tile> tilesInFieryPresenceRange = LevelManager.Instance.GetTilesWithinRange(1, tile);
@@ -826,14 +831,14 @@ public class LivingEntity : MonoBehaviour
                 if(tilesInFieryPresenceRange.Contains(entity.tile) &&
                     CombatLogic.Instance.IsTargetFriendly(this, entity) == false)
                 {
-                    CombatLogic.Instance.HandleDamage(myPassiveManager.fieryPresenceStacks, this, entity, false, AbilityDataSO.AttackType.None, AbilityDataSO.DamageType.Magic);
+                    CombatLogic.Instance.HandleDamage(myPassiveManager.fieryAuraStacks, this, entity, false, AbilityDataSO.AttackType.None, AbilityDataSO.DamageType.Magic);
                 }
             }
             
         }
-        if (myPassiveManager.guardianPresence)
+        if (myPassiveManager.guardianAura)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Guardian Presence", false, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Guardian Aura", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
 
             List<Tile> tilesInGuardianPresenceRange = LevelManager.Instance.GetTilesWithinRange(1, tile);
@@ -843,15 +848,15 @@ public class LivingEntity : MonoBehaviour
                 if (tilesInGuardianPresenceRange.Contains(entity.tile) &&
                     CombatLogic.Instance.IsTargetFriendly(this, entity))
                 {
-                    entity.ModifyCurrentBlock(myPassiveManager.guardianPresenceStacks);
+                    entity.ModifyCurrentBlock(myPassiveManager.guardianAuraStacks);
                 }
             }
 
         }
 
-        if (myPassiveManager.unhygienic)
+        if (myPassiveManager.toxicAura)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Unhygienic", false, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Toxic Aura", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
             List<Tile> tilesInUnhygienicAuraRange = LevelManager.Instance.GetTilesWithinRange(1, tile);
             if (defender)
@@ -860,7 +865,7 @@ public class LivingEntity : MonoBehaviour
                 {
                     if (tilesInUnhygienicAuraRange.Contains(enemy.tile))
                     {
-                        enemy.myPassiveManager.ModifyPoison(myPassiveManager.unhygienicStacks,this);
+                        enemy.myPassiveManager.ModifyPoisoned(myPassiveManager.toxicAuraStacks,this);
                     }
                 }
             }
@@ -871,7 +876,7 @@ public class LivingEntity : MonoBehaviour
                 {
                     if (tilesInUnhygienicAuraRange.Contains(defender.tile))
                     {
-                        defender.myPassiveManager.ModifyPoison(myPassiveManager.unhygienicStacks, this);
+                        defender.myPassiveManager.ModifyPoisoned(myPassiveManager.toxicAuraStacks, this);
                     }
                 }
             }
@@ -886,9 +891,9 @@ public class LivingEntity : MonoBehaviour
 
         // Take damage from poison, bleed etc
 
-        if (myPassiveManager.poison)
+        if (myPassiveManager.poisoned)
         {
-            Action poisonDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.poisonStacks, this, this, false, AbilityDataSO.AttackType.None, AbilityDataSO.DamageType.Poison);
+            Action poisonDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.poisonedStacks, this, this, false, AbilityDataSO.AttackType.None, AbilityDataSO.DamageType.Poison);
             yield return new WaitUntil(() => poisonDamage.ActionResolved() == true);
             yield return new WaitForSeconds(0.5f);
         }

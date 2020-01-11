@@ -44,7 +44,7 @@ public class Talent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
             talentNameText.text = talentData.talentAbilityData.abilityName;
             talentDescriptionText.text = talentData.talentAbilityData.description;
             // to do: set ap/cd/range text active here, or place all of these on a panel, then enable the panel
-            talentAPText.text = talentData.talentAbilityData.apCost.ToString();
+            talentAPText.text = talentData.talentAbilityData.energyCost.ToString();
             talentRangeText.text = talentData.talentAbilityData.range.ToString();
             talentCDText.text = talentData.talentAbilityData.baseCooldownTime.ToString();
             talentImage.sprite = talentData.talentAbilityData.sprite;

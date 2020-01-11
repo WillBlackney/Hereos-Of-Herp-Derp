@@ -119,7 +119,7 @@ public static class EntityLogic
             {
                 int myPointScore = 1;
 
-                if (entityy.myPassiveManager.exposed)
+                if (entityy.myPassiveManager.vulnerable)
                 {
                     myPointScore += 1;
                 }
@@ -168,6 +168,22 @@ public static class EntityLogic
 
         return bestTarget;
     }
+    public static List<LivingEntity> GetAllEnemiesWithinRange(LivingEntity entityFrom, int range)
+    {
+        List<Tile> tilesInRange = LevelManager.Instance.GetTilesWithinRange(range, entityFrom.tile);
+        List<LivingEntity> enemiesInRange = new List<LivingEntity>();
+
+        foreach (LivingEntity livingEntity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if (tilesInRange.Contains(livingEntity.tile) && 
+                CombatLogic.Instance.IsTargetFriendly(entityFrom, livingEntity) == false)
+            {
+                enemiesInRange.Add(livingEntity);
+            }
+        }
+
+        return enemiesInRange;
+    }
     
     #endregion
 
@@ -175,7 +191,7 @@ public static class EntityLogic
     #region
     public static bool IsAbleToMove(LivingEntity entity)
     {
-        if(entity.myPassiveManager.pinned ||
+        if(entity.myPassiveManager.immobilized ||
             entity.currentMobility <= 0)
         {
             return false;
@@ -198,7 +214,7 @@ public static class EntityLogic
             return true;
         }
 
-        else if (entity.myPassiveManager.fleetFooted &&
+        else if (entity.myPassiveManager.flux &&
                 entity.moveActionsTakenThisActivation == 0 &&
                 ability.abilityName == "Move")
         {
@@ -214,7 +230,7 @@ public static class EntityLogic
     public static bool IsAbleToTakeActions(LivingEntity entity)
     {
         if (entity.myPassiveManager.stunned ||
-            entity.myPassiveManager.sleeping)
+            entity.myPassiveManager.sleep)
         {
             Debug.Log("Action failed. Unable to take actions while stunned or sleeping");
             return false;
@@ -315,7 +331,8 @@ public static class EntityLogic
     public static bool IsAbilityUseable(LivingEntity entity, Ability ability)
     {
         if(HasEnoughAP(entity, ability) &&
-            IsAbilityOffCooldown(ability))
+            IsAbilityOffCooldown(ability) &&
+            AbilityLogic.Instance.DoesAbilityMeetWeaponRequirements(entity, ability))
         {
             return true;
         }

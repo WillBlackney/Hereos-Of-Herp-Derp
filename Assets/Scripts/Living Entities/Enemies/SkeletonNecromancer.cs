@@ -16,7 +16,7 @@ public class SkeletonNecromancer : Enemy
         mySpellBook.EnemyLearnAbility("Blight");
 
         myPassiveManager.ModifyUndead();
-        myPassiveManager.ModifyUnhygienic(2);
+        myPassiveManager.ModifyToxicAura(2);
         
     }
 

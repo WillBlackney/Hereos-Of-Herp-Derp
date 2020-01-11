@@ -14,7 +14,7 @@ public class SkeletonArcher : Enemy
         mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Impaling Bolt");
         myPassiveManager.ModifyUndead();
-        myPassiveManager.ModifyFleetFooted(1);
+        myPassiveManager.ModifyFlux(1);
     }       
 
     public override IEnumerator StartMyActivationCoroutine()
@@ -127,7 +127,7 @@ public class SkeletonArcher : Enemy
         }
 
         // If we have no AP but can still make a free move, try to move towards a grass tile first
-        else if (myPassiveManager.fleetFooted &&
+        else if (myPassiveManager.flux &&
             moveActionsTakenThisActivation == 0 &&
             currentEnergy == 0 &&
             EntityLogic.IsAbleToMove(this) &&

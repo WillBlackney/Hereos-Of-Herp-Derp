@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemManager : Singleton<ItemManager>
 {
-   public string GetDamageTypeFromWeapon(ItemDataSO weapon)
+    public string GetDamageTypeFromWeapon(ItemDataSO weapon)
     {
         string damageTypeStringReturned = "None";
 
@@ -30,5 +30,10 @@ public class ItemManager : Singleton<ItemManager>
         }
 
         return damageTypeStringReturned;
+    }
+
+    public void AssignWeaponToCharacter(LivingEntity entity, ItemDataSO weapon)
+    {
+        entity.myMainHandWeapon = weapon;
     }
 }

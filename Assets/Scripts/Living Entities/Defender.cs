@@ -129,27 +129,24 @@ public class Defender : LivingEntity
         }
         if (myCharacterData.fleetFootedStacks > 0)
         {
-            myPassiveManager.ModifyFleetFooted(myCharacterData.fleetFootedStacks);
+            myPassiveManager.ModifyFlux(myCharacterData.fleetFootedStacks);
         }
         if (myCharacterData.encouragingPresenceStacks > 0)
         {
-            myPassiveManager.ModifyEncouragingPresence(myCharacterData.encouragingPresenceStacks);
+            myPassiveManager.ModifyEncouragingAura(myCharacterData.encouragingPresenceStacks);
         }
         if (myCharacterData.hatefulPresenceStacks > 0)
         {
-            myPassiveManager.ModifyHatefulPresence(myCharacterData.hatefulPresenceStacks);
+            myPassiveManager.ModifyHatefulAura(myCharacterData.hatefulPresenceStacks);
         }
         if (myCharacterData.fieryPresenceStacks > 0)
         {
-            myPassiveManager.ModifyFieryPresence(myCharacterData.fieryPresenceStacks);
+            myPassiveManager.ModifyFieryAura(myCharacterData.fieryPresenceStacks);
         }
-        if (myCharacterData.masterfulEntrapmentStacks > 0)
-        {
-            myPassiveManager.ModifyMasterfulEntrapment(myCharacterData.masterfulEntrapmentStacks);
-        }
+        
         if (myCharacterData.guardianPresenceStacks > 0)
         {
-            myPassiveManager.ModifyGuardianPresence(myCharacterData.guardianPresenceStacks);
+            myPassiveManager.ModifyGuardianAura(myCharacterData.guardianPresenceStacks);
         }
         if (myCharacterData.poisonousStacks > 0)
         {
@@ -161,7 +158,7 @@ public class Defender : LivingEntity
         }
         if (myCharacterData.adaptiveStacks > 0)
         {
-            myPassiveManager.ModifyAdaptive(myCharacterData.adaptiveStacks);
+            myPassiveManager.ModifyTenacious(myCharacterData.adaptiveStacks);
         }
         if (myCharacterData.startingEnergyBonus > 0)
         {
@@ -173,7 +170,7 @@ public class Defender : LivingEntity
         }
         if (myCharacterData.Unwavering)
         {
-            myPassiveManager.ModifyUnwavering();
+            myPassiveManager.ModifyUnwavering(1);
         }
         if (myCharacterData.poisonImmunity)
         {
@@ -195,11 +192,13 @@ public class Defender : LivingEntity
         {
             myPassiveManager.ModifyVenomous(1);
         }
+        /*
         if (myCharacterData.startingIntiativeBonus > 0)
         {
             baseInitiative += myCharacterData.startingIntiativeBonus;
             myPassiveManager.ModifyTemporaryInitiative(myCharacterData.startingIntiativeBonus);
         }
+        */
 
     }    
     public void RunSetupFromArtifactData()
@@ -427,9 +426,9 @@ public class Defender : LivingEntity
         {
             OnStrikeButtonClicked();
         }
-        else if (abilityName == "Block")
+        else if (abilityName == "Defend")
         {
-            OnBlockButtonClicked();
+            OnDefendButtonClicked();
             enableTileHover = false;
         }
         else if (abilityName == "Charge")
@@ -1036,7 +1035,7 @@ public class Defender : LivingEntity
        // OnAbilityUsed(electricalDischarge, this);
 
     }
-    public void OnBlockButtonClicked()
+    public void OnDefendButtonClicked()
     {
         Debug.Log("Block button clicked");
 
@@ -1044,7 +1043,7 @@ public class Defender : LivingEntity
 
         if (EntityLogic.IsAbilityUseable(this, block))
         {
-            AbilityLogic.Instance.PerformBlock(this);
+            AbilityLogic.Instance.PerformDefend(this);
         }
 
     }
