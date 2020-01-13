@@ -53,6 +53,9 @@ public class PassiveManager : MonoBehaviour
     public bool temporaryBonusDodge;
     public int temporaryBonusDodgeStacks;
 
+    public bool temporaryBonusTrueSight;
+    public int temporaryBonusTrueSightStacks;
+
     [Header("Damage Type Modifier Passives")]
     public bool fieryImbuement;
     public int fieryImbuementStacks;
@@ -799,7 +802,30 @@ public class PassiveManager : MonoBehaviour
     {
         
     }
+    public void ModifyTemporaryTrueSight(int stacks)
+    {
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary True Sight");
 
+        if (stacks > 0)
+        {
+            temporaryBonusTrueSightStacks += stacks;
+            if (temporaryBonusTrueSightStacks > 0)
+            {
+                temporaryBonusTrueSight = true;
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            temporaryBonusTrueSightStacks += stacks;
+            if (temporaryBonusTrueSightStacks <= 0)
+            {
+                temporaryBonusTrueSight = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
     public void ModifyTemporaryParryBonus(int stacks)
     {
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Parry");

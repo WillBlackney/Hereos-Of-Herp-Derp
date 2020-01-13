@@ -125,11 +125,7 @@ public class EnemyManager : Singleton<EnemyManager>
         else if (selectedDefender != null && selectedDefender.awaitingPoisonDartOrder == true)
         {
             selectedDefender.StartPoisonDartProcess(selectedEnemy);
-        }
-        else if (selectedDefender != null && selectedDefender.awaitingChemicalReactionOrder == true)
-        {
-            selectedDefender.StartChemicalReactionProcess(selectedEnemy);
-        }
+        }        
         else if (selectedDefender != null && selectedDefender.awaitingSmashOrder == true)
         {
             selectedDefender.StartSmashProcess(selectedEnemy);
@@ -141,6 +137,10 @@ public class EnemyManager : Singleton<EnemyManager>
         else if (selectedDefender != null && selectedDefender.awaitingPrimalBlastOrder == true)
         {
             selectedDefender.StartPrimalBlastProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingLightningBoltOrder == true)
+        {
+            selectedDefender.StartLightningBoltProcess(selectedEnemy);
         }
         else if (selectedDefender != null && selectedDefender.awaitingPhaseShiftOrder == true)
         {
@@ -166,6 +166,14 @@ public class EnemyManager : Singleton<EnemyManager>
         {
             selectedDefender.StartBlightProcess(selectedEnemy);
         }
+        else if (selectedDefender != null && selectedDefender.awaitingChemicalReactionOrder == true)
+        {
+            selectedDefender.StartChemicalReactionProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingDrainOrder == true)
+        {
+            selectedDefender.StartDrainProcess(selectedEnemy);
+        }
         else if (selectedDefender != null && selectedDefender.awaitingDevastatingBlowOrder == true)
         {
             selectedDefender.StartDevastatingBlowProcess(selectedEnemy);
@@ -173,6 +181,10 @@ public class EnemyManager : Singleton<EnemyManager>
         else if (selectedDefender != null && selectedDefender.awaitingToxicSlashOrder == true)
         {
             selectedDefender.StartToxicSlashProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingThunderStrikeOrder == true)
+        {
+            selectedDefender.StartThunderStrikeProcess(selectedEnemy);
         }
         else if (selectedDefender != null && selectedDefender.awaitingHexOrder == true)
         {

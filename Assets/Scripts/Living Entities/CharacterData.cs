@@ -246,9 +246,11 @@ public class CharacterData : MonoBehaviour
             KnowsStrike = true;
 
             KnowsBloodOffering = true;
-            KnowsToxicSlash = true;
-            KnowsNoxiousFumes = true;
-            KnowsNightmare = true;
+            KnowsLightningBolt = true;
+            KnowsThunderStrike = true;
+            KnowsConcealingClouds = true;
+            KnowsChainLightning = true;
+            KnowsSuperConductor = true;
 
 
             //talentTreeOne.InitializeSetup("Path of Rage");

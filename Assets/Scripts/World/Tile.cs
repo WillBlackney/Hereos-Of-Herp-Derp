@@ -140,6 +140,10 @@ public class Tile : MonoBehaviour
         {
             selectedDefender.StartBlindingLightProcess(this);
         }
+        else if (selectedDefender != null && selectedDefender.awaitingConcealingCloudsOrder == true)
+        {
+            selectedDefender.StartConcealingCloudsProcess(this);
+        }
         else if (selectedDefender != null && selectedDefender.awaitingRainOfChaosOrder == true)
         {
             selectedDefender.StartRainOfChaosProcess(this);
