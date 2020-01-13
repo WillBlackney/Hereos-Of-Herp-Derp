@@ -59,7 +59,7 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
     public void AddNewStatusIcon(StatusIconDataSO iconData, int stacksGained)
     {
-        Debug.Log("AddNewStatusProcess() called");
+        Debug.Log("StatusManager.AddNewStatusProcess() called");
         GameObject newIconGO = Instantiate(statusIconPrefab, gameObject.transform);
         StatusIcon newStatus = newIconGO.GetComponent<StatusIcon>();
         newStatus.InitializeSetup(iconData);
@@ -69,12 +69,13 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
     public void RemoveStatusIcon(StatusIcon iconToRemove)
     {
+        Debug.Log("StatusManager.RemoveStatusProcess() called");
         myStatusIcons.Remove(iconToRemove);
         Destroy(iconToRemove.gameObject);
     }
     public void UpdateStatusIcon(StatusIcon iconToUpdate, int stacksGainedOrLost)
     {
-        Debug.Log("UpdateStatusProcess() called");
+        Debug.Log("StatusManager.UpdateStatusProcess() called");
 
         iconToUpdate.ModifyStatusIconStacks(stacksGainedOrLost);
         if(iconToUpdate.statusStacks == 0)

@@ -34,6 +34,34 @@ public class EnemyManager : Singleton<EnemyManager>
         {
             selectedDefender.StartMeteorProcess(selectedEnemy.tile);
         }
+        else if (selectedDefender != null && selectedDefender.awaitingHeadShotOrder == true)
+        {
+            selectedDefender.StartHeadShotProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingRapidFireOrder == true)
+        {
+            selectedDefender.StartRapidFireProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingBlizzardOrder == true)
+        {
+            selectedDefender.StartBlizzardProcess(selectedEnemy.tile);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingToxicEruptionOrder == true)
+        {
+            selectedDefender.StartToxicEruptionProcess(selectedEnemy.tile);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingBlindingLightOrder == true)
+        {
+            selectedDefender.StartBlindingLightProcess(selectedEnemy.tile);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingRainOfChaosOrder == true)
+        {
+            selectedDefender.StartRainOfChaosProcess(selectedEnemy.tile);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingThunderStormOrder == true)
+        {
+            selectedDefender.StartThunderStormProcess(selectedEnemy.tile);
+        }
 
         else if (selectedDefender != null && selectedDefender.awaitingTelekinesisTargetOrder == true)
         {
@@ -42,24 +70,31 @@ public class EnemyManager : Singleton<EnemyManager>
         
         else if (selectedDefender != null && selectedDefender.awaitingFrostBoltOrder == true)
         {
-            selectedDefender.StartFrostBoltProcess();
+            selectedDefender.StartFrostBoltProcess(selectedEnemy);
         }
-
+        else if (selectedDefender != null && selectedDefender.awaitingThawOrder == true)
+        {
+            selectedDefender.StartThawProcess(selectedEnemy);
+        }
         else if (selectedDefender != null && selectedDefender.awaitingFireBallOrder == true)
         {
             selectedDefender.StartFireBallProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingDimensionalBlastOrder == true)
+        {
+            selectedDefender.StartDimensionalBlastProcess(selectedEnemy);
         }
         else if (selectedDefender != null && selectedDefender.awaitingShootOrder == true)
         {
             selectedDefender.StartShootProcess();
         }
-        else if (selectedDefender != null && selectedDefender.awaitingRapidFireOrder == true)
+        else if (selectedDefender != null && selectedDefender.awaitingSnipeOrder == true)
         {
-            selectedDefender.StartRapidFireProcess();
-        }
+            selectedDefender.StartSnipeProcess();
+        }        
         else if (selectedDefender != null && selectedDefender.awaitingImpalingBoltOrder == true)
         {
-            selectedDefender.StartImpalingBoltProcess();
+            selectedDefender.StartImpalingBoltProcess(selectedEnemy);
         }
 
         else if (selectedDefender != null && selectedDefender.awaitingHolyFireOrder == true)
@@ -111,6 +146,10 @@ public class EnemyManager : Singleton<EnemyManager>
         {
             selectedDefender.StartPhaseShiftProcess(selectedEnemy);
         }
+        else if (selectedDefender != null && selectedDefender.awaitingDimensionalHexOrder == true)
+        {
+            selectedDefender.StartDimensionalHexProcess(selectedEnemy);
+        }
         else if (selectedDefender != null && selectedDefender.awaitingSiphonLifeOrder == true)
         {
             selectedDefender.StartSiphonLifeProcess(selectedEnemy);
@@ -118,6 +157,50 @@ public class EnemyManager : Singleton<EnemyManager>
         else if (selectedDefender != null && selectedDefender.awaitingChaosBoltOrder == true)
         {
             selectedDefender.StartChaosBoltProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingKickToTheBallsOrder == true)
+        {
+            selectedDefender.StartKickToTheBallsProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingBlightOrder == true)
+        {
+            selectedDefender.StartBlightProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingDevastatingBlowOrder == true)
+        {
+            selectedDefender.StartDevastatingBlowProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingToxicSlashOrder == true)
+        {
+            selectedDefender.StartToxicSlashProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingHexOrder == true)
+        {
+            selectedDefender.StartHexProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingJudgementOrder == true)
+        {
+            selectedDefender.StartJudgementProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingShieldSlamOrder == true)
+        {
+            selectedDefender.StartShieldSlamProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingTendonSlashOrder == true)
+        {
+            selectedDefender.StartTendonSlashProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingChillingBlowOrder == true)
+        {
+            selectedDefender.StartChillingBlowProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingShieldShatterOrder == true)
+        {
+            selectedDefender.StartShieldShatterProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingSwordAndBoardOrder == true)
+        {
+            selectedDefender.StartSwordAndBoardProcess(selectedEnemy);
         }
     }
     #endregion

@@ -135,6 +135,17 @@ public class LevelManager : Singleton<LevelManager>
             return false;
         }
     }
+    public bool IsTileYWithinRangeOfTileX(Tile tileX, Tile tileY, int range)
+    {
+        bool boolReturned = false;
+        List<Tile> tilesWithinRange = GetTilesWithinRange(range, tileX);
+
+        if (tilesWithinRange.Contains(tileY))
+        {
+            boolReturned = true;
+        }
+        return boolReturned;
+    }
     public bool IsDestinationTileToTheRight(Tile tileFrom, Tile destination)
     {
         if (tileFrom.GridPosition.X < destination.GridPosition.X)
@@ -251,7 +262,7 @@ public class LevelManager : Singleton<LevelManager>
         return finalList;
         
     }
-    public List<Tile> GetValidMoveableTilesWithinRange(int range, Tile tileFrom)
+    public List<Tile> GetValidMoveableTilesWithinRange(int range, Tile tileFrom, bool ignorePathing = false)
     {
         // iterate through every tile, and add those within range to the temp list
         List<Tile> allTiles = GetAllTilesFromCurrentLevelDictionary();
@@ -295,17 +306,24 @@ public class LevelManager : Singleton<LevelManager>
         allTilesWithinRange.Remove(tileFrom);
 
         // fourth, draw a path to each tile in the list, filtering the ones within mobility range
-        foreach (Tile tile in allTilesWithinRange)
+        if(ignorePathing == false)
         {
-            Stack<Node> path = AStar.GetPath(tileFrom.GridPosition, tile.GridPosition);
-            if (path.Count <= range)
+            foreach (Tile tile in allTilesWithinRange)
             {
-                allTilesWithinMobilityRange.Add(tile);
+                Stack<Node> path = AStar.GetPath(tileFrom.GridPosition, tile.GridPosition);
+                if (path.Count <= range)
+                {
+                    allTilesWithinMobilityRange.Add(tile);
+                }
             }
+
+            return allTilesWithinMobilityRange;
         }
 
-        //Debug.Log("Tiles within range: " + allTilesWithinRange.Count);
-        return allTilesWithinMobilityRange;
+        else
+        {
+            return allTilesWithinRange;
+        }
     }   
     public List<Tile> GetEnemySpawnTiles()
     {

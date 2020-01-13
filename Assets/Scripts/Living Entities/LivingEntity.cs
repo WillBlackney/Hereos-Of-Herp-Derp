@@ -176,6 +176,7 @@ public class LivingEntity : MonoBehaviour
 
         // remove this in future
         ItemManager.Instance.AssignWeaponToCharacter(this, ItemLibrary.Instance.GetItemByName("Simple Sword"));
+        ItemManager.Instance.AssignShieldToCharacter(this, ItemLibrary.Instance.GetItemByName("Simple Shield"));
     }
     
     #endregion    
@@ -244,7 +245,7 @@ public class LivingEntity : MonoBehaviour
             (currentStrength == 0 && (previousStrength > 0 || previousStrength < 0))
             )
         {
-            myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Strength"), strengthGainedOrLost);
+            myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Bonus Strength"), strengthGainedOrLost);
         }
         
        
@@ -270,7 +271,7 @@ public class LivingEntity : MonoBehaviour
             (currentWisdom == 0 && (previousWisdom > 0 || previousWisdom < 0))
             )
         {
-            myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Wisdom"), wisdomGainedOrLost);
+            myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Bonus Wisdom"), wisdomGainedOrLost);
         }
 
 
@@ -419,13 +420,29 @@ public class LivingEntity : MonoBehaviour
     {
         currentPhysicalResistance += physicalResistanceGainedOrLost;
     }
-    public void OnNewTurnCycleStarted()
+    public Action OnNewTurnCycleStarted()
+    {
+        Action action = new Action();
+        StartCoroutine(OnNewTurnCycleStartedCoroutine(action));
+        return action;
+    }
+
+    public IEnumerator OnNewTurnCycleStartedCoroutine(Action action)
     {
         timesAttackedThisTurnCycle = 0;
         hasActivatedThisTurn = false;
+
+        // Remove Temporary Parry 
+        if (myPassiveManager.temporaryBonusParry)
+        {
+            myPassiveManager.ModifyTemporaryParryBonus(myPassiveManager.temporaryBonusParryStacks);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        action.actionResolved = true;
     }
     #endregion
-    
+
     // Damage + Death related and events and VFX
     #region
     public IEnumerator HandleDeath()

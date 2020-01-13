@@ -29,9 +29,9 @@ public class AbilityLibrary : MonoBehaviour
             }
         }
 
-        if(abilityReturned == null)
+        if (abilityReturned == null)
         {
-            Debug.Log("AbilityLibrary.GetAbilityByName() couldn't find a matching ability, returning null...");
+            Debug.Log("AbilityLibrary.GetAbilityByName() couldn't find an ability called '" + name + "', returning null...");
         }
 
         return abilityReturned;

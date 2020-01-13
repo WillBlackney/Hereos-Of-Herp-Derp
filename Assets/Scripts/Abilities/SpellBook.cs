@@ -65,6 +65,78 @@ public class SpellBook : MonoBehaviour
     public bool KnowsChaosBolt;
     public bool KnowsFrostNova;
     public bool KnowsEmpowerBinding;
+
+    public bool KnowsDevastatingBlow;
+    public bool KnowsKickToTheBalls;
+    public bool KnowsBladeFlurry;
+    public bool KnowsRecklessness;
+    public bool KnowsTendonSlash;
+    public bool KnowsShieldShatter;
+    public bool KnowsEvasion;
+    public bool KnowsDecapitate;
+    public bool KnowsVanish;
+    public bool KnowsCheapShot;
+    public bool KnowsShank;
+    public bool KnowsShadowStep;
+    public bool KnowsAmbush;
+    public bool KnowsStalk;
+    public bool KnowsSharpenBlade;
+    public bool KnowsProvoke;
+    public bool KnowsSwordAndBoard;
+    public bool KnowsShieldSlam;
+    public bool KnowsTestudo;
+    public bool KnowsReactiveArmour;
+    public bool KnowsChallengingShout;
+    public bool KnowsFireNova;
+    public bool KnowsPhoenixDive;
+    public bool KnowsBlaze;
+    public bool KnowsCombustion;
+    public bool KnowsDragonBreath;
+    public bool KnowsChillingBlow;
+    public bool KnowsIcyFocus;
+    public bool KnowsBlizzard;
+    public bool KnowsFrostArmour;
+    public bool KnowsGlacialBurst;
+    public bool KnowsCreepingFrost;
+    public bool KnowsThaw;
+    public bool KnowsHaste;
+    public bool KnowsSteadyHands;
+    public bool KnowsHeadShot;
+    public bool KnowsTreeLeap;
+    public bool KnowsConcentration;
+    public bool KnowsOverwatch;
+    public bool KnowsDimenisonalBlast;
+    public bool KnowsMirage;
+    public bool KnowsBurstOfKnowledge;
+    public bool KnowsBlink;
+    public bool KnowsInfuse;
+    public bool KnowsTimeWarp;
+    public bool KnowsDimensionalHex;
+    public bool KnowsConsecrate;
+    public bool KnowsPurity;
+    public bool KnowsBlindingLight;
+    public bool KnowsTranscendence;
+    public bool KnowsJudgement;
+    public bool KnowsShroud;
+    public bool KnowsHex;
+    public bool KnowsRainOfChaos;
+    public bool KnowsShadowWreath;
+    public bool KnowsUnbridledChaos;
+    public bool KnowsBlight;
+    public bool KnowsBloodOffering;
+    public bool KnowsToxicSlash;
+    public bool KnowsNoxiousFumes;
+    public bool KnowsToxicEruption;
+    public bool KnowsDrain;
+    public bool KnowsSpiritSurge;
+    public bool KnowsLightningBolt;
+    public bool KnowsThunderStrike;
+    public bool KnowsSpiritVision;
+    public bool KnowsThunderStorm;
+    public bool KnowsPressurize;
+    public bool KnowsConcealingClouds;
+    public bool KnowsSuperConductor;
+    public bool KnowsSnipe;
     #endregion
 
     // Initialization + Setup
@@ -92,9 +164,9 @@ public class SpellBook : MonoBehaviour
             LearnStrike();
         }
 
-        if (cd.KnowsBlock == true)
+        if (cd.KnowsDefend == true)
         {
-            LearnBlock();
+            LearnDefend();
         }
 
         if (cd.KnowsCharge == true)
@@ -105,6 +177,10 @@ public class SpellBook : MonoBehaviour
         if (cd.KnowsGuard == true)
         {
             LearnGuard();
+        }
+        if (cd.KnowsSnipe == true)
+        {
+            LearnSnipe();
         }
 
         if (cd.KnowsInspire == true)
@@ -256,6 +332,290 @@ public class SpellBook : MonoBehaviour
         {
             LearnChaosBolt();
         }
+
+        // new abilities
+        if (cd.KnowsDevastatingBlow == true)
+        {
+            LearnDevastatingBlow();
+        }
+        if (cd.KnowsKickToTheBalls == true)
+        {
+            LearnKickToTheBalls();
+        }
+        if (cd.KnowsBladeFlurry == true)
+        {
+            LearnBladeFlurry();
+        }
+        if (cd.KnowsRecklessness == true)
+        {
+            LearnRecklessness();
+        }
+        if (cd.KnowsTendonSlash == true)
+        {
+            LearnTendonSlash();
+        }
+        if (cd.KnowsShieldShatter == true)
+        {
+            LearnShieldShatter();
+        }
+        if (cd.KnowsEvasion == true)
+        {
+            LearnEvasion();
+        }
+        if (cd.KnowsDecapitate == true)
+        {
+            LearnDecapitate();
+        }
+        if (cd.KnowsVanish == true)
+        {
+            LearnVanish();
+        }
+        if (cd.KnowsCheapShot == true)
+        {
+            LearnCheapShot();
+        }
+        if (cd.KnowsShank == true)
+        {
+            LearnShank();
+        }
+        if (cd.KnowsShadowStep == true)
+        {
+            LearnShadowStep();
+        }
+        if (cd.KnowsAmbush == true)
+        {
+            LearnAmbush();
+        }
+        if (cd.KnowsStalk == true)
+        {
+            LearnStalk();
+        }
+        if (cd.KnowsSharpenBlade == true)
+        {
+            LearnSharpenBlade();
+        }
+        if (cd.KnowsProvoke == true)
+        {
+            LearnProvoke();
+        }
+        if (cd.KnowsSwordAndBoard == true)
+        {
+            LearnSwordAndBoard();
+        }
+        if (cd.KnowsShieldSlam == true)
+        {
+            LearnShieldSlam();
+        }
+        if (cd.KnowsTestudo == true)
+        {
+            LearnTestudo();
+        }
+        if (cd.KnowsReactiveArmour == true)
+        {
+            LearnReactiveArmour();
+        }
+        if (cd.KnowsChallengingShout == true)
+        {
+            LearnChallengingShout();
+        }
+        if (cd.KnowsFireNova == true)
+        {
+            LearnFireNova();
+        }
+        if (cd.KnowsPhoenixDive == true)
+        {
+            LearnPhoenixDive();
+        }
+        if (cd.KnowsBlaze == true)
+        {
+            LearnBlaze();
+        }
+        if (cd.KnowsCombustion == true)
+        {
+            LearnCombustion();
+        }
+        if (cd.KnowsDragonBreath == true)
+        {
+            LearnDragonBreath();
+        }
+        if (cd.KnowsChillingBlow == true)
+        {
+            LearnChillingBlow();
+        }
+        if (cd.KnowsIcyFocus == true)
+        {
+            LearnIcyFocus();
+        }
+        if (cd.KnowsBlizzard == true)
+        {
+            LearnBlizzard();
+        }
+        if (cd.KnowsFrostArmour == true)
+        {
+            LearnFrostArmour();
+        }
+        if (cd.KnowsGlacialBurst == true)
+        {
+            LearnGlacialBurst();
+        }
+        if (cd.KnowsCreepingFrost == true)
+        {
+            LearnCreepingFrost();
+        }
+        if (cd.KnowsThaw == true)
+        {
+            LearnThaw();
+        }
+        if (cd.KnowsHaste == true)
+        {
+            LearnHaste();
+        }
+        if (cd.KnowsSteadyHands == true)
+        {
+            LearnSteadyHands();
+        }
+        if (cd.KnowsHeadShot == true)
+        {
+            LearnHeadShot();
+        }
+        if (cd.KnowsTreeLeap == true)
+        {
+            LearnTreeLeap();
+        }
+        if (cd.KnowsConcentration == true)
+        {
+            LearnConcentration();
+        }
+        if (cd.KnowsOverwatch == true)
+        {
+            LearnOverwatch();
+        }
+        if (cd.KnowsDimenisonalBlast == true)
+        {
+            LearnDimenisonalBlast();
+        }
+        if (cd.KnowsMirage == true)
+        {
+            LearnMirage();
+        }
+        if (cd.KnowsBurstOfKnowledge == true)
+        {
+            LearnBurstOfKnowledge();
+        }
+        if (cd.KnowsBlink == true)
+        {
+            LearnBlink();
+        }
+        if (cd.KnowsInfuse == true)
+        {
+            LearnInfuse();
+        }
+        if (cd.KnowsTimeWarp == true)
+        {
+            LearnTimeWarp();
+        }
+        if (cd.KnowsDimensionalHex == true)
+        {
+            LearnDimensionalHex();
+        }
+        if (cd.KnowsConsecrate == true)
+        {
+            LearnConsecrate();
+        }
+        if (cd.KnowsPurity == true)
+        {
+            LearnPurity();
+        }
+        if (cd.KnowsBlindingLight == true)
+        {
+            LearnBlindingLight();
+        }
+        if (cd.KnowsTranscendence == true)
+        {
+            LearnTranscendence();
+        }
+        if (cd.KnowsJudgement == true)
+        {
+            LearnJudgement();
+        }
+        if (cd.KnowsShroud == true)
+        {
+            LearnShroud();
+        }
+        if (cd.KnowsHex == true)
+        {
+            LearnHex();
+        }
+        if (cd.KnowsRainOfChaos == true)
+        {
+            LearnRainOfChaos();
+        }
+        if (cd.KnowsShadowWreath == true)
+        {
+            LearnShadowWreath();
+        }
+        if (cd.KnowsUnbridledChaos == true)
+        {
+            LearnUnbridledChaos();
+        }
+        if (cd.KnowsBlight == true)
+        {
+            LearnBlight();
+        }
+        if (cd.KnowsBloodOffering == true)
+        {
+            LearnBloodOffering();
+        }
+        if (cd.KnowsToxicSlash == true)
+        {
+            LearnToxicSlash();
+        }
+        if (cd.KnowsNoxiousFumes == true)
+        {
+            LearnNoxiousFumes();
+        }
+        if (cd.KnowsToxicEruption == true)
+        {
+            LearnToxicEruption();
+        }
+        if (cd.KnowsDrain == true)
+        {
+            LearnDrain();
+        }
+        if (cd.KnowsSpiritSurge == true)
+        {
+            LearnSpiritSurge();
+        }
+        if (cd.KnowsLightningBolt == true)
+        {
+            LearnLightningBolt();
+        }
+        if (cd.KnowsThunderStrike == true)
+        {
+            LearnThunderStrike();
+        }
+        if (cd.KnowsSpiritVision == true)
+        {
+            LearnSpiritVision();
+        }
+        if (cd.KnowsThunderStorm == true)
+        {
+            LearnThunderStorm();
+        }
+        if (cd.KnowsPressurize == true)
+        {
+            LearnPressurize();
+        }
+        if (cd.KnowsConcealingClouds == true)
+        {
+            LearnConcealingClouds();
+        }
+        if (cd.KnowsSuperConductor == true)
+        {
+            LearnSuperConductor();
+        }
+
+
     }
     public void PlaceAbilityOnNextAvailableSlot(Ability ability)
     {
@@ -393,7 +753,7 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-    public void LearnBlock()
+    public void LearnDefend()
     {
         KnowsBlock = true;
         Enemy enemy = myLivingEntity.GetComponent<Enemy>();
@@ -401,12 +761,12 @@ public class SpellBook : MonoBehaviour
 
         if (defender)
         {
-            DefenderLearnAbility("Block");
+            DefenderLearnAbility("Defend");
         }
 
         else if (enemy)
         {
-            EnemyLearnAbility("Block");
+            EnemyLearnAbility("Defend");
         }
 
     }
@@ -460,6 +820,23 @@ public class SpellBook : MonoBehaviour
         else if (enemy)
         {
             EnemyLearnAbility("Guard");
+        }
+
+    }
+    public void LearnSnipe()
+    {
+        KnowsSnipe = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Snipe");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Snipe");
         }
 
     }
@@ -585,7 +962,6 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-
     public void LearnImpalingBolt()
     {
         KnowsImpalingBolt = true;
@@ -602,7 +978,6 @@ public class SpellBook : MonoBehaviour
             EnemyLearnAbility("Impaling Bolt");
         }
     }
-
     public void LearnForestMedicine()
     {
         KnowsForestMedicine = true;
@@ -620,7 +995,6 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-
     public void LearnWhirlwind()
     {
         KnowsWhirlwind = true;
@@ -655,7 +1029,6 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-
     public void LearnHolyFire()
     {
         KnowsHolyFire = true;
@@ -673,7 +1046,6 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-
     public void LearnVoidBomb()
     {
         KnowsVoidBomb = true;
@@ -708,7 +1080,6 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-
     public void LearnTwinStrike()
     {
         KnowsTwinStrike = true;
@@ -726,7 +1097,6 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-
     public void LearnDash()
     {
         KnowsDash = true;
@@ -744,7 +1114,6 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-
     public void LearnPreparation()
     {
         KnowsPreparation = true;
@@ -762,7 +1131,6 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-
     public void LearnHealingLight()
     {
         KnowsHealingLight = true;
@@ -797,7 +1165,6 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-
     public void LearnPoisonDart()
     {
         KnowsPoisonDart = true;
@@ -849,7 +1216,6 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-
     public void LearnGetDown()
     {
         KnowsGetDown = true;
@@ -867,7 +1233,6 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-
     public void LearnSmash()
     {
         KnowsSmash = true;
@@ -885,7 +1250,6 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-
     public void LearnLightningShield()
     {
         KnowsLightningShield = true;
@@ -903,7 +1267,6 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-
     public void LearnElectricalDischarge()
     {
         KnowsElectricalDischarge = true;
@@ -921,7 +1284,6 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-
     public void LearnChainLightning()
     {
         KnowsChainLightning = true;
@@ -956,7 +1318,6 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-
     public void LearnPrimalRage()
     {
         KnowsPrimalRage = true;
@@ -1090,6 +1451,1199 @@ public class SpellBook : MonoBehaviour
         else if (enemy)
         {
             EnemyLearnAbility("Empower Binding");
+        }
+
+    }
+
+    // New Abilities
+    public void LearnDevastatingBlow()
+    {
+        KnowsDevastatingBlow = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Devastating Blow");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Devastating Blow");
+        }
+
+    }
+    public void LearnKickToTheBalls()
+    {
+        KnowsKickToTheBalls = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Kick To The Balls");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Kick To The Balls");
+        }
+
+    }
+    public void LearnBladeFlurry()
+    {
+        KnowsBladeFlurry = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Blade Flurry");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Blade Flurry");
+        }
+
+    }
+    public void LearnRecklessness()
+    {
+        KnowsRecklessness = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Recklessness");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Recklessness");
+        }
+
+    }
+    public void LearnTendonSlash()
+    {
+        KnowsTendonSlash = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Tendon Slash");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Tendon Slash");
+        }
+
+    }
+    public void LearnShieldShatter()
+    {
+        KnowsShieldShatter = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Shield Shatter");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Shield Shatter");
+        }
+
+    }
+    public void LearnEvasion()
+    {
+        KnowsEvasion = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Evasion");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Evasion");
+        }
+
+    }
+    public void LearnDecapitate()
+    {
+        KnowsDecapitate = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Decapitate");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Decapitate");
+        }
+
+    }
+    public void LearnVanish()
+    {
+        KnowsVanish = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Vanish");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Vanish");
+        }
+
+    }
+    public void LearnCheapShot()
+    {
+        KnowsCheapShot = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Cheap Shot");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Cheap Shot");
+        }
+
+    }
+    public void LearnShank()
+    {
+        KnowsShank = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Shank");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Shank");
+        }
+
+    }
+    public void LearnShadowStep()
+    {
+        KnowsShadowStep = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Shadow Step");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Shadow Step");
+        }
+
+    }
+    public void LearnAmbush()
+    {
+        KnowsAmbush = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Ambush");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Ambush");
+        }
+
+    }
+    public void LearnStalk()
+    {
+        KnowsStalk = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Stalk");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Stalk");
+        }
+
+    }
+    public void LearnSharpenBlade()
+    {
+        KnowsSharpenBlade = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Sharpen Blade");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Sharpen Blade");
+        }
+
+    }
+    public void LearnProvoke()
+    {
+        KnowsProvoke = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Provoke");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Provoke");
+        }
+
+    }
+    public void LearnSwordAndBoard()
+    {
+        KnowsSwordAndBoard = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Sword And Board");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Sword And Board");
+        }
+
+    }
+    public void LearnShieldSlam()
+    {
+        KnowsShieldSlam = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Shield Slam");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Shield Slam");
+        }
+
+    }
+    public void LearnTestudo()
+    {
+        KnowsTestudo = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Testudo");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Testudo");
+        }
+
+    }
+    public void LearnReactiveArmour()
+    {
+        KnowsReactiveArmour = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Reactive Armour");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Reactive Armour");
+        }
+
+    }
+    public void LearnChallengingShout()
+    {
+        KnowsChallengingShout = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Challenging Shout");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Challenging Shout");
+        }
+
+    }
+    public void LearnFireNova()
+    {
+        KnowsFireNova = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Fire Nova");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Fire Nova");
+        }
+
+    }
+    public void LearnPhoenixDive()
+    {
+        KnowsPhoenixDive = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Phoenix Dive");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Phoenix Dive");
+        }
+
+    }
+    public void LearnBlaze()
+    {
+        KnowsBlaze = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Blaze");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Blaze");
+        }
+
+    }
+    public void LearnCombustion()
+    {
+        KnowsCombustion = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Combustion");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Combustion");
+        }
+
+    }
+    public void LearnDragonBreath()
+    {
+        KnowsDragonBreath = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Dragon Breath");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Dragon Breath");
+        }
+
+    }
+    public void LearnChillingBlow()
+    {
+        KnowsChillingBlow = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Chilling Blow");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Chilling Blow");
+        }
+
+    }
+    public void LearnIcyFocus()
+    {
+        KnowsIcyFocus = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Icy Focus");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Icy Focus");
+        }
+
+    }
+    public void LearnBlizzard()
+    {
+        KnowsBlizzard = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Blizzard");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Blizzard");
+        }
+
+    }
+    public void LearnFrostArmour()
+    {
+        KnowsFrostArmour = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Frost Armour");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Frost Armour");
+        }
+
+    }
+    public void LearnGlacialBurst()
+    {
+        KnowsGlacialBurst = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Glacial Burst");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Glacial Burst");
+        }
+
+    }
+    public void LearnCreepingFrost()
+    {
+        KnowsCreepingFrost = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Creeping Frost");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Creeping Frost");
+        }
+
+    }
+    public void LearnThaw()
+    {
+        KnowsThaw = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Thaw");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Thaw");
+        }
+
+    }
+    public void LearnHaste()
+    {
+        KnowsHaste = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Haste");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Haste");
+        }
+
+    }
+    public void LearnSteadyHands()
+    {
+        KnowsSteadyHands = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Steady Hands");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Steady Hands");
+        }
+
+    }
+    
+    public void LearnHeadShot()
+    {
+        KnowsHeadShot = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Head Shot");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Head Shot");
+        }
+
+    }
+    public void LearnTreeLeap()
+    {
+        KnowsTreeLeap = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Tree Leap");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Tree Leap");
+        }
+
+    }
+    public void LearnConcentration()
+    {
+        KnowsConcentration = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Concentration");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Concentration");
+        }
+
+    }
+    public void LearnOverwatch()
+    {
+        KnowsOverwatch = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Overwatch");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Overwatch");
+        }
+
+    }
+    public void LearnDimenisonalBlast()
+    {
+        KnowsDimenisonalBlast = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Dimensional Blast");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Dimensional Blast");
+        }
+
+    }
+    public void LearnMirage()
+    {
+        KnowsMirage = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Mirage");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Mirage");
+        }
+
+    }
+    public void LearnBurstOfKnowledge()
+    {
+        KnowsBurstOfKnowledge = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Burst Of Knowledge");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Burst Of Knowledge");
+        }
+
+    }
+    public void LearnBlink()
+    {
+        KnowsBlink = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Blink");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Blink");
+        }
+
+    }
+    public void LearnInfuse()
+    {
+        KnowsInfuse = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Infuse");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Infuse");
+        }
+
+    }
+    public void LearnTimeWarp()
+    {
+        KnowsTimeWarp = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Time Warp");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Time Warp");
+        }
+
+    }
+    public void LearnDimensionalHex()
+    {
+        KnowsDimensionalHex = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Dimensional Hex");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Dimensional Hex");
+        }
+
+    }
+    public void LearnConsecrate()
+    {
+        KnowsConsecrate = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Consecrate");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Consecrate");
+        }
+
+    }
+    public void LearnPurity()
+    {
+        KnowsPurity = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Purity");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Purity");
+        }
+
+    }
+    public void LearnBlindingLight()
+    {
+        KnowsBlindingLight = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Blinding Light");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Blinding Light");
+        }
+
+    }
+    public void LearnTranscendence()
+    {
+        KnowsTranscendence = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Transcendence");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Transcendence");
+        }
+
+    }
+    public void LearnJudgement()
+    {
+        KnowsJudgement = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Judgement");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Judgement");
+        }
+
+    }
+    public void LearnShroud()
+    {
+        KnowsShroud = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Shroud");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Shroud");
+        }
+
+    }
+    public void LearnHex()
+    {
+        KnowsHex = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Hex");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Hex");
+        }
+
+    }
+    public void LearnRainOfChaos()
+    {
+        KnowsRainOfChaos = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Rain Of Chaos");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Rain Of Chaos");
+        }
+
+    }
+    public void LearnShadowWreath()
+    {
+        KnowsShadowWreath = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Shadow Wreath");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Shadow Wreath");
+        }
+
+    }
+    public void LearnUnbridledChaos()
+    {
+        KnowsUnbridledChaos = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Unbridled Chaos");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Unbridled Chaos");
+        }
+
+    }
+    public void LearnBlight()
+    {
+        KnowsBlight = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Blight");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Blight");
+        }
+
+    }
+    public void LearnBloodOffering()
+    {
+        KnowsBloodOffering = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Blood Offering");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Blood Offering");
+        }
+
+    }
+    public void LearnToxicSlash()
+    {
+        KnowsToxicSlash = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Toxic Slash");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Toxic Slash");
+        }
+
+    }
+    public void LearnNoxiousFumes()
+    {
+        KnowsNoxiousFumes = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Noxious Fumes");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Noxious Fumes");
+        }
+
+    }
+    public void LearnToxicEruption()
+    {
+        KnowsToxicEruption = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Toxic Eruption");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Toxic Eruption");
+        }
+
+    }
+    public void LearnDrain()
+    {
+        KnowsDrain = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Drain");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Drain");
+        }
+
+    }
+    public void LearnSpiritSurge()
+    {
+        KnowsSpiritSurge = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Spirit Surge");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Spirit Surge");
+        }
+
+    }
+    public void LearnLightningBolt()
+    {
+        KnowsLightningBolt = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Lightning Bolt");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Lightning Bolt");
+        }
+
+    }
+    public void LearnThunderStrike()
+    {
+        KnowsThunderStrike = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Thunder Strike");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Thunder Strike");
+        }
+
+    }
+    public void LearnSpiritVision()
+    {
+        KnowsSpiritVision = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Spirit Vision");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Spirit Vision");
+        }
+
+    }
+    public void LearnThunderStorm()
+    {
+        KnowsThunderStorm = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Thunder Storm");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Thunder Storm");
+        }
+
+    }
+    public void LearnPressurize()
+    {
+        KnowsPressurize = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Pressurize");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Pressurize");
+        }
+
+    }
+    public void LearnConcealingClouds()
+    {
+        KnowsConcealingClouds = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Concealing Clouds");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Concealing Clouds");
+        }
+
+    }
+    public void LearnSuperConductor()
+    {
+        KnowsSuperConductor = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Super Conductor");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Super Conductor");
         }
 
     }

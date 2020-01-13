@@ -62,7 +62,53 @@ public class Defender : LivingEntity
     public bool awaitingSiphonLifeOrder;
     public bool awaitingChaosBoltOrder;
 
-    [Header("Ability Orders")]
+    public bool awaitingKickToTheBallsOrder;
+    public bool awaitingDevastatingBlowOrder;
+    public bool awaitingBladeFlurryOrder;
+    public bool awaitingEvasionOrder;
+    public bool awaitingShieldSlamOrder;
+    public bool awaitingTendonSlashOrder;
+    public bool awaitingShieldShatterOrder;
+    public bool awaitingSwordAndBoardOrder;
+    public bool awaitingPhoenixDiveOrder;
+    public bool awaitingChillingBlowOrder;
+    public bool awaitingIcyFocusOrder;
+    public bool awaitingCombustionOrder;
+    public bool awaitingDragonBreathOrder;
+    public bool awaitingBlizzardOrder;
+    public bool awaitingFrostArmourOrder;
+    public bool awaitingThawOrder;
+    public bool awaitingSnipeOrder;
+    public bool awaitingHasteOrder;
+    public bool awaitingSteadyHandsOrder;
+    public bool awaitingTreeLeapOrder;
+    public bool awaitingDimensionalBlastOrder;
+    public bool awaitingMirageOrder;
+    public bool awaitingBurstOfKnowledgeOrder;
+    public bool awaitingBlinkOrder;
+    public bool awaitingTimeWarpOrder;
+    public bool awaitingDimensionalHexOrder;
+    public bool awaitingBlindingLightOrder;
+    public bool awaitingTranscendenceOrder;
+    public bool awaitingJudgementOrder;
+    public bool awaitingShroudOrder;
+    public bool awaitingRainOfChaosOrder;
+    public bool awaitingBlightOrder;
+    public bool awaitingToxicSlashOrder;
+    public bool awaitingToxicEruptionOrder;
+    public bool awaitingDrainOrder;
+    public bool awaitingSpiritSurge;
+    public bool awaitingLightningBoltOrder;
+    public bool awaitingThunderStrikeOrder;
+    public bool awaitingSpiritVisionOrder;
+    public bool awaitingThunderStormOrder;
+    public bool awaitingConcealingCloudsOrder;
+    public bool awaitingHeadShotOrder;
+    public bool awaitingHexOrder;
+
+
+
+    [Header("Update Related Properties")]
     public bool energyBarPositionCurrentlyUpdating;
     public bool healthBarPositionCurrentlyUpdating;
 
@@ -264,14 +310,28 @@ public class Defender : LivingEntity
 
         if (selectedDefender != null && selectedDefender.awaitingInspireOrder)
         {
-            selectedDefender.awaitingInspireOrder = false;
             selectedDefender.StartInspireProcess(this);
+            return;
+        }
+
+        else if (selectedDefender != null && selectedDefender.awaitingIcyFocusOrder)
+        {
+            selectedDefender.StartIcyFocusProcess(this);
+            return;
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingShroudOrder)
+        {
+            selectedDefender.StartShroudProcess(this);
+            return;
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingHasteOrder)
+        {
+            selectedDefender.StartHasteProcess(this);
             return;
         }
 
         else if (selectedDefender != null && selectedDefender.awaitingGuardOrder)
         {
-            selectedDefender.awaitingGuardOrder = false;
             selectedDefender.StartGuardProcess(this);
             return;
         }
@@ -279,18 +339,28 @@ public class Defender : LivingEntity
         else if (selectedDefender != null && selectedDefender.awaitingTelekinesisTargetOrder)
         {
             selectedDefender.StartTelekinesisLocationSettingProcess(this);
+            return;
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingBurstOfKnowledgeOrder)
+        {
+            selectedDefender.StartBurstOfKnowledgeProcess(this);
+            return;
         }
 
         else if (selectedDefender != null && selectedDefender.awaitingForestMedicineOrder)
         {
-            selectedDefender.awaitingForestMedicineOrder = false;
             selectedDefender.StartForestMedicineProcess(this);
+            return;
+        }
+
+        else if (selectedDefender != null && selectedDefender.awaitingFrostArmourOrder)
+        {
+            selectedDefender.StartFrostArmourProcess(this);
             return;
         }
 
         else if (selectedDefender != null && selectedDefender.awaitingInvigorateOrder)
         {
-            selectedDefender.awaitingInvigorateOrder = false;
             selectedDefender.StartInvigorateProcess(this);
             return;
         }
@@ -323,6 +393,16 @@ public class Defender : LivingEntity
         else if (selectedDefender != null && selectedDefender.awaitingBlessOrder)
         {
             selectedDefender.StartBlessProcess(this);
+            return;
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingEvasionOrder)
+        {
+            selectedDefender.StartEvasionProcess(this);
+            return;
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingMirageOrder)
+        {
+            selectedDefender.StartMirageProcess(this);
             return;
         }
 
@@ -431,6 +511,172 @@ public class Defender : LivingEntity
             OnDefendButtonClicked();
             enableTileHover = false;
         }
+        
+        else if (abilityName == "Frost Armour")
+        {
+            OnFrostArmourButtonClicked();
+        }
+        else if (abilityName == "Glacial Burst")
+        {
+            enableTileHover = false;
+            OnGlacialBurstButtonClicked();
+
+        }
+        else if (abilityName == "Thaw")
+        {
+            OnThawButtonClicked();
+        }
+        else if (abilityName == "Blizzard")
+        {
+            OnBlizzardButtonClicked();
+        }
+        else if (abilityName == "Snipe")
+        {
+            OnSnipeButtonClicked();
+        }
+        else if (abilityName == "Haste")
+        {
+            OnHasteButtonClicked();
+        }
+        else if (abilityName == "Steady Hands")
+        {
+            //OnSteadyHandsButtonClicked();
+        }
+        else if (abilityName == "Head Shot")
+        {
+            OnHeadShotButtonClicked();
+        }
+        else if (abilityName == "Forest Medicine")
+        {
+            OnForestMedicineButtonClicked();
+        }
+        else if (abilityName == "Tree Leap")
+        {
+            OnTreeLeapButtonClicked();
+        }
+        else if (abilityName == "Rapid Fire")
+        {
+            OnRapidFireButtonClicked();
+        }
+        else if (abilityName == "Overwatch")
+        {
+            enableTileHover = false;
+            //OnOverwatchButtonClicked();
+        }
+        else if (abilityName == "Dimensional Blast")
+        {
+            OnDimensionalBlastButtonClicked();
+        }
+        else if (abilityName == "Mirage")
+        {
+            OnMirageButtonClicked();
+        }
+        else if (abilityName == "Burst Of Knowledge")
+        {
+            OnBurstOfKnowledgeButtonClicked();
+        }
+        else if (abilityName == "Blink")
+        {
+            OnBlinkButtonClicked();
+        }
+        else if (abilityName == "Time Warp")
+        {
+            //OnTimeWarpButtonClicked();
+        }
+        else if (abilityName == "Dimensional Hex")
+        {
+            OnDimensionalHexButtonClicked();
+        }
+        else if (abilityName == "Consecrate")
+        {
+            enableTileHover = false;
+            OnConsecrateButtonClicked();
+        }
+        else if (abilityName == "Blinding Light")
+        {
+            OnBlindingLightButtonClicked();
+        }
+        else if (abilityName == "Transcendence")
+        {
+            //OnTranscendenceButtonClicked();
+        }
+        else if (abilityName == "Judgement")
+        {
+            OnJudgementButtonClicked();
+        }
+        else if (abilityName == "Shroud")
+        {
+            OnShroudButtonClicked();
+        }
+        else if (abilityName == "Hex")
+        {
+            OnHexButtonClicked();
+        }
+        else if (abilityName == "Rain Of Chaos")
+        {
+            OnRainOfChaosButtonClicked();
+        }
+        else if (abilityName == "Unbridled Chaos")
+        {
+            enableTileHover = false;
+            OnUnbridledChaosButtonClicked();
+        }
+        else if (abilityName == "Blight")
+        {
+            OnBlightButtonClicked();
+        }
+        else if (abilityName == "Blood Offering")
+        {
+            enableTileHover = false;
+            OnBloodOfferingButtonClicked();
+        }
+        else if (abilityName == "Toxic Slash")
+        {
+            OnToxicSlashButtonClicked();
+        }
+        else if (abilityName == "Noxious Fumes")
+        {
+            enableTileHover = false;
+            OnNoxiousFumesButtonClicked();
+        }
+        else if (abilityName == "Toxic Eruption")
+        {
+            OnToxicEruptionButtonClicked();
+        }
+        else if (abilityName == "Drain")
+        {
+            //OnDrainButtonClicked();
+        }
+        else if (abilityName == "Spirit Surge")
+        {
+            //OnSpiritSurgeButtonClicked();
+        }
+        else if (abilityName == "Lightning Bolt")
+        {
+            //OnLightningBoltButtonClicked();
+        }
+        else if (abilityName == "Thunder Strike")
+        {
+            //OnThunderStrikeButtonClicked();
+        }
+        else if (abilityName == "Spirit Vision")
+        {
+            //OnSpiritVisionButtonClicked();
+        }        
+        else if (abilityName == "Thunder Storm")
+        {
+            OnThunderStormButtonClicked();
+        }
+        else if (abilityName == "Concealing Clouds")
+        {
+            //OnConcealingCloudsButtonClicked();
+        }
+        else if (abilityName == "Super Conductor")
+        {
+            enableTileHover = false;
+            //OnSuperConductorButtonClicked();
+        }       
+       
         else if (abilityName == "Charge")
         {
             OnChargeButtonClicked();
@@ -439,6 +685,10 @@ public class Defender : LivingEntity
         {
             OnInspireButtonClicked();
         }
+        else if (abilityName == "Icy Focus")
+        {
+            OnIcyFocusButtonClicked();
+        }
         else if (abilityName == "Guard")
         {
             OnGuardButtonClicked();
@@ -446,6 +696,22 @@ public class Defender : LivingEntity
         else if (abilityName == "Meteor")
         {
             OnMeteorButtonClicked();
+        }
+        else if (abilityName == "Blinding Light")
+        {
+            OnBlindingLightButtonClicked();
+        }
+        else if (abilityName == "Toxic Eruption")
+        {
+            OnToxicEruptionButtonClicked();
+        }
+        else if (abilityName == "Thunder Storm")
+        {
+            OnThunderStormButtonClicked();
+        }
+        else if (abilityName == "Rain Of Chaos")
+        {
+            OnRainOfChaosButtonClicked();
         }
         else if (abilityName == "Telekinesis")
         {
@@ -459,25 +725,26 @@ public class Defender : LivingEntity
         {
             OnFireBallButtonClicked();
         }
+        else if (abilityName == "Thaw")
+        {
+            OnThawButtonClicked();
+        }
         else if (abilityName == "Shoot")
         {
             OnShootButtonClicked();
-        }
-        else if (abilityName == "Rapid Fire")
-        {
-            OnRapidFireButtonClicked();
-        }
+        }        
         else if (abilityName == "Impaling Bolt")
         {
             OnImpalingBoltButtonClicked();
-        }
-        else if (abilityName == "Forest Medicine")
-        {
-            OnForestMedicineButtonClicked();
-        }
+        }        
         else if (abilityName == "Whirlwind")
         {
             OnWhirlwindButtonClicked();
+            enableTileHover = false;
+        }
+        else if (abilityName == "Fire Nova")
+        {
+            OnFireNovaButtonClicked();
             enableTileHover = false;
         }
         else if (abilityName == "Frost Nova")
@@ -485,6 +752,16 @@ public class Defender : LivingEntity
             OnFrostNovaButtonClicked();
             enableTileHover = false;
         }
+        else if (abilityName == "Reactive Armour")
+        {
+            OnReactiveArmourButtonClicked();
+            enableTileHover = false;
+        }
+        else if (abilityName == "Vanish")
+        {
+            OnVanishButtonClicked();
+            enableTileHover = false;
+        }       
 
         else if (abilityName == "Invigorate")
         {
@@ -510,10 +787,18 @@ public class Defender : LivingEntity
         {
             OnTwinStrikeButtonClicked();
         }
+        else if (abilityName == "Shield Slam")
+        {
+            OnShieldSlamButtonClicked();
+        }
 
         else if (abilityName == "Dash")
         {
             OnDashButtonClicked();
+        }
+        else if (abilityName == "Phoenix Dive")
+        {
+            OnPhoenixDiveButtonClicked();
         }
 
         else if (abilityName == "Preparation")
@@ -591,6 +876,43 @@ public class Defender : LivingEntity
         {
             OnChaosBoltButtonClicked();
         }
+        else if (abilityName == "Blade Flurry")
+        {
+            OnBladeFlurryButtonClicked();
+            enableTileHover = false;
+        }
+        else if (abilityName == "Kick To The Balls")
+        {
+            OnKickToTheBallsButtonClicked();
+        }
+        else if (abilityName == "Devastating Blow")
+        {
+            OnDevastatingBlowButtonClicked();
+        }
+        else if (abilityName == "Evasion")
+        {
+            OnEvasionButtonClicked();
+        }
+        else if (abilityName == "Tendon Slash")
+        {
+            OnTendonSlashButtonClicked();
+        }
+        else if (abilityName == "Chilling Blow")
+        {
+            OnChillingBlowButtonClicked();
+        }
+        else if (abilityName == "Shield Shatter")
+        {
+            OnShieldShatterButtonClicked();
+        }
+        else if (abilityName == "Sword And Board")
+        {
+            OnSwordAndBoardButtonClicked();
+        }
+        else if (abilityName == "Shield Slam")
+        {
+            OnShieldSlamButtonClicked();
+        }
 
         if (enableTileHover)
         {
@@ -649,9 +971,40 @@ public class Defender : LivingEntity
             Debug.Log("Inspire button clicked, awaiting inspire order");
             awaitingInspireOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(inspire.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
-        }
+        }        
+    }
+    public void OnShroudButtonClicked()
+    {
+        Ability shroud = mySpellBook.GetAbilityByName("Shroud");
 
-        
+        if (EntityLogic.IsAbilityUseable(this, shroud))
+        {
+            Debug.Log("Shroud button clicked, awaiting Shroud order");
+            awaitingShroudOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(shroud.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
+    }
+    public void OnHexButtonClicked()
+    {
+        Ability hex = mySpellBook.GetAbilityByName("Hex");
+
+        if (EntityLogic.IsAbilityUseable(this, hex))
+        {
+            Debug.Log("Hex button clicked, awaiting Hex order");
+            awaitingHexOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(hex.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
+    }
+    public void OnIcyFocusButtonClicked()
+    {
+        Ability icyFocus = mySpellBook.GetAbilityByName("Icy Focus");
+
+        if (EntityLogic.IsAbilityUseable(this, icyFocus))
+        {
+            Debug.Log("Icy Focus button clicked, awaiting Icy Focus order");
+            awaitingIcyFocusOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(icyFocus.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
     }
     public void OnChargeButtonClicked()
     {
@@ -662,7 +1015,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Charge button clicked, awaiting charge target");
             awaitingChargeTargetOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(charge.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(charge.abilityPrimaryValue + currentMobility, LevelManager.Instance.Tiles[gridPosition], true, false));
             PathRenderer.Instance.ActivatePathRenderer();
         }      
 
@@ -676,7 +1029,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Get Down! button clicked, awaiting Get Down! target");
             awaitingGetDownOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(getDown.abilityRange, LevelManager.Instance.Tiles[gridPosition], true));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(getDown.abilityPrimaryValue + currentMobility, LevelManager.Instance.Tiles[gridPosition], true));
             PathRenderer.Instance.ActivatePathRenderer();
         }
 
@@ -703,9 +1056,40 @@ public class Defender : LivingEntity
             Debug.Log("Guard button clicked, awaiting guard target");
             awaitingGuardOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(guard.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
-        }
+        }        
+    }
+    public void OnForestMedicineButtonClicked()
+    {
+        Ability forestMedicine = mySpellBook.GetAbilityByName("Forest Medicine");
 
-        
+        if (EntityLogic.IsAbilityUseable(this, forestMedicine))
+        {
+            Debug.Log("Forest Medicine button clicked, awaiting forest medicine target");
+            awaitingForestMedicineOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(forestMedicine.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
+    }
+    public void OnTreeLeapButtonClicked()
+    {
+        Ability treeLeap = mySpellBook.GetAbilityByName("Tree Leap");
+
+        if (EntityLogic.IsAbilityUseable(this, treeLeap))
+        {
+            Debug.Log("Tree Leap button clicked, awaiting Tree Leap target");
+            awaitingTreeLeapOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(treeLeap.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
+    }
+    public void OnFrostArmourButtonClicked()
+    {
+        Ability frostArmour = mySpellBook.GetAbilityByName("Frost Armour");
+
+        if (EntityLogic.IsAbilityUseable(this, frostArmour))
+        {
+            Debug.Log("Frost Armour button clicked, awaiting Frost Armour target");
+            awaitingFrostArmourOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(frostArmour.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
     }
     public void OnMeteorButtonClicked()
     {
@@ -713,10 +1097,65 @@ public class Defender : LivingEntity
 
         if (EntityLogic.IsAbilityUseable(this, meteor))
         {
-            Debug.Log("Meteor button clicked, awaiting meteor target");
+            Debug.Log("Meteor button clicked, awaiting Meteor target");
             awaitingMeteorOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(meteor.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
+    }
+    public void OnBlizzardButtonClicked()
+    {
+        Ability blizzard = mySpellBook.GetAbilityByName("Blizzard");
+
+        if (EntityLogic.IsAbilityUseable(this, blizzard))
+        {
+            Debug.Log("Blizzard button clicked, awaiting Blizzard target");
+            awaitingBlizzardOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(blizzard.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }        
+    }
+    public void OnBlindingLightButtonClicked()
+    {
+        Ability blindingLight = mySpellBook.GetAbilityByName("Blinding Light");
+
+        if (EntityLogic.IsAbilityUseable(this, blindingLight))
+        {
+            Debug.Log("Blinding Light button clicked, awaiting Blinding Light target");
+            awaitingBlindingLightOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(blindingLight.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
+    }
+    public void OnToxicEruptionButtonClicked()
+    {
+        Ability toxicEruption = mySpellBook.GetAbilityByName("Toxic Eruption");
+
+        if (EntityLogic.IsAbilityUseable(this, toxicEruption))
+        {
+            Debug.Log("Toxic Eruption button clicked, awaiting Toxic Eruption target");
+            awaitingToxicEruptionOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(toxicEruption.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
+    }
+    public void OnRainOfChaosButtonClicked()
+    {
+        Ability rainOfChaos = mySpellBook.GetAbilityByName("Rain Of Chaos");
+
+        if (EntityLogic.IsAbilityUseable(this, rainOfChaos))
+        {
+            Debug.Log("Rain Of Chaos button clicked, awaiting Rain Of Chaos target");
+            awaitingRainOfChaosOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(rainOfChaos.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
+    }
+    public void OnThunderStormButtonClicked()
+    {
+        Ability thunderStorm = mySpellBook.GetAbilityByName("Thunder Storm");
+
+        if (EntityLogic.IsAbilityUseable(this, thunderStorm))
+        {
+            Debug.Log("Thunder Storm button clicked, awaiting Thunder Storm target");
+            awaitingThunderStormOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(thunderStorm.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
     }
     public void OnTelekinesisButtonClicked()
     {
@@ -761,11 +1200,22 @@ public class Defender : LivingEntity
         {
             Debug.Log("Dash button clicked, awaiting Dash tile target");
             awaitingDashOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(dash.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(dash.abilityPrimaryValue + currentMobility, LevelManager.Instance.Tiles[gridPosition], false));
             PathRenderer.Instance.ActivatePathRenderer();
+        }        
+    }
+    public void OnPhoenixDiveButtonClicked()
+    {
+        Ability phoenixDive = mySpellBook.GetAbilityByName("Phoenix Dive");
+
+        if (EntityLogic.IsAbilityUseable(this, phoenixDive))
+        {
+            Debug.Log("Phoenix Dive button clicked, awaiting Phoenix Dive tile target");
+            awaitingPhoenixDiveOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(phoenixDive.abilityRange, LevelManager.Instance.Tiles[gridPosition], false));
         }
 
-        
+
     }
     public void OnFireBallButtonClicked()
     {
@@ -776,9 +1226,84 @@ public class Defender : LivingEntity
             Debug.Log("Fire Ball button clicked, awaiting Frost Bolt target");
             awaitingFireBallOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(fireball.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
-        }
+        }       
+    }
+    public void OnBlightButtonClicked()
+    {
+        Ability blight = mySpellBook.GetAbilityByName("Blight");
 
-       
+        if (EntityLogic.IsAbilityUseable(this, blight))
+        {
+            Debug.Log("Blight button clicked, awaiting Blight target");
+            awaitingBlightOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(blight.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+    }
+    public void OnDimensionalBlastButtonClicked()
+    {
+        Ability dimensionalBlast = mySpellBook.GetAbilityByName("Dimensional Blast");
+
+        if (EntityLogic.IsAbilityUseable(this, dimensionalBlast))
+        {
+            Debug.Log("Dimensional Blast button clicked, awaiting Dimensional Blast target");
+            awaitingDimensionalBlastOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(dimensionalBlast.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+    }
+    public void OnMirageButtonClicked()
+    {
+        Ability mirage = mySpellBook.GetAbilityByName("Mirage");
+
+        if (EntityLogic.IsAbilityUseable(this, mirage))
+        {
+            Debug.Log("Mirage button clicked, awaiting Mirage target");
+            awaitingMirageOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(mirage.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+    }
+    public void OnBurstOfKnowledgeButtonClicked()
+    {
+        Ability burstOfKnowledge = mySpellBook.GetAbilityByName("Burst Of Knowledge");
+
+        if (EntityLogic.IsAbilityUseable(this, burstOfKnowledge))
+        {
+            Debug.Log("Burst Of Knowledge button clicked, awaiting Burst Of Knowledge target");
+            awaitingBurstOfKnowledgeOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(burstOfKnowledge.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+    }
+    public void OnBlinkButtonClicked()
+    {
+        Ability blink = mySpellBook.GetAbilityByName("Blink");
+
+        if (EntityLogic.IsAbilityUseable(this, blink))
+        {
+            Debug.Log("Blink button clicked, awaiting Blink location target");
+            awaitingBlinkOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(blink.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+    }
+    public void OnDimensionalHexButtonClicked()
+    {
+        Ability dimensionalHex = mySpellBook.GetAbilityByName("Dimensional Hex");
+
+        if (EntityLogic.IsAbilityUseable(this, dimensionalHex))
+        {
+            Debug.Log("Dimensional Hex button clicked, awaiting Dimensional Hex target");
+            awaitingDimensionalHexOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(dimensionalHex.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+    }
+    public void OnThawButtonClicked()
+    {
+        Ability thaw = mySpellBook.GetAbilityByName("Thaw");
+
+        if (EntityLogic.IsAbilityUseable(this, thaw))
+        {
+            Debug.Log("Thaw button clicked, awaiting Thaw target");
+            awaitingThawOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(thaw.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
     }
     public void OnShootButtonClicked()
     {
@@ -791,11 +1316,33 @@ public class Defender : LivingEntity
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(shoot.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }       
     }
+    public void OnSnipeButtonClicked()
+    {
+        Ability snipe = mySpellBook.GetAbilityByName("Snipe");
+
+        if (EntityLogic.IsAbilityUseable(this, snipe))
+        {
+            Debug.Log("Snipe button clicked, awaiting Snipe target");
+            awaitingSnipeOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(snipe.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
+    }
+    public void OnHeadShotButtonClicked()
+    {
+        Ability headShot = mySpellBook.GetAbilityByName("Head Shot");
+
+        if (EntityLogic.IsAbilityUseable(this, headShot))
+        {
+            Debug.Log("Head Shot button clicked, awaiting Head Shot target");
+            awaitingHeadShotOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(headShot.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
+    }
     public void OnRapidFireButtonClicked()
     {
         Ability rapidFire = mySpellBook.GetAbilityByName("Rapid Fire");
 
-        if (EntityLogic.IsAbilityUseable(this, rapidFire))
+        if (EntityLogic.IsAbilityUseable(this, rapidFire) && currentEnergy >= 10)
         {
             Debug.Log("Rapid Fire button clicked, awaiting Rapid Fire target");
             awaitingRapidFireOrder = true;
@@ -851,17 +1398,7 @@ public class Defender : LivingEntity
         }
        
     }
-    public void OnForestMedicineButtonClicked()
-    {
-        Ability forestMedicine = mySpellBook.GetAbilityByName("Forest Medicine");
-
-        if (EntityLogic.IsAbilityUseable(this, forestMedicine))
-        {
-            Debug.Log("Forest Medicine button clicked, awaiting Forest Medicine target");
-            awaitingForestMedicineOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(forestMedicine.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, true));
-        }       
-    }
+    
     public void OnInvigorateButtonClicked()
     {
         Ability invigorate = mySpellBook.GetAbilityByName("Invigorate");
@@ -872,6 +1409,17 @@ public class Defender : LivingEntity
             awaitingInvigorateOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(invigorate.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }        
+    }
+    public void OnHasteButtonClicked()
+    {
+        Ability haste = mySpellBook.GetAbilityByName("Haste");
+
+        if (EntityLogic.IsAbilityUseable(this, haste))
+        {
+            Debug.Log("Haste button clicked, awaiting Haste target");
+            awaitingHasteOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(haste.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
     }
     public void OnHolyFireButtonClicked()
     {
@@ -991,8 +1539,65 @@ public class Defender : LivingEntity
         if (EntityLogic.IsAbilityUseable(this, whirlwind))
         {
             AbilityLogic.Instance.PerformWhirlwind(this);
-        }                
-      
+        }
+    }
+    public void OnNoxiousFumesButtonClicked()
+    {
+        Debug.Log("Noxious Fumes button clicked");
+
+        Ability noxiousFumes = mySpellBook.GetAbilityByName("Noxious Fumes");
+
+        if (EntityLogic.IsAbilityUseable(this, noxiousFumes))
+        {
+            AbilityLogic.Instance.PerformNoxiousFumes(this);
+        }
+    }
+    public void OnBloodOfferingButtonClicked()
+    {
+        Debug.Log("Blood Offering button clicked");
+
+        Ability bloodOffering = mySpellBook.GetAbilityByName("Blood Offering");
+
+        if (EntityLogic.IsAbilityUseable(this, bloodOffering))
+        {
+            AbilityLogic.Instance.PerformBloodOffering(this);
+        }
+    }
+    public void OnUnbridledChaosButtonClicked()
+    {
+        Debug.Log("Unbridled Chaos button clicked");
+
+        Ability unbridledChaos = mySpellBook.GetAbilityByName("Unbridled Chaos");
+
+        if (EntityLogic.IsAbilityUseable(this, unbridledChaos))
+        {
+            AbilityLogic.Instance.PerformUnbridledChaos(this);
+        }
+
+    }
+    public void OnConsecrateButtonClicked()
+    {
+        Debug.Log("Consecratebutton clicked");
+
+        Ability consecrate = mySpellBook.GetAbilityByName("Consecrate");
+
+        if (EntityLogic.IsAbilityUseable(this, consecrate))
+        {
+            AbilityLogic.Instance.PerformConsecrate(this);
+        }
+
+    }
+    public void OnFireNovaButtonClicked()
+    {
+        Debug.Log("Fire Nova button clicked");
+
+        Ability fireNova = mySpellBook.GetAbilityByName("Fire Nova");
+
+        if (EntityLogic.IsAbilityUseable(this, fireNova))
+        {
+            AbilityLogic.Instance.PerformFireNova(this);
+        }
+
     }
     public void OnFrostNovaButtonClicked()
     {
@@ -1005,9 +1610,31 @@ public class Defender : LivingEntity
             AbilityLogic.Instance.PerformFrostNova(this);
         }
 
-        
+    }
+    public void OnReactiveArmourButtonClicked()
+    {
+        Debug.Log("Reactive Armor button clicked");
+
+        Ability reactiveArmour = mySpellBook.GetAbilityByName("Reactive Armour");
+
+        if (EntityLogic.IsAbilityUseable(this, reactiveArmour))
+        {
+            AbilityLogic.Instance.PerformReactiveArmour(this);
+        }
 
     }
+    public void OnVanishButtonClicked()
+    {
+        Debug.Log("Vanish button clicked");
+
+        Ability vanish = mySpellBook.GetAbilityByName("Vanish");
+
+        if (EntityLogic.IsAbilityUseable(this, vanish))
+        {
+            AbilityLogic.Instance.PerformVanish(this);
+        }
+
+    }   
     public void OnElectricalDischargeButtonClicked()
     {
         Debug.Log("Electrical Discharge button clicked");
@@ -1037,9 +1664,9 @@ public class Defender : LivingEntity
     }
     public void OnDefendButtonClicked()
     {
-        Debug.Log("Block button clicked");
+        Debug.Log("Defend button clicked");
 
-        Ability block = mySpellBook.GetAbilityByName("Block");
+        Ability block = mySpellBook.GetAbilityByName("Defend");
 
         if (EntityLogic.IsAbilityUseable(this, block))
         {
@@ -1081,8 +1708,150 @@ public class Defender : LivingEntity
             awaitingTwinStrikeOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
         }
-
        
+    }
+    public void OnShieldSlamButtonClicked()
+    {
+        Ability shieldSlam = mySpellBook.GetAbilityByName("Shield Slam");
+
+        if (EntityLogic.IsAbilityUseable(this, shieldSlam))
+        {
+            Debug.Log("Shield Slam button clicked, awaiting Shield Slam target");
+            awaitingShieldSlamOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+
+    }
+    public void OnDevastatingBlowButtonClicked()
+    {
+        Ability devastatingBlow = mySpellBook.GetAbilityByName("Devastating Blow");
+
+        if (EntityLogic.IsAbilityUseable(this, devastatingBlow))
+        {
+            Debug.Log("Devastating Blow button clicked, awaiting Devastating Blow target");
+            awaitingDevastatingBlowOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+    }
+    public void OnToxicSlashButtonClicked()
+    {
+        Ability toxicSlash = mySpellBook.GetAbilityByName("Toxic Slash");
+
+        if (EntityLogic.IsAbilityUseable(this, toxicSlash))
+        {
+            Debug.Log("Toxic Slash button clicked, awaiting Toxic Slash target");
+            awaitingToxicSlashOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+
+    }
+    public void OnJudgementButtonClicked()
+    {
+        Ability judgement = mySpellBook.GetAbilityByName("Judgement");
+
+        if (EntityLogic.IsAbilityUseable(this, judgement))
+        {
+            Debug.Log("Judgement button clicked, awaiting Judgement target");
+            awaitingJudgementOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+
+    }
+    public void OnEvasionButtonClicked()
+    {
+        Ability evasion = mySpellBook.GetAbilityByName("Evasion");
+
+        if (EntityLogic.IsAbilityUseable(this, evasion))
+        {
+            Debug.Log("Evasion button clicked, awaiting Evasion target");
+            awaitingEvasionOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(evasion.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+
+    }
+    public void OnTendonSlashButtonClicked()
+    {
+        Ability tendonSlash = mySpellBook.GetAbilityByName("Tendon Slash");
+
+        if (EntityLogic.IsAbilityUseable(this, tendonSlash))
+        {
+            Debug.Log("Tendon Slash button clicked, awaiting Tendon Slash target");
+            awaitingTendonSlashOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+
+    }
+    public void OnChillingBlowButtonClicked()
+    {
+        Ability chillingBlow = mySpellBook.GetAbilityByName("Chilling Blow");
+
+        if (EntityLogic.IsAbilityUseable(this, chillingBlow))
+        {
+            Debug.Log("Chilling Blow button clicked, awaiting Chilling Blow target");
+            awaitingChillingBlowOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+
+    }
+    public void OnShieldShatterButtonClicked()
+    {
+        Ability shieldShatter = mySpellBook.GetAbilityByName("Shield Shatter");
+
+        if (EntityLogic.IsAbilityUseable(this, shieldShatter))
+        {
+            Debug.Log("Shield Shatter button clicked, awaiting Shield Shatter target");
+            awaitingShieldShatterOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+
+    }
+    public void OnSwordAndBoardButtonClicked()
+    {
+        Ability swordAndBoard = mySpellBook.GetAbilityByName("Sword And Board");
+
+        if (EntityLogic.IsAbilityUseable(this, swordAndBoard))
+        {
+            Debug.Log("Sword And Board button clicked, awaiting Sword And Board target");
+            awaitingSwordAndBoardOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+
+    }
+    public void OnKickToTheBallsButtonClicked()
+    {
+        Ability kickToTheBalls = mySpellBook.GetAbilityByName("Kick To The Balls");
+
+        if (EntityLogic.IsAbilityUseable(this, kickToTheBalls))
+        {
+            Debug.Log("Kick To The Balls button clicked, awaiting Kick To The Bals target");
+            awaitingKickToTheBallsOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
+
+    }
+    public void OnBladeFlurryButtonClicked()
+    {
+        Debug.Log("Blade Flurry button clicked");
+
+        Ability bladeFlurry = mySpellBook.GetAbilityByName("Blade Flurry");
+
+        if (EntityLogic.IsAbilityUseable(this, bladeFlurry))
+        {
+            AbilityLogic.Instance.PerformBladeFlurry(this);
+        }
+    }
+    public void OnGlacialBurstButtonClicked()
+    {
+        Debug.Log("Glacial Burst button clicked");
+
+        Ability glacialBurst = mySpellBook.GetAbilityByName("Glacial Burst");
+
+        if (EntityLogic.IsAbilityUseable(this, glacialBurst))
+        {
+            AbilityLogic.Instance.PerformGlacialBurst(this);
+        }
+
+
     }
     public void OnChaosBoltButtonClicked()
     {
@@ -1241,11 +2010,23 @@ public class Defender : LivingEntity
         Ability dash = mySpellBook.GetAbilityByName("Dash");
 
         // If the selected tile is within our movement range, is walkable, and unoccupied, the attempted move is valid: start moving
-        if (MovementLogic.Instance.IsLocationMoveable(destination, this, dash.abilityRange))
+        if (MovementLogic.Instance.IsLocationMoveable(destination, this, dash.abilityPrimaryValue + currentMobility))
         {
             Debug.Log("Selected tile is valid, starting move...");
             awaitingDashOrder = false;
             AbilityLogic.Instance.PerformDash(this, destination);
+        }
+    }
+    public void StartTreeLeapProcess(Tile destination)
+    {
+        Ability treeLeap = mySpellBook.GetAbilityByName("Tree Leap");
+
+        // If the selected tile is within range AND a grass tile, start teleport
+        if (MovementLogic.Instance.IsLocationMoveable(destination, this, treeLeap.abilityRange) &&
+            destination.myTileType == Tile.TileType.Grass)
+        {
+            awaitingTreeLeapOrder = false;
+            AbilityLogic.Instance.PerformTreeLeap(this, destination);
         }
     }
     public void StartGetDownProcess(Tile destination)
@@ -1253,7 +2034,7 @@ public class Defender : LivingEntity
         Ability getDown = mySpellBook.GetAbilityByName("Get Down!");
 
         // If the selected tile is within our movement range, is walkable, and unoccupied, the attempted move is valid: start moving
-        if (MovementLogic.Instance.IsLocationMoveable(destination, this, getDown.abilityRange))
+        if (MovementLogic.Instance.IsLocationMoveable(destination, this, getDown.abilityPrimaryValue + currentMobility))
         {
             Debug.Log("Selected tile is valid, starting move...");
             awaitingGetDownOrder = false;
@@ -1262,8 +2043,6 @@ public class Defender : LivingEntity
     }
     public void StartStrikeProcess()
     {
-        Ability strike = mySpellBook.GetAbilityByName("Strike");
-
         Debug.Log("Defender.StartStrikeProcess() called");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
         if (EntityLogic.IsTargetInRange(this, enemyTarget, currentMeleeRange))
@@ -1274,14 +2053,101 @@ public class Defender : LivingEntity
     }
     public void StartSmashProcess(LivingEntity target)
     {
-        Ability smash = mySpellBook.GetAbilityByName("Smash");
-
         Debug.Log("Defender.StartSmashProcess() called");       
         if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
         {
             awaitingSmashOrder = false;            
             AbilityLogic.Instance.PerformSmash(this, target);
         }
+    }
+    public void StartKickToTheBallsProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartKickToTheBallsProcess() called");
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        {
+            awaitingKickToTheBallsOrder = false;
+            AbilityLogic.Instance.PerformKickToTheBalls(this, target);
+        }
+
+    }
+    public void StartDevastatingBlowProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartDevastatingBlowProcess() called");
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        {
+            awaitingDevastatingBlowOrder = false;
+            AbilityLogic.Instance.PerformDevastatingBlow(this, target);
+        }
+    }
+    public void StartToxicSlashProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartToxicSlashProcess() called");
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        {
+            awaitingToxicSlashOrder = false;
+            AbilityLogic.Instance.PerformToxicSlash(this, target);
+        }
+    }
+
+    public void StartJudgementProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartDevastatingBlowProcess() called");
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        {
+            awaitingJudgementOrder = false;
+            AbilityLogic.Instance.PerformJudgement(this, target);
+        }
+
+    }
+    public void StartShieldSlamProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartShieldSlamProcess() called");
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        {
+            awaitingShieldSlamOrder = false;
+            AbilityLogic.Instance.PerformShieldSlam(this, target);
+        }
+
+    }
+    public void StartShieldShatterProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartShieldShatterProcess() called");
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        {
+            awaitingShieldShatterOrder = false;
+            AbilityLogic.Instance.PerformShieldShatter(this, target);
+        }
+
+    }
+    public void StartTendonSlashProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartTendonSlashProcess() called");
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        {
+            awaitingTendonSlashOrder = false;
+            AbilityLogic.Instance.PerformTendonSlash(this, target);
+        }
+
+    }
+    public void StartChillingBlowProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartChillingBlowProcess() called");
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        {
+            awaitingChillingBlowOrder = false;
+            AbilityLogic.Instance.PerformChillingBlow(this, target);
+        }
+
+    }
+    public void StartSwordAndBoardProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartSwordAndBoardProcess() called");
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        {
+            awaitingSwordAndBoardOrder = false;
+            AbilityLogic.Instance.PerformSwordAndBoard(this, target);
+        }
+
     }
     public void StartChainLightningProcess(LivingEntity target)
     {
@@ -1297,9 +2163,10 @@ public class Defender : LivingEntity
     }
     public void StartPrimalBlastProcess(LivingEntity target)
     {
-        Ability primalBlast = mySpellBook.GetAbilityByName("Primal Blast");
+        Debug.Log("Defender.PrimalRageProcess() called");
 
-        Debug.Log("Defender.ChainLightningProcess() called");
+        Ability primalBlast = mySpellBook.GetAbilityByName("Primal Blast");
+        
         if (EntityLogic.IsTargetInRange(this, target, primalBlast.abilityRange))
         {
             awaitingPrimalBlastOrder = false;
@@ -1308,18 +2175,170 @@ public class Defender : LivingEntity
         }
     }
     public void StartMeteorProcess(Tile targetTile)
-    {        
-        awaitingMeteorOrder = false;
-        AbilityLogic.Instance.PerformMeteor(this, targetTile);       
+    {
+        Ability meteor = mySpellBook.GetAbilityByName("Meteor");
+
+        if(LevelManager.Instance.IsTileYWithinRangeOfTileX(tile, targetTile, meteor.abilityRange))
+        {
+            awaitingMeteorOrder = false;
+            AbilityLogic.Instance.PerformMeteor(this, targetTile);
+        }
+              
     }
-    public void StartInspireProcess(Defender targetOfInspire)
+    public void StartBlizzardProcess(Tile targetTile)
+    {
+        Ability blizzard = mySpellBook.GetAbilityByName("Blizzard");
+
+        if (LevelManager.Instance.IsTileYWithinRangeOfTileX(tile, targetTile, blizzard.abilityRange))
+        {
+            awaitingBlizzardOrder = false;
+            AbilityLogic.Instance.PerformBlizzard(this, targetTile);
+        }
+
+    }
+    public void StartBlindingLightProcess(Tile targetTile)
+    {
+        Ability blindingLight = mySpellBook.GetAbilityByName("Blinding Light");
+
+        if (LevelManager.Instance.IsTileYWithinRangeOfTileX(tile, targetTile, blindingLight.abilityRange))
+        {
+            awaitingBlindingLightOrder = false;
+            AbilityLogic.Instance.PerformBlindingLight(this, targetTile);
+        }
+
+    }
+    public void StartToxicEruptionProcess(Tile targetTile)
+    {
+        Ability toxicEruption = mySpellBook.GetAbilityByName("Toxic Eruption");
+
+        if (LevelManager.Instance.IsTileYWithinRangeOfTileX(tile, targetTile, toxicEruption.abilityRange))
+        {
+            awaitingToxicEruptionOrder = false;
+            AbilityLogic.Instance.PerformToxicEruption(this, targetTile);
+        }
+
+    }
+    public void StartThunderStormProcess(Tile targetTile)
+    {
+        Ability thunderStorm = mySpellBook.GetAbilityByName("Thunder Storm");
+
+        if (LevelManager.Instance.IsTileYWithinRangeOfTileX(tile, targetTile, thunderStorm.abilityRange))
+        {
+            awaitingThunderStormOrder = false;
+            AbilityLogic.Instance.PerformThunderStorm(this, targetTile);
+        }
+
+    }
+    public void StartRainOfChaosProcess(Tile targetTile)
+    {
+        Ability rainOfChaos = mySpellBook.GetAbilityByName("Rain Of Chaos");
+
+        if (LevelManager.Instance.IsTileYWithinRangeOfTileX(tile, targetTile, rainOfChaos.abilityRange))
+        {
+            awaitingRainOfChaosOrder = false;
+            AbilityLogic.Instance.PerformRainOfChaos(this, targetTile);
+        }
+
+    }
+    
+    public void StartInspireProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartInspireProcess() called");
         Ability inspire = mySpellBook.GetAbilityByName("Inspire");
 
-        if (EntityLogic.IsTargetInRange(this, targetOfInspire, inspire.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, inspire.abilityRange))
         {
-            AbilityLogic.Instance.PerformInspire(this, targetOfInspire);
+            awaitingInspireOrder = false;
+            AbilityLogic.Instance.PerformInspire(this, target);
+        }
+    }
+    
+    public void StartHexProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartInspireProcess() called");
+        Ability hex = mySpellBook.GetAbilityByName("Hex");
+
+        if (EntityLogic.IsTargetInRange(this, target, hex.abilityRange))
+        {
+            awaitingHexOrder = false;
+            AbilityLogic.Instance.PerformHex(this, target);
+        }
+    }
+    public void StartBlightProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartBlightProcess() called");
+        Ability blight = mySpellBook.GetAbilityByName("Blight");
+
+        if (EntityLogic.IsTargetInRange(this, target, blight.abilityRange))
+        {
+            awaitingBlightOrder = false;
+            AbilityLogic.Instance.PerformBlight(this, target);
+        }
+    }
+    public void StartShroudProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartShroudProcess() called");
+        Ability shroud = mySpellBook.GetAbilityByName("Shroud");
+
+        if (EntityLogic.IsTargetInRange(this, target, shroud.abilityRange))
+        {
+            awaitingShroudOrder = false;
+            AbilityLogic.Instance.PerformShroud(this, target);
+        }
+    }
+    public void StartIcyFocusProcess(Defender target)
+    {
+        Debug.Log("Defender.StartIcyFocusProcess() called");
+        Ability icyFocus = mySpellBook.GetAbilityByName("Icy Focus");
+
+        if (EntityLogic.IsTargetInRange(this, target, icyFocus.abilityRange))
+        {
+            awaitingIcyFocusOrder = false;
+            AbilityLogic.Instance.PerformIcyFocus(this, target);
+        }
+    }
+    public void StartHasteProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartIcyFocusProcess() called");
+        Ability haste = mySpellBook.GetAbilityByName("Haste");
+
+        if (EntityLogic.IsTargetInRange(this, target, haste.abilityRange))
+        {
+            awaitingHasteOrder = false;
+            AbilityLogic.Instance.PerformHaste(this, target);
+        }
+    }
+    public void StartEvasionProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartEvasionProcess() called");
+        Ability evasion = mySpellBook.GetAbilityByName("Evasion");
+
+        if (EntityLogic.IsTargetInRange(this, target, evasion.abilityRange))
+        {
+            awaitingEvasionOrder = false;
+            AbilityLogic.Instance.PerformEvasion(this, target);
+        }
+    }
+    public void StartBurstOfKnowledgeProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartBurstOfKnowledgeProcess() called");
+        Ability burstOfKnowledge = mySpellBook.GetAbilityByName("Burst Of Knowledge");
+
+        if (EntityLogic.IsTargetInRange(this, target, burstOfKnowledge.abilityRange))
+        {
+            awaitingBurstOfKnowledgeOrder = false;
+            AbilityLogic.Instance.PerformBurstOfKnowledge(this, target);
+        }
+    }
+    public void StartMirageProcess(Defender targetOfEvasion)
+    {
+        Debug.Log("Defender.StartMirageProcess() called");
+        Ability mirage = mySpellBook.GetAbilityByName("Mirage");
+
+        if (EntityLogic.IsTargetInRange(this, targetOfEvasion, mirage.abilityRange))
+        {
+            awaitingMirageOrder = false;
+            AbilityLogic.Instance.PerformMirage(this, targetOfEvasion);
         }
     }
     public void StartChargeLocationSettingProcess()
@@ -1328,12 +2347,12 @@ public class Defender : LivingEntity
 
         Debug.Log("Defender.StartChargeLocationSettingProcess() called");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (EntityLogic.IsTargetInRange(this, enemyTarget, charge.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, charge.abilityPrimaryValue + currentMobility))
         {
             awaitingChargeLocationOrder = true;
             awaitingChargeTargetOrder = false;
 
-            List<Tile> tilesWithinChargeRangeOfCharacter = LevelManager.Instance.GetValidMoveableTilesWithinRange(charge.abilityRange, tile);
+            List<Tile> tilesWithinChargeRangeOfCharacter = LevelManager.Instance.GetValidMoveableTilesWithinRange(charge.abilityPrimaryValue + currentMobility, tile);
             List<Tile> tilesWithinMeleeRangeOfTarget = LevelManager.Instance.GetValidMoveableTilesWithinRange(1, enemyTarget.tile);
             List<Tile> validChargeLocationTiles = new List<Tile>();
 
@@ -1355,7 +2374,7 @@ public class Defender : LivingEntity
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
         Ability charge = mySpellBook.GetAbilityByName("Charge");
 
-        List<Tile> tilesWithinChargeRangeOfCharacter = LevelManager.Instance.GetValidMoveableTilesWithinRange(charge.abilityRange, tile);
+        List<Tile> tilesWithinChargeRangeOfCharacter = LevelManager.Instance.GetValidMoveableTilesWithinRange(charge.abilityPrimaryValue + currentMobility, tile);
         List<Tile> tilesWithinMeleeRangeOfTarget = LevelManager.Instance.GetValidMoveableTilesWithinRange(1, enemyTarget.tile);
         List<Tile> validChargeLocationTiles = new List<Tile>();
 
@@ -1385,6 +2404,26 @@ public class Defender : LivingEntity
             AbilityLogic.Instance.PerformGuard(this, targetOfGuard);
         }
     }
+    public void StartFrostArmourProcess(LivingEntity target)
+    {
+        Ability frostArmour = mySpellBook.GetAbilityByName("Frost Armour");
+
+        if (EntityLogic.IsTargetInRange(this, target, frostArmour.abilityRange))
+        {
+            awaitingFrostArmourOrder = false;
+            AbilityLogic.Instance.PerformFrostArmour(this, target);
+        }
+    }
+    public void StartForestMedicineProcess(LivingEntity target)
+    {
+        Ability forestMedicine = mySpellBook.GetAbilityByName("Forest Medicine");
+
+        if (EntityLogic.IsTargetInRange(this, target, forestMedicine.abilityRange))
+        {
+            awaitingForestMedicineOrder = false;
+            AbilityLogic.Instance.PerformForestMedicine(this, target);
+        }
+    }
     public void StartTelekinesisProcess(LivingEntity target, Tile destination)
     {        
         Ability telekinesis = mySpellBook.GetAbilityByName("Telekinesis");
@@ -1396,6 +2435,30 @@ public class Defender : LivingEntity
             awaitingTelekinesisTargetOrder = false;
             awaitingTelekinesisLocationOrder = false;
             AbilityLogic.Instance.PerformTelekinesis(this, target, destination);
+        }
+    }
+    public void StartBlinkProcess(Tile destination)
+    {
+        Ability blink = mySpellBook.GetAbilityByName("Blink");
+
+        List<Tile> validTeleportLocations = LevelManager.Instance.GetValidMoveableTilesWithinRange(blink.abilityRange, tile, true);
+
+        if (validTeleportLocations.Contains(destination))
+        {
+            awaitingBlinkOrder = false;
+            AbilityLogic.Instance.PerformBlink(this, destination);
+        }
+    }
+    public void StartPhoenixDiveProcess(Tile destination)
+    {
+        Ability phoenixDive = mySpellBook.GetAbilityByName("Phoenix Dive");
+
+        List<Tile> validTeleportLocations = LevelManager.Instance.GetValidMoveableTilesWithinRange(phoenixDive.abilityRange, tile);
+
+        if (validTeleportLocations.Contains(destination))
+        {
+            awaitingPhoenixDiveOrder = false;
+            AbilityLogic.Instance.PerformPhoenixDive(this, destination);
         }
 
     }
@@ -1418,15 +2481,26 @@ public class Defender : LivingEntity
             myCurrentTarget = target;
         }
     }
-    public void StartFrostBoltProcess()
+    public void StartFrostBoltProcess(LivingEntity target)
     {
         Ability frostbolt = mySpellBook.GetAbilityByName("Frost Bolt");
         Debug.Log("Defender.StartFrostBoltProcess() called");
-        Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (EntityLogic.IsTargetInRange(this, enemyTarget, frostbolt.abilityRange))
+
+        if (EntityLogic.IsTargetInRange(this, target, frostbolt.abilityRange))
         {                      
             awaitingFrostBoltOrder = false;            
-            AbilityLogic.Instance.PerformFrostBolt(this, enemyTarget);
+            AbilityLogic.Instance.PerformFrostBolt(this, target);
+        }
+    }
+    public void StartThawProcess(LivingEntity target)
+    {
+        Ability thaw = mySpellBook.GetAbilityByName("Thaw");
+        Debug.Log("Defender.StartThawProcess() called");
+
+        if (EntityLogic.IsTargetInRange(this, target, thaw.abilityRange))
+        {
+            awaitingThawOrder = false;
+            AbilityLogic.Instance.PerformThaw(this, target);
         }
     }
     public void StartFireBallProcess(LivingEntity target)
@@ -1437,6 +2511,17 @@ public class Defender : LivingEntity
         {
             awaitingFireBallOrder = false;
             AbilityLogic.Instance.PerformFireBall(this, target);                       
+        }
+    }
+    public void StartDimensionalBlastProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.DimesionalBlastProcess() called");
+
+        Ability dimensionalBlast = mySpellBook.GetAbilityByName("Dimensional Blast");        
+        if (EntityLogic.IsTargetInRange(this, target, dimensionalBlast.abilityRange))
+        {
+            awaitingDimensionalBlastOrder = false;
+            AbilityLogic.Instance.PerformDimensionalBlast(this, target);
         }
     }
     public void StartShootProcess()
@@ -1451,18 +2536,52 @@ public class Defender : LivingEntity
             AbilityLogic.Instance.PerformShoot(this, enemyTarget);
         }
     }
-    public void StartRapidFireProcess()
+    public void StartSnipeProcess()
     {
-        Ability rapidFire = mySpellBook.GetAbilityByName("Rapid Fire");
-        Debug.Log("Defender.StartRapidFireProcess() called");
+        Ability snipe = mySpellBook.GetAbilityByName("Snipe");
+        Debug.Log("Defender.StartSnipeProcess() called");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (EntityLogic.IsTargetInRange(this, enemyTarget, rapidFire.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, snipe.abilityRange))
         {
-            awaitingRapidFireOrder = false;
-            AbilityLogic.Instance.PerformRapidFire(this, enemyTarget, currentEnergy);
-            //StartCoroutine(PerformRapidFire(enemyTarget, CalculateDamage(rapidFire.abilityPrimaryValue, enemyTarget, this), currentAP));
+            awaitingSnipeOrder = false;
+            AbilityLogic.Instance.PerformSnipe(this, enemyTarget);
         }
     }
+    public void StartHeadShotProcess(LivingEntity target)
+    {
+        Ability headShot = mySpellBook.GetAbilityByName("Head Shot");
+        Debug.Log("Defender.HeadShotProcess() called");
+        if (EntityLogic.IsTargetInRange(this, target, headShot.abilityRange))
+        {
+            awaitingHeadShotOrder = false;
+            AbilityLogic.Instance.PerformHeadShot(this, target);
+        }
+    }
+    public void StartRapidFireProcess(LivingEntity target)
+    {
+        Ability rapidFire = mySpellBook.GetAbilityByName("Rapid Fire");
+        Debug.Log("Defender.HeadShotProcess() called");
+
+        // if target is in range and shooter has enough energy to make at least 1 shot
+        if (EntityLogic.IsTargetInRange(this, target, rapidFire.abilityRange) &&
+            currentEnergy >= 10)
+        {
+            awaitingRapidFireOrder = false;
+            AbilityLogic.Instance.PerformRapidFire(this, target);
+        }
+    }
+    public void StartDimensionalHexProcess(LivingEntity target)
+    {
+        Ability dimensionalHex = mySpellBook.GetAbilityByName("Dimensional Hex");
+        Debug.Log("Defender.DimensionalHexProcess() called");
+
+        if (EntityLogic.IsTargetInRange(this, target, dimensionalHex.abilityRange)) 
+        {
+            awaitingDimensionalHexOrder = false;
+            AbilityLogic.Instance.PerformDimensionalHex(this, target);
+        }
+    }
+
     public void StartSliceAndDiceProcess(Enemy target)
     {
         Ability sliceAndDice = mySpellBook.GetAbilityByName("Slice And Dice");
@@ -1500,24 +2619,17 @@ public class Defender : LivingEntity
             //StartCoroutine(PerformChemicalReaction(enemyTarget));
         }
     }
-    public void StartImpalingBoltProcess()
+    public void StartImpalingBoltProcess(LivingEntity target)
     {
         Ability impalingBolt = mySpellBook.GetAbilityByName("Impaling Bolt");
-        Debug.Log("Defender.StartRapidFireProcess() called");
-        Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (EntityLogic.IsTargetInRange(this, enemyTarget, impalingBolt.abilityRange))
+
+        if (EntityLogic.IsTargetInRange(this, target, impalingBolt.abilityRange))
         {
             awaitingImpalingBoltOrder = false;            
-            AbilityLogic.Instance.PerformImpalingBolt(this, enemyTarget);
+            AbilityLogic.Instance.PerformImpalingBolt(this, target);
         }
-    }
-    public void StartForestMedicineProcess(Defender target)
-    {
-        Ability forestMedicine = mySpellBook.GetAbilityByName("Forest Medicine");
-        target.ModifyCurrentBlock(forestMedicine.abilityPrimaryValue);
-        //OnAbilityUsed(forestMedicine, this);
-    }
-    public void StartInvigorateProcess(Defender target)
+    }   
+    public void StartInvigorateProcess(LivingEntity target)
     {
         Ability invigorate = mySpellBook.GetAbilityByName("Invigorate");
         if (EntityLogic.IsTargetInRange(this, target, invigorate.abilityRange))
@@ -1551,25 +2663,21 @@ public class Defender : LivingEntity
     {        
         Ability primalRage = mySpellBook.GetAbilityByName("Primal Rage");
 
-        if (EntityLogic.IsTargetInRange(this, target, primalRage.abilityRange) == false)
+        if (EntityLogic.IsTargetInRange(this, target, primalRage.abilityRange))
         {
-            return;
-        }
-                
-        awaitingPrimalRageOrder = false;
-        AbilityLogic.Instance.PerformPrimalRage(this, target);
+            awaitingPrimalRageOrder = false;
+            AbilityLogic.Instance.PerformPrimalRage(this, target);
+        }                
     }
     public void StartPhaseShiftProcess(LivingEntity target)
     {
         Ability phaseShift = mySpellBook.GetAbilityByName("Phase Shift");
 
-        if (EntityLogic.IsTargetInRange(this, target, phaseShift.abilityRange) == false)
+        if (EntityLogic.IsTargetInRange(this, target, phaseShift.abilityRange))
         {
-            return;
-        }
-        
-        awaitingPhaseShiftOrder = false;
-        AbilityLogic.Instance.PerformPhaseShift(this, target);
+            awaitingPhaseShiftOrder = false;
+            AbilityLogic.Instance.PerformPhaseShift(this, target);
+        }       
           
     }
     public void StartSiphonLifeProcess(LivingEntity target)
@@ -1583,20 +2691,16 @@ public class Defender : LivingEntity
 
         awaitingSiphonLifeOrder = false;
         AbilityLogic.Instance.PerformSiphonLife(this, target);
-        // StartCoroutine(PerformSiphonLife(target));
     }
     public void StartChaosBoltProcess(LivingEntity target)
     {
         Ability chaosBolt = mySpellBook.GetAbilityByName("Chaos Bolt");
 
-        if (EntityLogic.IsTargetInRange(this, target, chaosBolt.abilityRange) == false)
+        if (EntityLogic.IsTargetInRange(this, target, chaosBolt.abilityRange))
         {
-            return;
+            awaitingChaosBoltOrder = false;
+            AbilityLogic.Instance.PerformChaosBolt(this, target);
         }
-
-        awaitingChaosBoltOrder = false;
-        AbilityLogic.Instance.PerformChaosBolt(this, target);
-        // StartCoroutine(PerformSiphonLife(target));
     }
     public void StartSanctityProcess(LivingEntity target)
     {

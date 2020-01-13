@@ -185,6 +185,7 @@ public static class EntityLogic
         return enemiesInRange;
     }
     
+
     #endregion
 
     // Conditional Checks + Booleans
@@ -204,7 +205,7 @@ public static class EntityLogic
     }
     public static bool HasEnoughAP(LivingEntity entity, Ability ability)
     {
-        if (entity.currentEnergy >= ability.abilityAPCost)
+        if (entity.currentEnergy >= ability.abilityEnergyCost)
         {
             return true;
         }
@@ -241,9 +242,9 @@ public static class EntityLogic
             return true;
         }
     }
-    public static bool IsTargetInRange(LivingEntity caster, LivingEntity target, int range)
+    public static bool IsTargetInRange(LivingEntity caster, LivingEntity target, int range, bool ignoreLoS = false)
     {
-        List<Tile> tilesWithinMyRange = LevelManager.Instance.GetTilesWithinRange(range, caster.tile, false, false);
+        List<Tile> tilesWithinMyRange = LevelManager.Instance.GetTilesWithinRange(range, caster.tile, false, ignoreLoS);
 
         if (target == null)
         {
@@ -349,7 +350,7 @@ public static class EntityLogic
 
         int currentAP = entity.currentEnergy;
 
-        if(currentAP - abilityOne.abilityAPCost >= abilityTwo.abilityAPCost)
+        if(currentAP - abilityOne.abilityEnergyCost >= abilityTwo.abilityEnergyCost)
         {
             Debug.Log("CanPerformAbilityTwoAfterAbilityOne() calculated that " + entity.name + " has enougn AP to perform " + 
                 abilityTwo.abilityName + " after " + abilityOne.abilityName);
@@ -394,7 +395,13 @@ public static class EntityLogic
 
         Debug.Log("GetBestValidMoveLocationBetweenMeAndTarget() generated a path with " + pathFromMeToIdealTile.Count.ToString() + " tiles on it");        
 
-        if (pathFromMeToIdealTile.Count > 1)
+        
+        if (pathFromMeToIdealTile.Count > 1 && pathFromMeToIdealTile.Count < movePoints)
+        {
+            tileReturned = LevelManager.Instance.GetTileFromPointReference(pathFromMeToIdealTile.ElementAt(pathFromMeToIdealTile.Count - 1).GridPosition);
+        }       
+
+        else if (pathFromMeToIdealTile.Count > 1)
         {
             tileReturned = LevelManager.Instance.GetTileFromPointReference(pathFromMeToIdealTile.ElementAt(movePoints - 1).GridPosition);
         }

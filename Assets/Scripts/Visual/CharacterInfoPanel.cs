@@ -51,7 +51,7 @@ public class CharacterInfoPanel : MonoBehaviour
 
         tooltipData.spellIcon.sprite = ability.abilityImage;
         tooltipData.spellNameText.text = ability.abilityName;
-        tooltipData.apCostText.text = ability.abilityAPCost.ToString();
+        tooltipData.apCostText.text = ability.abilityEnergyCost.ToString();
         tooltipData.cdText.text = ability.abilityBaseCooldownTime.ToString();
         tooltipData.descriptionText.text = ability.abilityDescription;
     }

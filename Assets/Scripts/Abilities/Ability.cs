@@ -29,7 +29,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public string abilityDescription;
     public int abilityBaseCooldownTime;
     public int abilityCurrentCooldownTime;
-    public int abilityAPCost;
+    public int abilityEnergyCost;
     public int abilityRange;
     public int abilityPrimaryValue;
     public int abilitySecondaryValue;
@@ -66,7 +66,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         abilityName = abilityFromLibrary.abilityName;
         abilityDescription = abilityFromLibrary.description;
         abilityBaseCooldownTime = abilityFromLibrary.baseCooldownTime;
-        abilityAPCost = abilityFromLibrary.energyCost;
+        abilityEnergyCost = abilityFromLibrary.energyCost;
         abilityRange = abilityFromLibrary.range;
         abilityPrimaryValue = abilityFromLibrary.primaryValue;
         abilitySecondaryValue = abilityFromLibrary.secondaryValue;
@@ -87,7 +87,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         {
             cdText.text = abilityBaseCooldownTime.ToString();
             rangeText.text = abilityRange.ToString();
-            apCostText.text = abilityAPCost.ToString();
+            apCostText.text = abilityEnergyCost.ToString();
             nameText.text = abilityName.ToString();
             descriptionText.text = abilityDescription.ToString();
             //TextLogic.SetAbilityDescriptionText(this);

@@ -36,4 +36,8 @@ public class ItemManager : Singleton<ItemManager>
     {
         entity.myMainHandWeapon = weapon;
     }
+    public void AssignShieldToCharacter(LivingEntity entity, ItemDataSO shield)
+    {
+        entity.myOffHandWeapon = shield;
+    }
 }

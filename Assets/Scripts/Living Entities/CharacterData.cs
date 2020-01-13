@@ -91,7 +91,7 @@ public class CharacterData : MonoBehaviour
     [Header("Ability Properties")]
     public bool KnowsMove;
     public bool KnowsStrike;
-    public bool KnowsBlock;
+    public bool KnowsDefend;
     public bool KnowsCharge;
     public bool KnowsGuard;
     public bool KnowsInspire;
@@ -131,6 +131,82 @@ public class CharacterData : MonoBehaviour
     public bool KnowsChaosBolt;
     public bool KnowsFrostNova;
 
+    public bool KnowsDevastatingBlow;
+    public bool KnowsKickToTheBalls;
+    public bool KnowsBladeFlurry;
+    public bool KnowsRecklessness;
+    public bool KnowsTendonSlash;
+    public bool KnowsShieldShatter;
+    public bool KnowsEvasion;
+    public bool KnowsDecapitate;
+    public bool KnowsVanish;
+    public bool KnowsCheapShot;
+    public bool KnowsShank;
+    public bool KnowsShadowStep;
+    public bool KnowsAmbush;
+    public bool KnowsStalk;
+    public bool KnowsSharpenBlade;
+    public bool KnowsProvoke;
+    public bool KnowsSwordAndBoard;
+    public bool KnowsShieldSlam;
+    public bool KnowsTestudo;
+    public bool KnowsReactiveArmour;
+    public bool KnowsChallengingShout;
+    public bool KnowsFireNova;
+    public bool KnowsPhoenixDive;
+    public bool KnowsBlaze;
+    public bool KnowsCombustion;
+    public bool KnowsDragonBreath;
+    public bool KnowsChillingBlow;
+    public bool KnowsIcyFocus;
+    public bool KnowsBlizzard;
+    public bool KnowsFrostArmour;
+    public bool KnowsGlacialBurst;
+    public bool KnowsCreepingFrost;
+    public bool KnowsThaw;
+    public bool KnowsHaste;
+    public bool KnowsSteadyHands;
+    public bool KnowsHeadShot;
+    public bool KnowsTreeLeap;
+    public bool KnowsConcentration;
+    public bool KnowsOverwatch;
+    public bool KnowsDimenisonalBlast;
+    public bool KnowsMirage;
+    public bool KnowsBurstOfKnowledge;
+    public bool KnowsBlink;
+    public bool KnowsInfuse;
+    public bool KnowsTimeWarp;
+    public bool KnowsDimensionalHex;
+    public bool KnowsConsecrate;
+    public bool KnowsPurity;
+    public bool KnowsBlindingLight;
+    public bool KnowsTranscendence;
+    public bool KnowsJudgement;
+    public bool KnowsShroud;
+    public bool KnowsHex;
+    public bool KnowsRainOfChaos;
+    public bool KnowsShadowWreath;
+    public bool KnowsUnbridledChaos;
+    public bool KnowsBlight;
+    public bool KnowsBloodOffering;
+    public bool KnowsToxicSlash;
+    public bool KnowsNoxiousFumes;
+    public bool KnowsToxicEruption;
+    public bool KnowsDrain;
+    public bool KnowsSpiritSurge;
+    public bool KnowsLightningBolt;
+    public bool KnowsThunderStrike;
+    public bool KnowsSpiritVision;
+    public bool KnowsThunderStorm;
+    public bool KnowsPressurize;
+    public bool KnowsConcealingClouds;
+    public bool KnowsSuperConductor;
+    public bool KnowsSnipe;
+
+
+
+
+
     [Header("Known Talents")]
     public bool KnowsImprovedPreparation;
     public bool KnowsImprovedDash;
@@ -158,7 +234,7 @@ public class CharacterData : MonoBehaviour
             ModifyStrength(0);
             ModifyMaxHealth(100);
             ModifyCurrentHealth(100);
-            ModifyStamina(40);
+            ModifyStamina(60);
             ModifyMaxEnergy(60);
             ModifyInitiative(3);
             ModifyMeleeRange(1);
@@ -168,15 +244,15 @@ public class CharacterData : MonoBehaviour
             cautiousStacks = 5;
             KnowsMove = true;
             KnowsStrike = true;
-            KnowsBlock = true;
-            KnowsCharge = true;
-            KnowsInspire = true;
-            KnowsWhirlwind = true;
 
-            
+            KnowsBloodOffering = true;
+            KnowsToxicSlash = true;
+            KnowsNoxiousFumes = true;
+            KnowsNightmare = true;
 
-            talentTreeOne.InitializeSetup("Path of Rage");
-            talentTreeTwo.InitializeSetup("Path of the Guardian");            
+
+            //talentTreeOne.InitializeSetup("Path of Rage");
+            //talentTreeTwo.InitializeSetup("Path of the Guardian");            
 
         }
 
@@ -200,7 +276,7 @@ public class CharacterData : MonoBehaviour
             fleetFootedStacks = 1;
             KnowsMove = true;
             KnowsStrike = true;
-            KnowsBlock = true;
+            KnowsDefend = true;
             KnowsFireBall = true;
             KnowsTelekinesis = true;
             KnowsFrostBolt = true;
@@ -252,7 +328,7 @@ public class CharacterData : MonoBehaviour
 
             KnowsMove = true;
             KnowsStrike = true;
-            KnowsBlock = true;
+            KnowsDefend = true;
             KnowsHolyFire = true;
             KnowsInvigorate = true;
             KnowsChaosBolt = true;
@@ -285,7 +361,7 @@ public class CharacterData : MonoBehaviour
 
             KnowsMove = true;
             KnowsStrike = true;
-            KnowsBlock = true;
+            KnowsDefend = true;
             KnowsTwinStrike = true;
             KnowsDash = true;
             KnowsPreparation = true;
@@ -315,7 +391,7 @@ public class CharacterData : MonoBehaviour
 
             KnowsMove = true;
             KnowsStrike = true;
-            KnowsBlock = true;
+            KnowsDefend = true;
             KnowsSmash = true;
             KnowsLightningShield = true;
             KnowsChainLightning = true;

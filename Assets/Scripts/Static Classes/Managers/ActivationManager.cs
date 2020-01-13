@@ -63,6 +63,7 @@ public class ActivationManager : Singleton<ActivationManager>
     }
     public Action StartNewTurnSequence()
     {
+        Debug.Log("ActivationManager.StartNewTurnSequenceCalled()....");
         Action action = new Action();
         StartCoroutine(StartNewTurnSequenceCoroutine(action));
         return action;
@@ -70,9 +71,12 @@ public class ActivationManager : Singleton<ActivationManager>
     public IEnumerator StartNewTurnSequenceCoroutine(Action action)
     {
         TurnManager.Instance.currentTurnCount++;
+
+        // Resolve each entity's OnNewTurnCycleStarted events
         foreach(LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
         {
-            entity.OnNewTurnCycleStarted();
+            Action endTurnCycleEvent = entity.OnNewTurnCycleStarted();
+            yield return new WaitUntil(() => endTurnCycleEvent.ActionResolved());
         }
 
         Action rolls = CalculateActivationOrder();
@@ -192,7 +196,7 @@ public class ActivationManager : Singleton<ActivationManager>
 
         while (window.animateNumberText == true)
         {
-            Debug.Log("Animating roll number text....");
+            //Debug.Log("Animating roll number text....");
             numberDisplayed++;
             if (numberDisplayed > 9)
             {

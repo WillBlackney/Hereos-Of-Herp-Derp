@@ -126,14 +126,44 @@ public class Tile : MonoBehaviour
 
         else if (selectedDefender != null && selectedDefender.awaitingMeteorOrder == true)
         {
-            selectedDefender.StartMeteorProcess(this);
+            selectedDefender.StartMeteorProcess(LevelManager.Instance.selectedTile);
         }
-
+        else if (selectedDefender != null && selectedDefender.awaitingBlizzardOrder == true)
+        {
+            selectedDefender.StartBlizzardProcess(this);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingToxicEruptionOrder == true)
+        {
+            selectedDefender.StartToxicEruptionProcess(this);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingBlindingLightOrder == true)
+        {
+            selectedDefender.StartBlindingLightProcess(this);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingRainOfChaosOrder == true)
+        {
+            selectedDefender.StartRainOfChaosProcess(this);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingThunderStormOrder == true)
+        {
+            selectedDefender.StartThunderStormProcess(this);
+        }
         else if (selectedDefender != null && selectedDefender.awaitingTelekinesisLocationOrder == true)
         {
             selectedDefender.StartTelekinesisProcess(selectedDefender.myCurrentTarget, this);
         }
-
+        else if (selectedDefender != null && selectedDefender.awaitingBlinkOrder == true)
+        {
+            selectedDefender.StartBlinkProcess(this);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingTreeLeapOrder == true)
+        {
+            selectedDefender.StartTreeLeapProcess(this);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingPhoenixDiveOrder == true)
+        {
+            selectedDefender.StartPhoenixDiveProcess(this);
+        }
         else if (selectedDefender != null && selectedDefender.awaitingDashOrder == true)
         {
             selectedDefender.StartDashProcess(this);

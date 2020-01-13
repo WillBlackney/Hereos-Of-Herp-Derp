@@ -229,13 +229,14 @@ public class VisualEffectManager : MonoBehaviour
 
         while (shadowBall.transform.position != endPosition)
         {
-            shadowBall.transform.position = Vector2.MoveTowards(shadowBall.transform.position, endPosition, speed * Time.deltaTime);
-            if (shadowBall.transform.position == endPosition)
-            {
-                myExplodeOnHit.Explode();
-                action.actionResolved = true;
-            }
+            shadowBall.transform.position = Vector2.MoveTowards(shadowBall.transform.position, endPosition, speed * Time.deltaTime);            
             yield return new WaitForEndOfFrame();
+        }
+
+        if (shadowBall.transform.position == endPosition)
+        {
+            myExplodeOnHit.Explode();
+            action.actionResolved = true;
         }
     }
     public Action ShootHolyFire(Vector3 endPos)

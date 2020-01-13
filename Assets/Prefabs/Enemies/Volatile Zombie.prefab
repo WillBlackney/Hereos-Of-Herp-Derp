@@ -166,6 +166,76 @@ MonoBehaviour:
   KnowsChaosBolt: 0
   KnowsFrostNova: 0
   KnowsEmpowerBinding: 0
+  KnowsDevastatingBlow: 0
+  KnowsKickToTheBalls: 0
+  KnowsBladeFlurry: 0
+  KnowsRecklessness: 0
+  KnowsTendonSlash: 0
+  KnowsShieldShatter: 0
+  KnowsEvasion: 0
+  KnowsDecapitate: 0
+  KnowsVanish: 0
+  KnowsCheapShot: 0
+  KnowsShank: 0
+  KnowsShadowStep: 0
+  KnowsAmbush: 0
+  KnowsStalk: 0
+  KnowsSharpenBlade: 0
+  KnowsProvoke: 0
+  KnowsSwordAndBoard: 0
+  KnowsShieldSlam: 0
+  KnowsTestudo: 0
+  KnowsReactiveArmour: 0
+  KnowsChallengingShout: 0
+  KnowsFireNova: 0
+  KnowsPhoenixDive: 0
+  KnowsBlaze: 0
+  KnowsCombustion: 0
+  KnowsDragonBreath: 0
+  KnowsChillingBlow: 0
+  KnowsIcyFocus: 0
+  KnowsBlizzard: 0
+  KnowsFrostArmour: 0
+  KnowsGlacialBurst: 0
+  KnowsCreepingFrost: 0
+  KnowsThaw: 0
+  KnowsHaste: 0
+  KnowsSteadyHands: 0
+  KnowsHeadShot: 0
+  KnowsTreeLeap: 0
+  KnowsConcentration: 0
+  KnowsOverwatch: 0
+  KnowsDimenisonalBlast: 0
+  KnowsMirage: 0
+  KnowsBurstOfKnowledge: 0
+  KnowsBlink: 0
+  KnowsInfuse: 0
+  KnowsTimeWarp: 0
+  KnowsDimensionalHex: 0
+  KnowsConsecrate: 0
+  KnowsPurity: 0
+  KnowsBlindingLight: 0
+  KnowsTranscendence: 0
+  KnowsJudgement: 0
+  KnowsShroud: 0
+  KnowsHex: 0
+  KnowsRainOfChaos: 0
+  KnowsShadowWreath: 0
+  KnowsUnbridledChaos: 0
+  KnowsBlight: 0
+  KnowsBloodOffering: 0
+  KnowsToxicSlash: 0
+  KnowsNoxiousFumes: 0
+  KnowsToxicEruption: 0
+  KnowsDrain: 0
+  KnowsSpiritSurge: 0
+  KnowsLightningBolt: 0
+  KnowsThunderStrike: 0
+  KnowsSpiritVision: 0
+  KnowsThunderStorm: 0
+  KnowsPressurize: 0
+  KnowsConcealingClouds: 0
+  KnowsSuperConductor: 0
 --- !u!114 &7011744735078177082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +273,8 @@ MonoBehaviour:
   temporaryBonusMobilityStacks: 0
   temporaryBonusDexterity: 0
   temporaryBonusDexterityStacks: 0
+  temporaryBonusParry: 0
+  temporaryBonusParryStacks: 0
   fieryImbuement: 0
   fieryImbuementStacks: 0
   frostImbuement: 0
@@ -392,9 +464,9 @@ MonoBehaviour:
   myActivationWindow: {fileID: 0}
   defender: {fileID: 0}
   enemy: {fileID: 0}
-  baseMobility: 5
-  baseMaxHealth: 12
-  baseStartingHealth: 12
+  baseMobility: 6
+  baseMaxHealth: 30
+  baseStartingHealth: 30
   baseStamina: 40
   baseMaxEnergy: 60
   baseMeleeRange: 1
