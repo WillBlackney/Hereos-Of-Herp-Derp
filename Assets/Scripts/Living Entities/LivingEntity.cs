@@ -43,6 +43,7 @@ public class LivingEntity : MonoBehaviour
     public int baseParryChance;
     public int baseStartingBlock;
     public int baseStartingEnergyBonus;
+    public int baseMaxPowersCount;
 
     public int basePhysicalResistance;
     public int baseFireResistance;
@@ -66,6 +67,7 @@ public class LivingEntity : MonoBehaviour
     public int currentCriticalChance;
     public int currentDodgeChance;
     public int currentParryChance;
+    public int currentMaxPowersCount;
     public int currentBlock;
     public int currentPhysicalResistance;
     public int currentFireResistance;
@@ -82,6 +84,9 @@ public class LivingEntity : MonoBehaviour
     public LivingEntity myCurrentTarget;
     public Stack<Node> path;
     public Vector3 destination;
+
+    [Header("Other Properties ")]
+    public List<Ability> activePowers;
 
     [Header("Miscealaneous Properties ")]
     public float speed;   
@@ -157,6 +162,7 @@ public class LivingEntity : MonoBehaviour
             baseStartingHealth = (int) (baseMaxHealth * 0.8f);
         }
 
+        baseMaxPowersCount++;
         currentHealth = baseStartingHealth;
         currentMaxEnergy = baseMaxEnergy;
         currentStamina = baseStamina;              
@@ -171,6 +177,8 @@ public class LivingEntity : MonoBehaviour
         ModifyCurrentCriticalChance(baseCriticalChance);
         ModifyCurrentDodgeChance(baseDodgeChance);
         ModifyCurrentParryChance(baseParryChance);
+        ModifyMaxPowersLimit(baseMaxPowersCount);
+
         UpdateHealthGUIElements();
         SetColor(normalColour);
 
@@ -341,6 +349,10 @@ public class LivingEntity : MonoBehaviour
     public virtual void ModifyCurrentParryChance(int parryGainedOrLost)
     {
         currentParryChance += parryGainedOrLost;
+    }
+    public virtual void ModifyMaxPowersLimit(int maxPowersLimitGainedOrLost)
+    {
+        currentMaxPowersCount += maxPowersLimitGainedOrLost;
     }
     public virtual void ModifyCurrentBlock(int blockGainedOrLost)
     {

@@ -133,7 +133,7 @@ public class SpellBook : MonoBehaviour
     public bool KnowsThunderStrike;
     public bool KnowsSpiritVision;
     public bool KnowsThunderStorm;
-    public bool KnowsPressurize;
+    public bool KnowsOverload;
     public bool KnowsConcealingClouds;
     public bool KnowsSuperConductor;
     public bool KnowsSnipe;
@@ -602,9 +602,9 @@ public class SpellBook : MonoBehaviour
         {
             LearnThunderStorm();
         }
-        if (cd.KnowsPressurize == true)
+        if (cd.KnowsOverload == true)
         {
-            LearnPressurize();
+            LearnOverload();
         }
         if (cd.KnowsConcealingClouds == true)
         {
@@ -697,7 +697,7 @@ public class SpellBook : MonoBehaviour
         }
         if(ability == null)
         {
-            Debug.Log("GetAbilityByName() returned a null value...");
+            Debug.Log("SpellBook.GetAbilityByName() could not find an ability with the name '" + abilityName + "', returning null...");
         }
 
         return ability;
@@ -2596,20 +2596,20 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-    public void LearnPressurize()
+    public void LearnOverload()
     {
-        KnowsPressurize = true;
+        KnowsOverload = true;
         Enemy enemy = myLivingEntity.GetComponent<Enemy>();
         Defender defender = myLivingEntity.GetComponent<Defender>();
 
         if (defender)
         {
-            DefenderLearnAbility("Pressurize");
+            DefenderLearnAbility("Overload");
         }
 
         else if (enemy)
         {
-            EnemyLearnAbility("Pressurize");
+            EnemyLearnAbility("Overload");
         }
 
     }

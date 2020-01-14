@@ -130,6 +130,22 @@ public class EnemyManager : Singleton<EnemyManager>
         {
             selectedDefender.StartSmashProcess(selectedEnemy);
         }
+        else if (selectedDefender != null && selectedDefender.awaitingShankOrder == true)
+        {
+            selectedDefender.StartShankProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingCheapShotOrder == true)
+        {
+            selectedDefender.StartCheapShotProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingAmbushOrder == true)
+        {
+            selectedDefender.StartAmbushProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingShadowStepOrder == true)
+        {
+            selectedDefender.StartShadowStepProcess(selectedEnemy);
+        }
         else if (selectedDefender != null && selectedDefender.awaitingChainLightningOrder == true)
         {
             selectedDefender.StartChainLightningProcess(selectedEnemy);

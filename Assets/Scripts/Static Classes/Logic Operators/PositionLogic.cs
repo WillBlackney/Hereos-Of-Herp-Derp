@@ -138,20 +138,59 @@ public class PositionLogic : Singleton<PositionLogic>
         Debug.Log("GetTargetsBackArcTiles() returned " + backArcTiles.Count.ToString() + " tiles");
         return backArcTiles;
     }
+    public Tile GetTargetsBackArcTile(LivingEntity character)
+    {
+        List<Tile> adjacentTiles = LevelManager.Instance.GetTilesWithinRange(1, character.tile);
+        Tile backArcTile = null;
+
+        if (character.facingRight)
+        {
+            foreach (Tile tile in adjacentTiles)
+            {
+                if (tile.GridPosition.X == character.tile.GridPosition.X - 1 &&
+                    tile.GridPosition.Y == character.tile.GridPosition.Y)
+                {
+                    backArcTile = tile;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            foreach (Tile tile in adjacentTiles)
+            {
+                if(tile.GridPosition.X == character.tile.GridPosition.X + 1 &&
+                    tile.GridPosition.Y == character.tile.GridPosition.Y)
+                {
+                    backArcTile = tile;
+                    break;
+                }
+               
+            }
+        }
+
+        Debug.Log("GetTargetsBackArcTile() returned Tile (" + backArcTile.GridPosition.X.ToString() +", " +
+            backArcTile.GridPosition.Y.ToString());
+
+        return backArcTile;
+    }
     #endregion
 
     // Conditional Checks
     #region
-    public bool CanEntityBackStrikeTarget(LivingEntity attacker, LivingEntity target)
-    {     
+    public bool CanAttackerBackStrikeTarget(LivingEntity attacker, LivingEntity target)
+    {
+        Debug.Log("PositionLogic.CanEntityBackStrikeTarget() called...");
         List<Tile> backArcLocations = GetTargetsBackArcTiles(target);
 
         if (backArcLocations.Contains(attacker.tile))
         {
+            Debug.Log("PositionLogic.CanEntityBackStrikeTarget() returned true...");
             return true;
         }
         else
         {
+            Debug.Log("PositionLogic.CanEntityBackStrikeTarget() returned false...");
             return false;
         }
         

@@ -198,7 +198,7 @@ public class CharacterData : MonoBehaviour
     public bool KnowsThunderStrike;
     public bool KnowsSpiritVision;
     public bool KnowsThunderStorm;
-    public bool KnowsPressurize;
+    public bool KnowsOverload;
     public bool KnowsConcealingClouds;
     public bool KnowsSuperConductor;
     public bool KnowsSnipe;
@@ -243,14 +243,15 @@ public class CharacterData : MonoBehaviour
             // Abiltiies + Passives
             cautiousStacks = 5;
             KnowsMove = true;
-            KnowsStrike = true;
+            //KnowsStrike = true;
 
-            KnowsBloodOffering = true;
-            KnowsLightningBolt = true;
-            KnowsThunderStrike = true;
-            KnowsConcealingClouds = true;
-            KnowsChainLightning = true;
-            KnowsSuperConductor = true;
+            KnowsVanish = true;
+            KnowsShank = true;
+            KnowsSliceAndDice = true;
+            KnowsInfuse = true;
+            KnowsShadowWreath = true;
+            KnowsPurity = true;
+            KnowsOverload = true;
 
 
             //talentTreeOne.InitializeSetup("Path of Rage");

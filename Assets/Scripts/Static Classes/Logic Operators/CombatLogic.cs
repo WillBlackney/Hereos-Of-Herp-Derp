@@ -134,7 +134,7 @@ public class CombatLogic : MonoBehaviour
         int adjustedDamageValue = damageAmount;
         int blockAfter = victim.currentBlock;
         int healthAfter = victim.currentHealth;
-        bool criticalSuccesful = RollForCritical(attacker);
+        bool criticalSuccesful = RollForCritical(attacker, abilityUsed);
 
         // play impact VFX
         if (attackType != AbilityDataSO.AttackType.None)
@@ -388,7 +388,7 @@ public class CombatLogic : MonoBehaviour
         // check for critical
         if(attackType != AbilityDataSO.AttackType.None)
         {
-            if (RollForCritical(attacker))
+            if (RollForCritical(attacker, null))
             {
                 damageModifier += 0.5f;
             }
@@ -402,7 +402,7 @@ public class CombatLogic : MonoBehaviour
         }
 
         // back arc
-        if(PositionLogic.Instance.CanEntityBackStrikeTarget(attacker, victim) && attackType == AbilityDataSO.AttackType.Melee)
+        if(PositionLogic.Instance.CanAttackerBackStrikeTarget(attacker, victim) && attackType == AbilityDataSO.AttackType.Melee)
         {
             //damageModifier += 1f;
             //Debug.Log("Attacker striking victims back arc, increasing damage by 100%...");
@@ -590,7 +590,7 @@ public class CombatLogic : MonoBehaviour
         }
 
         // back strike bonuses
-        if (PositionLogic.Instance.CanEntityBackStrikeTarget(attacker, target) && abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        if (PositionLogic.Instance.CanAttackerBackStrikeTarget(attacker, target) && abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
         {
             // TO DO: update this when we implement opportunist passive
         }
@@ -667,13 +667,26 @@ public class CombatLogic : MonoBehaviour
         // return damage type
         return damageTypeReturned;
     }
-    public int CalculateCriticalStrikeChance(LivingEntity character)
+    public int CalculateCriticalStrikeChance(LivingEntity character, Ability ability)
     {
         Debug.Log("CombatLogic.CalculateCriticalChance() called...");
         // TO DO: when more passive traits are added that effect crit chance (ambusher, predator, etc), update this method
         int critChanceReturned = 0;
 
+        // Add base crit chance
         critChanceReturned += character.currentCriticalChance;
+
+        // Cap Crit Chance at 80%
+        if(critChanceReturned > 80)
+        {
+            critChanceReturned = 80;
+        }
+
+        // Check for sharpen blade
+        if (character.myPassiveManager.sharpenedBlade && ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        {
+            critChanceReturned = 100;
+        }
 
         return critChanceReturned;
     }
@@ -688,6 +701,12 @@ public class CombatLogic : MonoBehaviour
         // add bonuses from passives
         parryChanceReturned += target.myPassiveManager.temporaryBonusParryStacks;
 
+        // Cap Parry Chance at 80%
+        if (parryChanceReturned > 80)
+        {
+            parryChanceReturned = 80;
+        }
+
         return parryChanceReturned;
     }
     public int CalculateDodgeChance(LivingEntity target)
@@ -701,6 +720,12 @@ public class CombatLogic : MonoBehaviour
         // add bonuses from passives
         dodgeChanceReturned += target.myPassiveManager.temporaryBonusDodgeStacks;
 
+        // Cap Parry Chance at 80%
+        if (dodgeChanceReturned > 80)
+        {
+            dodgeChanceReturned = 80;
+        }
+
         return dodgeChanceReturned;
     }
     public int CalculateBlockGainedByEffect(int baseBlockGain, LivingEntity caster)
@@ -713,10 +738,10 @@ public class CombatLogic : MonoBehaviour
     }
 
     // Roll for Crit, Parry and Dodge
-    public bool RollForCritical(LivingEntity attacker)
+    public bool RollForCritical(LivingEntity attacker, Ability ability)
     {
         Debug.Log("CombatLogic.RollForCritical() called...");
-        int critChance = CalculateCriticalStrikeChance(attacker);
+        int critChance = CalculateCriticalStrikeChance(attacker, ability);
 
         int roll = Random.Range(1, 101);
         Debug.Log(attacker.gameObject.name + " rolled a " + roll.ToString() + " to crit");
