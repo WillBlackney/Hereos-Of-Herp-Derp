@@ -144,6 +144,10 @@ public class Tile : MonoBehaviour
         {
             selectedDefender.StartConcealingCloudsProcess(this);
         }
+        else if (selectedDefender != null && selectedDefender.awaitingDragonBreathOrder == true)
+        {
+            selectedDefender.StartDragonBreathProcess(this);
+        }
         else if (selectedDefender != null && selectedDefender.awaitingRainOfChaosOrder == true)
         {
             selectedDefender.StartRainOfChaosProcess(this);

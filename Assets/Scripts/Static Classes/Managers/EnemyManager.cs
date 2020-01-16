@@ -134,9 +134,17 @@ public class EnemyManager : Singleton<EnemyManager>
         {
             selectedDefender.StartShankProcess(selectedEnemy);
         }
+        else if (selectedDefender != null && selectedDefender.awaitingProvokeOrder == true)
+        {
+            selectedDefender.StartProvokeProcess(selectedEnemy);
+        }
         else if (selectedDefender != null && selectedDefender.awaitingCheapShotOrder == true)
         {
             selectedDefender.StartCheapShotProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingDecapitateOrder == true)
+        {
+            selectedDefender.StartDecapitateProcess(selectedEnemy);
         }
         else if (selectedDefender != null && selectedDefender.awaitingAmbushOrder == true)
         {
@@ -165,6 +173,14 @@ public class EnemyManager : Singleton<EnemyManager>
         else if (selectedDefender != null && selectedDefender.awaitingDimensionalHexOrder == true)
         {
             selectedDefender.StartDimensionalHexProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingDragonBreathOrder == true)
+        {
+            selectedDefender.StartDragonBreathProcess(selectedEnemy.tile);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingCombustionOrder == true)
+        {
+            selectedDefender.StartCombustionProcess(selectedEnemy);
         }
         else if (selectedDefender != null && selectedDefender.awaitingSiphonLifeOrder == true)
         {

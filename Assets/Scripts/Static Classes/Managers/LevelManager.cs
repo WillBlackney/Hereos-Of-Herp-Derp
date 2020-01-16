@@ -489,6 +489,130 @@ public class LevelManager : Singleton<LevelManager>
         Debug.Log("Tile " + tile.GridPosition.X + ", " + tile.GridPosition.Y + " is now occupied");
         tile.IsEmpty = true;
     }
+    public List<Tile> GetAllTilesInALine(Tile startTile, Tile adjacentDirectionTile, int distance, bool removeStartTile)
+    {
+        Debug.Log("LevelManager. GetAllTilesInALine() called...");
+        Debug.Log("Calculating a line from tile " + startTile.GridPosition.X.ToString() + ", " + startTile.GridPosition.Y.ToString() +
+            " towards tile " + adjacentDirectionTile.GridPosition.X.ToString() + ", " + adjacentDirectionTile.GridPosition.Y.ToString() +
+            " with a distance of " + distance.ToString());
+        List<Tile> tilesReturned = new List<Tile>();
+        Tile currentLoopTile = startTile;
+
+        // Calculate direction first
+
+        // Check north
+        if (PositionLogic.Instance.IsLocationNorth(startTile, adjacentDirectionTile))
+        {
+            for (int i = 0; i < distance; i++)
+            {
+                Tile nextTile = PositionLogic.Instance.GetAdjacentNorthernTile(currentLoopTile);
+                if (nextTile != null)
+                {
+                    tilesReturned.Add(nextTile);
+                    currentLoopTile = nextTile;
+                }
+            }
+        }
+        // Check south
+        else if (PositionLogic.Instance.IsLocationSouth(startTile, adjacentDirectionTile))
+        {
+            for (int i = 0; i < distance; i++)
+            {
+                Tile nextTile = PositionLogic.Instance.GetAdjacentSouthernTile(currentLoopTile);
+                if (nextTile != null)
+                {
+                    tilesReturned.Add(nextTile);
+                    currentLoopTile = nextTile;
+                }
+            }
+        }
+        // Check east
+        else if (PositionLogic.Instance.IsLocationEast(startTile, adjacentDirectionTile))
+        {
+            for (int i = 0; i < distance; i++)
+            {
+                Tile nextTile = PositionLogic.Instance.GetAdjacentEasternTile(currentLoopTile);
+                if (nextTile != null)
+                {
+                    tilesReturned.Add(nextTile);
+                    currentLoopTile = nextTile;
+                }
+            }
+        }
+        // Check west
+        else if (PositionLogic.Instance.IsLocationWest(startTile, adjacentDirectionTile))
+        {
+            for (int i = 0; i < distance; i++)
+            {
+                Tile nextTile = PositionLogic.Instance.GetAdjacentWesternTile(currentLoopTile);
+                if (nextTile != null)
+                {
+                    tilesReturned.Add(nextTile);
+                    currentLoopTile = nextTile;
+                }
+            }
+        }
+        // Check north east
+        else if (PositionLogic.Instance.IsLocationNorthEast(startTile, adjacentDirectionTile))
+        {
+            for (int i = 0; i < distance; i++)
+            {
+                Tile nextTile = PositionLogic.Instance.GetAdjacentNorthEastTile(currentLoopTile);
+                if (nextTile != null)
+                {
+                    tilesReturned.Add(nextTile);
+                    currentLoopTile = nextTile;
+                }
+            }
+        }
+        // Check north west
+        else if (PositionLogic.Instance.IsLocationNorthWest(startTile, adjacentDirectionTile))
+        {
+            for (int i = 0; i < distance; i++)
+            {
+                Tile nextTile = PositionLogic.Instance.GetAdjacentNorthWestTile(currentLoopTile);
+                if (nextTile != null)
+                {
+                    tilesReturned.Add(nextTile);
+                    currentLoopTile = nextTile;
+                }
+            }
+        }
+        // Check south east
+        else if (PositionLogic.Instance.IsLocationSouthEast(startTile, adjacentDirectionTile))
+        {
+            for (int i = 0; i < distance; i++)
+            {
+                Tile nextTile = PositionLogic.Instance.GetAdjacentSouthEastTile(currentLoopTile);
+                if (nextTile != null)
+                {
+                    tilesReturned.Add(nextTile);
+                    currentLoopTile = nextTile;
+                }
+            }
+        }
+        // Check south west
+        else if (PositionLogic.Instance.IsLocationSouthWest(startTile, adjacentDirectionTile))
+        {
+            for (int i = 0; i < distance; i++)
+            {
+                Tile nextTile = PositionLogic.Instance.GetAdjacentSouthWestTile(currentLoopTile);
+                if (nextTile != null)
+                {
+                    tilesReturned.Add(nextTile);
+                    currentLoopTile = nextTile;
+                }
+            }
+        }
+
+        if (removeStartTile)
+        {
+            tilesReturned.Remove(startTile);
+        }
+
+        Debug.Log("Found " + tilesReturned.Count + " tiles in a line");
+        return tilesReturned;
+    }
     #endregion
 
     // Misc Logic

@@ -474,7 +474,7 @@ public class CombatLogic : MonoBehaviour
     
     #endregion
 
-    // Damage and Combat Calculators
+    // Damage, Damage Type and Resistance Calculators
     public int GetBaseDamageValue(LivingEntity entity, int weaponBaseDamage, Ability abilityUsed, string attackDamageType, ItemDataSO weaponUsed = null)
     {
         Debug.Log("CombatLogic.GetBaseDamageValue() called...");
@@ -505,11 +505,14 @@ public class CombatLogic : MonoBehaviour
             Debug.Log("Base damage after wisdom added: " + baseDamageValueReturned.ToString());
         }
 
-        // multiply by ability damage multiplier
-        baseDamageValueReturned = (int)(baseDamageValueReturned * abilityUsed.weaponDamagePercentage);
-        Debug.Log("Base damage ability percentage modifer " + baseDamageValueReturned.ToString());
+        // multiply by ability damage multiplier if ability uses a weapon
+        if(abilityUsed.requiresMeleeWeapon || abilityUsed.requiresRangedWeapon)
+        {
+            baseDamageValueReturned = (int)(baseDamageValueReturned * abilityUsed.weaponDamagePercentage);
+            Debug.Log("Base damage ability percentage modifer " + baseDamageValueReturned.ToString());
+        }        
 
-        // return
+        // return final value
         return baseDamageValueReturned;
 
     }
@@ -633,25 +636,60 @@ public class CombatLogic : MonoBehaviour
         // preferences
         string damageTypeReturned = "None";
 
-        // draw damage type from ability
+        // First, draw damage type from ability
         damageTypeReturned = AbilityLogic.Instance.GetDamageTypeFromAbility(abilityUsed);
 
-        // if ability uses weapon, get damage type from weapon
+        // Second, if ability uses weapon, get damage type from weapon
         if (itemUsed != null && (abilityUsed.myAbilityData.requiresMeleeWeapon || abilityUsed.myAbilityData.requiresRangedWeapon))
         {
             damageTypeReturned = ItemManager.Instance.GetDamageTypeFromWeapon(itemUsed);
             Debug.Log("Damage type from weapon (" + itemUsed.Name + ") is: " + damageTypeReturned);
         }
 
+        // Third, if character has a 'permanent' imbuement, get damage type from that passive
+        if (entity.myPassiveManager.airImbuement)
+        {
+            damageTypeReturned = "Air";
+        }
+        else if (entity.myPassiveManager.fireImbuement)
+        {
+            damageTypeReturned = "Fire";
+        }
+        else if (entity.myPassiveManager.poisonImbuement)
+        {
+            damageTypeReturned = "Poison";
+        }
+        else if (entity.myPassiveManager.frostImbuement)
+        {
+            damageTypeReturned = "Frost";
+        }
+        else if (entity.myPassiveManager.shadowImbuement)
+        {
+            damageTypeReturned = "Shadow";
+        }
 
-        // after all this, try draw from passive traits that effect damage type output
-        // override this damage type if the character has a temporary damage type buff
-
-        // to do: once more passive traits about damage typing have been implemented, add the logic above
-
-
-
-
+        // Fourth, if character has a temporary imbuement, get damage type from that (override permanent imbuement)
+        if (entity.myPassiveManager.temporaryAirImbuement)
+        {
+            damageTypeReturned = "Air";
+        }
+        else if (entity.myPassiveManager.temporaryFireImbuement)
+        {
+            damageTypeReturned = "Fire";
+        }
+        else if (entity.myPassiveManager.temporaryPoisonImbuement)
+        {
+            damageTypeReturned = "Poison";
+        }
+        else if (entity.myPassiveManager.temporaryFrostImbuement)
+        {
+            damageTypeReturned = "Frost";
+        }
+        else if (entity.myPassiveManager.temporaryShadowImbuement)
+        {
+            damageTypeReturned = "Shadow";
+        }
+        
         return damageTypeReturned;
     }
     public string GetRandomDamageType()
@@ -667,6 +705,8 @@ public class CombatLogic : MonoBehaviour
         // return damage type
         return damageTypeReturned;
     }
+
+    // Calculate Crit, Parry, Dodge, Block Gain
     public int CalculateCriticalStrikeChance(LivingEntity character, Ability ability)
     {
         Debug.Log("CombatLogic.CalculateCriticalChance() called...");
@@ -796,7 +836,7 @@ public class CombatLogic : MonoBehaviour
         }
     }
 
-    // Attack + Ability Specific Events
+    // Handle damage + attack related events
     public Action NewHandleDamage(int damageAmount, LivingEntity attacker, LivingEntity victim, string damageType, Ability abilityUsed = null, bool ignoreBlock = false)
     {
         Debug.Log("CombatLogic.NewHandleDamage() called...");
@@ -858,14 +898,27 @@ public class CombatLogic : MonoBehaviour
 
         }
 
-        // Check for barrier
-        if (victim.myPassiveManager.barrier && healthAfter < victim.currentHealth)
+        // Check for damage immunity passives
+        if (victim.myPassiveManager.barrier || victim.myPassiveManager.transcendence)
         {
-            adjustedDamageValue = 0;
-            healthAfter = victim.currentHealth;
-            victim.myPassiveManager.ModifyBarrier(-1);
-            yield return new WaitForSeconds(0.3f);
-        }        
+            
+            // Check for transcendence
+            if (victim.myPassiveManager.transcendence)
+            {
+                adjustedDamageValue = 0;
+                healthAfter = victim.currentHealth;
+                yield return new WaitForSeconds(0.3f);
+            }
+
+            // Check for barrier
+            else if (victim.myPassiveManager.barrier && healthAfter < victim.currentHealth)
+            {
+                adjustedDamageValue = 0;
+                healthAfter = victim.currentHealth;
+                victim.myPassiveManager.ModifyBarrier(-1);
+                yield return new WaitForSeconds(0.3f);
+            }
+        }            
 
         // Finished calculating the final damage, health lost and armor lost: p
         totalLifeLost = victim.currentHealth - healthAfter;
@@ -991,7 +1044,6 @@ public class CombatLogic : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
     }
-
     public Action HandleParry(LivingEntity attacker, LivingEntity target)
     {
         Debug.Log("CombatLogic.HandleParry() called...");

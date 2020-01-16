@@ -226,7 +226,6 @@ public class ActivationManager : Singleton<ActivationManager>
         }
         action.actionResolved = true;
     }
-
     public void MoveArrowTowardsEntityActivatedWindow()
     {
         int currentActivationIndex = 0;
@@ -271,8 +270,7 @@ public class ActivationManager : Singleton<ActivationManager>
     public IEnumerator ActivateEntityCoroutine(LivingEntity entity, Action action)
     {
         Debug.Log("Activating entity: " + entity.name);
-        entityActivated = entity;
-        entity.hasActivatedThisTurn = true;
+        entityActivated = entity;        
         CameraManager.Instance.SetCameraLookAtTarget(entity.gameObject);
 
         if (entity.defender)
@@ -291,7 +289,9 @@ public class ActivationManager : Singleton<ActivationManager>
 
         entity.myOnActivationEndEffectsFinished = false;
         Action activationStartAction = entity.OnActivationStart();
-        yield return new WaitUntil(() => activationStartAction.ActionResolved() == true);        
+        yield return new WaitUntil(() => activationStartAction.ActionResolved() == true);
+
+        entity.hasActivatedThisTurn = true;
 
         if (entity.enemy)
         {
@@ -311,8 +311,6 @@ public class ActivationManager : Singleton<ActivationManager>
     }
     public IEnumerator EndEntityActivationCoroutine(LivingEntity entity, Action action)
     {
-        //StartCoroutine(entity.OnActivationEndCoroutine());        
-        //yield return new WaitUntil(() => entity.myOnActivationEndEffectsFinished == true);
         Action endActivationAction = entity.OnActivationEnd();
         yield return new WaitUntil(() => endActivationAction.ActionResolved() == true);
         action.actionResolved = true;
@@ -329,7 +327,8 @@ public class ActivationManager : Singleton<ActivationManager>
             for (int index = 0; index < activationOrder.Count; index++)
             {
                 if (activationOrder[index].inDeathProcess == false &&
-                   activationOrder[index].hasActivatedThisTurn == false)
+                   (activationOrder[index].hasActivatedThisTurn == false ||
+                    (activationOrder[index].hasActivatedThisTurn == true && activationOrder[index].myPassiveManager.timeWarp)))
                 {
                     nextEntityToActivate = activationOrder[index];
                     break;
@@ -347,29 +346,6 @@ public class ActivationManager : Singleton<ActivationManager>
             }
         }
         
-
-        /*
-        int lastIndex = activationOrder.Count() - 1;
-        int currentIndex = activationOrder.IndexOf(entityActivated);
-        if (currentIndex != lastIndex)
-        {
-            // if 2 or more living entities are killed at the same time, this will find the next valid entity to activate, then activate it
-            int nextEntityCount = 1;
-            if(activationOrder[currentIndex + nextEntityCount].inDeathProcess)
-            {
-                nextEntityCount++;
-                if (activationOrder[currentIndex + nextEntityCount].inDeathProcess)
-                {
-                    nextEntityCount++;
-                }
-            }
-            ActivateEntity(activationOrder[currentIndex + nextEntityCount]);
-        }
-        else
-        {
-            StartNewTurnSequence();
-        }
-        */
     }
     public bool IsEntityActivated(LivingEntity entity)
     {
@@ -386,9 +362,10 @@ public class ActivationManager : Singleton<ActivationManager>
     public bool AllEntitiesHaveActivatedThisTurn()
     {
         bool boolReturned = true;
-        foreach(LivingEntity entity in activationOrder)
+        foreach (LivingEntity entity in activationOrder)
         {
-            if (entity.hasActivatedThisTurn == false)
+            if (entity.hasActivatedThisTurn == false ||
+                (entity.myPassiveManager.timeWarp == true && entity.myPassiveManager.timeWarp))
             {
                 boolReturned = false;
             }

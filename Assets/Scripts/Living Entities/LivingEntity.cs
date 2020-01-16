@@ -102,6 +102,7 @@ public class LivingEntity : MonoBehaviour
     public Color highlightColour;
     public bool myRangedAttackFinished;
     public bool hasActivatedThisTurn;
+    public LivingEntity myTaunter;
 
     // Initialization / Setup
     #region
@@ -447,7 +448,7 @@ public class LivingEntity : MonoBehaviour
         // Remove Temporary Parry 
         if (myPassiveManager.temporaryBonusParry)
         {
-            myPassiveManager.ModifyTemporaryParryBonus(myPassiveManager.temporaryBonusParryStacks);
+            myPassiveManager.ModifyTemporaryParry(myPassiveManager.temporaryBonusParryStacks);
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -630,7 +631,13 @@ public class LivingEntity : MonoBehaviour
         timesAttackedThisTurnCycle = 0;
         GainEnergyOnActivationStart();
         ReduceCooldownsOnActivationStart();
-        ModifyBlockOnActivationStart();        
+        ModifyBlockOnActivationStart();
+
+        // Remove time warp
+        if (myPassiveManager.timeWarp && hasActivatedThisTurn)
+        {
+            myPassiveManager.ModifyTimeWarp(-myPassiveManager.timeWarpStacks);
+        }
 
         if (myPassiveManager.growing)
         {

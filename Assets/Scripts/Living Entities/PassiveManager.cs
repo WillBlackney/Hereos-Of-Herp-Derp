@@ -56,6 +56,15 @@ public class PassiveManager : MonoBehaviour
     public bool temporaryBonusTrueSight;
     public int temporaryBonusTrueSightStacks;
 
+    public bool temporaryHawkEye;
+    public int temporaryHawkEyeStacks;
+
+    public bool overwatch;
+    public int overwatchStacks;
+
+    public bool timeWarp;
+    public int timeWarpStacks;
+
     [Header("Damage Type Modifier Passives")]
     public bool fireImbuement;
     public int fireImbuementStacks;
@@ -94,6 +103,25 @@ public class PassiveManager : MonoBehaviour
     public bool purity;
     public int purityStacks;
 
+    public bool recklessness;
+    public int recklessnessStacks;
+
+    public bool testudo;
+    public int testudoStacks;
+
+    public bool rapidCloaking;
+    public int rapidCloakingStacks;
+
+    public bool concentration;
+    public int concentrationStacks;
+
+    public bool transcendence;
+    public int transcendenceStacks;
+
+    public bool invincible;
+    public int invincibleStacks;
+
+
     [Header("Debuff + Negative Passives")]
     public bool immobilized;
     public int immobilizedStacks;
@@ -127,6 +155,9 @@ public class PassiveManager : MonoBehaviour
 
     public bool sleep;
     public int sleepStacks;
+
+    public bool taunted;
+    public int tauntedStacks;
 
     public bool sharpenedBlade;
     public int sharpenedBladeStacks;
@@ -292,8 +323,6 @@ public class PassiveManager : MonoBehaviour
 
     public bool shadowAura;
     public int shadowAuraStacks;
-
-
 
 
 
@@ -645,9 +674,41 @@ public class PassiveManager : MonoBehaviour
         }
 
     }
+    public void ModifyTaunted(int stacks, LivingEntity taunter)
+    {
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Taunted");
+
+        if (stacks > 0)
+        {
+            tauntedStacks += stacks;
+            if (tauntedStacks > 0)
+            {
+                taunted = true;
+                StartCoroutine(VisualEffectManager.Instance.
+                CreateStatusEffect(myLivingEntity.transform.position, "Taunted", false));
+                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                myLivingEntity.myTaunter = taunter;
+            }
+
+        }
+
+        else if (stacks < 0)
+        {
+            tauntedStacks += stacks;
+            if (tauntedStacks <= 0)
+            {
+                tauntedStacks = 0;
+                taunted = false;
+            }
+            myLivingEntity.myTaunter = null;
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+
+    }
 
 
-    // Modify Temporary Buffs
+    // Modify Temporary Stat Buffs
     public void ModifySharpenedBlade(int stacks)
     {
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Sharpened Blade");
@@ -761,7 +822,7 @@ public class PassiveManager : MonoBehaviour
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
-    public void ModifyTemporaryParryBonus(int stacks)
+    public void ModifyTemporaryParry(int stacks)
     {
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Parry");
 
@@ -785,7 +846,7 @@ public class PassiveManager : MonoBehaviour
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
-    public void ModifyTemporaryDodgeBonus(int stacks)
+    public void ModifyTemporaryDodge(int stacks)
     {
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Dodge");
 
@@ -809,7 +870,7 @@ public class PassiveManager : MonoBehaviour
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
-    public void ModifyTemporaryWisdomBonus(int stacks)
+    public void ModifyTemporaryWisdom(int stacks)
     {
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Wisdom");
 
@@ -833,7 +894,7 @@ public class PassiveManager : MonoBehaviour
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
-    public void ModifyTemporaryStrengthBonus(int stacks)
+    public void ModifyTemporaryStrength(int stacks)
     {
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Strength");
 
@@ -857,7 +918,7 @@ public class PassiveManager : MonoBehaviour
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
-    public void ModifyTemporaryMobilityBonus(int stacks)
+    public void ModifyTemporaryMobility(int stacks)
     {
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Mobility");
 
@@ -881,7 +942,7 @@ public class PassiveManager : MonoBehaviour
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
-    public void ModifyTemporaryInitiativeBonus(int stacks)
+    public void ModifyTemporaryInitiative(int stacks)
     {
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Initiative");
 
@@ -905,7 +966,7 @@ public class PassiveManager : MonoBehaviour
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
-    public void ModifyTemporaryDexterityBonus(int stacks)
+    public void ModifyTemporaryDexterity(int stacks)
     {
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Dexterity");
 
@@ -929,6 +990,103 @@ public class PassiveManager : MonoBehaviour
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
+    public void ModifyTemporaryHawkEyeBonus(int stacks)
+    {
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Hawk Eye");
+
+        if (stacks > 0)
+        {
+            temporaryHawkEyeStacks += stacks;
+            if (temporaryHawkEyeStacks > 0)
+            {
+                temporaryHawkEye = true;
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            temporaryHawkEyeStacks += stacks;
+            if (temporaryHawkEyeStacks <= 0)
+            {
+                temporaryHawkEye = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyTranscendence(int stacks)
+    {
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Transcendence");
+
+        if (stacks > 0)
+        {
+            transcendenceStacks += stacks;
+            if (transcendenceStacks > 0)
+            {
+                transcendence = true;
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            transcendenceStacks += stacks;
+            if (transcendenceStacks <= 0)
+            {
+                transcendence = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyTimeWarp(int stacks)
+    {
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Time Warp");
+
+        if (stacks > 0)
+        {
+            timeWarpStacks += stacks;
+            if (timeWarpStacks > 0)
+            {
+                timeWarp = true;
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            timeWarpStacks += stacks;
+            if (timeWarpStacks <= 0)
+            {
+                timeWarp = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyOverwatch(int stacks)
+    {
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Overwatch");
+
+        if (stacks > 0)
+        {
+            overwatchStacks += stacks;
+            if (overwatchStacks > 0)
+            {
+                overwatch = true;
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            overwatchStacks += stacks;
+            if (overwatchStacks <= 0)
+            {
+                overwatch = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+
 
     // Modify Imbuements
     public void ModifyAirImbuement(int stacks)
@@ -1263,8 +1421,90 @@ public class PassiveManager : MonoBehaviour
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
+    public void ModifyRecklessness(int stacks)
+    {
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Recklessness");
 
-    // Modify Resistances
+        if (stacks > 0)
+        {
+            recklessnessStacks += stacks;
+            if (recklessnessStacks > 0)
+            {
+                recklessness = true;
+                StartCoroutine(VisualEffectManager.Instance.
+                CreateStatusEffect(myLivingEntity.transform.position, "Recklessness", false));
+                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            recklessnessStacks += stacks;
+            if (recklessnessStacks <= 0)
+            {
+                recklessnessStacks = 0;
+                recklessness = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyTestudo(int stacks)
+    {
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Testudo");
+
+        if (stacks > 0)
+        {
+            testudoStacks += stacks;
+            if (testudoStacks > 0)
+            {
+                testudo = true;
+                StartCoroutine(VisualEffectManager.Instance.
+                CreateStatusEffect(myLivingEntity.transform.position, "Testudo", false));
+                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            testudoStacks += stacks;
+            if (testudoStacks <= 0)
+            {
+                testudoStacks = 0;
+                testudo = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyConcentration(int stacks)
+    {
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Concentration");
+
+        if (stacks > 0)
+        {
+            concentrationStacks += stacks;
+            if (concentrationStacks > 0)
+            {
+                concentration = true;
+                StartCoroutine(VisualEffectManager.Instance.
+                CreateStatusEffect(myLivingEntity.transform.position, "Concentration", false));
+                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            concentrationStacks += stacks;
+            if (concentrationStacks <= 0)
+            {
+                concentrationStacks = 0;
+                concentration = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
     public void ModifyInfuse(int stacks)
     {
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Infuse");
@@ -1293,7 +1533,38 @@ public class PassiveManager : MonoBehaviour
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
+    public void ModifyRapidCloaking(int stacks)
+    {
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Rapid Cloaking");
 
+        if (stacks > 0)
+        {
+            rapidCloakingStacks += stacks;
+            if (rapidCloakingStacks > 0)
+            {
+                rapidCloaking = true;
+                StartCoroutine(VisualEffectManager.Instance.
+                CreateStatusEffect(myLivingEntity.transform.position, "Concentration", false));
+                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            rapidCloakingStacks += stacks;
+            if (rapidCloakingStacks <= 0)
+            {
+                rapidCloakingStacks = 0;
+                rapidCloaking = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+
+
+
+    // Modify Resistances
     public void ModifyBarrier(int stacks)
     {
         barrierStacks += stacks;
@@ -1368,6 +1639,7 @@ public class PassiveManager : MonoBehaviour
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
    
+    // Modify Buff Passives
     public void ModifyStealth()
     {
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Stealth");
@@ -1473,7 +1745,31 @@ public class PassiveManager : MonoBehaviour
     {
         
     }
-    
+    public void ModifyHawkEyeBonus(int stacks)
+    {
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Hawk Eye");
+
+        if (stacks > 0)
+        {
+            hawkEyeStacks += stacks;
+            if (hawkEyeStacks > 0)
+            {
+                hawkEye = true;
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            hawkEyeStacks += stacks;
+            if (hawkEyeStacks <= 0)
+            {
+                hawkEye = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+
     /*
     public void ModifyTemporaryStrength(int stacks)
     {
@@ -1559,7 +1855,7 @@ public class PassiveManager : MonoBehaviour
 
     }
     */
-    
+
     public void ModifyTrueSight(int stacks)
     {
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("True Sight");

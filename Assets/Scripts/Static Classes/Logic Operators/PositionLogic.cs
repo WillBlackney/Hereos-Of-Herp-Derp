@@ -195,19 +195,117 @@ public class PositionLogic : Singleton<PositionLogic>
         }
         
     }
+    public bool IsLocationNorth(Tile tile, Tile location)
+    {
+        if (location.GridPosition.Y == tile.GridPosition.Y - 1 &&
+            location.GridPosition.X == tile.GridPosition.X)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool IsLocationSouth(Tile tile, Tile location)
+    {
+        if (location.GridPosition.Y == tile.GridPosition.Y + 1 &&
+            location.GridPosition.X == tile.GridPosition.X)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool IsLocationEast(Tile tile, Tile location)
+    {
+        if (location.GridPosition.X == tile.GridPosition.X + 1 &&
+            location.GridPosition.Y == tile.GridPosition.Y)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool IsLocationWest(Tile tile, Tile location)
+    {
+        if (location.GridPosition.X == tile.GridPosition.X - 1 &&
+            location.GridPosition.Y == tile.GridPosition.Y)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool IsLocationNorthEast(Tile tile, Tile location)
+    {
+        if (location.GridPosition.Y == tile.GridPosition.Y - 1 &&
+            location.GridPosition.X == tile.GridPosition.X + 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool IsLocationNorthWest(Tile tile, Tile location)
+    {
+        if (location.GridPosition.Y == tile.GridPosition.Y - 1 &&
+            location.GridPosition.X == tile.GridPosition.X - 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool IsLocationSouthEast(Tile tile, Tile location)
+    {
+        if (location.GridPosition.Y == tile.GridPosition.Y + 1 &&
+            location.GridPosition.X == tile.GridPosition.X + 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool IsLocationSouthWest(Tile tile, Tile location)
+    {
+        if (location.GridPosition.Y == tile.GridPosition.Y + 1 &&
+            location.GridPosition.X == tile.GridPosition.X - 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
     #endregion
 
     // Get adjacent NSEW tile logic
     #region
     public Tile GetAdjacentNorthernTile(Tile location)
     {
+        Debug.Log("PositionLogic.GetAdjacentNorthernTile() called...");
         List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
         Tile tileReturned = null;
 
         foreach (Tile tile in allTiles)
         {
-            if (tile.GridPosition.Y == location.GridPosition.Y - 1 &&
-                tile.GridPosition.X == location.GridPosition.X)
+            if (IsLocationNorth(location, tile))
             {
                 tileReturned = tile;
                 break;
@@ -216,20 +314,20 @@ public class PositionLogic : Singleton<PositionLogic>
 
         if (tileReturned == null)
         {
-            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+            Debug.Log("PositionLogic.GetAdjacentNorthernTile() did not find a matching tile, returning null...");
         }
 
         return tileReturned;
     }
     public Tile GetAdjacentSouthernTile(Tile location)
     {
+        Debug.Log("PositionLogic.GetAdjacentSouthernTile() called...");
         List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
         Tile tileReturned = null;
 
         foreach (Tile tile in allTiles)
         {
-            if (tile.GridPosition.Y == location.GridPosition.Y + 1 &&
-                tile.GridPosition.X == location.GridPosition.X)
+            if (IsLocationSouth(location, tile))
             {
                 tileReturned = tile;
                 break;
@@ -238,20 +336,20 @@ public class PositionLogic : Singleton<PositionLogic>
 
         if (tileReturned == null)
         {
-            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+            Debug.Log("PositionLogic.GetAdjacentSouthernTile() did not find a matching tile, returning null...");
         }
 
         return tileReturned;
     }
     public Tile GetAdjacentEasternTile(Tile location)
     {
+        Debug.Log("PositionLogic.GetAdjacentEasternTile() called...");
         List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
         Tile tileReturned = null;
 
         foreach (Tile tile in allTiles)
         {
-            if (tile.GridPosition.X == location.GridPosition.X + 1 &&
-                tile.GridPosition.Y == location.GridPosition.Y)
+            if (IsLocationEast(location, tile))
             {
                 tileReturned = tile;
                 break;
@@ -260,20 +358,20 @@ public class PositionLogic : Singleton<PositionLogic>
 
         if (tileReturned == null)
         {
-            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+            Debug.Log("PositionLogic.GetAdjacentEasternTile() did not find a matching tile, returning null...");
         }
 
         return tileReturned;
     }
     public Tile GetAdjacentWesternTile(Tile location)
     {
+        Debug.Log("PositionLogic.GetAdjacentWesternTile() called...");
         List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
         Tile tileReturned = null;
 
         foreach (Tile tile in allTiles)
         {
-            if (tile.GridPosition.X == location.GridPosition.X - 1 &&
-                tile.GridPosition.Y == location.GridPosition.Y)
+            if (IsLocationWest(location, tile))
             {
                 tileReturned = tile;
                 break;
@@ -282,7 +380,7 @@ public class PositionLogic : Singleton<PositionLogic>
 
         if (tileReturned == null)
         {
-            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+            Debug.Log("PositionLogic.GetAdjacentWesternTile() did not find a matching tile, returning null...");
         }
 
         return tileReturned;
@@ -293,13 +391,13 @@ public class PositionLogic : Singleton<PositionLogic>
     #region
     public Tile GetAdjacentNorthEastTile(Tile location)
     {
+        Debug.Log("PositionLogic.GetAdjacentNorthEastTile() called...");
         List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
         Tile tileReturned = null;
 
         foreach (Tile tile in allTiles)
         {
-            if (tile.GridPosition.Y == location.GridPosition.Y - 1 &&
-                tile.GridPosition.X == location.GridPosition.X + 1)
+            if (IsLocationNorthEast(location, tile))
             {
                 tileReturned = tile;
                 break;
@@ -308,20 +406,20 @@ public class PositionLogic : Singleton<PositionLogic>
 
         if (tileReturned == null)
         {
-            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+            Debug.Log("PositionLogic.GetAdjacentNorthEastTile() did not find a matching tile, returning null...");
         }
 
         return tileReturned;
     }
     public Tile GetAdjacentNorthWestTile(Tile location)
     {
+        Debug.Log("PositionLogic.GetAdjacentNorthWestTile() called...");
         List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
         Tile tileReturned = null;
 
         foreach (Tile tile in allTiles)
         {
-            if (tile.GridPosition.Y == location.GridPosition.Y - 1 &&
-                tile.GridPosition.X == location.GridPosition.X - 1)
+            if (IsLocationNorthWest(location, tile))
             {
                 tileReturned = tile;
                 break;
@@ -330,20 +428,20 @@ public class PositionLogic : Singleton<PositionLogic>
 
         if (tileReturned == null)
         {
-            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+            Debug.Log("PositionLogic.GetAdjacentNorthWestTile() did not find a matching tile, returning null...");
         }
 
         return tileReturned;
     }
     public Tile GetAdjacentSouthEastTile(Tile location)
     {
+        Debug.Log("PositionLogic.GetAdjacentSouthEastTile() called...");
         List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
         Tile tileReturned = null;
 
         foreach (Tile tile in allTiles)
         {
-            if (tile.GridPosition.Y == location.GridPosition.Y + 1 &&
-                tile.GridPosition.X == location.GridPosition.X + 1)
+            if (IsLocationSouthEast(location, tile))
             {
                 tileReturned = tile;
                 break;
@@ -352,20 +450,20 @@ public class PositionLogic : Singleton<PositionLogic>
 
         if (tileReturned == null)
         {
-            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+            Debug.Log("PositionLogic.GetAdjacentSouthEastTile() did not find a matching tile, returning null...");
         }
 
         return tileReturned;
     }
     public Tile GetAdjacentSouthWestTile(Tile location)
     {
+        Debug.Log("PositionLogic.GetAdjacentSouthWestTile() called...");
         List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
         Tile tileReturned = null;
 
         foreach (Tile tile in allTiles)
         {
-            if (tile.GridPosition.Y == location.GridPosition.Y + 1 &&
-                tile.GridPosition.X == location.GridPosition.X - 1)
+            if (IsLocationSouthWest(location, tile))
             {
                 tileReturned = tile;
                 break;
@@ -374,7 +472,7 @@ public class PositionLogic : Singleton<PositionLogic>
 
         if (tileReturned == null)
         {
-            Debug.Log("PositionLogic.GetAdjacentTile() did not find a matching tile, returning null...");
+            Debug.Log("PositionLogic.GetAdjacentSouthWestTile() did not find a matching tile, returning null...");
         }
 
         return tileReturned;

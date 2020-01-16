@@ -184,6 +184,48 @@ public static class EntityLogic
 
         return enemiesInRange;
     }
+    public static LivingEntity GetBestTarget(LivingEntity entity, bool prioritizeClosest = false, bool prioritizeLowHP = false, bool prioritizeMostVulnerable = false)
+    {
+        Debug.Log("EntityLogic.GetBestTarget() called...");
+        LivingEntity targetReturned = null;
+
+        // Check for taunted first
+        if (entity.myPassiveManager.taunted &&
+            entity.myTaunter != null &&
+            entity.myTaunter.inDeathProcess == false)
+        {
+            Debug.Log(entity.name + " is taunted by " + entity.myTaunter.name + ", returning this as best target...");
+            targetReturned = entity.myTaunter;
+        }
+        else if (prioritizeClosest)
+        {
+            targetReturned = GetClosestEnemy(entity);
+        }
+        else if (prioritizeLowHP)
+        {
+            targetReturned = GetEnemyWithLowestCurrentHP(entity);
+        }
+        else if (prioritizeMostVulnerable)
+        {
+            targetReturned = GetEnemyWithLowestCurrentHP(entity);
+        }
+        else
+        {
+            targetReturned = null;
+        }
+
+        // Check for null
+        if(targetReturned == null)
+        {
+            Debug.Log("EntityLogic.GetBestTarget() returned a null value...");
+        }
+        else if (targetReturned != null)
+        {
+            Debug.Log("EntityLogic.GetBestTarget() returned " + targetReturned.name + " as the best target for " + entity.name);
+        }
+           
+        return targetReturned;
+    }
     
 
     #endregion
@@ -426,5 +468,68 @@ public static class EntityLogic
 
     }
 
+    #endregion
+
+    // Get Stats And Attribute Total Values
+    #region
+    // Core stats
+    public static int GetTotalDexterity(LivingEntity entity)
+    {
+        // Get base dexterity
+        int dexterityReturned = entity.currentDexterity;
+
+        // Add bonus from purity passive
+        if (entity.myPassiveManager.purity)
+        {
+            dexterityReturned += 2;
+        }
+
+        // return final value
+        return dexterityReturned;
+    }
+    public static int GetTotalStrength(LivingEntity entity)
+    {
+        // Get base dexterity
+        int strengthReturned = entity.currentStrength;
+
+        // Add bonus strength
+        strengthReturned += entity.myPassiveManager.bonusStrengthStacks;
+
+        // Add temporary bonus strength
+        strengthReturned += entity.myPassiveManager.temporaryBonusStrengthStacks;
+
+        // Add bonus from purity passive
+        if (entity.myPassiveManager.purity)
+        {
+            strengthReturned += 2;
+        }
+
+        // return final value
+        return strengthReturned;
+    }
+
+    // Secondary Stats
+    public static int GetTotalRangeOfRangedAttack(LivingEntity entity, Ability ability)
+    {
+        int rangeReturned = 0;
+
+        // Get base range from ability
+        rangeReturned = ability.abilityRange;
+
+        // Get range bonus from hawk eye passive
+        if (entity.myPassiveManager.hawkEye)
+        {
+            rangeReturned += entity.myPassiveManager.hawkEyeStacks;
+        }
+
+        // Get range bonus from TEMPORARY hawk eye passive
+        if (entity.myPassiveManager.temporaryHawkEye)
+        {
+            rangeReturned += entity.myPassiveManager.temporaryHawkEyeStacks;
+        }
+
+        // return final value
+        return rangeReturned;
+    }
     #endregion
 }

@@ -66,6 +66,7 @@ public class SpellBook : MonoBehaviour
     public bool KnowsFrostNova;
     public bool KnowsEmpowerBinding;
 
+    public bool KnowsRapidCloaking;
     public bool KnowsDevastatingBlow;
     public bool KnowsKickToTheBalls;
     public bool KnowsBladeFlurry;
@@ -210,6 +211,10 @@ public class SpellBook : MonoBehaviour
         if (cd.KnowsFrostNova == true)
         {
             LearnFrostNova();
+        }
+        if (cd.KnowsRapidCloaking == true)
+        {
+            LearnRapidCloaking();
         }
         if (cd.KnowsShoot == true)
         {
@@ -925,6 +930,23 @@ public class SpellBook : MonoBehaviour
         else if (enemy)
         {
             EnemyLearnAbility("Frost Nova");
+        }
+
+    }
+    public void LearnRapidCloaking()
+    {
+        KnowsRapidCloaking = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Rapid Cloaking");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Rapid Cloaking");
         }
 
     }

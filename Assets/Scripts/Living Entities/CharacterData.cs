@@ -202,6 +202,7 @@ public class CharacterData : MonoBehaviour
     public bool KnowsConcealingClouds;
     public bool KnowsSuperConductor;
     public bool KnowsSnipe;
+    public bool KnowsRapidCloaking;
 
 
 
@@ -243,15 +244,15 @@ public class CharacterData : MonoBehaviour
             // Abiltiies + Passives
             cautiousStacks = 5;
             KnowsMove = true;
-            //KnowsStrike = true;
+            KnowsStrike = true;
 
-            KnowsVanish = true;
-            KnowsShank = true;
-            KnowsSliceAndDice = true;
-            KnowsInfuse = true;
-            KnowsShadowWreath = true;
-            KnowsPurity = true;
-            KnowsOverload = true;
+            KnowsFireBall = true;
+            KnowsTranscendence = true;
+            KnowsProvoke = true;
+            KnowsPhoenixDive = true;
+            KnowsBloodOffering = true;
+            KnowsChallengingShout = true;
+            KnowsTimeWarp = true;
 
 
             //talentTreeOne.InitializeSetup("Path of Rage");

@@ -198,27 +198,27 @@ public class AbilityLogic : MonoBehaviour
         }
         else if (power.abilityName == "Concentration")
         {
-            //entity.myPassiveManager.ModifyShadowImbuement(-1);
+            entity.myPassiveManager.ModifyConcentration(-1);
         }
         else if (power.abilityName == "Creeping Frost")
         {
-            //entity.myPassiveManager.ModifyShadowImbuement(-1);
+            entity.myPassiveManager.ModifyFrostImbuement(-1);
         }
         else if (power.abilityName == "Blaze")
         {
-            //entity.myPassiveManager.ModifyShadowImbuement(-1);
+            entity.myPassiveManager.ModifyFireImbuement(-1);
         }
         else if (power.abilityName == "Testudo")
         {
-            //entity.myPassiveManager.ModifyShadowImbuement(-1);
+            entity.myPassiveManager.ModifyTestudo(-1);
         }
         else if (power.abilityName == "Rapid Cloaking")
         {
-            //entity.myPassiveManager.ModifyShadowImbuement(-1);
+            entity.myPassiveManager.ModifyRapidCloaking(-1);
         }
         else if (power.abilityName == "Recklessness")
         {
-            //entity.myPassiveManager.ModifyShadowImbuement(-1);
+            entity.myPassiveManager.ModifyRecklessness(-1);
         }
     }
     #endregion
@@ -358,6 +358,124 @@ public class AbilityLogic : MonoBehaviour
 
     }
 
+    // Free Strike
+    public Action PerformFreeStrike(LivingEntity attacker, LivingEntity victim)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformFreeStrikeCoroutine(attacker, victim, action));
+        return action;
+    }
+    private IEnumerator PerformFreeStrikeCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    {
+        // Make sure character actually knows strike, has a melee weapon, and the target is not in death process
+        if(attacker.mySpellBook.GetAbilityByName("Strike") != null &&
+           victim.inDeathProcess == false &&
+           (attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand || attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeTwoHand)
+            )
+        {
+            // Set up properties
+            Ability strike = attacker.mySpellBook.GetAbilityByName("Strike");
+            bool critical = CombatLogic.Instance.RollForCritical(attacker, strike);
+            bool parry = CombatLogic.Instance.RollForParry(victim);
+            string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, strike, attacker.myMainHandWeapon);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, strike, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+
+            // Play attack animation
+            attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+
+            // if the target successfully parried, dont do HandleDamage: do parry stuff instead
+            if (parry)
+            {
+                Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+                yield return new WaitUntil(() => parryAction.ActionResolved() == true);
+            }
+
+            // if the target did not parry, handle damage event normally
+            else
+            {
+                if (critical)
+                {
+                    StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                }
+                Action abilityAction = CombatLogic.Instance.NewHandleDamage(finalDamageValue, attacker, victim, damageType, strike);
+                yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+            }
+
+            // Remove camo
+            if (attacker.myPassiveManager.camoflage)
+            {
+                attacker.myPassiveManager.ModifyCamoflage(-1);
+            }
+
+        }
+
+        // Resolve
+        action.actionResolved = true;
+
+    }
+
+    // Over Watch Shot
+    public Action PerformOverwatchShot(LivingEntity attacker, LivingEntity victim)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformOverwatchShotCoroutine(attacker, victim, action));
+        return action;
+    }
+    private IEnumerator PerformOverwatchShotCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    {
+        // Make sure character actually knows shoot, has a ranged weapon, and the target is not in death process
+        if (attacker.mySpellBook.GetAbilityByName("Shoot") != null &&
+            victim.inDeathProcess == false &&
+            attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.RangedTwoHand
+            )
+        {
+            // Set up properties
+            Ability shoot = attacker.mySpellBook.GetAbilityByName("Shoot");
+            bool critical = CombatLogic.Instance.RollForCritical(attacker, shoot);
+            bool dodge = CombatLogic.Instance.RollForDodge(victim);
+            string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, shoot, attacker.myMainHandWeapon);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, shoot, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+
+            // Remove Overwatch
+            attacker.myPassiveManager.ModifyOverwatch(-attacker.myPassiveManager.overwatchStacks);
+
+            // Play attack animation
+            attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+
+            // Play arrow shot VFX
+            Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
+            yield return new WaitUntil(() => shootAction.ActionResolved() == true);
+
+            // if the target successfully parried, dont do HandleDamage: do parry stuff instead
+            if (dodge)
+            {
+                Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+                yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
+            }
+
+            // if the target did not dodge, handle damage event normally
+            else
+            {
+                if (critical)
+                {
+                    StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                }
+                Action abilityAction = CombatLogic.Instance.NewHandleDamage(finalDamageValue, attacker, victim, damageType, shoot);
+                yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+            }
+
+            // Remove camo
+            if (attacker.myPassiveManager.camoflage)
+            {
+                attacker.myPassiveManager.ModifyCamoflage(-1);
+            }
+
+        }
+
+        // Resolve
+        action.actionResolved = true;
+
+    }
     #endregion
 
     // Brawler Abilities
@@ -571,6 +689,28 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsedFinish(charge, attacker);
         action.actionResolved = true;        
 
+    }
+
+    // Recklessness
+    public Action PerformRecklessness(LivingEntity caster)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformRecklessnessCoroutine(caster, action));
+        return action;
+    }
+    private IEnumerator PerformRecklessnessCoroutine(LivingEntity caster, Action action)
+    {
+        // Setup 
+        Ability recklessness = caster.mySpellBook.GetAbilityByName("Recklessness");
+        OnAbilityUsedStart(recklessness, caster);
+
+        // Gain Recklessness
+        caster.myPassiveManager.ModifyRecklessness(1);
+        yield return new WaitForSeconds(0.5f);
+
+        // Resolve
+        OnAbilityUsedFinish(recklessness, caster);
+        action.actionResolved = true;
     }
 
     // Kick To The Balls
@@ -823,7 +963,7 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsedStart(evasion, caster);
 
         // Apply temporary parry
-        target.myPassiveManager.ModifyTemporaryParryBonus(evasion.abilityPrimaryValue);
+        target.myPassiveManager.ModifyTemporaryParry(evasion.abilityPrimaryValue);
         StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
         yield return new WaitForSeconds(0.5f);
 
@@ -832,6 +972,69 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;
 
     }
+
+    // Decapitate
+    public Action PerformDecapitate(LivingEntity attacker, LivingEntity victim)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformDecapitateCoroutine(attacker, victim, action));
+        return action;
+    }
+    private IEnumerator PerformDecapitateCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    {
+        // Set up properties
+        Ability decapitate = attacker.mySpellBook.GetAbilityByName("Decapitate");
+        bool critical = CombatLogic.Instance.RollForCritical(attacker, decapitate);
+        bool parry = CombatLogic.Instance.RollForParry(victim);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, decapitate, attacker.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, decapitate, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        bool instantKill = false;
+
+        // If target has 20% or less health, they are killed instantly
+        if((victim.currentMaxHealth * 0.2f) >= victim.currentHealth)
+        {
+            instantKill = true;
+        }
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(decapitate, attacker);
+
+        // Play attack animation
+        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+
+        // if the target successfully parried, dont do HandleDamage: do parry stuff instead
+        if (parry)
+        {
+            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+            yield return new WaitUntil(() => parryAction.ActionResolved() == true);
+        }
+
+        // if the target did not parry, handle damage event normally
+        else
+        {
+            if (critical)
+            {
+                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+            }
+            Action abilityAction = CombatLogic.Instance.NewHandleDamage(finalDamageValue, attacker, victim, damageType, decapitate);
+            yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+
+            if(!victim.inDeathProcess && instantKill)
+            {
+                // the victim was insta killed, start death process
+                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "DECAPITATED!", true));             
+                victim.inDeathProcess = true;
+                victim.StopAllCoroutines();
+                StartCoroutine(victim.HandleDeath());
+            }
+        }
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(decapitate, attacker);
+        action.actionResolved = true;
+
+    }
+
     #endregion
 
     // Assassination Abilities
@@ -957,6 +1160,27 @@ public class AbilityLogic : MonoBehaviour
 
         // remove camoflage, etc
         OnAbilityUsedFinish(shank, attacker);
+        action.actionResolved = true;
+    }
+
+    // Rapid Cloaking
+    public Action PerformRapidCloaking(LivingEntity caster)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformRapidCloakingCoroutine(caster, action));
+        return action;
+    }
+    private IEnumerator PerformRapidCloakingCoroutine(LivingEntity caster, Action action)
+    {
+        // Setup 
+        Ability rapidCloaking = caster.mySpellBook.GetAbilityByName("Rapid Cloaking");
+        OnAbilityUsedStart(rapidCloaking, caster);
+
+        // Gain Rapid Cloaking
+        caster.myPassiveManager.ModifyRapidCloaking(1);
+        yield return new WaitForSeconds(0.5f);
+
+        OnAbilityUsedFinish(rapidCloaking, caster);
         action.actionResolved = true;
     }
 
@@ -1166,6 +1390,61 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;
     }
 
+    // Provoke
+    public Action PerformProvoke(LivingEntity caster, LivingEntity target)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformProvokeCoroutine(caster, target, action));
+        return action;
+    }
+    private IEnumerator PerformProvokeCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    {
+        // Set up properties
+        Ability provoke = caster.mySpellBook.GetAbilityByName("Provoke");
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(provoke, caster);
+
+        // Apply Taunted
+        target.myPassiveManager.ModifyTaunted(1, caster);
+        yield return new WaitForSeconds(0.5f);   
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(provoke, caster);
+        action.actionResolved = true;
+
+    }
+
+    // Challenging Shout
+    public Action PerformChallengingShout(LivingEntity attacker)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformChallengingShoutCoroutine(attacker, action));
+        return action;
+    }
+    private IEnumerator PerformChallengingShoutCoroutine(LivingEntity caster, Action action)
+    {
+        // Set up properties
+        Ability challengingShout = caster.mySpellBook.GetAbilityByName("Challenging Shout");
+
+        // Calculate which characters are hit by the aoe taunt
+        List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, caster.tile, 1, false, true);
+
+        // Pay energy cost
+        OnAbilityUsedStart(challengingShout, caster);
+
+        // Resolve taunts against each enemy
+        foreach (LivingEntity entity in targetsInRange)
+        {
+            entity.myPassiveManager.ModifyTaunted(1, caster);
+        }
+
+        // Resolve
+        yield return new WaitForSeconds(0.5f);
+        action.actionResolved = true;
+
+    }
+
     // Sword And Board
     public Action PerformSwordAndBoard(LivingEntity attacker, LivingEntity victim)
     {
@@ -1243,6 +1522,27 @@ public class AbilityLogic : MonoBehaviour
             }
         }
         caster.myAnimator.SetTrigger("Idle");
+        action.actionResolved = true;
+    }
+
+    // Testudo
+    public Action PerformTestudo(LivingEntity caster)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformTestudoCoroutine(caster, action));
+        return action;
+    }
+    private IEnumerator PerformTestudoCoroutine(LivingEntity caster, Action action)
+    {
+        // Setup 
+        Ability testudo = caster.mySpellBook.GetAbilityByName("Testudo");
+        OnAbilityUsedStart(testudo, caster);
+
+        // Gain Air imbuement
+        caster.myPassiveManager.ModifyTestudo(1);
+        yield return new WaitForSeconds(0.5f);
+
+        OnAbilityUsedFinish(testudo, caster);
         action.actionResolved = true;
     }
 
@@ -1470,6 +1770,27 @@ public class AbilityLogic : MonoBehaviour
 
     }
 
+    // Blaze
+    public Action PerformBlaze(LivingEntity caster)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformBlazeCoroutine(caster, action));
+        return action;
+    }
+    private IEnumerator PerformBlazeCoroutine(LivingEntity caster, Action action)
+    {
+        // Setup 
+        Ability blaze = caster.mySpellBook.GetAbilityByName("Blaze");
+        OnAbilityUsedStart(blaze, caster);
+
+        // Gain Fire imbuement
+        caster.myPassiveManager.ModifyFireImbuement(1);
+        yield return new WaitForSeconds(0.5f);
+
+        OnAbilityUsedFinish(blaze, caster);
+        action.actionResolved = true;
+    }
+
     // Meteor
     public Action PerformMeteor(LivingEntity attacker, Tile location)
     {
@@ -1514,6 +1835,85 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsedFinish(meteor, attacker);
 
         yield return new WaitForSeconds(0.5f);
+        action.actionResolved = true;
+
+    }
+
+    // Combustion
+    public Action PerformCombustion(LivingEntity attacker, LivingEntity victim)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformCombustionCoroutine(attacker, victim, action));
+        return action;
+    }
+    private IEnumerator PerformCombustionCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    {
+        // Setup
+        Ability combustion = attacker.mySpellBook.GetAbilityByName("Combustion");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, combustion);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, combustion, damageType, false, victim.myPassiveManager.burningStacks * combustion.abilityPrimaryValue);
+        OnAbilityUsedStart(combustion, attacker);
+
+        // Deal Damage
+        Action abilityAction = CombatLogic.Instance.NewHandleDamage(finalDamageValue, attacker, victim, damageType, combustion);
+        yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+
+        // Remove targets burning
+        if (!victim.inDeathProcess)
+        {
+            victim.myPassiveManager.ModifyBurning(-victim.myPassiveManager.burningStacks);
+        }
+        // Resolve
+        OnAbilityUsedFinish(combustion, attacker);
+        action.actionResolved = true;
+    }
+
+    // Dragon Breath
+    public Action PerformDragonBreath(LivingEntity attacker, Tile location)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformDragonBreathCoroutine(attacker, location, action));
+        return action;
+    }
+    private IEnumerator PerformDragonBreathCoroutine(LivingEntity attacker, Tile location, Action action)
+    {
+        // Set up properties
+        Ability dragonBreath = attacker.mySpellBook.GetAbilityByName("Dragon Breath");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, dragonBreath);
+        List<Tile> tilesInBreathPath = LevelManager.Instance.GetAllTilesInALine(attacker.tile, location, dragonBreath.abilitySecondaryValue, true);
+        List<LivingEntity> entitiesInBreathPath = new List<LivingEntity>();
+
+        // Calculate which characters are hit by the breath
+        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if (tilesInBreathPath.Contains(entity.tile))
+            {
+                entitiesInBreathPath.Add(entity);
+            }
+        }
+
+        // Pay energy cost
+        OnAbilityUsedStart(dragonBreath, attacker);
+
+        // Resolve hits against targets
+        foreach (LivingEntity entity in entitiesInBreathPath)
+        {
+            bool critical = CombatLogic.Instance.RollForCritical(attacker, dragonBreath);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, dragonBreath, damageType, critical, dragonBreath.abilityPrimaryValue);
+
+            if (critical)
+            {
+                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+            }
+
+            // Deal Damage
+            Action abilityAction = CombatLogic.Instance.NewHandleDamage(finalDamageValue, attacker, entity, damageType, dragonBreath);
+            
+        }
+        yield return new WaitForSeconds(0.5f);
+
+        // Resolve
+        OnAbilityUsedFinish(dragonBreath, attacker);        
         action.actionResolved = true;
 
     }
@@ -1774,6 +2174,28 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;
     }
 
+    // Creeping Frost
+    public Action PerformCreepingFrost(LivingEntity caster)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformCreepingFrostCoroutine(caster, action));
+        return action;
+    }
+    private IEnumerator PerformCreepingFrostCoroutine(LivingEntity caster, Action action)
+    {
+        // Setup 
+        Ability creepingFrost = caster.mySpellBook.GetAbilityByName("Creeping Frost");
+        OnAbilityUsedStart(creepingFrost, caster);
+
+        // Gain Frost imbuement
+        caster.myPassiveManager.ModifyFrostImbuement(1);
+        yield return new WaitForSeconds(0.5f);
+
+        OnAbilityUsedFinish(creepingFrost, caster);
+        action.actionResolved = true;
+    }
+
+
     // Glacial Burst
     public Action PerformGlacialBurst(LivingEntity attacker)
     {
@@ -2000,6 +2422,30 @@ public class AbilityLogic : MonoBehaviour
 
     }
 
+    // Steady Hands
+    public Action PerformSteadyHands(LivingEntity caster, LivingEntity target)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformSteadyHandsCoroutine(caster, target, action));
+        return action;
+    }
+    private IEnumerator PerformSteadyHandsCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    {
+        // Set up
+        Ability steadyHands = caster.mySpellBook.GetAbilityByName("Steady Hands");
+        OnAbilityUsedStart(steadyHands, caster);
+
+        // Give target bonus to ranged attacks
+        target.myPassiveManager.ModifyTemporaryHawkEyeBonus(steadyHands.abilityPrimaryValue);
+        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+        yield return new WaitForSeconds(0.5f);
+
+        // Resolve Event
+        OnAbilityUsedFinish(steadyHands, caster);
+        action.actionResolved = true;
+
+    }
+
     // Impaling Bolt
     public Action PerformImpalingBolt(LivingEntity caster, LivingEntity victim)
     {
@@ -2106,6 +2552,53 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;
 
     }
+
+    // Concentration
+    public Action PerformConcentration(LivingEntity caster)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformConcentrationCoroutine(caster, action));
+        return action;
+    }
+    private IEnumerator PerformConcentrationCoroutine(LivingEntity caster, Action action)
+    {
+        // Setup 
+        Ability concentration = caster.mySpellBook.GetAbilityByName("Concentration");
+        OnAbilityUsedStart(concentration, caster);
+
+        // Gain Air imbuement
+        caster.myPassiveManager.ModifyConcentration(1);
+        yield return new WaitForSeconds(0.5f);
+
+        OnAbilityUsedFinish(concentration, caster);
+        action.actionResolved = true;
+    }
+
+    // Overwatch
+    public Action PerformOverwatch(LivingEntity caster)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformOverwatchCoroutine(caster, action));
+        return action;
+    }
+    private IEnumerator PerformOverwatchCoroutine(LivingEntity caster, Action action)
+    {
+        // Set up properties
+        Ability overwatch = caster.mySpellBook.GetAbilityByName("Overwatch");
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(overwatch, caster);
+
+        // Gain Overwatch passive
+        caster.myPassiveManager.ModifyOverwatch(1);
+        yield return new WaitForSeconds(0.5f);
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(overwatch, caster);
+        action.actionResolved = true;
+
+    }
+
 
     // Tree Leap
     public Action PerformTreeLeap(LivingEntity caster, Tile destination)
@@ -2423,7 +2916,7 @@ public class AbilityLogic : MonoBehaviour
         StartCoroutine(PerformDrainCoroutine(attacker, victim, action));
         return action;
     }
-    public IEnumerator PerformDrainCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformDrainCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
     {
         // Setup
         Ability drain = attacker.mySpellBook.GetAbilityByName("Drain");
@@ -2438,7 +2931,7 @@ public class AbilityLogic : MonoBehaviour
         // Remove targets poison
         if (!victim.inDeathProcess)
         {
-            victim.myPassiveManager.ModifyPoisoned(-victim.myPassiveManager.poisonousStacks);
+            victim.myPassiveManager.ModifyPoisoned(-victim.myPassiveManager.poisonedStacks);
         }
         // Resolve
         OnAbilityUsedFinish(drain, attacker);
@@ -2539,7 +3032,7 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsedStart(mirage, caster);
 
         // Apply temporary dodge
-        target.myPassiveManager.ModifyTemporaryDodgeBonus(mirage.abilityPrimaryValue);
+        target.myPassiveManager.ModifyTemporaryDodge(mirage.abilityPrimaryValue);
         StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
         yield return new WaitForSeconds(0.5f);
 
@@ -2595,7 +3088,7 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsedStart(burstOfKnowledge, caster);
 
         // Apply temporary wisdom
-        target.myPassiveManager.ModifyTemporaryWisdomBonus(burstOfKnowledge.abilityPrimaryValue);
+        target.myPassiveManager.ModifyTemporaryWisdom(burstOfKnowledge.abilityPrimaryValue);
         StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
         yield return new WaitForSeconds(0.5f);
 
@@ -2662,7 +3155,6 @@ public class AbilityLogic : MonoBehaviour
         StartCoroutine(PerformInfuseCoroutine(caster, action));
         return action;
     }
-
     private IEnumerator PerformInfuseCoroutine(LivingEntity caster, Action action)
     {
         // Setup 
@@ -2676,6 +3168,33 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsedFinish(infuse, caster);
         action.actionResolved = true;
     }
+
+    // Time Warp
+    public Action PerformTimeWarp(LivingEntity caster, LivingEntity target)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformTimeWarpCoroutine(caster, target, action));
+        return action;
+    }
+    private IEnumerator PerformTimeWarpCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    {
+        // Set up properties
+        Ability timeWarp = caster.mySpellBook.GetAbilityByName("Time Warp");
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(timeWarp, caster);
+
+        // Apply time warp buff
+        target.myPassiveManager.ModifyTimeWarp(1);
+        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(target.transform.position));
+        yield return new WaitForSeconds(0.5f);
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(timeWarp, caster);
+        action.actionResolved = true;
+
+    }
+
 
     #endregion
 
@@ -2806,6 +3325,73 @@ public class AbilityLogic : MonoBehaviour
 
         // remove camoflage, etc
         OnAbilityUsedFinish(inspire, caster);
+        action.actionResolved = true;
+
+    }
+
+    // Bless
+    public Action PerformBless(LivingEntity caster, LivingEntity target)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformBlessCoroutine(caster, target, action));
+        return action;
+    }
+    private IEnumerator PerformBlessCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    {
+        // Set up properties
+        Ability bless = caster.mySpellBook.GetAbilityByName("Bless");
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(bless, caster);
+
+        // Remove Weakened
+        if (target.myPassiveManager.weakened)
+        {
+            target.myPassiveManager.ModifyWeakened(-target.myPassiveManager.weakenedStacks);
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        // Remove Vulnerable
+        if (target.myPassiveManager.vulnerable)
+        {
+            target.myPassiveManager.ModifyVulnerable(-target.myPassiveManager.vulnerableStacks);
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        // Remove Stunned
+        if (target.myPassiveManager.stunned)
+        {
+            target.myPassiveManager.ModifyStunned(-target.myPassiveManager.stunnedStacks);
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        // Resolve
+        OnAbilityUsedFinish(bless, caster);
+        action.actionResolved = true;
+
+    }
+
+    // Transcendence
+    public Action PerformTranscendence(LivingEntity caster, LivingEntity target)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformTranscendenceCoroutine(caster, target, action));
+        return action;
+    }
+    private IEnumerator PerformTranscendenceCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    {
+        // Set up properties
+        Ability transcendence = caster.mySpellBook.GetAbilityByName("Transcendence");
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(transcendence, caster);
+
+        // Apply transcendence
+        target.myPassiveManager.ModifyTranscendence(1);
+        yield return new WaitForSeconds(0.5f);
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(transcendence, caster);
         action.actionResolved = true;
 
     }
@@ -3540,7 +4126,7 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsedStart(primalRage, caster);
 
         // Apply temporary strength
-        target.myPassiveManager.ModifyTemporaryStrengthBonus(primalRage.abilityPrimaryValue);
+        target.myPassiveManager.ModifyTemporaryStrength(primalRage.abilityPrimaryValue);
         StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
         yield return new WaitForSeconds(0.5f);
 
@@ -3647,7 +4233,6 @@ public class AbilityLogic : MonoBehaviour
         StartCoroutine(PerformOverloadCoroutine(caster, action));
         return action;
     }
-
     private IEnumerator PerformOverloadCoroutine(LivingEntity caster, Action action)
     {
         // Setup 
@@ -3669,25 +4254,7 @@ public class AbilityLogic : MonoBehaviour
 
     // Old Abilities
     #region
-    // Free Strike
-    public Action PerformFreeStrike(LivingEntity attacker, LivingEntity victim)
-    {
-        Action action = new Action();
-        StartCoroutine(PerformFreeStrikeCoroutine(attacker, victim, action));
-        return action;
-    }
-    public IEnumerator PerformFreeStrikeCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
-    {
-        StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "Free Strike", false, "Blue"));
-        yield return new WaitForSeconds(0.5f);
-        Ability strike = attacker.mySpellBook.GetAbilityByName("Strike");
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
-        Action abilityAction = CombatLogic.Instance.HandleDamage(strike.abilityPrimaryValue, attacker, victim, false, strike.abilityAttackType, strike.abilityDamageType);
-        yield return new WaitForSeconds(1f);
-        yield return new WaitUntil(() => abilityAction.ActionResolved() == true);        
-        action.actionResolved = true;        
-    }
-
+    
    
 
 
@@ -4007,21 +4574,6 @@ public class AbilityLogic : MonoBehaviour
         
     }
 
-    // Bless
-    public Action PerformBless(LivingEntity caster, LivingEntity target)
-    {
-        Action action = new Action();
-        StartCoroutine(PerformBlessCoroutine(caster, target, action));
-        return action;
-    }
-    public IEnumerator PerformBlessCoroutine(LivingEntity caster, LivingEntity target, Action action)
-    {
-        Ability bless = caster.mySpellBook.GetAbilityByName("Bless");
-        OnAbilityUsedStart(bless, caster);
-        target.myPassiveManager.ModifyRune(bless.abilityPrimaryValue);
-        yield return new WaitForSeconds(0.5f);
-        action.actionResolved = true;        
-    }
 
     // Void Bomb
     public Action PerformVoidBomb(LivingEntity caster, LivingEntity target)

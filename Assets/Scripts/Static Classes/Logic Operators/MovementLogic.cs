@@ -58,6 +58,7 @@ public class MovementLogic : Singleton<MovementLogic>
         float speedOfThisMovement = speed;
         bool hasCompletedMovement = false;
         bool freeStrikesOnThisTileResolved = false;
+        bool overwatchOnThisTileResolved = false;
 
         // Set path + destination
         SetPath(characterMoved, GeneratePath(characterMoved.gridPosition, destination.GridPosition));
@@ -71,7 +72,7 @@ public class MovementLogic : Singleton<MovementLogic>
         // Commence movement
         while (hasCompletedMovement == false)
         {
-            // Check for free strikes first
+            // First, check for free strikes
             if (freeStrikesOnThisTileResolved == false && characterMoved.path.Count > 0)
             {
                 Debug.Log("Checking for free strikes...");
@@ -80,7 +81,17 @@ public class MovementLogic : Singleton<MovementLogic>
                 yield return new WaitUntil(() => freeStrikeCheck.ActionResolved() == true);
                 freeStrikesOnThisTileResolved = true;
             }
-            
+
+            // Second, check for overwatch attacks
+            if (overwatchOnThisTileResolved == false && characterMoved.path.Count > 0)
+            {
+                Debug.Log("Checking for overwatch attacks...");
+                Tile nextTile = LevelManager.Instance.GetTileFromPointReference(characterMoved.path.Peek().GridPosition);
+                Action overwatchCheck = ResolveOverwatchAttacks(characterMoved, characterMoved.tile);
+                yield return new WaitUntil(() => overwatchCheck.ActionResolved() == true);
+                overwatchOnThisTileResolved = true;
+            }
+
             Debug.Log("Moving to next tile on path...");
             characterMoved.transform.position = Vector2.MoveTowards(characterMoved.transform.position, characterMoved.destination, speedOfThisMovement * Time.deltaTime);
 
@@ -130,9 +141,10 @@ public class MovementLogic : Singleton<MovementLogic>
             
             // Reset speed
             characterMoved.speed = originalSpeed;
-            yield return null;
+            //yield return null;
+            yield return new WaitForEndOfFrame();
         }
-        
+        //yield return null;
 
     }
 
@@ -681,50 +693,88 @@ public class MovementLogic : Singleton<MovementLogic>
     }
     public Action ResolveFreeStrikes(LivingEntity characterMoved, Tile previousLocation, Tile newLocation)
     {
-        Debug.Log("ResolveFreeStrikes() called....");
         Action action = new Action();
         StartCoroutine(ResolveFreeStrikesCoroutine(characterMoved, action, previousLocation, newLocation));
         return action;
     }
-    public IEnumerator ResolveFreeStrikesCoroutine(LivingEntity characterMoved, Action action, Tile previousLocation, Tile newLocation)
+    private IEnumerator ResolveFreeStrikesCoroutine(LivingEntity characterMoved, Action action, Tile previousLocation, Tile newLocation)
     {
-        if((characterMoved.defender && ArtifactManager.Instance.HasArtifact("Goblin Mask")) == false)
-        {
-            Debug.Log("ResolveFreeStrikesCoroutine() called....");
-            List<LivingEntity> unfriendlyEntities = new List<LivingEntity>();
+        Debug.Log("MovementLogic.ResolveFreeStrikesCoroutine() called....");
+        List<LivingEntity> unfriendlyEntities = new List<LivingEntity>();
 
-            foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if (CombatLogic.Instance.IsTargetFriendly(characterMoved, entity) == false)
+            {
+                unfriendlyEntities.Add(entity);
+            }
+        }
+
+        foreach (LivingEntity entity in unfriendlyEntities)
+        {
+            if (PositionLogic.Instance.GetTilesInCharactersMeleeRange(entity).Contains(previousLocation) &&
+                PositionLogic.Instance.GetTilesInCharactersMeleeRange(entity).Contains(newLocation) == false &&
+                characterMoved.inDeathProcess == false)
+            {
+                Debug.Log("ResolveFreeStrikesCoroutine() detected that " + characterMoved.name + " triggered a free strike from " + entity.name);
+                movementPaused = true;
+                characterMoved.myAnimator.SetTrigger("Idle");
+                Action freeStrikeAction = AbilityLogic.Instance.PerformFreeStrike(entity, characterMoved);
+                yield return new WaitUntil(() => freeStrikeAction.ActionResolved() == true);
+
+                // Resume movement
+                characterMoved.myAnimator.SetTrigger("Move");
+                movementPaused = false;
+            }
+        }
+
+        action.actionResolved = true;
+    }
+
+    public Action ResolveOverwatchAttacks(LivingEntity characterMoved, Tile previousLocation)
+    {        
+        Action action = new Action();
+        StartCoroutine(ResolveOverwatchAttacksCoroutine(characterMoved, action, previousLocation));
+        return action;
+    }
+    private IEnumerator ResolveOverwatchAttacksCoroutine(LivingEntity characterMoved, Action action, Tile previousLocation)
+    {
+        Debug.Log("MovementLogic.ResolveOverwatchAttacks() called....");
+        List<LivingEntity> unfriendlyEntities = new List<LivingEntity>();
+
+        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if (entity.myPassiveManager.overwatch)
             {
                 if (CombatLogic.Instance.IsTargetFriendly(characterMoved, entity) == false)
                 {
                     unfriendlyEntities.Add(entity);
                 }
             }
+            
+        }
 
-            foreach (LivingEntity entity in unfriendlyEntities)
+        foreach (LivingEntity entity in unfriendlyEntities)
+        {
+            if (LevelManager.Instance.IsTileYWithinRangeOfTileX(entity.tile, previousLocation, 5) &&
+                //EntityLogic.IsTargetInRange(entity, characterMoved, 5) &&
+                EntityLogic.IsTargetVisible(entity, characterMoved) &&
+                characterMoved.inDeathProcess == false)
             {
-                if (PositionLogic.Instance.GetTilesInCharactersMeleeRange(entity).Contains(previousLocation) &&
-                    PositionLogic.Instance.GetTilesInCharactersMeleeRange(entity).Contains(newLocation) == false &&
-                    characterMoved.inDeathProcess == false)
-                {
-                    Debug.Log("ResolveFreeStrikesCoroutine() detected that " + characterMoved.name + " triggered a free strike from " + entity.name);
-                    movementPaused = true;
-                    //characterMoved.myAnimator.enabled = false;
-                    characterMoved.myAnimator.SetTrigger("Idle");
-                    Action freeStrikeAction = AbilityLogic.Instance.PerformFreeStrike(entity, characterMoved);
-                    yield return new WaitUntil(() => freeStrikeAction.ActionResolved() == true);                    
-                      
-                    // Resume movement
-                    //characterMoved.myAnimator.enabled = true;
-                    characterMoved.myAnimator.SetTrigger("Move");
-                    movementPaused = false;
-                }
+                Debug.Log("ResolveOverwatchCoroutine() detected that " + characterMoved.name + " triggered an overwatch shot from " + entity.name);
+                movementPaused = true;
+                characterMoved.myAnimator.SetTrigger("Idle");
+                Action overwatchShotAction = AbilityLogic.Instance.PerformOverwatchShot(entity, characterMoved);
+                yield return new WaitUntil(() => overwatchShotAction.ActionResolved() == true);
+
+                // Resume movement
+                characterMoved.myAnimator.SetTrigger("Move");
+                movementPaused = false;
             }
-        }        
+        }
 
         action.actionResolved = true;
     }
-
     #endregion
 
 

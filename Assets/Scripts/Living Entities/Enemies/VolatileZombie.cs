@@ -10,11 +10,6 @@ public class VolatileZombie : Enemy
 
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Strike");
-       // ModifyCurrentParryChance(100);
-       // ModifyCurrentCriticalChance(100);
-
-        //myPassiveManager.ModifyUndead();
-        // myPassiveManager.ModifyVolatile(10);
     }
 
     public override IEnumerator StartMyActivationCoroutine()
@@ -29,7 +24,7 @@ public class VolatileZombie : Enemy
             yield return null;
         }
 
-        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+        SetTargetDefender(EntityLogic.GetBestTarget(this,true));
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
@@ -57,7 +52,6 @@ public class VolatileZombie : Enemy
             EntityLogic.IsAbilityUseable(this, move) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility) != null)
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
