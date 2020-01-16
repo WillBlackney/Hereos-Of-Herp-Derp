@@ -41,6 +41,7 @@ public class LivingEntity : MonoBehaviour
     public int baseCriticalChance;
     public int baseDodgeChance;
     public int baseParryChance;
+    public int baseAuraSize;
     public int baseStartingBlock;
     public int baseStartingEnergyBonus;
     public int baseMaxPowersCount;
@@ -67,6 +68,7 @@ public class LivingEntity : MonoBehaviour
     public int currentCriticalChance;
     public int currentDodgeChance;
     public int currentParryChance;
+    public int currentAuraSize;
     public int currentMaxPowersCount;
     public int currentBlock;
     public int currentPhysicalResistance;
@@ -178,6 +180,7 @@ public class LivingEntity : MonoBehaviour
         ModifyCurrentCriticalChance(baseCriticalChance);
         ModifyCurrentDodgeChance(baseDodgeChance);
         ModifyCurrentParryChance(baseParryChance);
+        ModifyCurrentAuraSize(baseAuraSize);
         ModifyMaxPowersLimit(baseMaxPowersCount);
 
         UpdateHealthGUIElements();
@@ -217,7 +220,7 @@ public class LivingEntity : MonoBehaviour
         if(energyGainedOrLost > 0 && showVFX == true)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Energy +" + energyGainedOrLost, false));
-            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+            //StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
         }
         if (defender)
         {
@@ -242,6 +245,8 @@ public class LivingEntity : MonoBehaviour
     }
     public virtual void ModifyCurrentStrength(int strengthGainedOrLost)
     {
+        currentStrength += strengthGainedOrLost;
+        /*
         if(strengthGainedOrLost == 0)
         {
             return;
@@ -269,10 +274,13 @@ public class LivingEntity : MonoBehaviour
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strength " + strengthGainedOrLost, false));
             StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
         }
+        */
 
     }
     public virtual void ModifyCurrentWisdom(int wisdomGainedOrLost)
     {
+        currentWisdom += wisdomGainedOrLost;
+        /*
         int previousWisdom = currentWisdom;
         currentWisdom += wisdomGainedOrLost;
 
@@ -295,11 +303,13 @@ public class LivingEntity : MonoBehaviour
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Wisdom " + wisdomGainedOrLost, false));
             StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
         }
+        */
 
     }
     public virtual void ModifyCurrentDexterity(int dexterityGainedOrLost)
     {
         currentDexterity += dexterityGainedOrLost;
+        /*
         if (currentDexterity != 0)
         {
             myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Dexterity"), dexterityGainedOrLost);
@@ -316,16 +326,18 @@ public class LivingEntity : MonoBehaviour
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dexterity " + dexterityGainedOrLost, false));
             StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
         }
+        */
 
     }
     public virtual void ModifyCurrentInitiative(int initiativeGainedOrLost)
     {
         currentInitiative += initiativeGainedOrLost;     
     }
-    public virtual void ModifyCurrentStamina(int energyGainedOrLost)
+    public virtual void ModifyCurrentStamina(int staminaGainedOrLost)
     {
-        currentStamina += energyGainedOrLost;
+        currentStamina += staminaGainedOrLost;
 
+        /*
         if (energyGainedOrLost > 0)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Energy +" + energyGainedOrLost, false, "Blue"));
@@ -337,6 +349,7 @@ public class LivingEntity : MonoBehaviour
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Energy " + energyGainedOrLost, false));
             StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
         }
+        */
 
     }
     public virtual void ModifyCurrentCriticalChance(int criticalGainedOrLost)
@@ -351,29 +364,31 @@ public class LivingEntity : MonoBehaviour
     {
         currentParryChance += parryGainedOrLost;
     }
+    public virtual void ModifyCurrentAuraSize(int auraSizeGainedOrLost)
+    {
+        currentAuraSize += auraSizeGainedOrLost;
+    }
     public virtual void ModifyMaxPowersLimit(int maxPowersLimitGainedOrLost)
     {
         currentMaxPowersCount += maxPowersLimitGainedOrLost;
     }
     public virtual void ModifyCurrentBlock(int blockGainedOrLost)
     {
+        Debug.Log("LivingEntity.ModifyCurrentBlock() called for " + name);
 
-        // if block is being gained
-        if(blockGainedOrLost >= 0)
-        {
-            blockGainedOrLost += currentDexterity;
-            currentBlock += blockGainedOrLost;
-        }
-        // else if block is being reduced
-        else if(blockGainedOrLost < 0)
+        if (!myPassiveManager.terrified && blockGainedOrLost > 0)
         {
             currentBlock += blockGainedOrLost;
+
+            if (blockGainedOrLost > 0)
+            {
+                StartCoroutine(VisualEffectManager.Instance.CreateGainBlockEffect(transform.position, blockGainedOrLost));
+            }
         }
 
-        if (blockGainedOrLost > 0)
+        if (myPassiveManager.terrified)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateGainBlockEffect(transform.position, blockGainedOrLost));          
-
+            Debug.Log("Unable to gain block: " + name + " is 'Terrified'");
         }
 
         if (currentBlock <= 0)
@@ -385,9 +400,7 @@ public class LivingEntity : MonoBehaviour
         else if(currentBlock > 0)
         {
             myBlockIcon.SetActive(true);
-        }
-
-        
+        }        
 
         UpdateBlockAmountText(currentBlock);
     }
@@ -408,7 +421,7 @@ public class LivingEntity : MonoBehaviour
         UpdateBlockAmountText(currentBlock);
     }
 
-    // resistances
+    // Resistances
     public void ModifyFireResistance(int fireResistanceGainedOrLost)
     {
         currentFireResistance += fireResistanceGainedOrLost;
@@ -433,30 +446,10 @@ public class LivingEntity : MonoBehaviour
     {
         currentPhysicalResistance += physicalResistanceGainedOrLost;
     }
-    public Action OnNewTurnCycleStarted()
-    {
-        Action action = new Action();
-        StartCoroutine(OnNewTurnCycleStartedCoroutine(action));
-        return action;
-    }
-
-    public IEnumerator OnNewTurnCycleStartedCoroutine(Action action)
-    {
-        timesAttackedThisTurnCycle = 0;
-        hasActivatedThisTurn = false;
-
-        // Remove Temporary Parry 
-        if (myPassiveManager.temporaryBonusParry)
-        {
-            myPassiveManager.ModifyTemporaryParry(myPassiveManager.temporaryBonusParryStacks);
-            yield return new WaitForSeconds(0.5f);
-        }
-
-        action.actionResolved = true;
-    }
+   
     #endregion
 
-    // Damage + Death related and events and VFX
+    // Damage + Death related events and VFX
     #region
     public IEnumerator HandleDeath()
     {
@@ -468,7 +461,14 @@ public class LivingEntity : MonoBehaviour
 
         if (myPassiveManager.Volatile)
         {
-            CombatLogic.Instance.CreateAoEAttackEvent(this, myPassiveManager.volatileStacks, tile, 1, true, true, AbilityDataSO.DamageType.Physical);
+            // Calculate which characters are hit by the aoe
+            List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(this, tile, 1, true, true);
+            foreach (LivingEntity entity in targetsInRange)
+            {
+                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(this, entity, null, "Physical", false, myPassiveManager.volatileStacks);
+                Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, this, entity, "Physical");
+                yield return new WaitForSeconds(0.1f);
+            }
         }
 
         // check for soul link and damage allies if they have it
@@ -476,7 +476,7 @@ public class LivingEntity : MonoBehaviour
         {
             if (entity.myPassiveManager.soulLink && CombatLogic.Instance.IsTargetFriendly(this, entity))
             {
-                Action soulLinkDamage = CombatLogic.Instance.HandleDamage(10, this, entity);
+                //Action soulLinkDamage = CombatLogic.Instance.HandleDamage(10, this, entity);
             }
         }
 
@@ -625,7 +625,7 @@ public class LivingEntity : MonoBehaviour
         StartCoroutine(OnActivationStartCoroutine(action));
         return action;
     }
-    public IEnumerator OnActivationStartCoroutine(Action action)
+    protected IEnumerator OnActivationStartCoroutine(Action action)
     {
         moveActionsTakenThisActivation = 0;
         timesAttackedThisTurnCycle = 0;
@@ -641,7 +641,7 @@ public class LivingEntity : MonoBehaviour
 
         if (myPassiveManager.growing)
         {
-            ModifyCurrentStrength(myPassiveManager.growingStacks);
+            myPassiveManager.ModifyBonusStrength(myPassiveManager.growingStacks);
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -706,18 +706,47 @@ public class LivingEntity : MonoBehaviour
             myPassiveManager.ModifyVulnerable(-1);
         }
 
+        // Remove Weakened
         if (myPassiveManager.weakened)
         {
             myPassiveManager.ModifyWeakened(-1);
-        }
-
-        if (myPassiveManager.immobilized)
-        {
-            myPassiveManager.ModifyImmobilized(-myPassiveManager.immobilizedStacks);
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Pinned Removed", false, "Blue"));
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Weakened Removed", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
         }
 
+        // Remove Immobilized
+        if (myPassiveManager.immobilized)
+        {
+            myPassiveManager.ModifyImmobilized(-myPassiveManager.immobilizedStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Immobilized Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Remove Blind
+        if (myPassiveManager.blind)
+        {
+            myPassiveManager.ModifyBlind(-myPassiveManager.blindStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Blind Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Remove Disarmed
+        if (myPassiveManager.disarmed)
+        {
+            myPassiveManager.ModifyDisarmed(-myPassiveManager.disarmedStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Disarmed Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Remove Silenced
+        if (myPassiveManager.silenced)
+        {
+            myPassiveManager.ModifySilenced(-myPassiveManager.silencedStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Silenced Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Remove Stunned
         if (myPassiveManager.stunned)
         {
             myPassiveManager.ModifyStunned(-myPassiveManager.stunnedStacks);
@@ -725,199 +754,250 @@ public class LivingEntity : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+        // Remove Sleep
         if (myPassiveManager.sleep)
         {
-            Debug.Log("Removing sleep on turn end...");
-            myPassiveManager.ModifySleep(-1);
-            yield return new WaitForSeconds(0.5f);
-        }
-        /*
-        if (myPassiveManager.temporaryStrength)
-        {
-            myPassiveManager.ModifyTemporaryStrength(-myPassiveManager.temporaryStrengthStacks);            
+            myPassiveManager.ModifySleep(-myPassiveManager.sleepStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Sleep Removed", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
         }
 
-        if (myPassiveManager.temporaryInitiative)
+        // Remove Chilled
+        if (myPassiveManager.chilled)
         {
-            myPassiveManager.ModifyTemporaryInitiative(-myPassiveManager.temporaryInitiativeStacks);
+            myPassiveManager.ModifyChilled(-myPassiveManager.chilledStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Chilled Removed", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
         }
 
-        if (myPassiveManager.temporaryMobility)
+        // Remove Shocked
+        if (myPassiveManager.shocked)
         {
-            myPassiveManager.ModifyTemporaryMobility(-myPassiveManager.temporaryMobilityStacks);
+            myPassiveManager.ModifyShocked(-myPassiveManager.shockedStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shocked Removed", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
         }
-        */
 
-        if (myPassiveManager.cautious)
+        // Testudo
+        if (myPassiveManager.testudo)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Testudo", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+            ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(5, this));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Cautious
+        if (myPassiveManager.cautious && currentBlock == 0)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Cautious", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
-            ModifyCurrentBlock(myPassiveManager.cautiousStacks);
+            ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(myPassiveManager.cautiousStacks, this));
             yield return new WaitForSeconds(0.5f);
         }
 
+        // Encouraging Aura
         if (myPassiveManager.encouragingAura)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Encouraging Aura", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
 
-            if (defender)
+            List<Tile> tilesInEncouragingPresenceRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
+            foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
             {
-                List<Tile> tilesInEncouragingPresenceRange = LevelManager.Instance.GetTilesWithinRange(1, tile);
-                foreach(Defender defender in DefenderManager.Instance.allDefenders)
+                if (tilesInEncouragingPresenceRange.Contains(entity.tile) &&
+                    CombatLogic.Instance.IsTargetFriendly(this, entity))
                 {
-                    if (tilesInEncouragingPresenceRange.Contains(defender.tile))
-                    {
-                        Debug.Log("Character within range of Encouraging presence, granting bonus Energy...");
-                        defender.ModifyCurrentEnergy(myPassiveManager.encouragingAuraStacks);
-                    }
-                }                
-            }
-
-            else if (enemy)
-            {
-                List<Tile> tilesInEncouragingPresenceRange = LevelManager.Instance.GetTilesWithinRange(1, tile);
-                foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
-                {
-                    if (tilesInEncouragingPresenceRange.Contains(enemy.tile))
-                    {
-                        enemy.ModifyCurrentEnergy(myPassiveManager.encouragingAuraStacks);
-                    }
+                    Debug.Log("Character " + entity.name + " is within range of Encouraging presence, granting bonus Energy...");
+                    StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+                    ModifyCurrentEnergy(myPassiveManager.encouragingAuraStacks);
                 }
-            }
+            }            
+
             yield return new WaitForSeconds(0.5f);
         }
 
+        // Soul Drain Aura
         if (myPassiveManager.soulDrainAura)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Soul Drain Aura", false));
             yield return new WaitForSeconds(0.5f);
 
-            if (enemy)
+            List<Tile> tilesInSoulDrainAuraRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
+            foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
             {
-                List<Tile> tilesInSoulDrainAuraRange = LevelManager.Instance.GetTilesWithinRange(1, tile);
-                foreach (Defender defender in DefenderManager.Instance.allDefenders)
+                if (tilesInSoulDrainAuraRange.Contains(entity.tile) &&
+                    CombatLogic.Instance.IsTargetFriendly(this, entity) == false)
                 {
-                    if (tilesInSoulDrainAuraRange.Contains(defender.tile))
-                    {
-                        Debug.Log("Character within range of Sould Drain Aura, stealing Strength...");
-                        defender.ModifyCurrentStrength(-myPassiveManager.soulDrainAuraStacks);
-                        ModifyCurrentStrength(myPassiveManager.soulDrainAuraStacks);
-                    }
-                }
-            }
-
-            else if (defender)
-            {
-                List<Tile> tilesInSoulDrainAuraRange = LevelManager.Instance.GetTilesWithinRange(1, tile);
-                foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
-                {
-                    if (tilesInSoulDrainAuraRange.Contains(enemy.tile))
-                    {
-                        Debug.Log("Character within range of Sould Drain Aura, stealing Strength...");
-                        enemy.ModifyCurrentStrength(-myPassiveManager.soulDrainAuraStacks);
-                        ModifyCurrentStrength(myPassiveManager.soulDrainAuraStacks);
-                    }
+                    Debug.Log("Character " + entity.name + " is within range of Sould Drain Aura, stealing Strength...");
+                    entity.ModifyCurrentStrength(-myPassiveManager.soulDrainAuraStacks);
+                    ModifyCurrentStrength(myPassiveManager.soulDrainAuraStacks);
                 }
             }
         }
 
+        // Hateful Aura
         if (myPassiveManager.hatefulAura)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Hateful Aura", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
 
-            if (defender)
+            List<Tile> tilesInHatefulPresenceRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
+            foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
             {
-                List<Tile> tilesInHatefulPresenceRange = LevelManager.Instance.GetTilesWithinRange(1, tile);
-                foreach (Defender defender in DefenderManager.Instance.allDefenders)
+                if (tilesInHatefulPresenceRange.Contains(entity.tile) &&
+                    CombatLogic.Instance.IsTargetFriendly(this, entity))
                 {
-                    if (tilesInHatefulPresenceRange.Contains(defender.tile))
-                    {
-                        Debug.Log("Character within range of Hateful Aura, granting bonus Strength...");
-                        defender.ModifyCurrentStrength(myPassiveManager.hatefulAuraStacks);
-                    }
-                }
-            }
-
-            else if (enemy)
-            {
-                List<Tile> tilesInHatefulPresenceRange = LevelManager.Instance.GetTilesWithinRange(1, tile);
-                foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
-                {
-                    if (tilesInHatefulPresenceRange.Contains(enemy.tile))
-                    {
-                        enemy.ModifyCurrentStrength(myPassiveManager.hatefulAuraStacks);
-                    }
+                    Debug.Log("Character " + entity.name + " is within range of Hateful Aura, granting bonus Strength...");
+                    entity.ModifyCurrentStrength(myPassiveManager.hatefulAuraStacks);
                 }
             }
         }
+
+        // Fiery Aura
         if (myPassiveManager.fieryAura)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fiery Aura", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
 
-            List<Tile> tilesInFieryPresenceRange = LevelManager.Instance.GetTilesWithinRange(1, tile);
+            List<Tile> tilesInFieryAuraRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
 
-            foreach(LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+            foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
             {
-                if(tilesInFieryPresenceRange.Contains(entity.tile) &&
+                if (tilesInFieryAuraRange.Contains(entity.tile) &&
                     CombatLogic.Instance.IsTargetFriendly(this, entity) == false)
                 {
-                    CombatLogic.Instance.HandleDamage(myPassiveManager.fieryAuraStacks, this, entity, false, AbilityDataSO.AttackType.None, AbilityDataSO.DamageType.Magic);
+                    int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(this, entity, null, "Fire", false, myPassiveManager.fieryAuraStacks);
+                    CombatLogic.Instance.HandleDamage(finalDamageValue, this, entity, "Fire");
                 }
             }
-            
+
+            yield return new WaitForSeconds(0.5f);
+
         }
+
+        // Storm Aura
+        if (myPassiveManager.stormAura)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Storm Aura", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+
+            List<LivingEntity> stormAuraRange = EntityLogic.GetAllEnemiesWithinRange(this, currentAuraSize);
+            List<LivingEntity> targetsHit = new List<LivingEntity>();
+
+            // get a random target 2 times
+            for (int i = 0; i < 2; i++)
+            {
+                targetsHit.Add(stormAuraRange[Random.Range(0, stormAuraRange.Count)]);
+            }
+
+            // Resolve hits against targets
+            foreach (LivingEntity entity in targetsHit)
+            {
+                if (entity.inDeathProcess == false)
+                {
+                    int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(this, entity, null, "Air", false, myPassiveManager.stormAuraStacks);
+
+                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, this, entity, "Air");
+                    yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+                }
+            }
+
+            yield return new WaitForSeconds(0.5f);
+
+        }
+
+        // Guardian Aura
         if (myPassiveManager.guardianAura)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Guardian Aura", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
 
-            List<Tile> tilesInGuardianPresenceRange = LevelManager.Instance.GetTilesWithinRange(1, tile);
+            List<Tile> tilesInGuardianAuraRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
 
             foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
             {
-                if (tilesInGuardianPresenceRange.Contains(entity.tile) &&
+                if (tilesInGuardianAuraRange.Contains(entity.tile) &&
                     CombatLogic.Instance.IsTargetFriendly(this, entity))
                 {
-                    entity.ModifyCurrentBlock(myPassiveManager.guardianAuraStacks);
+                    // Give target block
+                    entity.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(myPassiveManager.guardianAuraStacks, this));
                 }
             }
-
+            yield return new WaitForSeconds(0.5f);
         }
 
+        // Toxic Aura
         if (myPassiveManager.toxicAura)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Toxic Aura", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
-            List<Tile> tilesInUnhygienicAuraRange = LevelManager.Instance.GetTilesWithinRange(1, tile);
-            if (defender)
-            {
-                foreach(Enemy enemy in EnemyManager.Instance.allEnemies)
-                {
-                    if (tilesInUnhygienicAuraRange.Contains(enemy.tile))
-                    {
-                        enemy.myPassiveManager.ModifyPoisoned(myPassiveManager.toxicAuraStacks,this);
-                    }
-                }
-            }
 
-            if (enemy)
+            List<Tile> tilesInToxicAuraRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
+
+            foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
             {
-                foreach (Defender defender in DefenderManager.Instance.allDefenders)
+                if (tilesInToxicAuraRange.Contains(entity.tile) &&
+                    CombatLogic.Instance.IsTargetFriendly(this, entity) == false)
                 {
-                    if (tilesInUnhygienicAuraRange.Contains(defender.tile))
-                    {
-                        defender.myPassiveManager.ModifyPoisoned(myPassiveManager.toxicAuraStacks, this);
-                    }
+                    // Modify Poisoned
+                    entity.myPassiveManager.ModifyPoisoned(myPassiveManager.toxicAuraStacks, this);
                 }
             }
+            yield return new WaitForSeconds(0.5f);
         }
 
+        // Sacred Aura
+        if (myPassiveManager.sacredAura)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Sacred Aura", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+
+            List<Tile> tilesInEncouragingPresenceRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
+            foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+            {
+                if (tilesInEncouragingPresenceRange.Contains(entity.tile) &&
+                    CombatLogic.Instance.IsTargetFriendly(this, entity))
+                {
+                    Debug.Log("Character " + entity.name + " is within range of Sacred Aura, removing debuffs...");
+                    StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+                    
+                    // Remove Immobilized
+                    if (entity.myPassiveManager.immobilized)
+                    {
+                        entity.myPassiveManager.ModifyImmobilized(entity.myPassiveManager.immobilizedStacks);
+                    }
+
+                    // Remove Blind
+                    if (entity.myPassiveManager.blind)
+                    {
+                        entity.myPassiveManager.ModifyBlind(entity.myPassiveManager.blindStacks);
+                    }
+
+                    // Remove Disarmed
+                    if (entity.myPassiveManager.disarmed)
+                    {
+                        entity.myPassiveManager.ModifyDisarmed(entity.myPassiveManager.disarmedStacks);
+                    }
+
+                    // Remove Disarmed
+                    if (entity.myPassiveManager.silenced)
+                    {
+                        entity.myPassiveManager.ModifySilenced(entity.myPassiveManager.silencedStacks);
+                    }
+
+                    // Remove Disarmed
+                    if (entity.myPassiveManager.terrified)
+                    {
+                        entity.myPassiveManager.ModifyTerrified(entity.myPassiveManager.terrifiedStacks);
+                    }
+                }
+            }
+
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Regeneration
         if (myPassiveManager.regeneration)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Regeneration", false, "Blue"));
@@ -925,18 +1005,74 @@ public class LivingEntity : MonoBehaviour
             ModifyCurrentHealth(myPassiveManager.regenerationStacks);
         }
 
-        // Take damage from poison, bleed etc
-
+        // Poisoned
         if (myPassiveManager.poisoned)
         {
-            Action poisonDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.poisonedStacks, this, this, false, AbilityDataSO.AttackType.None, AbilityDataSO.DamageType.Poison);
+            Action poisonDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.poisonedStacks, this, this, "None", null, true);
             yield return new WaitUntil(() => poisonDamage.ActionResolved() == true);
             yield return new WaitForSeconds(0.5f);
         }
 
-        // Tile related events
+        // Burning
+        if (myPassiveManager.poisoned)
+        {
+            Action burningDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.burningStacks, this, this, "None", null, true);
+            yield return new WaitUntil(() => burningDamage.ActionResolved() == true);
+            yield return new WaitForSeconds(0.5f);
+        }
 
-        if(tile.myTileType == Tile.TileType.Grass)
+        // Fading
+        if (myPassiveManager.fading)
+        {
+            Action fadingDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.fadingStacks, this, this, "None", null, true);
+            yield return new WaitUntil(() => fadingDamage.ActionResolved() == true);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Remove Temporary Imbuements
+
+        // Air Imbuement
+        if (myPassiveManager.temporaryAirImbuement)
+        {
+            myPassiveManager.ModifyTemporaryAirImbuement(-myPassiveManager.temporaryAirImbuementStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Air Imbuement Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);            
+        }
+
+        // Fire Imbuement
+        if (myPassiveManager.temporaryFireImbuement)
+        {
+            myPassiveManager.ModifyTemporaryFireImbuement(-myPassiveManager.temporaryFireImbuementStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Imbuement Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Shadow Imbuement
+        if (myPassiveManager.temporaryShadowImbuement)
+        {
+            myPassiveManager.ModifyTemporaryShadowImbuement(-myPassiveManager.temporaryShadowImbuementStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shadow Imbuement Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Frost Imbuement
+        if (myPassiveManager.temporaryFrostImbuement)
+        {
+            myPassiveManager.ModifyTemporaryFrostImbuement(-myPassiveManager.temporaryFrostImbuementStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Frost Imbuement Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Poison Imbuement
+        if (myPassiveManager.temporaryPoisonImbuement)
+        {
+            myPassiveManager.ModifyTemporaryPoisonImbuement(-myPassiveManager.temporaryPoisonImbuementStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Poison Imbuement Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Tile related events
+        if (tile.myTileType == Tile.TileType.Grass)
         {
             Debug.Log("Turn ended on grass: applying Camoflage...");
             if (myPassiveManager.camoflage == false)
@@ -945,30 +1081,107 @@ public class LivingEntity : MonoBehaviour
             }
         }
 
-        // Artifact related events
+        // Remove Temporary Core + Secondary Stats
 
-        if( defender && 
-            ArtifactManager.Instance.HasArtifact("Wind Up Boots") &&
-            TurnManager.Instance.currentTurnCount == 1)
+        // Bonus Strength
+        if (myPassiveManager.temporaryBonusStrength)
         {
-            ModifyCurrentMobility(-1);
+            myPassiveManager.ModifyTemporaryStrength(-myPassiveManager.temporaryBonusStrengthStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Strength Removed", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
         }
 
-        if (defender &&
-           ArtifactManager.Instance.HasArtifact("Crown Of Kings") &&
-           currentEnergy == currentMaxEnergy)
+        // Bonus Dexterity
+        if (myPassiveManager.temporaryBonusDexterity)
         {
-            ModifyCurrentStrength(1);
+            myPassiveManager.ModifyTemporaryDexterity(-myPassiveManager.temporaryBonusDexterityStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Dexterity Removed", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
         }
 
+        // Bonus Stamina
+        if (myPassiveManager.temporaryBonusStamina)
+        {
+            myPassiveManager.ModifyTemporaryStamina(-myPassiveManager.temporaryBonusStaminaStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Stamina Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Bonus Wisdom
+        if (myPassiveManager.temporaryBonusWisdom)
+        {
+            myPassiveManager.ModifyTemporaryWisdom(-myPassiveManager.temporaryBonusWisdomStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Wisdom Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Bonus Initiative
+        if (myPassiveManager.temporaryBonusInitiative)
+        {
+            myPassiveManager.ModifyTemporaryInitiative(-myPassiveManager.temporaryBonusInitiativeStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Initiative Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Bonus Mobility
+        if (myPassiveManager.temporaryBonusMobility)
+        {
+            myPassiveManager.ModifyTemporaryMobility(-myPassiveManager.temporaryBonusMobilityStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Mobility Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Bonus Dodge
+        if (myPassiveManager.temporaryBonusDodge)
+        {
+            myPassiveManager.ModifyTemporaryDodge(-myPassiveManager.temporaryBonusDodgeStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Dodge Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Bonus Parry
+        if (myPassiveManager.temporaryBonusParry)
+        {
+            myPassiveManager.ModifyTemporaryParry(-myPassiveManager.temporaryBonusParryStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Parry Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Remove Terrified
+        if (myPassiveManager.terrified)
+        {
+            myPassiveManager.ModifyTerrified(-myPassiveManager.terrifiedStacks);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Terrified Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Resolve
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
         myOnActivationEndEffectsFinished = true;
 
     }
+    public Action OnNewTurnCycleStarted()
+    {
+        Action action = new Action();
+        StartCoroutine(OnNewTurnCycleStartedCoroutine(action));
+        return action;
+    }
+    public IEnumerator OnNewTurnCycleStartedCoroutine(Action action)
+    {
+        timesAttackedThisTurnCycle = 0;
+        hasActivatedThisTurn = false;
 
+        // Remove Temporary Parry 
+        if (myPassiveManager.temporaryBonusParry)
+        {
+            myPassiveManager.ModifyTemporaryParry(myPassiveManager.temporaryBonusParryStacks);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        action.actionResolved = true;
+    }
+    
     public bool myOnActivationEndEffectsFinished = false;
     public bool MyOnTurnEndEffectsFinished()
     {
@@ -983,7 +1196,7 @@ public class LivingEntity : MonoBehaviour
     }
     public virtual void GainEnergyOnActivationStart()
     {        
-        currentEnergy += currentStamina;
+        currentEnergy += EntityLogic.GetTotalStamina(this);
 
         if (currentEnergy > currentMaxEnergy)
         {
@@ -1012,27 +1225,14 @@ public class LivingEntity : MonoBehaviour
         if (myPassiveManager.unwavering)
         {
             return;
-        }
-
-        // prevent removing block from characters that start combat with block
-        if(TurnManager.Instance.currentTurnCount != 1)
-        {
-            if (ArtifactManager.Instance.HasArtifact("Calipers"))
-            {
-                ModifyCurrentBlock(-5);
-            }
-            else
-            {
-                SetCurrentBlock(0);
-            }
-        }      
+        }    
         
     }
     #endregion
 
     // Misc
     #region
-    public Action StartQuickReflexesMove()
+    public Action StartPhasingMove()
     {
         Action action = new Action();
         StartCoroutine(StartQuickReflexesMoveCoroutine(action));
@@ -1043,7 +1243,7 @@ public class LivingEntity : MonoBehaviour
         // TO DO: prevent quick reflex movements from occuring on a characters own turn (only triggered during the enemies turn)
         if (ActivationManager.Instance.entityActivated != this)
         {           
-            List<Tile> availableTiles = LevelManager.Instance.GetTilesWithinRange(1, tile);
+            List<Tile> availableTiles = LevelManager.Instance.GetTilesWithinRange(2, tile);
             Tile destinationTile = LevelManager.Instance.GetRandomValidMoveableTile(availableTiles);
 
             if (destinationTile != null)

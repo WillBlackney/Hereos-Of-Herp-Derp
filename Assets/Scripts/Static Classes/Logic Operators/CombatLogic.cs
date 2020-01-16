@@ -15,6 +15,8 @@ public class CombatLogic : MonoBehaviour
 
     // AoE + Attack events
     #region
+
+        /*
     public void CreateAoEAttackEvent(LivingEntity attacker, Ability abilityUsed, Tile aoeCentrePoint, int aoeSize, bool excludeCentreTile, bool friendlyFire)
     {
         Debug.Log("Starting new AoE damage event...");
@@ -65,8 +67,10 @@ public class CombatLogic : MonoBehaviour
             Action abilityAction = HandleDamage(abilityUsed.abilityPrimaryValue, attacker, livingEntity, false, abilityUsed.abilityAttackType, abilityUsed.abilityDamageType);            
         }
     }
+    */
 
     // Overload method used for aoe damage events not caused by spells/abilities (e.g. volatile passive)
+    /*
     public void CreateAoEAttackEvent(LivingEntity attacker, int damage, Tile aoeCentrePoint, int aoeSize, bool excludeCentreTile, bool friendlyFire, AbilityDataSO.DamageType damageType)
     {
         Debug.Log("Starting new AoE damage event...");
@@ -117,17 +121,20 @@ public class CombatLogic : MonoBehaviour
             HandleDamage(damage, attacker, livingEntity);
         }
     }
+
+    /*
     #endregion
 
     // Damage + damage calculations
     #region
+        /*
     public Action HandleDamage(int damageAmount, LivingEntity attacker, LivingEntity victim, bool playVFXInstantly = false, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None, AbilityDataSO.DamageType damageType = AbilityDataSO.DamageType.None, Ability abilityUsed = null)
     {
         Action action = new Action();
         StartCoroutine(HandleDamageCoroutine(damageAmount, attacker, victim, action, playVFXInstantly, attackType, damageType, abilityUsed));
         return action;
     }
-    public IEnumerator HandleDamageCoroutine(int damageAmount, LivingEntity attacker, LivingEntity victim, Action action, bool playVFXInstantly = false, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None, AbilityDataSO.DamageType damageType = AbilityDataSO.DamageType.None, Ability abilityUsed = null)
+    private IEnumerator HandleDamageCoroutine(int damageAmount, LivingEntity attacker, LivingEntity victim, Action action, bool playVFXInstantly = false, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None, AbilityDataSO.DamageType damageType = AbilityDataSO.DamageType.None, Ability abilityUsed = null)
     {
         // Establish properties for this damage event
         int totalLifeLost = 0;
@@ -343,6 +350,9 @@ public class CombatLogic : MonoBehaviour
         // Send 'actiom resolved' message back up the stack
         action.actionResolved = true;
     }
+    */
+
+        /*
     public int CalculateDamage(int abilityBaseDamage, LivingEntity victim, LivingEntity attacker, AbilityDataSO.DamageType damageType, bool critical, AbilityDataSO.AttackType attackType = AbilityDataSO.AttackType.None, Ability abilityUsed = null)
     {
         int newDamageValue = 0;
@@ -354,14 +364,14 @@ public class CombatLogic : MonoBehaviour
         // add bonus strength
         if(damageType == AbilityDataSO.DamageType.Physical && attackType != AbilityDataSO.AttackType.None)
         {
-            newDamageValue += attacker.currentStrength;
+            newDamageValue += EntityLogic.GetTotalStrength(attacker);
         }        
         Debug.Log("Damage value after strength added: " + newDamageValue);
 
         // add bonus wisdom
         if (damageType == AbilityDataSO.DamageType.Magic && attackType != AbilityDataSO.AttackType.None)
         {
-            newDamageValue += attacker.currentWisdom;
+            newDamageValue += EntityLogic.GetTotalWisdom(attacker);
         }
         Debug.Log("Damage value after wisdom added: " + newDamageValue);
 
@@ -417,6 +427,9 @@ public class CombatLogic : MonoBehaviour
         return damageModifier;
 
     }
+
+
+    */
     #endregion
 
     // Conditional checks + booleans
@@ -471,11 +484,12 @@ public class CombatLogic : MonoBehaviour
             return false;
         }
     }
-    
+
     #endregion
 
     // Damage, Damage Type and Resistance Calculators
-    public int GetBaseDamageValue(LivingEntity entity, int weaponBaseDamage, Ability abilityUsed, string attackDamageType, ItemDataSO weaponUsed = null)
+    #region
+    public int GetBaseDamageValue(LivingEntity entity, int baseDamage, Ability abilityUsed, string attackDamageType, ItemDataSO weaponUsed = null)
     {
         Debug.Log("CombatLogic.GetBaseDamageValue() called...");
         int baseDamageValueReturned = 0;
@@ -488,25 +502,27 @@ public class CombatLogic : MonoBehaviour
         }
         else
         {
-            baseDamageValueReturned += weaponBaseDamage;
+            baseDamageValueReturned += baseDamage;
         }        
 
         // Add flat damage bonus from modifiers (strenght, etc)
-        if(abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        if(abilityUsed != null &&
+           abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
         {
-            baseDamageValueReturned += entity.currentStrength;
+            baseDamageValueReturned += EntityLogic.GetTotalStrength(entity);
             Debug.Log("Base damage after strength and related modifiers added: " + baseDamageValueReturned.ToString());
         }
 
         // Add damage from damage type modifiers that effect spell damage (wisdom, shadowform etc)
         if (attackDamageType == "Fire" || attackDamageType == "Shadow" || attackDamageType == "Air" || attackDamageType == "Frost" || attackDamageType == "Poison")
         {
-            baseDamageValueReturned += entity.currentWisdom;
+            baseDamageValueReturned += EntityLogic.GetTotalWisdom(entity);
             Debug.Log("Base damage after wisdom added: " + baseDamageValueReturned.ToString());
         }
 
         // multiply by ability damage multiplier if ability uses a weapon
-        if(abilityUsed.requiresMeleeWeapon || abilityUsed.requiresRangedWeapon)
+        if(abilityUsed != null &&
+          (abilityUsed.requiresMeleeWeapon || abilityUsed.requiresRangedWeapon))
         {
             baseDamageValueReturned = (int)(baseDamageValueReturned * abilityUsed.weaponDamagePercentage);
             Debug.Log("Base damage ability percentage modifer " + baseDamageValueReturned.ToString());
@@ -528,27 +544,27 @@ public class CombatLogic : MonoBehaviour
         // get the targets resistance value
         if (attackDamageType == "Physical")
         {
-            targetResistance = target.currentPhysicalResistance;
+            targetResistance = EntityLogic.GetTotalPhysicalResistance(target);
         }
         else if (attackDamageType == "Fire")
         {
-            targetResistance = target.currentFireResistance;
+            targetResistance = EntityLogic.GetTotalFireResistance(target);
         }
         else if (attackDamageType == "Air")
         {
-            targetResistance = target.currentAirResistance;
+            targetResistance = EntityLogic.GetTotalAirResistance(target);
         }
         else if (attackDamageType == "Poison")
         {
-            targetResistance = target.currentPoisonResistance;
+            targetResistance = EntityLogic.GetTotalPoisonResistance(target);
         }
         else if (attackDamageType == "Shadow")
         {
-            targetResistance = target.currentShadowResistance;
+            targetResistance = EntityLogic.GetTotalShadowResistance(target);
         }
         else if (attackDamageType == "Frost")
         {
-            targetResistance = target.currentFrostResistance;
+            targetResistance = EntityLogic.GetTotalFrostResistance(target);
         }
 
         Debug.Log("Target has " + targetResistance + " " + attackDamageType + " Resistance...");
@@ -592,13 +608,69 @@ public class CombatLogic : MonoBehaviour
             damageModifier += 0.5f;
         }
 
-        // back strike bonuses
-        if (PositionLogic.Instance.CanAttackerBackStrikeTarget(attacker, target) && abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        // TO DO: Damage modifiers related to increasing magical damage by percentage should be moved to a new method (make some like CalculateMagicDamageModifiers())
+
+        // Air Damage bonuses
+        if(damageType == "Air")
         {
-            // TO DO: update this when we implement opportunist passive
+            if (attacker.myPassiveManager.stormLord)
+            {
+                Debug.Log("Damage has a type of 'Air', and attacker has 'Storm Lord' passive, increasing damage by 20%...");
+                damageModifier += 0.2f;
+            }
         }
 
-        // TO DO: percentage bonus modifiers to spell damage should go here (e.g. Shadow Form, Demon, Increase all air damage by X%, etc)
+        // Fire Damage bonuses
+        if (damageType == "Fire")
+        {
+            if (attacker.myPassiveManager.demon)
+            {
+                Debug.Log("Damage has a type of 'Fire', and attacker has 'Demon' passive, increasing damage by 20%...");
+                damageModifier += 0.2f;
+            }
+        }
+
+        // Poison Damage bonuses
+        if (damageType == "Poison")
+        {
+            if (attacker.myPassiveManager.toxicity)
+            {
+                Debug.Log("Damage has a type of 'Poison', and attacker has 'Toxicity' passive, increasing damage by 20%...");
+                damageModifier += 0.2f;
+            }
+        }
+
+        // Frost Damage bonuses
+        if (damageType == "Frost")
+        {
+            if (attacker.myPassiveManager.frozenHeart)
+            {
+                Debug.Log("Damage has a type of 'Frost', and attacker has 'Frozen Heart' passive, increasing damage by 20%...");
+                damageModifier += 0.2f;
+            }
+        }
+
+        // Frost Damage bonuses
+        if (damageType == "Shadow")
+        {
+            if (attacker.myPassiveManager.shadowForm)
+            {
+                Debug.Log("Damage has a type of 'Shadow', and attacker has 'Shadow Form' passive, increasing damage by 20%...");
+                damageModifier += 0.2f;
+            }
+        }
+
+        // Back strike bonuses
+        if (abilityUsed != null &&
+            PositionLogic.Instance.CanAttackerBackStrikeTarget(attacker, target) && 
+            abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        {
+            // Opportunist
+            if (attacker.myPassiveManager.opportunist)
+            {
+                damageModifier += attacker.myPassiveManager.opportunistStacks / 100;
+            }
+        }
 
         // prevent modifier from going negative
         if (damageModifier < 0)
@@ -705,25 +777,42 @@ public class CombatLogic : MonoBehaviour
         // return damage type
         return damageTypeReturned;
     }
+    #endregion
 
     // Calculate Crit, Parry, Dodge, Block Gain
-    public int CalculateCriticalStrikeChance(LivingEntity character, Ability ability)
+    #region
+    public int CalculateCriticalStrikeChance(LivingEntity attacker, LivingEntity target, Ability ability)
     {
         Debug.Log("CombatLogic.CalculateCriticalChance() called...");
         // TO DO: when more passive traits are added that effect crit chance (ambusher, predator, etc), update this method
         int critChanceReturned = 0;
 
-        // Add base crit chance
-        critChanceReturned += character.currentCriticalChance;
+        critChanceReturned += EntityLogic.GetTotalCriticalChance(attacker, ability);
+
+        // Check for 'Shatter' passive
+        if (attacker.myPassiveManager.shatter &&
+            target.myPassiveManager.chilled &&
+            ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        {
+            critChanceReturned += 20;
+        }
+
+        // Check for 'Opportunist' passive
+        if (attacker.myPassiveManager.opportunist &&
+            PositionLogic.Instance.CanAttackerBackStrikeTarget(attacker, target) &&
+            ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        {
+            critChanceReturned += attacker.myPassiveManager.opportunistStacks;
+        }
 
         // Cap Crit Chance at 80%
-        if(critChanceReturned > 80)
+        if (critChanceReturned > 80)
         {
             critChanceReturned = 80;
         }
 
         // Check for sharpen blade
-        if (character.myPassiveManager.sharpenedBlade && ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        if (attacker.myPassiveManager.sharpenedBlade && ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
         {
             critChanceReturned = 100;
         }
@@ -735,11 +824,8 @@ public class CombatLogic : MonoBehaviour
         Debug.Log("CombatLogic.CalculateParryChance() called...");
         int parryChanceReturned = 0;
 
-        // Add base parry chance
-        parryChanceReturned += target.currentParryChance;
-
-        // add bonuses from passives
-        parryChanceReturned += target.myPassiveManager.temporaryBonusParryStacks;
+        // Get total parry chance
+        parryChanceReturned += EntityLogic.GetTotalParry(target);
 
         // Cap Parry Chance at 80%
         if (parryChanceReturned > 80)
@@ -749,18 +835,21 @@ public class CombatLogic : MonoBehaviour
 
         return parryChanceReturned;
     }
-    public int CalculateDodgeChance(LivingEntity target)
+    public int CalculateDodgeChance(LivingEntity target, LivingEntity attacker)
     {
         Debug.Log("CombatLogic.CalculateDodgeChance() called...");
         int dodgeChanceReturned = 0;
 
-        // Get base dodge chance
-        dodgeChanceReturned += target.currentDodgeChance;
+        // Get Total Dodge
+        dodgeChanceReturned += EntityLogic.GetTotalDodge(target);
 
-        // add bonuses from passives
-        dodgeChanceReturned += target.myPassiveManager.temporaryBonusDodgeStacks;
+        // Check for Perfect aim
+        if (attacker.myPassiveManager.perfectAim)
+        {
+            dodgeChanceReturned = 0;
+        }
 
-        // Cap Parry Chance at 80%
+        // Cap Dodge Chance at 80%
         if (dodgeChanceReturned > 80)
         {
             dodgeChanceReturned = 80;
@@ -772,16 +861,18 @@ public class CombatLogic : MonoBehaviour
     {
         int valueReturned = baseBlockGain;
 
-        valueReturned += caster.currentDexterity;
+        valueReturned += EntityLogic.GetTotalDexterity(caster);
 
         return valueReturned;
     }
+    #endregion
 
     // Roll for Crit, Parry and Dodge
-    public bool RollForCritical(LivingEntity attacker, Ability ability)
+    #region
+    public bool RollForCritical(LivingEntity attacker, LivingEntity target, Ability ability)
     {
         Debug.Log("CombatLogic.RollForCritical() called...");
-        int critChance = CalculateCriticalStrikeChance(attacker, ability);
+        int critChance = CalculateCriticalStrikeChance(attacker, target, ability);
 
         int roll = Random.Range(1, 101);
         Debug.Log(attacker.gameObject.name + " rolled a " + roll.ToString() + " to crit");
@@ -816,10 +907,10 @@ public class CombatLogic : MonoBehaviour
             return false;
         }
     }
-    public bool RollForDodge(LivingEntity target)
+    public bool RollForDodge(LivingEntity target, LivingEntity attacker)
     {
         Debug.Log("CombatLogic.RollForDodge() called...");
-        int dodgeChance = CalculateDodgeChance(target);
+        int dodgeChance = CalculateDodgeChance(target, attacker);
 
         int roll = Random.Range(1, 101);
         Debug.Log(target.gameObject.name + " rolled a " + roll.ToString() + " to dodge");
@@ -835,16 +926,17 @@ public class CombatLogic : MonoBehaviour
             return false;
         }
     }
+    #endregion
 
     // Handle damage + attack related events
-    public Action NewHandleDamage(int damageAmount, LivingEntity attacker, LivingEntity victim, string damageType, Ability abilityUsed = null, bool ignoreBlock = false)
+    public Action HandleDamage(int damageAmount, LivingEntity attacker, LivingEntity victim, string damageType, Ability abilityUsed = null, bool ignoreBlock = false)
     {
         Debug.Log("CombatLogic.NewHandleDamage() called...");
         Action action = new Action();
-        StartCoroutine(NewHandleDamageCoroutine(damageAmount, attacker, victim, damageType, action, abilityUsed, ignoreBlock));
+        StartCoroutine(HandleDamageCoroutine(damageAmount, attacker, victim, damageType, action, abilityUsed, ignoreBlock));
         return action;
     }
-    private IEnumerator NewHandleDamageCoroutine(int damageAmount, LivingEntity attacker, LivingEntity victim, string damageType, Action action, Ability abilityUsed = null, bool ignoreBlock = false)
+    private IEnumerator HandleDamageCoroutine(int damageAmount, LivingEntity attacker, LivingEntity victim, string damageType, Action action, Ability abilityUsed = null, bool ignoreBlock = false)
     {
         // Establish properties for this damage event
         int totalLifeLost = 0;
@@ -978,6 +1070,16 @@ public class CombatLogic : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
         }
 
+        // Immolation trait
+        if (attacker.myPassiveManager.immolation && totalLifeLost > 0 &&
+            abilityUsed != null &&
+            (abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack ||
+            abilityUsed.abilityType == AbilityDataSO.AbilityType.RangedAttack))
+        {
+            victim.myPassiveManager.ModifyBurning(attacker.myPassiveManager.immolationStacks, attacker);
+            yield return new WaitForSeconds(0.3f);
+        }
+
         // Remove sleeping
         if (victim.myPassiveManager.sleep && totalLifeLost > 0)
         {
@@ -990,7 +1092,7 @@ public class CombatLogic : MonoBehaviour
         if (victim.myPassiveManager.enrage && totalLifeLost > 0)
         {
             Debug.Log("Enrage triggered, gaining strength");
-            victim.ModifyCurrentStrength(victim.myPassiveManager.enrageStacks);
+            victim.myPassiveManager.ModifyBonusStrength(victim.myPassiveManager.enrageStacks);
             yield return new WaitForSeconds(0.3f);
         }
 
@@ -998,7 +1100,7 @@ public class CombatLogic : MonoBehaviour
         if (victim.myPassiveManager.tenacious && totalLifeLost > 0)
         {
             Debug.Log("Tenacious triggered, gaining block");
-            victim.ModifyCurrentBlock(victim.myPassiveManager.tenaciousStacks);
+            victim.ModifyCurrentBlock(CalculateBlockGainedByEffect(victim.myPassiveManager.tenaciousStacks, victim));
             yield return new WaitForSeconds(0.3f);
         }
 
@@ -1009,18 +1111,19 @@ public class CombatLogic : MonoBehaviour
                 abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
             {
                 Debug.Log("Victim has thorns and was struck by a melee attack, returning damage...");
-                Action thornsDamage = HandleDamage(CalculateDamage(victim.myPassiveManager.thornsStacks, attacker, victim, AbilityDataSO.DamageType.Physical, false), victim, attacker);
+                int finalThornsDamageValue = GetFinalDamageValueAfterAllCalculations(victim, attacker, null, "Physical", false, victim.myPassiveManager.thornsStacks);
+                Action thornsDamage = HandleDamage(finalThornsDamageValue, victim, attacker, "Physical");
             }
         }
 
-        // Quick Reflexes
+        // Phasing
         if (victim.timesAttackedThisTurnCycle == 0 &&
             victim.myPassiveManager.phasing &&
             abilityUsed != null &&
-            abilityUsed.abilityType != AbilityDataSO.AbilityType.None)
+            abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Phasing", true, "Blue"));
-            Action reflexAction = victim.StartQuickReflexesMove();
+            Action reflexAction = victim.StartPhasingMove();
             yield return new WaitUntil(() => reflexAction.ActionResolved() == true);
         }
 
@@ -1057,7 +1160,10 @@ public class CombatLogic : MonoBehaviour
         {
             Debug.Log(target.name + " parried an attack AND has riposte, performing riposte attack...");
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Riposte!", true, "Yellow"));
-            // perform riposte attack
+
+            // Perform riposte attack
+            Action parryAttackAction = AbilityLogic.Instance.PerformRiposteAttack(attacker, target);
+            yield return new WaitUntil(() => parryAttackAction.ActionResolved() == true);
         }
         else
         {
@@ -1077,7 +1183,7 @@ public class CombatLogic : MonoBehaviour
     }
     private IEnumerator HandleDodgeCoroutine(LivingEntity attacker, LivingEntity target, Action action)
     {
-        StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Dodge!", true, "Yellow"));
+        StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Dodge!", true, "Yellow"));        
 
         yield return new WaitForSeconds(0.5f);
 

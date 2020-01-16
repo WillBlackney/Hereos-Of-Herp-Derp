@@ -59,7 +59,7 @@ public class Mork : Enemy
         {
             SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
 
-            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, currentMobility);
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             if (destination == null)
             {
                 goto End;

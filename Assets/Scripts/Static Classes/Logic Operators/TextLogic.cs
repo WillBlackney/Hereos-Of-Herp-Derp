@@ -223,7 +223,7 @@ public static class TextLogic
         else if (ability.abilityName == "Move")
         {
             ability.descriptionText.text =
-                "Move to a tile within " + ReturnColoredText(ability.myLivingEntity.currentMobility.ToString(), yellow) +
+                "Move to a tile within " + ReturnColoredText(EntityLogic.GetTotalMobility(ability.myLivingEntity).ToString(), yellow) +
                 " of your current position";
         }
         else if (ability.abilityName == "Inspire")

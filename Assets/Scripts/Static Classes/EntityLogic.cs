@@ -235,7 +235,7 @@ public static class EntityLogic
     public static bool IsAbleToMove(LivingEntity entity)
     {
         if(entity.myPassiveManager.immobilized ||
-            entity.currentMobility <= 0)
+           EntityLogic.GetTotalMobility(entity) <= 0)
         {
             return false;
         }
@@ -324,7 +324,7 @@ public static class EntityLogic
         if (tilesWithinStealthSight.Contains(target.tile) == false &&
             (target.myPassiveManager.camoflage || target.myPassiveManager.stealth) &&
             (CombatLogic.Instance.IsTargetFriendly(caster, target) == false) &&
-             caster.myPassiveManager.trueSight == false
+             (caster.myPassiveManager.trueSight == false && caster.myPassiveManager.temporaryTrueSight == false)
             )
         {
             Debug.Log("IsTargetVisible() determined that " + target.name + " CANNOT be seen by "+ caster.name + "...");
@@ -373,15 +373,19 @@ public static class EntityLogic
     }
     public static bool IsAbilityUseable(LivingEntity entity, Ability ability)
     {
-        if(HasEnoughAP(entity, ability) &&
-            IsAbilityOffCooldown(ability) &&
-            AbilityLogic.Instance.DoesAbilityMeetWeaponRequirements(entity, ability))
+        if(!HasEnoughAP(entity, ability) ||
+            !IsAbilityOffCooldown(ability) ||
+            !AbilityLogic.Instance.DoesAbilityMeetWeaponRequirements(entity, ability) ||
+            (ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack && entity.myPassiveManager.disarmed) ||
+            (ability.abilityType == AbilityDataSO.AbilityType.RangedAttack && entity.myPassiveManager.blind) ||
+            (ability.abilityType == AbilityDataSO.AbilityType.Skill && entity.myPassiveManager.silenced)
+            )
         {
-            return true;
+            return false;
         }
         else
         {
-            return false;
+            return true; ;
         }
     }
     public static bool CanPerformAbilityTwoAfterAbilityOne(Ability abilityOne, Ability abilityTwo, LivingEntity entity)
@@ -478,6 +482,18 @@ public static class EntityLogic
         // Get base dexterity
         int dexterityReturned = entity.currentDexterity;
 
+        // Add from bonus dexterity passive
+        if (entity.myPassiveManager.bonusDexterity)
+        {
+            dexterityReturned += entity.myPassiveManager.bonusDexterityStacks;
+        }
+
+        // Add from temporary bonus dexterity passive
+        if (entity.myPassiveManager.temporaryBonusDexterity)
+        {
+            dexterityReturned += entity.myPassiveManager.temporaryBonusDexterityStacks;
+        }
+
         // Add bonus from purity passive
         if (entity.myPassiveManager.purity)
         {
@@ -507,6 +523,119 @@ public static class EntityLogic
         // return final value
         return strengthReturned;
     }
+    public static int GetTotalWisdom(LivingEntity entity)
+    {
+        // Get base wisdom
+        int wisdomReturned = entity.currentWisdom;
+
+        // Add bonus wisdom
+        wisdomReturned += entity.myPassiveManager.bonusWisdomStacks;
+
+        // Add temporary bonus wisdom
+        wisdomReturned += entity.myPassiveManager.temporaryBonusWisdomStacks;
+
+        // Add bonus from purity passive
+        if (entity.myPassiveManager.purity)
+        {
+            wisdomReturned += 2;
+        }
+
+        // return final value
+        return wisdomReturned;
+    }
+    public static int GetTotalInitiative(LivingEntity entity)
+    {
+        // Get base Initiative
+        int initiativeReturned = entity.currentInitiative;
+
+        // Add bonus Initiative
+        initiativeReturned += entity.myPassiveManager.bonusInitiativeStacks;
+
+        // Add temporary bonus Initiative
+        initiativeReturned += entity.myPassiveManager.temporaryBonusInitiativeStacks;
+
+        // Reduce by 1 if 'Chilled'
+        if (entity.myPassiveManager.chilled)
+        {
+            initiativeReturned -= 1;
+        }
+
+        // Prevent going below zero
+        if (initiativeReturned < 0)
+        {
+            initiativeReturned = 0;
+        }
+
+        // return final value
+        return initiativeReturned;
+    }
+    public static int GetTotalMobility(LivingEntity entity)
+    {
+        // Get base Mobility
+        int mobilityReturned = entity.currentMobility;
+
+        // Add bonus Mobility
+        mobilityReturned += entity.myPassiveManager.bonusMobilityStacks;
+
+        // Add temporary bonus Mobility
+        mobilityReturned += entity.myPassiveManager.temporaryBonusMobilityStacks;
+
+        // Reduce by 1 if 'Chilled'
+        if (entity.myPassiveManager.chilled)
+        {
+            mobilityReturned -= 1;
+        }
+
+        // Check for Patient Stalker
+        if (entity.myPassiveManager.patientStalker &&
+          (entity.myPassiveManager.camoflage || entity.myPassiveManager.stealth)
+          )
+        {
+            mobilityReturned += 10;
+        }
+
+        // Prevent going below zero
+        if (mobilityReturned < 0)
+        {
+            mobilityReturned = 0;
+        }
+        // return final value
+        return mobilityReturned;
+    }
+    public static int GetTotalStamina(LivingEntity entity)
+    {
+        // Get base Stamina
+        int staminaReturned = entity.currentStamina;
+
+        // Add bonus Stamina
+        staminaReturned += entity.myPassiveManager.bonusStaminaStacks;
+
+        // Add temporary bonus Stamina
+        staminaReturned += entity.myPassiveManager.temporaryBonusStaminaStacks;
+
+        // Check for Patient Stalker
+        if(entity.myPassiveManager.patientStalker && 
+          (entity.myPassiveManager.camoflage || entity.myPassiveManager.stealth)
+          )
+        {
+            staminaReturned += 10;
+        }
+
+        // Minus 10 if 'Shocked'
+        if (entity.myPassiveManager.shocked)
+        {
+            staminaReturned -= 10;
+        }
+
+        // prevent reducing below 0
+        if(staminaReturned < 0)
+        {
+            staminaReturned = 0;
+        }
+
+        // return final value
+        return staminaReturned;
+    }
 
     // Secondary Stats
     public static int GetTotalRangeOfRangedAttack(LivingEntity entity, Ability ability)
@@ -531,5 +660,187 @@ public static class EntityLogic
         // return final value
         return rangeReturned;
     }
+    public static int GetTotalDodge(LivingEntity entity)
+    {
+        // Get base Dodge
+        int dodgeReturned = entity.currentDodgeChance;
+
+        // Add temporary bonus Dodge
+        dodgeReturned += entity.myPassiveManager.temporaryBonusDodgeStacks;
+
+        // Add nimble
+        if (entity.myPassiveManager.nimble)
+        {
+            dodgeReturned += 10;
+        }
+
+        // Add perfect reflexes
+        if (entity.myPassiveManager.perfectReflexes)
+        {
+            dodgeReturned += 20;
+        }
+
+        // return final value
+        return dodgeReturned;
+    }
+    public static int GetTotalParry(LivingEntity entity)
+    {
+        // Get base Parry
+        int parryReturned = entity.currentParryChance;
+
+        // Add temporary bonus Parry
+        parryReturned += entity.myPassiveManager.temporaryBonusParryStacks;
+
+        // Add nimble
+        if (entity.myPassiveManager.nimble)
+        {
+            parryReturned += 10;
+        }
+
+        // Add perfect reflexes
+        if (entity.myPassiveManager.perfectReflexes)
+        {
+            parryReturned += 20;
+        }
+
+        // return final value
+        return parryReturned;
+    }
+    public static int GetTotalCriticalChance(LivingEntity entity, Ability ability = null)
+    {
+        // Get base Crit
+        int criticalReturned = entity.currentCriticalChance;
+
+        // Consider ability first
+        if (ability != null)
+        {
+            if(ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+            {
+                // TO DO!: Add melee specific crit modifiers here
+                criticalReturned += GetTotalMeleeCriticalChance(entity);
+            }
+            else if (ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+            {
+                // TO DO!: Add ranged specific crit modifiers here
+                criticalReturned += GetTotalRangedCriticalChance(entity);
+            }
+        }
+
+        // Check for Patient Stalker
+        if (entity.myPassiveManager.patientStalker &&
+          (entity.myPassiveManager.camoflage || entity.myPassiveManager.stealth)
+          )
+        {
+            criticalReturned += 20;
+        }
+
+        // Check for Masochist
+        if (entity.myPassiveManager.masochist &&
+           ((entity.currentMaxHealth / 2) > entity.currentHealth)
+           )
+        {
+            criticalReturned += 20;
+        }
+
+        // return final value
+        return criticalReturned;
+    }
+    public static int GetTotalMeleeCriticalChance(LivingEntity entity)
+    {
+        // Get base melee Crit
+        int criticalReturned = 0;
+
+        // return final value
+        return criticalReturned;
+    }
+    public static int GetTotalRangedCriticalChance(LivingEntity entity)
+    {
+        // Get base ranged Crit
+        int criticalReturned = 0;
+
+        // return final value
+        return criticalReturned;
+    }
+
+    // Resistances
+    public static int GetTotalPhysicalResistance(LivingEntity entity)
+    {
+        // Get base resistance
+        int physicalResistanceReturned = entity.currentPhysicalResistance;
+
+        // return final value
+        return physicalResistanceReturned;
+    }
+    public static int GetTotalFireResistance(LivingEntity entity)
+    {
+        // Get base resistance
+        int fireResistanceReturned = entity.currentFireResistance;
+
+        // Check Demon passive
+        if (entity.myPassiveManager.demon)
+        {
+            fireResistanceReturned += 20;
+        }
+
+        // return final value
+        return fireResistanceReturned;
+    }
+    public static int GetTotalShadowResistance(LivingEntity entity)
+    {
+        // Get base resistance
+        int shadowResistanceReturned = entity.currentShadowResistance;
+
+        // Check Shadow Form passive
+        if (entity.myPassiveManager.shadowForm)
+        {
+            shadowResistanceReturned += 20;
+        }
+
+        // return final value
+        return shadowResistanceReturned;
+    }
+    public static int GetTotalFrostResistance(LivingEntity entity)
+    {
+        // Get base resistance
+        int frostResistanceReturned = entity.currentFrostResistance;
+
+        // Check Frozen Heart passive
+        if (entity.myPassiveManager.frozenHeart)
+        {
+            frostResistanceReturned += 20;
+        }
+
+        // return final value
+        return frostResistanceReturned;
+    }
+    public static int GetTotalPoisonResistance(LivingEntity entity)
+    {
+        // Get base resistance
+        int poisonResistanceReturned = entity.currentPoisonResistance;
+
+        // Check Toxicity passive
+        if (entity.myPassiveManager.toxicity)
+        {
+            poisonResistanceReturned += 20;
+        }
+
+        // return final value
+        return poisonResistanceReturned;
+    }
+    public static int GetTotalAirResistance(LivingEntity entity)
+    {
+        // Get base resistance
+        int airResistanceReturned = entity.currentAirResistance;
+
+        // Check Storm Lord passive
+        if (entity.myPassiveManager.stormLord)
+        {
+            airResistanceReturned += 20;
+        }
+
+        // return final value
+        return airResistanceReturned;
+    }
+
     #endregion
 }

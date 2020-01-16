@@ -107,13 +107,13 @@ public class SkeletonArcher : Enemy
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), shoot.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, shoot, this) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestValidEnemy(this), shoot.abilityRange, currentMobility) != null &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestValidEnemy(this), shoot.abilityRange, EntityLogic.GetTotalMobility(this)) != null &&
             EntityLogic.IsAbilityUseable(this, move)
             )
         {
             SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));            
 
-            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, currentMobility);
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, EntityLogic.GetTotalMobility(this));
             
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
@@ -131,14 +131,14 @@ public class SkeletonArcher : Enemy
             moveActionsTakenThisActivation == 0 &&
             currentEnergy == 0 &&
             EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.GetValidGrassTileWithinRange(this, currentMobility) != null &&
+            EntityLogic.GetValidGrassTileWithinRange(this, EntityLogic.GetTotalMobility(this)) != null &&
             tile.myTileType != Tile.TileType.Grass
             )
         {
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
-            Action movementAction = AbilityLogic.Instance.PerformMove(this, EntityLogic.GetValidGrassTileWithinRange(this, currentMobility));
+            Action movementAction = AbilityLogic.Instance.PerformMove(this, EntityLogic.GetValidGrassTileWithinRange(this, EntityLogic.GetTotalMobility(this)));
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);

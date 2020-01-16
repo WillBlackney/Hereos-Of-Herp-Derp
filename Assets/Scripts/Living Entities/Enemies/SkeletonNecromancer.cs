@@ -42,7 +42,7 @@ public class SkeletonNecromancer : Enemy
 
         // try move to grass/better position if there is one in range of mobility
         else if (EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.GetValidGrassTileWithinRange(this, currentMobility) != null &&
+            EntityLogic.GetValidGrassTileWithinRange(this, EntityLogic.GetTotalMobility(this)) != null &&
             tile.myTileType != Tile.TileType.Grass &&
             EntityLogic.IsAbilityUseable(this,move)
             )
@@ -50,7 +50,7 @@ public class SkeletonNecromancer : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
-            Action movementAction = AbilityLogic.Instance.PerformMove(this, EntityLogic.GetValidGrassTileWithinRange(this,currentMobility));
+            Action movementAction = AbilityLogic.Instance.PerformMove(this, EntityLogic.GetValidGrassTileWithinRange(this, EntityLogic.GetTotalMobility(this)));
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
             yield return new WaitForSeconds(1f);
             goto ActionStart;
@@ -87,7 +87,7 @@ public class SkeletonNecromancer : Enemy
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), blight.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, blight.abilityRange, currentMobility) != null &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, blight.abilityRange, EntityLogic.GetTotalMobility(this)) != null &&
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, blight, this)
             )
         {
@@ -96,7 +96,7 @@ public class SkeletonNecromancer : Enemy
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
             yield return new WaitForSeconds(0.5f);
 
-            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, blight.abilityRange, currentMobility);
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, blight.abilityRange, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 

@@ -117,7 +117,7 @@ public class ActivationManager : Singleton<ActivationManager>
     }
     public int CalculateInitiativeRoll(LivingEntity entity)
     {
-        return entity.currentInitiative + Random.Range(1, 4);
+        return EntityLogic.GetTotalInitiative(entity) + Random.Range(1, 4);
     }
     public Action CalculateActivationOrder()
     {

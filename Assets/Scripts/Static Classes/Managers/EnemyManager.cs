@@ -24,7 +24,10 @@ public class EnemyManager : Singleton<EnemyManager>
         {
             selectedDefender.StartStrikeProcess();
         }
-
+        else if (selectedDefender != null && selectedDefender.awaitingDisarmOrder == true)
+        {
+            selectedDefender.StartDisarmProcess();
+        }
         else if (selectedDefender != null && selectedDefender.awaitingChargeTargetOrder == true)
         {
             selectedDefender.StartChargeLocationSettingProcess();
@@ -157,11 +160,7 @@ public class EnemyManager : Singleton<EnemyManager>
         else if (selectedDefender != null && selectedDefender.awaitingChainLightningOrder == true)
         {
             selectedDefender.StartChainLightningProcess(selectedEnemy);
-        }
-        else if (selectedDefender != null && selectedDefender.awaitingPrimalBlastOrder == true)
-        {
-            selectedDefender.StartPrimalBlastProcess(selectedEnemy);
-        }
+        }       
         else if (selectedDefender != null && selectedDefender.awaitingLightningBoltOrder == true)
         {
             selectedDefender.StartLightningBoltProcess(selectedEnemy);
