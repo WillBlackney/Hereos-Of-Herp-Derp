@@ -144,7 +144,6 @@ public class CharacterData : MonoBehaviour
     public bool KnowsShank;
     public bool KnowsShadowStep;
     public bool KnowsAmbush;
-    public bool KnowsStalk;
     public bool KnowsSharpenBlade;
     public bool KnowsProvoke;
     public bool KnowsSwordAndBoard;
@@ -203,6 +202,8 @@ public class CharacterData : MonoBehaviour
     public bool KnowsSuperConductor;
     public bool KnowsSnipe;
     public bool KnowsRapidCloaking;
+    public bool KnowsDisarm;
+    public bool KnowsSecondWind;
 
 
 
@@ -246,8 +247,8 @@ public class CharacterData : MonoBehaviour
             KnowsMove = true;
             KnowsStrike = true;
 
-            KnowsFireBall = true;
-            KnowsTranscendence = true;
+            KnowsDisarm = true;
+            KnowsSecondWind = true;
             KnowsProvoke = true;
             KnowsPhoenixDive = true;
             KnowsBloodOffering = true;

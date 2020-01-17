@@ -829,6 +829,11 @@ public class Defender : LivingEntity
             OnWhirlwindButtonClicked();
             enableTileHover = false;
         }
+        else if (abilityName == "Second Wind")
+        {
+            OnSecondWindButtonClicked();
+            enableTileHover = false;
+        }
         else if (abilityName == "Infuse")
         {
             OnInfuseButtonClicked();
@@ -1802,6 +1807,17 @@ public class Defender : LivingEntity
         if (EntityLogic.IsAbilityUseable(this, whirlwind))
         {
             AbilityLogic.Instance.PerformWhirlwind(this);
+        }
+    }
+    public void OnSecondWindButtonClicked()
+    {
+        Debug.Log("Second Wind button clicked");
+
+        Ability secondWind = mySpellBook.GetAbilityByName("Second Wind");
+
+        if (EntityLogic.IsAbilityUseable(this, secondWind))
+        {
+            AbilityLogic.Instance.PerformSecondWind(this);
         }
     }
     public void OnInfuseButtonClicked()

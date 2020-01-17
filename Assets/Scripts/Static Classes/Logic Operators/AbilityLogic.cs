@@ -1133,6 +1133,32 @@ public class AbilityLogic : MonoBehaviour
 
     }
 
+    // Second Wind
+    public Action PerformSecondWind(LivingEntity caster)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformSecondWindCoroutine(caster, action));
+        return action;
+
+    }
+    private IEnumerator PerformSecondWindCoroutine(LivingEntity caster, Action action)
+    {
+        // Set up properties
+        Ability vanish = caster.mySpellBook.GetAbilityByName("Second Wind");
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(vanish, caster);
+
+        // Gain Max Energy
+        caster.ModifyCurrentEnergy(caster.currentMaxEnergy);
+        yield return new WaitForSeconds(0.5f);
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(vanish, caster);
+        action.actionResolved = true;
+
+    }
+
     #endregion
 
     // Assassination Abilities

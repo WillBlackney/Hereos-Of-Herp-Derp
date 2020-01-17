@@ -138,6 +138,8 @@ public class SpellBook : MonoBehaviour
     public bool KnowsConcealingClouds;
     public bool KnowsSuperConductor;
     public bool KnowsSnipe;
+    public bool KnowsDisarm;
+    public bool KnowsSecondWind;
     #endregion
 
     // Initialization + Setup
@@ -391,9 +393,9 @@ public class SpellBook : MonoBehaviour
         {
             LearnAmbush();
         }
-        if (cd.KnowsStalk == true)
+        if (cd.KnowsDisarm == true)
         {
-            LearnStalk();
+            LearnDisarm();
         }
         if (cd.KnowsSharpenBlade == true)
         {
@@ -570,6 +572,10 @@ public class SpellBook : MonoBehaviour
         if (cd.KnowsBloodOffering == true)
         {
             LearnBloodOffering();
+        }
+        if (cd.KnowsSecondWind == true)
+        {
+            LearnSecondWind();
         }
         if (cd.KnowsToxicSlash == true)
         {
@@ -1699,23 +1705,24 @@ public class SpellBook : MonoBehaviour
         }
 
     }
-    public void LearnStalk()
+    public void LearnDisarm()
     {
-        KnowsStalk = true;
+        KnowsDisarm = true;
         Enemy enemy = myLivingEntity.GetComponent<Enemy>();
         Defender defender = myLivingEntity.GetComponent<Defender>();
 
         if (defender)
         {
-            DefenderLearnAbility("Stalk");
+            DefenderLearnAbility("Disarm");
         }
 
         else if (enemy)
         {
-            EnemyLearnAbility("Stalk");
+            EnemyLearnAbility("Disarm");
         }
 
     }
+
     public void LearnSharpenBlade()
     {
         KnowsSharpenBlade = true;
@@ -2462,6 +2469,23 @@ public class SpellBook : MonoBehaviour
         else if (enemy)
         {
             EnemyLearnAbility("Blood Offering");
+        }
+
+    }
+    public void LearnSecondWind()
+    {
+        KnowsSecondWind = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Second Wind");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Second Wind");
         }
 
     }
