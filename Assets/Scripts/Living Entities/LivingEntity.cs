@@ -461,13 +461,21 @@ public class LivingEntity : MonoBehaviour
 
         if (myPassiveManager.Volatile)
         {
+            // Notification
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Volatile", true, "Blue"));
+
             // Calculate which characters are hit by the aoe
             List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(this, tile, 1, true, true);
+
+            // Damage all targets hit
             foreach (LivingEntity entity in targetsInRange)
             {
-                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(this, entity, null, "Physical", false, myPassiveManager.volatileStacks);
-                Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, this, entity, "Physical");
-                yield return new WaitForSeconds(0.1f);
+                if(entity.inDeathProcess == false)
+                {
+                    int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(this, entity, null, "Physical", false, myPassiveManager.volatileStacks);
+                    Action volatileExplosion = CombatLogic.Instance.HandleDamage(finalDamageValue, this, entity, "Physical");
+                    yield return new WaitUntil(() => volatileExplosion.ActionResolved() == true);
+                }               
             }
         }
 
@@ -639,9 +647,19 @@ public class LivingEntity : MonoBehaviour
             myPassiveManager.ModifyTimeWarp(-myPassiveManager.timeWarpStacks);
         }
 
+        // Growing
         if (myPassiveManager.growing)
         {
             myPassiveManager.ModifyBonusStrength(myPassiveManager.growingStacks);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Testudo
+        if (myPassiveManager.testudo)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Testudo", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+            ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(5, this));
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -762,6 +780,14 @@ public class LivingEntity : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+        // Remove Taunted
+        if (myPassiveManager.sleep)
+        {
+            myPassiveManager.ModifyTaunted(-myPassiveManager.tauntedStacks, null);
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Taunted Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Remove Chilled
         if (myPassiveManager.chilled)
         {
@@ -776,16 +802,7 @@ public class LivingEntity : MonoBehaviour
             myPassiveManager.ModifyShocked(-myPassiveManager.shockedStacks);
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shocked Removed", false, "Blue"));
             yield return new WaitForSeconds(0.5f);
-        }
-
-        // Testudo
-        if (myPassiveManager.testudo)
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Testudo", false, "Blue"));
-            yield return new WaitForSeconds(0.5f);
-            ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(5, this));
-            yield return new WaitForSeconds(0.5f);
-        }
+        }       
 
         // Cautious
         if (myPassiveManager.cautious && currentBlock == 0)
@@ -810,7 +827,7 @@ public class LivingEntity : MonoBehaviour
                 {
                     Debug.Log("Character " + entity.name + " is within range of Encouraging presence, granting bonus Energy...");
                     StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
-                    ModifyCurrentEnergy(myPassiveManager.encouragingAuraStacks);
+                    entity.ModifyCurrentEnergy(myPassiveManager.encouragingAuraStacks);
                 }
             }            
 
@@ -872,6 +889,26 @@ public class LivingEntity : MonoBehaviour
                 }
             }
 
+            yield return new WaitForSeconds(0.5f);
+
+        }
+
+        // Shadow Aura
+        if (myPassiveManager.shadowAura)
+        {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shadow Aura", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+
+            List<Tile> tilesInShadowAuraRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
+
+            foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+            {
+                if (tilesInShadowAuraRange.Contains(entity.tile) &&
+                    CombatLogic.Instance.IsTargetFriendly(this, entity) == false)
+                {
+                    entity.myPassiveManager.ModifyWeakened(1);
+                }
+            }
             yield return new WaitForSeconds(0.5f);
 
         }
@@ -965,31 +1002,31 @@ public class LivingEntity : MonoBehaviour
                     // Remove Immobilized
                     if (entity.myPassiveManager.immobilized)
                     {
-                        entity.myPassiveManager.ModifyImmobilized(entity.myPassiveManager.immobilizedStacks);
+                        entity.myPassiveManager.ModifyImmobilized(-entity.myPassiveManager.immobilizedStacks);
                     }
 
                     // Remove Blind
                     if (entity.myPassiveManager.blind)
                     {
-                        entity.myPassiveManager.ModifyBlind(entity.myPassiveManager.blindStacks);
+                        entity.myPassiveManager.ModifyBlind(-entity.myPassiveManager.blindStacks);
                     }
 
                     // Remove Disarmed
                     if (entity.myPassiveManager.disarmed)
                     {
-                        entity.myPassiveManager.ModifyDisarmed(entity.myPassiveManager.disarmedStacks);
+                        entity.myPassiveManager.ModifyDisarmed(-entity.myPassiveManager.disarmedStacks);
                     }
 
-                    // Remove Disarmed
+                    // Remove Silenced
                     if (entity.myPassiveManager.silenced)
                     {
-                        entity.myPassiveManager.ModifySilenced(entity.myPassiveManager.silencedStacks);
+                        entity.myPassiveManager.ModifySilenced(-entity.myPassiveManager.silencedStacks);
                     }
 
-                    // Remove Disarmed
+                    // Remove Terrified
                     if (entity.myPassiveManager.terrified)
                     {
-                        entity.myPassiveManager.ModifyTerrified(entity.myPassiveManager.terrifiedStacks);
+                        entity.myPassiveManager.ModifyTerrified(-entity.myPassiveManager.terrifiedStacks);
                     }
                 }
             }
@@ -1008,14 +1045,18 @@ public class LivingEntity : MonoBehaviour
         // Poisoned
         if (myPassiveManager.poisoned)
         {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Poisoned", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
             Action poisonDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.poisonedStacks, this, this, "None", null, true);
             yield return new WaitUntil(() => poisonDamage.ActionResolved() == true);
             yield return new WaitForSeconds(0.5f);
         }
 
         // Burning
-        if (myPassiveManager.poisoned)
+        if (myPassiveManager.burning)
         {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Burning", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
             Action burningDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.burningStacks, this, this, "None", null, true);
             yield return new WaitUntil(() => burningDamage.ActionResolved() == true);
             yield return new WaitForSeconds(0.5f);
@@ -1024,9 +1065,10 @@ public class LivingEntity : MonoBehaviour
         // Fading
         if (myPassiveManager.fading)
         {
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fading", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
             Action fadingDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.fadingStacks, this, this, "None", null, true);
             yield return new WaitUntil(() => fadingDamage.ActionResolved() == true);
-            yield return new WaitForSeconds(0.5f);
         }
 
         // Remove Temporary Imbuements
@@ -1068,6 +1110,13 @@ public class LivingEntity : MonoBehaviour
         {
             myPassiveManager.ModifyTemporaryPoisonImbuement(-myPassiveManager.temporaryPoisonImbuementStacks);
             StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Poison Imbuement Removed", false, "Blue"));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Rapid Cloaking
+        if (myPassiveManager.rapidCloaking)
+        {
+            myPassiveManager.ModifyCamoflage(1);
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -1225,7 +1274,12 @@ public class LivingEntity : MonoBehaviour
         if (myPassiveManager.unwavering)
         {
             return;
-        }    
+        }
+        else
+        {
+            // Remove all block
+            ModifyCurrentBlock(-currentBlock);
+        }
         
     }
     #endregion

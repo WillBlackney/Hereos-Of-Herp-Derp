@@ -534,50 +534,30 @@ public class CombatLogic : MonoBehaviour
     }
     public int GetDamageValueAfterResistances(int damageValue, string attackDamageType, LivingEntity target)
     {
+        // Debug
         Debug.Log("CombatLogic.GetDamageValueAfterResistances() called...");
         Debug.Log("Damage Type detected: " + attackDamageType);
 
+        // Setup
         int damageValueReturned = damageValue;
         int targetResistance = 0;
         float resistanceMultiplier = 0;
 
-        // get the targets resistance value
-        if (attackDamageType == "Physical")
-        {
-            targetResistance = EntityLogic.GetTotalPhysicalResistance(target);
-        }
-        else if (attackDamageType == "Fire")
-        {
-            targetResistance = EntityLogic.GetTotalFireResistance(target);
-        }
-        else if (attackDamageType == "Air")
-        {
-            targetResistance = EntityLogic.GetTotalAirResistance(target);
-        }
-        else if (attackDamageType == "Poison")
-        {
-            targetResistance = EntityLogic.GetTotalPoisonResistance(target);
-        }
-        else if (attackDamageType == "Shadow")
-        {
-            targetResistance = EntityLogic.GetTotalShadowResistance(target);
-        }
-        else if (attackDamageType == "Frost")
-        {
-            targetResistance = EntityLogic.GetTotalFrostResistance(target);
-        }
+        // Get total resistance
+        targetResistance = EntityLogic.GetTotalResistance(target, attackDamageType);
 
-        Debug.Log("Target has " + targetResistance + " " + attackDamageType + " Resistance...");
+        // Debug
+        Debug.Log("Target has " + targetResistance + " total " + attackDamageType + " Resistance...");
 
-        // invert the resistance value from 100. (as in, 80% fire resistance means the attack will deal 20% of it original damage
+        // Invert the resistance value from 100. (as in, 80% fire resistance means the attack will deal 20% of it original damage
         int invertedResistanceValue = 100 - targetResistance;
         Debug.Log("Resitance value after inversion: " + invertedResistanceValue.ToString());
 
-        // convert target resistance to float to multiply against base damage value
+        // Convert target resistance to float to multiply against base damage value
         resistanceMultiplier = invertedResistanceValue / 100;
         Debug.Log("Resitance multiplier as float value: " + resistanceMultiplier.ToString());
 
-        // apply final resistance calculations to the value returned
+        // Apply final resistance calculations to the value returned
         damageValueReturned = (int)(damageValueReturned * resistanceMultiplier);
         Debug.Log("Final damage value calculated: " + damageValueReturned.ToString());
 
@@ -797,14 +777,6 @@ public class CombatLogic : MonoBehaviour
             critChanceReturned += 20;
         }
 
-        // Check for 'Opportunist' passive
-        if (attacker.myPassiveManager.opportunist &&
-            PositionLogic.Instance.CanAttackerBackStrikeTarget(attacker, target) &&
-            ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
-        {
-            critChanceReturned += attacker.myPassiveManager.opportunistStacks;
-        }
-
         // Cap Crit Chance at 80%
         if (critChanceReturned > 80)
         {
@@ -819,13 +791,19 @@ public class CombatLogic : MonoBehaviour
 
         return critChanceReturned;
     }
-    public int CalculateParryChance(LivingEntity target)
+    public int CalculateParryChance(LivingEntity target, LivingEntity attacker)
     {
         Debug.Log("CombatLogic.CalculateParryChance() called...");
         int parryChanceReturned = 0;
 
         // Get total parry chance
         parryChanceReturned += EntityLogic.GetTotalParry(target);
+
+        // Check for recklessness
+        if (attacker.myPassiveManager.recklessness)
+        {
+            parryChanceReturned = 0;
+        }
 
         // Cap Parry Chance at 80%
         if (parryChanceReturned > 80)
@@ -845,6 +823,12 @@ public class CombatLogic : MonoBehaviour
 
         // Check for Perfect aim
         if (attacker.myPassiveManager.perfectAim)
+        {
+            dodgeChanceReturned = 0;
+        }
+
+        // Check for Concentration Power
+        if (attacker.myPassiveManager.concentration)
         {
             dodgeChanceReturned = 0;
         }
@@ -888,10 +872,10 @@ public class CombatLogic : MonoBehaviour
             return false;
         }
     }
-    public bool RollForParry(LivingEntity target)
+    public bool RollForParry(LivingEntity target, LivingEntity attacker)
     {
         Debug.Log("CombatLogic.RollForParry() called...");
-        int parryChance = CalculateParryChance(target);
+        int parryChance = CalculateParryChance(target, attacker);
 
         int roll = Random.Range(1, 101);
         Debug.Log(target.gameObject.name + " rolled a " + roll.ToString() + " to parry");
@@ -1010,7 +994,8 @@ public class CombatLogic : MonoBehaviour
                 victim.myPassiveManager.ModifyBarrier(-1);
                 yield return new WaitForSeconds(0.3f);
             }
-        }            
+        }           
+
 
         // Finished calculating the final damage, health lost and armor lost: p
         totalLifeLost = victim.currentHealth - healthAfter;
@@ -1042,13 +1027,6 @@ public class CombatLogic : MonoBehaviour
         if (victim.myPassiveManager.camoflage)
         {
             victim.myPassiveManager.ModifyCamoflage(-1);
-            yield return new WaitForSeconds(0.3f);
-        }
-
-        // Remove Sleeping
-        if (victim.myPassiveManager.sleep && healthAfter < victim.currentHealth)
-        {
-            victim.myPassiveManager.ModifySleep(-victim.myPassiveManager.sleepStacks);
             yield return new WaitForSeconds(0.3f);
         }
 
@@ -1110,9 +1088,11 @@ public class CombatLogic : MonoBehaviour
             if (abilityUsed != null &&
                 abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
             {
+                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Thorns", true, "Blue"));
                 Debug.Log("Victim has thorns and was struck by a melee attack, returning damage...");
                 int finalThornsDamageValue = GetFinalDamageValueAfterAllCalculations(victim, attacker, null, "Physical", false, victim.myPassiveManager.thornsStacks);
                 Action thornsDamage = HandleDamage(finalThornsDamageValue, victim, attacker, "Physical");
+                yield return new WaitUntil(() => thornsDamage.ActionResolved() == true);
             }
         }
 
@@ -1132,10 +1112,32 @@ public class CombatLogic : MonoBehaviour
         // Check if the victim was killed by the damage
         if (victim.currentHealth <= 0 && victim.inDeathProcess == false)
         {
-            // the victim was killed, start death process
-            victim.inDeathProcess = true;
-            victim.StopAllCoroutines();
-            StartCoroutine(victim.HandleDeath());
+            // Check for last stand passive
+            if (victim.myPassiveManager.lastStand)
+            {
+                // VFX Notification
+                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Last Stand!", true, "Blue"));
+                yield return new WaitForSeconds(0.5f);
+
+                // Set victim at 1hp
+                victim.ModifyCurrentHealth(1);
+
+                // Remove last stand
+                victim.myPassiveManager.ModifyLastStand(-victim.myPassiveManager.lastStandStacks);
+
+                // Gain 5 strength
+                victim.myPassiveManager.ModifyBonusStrength(5);
+            }
+
+            else
+            {
+                // the victim was killed, start death process
+                victim.inDeathProcess = true;
+                victim.StopAllCoroutines();
+                StartCoroutine(victim.HandleDeath());
+            }
+
+            
         }
 
         // if not dead but hurt, play hurt animation

@@ -15,7 +15,7 @@ public class SkeletonAssassin : Enemy
         mySpellBook.EnemyLearnAbility("Dash");
 
         myPassiveManager.ModifyUndead();
-        myPassiveManager.ModifyStealth();
+        myPassiveManager.ModifyStealth(1);
     }
 
     public override IEnumerator StartMyActivationCoroutine()
@@ -24,13 +24,6 @@ public class SkeletonAssassin : Enemy
         Ability move = mySpellBook.GetAbilityByName("Move");
         Ability dash = mySpellBook.GetAbilityByName("Dash");
         Ability twinStrike = mySpellBook.GetAbilityByName("Twin Strike");
-
-        /* AI LOGIC
-           If enemy is in melee range and twin strike ready, twin strike
-           if enemy is in melee range and strike ready, strike
-           If enemy is not in melee range, and dash ready, dash towards them
-           if enemy is not in melee range and move ready, move towards them. 
-        */
 
         ActionStart:
 

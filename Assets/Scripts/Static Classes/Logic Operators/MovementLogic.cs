@@ -109,8 +109,8 @@ public class MovementLogic : Singleton<MovementLogic>
                     characterMoved.tile = LevelManager.Instance.GetTileFromPointReference(characterMoved.gridPosition);
                     // Set our current tile to be occupied, so other characters cant stack ontop of it.
                     LevelManager.Instance.SetTileAsOccupied(characterMoved.tile);
-                    Action moveToNewLocation = OnLocationMovedTo(characterMoved, characterMoved.tile, previousTile, freeStrikeImmune);
-                    yield return new WaitUntil(() => moveToNewLocation.ActionResolved() == true);
+                    //Action moveToNewLocation = OnLocationMovedTo(characterMoved, characterMoved.tile, previousTile, freeStrikeImmune);
+                    //yield return new WaitUntil(() => moveToNewLocation.ActionResolved() == true);
                     characterMoved.destination = characterMoved.path.Pop().WorldPosition;
                     freeStrikesOnThisTileResolved = false;
                 }
@@ -128,8 +128,8 @@ public class MovementLogic : Singleton<MovementLogic>
                     LevelManager.Instance.SetTileAsOccupied(characterMoved.tile);
                     // Prevent character from being able to move again
                     //hasMovedThisTurn = true;
-                    Action moveToNewLocation = OnLocationMovedTo(characterMoved, characterMoved.tile, previousTile, freeStrikeImmune);
-                    yield return new WaitUntil(() => moveToNewLocation.ActionResolved() == true);
+                    //Action moveToNewLocation = OnLocationMovedTo(characterMoved, characterMoved.tile, previousTile, freeStrikeImmune);
+                    //yield return new WaitUntil(() => moveToNewLocation.ActionResolved() == true);
                     Debug.Log("Final point reached, movement finished");
                     characterMoved.myAnimator.SetTrigger("Idle");
                     freeStrikesOnThisTileResolved = false;
@@ -189,451 +189,462 @@ public class MovementLogic : Singleton<MovementLogic>
     public Action KnockBackEntity(LivingEntity attacker, LivingEntity target, int pushBackDistance)
     {
         Action action = new Action();
-        
 
-        Debug.Log("CreateKnockBackEvent() called, starting new knockback event...");
-        // First, deal the initial bolt damage
-        // HandleDamage(CalculateDamage(damageAmount, target, attacker), attacker);
-
-        Tile TileCurrentlyOn = attacker.tile;
-        string direction = "unassigned";
-        Tile targetTile = target.tile;
-        Tile finalDestination = targetTile;
-        List<Tile> tilesOnPath = new List<Tile>();
-        List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
-        LivingEntity characterKnockedInto = null;
-
-        // Second, calculate which direction the target will be moved towards when shot
-
-        // South
-        if (TileCurrentlyOn.GridPosition.X == targetTile.GridPosition.X &&
-            TileCurrentlyOn.GridPosition.Y < targetTile.GridPosition.Y)
+        // Check for knock back immunity
+        if (target.myPassiveManager.unleashed)
         {
-            direction = "South";
-            Debug.Log("Knockback target is south...");
-            // Find all tiles that the target will move over during the knock back, then add them to a list
-            foreach (Tile tile in allTiles)
-            {
-                if (
-                    tile.GridPosition.X == targetTile.GridPosition.X &&
-                    tile.GridPosition.Y > targetTile.GridPosition.Y &&
-                    tile.GridPosition.Y <= targetTile.GridPosition.Y + pushBackDistance
-                    )
-                {
-                    tilesOnPath.Add(tile);
-                    Debug.Log("Tile " + tile.GridPosition.X.ToString() + ", " + tile.GridPosition.Y.ToString());
-                }
-            }
-
-            // Order the list of tiles, so that the tiles closest to the target are at the start of the list
-            List<Tile> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.Y).ToList();
-
-            // Check each tile in the sorted list. Determine which tile will become the final destination of the knockback.
-            // This is determined looking at the next tile, and checking if it contains an enemy on it already.
-            foreach (Tile tile in SortedList)
-            {
-                if (tile.IsEmpty && tile.IsWalkable)
-                {
-                    finalDestination = tile;
-                }
-                else
-                {
-                    foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
-                    {
-                        if (enemy.tile == tile && enemy != target)
-                        {
-                            characterKnockedInto = enemy;
-                            break;
-                        }
-                    }
-                }
-            }
+            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "Knock Back Immune!", true));
+            action.actionResolved = true;
+            return action;
         }
 
-        // North
-        else if (TileCurrentlyOn.GridPosition.X == targetTile.GridPosition.X &&
-                 TileCurrentlyOn.GridPosition.Y > targetTile.GridPosition.Y)
+        else
         {
-            direction = "North";
+            Debug.Log("CreateKnockBackEvent() called, starting new knockback event...");
+            // First, deal the initial bolt damage
+            // HandleDamage(CalculateDamage(damageAmount, target, attacker), attacker);
 
-            foreach (Tile tile in allTiles)
+            Tile TileCurrentlyOn = attacker.tile;
+            string direction = "unassigned";
+            Tile targetTile = target.tile;
+            Tile finalDestination = targetTile;
+            List<Tile> tilesOnPath = new List<Tile>();
+            List<Tile> allTiles = LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary();
+            LivingEntity characterKnockedInto = null;
+
+            // Second, calculate which direction the target will be moved towards when shot
+
+            // South
+            if (TileCurrentlyOn.GridPosition.X == targetTile.GridPosition.X &&
+                TileCurrentlyOn.GridPosition.Y < targetTile.GridPosition.Y)
             {
-                if (
-                    tile.GridPosition.X == targetTile.GridPosition.X &&
-                    tile.GridPosition.Y < targetTile.GridPosition.Y &&
-                    tile.GridPosition.Y >= targetTile.GridPosition.Y - pushBackDistance
-                    )
+                direction = "South";
+                Debug.Log("Knockback target is south...");
+                // Find all tiles that the target will move over during the knock back, then add them to a list
+                foreach (Tile tile in allTiles)
                 {
-                    tilesOnPath.Add(tile);
-                    Debug.Log("Tile " + tile.GridPosition.X.ToString() + ", " + tile.GridPosition.Y.ToString());
-                }
-            }
-
-            List<Tile> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.Y).ToList();
-            SortedList.Reverse();
-
-            foreach (Tile tile in SortedList)
-            {
-                if (tile.IsEmpty && tile.IsWalkable)
-                {
-                    finalDestination = tile;
-                }
-                else
-                {
-                    foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
+                    if (
+                        tile.GridPosition.X == targetTile.GridPosition.X &&
+                        tile.GridPosition.Y > targetTile.GridPosition.Y &&
+                        tile.GridPosition.Y <= targetTile.GridPosition.Y + pushBackDistance
+                        )
                     {
-                        if (enemy.tile == tile && enemy != target)
+                        tilesOnPath.Add(tile);
+                        Debug.Log("Tile " + tile.GridPosition.X.ToString() + ", " + tile.GridPosition.Y.ToString());
+                    }
+                }
+
+                // Order the list of tiles, so that the tiles closest to the target are at the start of the list
+                List<Tile> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.Y).ToList();
+
+                // Check each tile in the sorted list. Determine which tile will become the final destination of the knockback.
+                // This is determined looking at the next tile, and checking if it contains an enemy on it already.
+                foreach (Tile tile in SortedList)
+                {
+                    if (tile.IsEmpty && tile.IsWalkable)
+                    {
+                        finalDestination = tile;
+                    }
+                    else
+                    {
+                        foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
                         {
-                            characterKnockedInto = enemy;
-                            break;
+                            if (enemy.tile == tile && enemy != target)
+                            {
+                                characterKnockedInto = enemy;
+                                break;
+                            }
                         }
                     }
                 }
             }
 
+            // North
+            else if (TileCurrentlyOn.GridPosition.X == targetTile.GridPosition.X &&
+                     TileCurrentlyOn.GridPosition.Y > targetTile.GridPosition.Y)
+            {
+                direction = "North";
+
+                foreach (Tile tile in allTiles)
+                {
+                    if (
+                        tile.GridPosition.X == targetTile.GridPosition.X &&
+                        tile.GridPosition.Y < targetTile.GridPosition.Y &&
+                        tile.GridPosition.Y >= targetTile.GridPosition.Y - pushBackDistance
+                        )
+                    {
+                        tilesOnPath.Add(tile);
+                        Debug.Log("Tile " + tile.GridPosition.X.ToString() + ", " + tile.GridPosition.Y.ToString());
+                    }
+                }
+
+                List<Tile> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.Y).ToList();
+                SortedList.Reverse();
+
+                foreach (Tile tile in SortedList)
+                {
+                    if (tile.IsEmpty && tile.IsWalkable)
+                    {
+                        finalDestination = tile;
+                    }
+                    else
+                    {
+                        foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
+                        {
+                            if (enemy.tile == tile && enemy != target)
+                            {
+                                characterKnockedInto = enemy;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+
+                LevelManager.Instance.SetTileAsUnoccupied(target.tile);
+                target.gridPosition = finalDestination.GridPosition;
+                target.tile = finalDestination;
+                target.transform.position = finalDestination.WorldPosition;
+                LevelManager.Instance.SetTileAsOccupied(finalDestination);
+            }
+
+            // East
+            else if (TileCurrentlyOn.GridPosition.X < targetTile.GridPosition.X &&
+                     TileCurrentlyOn.GridPosition.Y == targetTile.GridPosition.Y)
+            {
+                direction = "East";
+                // Find all tiles that the target will move over during the knock back, then add them to a list
+                foreach (Tile tile in allTiles)
+                {
+                    if (
+                        tile.GridPosition.Y == targetTile.GridPosition.Y &&
+                        tile.GridPosition.X > targetTile.GridPosition.X &&
+                        tile.GridPosition.X <= targetTile.GridPosition.X + pushBackDistance
+                        )
+                    {
+                        tilesOnPath.Add(tile);
+                        Debug.Log("Tile " + tile.GridPosition.X.ToString() + ", " + tile.GridPosition.Y.ToString());
+                    }
+                }
+
+                // Order the list of tiles, so that the tiles closest to the target are at the start of the list
+                List<Tile> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.X).ToList();
+
+                // Check each tile in the sorted list. Determine which tile will become the final destination of the knockback.
+                // This is determined looking at the next tile, and checking if it contains an enemy on it already.
+                foreach (Tile tile in SortedList)
+                {
+                    if (tile.IsEmpty && tile.IsWalkable)
+                    {
+                        finalDestination = tile;
+                    }
+                    else
+                    {
+                        foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
+                        {
+                            if (enemy.tile == tile && enemy != target)
+                            {
+                                characterKnockedInto = enemy;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // West
+            else if (TileCurrentlyOn.GridPosition.X > targetTile.GridPosition.X &&
+                     TileCurrentlyOn.GridPosition.Y == targetTile.GridPosition.Y)
+            {
+                direction = "West";
+                // Find all tiles that the target will move over during the knock back, then add them to a list
+                foreach (Tile tile in allTiles)
+                {
+                    if (
+                        tile.GridPosition.Y == targetTile.GridPosition.Y &&
+                        tile.GridPosition.X < targetTile.GridPosition.X &&
+                        tile.GridPosition.X >= targetTile.GridPosition.X - pushBackDistance
+                        )
+                    {
+                        tilesOnPath.Insert(0, tile);
+                        Debug.Log("Tile " + tile.GridPosition.X.ToString() + ", " + tile.GridPosition.Y.ToString());
+                    }
+                }
+
+                // Order the list of tiles, so that the tiles closest to the target are at the start of the list
+                //List<TileScript> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.X).ToList();
+                //tilesOnPath.OrderBy(o => o.GridPosition.X).ToList();
+
+                // Check each tile in the sorted list. Determine which tile will become the final destination of the knockback.
+                // This is determined looking at the next tile, and checking if it contains an enemy on it already.
+                foreach (Tile tile in tilesOnPath)
+                {
+                    if (tile.IsEmpty && tile.IsWalkable)
+                    {
+                        finalDestination = tile;
+                    }
+                    else
+                    {
+                        foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
+                        {
+                            if (enemy.tile == tile && enemy != target)
+                            {
+                                characterKnockedInto = enemy;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // South West
+            else if (TileCurrentlyOn.GridPosition.X > targetTile.GridPosition.X &&
+                     TileCurrentlyOn.GridPosition.Y < targetTile.GridPosition.Y)
+            {
+                direction = "South West";
+                List<Tile> tempList = new List<Tile>();
+                int xPos = 1;
+                int yPos = 1;
+                // Find all tiles that the target will move over during the knock back, then add them to a list
+
+                foreach (Tile tile in allTiles)
+                {
+                    if (tile.GridPosition.Y > targetTile.GridPosition.Y && tile.GridPosition.Y <= targetTile.GridPosition.Y + pushBackDistance &&
+                        tile.GridPosition.X < targetTile.GridPosition.X && tile.GridPosition.X >= targetTile.GridPosition.X - pushBackDistance)
+                    {
+                        tempList.Add(tile);
+                    }
+                }
+
+                Loop:
+                foreach (Tile tile in tempList)
+                {
+                    if (tile.GridPosition.X == targetTile.GridPosition.X - xPos)
+                    {
+                        if (tile.GridPosition.Y == targetTile.GridPosition.Y + yPos)
+                        {
+                            tilesOnPath.Add(tile);
+                            xPos++;
+                            yPos++;
+                            goto Loop;
+                        }
+                    }
+                }
+
+                // Order the list of tiles, so that the tiles closest to the target are at the start of the list
+                List<Tile> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.X).ToList();
+
+                // Check each tile in the sorted list. Determine which tile will become the final destination of the knockback.
+                // This is determined looking at the next tile, and checking if it contains an enemy on it already.
+                foreach (Tile tile in tilesOnPath)
+                {
+                    if (tile.IsEmpty && tile.IsWalkable)
+                    {
+                        finalDestination = tile;
+                    }
+                    else
+                    {
+                        foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
+                        {
+                            if (enemy.tile == tile && enemy != target)
+                            {
+                                characterKnockedInto = enemy;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // South East
+            else if (TileCurrentlyOn.GridPosition.X < targetTile.GridPosition.X &&
+                     TileCurrentlyOn.GridPosition.Y < targetTile.GridPosition.Y)
+            {
+                direction = "South East";
+                List<Tile> tempList = new List<Tile>();
+                int xPos = 1;
+                int yPos = 1;
+                // Find all tiles that the target will move over during the knock back, then add them to a list
+
+                foreach (Tile tile in allTiles)
+                {
+                    if (tile.GridPosition.Y > targetTile.GridPosition.Y && tile.GridPosition.Y <= targetTile.GridPosition.Y + pushBackDistance &&
+                        tile.GridPosition.X > targetTile.GridPosition.X && tile.GridPosition.X <= targetTile.GridPosition.X + pushBackDistance)
+                    {
+                        tempList.Add(tile);
+                    }
+                }
+
+                Loop:
+                foreach (Tile tile in tempList)
+                {
+                    if (tile.GridPosition.X == targetTile.GridPosition.X + xPos)
+                    {
+                        if (tile.GridPosition.Y == targetTile.GridPosition.Y + yPos)
+                        {
+                            tilesOnPath.Add(tile);
+                            xPos++;
+                            yPos++;
+                            goto Loop;
+                        }
+                    }
+                }
+
+                // Order the list of tiles, so that the tiles closest to the target are at the start of the list
+                List<Tile> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.X).ToList();
+
+                // Check each tile in the sorted list. Determine which tile will become the final destination of the knockback.
+                // This is determined looking at the next tile, and checking if it contains an enemy on it already.
+                foreach (Tile tile in tilesOnPath)
+                {
+                    if (tile.IsEmpty && tile.IsWalkable)
+                    {
+                        finalDestination = tile;
+                    }
+                    else
+                    {
+                        foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
+                        {
+                            if (enemy.tile == tile && enemy != target)
+                            {
+                                characterKnockedInto = enemy;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // North West
+            else if (TileCurrentlyOn.GridPosition.X > targetTile.GridPosition.X &&
+                     TileCurrentlyOn.GridPosition.Y > targetTile.GridPosition.Y)
+            {
+                direction = "North West";
+                List<Tile> tempList = new List<Tile>();
+                int xPos = 1;
+                int yPos = 1;
+                // Find all tiles that the target will move over during the knock back, then add them to a list
+
+                foreach (Tile tile in allTiles)
+                {
+                    if (tile.GridPosition.Y < targetTile.GridPosition.Y && tile.GridPosition.Y >= targetTile.GridPosition.Y - pushBackDistance &&
+                        tile.GridPosition.X < targetTile.GridPosition.X && tile.GridPosition.X >= targetTile.GridPosition.X - pushBackDistance)
+                    {
+                        tempList.Add(tile);
+                    }
+                }
+
+                Loop:
+                foreach (Tile tile in tempList)
+                {
+                    if (tile.GridPosition.X == targetTile.GridPosition.X - xPos)
+                    {
+                        if (tile.GridPosition.Y == targetTile.GridPosition.Y - yPos)
+                        {
+                            tilesOnPath.Add(tile);
+                            xPos++;
+                            yPos++;
+                            goto Loop;
+                        }
+                    }
+                }
+
+                // Order the list of tiles, so that the tiles closest to the target are at the start of the list
+                List<Tile> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.X).ToList();
+
+                // Check each tile in the sorted list. Determine which tile will become the final destination of the knockback.
+                // This is determined looking at the next tile, and checking if it contains an enemy on it already.
+                foreach (Tile tile in tilesOnPath)
+                {
+                    if (tile.IsEmpty && tile.IsWalkable)
+                    {
+                        finalDestination = tile;
+                    }
+                    else
+                    {
+                        foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
+                        {
+                            if (enemy.tile == tile && enemy != target)
+                            {
+                                characterKnockedInto = enemy;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // North East
+            else if (TileCurrentlyOn.GridPosition.X < targetTile.GridPosition.X &&
+                     TileCurrentlyOn.GridPosition.Y > targetTile.GridPosition.Y)
+            {
+                direction = "North East";
+                List<Tile> tempList = new List<Tile>();
+                int xPos = 1;
+                int yPos = 1;
+                // Find all tiles that the target will move over during the knock back, then add them to a list
+
+                foreach (Tile tile in allTiles)
+                {
+                    if (tile.GridPosition.Y < targetTile.GridPosition.Y && tile.GridPosition.Y >= targetTile.GridPosition.Y - pushBackDistance &&
+                        tile.GridPosition.X > targetTile.GridPosition.X && tile.GridPosition.X <= targetTile.GridPosition.X + pushBackDistance)
+                    {
+                        tempList.Add(tile);
+                    }
+                }
+
+                Loop:
+                foreach (Tile tile in tempList)
+                {
+                    if (tile.GridPosition.X == targetTile.GridPosition.X + xPos)
+                    {
+                        if (tile.GridPosition.Y == targetTile.GridPosition.Y - yPos)
+                        {
+                            tilesOnPath.Add(tile);
+                            xPos++;
+                            yPos++;
+                            goto Loop;
+                        }
+                    }
+                }
+
+                // Order the list of tiles, so that the tiles closest to the target are at the start of the list
+                List<Tile> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.X).ToList();
+
+                // Check each tile in the sorted list. Determine which tile will become the final destination of the knockback.
+                // This is determined looking at the next tile, and checking if it contains an enemy on it already.
+                foreach (Tile tile in tilesOnPath)
+                {
+                    if (tile.IsEmpty && tile.IsWalkable)
+                    {
+                        finalDestination = tile;
+                    }
+                    else
+                    {
+                        foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
+                        {
+                            if (enemy.tile == tile && enemy != target)
+                            {
+                                characterKnockedInto = enemy;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
 
             LevelManager.Instance.SetTileAsUnoccupied(target.tile);
             target.gridPosition = finalDestination.GridPosition;
             target.tile = finalDestination;
-            target.transform.position = finalDestination.WorldPosition;
+            StartCoroutine(KnockBackEntityCoroutine(target, finalDestination.WorldPosition, action));
             LevelManager.Instance.SetTileAsOccupied(finalDestination);
+
+
+            Debug.Log("Tiles on path: " + tilesOnPath.Count.ToString());
+            Debug.Log("Target is " + direction + " of the the attacker");
+            return action;
         }
 
-        // East
-        else if (TileCurrentlyOn.GridPosition.X < targetTile.GridPosition.X &&
-                 TileCurrentlyOn.GridPosition.Y == targetTile.GridPosition.Y)
-        {
-            direction = "East";
-            // Find all tiles that the target will move over during the knock back, then add them to a list
-            foreach (Tile tile in allTiles)
-            {
-                if (
-                    tile.GridPosition.Y == targetTile.GridPosition.Y &&
-                    tile.GridPosition.X > targetTile.GridPosition.X &&
-                    tile.GridPosition.X <= targetTile.GridPosition.X + pushBackDistance
-                    )
-                {
-                    tilesOnPath.Add(tile);
-                    Debug.Log("Tile " + tile.GridPosition.X.ToString() + ", " + tile.GridPosition.Y.ToString());
-                }
-            }
-
-            // Order the list of tiles, so that the tiles closest to the target are at the start of the list
-            List<Tile> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.X).ToList();
-
-            // Check each tile in the sorted list. Determine which tile will become the final destination of the knockback.
-            // This is determined looking at the next tile, and checking if it contains an enemy on it already.
-            foreach (Tile tile in SortedList)
-            {
-                if (tile.IsEmpty && tile.IsWalkable)
-                {
-                    finalDestination = tile;
-                }
-                else
-                {
-                    foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
-                    {
-                        if (enemy.tile == tile && enemy != target)
-                        {
-                            characterKnockedInto = enemy;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        // West
-        else if (TileCurrentlyOn.GridPosition.X > targetTile.GridPosition.X &&
-                 TileCurrentlyOn.GridPosition.Y == targetTile.GridPosition.Y)
-        {
-            direction = "West";
-            // Find all tiles that the target will move over during the knock back, then add them to a list
-            foreach (Tile tile in allTiles)
-            {
-                if (
-                    tile.GridPosition.Y == targetTile.GridPosition.Y &&
-                    tile.GridPosition.X < targetTile.GridPosition.X &&
-                    tile.GridPosition.X >= targetTile.GridPosition.X - pushBackDistance
-                    )
-                {
-                    tilesOnPath.Insert(0, tile);
-                    Debug.Log("Tile " + tile.GridPosition.X.ToString() + ", " + tile.GridPosition.Y.ToString());
-                }
-            }
-
-            // Order the list of tiles, so that the tiles closest to the target are at the start of the list
-            //List<TileScript> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.X).ToList();
-            //tilesOnPath.OrderBy(o => o.GridPosition.X).ToList();
-
-            // Check each tile in the sorted list. Determine which tile will become the final destination of the knockback.
-            // This is determined looking at the next tile, and checking if it contains an enemy on it already.
-            foreach (Tile tile in tilesOnPath)
-            {
-                if (tile.IsEmpty && tile.IsWalkable)
-                {
-                    finalDestination = tile;
-                }
-                else
-                {
-                    foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
-                    {
-                        if (enemy.tile == tile && enemy != target)
-                        {
-                            characterKnockedInto = enemy;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        // South West
-        else if (TileCurrentlyOn.GridPosition.X > targetTile.GridPosition.X &&
-                 TileCurrentlyOn.GridPosition.Y < targetTile.GridPosition.Y)
-        {
-            direction = "South West";
-            List<Tile> tempList = new List<Tile>();
-            int xPos = 1;
-            int yPos = 1;
-            // Find all tiles that the target will move over during the knock back, then add them to a list
-
-            foreach (Tile tile in allTiles)
-            {
-                if (tile.GridPosition.Y > targetTile.GridPosition.Y && tile.GridPosition.Y <= targetTile.GridPosition.Y + pushBackDistance &&
-                    tile.GridPosition.X < targetTile.GridPosition.X && tile.GridPosition.X >= targetTile.GridPosition.X - pushBackDistance)
-                {
-                    tempList.Add(tile);
-                }
-            }
-
-            Loop:
-            foreach (Tile tile in tempList)
-            {
-                if (tile.GridPosition.X == targetTile.GridPosition.X - xPos)
-                {
-                    if (tile.GridPosition.Y == targetTile.GridPosition.Y + yPos)
-                    {
-                        tilesOnPath.Add(tile);
-                        xPos++;
-                        yPos++;
-                        goto Loop;
-                    }
-                }
-            }
-
-            // Order the list of tiles, so that the tiles closest to the target are at the start of the list
-            List<Tile> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.X).ToList();
-
-            // Check each tile in the sorted list. Determine which tile will become the final destination of the knockback.
-            // This is determined looking at the next tile, and checking if it contains an enemy on it already.
-            foreach (Tile tile in tilesOnPath)
-            {
-                if (tile.IsEmpty && tile.IsWalkable)
-                {
-                    finalDestination = tile;
-                }
-                else
-                {
-                    foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
-                    {
-                        if (enemy.tile == tile && enemy != target)
-                        {
-                            characterKnockedInto = enemy;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        // South East
-        else if (TileCurrentlyOn.GridPosition.X < targetTile.GridPosition.X &&
-                 TileCurrentlyOn.GridPosition.Y < targetTile.GridPosition.Y)
-        {
-            direction = "South East";
-            List<Tile> tempList = new List<Tile>();
-            int xPos = 1;
-            int yPos = 1;
-            // Find all tiles that the target will move over during the knock back, then add them to a list
-
-            foreach (Tile tile in allTiles)
-            {
-                if (tile.GridPosition.Y > targetTile.GridPosition.Y && tile.GridPosition.Y <= targetTile.GridPosition.Y + pushBackDistance &&
-                    tile.GridPosition.X > targetTile.GridPosition.X && tile.GridPosition.X <= targetTile.GridPosition.X + pushBackDistance)
-                {
-                    tempList.Add(tile);
-                }
-            }
-
-            Loop:
-            foreach (Tile tile in tempList)
-            {
-                if (tile.GridPosition.X == targetTile.GridPosition.X + xPos)
-                {
-                    if (tile.GridPosition.Y == targetTile.GridPosition.Y + yPos)
-                    {
-                        tilesOnPath.Add(tile);
-                        xPos++;
-                        yPos++;
-                        goto Loop;
-                    }
-                }
-            }
-
-            // Order the list of tiles, so that the tiles closest to the target are at the start of the list
-            List<Tile> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.X).ToList();
-
-            // Check each tile in the sorted list. Determine which tile will become the final destination of the knockback.
-            // This is determined looking at the next tile, and checking if it contains an enemy on it already.
-            foreach (Tile tile in tilesOnPath)
-            {
-                if (tile.IsEmpty && tile.IsWalkable)
-                {
-                    finalDestination = tile;
-                }
-                else
-                {
-                    foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
-                    {
-                        if (enemy.tile == tile && enemy != target)
-                        {
-                            characterKnockedInto = enemy;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        // North West
-        else if (TileCurrentlyOn.GridPosition.X > targetTile.GridPosition.X &&
-                 TileCurrentlyOn.GridPosition.Y > targetTile.GridPosition.Y)
-        {
-            direction = "North West";
-            List<Tile> tempList = new List<Tile>();
-            int xPos = 1;
-            int yPos = 1;
-            // Find all tiles that the target will move over during the knock back, then add them to a list
-
-            foreach (Tile tile in allTiles)
-            {
-                if (tile.GridPosition.Y < targetTile.GridPosition.Y && tile.GridPosition.Y >= targetTile.GridPosition.Y - pushBackDistance &&
-                    tile.GridPosition.X < targetTile.GridPosition.X && tile.GridPosition.X >= targetTile.GridPosition.X - pushBackDistance)
-                {
-                    tempList.Add(tile);
-                }
-            }
-
-            Loop:
-            foreach (Tile tile in tempList)
-            {
-                if (tile.GridPosition.X == targetTile.GridPosition.X - xPos)
-                {
-                    if (tile.GridPosition.Y == targetTile.GridPosition.Y - yPos)
-                    {
-                        tilesOnPath.Add(tile);
-                        xPos++;
-                        yPos++;
-                        goto Loop;
-                    }
-                }
-            }
-
-            // Order the list of tiles, so that the tiles closest to the target are at the start of the list
-            List<Tile> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.X).ToList();
-
-            // Check each tile in the sorted list. Determine which tile will become the final destination of the knockback.
-            // This is determined looking at the next tile, and checking if it contains an enemy on it already.
-            foreach (Tile tile in tilesOnPath)
-            {
-                if (tile.IsEmpty && tile.IsWalkable)
-                {
-                    finalDestination = tile;
-                }
-                else
-                {
-                    foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
-                    {
-                        if (enemy.tile == tile && enemy != target)
-                        {
-                            characterKnockedInto = enemy;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        // North East
-        else if (TileCurrentlyOn.GridPosition.X < targetTile.GridPosition.X &&
-                 TileCurrentlyOn.GridPosition.Y > targetTile.GridPosition.Y)
-        {
-            direction = "North East";
-            List<Tile> tempList = new List<Tile>();
-            int xPos = 1;
-            int yPos = 1;
-            // Find all tiles that the target will move over during the knock back, then add them to a list
-
-            foreach (Tile tile in allTiles)
-            {
-                if (tile.GridPosition.Y < targetTile.GridPosition.Y && tile.GridPosition.Y >= targetTile.GridPosition.Y - pushBackDistance &&
-                    tile.GridPosition.X > targetTile.GridPosition.X && tile.GridPosition.X <= targetTile.GridPosition.X + pushBackDistance)
-                {
-                    tempList.Add(tile);
-                }
-            }
-
-            Loop:
-            foreach (Tile tile in tempList)
-            {
-                if (tile.GridPosition.X == targetTile.GridPosition.X + xPos)
-                {
-                    if (tile.GridPosition.Y == targetTile.GridPosition.Y - yPos)
-                    {
-                        tilesOnPath.Add(tile);
-                        xPos++;
-                        yPos++;
-                        goto Loop;
-                    }
-                }
-            }
-
-            // Order the list of tiles, so that the tiles closest to the target are at the start of the list
-            List<Tile> SortedList = tilesOnPath.OrderBy(o => o.GridPosition.X).ToList();
-
-            // Check each tile in the sorted list. Determine which tile will become the final destination of the knockback.
-            // This is determined looking at the next tile, and checking if it contains an enemy on it already.
-            foreach (Tile tile in tilesOnPath)
-            {
-                if (tile.IsEmpty && tile.IsWalkable)
-                {
-                    finalDestination = tile;
-                }
-                else
-                {
-                    foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
-                    {
-                        if (enemy.tile == tile && enemy != target)
-                        {
-                            characterKnockedInto = enemy;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        LevelManager.Instance.SetTileAsUnoccupied(target.tile);
-        target.gridPosition = finalDestination.GridPosition;
-        target.tile = finalDestination;
-        StartCoroutine(KnockBackEntityCoroutine(target, finalDestination.WorldPosition, action));
-        LevelManager.Instance.SetTileAsOccupied(finalDestination);
-
-
-        Debug.Log("Tiles on path: " + tilesOnPath.Count.ToString());
-        Debug.Log("Target is " + direction + " of the the attacker");
-        return action;
 
     }
     public IEnumerator KnockBackEntityCoroutine(LivingEntity entityMoved, Vector3 destination, Action action)
@@ -659,14 +670,14 @@ public class MovementLogic : Singleton<MovementLogic>
 
     // New Location Set Logic
     #region
-    public Action OnLocationMovedTo(LivingEntity character, Tile newLocation, Tile previousLocation, bool freeStrikeImmune = false)
+    public Action OnLocationMovedTo(LivingEntity character, Tile newLocation, Tile previousLocation)
     {
         Debug.Log("OnLocationMovedToCalled() called....");
         Action action = new Action();
-        StartCoroutine(OnLocationMovedToCoroutine(character, newLocation, previousLocation,action, freeStrikeImmune));
+        StartCoroutine(OnLocationMovedToCoroutine(character, newLocation, previousLocation,action));
         return action;
     }
-    public IEnumerator OnLocationMovedToCoroutine(LivingEntity character, Tile newLocation, Tile previousLocation, Action action, bool freeStrikeImmune = false)
+    public IEnumerator OnLocationMovedToCoroutine(LivingEntity character, Tile newLocation, Tile previousLocation, Action action)
     {
         Debug.Log("OnLocationMovedToCalledCoroutine() called....");        
 
@@ -677,6 +688,8 @@ public class MovementLogic : Singleton<MovementLogic>
     }
     public void OnNewTileSet(LivingEntity character)
     {
+        // TO DO: in future, if we have any tiles that apply effects the instant a character moves on it, the logic would go here
+
         /*
         // Check grass tile / camo application or removal
         if (character.tile.myTileType == Tile.TileType.Grass &&
@@ -694,7 +707,17 @@ public class MovementLogic : Singleton<MovementLogic>
     public Action ResolveFreeStrikes(LivingEntity characterMoved, Tile previousLocation, Tile newLocation)
     {
         Action action = new Action();
-        StartCoroutine(ResolveFreeStrikesCoroutine(characterMoved, action, previousLocation, newLocation));
+        
+        // If charcter is free strike immune, dont bother resolving free strike coroutine
+        if (characterMoved.myPassiveManager.slippery)
+        {
+            action.actionResolved = true;
+        }
+        else
+        {
+            StartCoroutine(ResolveFreeStrikesCoroutine(characterMoved, action, previousLocation, newLocation));
+        }
+        
         return action;
     }
     private IEnumerator ResolveFreeStrikesCoroutine(LivingEntity characterMoved, Action action, Tile previousLocation, Tile newLocation)

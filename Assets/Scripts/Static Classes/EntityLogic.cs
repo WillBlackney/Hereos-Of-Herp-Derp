@@ -235,7 +235,7 @@ public static class EntityLogic
     public static bool IsAbleToMove(LivingEntity entity)
     {
         if(entity.myPassiveManager.immobilized ||
-           EntityLogic.GetTotalMobility(entity) <= 0)
+           GetTotalMobility(entity) <= 0)
         {
             return false;
         }
@@ -341,6 +341,13 @@ public static class EntityLogic
         if(PositionLogic.Instance.IsThereLosFromAtoB(caster.tile, target.tile))
         {
             Debug.Log("IsTargetVisible() determined that " + caster.name + " has line of sight to " + target.name + "...");
+            passedLosCheck = true;
+        }
+        // check if caster has ignores LoS to target
+        else if (PositionLogic.Instance.IsThereLosFromAtoB(caster.tile, target.tile) == false &&
+                 caster.myPassiveManager.etherealBeing)
+        {
+            Debug.Log("IsTargetVisible() determined that " + caster.name + " does not have direct line of sight to " + target.name + ", but has 'Ethereal Being' passive...");
             passedLosCheck = true;
         }
         else
@@ -724,6 +731,20 @@ public static class EntityLogic
                 // TO DO!: Add ranged specific crit modifiers here
                 criticalReturned += GetTotalRangedCriticalChance(entity);
             }
+
+            // Check for predator
+            if (entity.myPassiveManager.predator)
+            {
+               if((ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack ||
+               ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack) &&
+               (entity.myPassiveManager.camoflage || entity.myPassiveManager.stealth)
+               )
+               {
+                    criticalReturned += 20;
+               }
+            }
+           
+
         }
 
         // Check for Patient Stalker
@@ -750,6 +771,12 @@ public static class EntityLogic
         // Get base melee Crit
         int criticalReturned = 0;
 
+        // Check recklessness
+        if (entity.myPassiveManager.recklessness)
+        {
+            criticalReturned += 20;
+        }
+
         // return final value
         return criticalReturned;
     }
@@ -758,11 +785,62 @@ public static class EntityLogic
         // Get base ranged Crit
         int criticalReturned = 0;
 
+        // Check for 'Concentration' passive
+        if (entity.myPassiveManager.concentration)
+        {
+            criticalReturned += 20;
+        }
+
         // return final value
         return criticalReturned;
     }
 
     // Resistances
+    public static int GetTotalResistance(LivingEntity entity, string resistanceType)
+    {
+        int targetResistance = 0;
+
+        // get the targets resistance value
+        if (resistanceType == "Physical")
+        {
+            targetResistance = GetTotalPhysicalResistance(entity);
+        }
+        else if (resistanceType == "Fire")
+        {
+            targetResistance = GetTotalFireResistance(entity);
+        }
+        else if (resistanceType == "Air")
+        {
+            targetResistance = GetTotalAirResistance(entity);
+        }
+        else if (resistanceType == "Poison")
+        {
+            targetResistance = GetTotalPoisonResistance(entity);
+        }
+        else if (resistanceType == "Shadow")
+        {
+            targetResistance = GetTotalShadowResistance(entity);
+        }
+        else if (resistanceType == "Frost")
+        {
+            targetResistance = GetTotalFrostResistance(entity);
+        }
+
+        // Check Infuse passive
+        if (entity.myPassiveManager.infuse && 
+            (resistanceType == "Physical" ||
+             resistanceType == "Fire" ||
+             resistanceType == "Frost" ||
+             resistanceType == "Poison" ||
+             resistanceType == "Shadow" ||
+             resistanceType == "Air"))
+        {
+            targetResistance += 20;
+        }
+
+        // Finish
+        return targetResistance;
+    }
     public static int GetTotalPhysicalResistance(LivingEntity entity)
     {
         // Get base resistance

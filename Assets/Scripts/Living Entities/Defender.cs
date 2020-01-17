@@ -221,7 +221,7 @@ public class Defender : LivingEntity
         }
         if (myCharacterData.Stealth)
         {
-            myPassiveManager.ModifyStealth();
+            myPassiveManager.ModifyStealth(1);
         }
         if (myCharacterData.Unwavering)
         {
@@ -2077,7 +2077,7 @@ public class Defender : LivingEntity
         {
             if (tilesInMyMeleeRange.Contains(defender.tile))
             {
-                defender.ModifyCurrentBlock(electricalDischarge.abilityPrimaryValue);
+                defender.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(electricalDischarge.abilityPrimaryValue, this));
             }
         }
 
