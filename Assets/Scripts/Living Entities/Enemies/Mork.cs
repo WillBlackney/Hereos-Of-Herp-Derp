@@ -41,7 +41,7 @@ public class Mork : Enemy
             EntityLogic.IsAbilityUseable(this, morkSmash)
             )
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Mork Smash!", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Mork Smash!");
             yield return new WaitForSeconds(0.5f);
 
             Action action = AbilityLogic.Instance.PerformMorkSmash(this, myCurrentTarget);
@@ -65,7 +65,7 @@ public class Mork : Enemy
                 goto End;
             }
 
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);

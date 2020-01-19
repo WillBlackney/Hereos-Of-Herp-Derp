@@ -361,12 +361,12 @@ public class PassiveManager : MonoBehaviour
     // Modify Debuffs
     public void ModifyImmobilized(int stacks)
     {
+        Debug.Log(myLivingEntity.name +".PassiveManager.ModifyImmobilized() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Immobilized");
 
         if (stacks > 0 && unleashed)
         {
-            StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Immobilized Immune", false));
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Immobilized Immune");
         }
 
         else if (stacks > 0)
@@ -379,8 +379,7 @@ public class PassiveManager : MonoBehaviour
                     immobilized = true;
                 }
                 
-                StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Immobilized", false, "Red"));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Immobilized");
             }
             
         }
@@ -391,6 +390,7 @@ public class PassiveManager : MonoBehaviour
             if (immobilizedStacks <= 0)
             {
                 immobilized = false;
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Immobilized Removed");
             }
         }
 
@@ -398,12 +398,12 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyStunned(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyStunned() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Stunned");
 
         if (unstoppable && stacks > 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Stun Immune!", false));
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Stun Immune!");
         }
 
         if (stacks > 0)
@@ -414,8 +414,7 @@ public class PassiveManager : MonoBehaviour
                 if (stunnedStacks > 0)
                 {
                     stunned = true;
-                    StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Stunned!", false));
+                    VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Stunned!");
                     StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
                 }
             }
@@ -428,8 +427,7 @@ public class PassiveManager : MonoBehaviour
             if (stunnedStacks <= 0)
             {
                 stunned = false;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Stun Removed!", false, "Blue"));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Stun Removed!");
             }
         }
 
@@ -437,12 +435,12 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyBlind(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyBlind() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Blind");
 
         if(stacks > 0 && unfallible)
         {
-            StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Blind Immune", false));
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Blind Immune");
         }
 
         else if (stacks > 0)
@@ -453,8 +451,7 @@ public class PassiveManager : MonoBehaviour
                 if (blindStacks > 0)
                 {
                     blind = true;
-                    StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Blind", false));
+                    VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Blind");
                     StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
                 }
             }
@@ -467,6 +464,7 @@ public class PassiveManager : MonoBehaviour
             if (blindStacks <= 0)
             {
                 blind = false;
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Blind Removed");
             }
         }
 
@@ -474,12 +472,12 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifySilenced(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifySilenced() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Silenced");
 
         if (stacks > 0 && unfallible)
         {
-            StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Silence Immune", false));
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Silence Immune");
         }
 
         else if (stacks > 0)
@@ -490,8 +488,7 @@ public class PassiveManager : MonoBehaviour
                 if (silencedStacks > 0)
                 {
                     silenced = true;
-                    StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Blind", false));
+                    VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Silenced");
                     StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
                 }
             }
@@ -504,6 +501,7 @@ public class PassiveManager : MonoBehaviour
             if (silencedStacks <= 0)
             {
                 silenced = false;
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Silenced Removed");
             }
         }
 
@@ -511,12 +509,12 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyDisarmed(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyDisarmed() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Disarmed");
 
         if (stacks > 0 && unfallible)
         {
-            StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Disarm Immune", false));
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Disarm Immune" );
         }
 
         else if (stacks > 0)
@@ -527,8 +525,7 @@ public class PassiveManager : MonoBehaviour
                 if (disarmedStacks > 0)
                 {
                     disarmed = true;
-                    StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Disarmed", false));
+                    VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Disarmed");
                     StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
                 }
             }
@@ -541,6 +538,7 @@ public class PassiveManager : MonoBehaviour
             if (disarmedStacks <= 0)
             {
                 disarmed = false;
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Disarmed Removed");
             }
         }
 
@@ -548,6 +546,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTerrified(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTerrified() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Terrified");
 
         if (stacks > 0)
@@ -558,8 +557,8 @@ public class PassiveManager : MonoBehaviour
                 if (terrifiedStacks > 0)
                 {
                     terrified = true;
-                    StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Terrified", false));
+                    VisualEffectManager.Instance.
+                    CreateStatusEffect(myLivingEntity.transform.position, "Terrified");
                     StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
                 }
             }
@@ -572,6 +571,8 @@ public class PassiveManager : MonoBehaviour
             if (terrifiedStacks <= 0)
             {
                 terrified = false;
+
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Terrified Removed");
             }
         }
 
@@ -579,12 +580,12 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifySleep(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifySleep() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Sleep");
 
         if (unstoppable && stacks > 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Sleep Immune!", false));
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Sleep Immune!");
         }
 
         if (stacks > 0)
@@ -596,8 +597,7 @@ public class PassiveManager : MonoBehaviour
                 {
                     sleep = true;
                 }
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Sleep" + stacks.ToString(), false));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Sleep" + stacks.ToString());
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
 
             }
@@ -610,8 +610,7 @@ public class PassiveManager : MonoBehaviour
             if (sleepStacks <= 0)
             {
                 sleep = false;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Sleep Removed!", false, "Blue"));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Sleep Removed!");
             }
         }
 
@@ -619,12 +618,12 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyVulnerable(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyVulnerable() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Vulnerable");
 
         if (stacks > 0 && incorruptable)
         {
-            StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Vulnerable Immune", false));
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Vulnerable Immune");
         }
 
         if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
@@ -650,12 +649,12 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyWeakened(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyWeakened() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Weakened");
 
         if (stacks > 0 && incorruptable)
         {
-            StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Weakened Immune", false));
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Weakened Immune");
         }
 
         if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
@@ -681,6 +680,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyChilled(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyChilled() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Chilled");
 
         if (stacks > 0)
@@ -691,8 +691,7 @@ public class PassiveManager : MonoBehaviour
                 if (chilledStacks > 0)
                 {
                     chilled = true;
-                    StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Chilled", false));
+                    VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Chilled");
                     StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
                 }
             }
@@ -706,8 +705,7 @@ public class PassiveManager : MonoBehaviour
             {
                 chilledStacks = 0;
                 chilled = false;
-                //StartCoroutine(VisualEffectManager.Instance.
-                //CreateStatusEffect(myLivingEntity.transform.position, "Stun Removed!", false, "Blue"));
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Chilled Removed");
             }
         }
 
@@ -715,6 +713,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyShocked(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyShocked() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Shocked");
 
         if (stacks > 0)
@@ -725,8 +724,7 @@ public class PassiveManager : MonoBehaviour
                 if (shockedStacks > 0)
                 {
                     shocked = true;
-                    StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Shocked", false));
+                    VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Shocked");
                     StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
                 }
             }
@@ -740,6 +738,7 @@ public class PassiveManager : MonoBehaviour
             {
                 shockedStacks = 0;
                 shocked = false;
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shocked Removed");
             }
         }
 
@@ -747,6 +746,7 @@ public class PassiveManager : MonoBehaviour
     }    
     public void ModifyPoisoned(int stacks, LivingEntity applier = null)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPoisoned() called, stacks = " + stacks.ToString());
         if (applier != null)
         {
             if (applier.myPassiveManager.venomous && stacks > 0)
@@ -757,7 +757,7 @@ public class PassiveManager : MonoBehaviour
 
         if ((poisonedImmunity || undead) && stacks > 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Poison Immunity", false, "Blue"));
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Poison Immunity");
             return;
         }
 
@@ -769,7 +769,7 @@ public class PassiveManager : MonoBehaviour
                 if (poisonedStacks > 0)
                 {
                     poisoned = true;
-                    StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Poisoned + " + stacks.ToString(), false));
+                    VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Poisoned + " + stacks.ToString());
                     StartCoroutine(VisualEffectManager.Instance.CreatePoisonAppliedEffect(myLivingEntity.transform.position));
                     myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Poisoned"), stacks);
                 }
@@ -789,6 +789,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyBurning(int stacks, LivingEntity applier = null)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyBurning() called, stacks = " + stacks.ToString());
         if (stacks > 0)
         {
             if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity))
@@ -797,7 +798,7 @@ public class PassiveManager : MonoBehaviour
                 if (burningStacks > 0)
                 {
                     burning = true;
-                    StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Burning + " + stacks.ToString(), false));
+                    VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Burning + " + stacks.ToString());
                     myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Burning"), stacks);
                 }
             }
@@ -816,13 +817,15 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyFading(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyFading() called, stacks = " + stacks.ToString());
+
         if (stacks > 0)
         {
             fadingStacks += stacks;
             if (fadingStacks > 0)
             {
                 fading = true;
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Fading + " + stacks.ToString(), false));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Fading + " + stacks.ToString());
                 StartCoroutine(VisualEffectManager.Instance.CreatePoisonAppliedEffect(myLivingEntity.transform.position));
                 myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Fading"), stacks);
             }
@@ -841,6 +844,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTaunted(int stacks, LivingEntity taunter)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.Modify() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Taunted");
 
         if (stacks > 0)
@@ -849,8 +853,7 @@ public class PassiveManager : MonoBehaviour
             if (tauntedStacks > 0)
             {
                 taunted = true;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Taunted", false));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Taunted");
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
 
                 // Set taunter target
@@ -870,6 +873,7 @@ public class PassiveManager : MonoBehaviour
             {
                 tauntedStacks = 0;
                 taunted = false;
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Taunted Removed");
             }
             myLivingEntity.myTaunter = null;
         }
@@ -881,6 +885,8 @@ public class PassiveManager : MonoBehaviour
     // Modify Core Stats
     public void ModifyBonusStrength(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyBonusStrength() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Bonus Strength");
 
         if (stacks > 0)
@@ -905,6 +911,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyBonusWisdom(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyBonusWisdom() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Bonus Wisdom");
 
         if (stacks > 0)
@@ -929,6 +937,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyBonusDexterity(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyBonusDexterity() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Bonus Dexterity");
 
         if (stacks > 0)
@@ -953,6 +963,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyBonusStamina(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyBonusStamina() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Bonus Stamina");
 
         if (stacks > 0)
@@ -977,6 +989,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyBonusInitiative(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyBonusInitiative() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Bonus Initiative");
 
         if (stacks > 0)
@@ -1001,6 +1014,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyBonusMobility(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyBonusMobility() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Bonus Mobility");
 
         if (stacks > 0)
@@ -1027,6 +1042,8 @@ public class PassiveManager : MonoBehaviour
     // Modify Temporary Stat Buffs
     public void ModifySharpenedBlade(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifySharpenedBlade() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Sharpened Blade");
         if (stacks > 0)
         {
@@ -1035,8 +1052,7 @@ public class PassiveManager : MonoBehaviour
             {
                 sharpenedBlade = true;
             }
-            StartCoroutine(VisualEffectManager.Instance.
-            CreateStatusEffect(myLivingEntity.transform.position, "Sharpen Blade" + stacks.ToString(), false));
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Sharpen Blade" + stacks.ToString());
             StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
 
         }
@@ -1057,6 +1073,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyCamoflage(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyCamoflage() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Camoflage");
 
         if (stacks > 0)
@@ -1065,10 +1082,9 @@ public class PassiveManager : MonoBehaviour
             if (camoflageStacks > 0)
             {
                 camoflage = true;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Camoflage", false, "Blue"));
-            }           
-
+                VisualEffectManager.Instance.
+                CreateStatusEffect(myLivingEntity.transform.position, "Camoflage");
+            }          
         }
 
         else if (stacks < 0)
@@ -1077,8 +1093,8 @@ public class PassiveManager : MonoBehaviour
             if (camoflageStacks <= 0)
             {
                 camoflage = false;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Camoflage Removed", false, "Red"));
+                VisualEffectManager.Instance.
+                CreateStatusEffect(myLivingEntity.transform.position, "Camoflage Removed");
             }
         }
 
@@ -1086,6 +1102,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyPreparation(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPreparation() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Preparation");
 
         if (stacks > 0)
@@ -1094,8 +1112,7 @@ public class PassiveManager : MonoBehaviour
             if (preparationStacks > 0)
             {
                 preparation = true;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Preparation", false, "Blue"));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Preparation");
                 StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
             }
 
@@ -1107,8 +1124,6 @@ public class PassiveManager : MonoBehaviour
             if (preparationStacks <= 0)
             {
                 preparation = false;
-                //StartCoroutine(VisualEffectManager.Instance.
-                //CreateStatusEffect(myLivingEntity.transform.position, "Preparation", false, "Red"));
             }
         }
 
@@ -1116,6 +1131,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTemporaryTrueSight(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTemporaryTrueSight() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary True Sight");
 
         if (stacks > 0)
@@ -1140,6 +1156,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTemporaryParry(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTemporaryParry() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Parry");
 
         if (stacks > 0)
@@ -1148,6 +1166,8 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusParryStacks > 0)
             {
                 temporaryBonusParry = true;
+
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Parry");
             }
         }
 
@@ -1157,6 +1177,8 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusParryStacks <= 0)
             {
                 temporaryBonusParry = false;
+
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Parry Removed");
             }
         }
 
@@ -1164,6 +1186,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTemporaryDodge(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTemporaryDodge() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Dodge");
 
         if (stacks > 0)
@@ -1172,6 +1196,8 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusDodgeStacks > 0)
             {
                 temporaryBonusDodge = true;
+
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Dodge");
             }
         }
 
@@ -1181,6 +1207,8 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusDodgeStacks <= 0)
             {
                 temporaryBonusDodge = false;
+
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Dodge Removed");
             }
         }
 
@@ -1188,6 +1216,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTemporaryWisdom(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTemporaryWisdom() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Wisdom");
 
         if (stacks > 0)
@@ -1196,6 +1226,8 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusWisdomStacks > 0)
             {
                 temporaryBonusWisdom = true;
+
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Wisdom");
             }
         }
 
@@ -1205,6 +1237,8 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusWisdomStacks <= 0)
             {
                 temporaryBonusWisdom = false;
+
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Wisdom Removed");
             }
         }
 
@@ -1212,6 +1246,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTemporaryStrength(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTemporaryStrength() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Strength");
 
         if (stacks > 0)
@@ -1220,6 +1256,7 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusStrengthStacks > 0)
             {
                 temporaryBonusStrength = true;
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Strength");
             }
         }
 
@@ -1229,6 +1266,7 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusStrengthStacks <= 0)
             {
                 temporaryBonusStrength = false;
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Strength Removed");
             }
         }
 
@@ -1236,6 +1274,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTemporaryMobility(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTemporaryMobility() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Mobility");
 
         if (stacks > 0)
@@ -1244,6 +1284,7 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusMobilityStacks > 0)
             {
                 temporaryBonusMobility = true;
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Mobility");
             }
         }
 
@@ -1253,6 +1294,8 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusMobilityStacks <= 0)
             {
                 temporaryBonusMobility = false;
+
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Mobility Removed");
             }
         }
 
@@ -1260,6 +1303,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTemporaryInitiative(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTemporaryInitiative() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Initiative");
 
         if (stacks > 0)
@@ -1268,6 +1313,8 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusInitiativeStacks > 0)
             {
                 temporaryBonusInitiative = true;
+
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Initiative");
             }
         }
 
@@ -1277,6 +1324,8 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusInitiativeStacks <= 0)
             {
                 temporaryBonusInitiative = false;
+
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Initiative Removed");
             }
         }
 
@@ -1284,6 +1333,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTemporaryDexterity(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTemporaryDexterity() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Dexterity");
 
         if (stacks > 0)
@@ -1292,6 +1343,8 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusDexterityStacks > 0)
             {
                 temporaryBonusDexterity = true;
+
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Dexterity");
             }
         }
 
@@ -1301,6 +1354,8 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusDexterityStacks <= 0)
             {
                 temporaryBonusDexterity = false;
+
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Dexterity Removed");
             }
         }
 
@@ -1308,6 +1363,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTemporaryStamina(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTemporaryStamina() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Stamina");
 
         if (stacks > 0)
@@ -1316,6 +1373,7 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusStaminaStacks > 0)
             {
                 temporaryBonusStamina = true;
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Stamina");
             }
         }
 
@@ -1325,6 +1383,7 @@ public class PassiveManager : MonoBehaviour
             if (temporaryBonusStaminaStacks <= 0)
             {
                 temporaryBonusStamina = false;
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Temporary Stamina Removed");
             }
         }
 
@@ -1332,6 +1391,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTemporaryHawkEyeBonus(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTemporaryHawkEyeBonus() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Hawk Eye");
 
         if (stacks > 0)
@@ -1356,6 +1417,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTranscendence(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTranscendence() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Transcendence");
 
         if (stacks > 0)
@@ -1380,6 +1443,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTimeWarp(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTimeWarp() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Time Warp");
 
         if (stacks > 0)
@@ -1404,6 +1469,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyOverwatch(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyOverwatch() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Overwatch");
 
         if (stacks > 0)
@@ -1427,10 +1494,11 @@ public class PassiveManager : MonoBehaviour
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
 
-
     // Modify Imbuements
     public void ModifyAirImbuement(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyAirImbuement() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Air Imbuement");
 
         if (stacks > 0)
@@ -1441,8 +1509,7 @@ public class PassiveManager : MonoBehaviour
                 if (airImbuementStacks > 0)
                 {
                     airImbuement = true;
-                    StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Air Imbuement", false));
+                    VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Air Imbuement");
                     StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
                 }
             }
@@ -1463,6 +1530,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyFireImbuement(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyFireImbuement() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Fire Imbuement");
 
         if (stacks > 0)
@@ -1473,8 +1542,7 @@ public class PassiveManager : MonoBehaviour
                 if (fireImbuementStacks > 0)
                 {
                     fireImbuement = true;
-                    StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Fire Imbuement", false));
+                    VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Fire Imbuement");
                     StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
                 }
             }
@@ -1495,6 +1563,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyPoisonImbuement(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPoisonImbuement() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Poison Imbuement");
 
         if (stacks > 0)
@@ -1505,8 +1575,7 @@ public class PassiveManager : MonoBehaviour
                 if (poisonImbuementStacks > 0)
                 {
                     poisonImbuement = true;
-                    StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Poison Imbuement", false));
+                    VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Poison Imbuement");
                     StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
                 }
             }
@@ -1527,6 +1596,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyShadowImbuement(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyShadowImbuement() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Shadow Imbuement");
 
         if (stacks > 0)
@@ -1537,8 +1608,8 @@ public class PassiveManager : MonoBehaviour
                 if (shadowImbuementStacks > 0)
                 {
                     shadowImbuement = true;
-                    StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Shadow Imbuement", false));
+                    VisualEffectManager.Instance.
+                    CreateStatusEffect(myLivingEntity.transform.position, "Shadow Imbuement");
                     StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
                 }
             }
@@ -1559,6 +1630,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyFrostImbuement(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyFrostImbuement() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Frost Imbuement");
 
         if (stacks > 0)
@@ -1569,8 +1642,7 @@ public class PassiveManager : MonoBehaviour
                 if (frostImbuementStacks > 0)
                 {
                     frostImbuement = true;
-                    StartCoroutine(VisualEffectManager.Instance.
-                    CreateStatusEffect(myLivingEntity.transform.position, "Frost Imbuement", false));
+                    VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Frost Imbuement");
                     StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
                 }
             }
@@ -1593,6 +1665,8 @@ public class PassiveManager : MonoBehaviour
     // Modify Temporary Imbuements
     public void ModifyTemporaryAirImbuement(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTemporaryAirImbuement() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Air Imbuement");
 
         if (stacks > 0)
@@ -1601,8 +1675,7 @@ public class PassiveManager : MonoBehaviour
             if (temporaryAirImbuementStacks > 0)
             {
                 temporaryAirImbuement = true;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Temporary Air Imbuement", false));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Temporary Air Imbuement");
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
@@ -1621,6 +1694,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTemporaryFireImbuement(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTemporaryFireImbuement() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Fire Imbuement");
 
         if (stacks > 0)
@@ -1629,8 +1704,7 @@ public class PassiveManager : MonoBehaviour
             if (temporaryFireImbuementStacks > 0)
             {
                 temporaryFireImbuement = true;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Temporary Fire Imbuement", false));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Temporary Fire Imbuement");
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
@@ -1649,6 +1723,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTemporaryPoisonImbuement(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTemporaryPoisonImbuement() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Poison Imbuement");
 
         if (stacks > 0)
@@ -1657,8 +1733,7 @@ public class PassiveManager : MonoBehaviour
             if (temporaryPoisonImbuementStacks > 0)
             {
                 temporaryPoisonImbuement = true;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Temporary Poison Imbuement", false));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Temporary Poison Imbuement");
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
@@ -1670,6 +1745,7 @@ public class PassiveManager : MonoBehaviour
             {
                 temporaryPoisonImbuementStacks = 0;
                 temporaryPoisonImbuement = false;
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Poison Imbuement Removed");
             }
         }
 
@@ -1677,6 +1753,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTemporaryFrostImbuement(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTemporaryFrostImbuement() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Frost Imbuement");
 
         if (stacks > 0)
@@ -1685,8 +1763,7 @@ public class PassiveManager : MonoBehaviour
             if (temporaryFrostImbuementStacks > 0)
             {
                 temporaryFrostImbuement = true;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Temporary Frost Imbuement", false));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Temporary Frost Imbuement");
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
@@ -1698,6 +1775,7 @@ public class PassiveManager : MonoBehaviour
             {
                 temporaryFrostImbuementStacks = 0;
                 temporaryFrostImbuement = false;
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Frost Imbuement Removed");
             }
         }
 
@@ -1705,6 +1783,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTemporaryShadowImbuement(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTemporaryShadowImbuement() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Temporary Shadow Imbuement");
 
         if (stacks > 0)
@@ -1713,8 +1793,7 @@ public class PassiveManager : MonoBehaviour
             if (temporaryShadowImbuementStacks > 0)
             {
                 temporaryShadowImbuement = true;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Temporary Shadow Imbuement", false));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Temporary Shadow Imbuement");
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
@@ -1726,6 +1805,7 @@ public class PassiveManager : MonoBehaviour
             {
                 temporaryShadowImbuementStacks = 0;
                 temporaryShadowImbuement = false;
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shadow Imbuement Removed");
             }
         }
 
@@ -1735,6 +1815,8 @@ public class PassiveManager : MonoBehaviour
     // Modify Powers
     public void ModifyPurity(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPurity() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Purity");
 
         if (stacks > 0)
@@ -1743,8 +1825,7 @@ public class PassiveManager : MonoBehaviour
             if (purityStacks > 0)
             {
                 purity = true;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Purity", false));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Purity");
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
@@ -1763,6 +1844,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyRecklessness(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyRecklessness() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Recklessness");
 
         if (stacks > 0)
@@ -1771,8 +1854,7 @@ public class PassiveManager : MonoBehaviour
             if (recklessnessStacks > 0)
             {
                 recklessness = true;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Recklessness", false));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Recklessness");
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
@@ -1791,6 +1873,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTestudo(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTestudo() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Testudo");
 
         if (stacks > 0)
@@ -1799,8 +1883,7 @@ public class PassiveManager : MonoBehaviour
             if (testudoStacks > 0)
             {
                 testudo = true;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Testudo", false));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Testudo");
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
@@ -1819,6 +1902,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyConcentration(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyConcentration() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Concentration");
 
         if (stacks > 0)
@@ -1827,8 +1912,7 @@ public class PassiveManager : MonoBehaviour
             if (concentrationStacks > 0)
             {
                 concentration = true;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Concentration", false));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Concentration");
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
@@ -1847,6 +1931,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyInfuse(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyInfuse() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Infuse");
 
         if (stacks > 0)
@@ -1855,8 +1941,7 @@ public class PassiveManager : MonoBehaviour
             if (infuseStacks > 0)
             {
                 infuse = true;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Infuse", false));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Infuse");
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
@@ -1875,6 +1960,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyRapidCloaking(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyRapidCloaking() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Rapid Cloaking");
 
         if (stacks > 0)
@@ -1883,8 +1970,7 @@ public class PassiveManager : MonoBehaviour
             if (rapidCloakingStacks > 0)
             {
                 rapidCloaking = true;
-                StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Concentration", false));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Concentration");
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
@@ -1902,11 +1988,11 @@ public class PassiveManager : MonoBehaviour
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
 
-
-
     // Modify Resistances
     public void ModifyBarrier(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyBarrier() called, stacks = " + stacks.ToString());
+
         barrierStacks += stacks;
         if (barrierStacks >= 1)
         {
@@ -1918,19 +2004,18 @@ public class PassiveManager : MonoBehaviour
         {
             barrier = false;
             myLivingEntity.myStatusManager.RemoveStatusIcon(myLivingEntity.myStatusManager.GetStatusIconByName("Barrier"));
-            StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Barrier " + stacks.ToString(), false, "Red"));
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Barrier " + stacks.ToString());
         }
 
         if (stacks > 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Barrier +" + stacks, false, "Blue"));
-            StartCoroutine(VisualEffectManager.Instance.
-                CreateStatusEffect(myLivingEntity.transform.position, "Barrier +" + stacks.ToString(), false, "Blue"));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Barrier +" + stacks);            
         }
     }
     public void ModifyEnrage(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyEnrage() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Enrage");
         enrage = true;
         enrageStacks += stacks;
@@ -1938,6 +2023,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyGrowing(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyGrowing() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Growing");
         growing = true;
         growingStacks += stacks;
@@ -1945,6 +2032,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyVolatile(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyVolatile() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Volatile");
         Volatile = true;
         volatileStacks += stacks;
@@ -1952,6 +2041,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyCautious(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyCautious() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Cautious");
         cautious = true;
         cautiousStacks += stacks;
@@ -1959,6 +2050,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyFlux(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyFlux() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Flux");
         flux = true;
         fluxStacks += stacks;
@@ -1966,6 +2059,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyEncouragingAura(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyEncouragingAura() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Encouraging Aura");
         encouragingAura = true;
         encouragingAuraStacks += stacks;
@@ -1973,6 +2068,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyStormAura(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyStormAura() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Storm Aura");
         stormAura = true;
         stormAuraStacks += stacks;
@@ -1980,6 +2077,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyPoisonous(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPoisonous() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Poisonous");
         poisonous = true;
         poisonousStacks += stacks;
@@ -1987,6 +2086,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyImmolation(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyImmolation() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Immolation");
         immolation= true;
         immolationStacks += stacks;
@@ -1997,6 +2098,8 @@ public class PassiveManager : MonoBehaviour
     // Modify Buff Passives
     public void ModifyStealth(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyStealth() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Stealth");
         stealthStacks += stacks;
         stealth = true;        
@@ -2004,6 +2107,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyPatientStalker(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPatientStalker() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Patient Stalker");
         patientStalkerStacks += stacks;
         patientStalker = true;
@@ -2011,6 +2116,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyPredator(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPredator() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Predator");
         predatorStacks += stacks;
         predator = true;
@@ -2018,6 +2125,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyUnleashed(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyUnleashed() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Unleashed");
         unleashedStacks += stacks;
         unleashed = true;
@@ -2025,6 +2134,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyUnstoppable(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyUnstoppable() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Unstoppable");
         unstoppableStacks += stacks;
         unstoppable = true;
@@ -2032,18 +2143,23 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifySoulLink()
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifySoulLink() called...");
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Soul Link");
         soulLink = true;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, 1);
     }
     public void ModifyUndead()
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyUndead() called...");
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Undead");
         undead = true;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, 1);
     }
     public void ModifyNimble(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyNimble() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Nimble");
 
         if (stacks > 0)
@@ -2072,6 +2188,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyPerfectReflexes(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPerfectReflexes() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Perfect Reflexes");
 
         if (stacks > 0)
@@ -2100,6 +2218,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyMasochist(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyMasochist() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Masochist");
 
         if (stacks > 0)
@@ -2125,6 +2245,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifySlippery(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifySlippery() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Slippery");
 
         if (stacks > 0)
@@ -2150,6 +2272,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyLastStand(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifySlippery() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Last Stand");
 
         if (stacks > 0)
@@ -2175,6 +2299,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyRiposte(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyRiposte() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Riposte");
 
         if (stacks > 0)
@@ -2200,6 +2326,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyShatter(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyShatter() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Shatter");
 
         if (stacks > 0)
@@ -2225,6 +2353,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyEtherealBeing(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyEtherealBeing() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Ethereal Being");
 
         if (stacks > 0)
@@ -2250,13 +2380,17 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyUnwavering(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyUnwavering() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Unwavering");
         unwavering = true;
         unwaveringStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, 1);
     }   
-    public void ModifyUnfallible(int stacks)
+    public void ModifyInfallible(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyUnfallible() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Unfallible");
         unfallible = true;
         unfallibleStacks += stacks;
@@ -2264,6 +2398,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyIncorruptable(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyIncorruptable() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Incorruptable");
         incorruptable = true;
         incorruptableStacks += stacks;
@@ -2271,12 +2407,15 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyPoisonImmunity()
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPoisonImmunity() called, stacks...");
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Poison Immunity");
         poisonedImmunity = true;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, 1);
     }
     public void ModifyThorns(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyThorns() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Thorns");
         thorns = true;
         thornsStacks += stacks;
@@ -2284,6 +2423,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyOpportunist(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyOpportunist() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Opportunist");
         opportunist = true;
         opportunistStacks += stacks;
@@ -2291,6 +2432,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyToxicAura(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyToxicAura() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Toxic Aura");
         toxicAura = true;
         toxicAuraStacks += stacks;
@@ -2298,6 +2441,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyPhasing(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPhasing() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Phasing");
         phasing = true;
         phasingStacks += stacks;
@@ -2305,6 +2450,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyRegeneration(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyRegeneration() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Regeneration");
         regeneration = true;
         regenerationStacks += stacks;
@@ -2312,6 +2459,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTenacious(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTenacious() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Tenacious");
         tenacious = true;
         tenaciousStacks += stacks;
@@ -2319,6 +2468,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyHatefulAura(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyHatefulAura() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Hateful Aura");
         hatefulAura = true;
         hatefulAuraStacks += stacks;
@@ -2326,6 +2477,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyFieryAura(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyFieryAura() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Fiery Aura");
         fieryAura = true;
         fieryAuraStacks += stacks;
@@ -2333,6 +2486,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyGuardianAura(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyGuardianAura() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Guardian Aura");
         guardianAura = true;
         guardianAuraStacks += stacks;
@@ -2340,6 +2495,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifySacredAura(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifySacredAura() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Sacred Aura");
         sacredAura = true;
         sacredAuraStacks += stacks;
@@ -2347,6 +2504,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyShadowAura(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyShadowAura() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Shadow Aura");
         shadowAura = true;
         shadowAuraStacks += stacks;
@@ -2354,6 +2513,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifySoulDrainAura(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifySoulDrainAura() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Soul Drain Aura");
         soulDrainAura = true;
         soulDrainAuraStacks += stacks;
@@ -2361,6 +2522,8 @@ public class PassiveManager : MonoBehaviour
     }   
     public void ModifyLightningShield(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyLightningShield() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Lightning Shield");
         lightningShield = true;
         lightningShieldStacks += stacks;
@@ -2370,8 +2533,10 @@ public class PassiveManager : MonoBehaviour
     {
         
     }
-    public void ModifyHawkEyeBonus(int stacks)
+    public void ModifyHawkEye(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyHawkEyeBonus() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Hawk Eye");
 
         if (stacks > 0)
@@ -2396,6 +2561,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyTrueSight(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTrueSight() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("True Sight");
         trueSight = true;
         trueSightStacks += stacks;
@@ -2403,6 +2570,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyPerfectAim(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPerfectAim() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Perfect Aim");
         perfectAim = true;
         perfectAimStacks += stacks;
@@ -2410,6 +2579,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyVenomous(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyVenomous() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Venomous");
         venomous = true;
         venomousStacks += stacks;
@@ -2417,6 +2588,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyLifeSteal(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyLifeSteal() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Life Steal");
         lifeSteal = true;
         lifeStealStacks += stacks;
@@ -2424,18 +2597,20 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyRune(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyRune() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Rune");
         
         runeStacks += stacks;
 
         if(stacks > 0)
         {
-            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Rune + " + runeStacks.ToString(), false, "Blue");
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Rune + " + runeStacks.ToString());
             StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
         }
         else if(stacks < 0)
         {
-            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Rune " + runeStacks.ToString(), false, "Red");
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Rune " + runeStacks.ToString());
         }
 
         if(runeStacks > 0)
@@ -2453,6 +2628,8 @@ public class PassiveManager : MonoBehaviour
     // Magic Damage "Form" Buffs
     public void ModifyFrozenHeart(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyFrozenHeart() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Frozen Heart");
         frozenHeart= true;
         frozenHeartStacks += stacks;
@@ -2460,6 +2637,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyDemon(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyDemon() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Demon");
         demon = true;
         demonStacks += stacks;
@@ -2467,6 +2646,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyShadowForm(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyShadowForm() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Shadow Form");
         shadowForm = true;
         shadowFormStacks += stacks;
@@ -2474,6 +2655,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyToxicity(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyToxicity() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Toxicity");
         toxicity = true;
         toxicityStacks += stacks;
@@ -2481,6 +2664,8 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyStormLord(int stacks)
     {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyStormLord() called, stacks = " + stacks.ToString());
+
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Storm Lord");
         stormLord = true;
         stormLordStacks += stacks;

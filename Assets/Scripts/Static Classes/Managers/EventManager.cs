@@ -533,7 +533,7 @@ public class EventManager : Singleton<EventManager>
             // Dead characters get no XP
             if(character.CurrentHealth > 0)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(character.myDefenderGO.transform.position, "XP + " + xpReward.ToString(), true));
+                VisualEffectManager.Instance.CreateStatusEffect(character.myDefenderGO.transform.position, "XP + " + xpReward.ToString());
             }            
             yield return new WaitForSeconds(0.5f);
         }
@@ -545,7 +545,7 @@ public class EventManager : Singleton<EventManager>
             if(character.currentXP + xpReward >= character.currentMaxXP)
             {
                 Debug.Log("StartPreLootScreenVisualEvent() creating visual status LEVEL GAINED! effect...");
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(character.myDefenderGO.transform.position, "LEVEL UP!" + xpReward.ToString(), true));
+                VisualEffectManager.Instance.CreateStatusEffect(character.myDefenderGO.transform.position, "LEVEL UP!" + xpReward.ToString());
                 yield return new WaitForSeconds(0.5f);
 
             }            

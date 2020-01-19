@@ -54,7 +54,14 @@ public class VisualEffectManager : MonoBehaviour
         yield return null;       
 
     }
-    public IEnumerator CreateStatusEffect(Vector3 location, string statusEffectName, bool playFXInstantly, string color = "White")
+
+    public Action CreateStatusEffect(Vector3 location, string statusEffectName, string color = "White")
+    {
+        Action action = new Action();
+        StartCoroutine(CreateStatusEffectCoroutine(location, statusEffectName, action, color));
+        return action;
+    }
+    public IEnumerator CreateStatusEffectCoroutine(Vector3 location, string statusEffectName, Action action, string color = "White")
     {
         Color thisColor = Color.white;
         if(color == "White")
@@ -81,27 +88,14 @@ public class VisualEffectManager : MonoBehaviour
             //thisColor = green;
             thisColor = Color.yellow;
         }
+
         queueCount++;
         GameObject damageEffect = Instantiate(StatusEffectPrefab, location, Quaternion.identity);
         damageEffect.GetComponent<StatusEffect>().InitializeSetup(statusEffectName, thisColor);
 
+        action.actionResolved = true;
         yield return null;
-        /*
-        if (playFXInstantly == true)
-        {
-            queueCount++;
-            GameObject damageEffect = Instantiate(StatusEffectPrefab, location, Quaternion.identity);
-            damageEffect.GetComponent<StatusEffect>().InitializeSetup(statusEffectName, thisColor);
-        }
-
-        else
-        {
-            yield return new WaitForSeconds(queueCount * timeBetweenEffectsInSeconds);
-            queueCount++;
-            GameObject damageEffect = Instantiate(StatusEffectPrefab, location, Quaternion.identity);
-            damageEffect.GetComponent<StatusEffect>().InitializeSetup(statusEffectName, thisColor);
-        }
-        */
+        
         
     }  
     public IEnumerator CreateImpactEffect(Vector3 location)

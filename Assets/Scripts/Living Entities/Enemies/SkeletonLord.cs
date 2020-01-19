@@ -40,7 +40,7 @@ public class SkeletonLord : Enemy
         // Summon skeleton
         else if (EntityLogic.IsAbilityUseable(this, summonSkeleton))
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Summon Skeleton", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Summon Skeleton");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformSummonSkeleton(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -51,7 +51,7 @@ public class SkeletonLord : Enemy
         // Empower Binding
         else if (EntityLogic.IsAbilityUseable(this, empowerBinding))
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Empower Binding", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Empower Binding");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformEmpowerBinding(this);
             yield return new WaitUntil(() => action.ActionResolved() == true);

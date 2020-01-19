@@ -16,9 +16,9 @@ public class AbilityLogic : MonoBehaviour
 
     // Misc Logic
     #region
-    public void OnAbilityUsedStart(Ability ability, LivingEntity livingEntity)
+    public void OnAbilityUsedStart(Ability ability, LivingEntity entity)
     {
-        Debug.Log("OnAbilityUsed() called for " + livingEntity.gameObject.name + " using " + ability.abilityName);
+        Debug.Log("OnAbilityUsedStart() called for " + entity.gameObject.name + " using " + ability.abilityName);
 
         // Disable tile hover + tile highlights
         TileHover.Instance.SetVisibility(false);
@@ -31,11 +31,11 @@ public class AbilityLogic : MonoBehaviour
        
         // Reduce AP by cost of the ability
         // check for preparation here
-        if (livingEntity.myPassiveManager.preparation && ability.abilityName != "Preparation" && 
+        if (entity.myPassiveManager.preparation && ability.abilityName != "Preparation" && 
             ability.abilityName != "Slice And Dice" &&
             ability.abilityName != "Rapid Fire")
         {
-            livingEntity.myPassiveManager.ModifyPreparation(-livingEntity.myPassiveManager.preparationStacks);
+            entity.myPassiveManager.ModifyPreparation(-entity.myPassiveManager.preparationStacks);
             finalApCost = 0;
         }        
 
@@ -43,34 +43,36 @@ public class AbilityLogic : MonoBehaviour
         if(ability.abilityName == "Move")
         {
             // if character has a free move available
-            if (livingEntity.moveActionsTakenThisActivation == 0 && livingEntity.myPassiveManager.flux)
+            if (entity.moveActionsTakenThisActivation == 0 && entity.myPassiveManager.flux)
             {
-                livingEntity.StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(livingEntity.transform.position, "Flux", true, "Blue"));
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Flux");
                 finalApCost = 0;
             }
-            livingEntity.moveActionsTakenThisActivation++;
+            entity.moveActionsTakenThisActivation++;
         }
 
         else if (ability.abilityName == "Slice And Dice" || ability.abilityName == "Rapid Fire")
         {
-            finalApCost = livingEntity.currentEnergy;
+            finalApCost = entity.currentEnergy;
         }
 
         // Modify AP
-        livingEntity.ModifyCurrentEnergy(-finalApCost);
+        entity.ModifyCurrentEnergy(-finalApCost);
         // Modify Cooldown
         ability.ModifyCurrentCooldown(finalCD);
 
 
         if(ability.abilityType == AbilityDataSO.AbilityType.Power)
         {
-            AddPowerToEntity(livingEntity, ability);
+            AddPowerToEntity(entity, ability);
         }
 
         
     }
     public void OnAbilityUsedFinish(Ability ability, LivingEntity entity)
     {
+        Debug.Log("OnAbilityUsedFinish() called for " + entity.gameObject.name + " using " + ability.abilityName);
+
         // remove camoflage
         if (entity.myPassiveManager.camoflage)
         {
@@ -92,7 +94,7 @@ public class AbilityLogic : MonoBehaviour
     }
     public bool DoesAbilityMeetWeaponRequirements(LivingEntity entity, Ability ability)
     {
-        Debug.Log("AbilityLogic.DoesAbilityMeetWeaponRequirements() called...");
+        Debug.Log("DoesAbilityMeetWeaponRequirements called for " + entity.name + " using " + ability.abilityName);
 
         bool boolReturned = false;
 
@@ -100,6 +102,7 @@ public class AbilityLogic : MonoBehaviour
            ability.requiresRangedWeapon == false &&
            ability.requiresShield == false)
         {
+            Debug.Log(ability.abilityName + " does not require a melee weapon, ranged weapon or shield...");
             boolReturned = true;
         }
         else if(ability.requiresMeleeWeapon == true &&
@@ -107,21 +110,24 @@ public class AbilityLogic : MonoBehaviour
             entity.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeTwoHand)
             )
         {
+            Debug.Log(ability.abilityName + " requires a melee weapon, and " + entity.name + " has one...");
             boolReturned = true;
         }
         else if(ability.requiresRangedWeapon &&
             entity.myMainHandWeapon.itemType == ItemDataSO.ItemType.RangedTwoHand)
         {
+            Debug.Log(ability.abilityName + " requires a ranged weapon, and " + entity.name + " has one...");
             boolReturned = true;
         }
         else if(ability.requiresShield &&
             entity.myOffHandWeapon.itemType == ItemDataSO.ItemType.Shield)
         {
+            Debug.Log(ability.abilityName + " requires a shield, and " + entity.name + " has one...");
             boolReturned = true;
         }
         else
         {
-            Debug.Log(entity.name +" does not meet the requirments of " + ability.abilityName);
+            Debug.Log(entity.name +" does not meet the weapon requirments of " + ability.abilityName);
             boolReturned = false;
         }
 
@@ -129,7 +135,7 @@ public class AbilityLogic : MonoBehaviour
     }
     public string GetDamageTypeFromAbility(Ability ability)
     {
-        Debug.Log("GetDamageTypeFromAbility() called...");
+        Debug.Log("GetDamageTypeFromAbility() called on ability " + ability.abilityName +"...");
 
         string damageTypeStringReturned = "None";
 
@@ -171,7 +177,8 @@ public class AbilityLogic : MonoBehaviour
 
         entity.activePowers.Insert(0,power);
         if(entity.activePowers.Count > entity.currentMaxPowersCount)
-        {            
+        {
+            Debug.Log(entity.name + " has excedding its power limit, removing " + power.abilityName + " from active powers list...");
             RemovePowerFromEntity(entity, entity.activePowers.Last());
         }
 
@@ -232,6 +239,7 @@ public class AbilityLogic : MonoBehaviour
     // Strike
     public Action PerformStrike(LivingEntity attacker, LivingEntity victim)
     {
+        Debug.Log("AbilityLogic.PerformStrike() called. Caster = " + attacker.name + ", Target = " + victim.name);
         Action action = new Action();
         StartCoroutine(PerformStrikeCoroutine(attacker, victim, action));
         return action;
@@ -263,7 +271,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, strike);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -278,6 +286,7 @@ public class AbilityLogic : MonoBehaviour
     // Defend
     public Action PerformDefend(LivingEntity caster)
     {
+        Debug.Log("AbilityLogic.PerformDefend() called. Caster = " + caster.name);
         Action action = new Action();
         StartCoroutine(PerformDefendCoroutine(caster, action));
         return action;
@@ -295,6 +304,8 @@ public class AbilityLogic : MonoBehaviour
     // Move
     public Action PerformMove(LivingEntity characterMoved, Tile destination)
     {
+        Debug.Log("AbilityLogic.PerformStrike() called. Caster = " + characterMoved.name + 
+            ", Target Tile = " + destination.GridPosition.X.ToString() + ", " + destination.GridPosition.Y.ToString());
         Action action = new Action();
         StartCoroutine(PerformMoveCoroutine(characterMoved, destination, action));
         return action;
@@ -348,7 +359,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, shoot);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -388,7 +399,7 @@ public class AbilityLogic : MonoBehaviour
             // Check critical
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             // Deal damage
@@ -435,7 +446,7 @@ public class AbilityLogic : MonoBehaviour
             // Check critical
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             // Deal damage
@@ -499,7 +510,7 @@ public class AbilityLogic : MonoBehaviour
             {
                 if (critical)
                 {
-                    StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                    VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
                 }
                 Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, shoot);
                 yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -563,7 +574,7 @@ public class AbilityLogic : MonoBehaviour
             {
                 if (critical)
                 {
-                    StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                    VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
                 }
 
                 Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, whirlwind);
@@ -611,7 +622,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, devastatingBlow);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -656,7 +667,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, smash);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -715,7 +726,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, charge);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -841,7 +852,7 @@ public class AbilityLogic : MonoBehaviour
                 {
                     if (critical)
                     {
-                        StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                        VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
                     }
                     Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, bladeFlurry);
                     yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -920,7 +931,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, tendonSlash);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -973,7 +984,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, disarm);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -1029,7 +1040,7 @@ public class AbilityLogic : MonoBehaviour
 
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, shieldShatter);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -1108,7 +1119,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, decapitate);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -1116,7 +1127,7 @@ public class AbilityLogic : MonoBehaviour
             if(!victim.inDeathProcess && instantKill)
             {
                 // the victim was insta killed, start death process
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "DECAPITATED!", true));             
+                VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "DECAPITATED!");             
                 victim.inDeathProcess = true;
                 victim.StopAllCoroutines();
                 StartCoroutine(victim.HandleDeath());
@@ -1220,7 +1231,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, cheapShot);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -1272,7 +1283,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, shank);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -1360,7 +1371,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, ambush);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -1468,7 +1479,7 @@ public class AbilityLogic : MonoBehaviour
                 {
                     if (critical)
                     {
-                        StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                        VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
                     }
                     Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, sliceAndDice);
                     yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -1602,7 +1613,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, swordAndBoard);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -1700,7 +1711,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, shieldSlam);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -1748,7 +1759,7 @@ public class AbilityLogic : MonoBehaviour
 
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, reactiveArmour);
@@ -1804,7 +1815,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, fireball);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -1840,7 +1851,7 @@ public class AbilityLogic : MonoBehaviour
 
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             
             // Deal damage
@@ -1938,7 +1949,7 @@ public class AbilityLogic : MonoBehaviour
 
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
@@ -2023,7 +2034,7 @@ public class AbilityLogic : MonoBehaviour
 
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
@@ -2078,7 +2089,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, chillingBlow);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -2121,7 +2132,7 @@ public class AbilityLogic : MonoBehaviour
 
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             // Deal damage
@@ -2199,7 +2210,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             // Deal Damage event
@@ -2248,7 +2259,7 @@ public class AbilityLogic : MonoBehaviour
 
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
@@ -2368,7 +2379,7 @@ public class AbilityLogic : MonoBehaviour
                 {
                     if (critical)
                     {
-                        StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                        VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
                     }
                     Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, glacialBurst);
                     yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -2417,7 +2428,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, thaw);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -2505,7 +2516,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, snipe);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -2605,7 +2616,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             // Knockback
@@ -2661,7 +2672,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, headShot);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -2788,7 +2799,7 @@ public class AbilityLogic : MonoBehaviour
                 {
                     if (critical)
                     {
-                        StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                        VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
                     }
                     Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, rapidFire);
                     yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -2896,7 +2907,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, toxicSlash);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -2939,7 +2950,7 @@ public class AbilityLogic : MonoBehaviour
 
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             // Deal damage
@@ -2986,7 +2997,7 @@ public class AbilityLogic : MonoBehaviour
 
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
@@ -3125,7 +3136,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, dimensionalBlast);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -3366,7 +3377,7 @@ public class AbilityLogic : MonoBehaviour
             {
                 if (critical)
                 {
-                    StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!", true));
+                    VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
                 }
                 Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, target, damageType, holyFire);
                 yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -3406,7 +3417,7 @@ public class AbilityLogic : MonoBehaviour
 
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
@@ -3553,7 +3564,7 @@ public class AbilityLogic : MonoBehaviour
 
                 if (critical)
                 {
-                    StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                    VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
                 }
 
                 // Deal damage
@@ -3629,7 +3640,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, judgement);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -3701,7 +3712,7 @@ public class AbilityLogic : MonoBehaviour
 
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
@@ -3808,7 +3819,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, chaosBolt);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -3901,7 +3912,7 @@ public class AbilityLogic : MonoBehaviour
                 {
                     if (critical)
                     {
-                        StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                        VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
                     }
                     Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, unbridledChaos);
                     yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -3975,7 +3986,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, shadowBlast);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -4034,7 +4045,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, thunderStrike);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -4087,7 +4098,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, lightningBolt);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -4194,7 +4205,7 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, chainLightning);
@@ -4220,7 +4231,7 @@ public class AbilityLogic : MonoBehaviour
 
                     if (critical2)
                     {
-                        StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                        VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
                     }
 
                     Action abilityAction2 = CombatLogic.Instance.HandleDamage(finalDamageValue2, attacker, currentTarget, damageType, chainLightning);
@@ -4265,7 +4276,7 @@ public class AbilityLogic : MonoBehaviour
 
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
@@ -4371,7 +4382,7 @@ public class AbilityLogic : MonoBehaviour
 
             if (critical)
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!", true));
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
@@ -4613,7 +4624,7 @@ public class AbilityLogic : MonoBehaviour
         Ability lightningShield = caster.mySpellBook.GetAbilityByName("Lightning Shield");
         OnAbilityUsedStart(lightningShield, caster);
         target.myPassiveManager.ModifyLightningShield(lightningShield.abilityPrimaryValue);
-        VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Lightning Shield", false, "Blue");
+        VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Lightning Shield");
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
         
@@ -4657,19 +4668,19 @@ public class AbilityLogic : MonoBehaviour
 
         if (target.myPassiveManager.stunned)
         {
-            VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Stun Removed", false, "Blue");
+            VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Stun Removed");
             yield return new WaitForSeconds(0.2f);
             target.myPassiveManager.ModifyStunned(-target.myPassiveManager.stunnedStacks);
         }
         if (target.myPassiveManager.immobilized)
         {
-            VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Immobilized Removed", false, "Blue");
+            VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Immobilized Removed");
             yield return new WaitForSeconds(0.2f);
             target.myPassiveManager.ModifyImmobilized(-target.myPassiveManager.immobilizedStacks);
         }
         if (target.myPassiveManager.poisoned)
         {
-            VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Poison Removed", false, "Blue");
+            VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Poison Removed");
             yield return new WaitForSeconds(0.2f);
             target.myPassiveManager.ModifyPoisoned(-target.myPassiveManager.poisonedStacks);
         }

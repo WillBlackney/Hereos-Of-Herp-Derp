@@ -39,7 +39,7 @@ public class SkeletonPriest : Enemy
         else if (EntityLogic.IsTargetInRange(this, GetBestInvigorateTarget(invigorate.abilityRange), invigorate.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, invigorate))
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Invigorate", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Invigorate");
             yield return new WaitForSeconds(0.5f);
 
             Action action = AbilityLogic.Instance.PerformInvigorate(this, GetBestInvigorateTarget(invigorate.abilityRange));
@@ -53,7 +53,7 @@ public class SkeletonPriest : Enemy
             GetBestHealingLightTarget().currentHealth < GetBestHealingLightTarget().currentMaxHealth &&
             EntityLogic.IsAbilityUseable(this, healingLight))
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Healing Light", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Healing Light");
             yield return new WaitForSeconds(0.5f);
 
             Action action = AbilityLogic.Instance.PerformHealingLight(this, GetBestHealingLightTarget());
@@ -69,7 +69,7 @@ public class SkeletonPriest : Enemy
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestAlly(this, false), 1, EntityLogic.GetTotalMobility(this)) != null
             )
         {            
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestAlly(this, false), 1, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
@@ -85,7 +85,7 @@ public class SkeletonPriest : Enemy
             EntityLogic.IsAbilityUseable(this, strike))
         {
             SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
             yield return new WaitForSeconds(0.5f);
 
             AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);

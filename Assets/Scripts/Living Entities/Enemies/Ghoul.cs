@@ -45,7 +45,7 @@ public class Ghoul : Enemy
         else if (EntityLogic.IsAbilityUseable(this, acidSpit) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, acidSpit.abilityRange))
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Acid Spit", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Acid Spit");
             yield return new WaitForSeconds(0.5f);
 
             Action action = AbilityLogic.Instance.PerformAcidSpit(this, myCurrentTarget);
@@ -59,7 +59,7 @@ public class Ghoul : Enemy
         else if (GetBestBarrierTargetInRange(guard.abilityRange) != null &&
             EntityLogic.IsAbilityUseable(this, guard))
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Guard", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Guard");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformGuard(this, GetBestBarrierTargetInRange(guard.abilityRange));
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -72,7 +72,7 @@ public class Ghoul : Enemy
         else if (EntityLogic.IsAbilityUseable(this, strike) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
             yield return new WaitForSeconds(0.5f);
 
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
@@ -93,7 +93,7 @@ public class Ghoul : Enemy
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));           
 
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
+           VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);

@@ -247,13 +247,11 @@ public class CharacterData : MonoBehaviour
             KnowsMove = true;
             KnowsStrike = true;
 
-            KnowsDisarm = true;
-            KnowsSecondWind = true;
-            KnowsProvoke = true;
+            KnowsFireBall = true;            
+            KnowsToxicSlash = true;
             KnowsPhoenixDive = true;
             KnowsBloodOffering = true;
-            KnowsChallengingShout = true;
-            KnowsTimeWarp = true;
+            KnowsSecondWind = true;
 
 
             //talentTreeOne.InitializeSetup("Path of Rage");

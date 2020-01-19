@@ -49,7 +49,7 @@ public class SkeletonBarbarian : Enemy
         {            
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, charge.abilityRange);
             
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Charge", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Charge");
             yield return new WaitForSeconds(0.5f);
             Action chargeAction = AbilityLogic.Instance.PerformCharge(this, myCurrentTarget, destination);
             yield return new WaitUntil(() => chargeAction.ActionResolved() == true);
@@ -63,7 +63,7 @@ public class SkeletonBarbarian : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, whirlwind))
         {            
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Whirlwind", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Whirlwind");
             yield return new WaitForSeconds(1f);
             Action action = AbilityLogic.Instance.PerformWhirlwind(this);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -77,7 +77,7 @@ public class SkeletonBarbarian : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, strike))
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
             yield return new WaitForSeconds(0.5f);
 
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
@@ -95,7 +95,7 @@ public class SkeletonBarbarian : Enemy
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {            
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));

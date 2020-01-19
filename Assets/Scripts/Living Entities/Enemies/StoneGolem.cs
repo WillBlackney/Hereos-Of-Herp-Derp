@@ -36,7 +36,7 @@ public class StoneGolem : Enemy
             
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             // VFX notification
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Rock Toss", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Rock Toss");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformRockToss(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);

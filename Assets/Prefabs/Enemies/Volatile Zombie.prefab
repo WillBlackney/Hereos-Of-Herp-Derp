@@ -166,6 +166,7 @@ MonoBehaviour:
   KnowsChaosBolt: 0
   KnowsFrostNova: 0
   KnowsEmpowerBinding: 0
+  KnowsRapidCloaking: 0
   KnowsDevastatingBlow: 0
   KnowsKickToTheBalls: 0
   KnowsBladeFlurry: 0
@@ -233,9 +234,12 @@ MonoBehaviour:
   KnowsThunderStrike: 0
   KnowsSpiritVision: 0
   KnowsThunderStorm: 0
-  KnowsPressurize: 0
+  KnowsOverload: 0
   KnowsConcealingClouds: 0
   KnowsSuperConductor: 0
+  KnowsSnipe: 0
+  KnowsDisarm: 0
+  KnowsSecondWind: 0
 --- !u!114 &7011744735078177082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,8 +279,18 @@ MonoBehaviour:
   temporaryBonusDexterityStacks: 0
   temporaryBonusParry: 0
   temporaryBonusParryStacks: 0
-  fieryImbuement: 0
-  fieryImbuementStacks: 0
+  temporaryBonusDodge: 0
+  temporaryBonusDodgeStacks: 0
+  temporaryTrueSight: 0
+  temporaryBonusTrueSightStacks: 0
+  temporaryHawkEye: 0
+  temporaryHawkEyeStacks: 0
+  overwatch: 0
+  overwatchStacks: 0
+  timeWarp: 0
+  timeWarpStacks: 0
+  fireImbuement: 0
+  fireImbuementStacks: 0
   frostImbuement: 0
   frostImbuementStacks: 0
   poisonImbuement: 0
@@ -285,8 +299,8 @@ MonoBehaviour:
   shadowImbuementStacks: 0
   airImbuement: 0
   airImbuementStacks: 0
-  temporaryFieryImbuement: 0
-  temporaryFieryImbuementStacks: 0
+  temporaryFireImbuement: 0
+  temporaryFireImbuementStacks: 0
   temporaryFrostImbuement: 0
   temporaryFrostImbuementStacks: 0
   temporaryPoisonImbuement: 0
@@ -295,6 +309,22 @@ MonoBehaviour:
   temporaryShadowImbuementStacks: 0
   temporaryAirImbuement: 0
   temporaryAirImbuementStacks: 0
+  infuse: 0
+  infuseStacks: 0
+  purity: 0
+  purityStacks: 0
+  recklessness: 0
+  recklessnessStacks: 0
+  testudo: 0
+  testudoStacks: 0
+  rapidCloaking: 0
+  rapidCloakingStacks: 0
+  concentration: 0
+  concentrationStacks: 0
+  transcendence: 0
+  transcendenceStacks: 0
+  invincible: 0
+  invincibleStacks: 0
   immobilized: 0
   immobilizedStacks: 0
   blind: 0
@@ -317,6 +347,10 @@ MonoBehaviour:
   shockedStacks: 0
   sleep: 0
   sleepStacks: 0
+  taunted: 0
+  tauntedStacks: 0
+  sharpenedBlade: 0
+  sharpenedBladeStacks: 0
   unleashed: 0
   unleashedStacks: 0
   unstoppable: 0
@@ -357,6 +391,8 @@ MonoBehaviour:
   stormLordStacks: 0
   nimble: 0
   nimbleStacks: 0
+  perfectReflexes: 0
+  perfectReflexesStacks: 0
   masochist: 0
   masochistStacks: 0
   slippery: 0
@@ -365,8 +401,6 @@ MonoBehaviour:
   lastStandStacks: 0
   riposte: 0
   riposteStacks: 0
-  perfectReflexes: 0
-  perfectreflexesStacks: 0
   shatter: 0
   shatterStacks: 0
   etherealBeing: 0
@@ -399,8 +433,6 @@ MonoBehaviour:
   tenaciousStacks: 0
   fading: 0
   fadingStacks: 0
-  radiance: 0
-  radianceStacks: 0
   hawkEye: 0
   hawkEyeStacks: 0
   opportunist: 0
@@ -425,7 +457,7 @@ MonoBehaviour:
   shadowAuraStacks: 0
   preparation: 0
   preparationStacks: 0
-  poisonImmunity: 0
+  poisonedImmunity: 0
   soulLink: 0
   lightningShield: 0
   lightningShieldStacks: 0
@@ -477,8 +509,10 @@ MonoBehaviour:
   baseCriticalChance: 0
   baseDodgeChance: 0
   baseParryChance: 0
+  baseAuraSize: 1
   baseStartingBlock: 0
   baseStartingEnergyBonus: 0
+  baseMaxPowersCount: 0
   basePhysicalResistance: 0
   baseFireResistance: 0
   baseFrostResistance: 0
@@ -499,6 +533,8 @@ MonoBehaviour:
   currentCriticalChance: 5
   currentDodgeChance: 0
   currentParryChance: 0
+  currentAuraSize: 0
+  currentMaxPowersCount: 0
   currentBlock: 0
   currentPhysicalResistance: 0
   currentFireResistance: 0
@@ -511,6 +547,7 @@ MonoBehaviour:
   tile: {fileID: 0}
   myCurrentTarget: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
+  activePowers: []
   speed: 3
   mouseIsOverStatusIconPanel: 0
   mouseIsOverCharacter: 0
@@ -524,6 +561,7 @@ MonoBehaviour:
   highlightColour: {r: 1, g: 1, b: 1, a: 1}
   myRangedAttackFinished: 0
   hasActivatedThisTurn: 0
+  myTaunter: {fileID: 0}
   myDeathAnimationFinished: 0
   myOnActivationEndEffectsFinished: 0
   myInfoPanel: {fileID: 8089505841474664817}

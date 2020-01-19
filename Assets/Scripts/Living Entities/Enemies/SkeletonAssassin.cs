@@ -44,7 +44,7 @@ public class SkeletonAssassin : Enemy
             EntityLogic.IsAbilityUseable(this, twinStrike))
         {
             SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike");
             yield return new WaitForSeconds(0.5f);
 
             Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
@@ -59,7 +59,7 @@ public class SkeletonAssassin : Enemy
             EntityLogic.IsAbilityUseable(this, strike)) 
         {
             SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
             yield return new WaitForSeconds(0.5f);
             
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
@@ -79,7 +79,7 @@ public class SkeletonAssassin : Enemy
         {
             SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
 
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dash", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dash");
             yield return new WaitForSeconds(0.5f);
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, dash.abilityPrimaryValue);
@@ -101,7 +101,7 @@ public class SkeletonAssassin : Enemy
         {
             SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
             
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
@@ -120,7 +120,7 @@ public class SkeletonAssassin : Enemy
             EntityLogic.IsAbilityUseable(this, twinStrike))
         {
             SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike");
             yield return new WaitForSeconds(0.5f);
 
             Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
@@ -135,7 +135,7 @@ public class SkeletonAssassin : Enemy
             EntityLogic.IsAbilityUseable(this, strike))
         {
             SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
             yield return new WaitForSeconds(0.5f);
 
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);

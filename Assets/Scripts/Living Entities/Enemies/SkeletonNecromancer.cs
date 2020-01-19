@@ -47,7 +47,7 @@ public class SkeletonNecromancer : Enemy
             EntityLogic.IsAbilityUseable(this,move)
             )
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
             Action movementAction = AbilityLogic.Instance.PerformMove(this, EntityLogic.GetValidGrassTileWithinRange(this, EntityLogic.GetTotalMobility(this)));
@@ -63,7 +63,7 @@ public class SkeletonNecromancer : Enemy
             )
         {
             SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Blight", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Blight");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformBlight(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -75,7 +75,7 @@ public class SkeletonNecromancer : Enemy
         // Summon skeletons
         else if (EntityLogic.IsAbilityUseable(this, summonUndead))
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Summon Undead", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Summon Undead");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformSummonUndead(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -93,7 +93,7 @@ public class SkeletonNecromancer : Enemy
         {
             SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
 
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, blight.abilityRange, EntityLogic.GetTotalMobility(this));

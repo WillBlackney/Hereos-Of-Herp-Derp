@@ -43,7 +43,7 @@ public class SkeletonArcher : Enemy
             Debug.Log("Skeleton Archer using Impaling Bolt...");
             SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
             // VFX notification
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Impaling Bolt", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Impaling Bolt");
             yield return new WaitForSeconds(0.5f);
 
             Action action = AbilityLogic.Instance.PerformImpalingBolt(this, myCurrentTarget);
@@ -61,7 +61,7 @@ public class SkeletonArcher : Enemy
             EntityLogic.IsAbilityUseable(this, shoot))
         {
             SetTargetDefender(EntityLogic.GetMostVulnerableEnemy(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformShoot(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -76,7 +76,7 @@ public class SkeletonArcher : Enemy
             EntityLogic.IsAbilityUseable(this, shoot))
         {
             SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformShoot(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -91,7 +91,7 @@ public class SkeletonArcher : Enemy
             EntityLogic.IsAbilityUseable(this, shoot))
         {
             SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformShoot(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -115,7 +115,7 @@ public class SkeletonArcher : Enemy
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, EntityLogic.GetTotalMobility(this));
             
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
@@ -135,7 +135,7 @@ public class SkeletonArcher : Enemy
             tile.myTileType != Tile.TileType.Grass
             )
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
             Action movementAction = AbilityLogic.Instance.PerformMove(this, EntityLogic.GetValidGrassTileWithinRange(this, EntityLogic.GetTotalMobility(this)));

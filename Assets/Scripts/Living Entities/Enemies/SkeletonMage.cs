@@ -43,7 +43,7 @@ public class SkeletonMage : Enemy
         {            
             SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
             // VFX notification
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Frost Bolt", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Frost Bolt");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformFrostBolt(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -59,7 +59,7 @@ public class SkeletonMage : Enemy
             EntityLogic.IsAbilityUseable(this, fireBall))
         {
             SetTargetDefender(EntityLogic.GetMostVulnerableEnemy(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -74,7 +74,7 @@ public class SkeletonMage : Enemy
             EntityLogic.IsAbilityUseable(this, fireBall))
         {
             SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -88,7 +88,7 @@ public class SkeletonMage : Enemy
             EntityLogic.IsAbilityUseable(this, fireBall))
         {
             SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -108,7 +108,7 @@ public class SkeletonMage : Enemy
         {
             SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
             
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, fireBall.abilityRange, EntityLogic.GetTotalMobility(this));

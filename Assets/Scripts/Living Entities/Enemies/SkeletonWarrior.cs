@@ -43,7 +43,7 @@ public class SkeletonWarrior : Enemy
         else if(EntityLogic.IsTargetInRange(this, GetBestInspireTarget(),inspire.abilityRange) &&
             EntityLogic.IsAbilityUseable(this,inspire))
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Inspire", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Inspire");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformInspire(this, GetBestInspireTarget());
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -55,7 +55,7 @@ public class SkeletonWarrior : Enemy
         else if (GetBestInspireTargetInRange(inspire.abilityRange) != null &&
             EntityLogic.IsAbilityUseable(this,inspire))
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Inspire", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Inspire");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformInspire(this, GetBestInspireTargetInRange(inspire.abilityRange));
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -68,7 +68,7 @@ public class SkeletonWarrior : Enemy
         else if(GetBestBarrierTargetInRange(guard.abilityRange) != null &&
             EntityLogic.IsAbilityUseable(this, guard))
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Guard", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Guard");
             yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformGuard(this, GetBestBarrierTargetInRange(guard.abilityRange));
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -82,7 +82,7 @@ public class SkeletonWarrior : Enemy
             EntityLogic.IsAbilityUseable(this, strike))
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
             yield return new WaitForSeconds(0.5f);
 
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
@@ -101,7 +101,7 @@ public class SkeletonWarrior : Enemy
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
 
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));

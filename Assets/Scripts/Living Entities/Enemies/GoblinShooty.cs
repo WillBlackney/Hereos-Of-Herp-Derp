@@ -39,7 +39,7 @@ public class GoblinShooty : Enemy
         else if (EntityLogic.IsAbilityUseable(this, shoot) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, shoot.abilityRange))
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot");
             yield return new WaitForSeconds(0.5f);
 
             Action action = AbilityLogic.Instance.PerformShoot(this, myCurrentTarget);
@@ -59,7 +59,7 @@ public class GoblinShooty : Enemy
         {
             SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
 
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, EntityLogic.GetTotalMobility(this));           

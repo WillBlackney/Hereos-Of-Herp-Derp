@@ -53,7 +53,7 @@ public class Vampire : Enemy
             )
         {
             //SetTargetDefender(GetClosestDefender());
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Siphon Life", false));
+           VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Siphon Life");
             yield return new WaitForSeconds(0.5f);
             Action slAction = AbilityLogic.Instance.PerformSiphonLife(this, myCurrentTarget);
             yield return new WaitUntil(() => slAction.ActionResolved() == true);
@@ -68,7 +68,7 @@ public class Vampire : Enemy
             )
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Siphon Life", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Siphon Life");
             yield return new WaitForSeconds(0.5f);
             Action slAction = AbilityLogic.Instance.PerformSiphonLife(this, myCurrentTarget);
             yield return new WaitUntil(() => slAction.ActionResolved() == true);
@@ -82,7 +82,7 @@ public class Vampire : Enemy
             EntityLogic.IsAbilityUseable(this, twinStrike))
         {
             //SetTargetDefender(GetDefenderWithLowestCurrentHP());
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike");
             yield return new WaitForSeconds(0.5f);
             Action twinStrikeAction = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => twinStrikeAction.ActionResolved() == true);
@@ -95,7 +95,7 @@ public class Vampire : Enemy
             EntityLogic.IsAbilityUseable(this, strike))
         {
             //SetTargetDefender(GetDefenderWithLowestCurrentHP());
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
             yield return new WaitForSeconds(0.5f);
             Action strikeAction = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => strikeAction.ActionResolved() == true);
@@ -112,7 +112,7 @@ public class Vampire : Enemy
             )
         {
             
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dash", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dash");
             yield return new WaitForSeconds(0.5f);
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, dash.abilityPrimaryValue);
@@ -132,7 +132,7 @@ public class Vampire : Enemy
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move", false));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
