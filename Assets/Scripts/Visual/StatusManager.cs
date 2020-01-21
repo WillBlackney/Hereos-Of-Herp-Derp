@@ -59,12 +59,17 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
     public void AddNewStatusIcon(StatusIconDataSO iconData, int stacksGained)
     {
-        Debug.Log("StatusManager.AddNewStatusProcess() called");
-        GameObject newIconGO = Instantiate(statusIconPrefab, gameObject.transform);
-        StatusIcon newStatus = newIconGO.GetComponent<StatusIcon>();
-        newStatus.InitializeSetup(iconData);
-        newStatus.ModifyStatusIconStacks(stacksGained);
-        myStatusIcons.Add(newStatus);
+        // only create an icon if the the effects' stacks are at least 1 or -1
+        if(stacksGained != 0)
+        {
+            Debug.Log("StatusManager.AddNewStatusProcess() called");
+            GameObject newIconGO = Instantiate(statusIconPrefab, gameObject.transform);
+            StatusIcon newStatus = newIconGO.GetComponent<StatusIcon>();
+            newStatus.InitializeSetup(iconData);
+            newStatus.ModifyStatusIconStacks(stacksGained);
+            myStatusIcons.Add(newStatus);
+        }
+        
 
     }
     public void RemoveStatusIcon(StatusIcon iconToRemove)

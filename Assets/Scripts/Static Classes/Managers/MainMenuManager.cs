@@ -54,10 +54,13 @@ public class MainMenuManager : Singleton<MainMenuManager>
         {
             if (character.currentSelectedCharacter == "Random")
             {
+                character.currentSelectedCharacter = "Warrior";
+                /*
                 while (chosenClasses.Contains(character.currentSelectedCharacter))
                 {
                     character.currentSelectedCharacter = GetRandomClassString();
                 }
+                */
             }
         }
 

@@ -422,6 +422,7 @@ public class AbilityLogic : MonoBehaviour
     // Parry Attack
     public Action PerformRiposteAttack(LivingEntity attacker, LivingEntity victim)
     {
+        Debug.Log("AbilityLogic.PerformRiposteAttack() called...");
         Action action = new Action();
         StartCoroutine(PerformRiposteAttackCoroutine(attacker, victim, action));
         return action;
@@ -429,11 +430,13 @@ public class AbilityLogic : MonoBehaviour
     private IEnumerator PerformRiposteAttackCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
     {
         // Make sure character actually knows strike, has a melee weapon, and the target is not in death process
-        if (attacker.mySpellBook.GetAbilityByName("Strike") != null &&
-           victim.inDeathProcess == false &&
-           (attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand || attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeTwoHand)
+        if (true
+           // attacker.mySpellBook.GetAbilityByName("Strike") != null &&
+          // victim.inDeathProcess == false &&
+           //(attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand || attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeTwoHand)
             )
         {
+            Debug.Log(attacker.name + " meets the requirments of a riposte attack, starting riposte process...");
             // Set up properties
             Ability strike = attacker.mySpellBook.GetAbilityByName("Strike");
             bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, strike);
@@ -457,6 +460,11 @@ public class AbilityLogic : MonoBehaviour
             if (attacker.myPassiveManager.camoflage)
             {
                 attacker.myPassiveManager.ModifyCamoflage(-1);
+            }
+            // Remove Sharpened Blade
+            if (attacker.myPassiveManager.sharpenedBlade)
+            {
+                attacker.myPassiveManager.ModifySharpenedBlade(-attacker.myPassiveManager.sharpenedBladeStacks);
             }
 
         }
@@ -3409,7 +3417,7 @@ public class AbilityLogic : MonoBehaviour
         // Pay energy cost
         OnAbilityUsedStart(blindingLight, attacker);
 
-        // Resolve hits against targets
+        // Resolve damage against targets hit
         foreach (LivingEntity entity in targetsInBlastRadius)
         {
             bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, blindingLight);
@@ -3421,15 +3429,21 @@ public class AbilityLogic : MonoBehaviour
             }
 
             // Deal Damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, blindingLight);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, blindingLight);            
+        }
 
-            // Apply Poisoned
+        // Brief delay between damage VFX and Blind VFX
+        yield return new WaitForSeconds(0.5f);
+
+        // Blind all targets hit
+        foreach (LivingEntity entity in targetsInBlastRadius)
+        {
+            // Apply Blind
             if (entity.inDeathProcess == false)
             {
                 entity.myPassiveManager.ModifyBlind(1);
             }
         }
-
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
 
@@ -3479,21 +3493,21 @@ public class AbilityLogic : MonoBehaviour
         if (target.myPassiveManager.weakened)
         {
             target.myPassiveManager.ModifyWeakened(-target.myPassiveManager.weakenedStacks);
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.5f);
         }
 
         // Remove Vulnerable
         if (target.myPassiveManager.vulnerable)
         {
             target.myPassiveManager.ModifyVulnerable(-target.myPassiveManager.vulnerableStacks);
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.5f);
         }
 
         // Remove Stunned
         if (target.myPassiveManager.stunned)
         {
             target.myPassiveManager.ModifyStunned(-target.myPassiveManager.stunnedStacks);
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.5f);
         }
 
         // Resolve
@@ -3651,6 +3665,7 @@ public class AbilityLogic : MonoBehaviour
                 target.myPassiveManager.ModifyWeakened(1);
                 yield return new WaitForSeconds(0.5f);
                 target.myPassiveManager.ModifyVulnerable(1);
+                yield return new WaitForSeconds(0.5f);
             }
         }
 
@@ -3718,10 +3733,11 @@ public class AbilityLogic : MonoBehaviour
             // Deal Damage
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, rainOfChaos);
 
-            // Apply Poisoned
+            // Apply Weakened
             if (entity.inDeathProcess == false)
             {
                 entity.myPassiveManager.ModifyWeakened(1);
+                yield return new WaitForSeconds(0.5f);
             }
         }
 
@@ -3773,6 +3789,7 @@ public class AbilityLogic : MonoBehaviour
 
         // Apply Weakened
         target.myPassiveManager.ModifyWeakened(1);
+        yield return new WaitForSeconds(0.5f);
 
         // Apply Vulnerable
         target.myPassiveManager.ModifyVulnerable(1);

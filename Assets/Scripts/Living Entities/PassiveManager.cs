@@ -54,7 +54,7 @@ public class PassiveManager : MonoBehaviour
     public int temporaryBonusDodgeStacks;
 
     public bool temporaryTrueSight;
-    public int temporaryBonusTrueSightStacks;
+    public int temporaryTrueSightStacks;
 
     public bool temporaryHawkEye;
     public int temporaryHawkEyeStacks;
@@ -172,7 +172,7 @@ public class PassiveManager : MonoBehaviour
     public bool unwavering;
     public int unwaveringStacks;
 
-    public bool unfallible;
+    public bool infallible;
     public int unfallibleStacks;
 
     public bool incorruptable;
@@ -366,6 +366,7 @@ public class PassiveManager : MonoBehaviour
 
         if (stacks > 0 && unleashed)
         {
+            stacks = 0;
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Immobilized Immune");
         }
 
@@ -403,6 +404,7 @@ public class PassiveManager : MonoBehaviour
 
         if (unstoppable && stacks > 0)
         {
+            stacks = 0;
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Stun Immune!");
         }
 
@@ -438,8 +440,9 @@ public class PassiveManager : MonoBehaviour
         Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyBlind() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Blind");
 
-        if(stacks > 0 && unfallible)
+        if(stacks > 0 && infallible)
         {
+            stacks = 0;
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Blind Immune");
         }
 
@@ -475,8 +478,9 @@ public class PassiveManager : MonoBehaviour
         Debug.Log(myLivingEntity.name + ".PassiveManager.ModifySilenced() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Silenced");
 
-        if (stacks > 0 && unfallible)
+        if (stacks > 0 && infallible)
         {
+            stacks = 0;
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Silence Immune");
         }
 
@@ -512,8 +516,9 @@ public class PassiveManager : MonoBehaviour
         Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyDisarmed() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Disarmed");
 
-        if (stacks > 0 && unfallible)
+        if (stacks > 0 && infallible)
         {
+            stacks = 0;
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Disarm Immune" );
         }
 
@@ -585,10 +590,11 @@ public class PassiveManager : MonoBehaviour
 
         if (unstoppable && stacks > 0)
         {
+            stacks = 0;
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Sleep Immune!");
         }
 
-        if (stacks > 0)
+        else if (stacks > 0)
         {
             if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity))
             {
@@ -597,7 +603,7 @@ public class PassiveManager : MonoBehaviour
                 {
                     sleep = true;
                 }
-                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Sleep" + stacks.ToString());
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Sleep");
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
 
             }
@@ -623,15 +629,17 @@ public class PassiveManager : MonoBehaviour
 
         if (stacks > 0 && incorruptable)
         {
+            stacks = 0;
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Vulnerable Immune");
         }
 
-        if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
+        else if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
         {
             vulnerableStacks += stacks;
             if (vulnerableStacks > 0)
             {
                 vulnerable = true;
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Vulnerable!");
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
@@ -642,6 +650,7 @@ public class PassiveManager : MonoBehaviour
             if (vulnerableStacks <= 0)
             {
                 vulnerable = false;
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Vulnerable Removed");
             }
         }
 
@@ -654,15 +663,17 @@ public class PassiveManager : MonoBehaviour
 
         if (stacks > 0 && incorruptable)
         {
+            stacks = 0;
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Weakened Immune");
         }
 
-        if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
+        else if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity) && stacks > 0)
         {
             weakenedStacks += stacks;
             if (weakenedStacks > 0)
             {
                 weakened = true;
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Weakened!");
                 StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
@@ -673,6 +684,7 @@ public class PassiveManager : MonoBehaviour
             if (weakenedStacks <= 0)
             {
                 weakened = false;
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Weakened Removed");
             }
         }
 
@@ -724,7 +736,7 @@ public class PassiveManager : MonoBehaviour
                 if (shockedStacks > 0)
                 {
                     shocked = true;
-                    VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Shocked");
+                    VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Shocked!");
                     StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
                 }
             }
@@ -894,12 +906,15 @@ public class PassiveManager : MonoBehaviour
             bonusStrengthStacks += stacks;
             if (bonusStrengthStacks > 0)
             {
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Strength + " + stacks.ToString());
+                StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
                 bonusStrength = true;
             }
         }
 
         else if (stacks < 0)
         {
+            StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(myLivingEntity.transform.position));
             bonusStrengthStacks += stacks;
             if (bonusStrengthStacks <= 0)
             {
@@ -1136,18 +1151,20 @@ public class PassiveManager : MonoBehaviour
 
         if (stacks > 0)
         {
-            temporaryBonusTrueSightStacks += stacks;
-            if (temporaryBonusTrueSightStacks > 0)
+            temporaryTrueSightStacks += stacks;
+            if (temporaryTrueSightStacks > 0)
             {
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "True Sight!");
                 temporaryTrueSight = true;
             }
         }
 
         else if (stacks < 0)
         {
-            temporaryBonusTrueSightStacks += stacks;
-            if (temporaryBonusTrueSightStacks <= 0)
+            temporaryTrueSightStacks += stacks;
+            if (temporaryTrueSightStacks <= 0)
             {
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "True Sight Removed");
                 temporaryTrueSight = false;
             }
         }
@@ -1913,7 +1930,6 @@ public class PassiveManager : MonoBehaviour
             {
                 concentration = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Concentration");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
 
@@ -1922,12 +1938,17 @@ public class PassiveManager : MonoBehaviour
             concentrationStacks += stacks;
             if (concentrationStacks <= 0)
             {
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Concentration Removed");
                 concentrationStacks = 0;
                 concentration = false;
             }
         }
 
-        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+        if (stacks != 0)
+        {
+            myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+        }
+       
     }
     public void ModifyInfuse(int stacks)
     {
@@ -2392,7 +2413,7 @@ public class PassiveManager : MonoBehaviour
         Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyUnfallible() called, stacks = " + stacks.ToString());
 
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Unfallible");
-        unfallible = true;
+        infallible = true;
         unfallibleStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, 1);
     }
@@ -2575,7 +2596,11 @@ public class PassiveManager : MonoBehaviour
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Perfect Aim");
         perfectAim = true;
         perfectAimStacks += stacks;
-        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+        if(stacks > 0)
+        {
+            myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+        }
+        
     }
     public void ModifyVenomous(int stacks)
     {

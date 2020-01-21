@@ -165,11 +165,15 @@ public class LivingEntity : MonoBehaviour
             baseStartingHealth = (int) (baseMaxHealth * 0.8f);
         }
 
+        // remove later when we've made characters base power = 1 in the inspector
         baseMaxPowersCount++;
+
         currentHealth = baseStartingHealth;
         currentMaxEnergy = baseMaxEnergy;
         currentStamina = baseStamina;              
-        currentMeleeRange = baseMeleeRange;  
+        currentMeleeRange = baseMeleeRange;
+
+        //currentHealth = 10;
         
         ModifyCurrentStrength(baseStrength);
         ModifyCurrentWisdom(baseWisdom);
@@ -192,7 +196,9 @@ public class LivingEntity : MonoBehaviour
         //ModifyCurrentStrength(2);
         //ModifyCurrentWisdom(2);
         //ModifyCurrentDexterity(2);
-        ModifyCurrentAuraSize(1);
+        // ModifyCurrentAuraSize(1);
+        //ModifyCurrentParryChance(100);
+        //ModifyCurrentDodgeChance(100);
 
         // Modify items
         ItemManager.Instance.AssignWeaponToCharacter(this, ItemLibrary.Instance.GetItemByName("Simple Sword"));
@@ -202,76 +208,77 @@ public class LivingEntity : MonoBehaviour
         // Modify Passives
 
         // Debuffs
-        //myPassiveManager.ModifyBlind(1);
-        //myPassiveManager.ModifyDisarmed(1);
+      //  myPassiveManager.ModifyBlind(1);
+      //  myPassiveManager.ModifyDisarmed(1);
         //myPassiveManager.ModifyStunned(1);
-       // myPassiveManager.ModifySilenced(1);
-       // myPassiveManager.ModifySleep(1);
-       // myPassiveManager.ModifyTerrified(1);
-       // myPassiveManager.ModifyImmobilized(1);
-      //  myPassiveManager.ModifyVulnerable(1);
-       // myPassiveManager.ModifyWeakened(1);
-       // myPassiveManager.ModifyChilled(1);
-       // myPassiveManager.ModifyShocked(1);
-       // myPassiveManager.ModifyPoisoned(1);
-       // myPassiveManager.ModifyBurning(1);
-       // myPassiveManager.ModifyFading(1);
+      //  myPassiveManager.ModifySilenced(1);
+        // myPassiveManager.ModifySleep(1);
+       //  myPassiveManager.ModifyTerrified(1);
+       //  myPassiveManager.ModifyImmobilized(1);
+        //myPassiveManager.ModifyVulnerable(1);
+        // myPassiveManager.ModifyWeakened(1);
+        // myPassiveManager.ModifyChilled(1);
+        // myPassiveManager.ModifyShocked(1);
+        // myPassiveManager.ModifyPoisoned(1);
+        // myPassiveManager.ModifyBurning(1);
+        //myPassiveManager.ModifyFading(10);
 
         // Core stat buffs
-       // myPassiveManager.ModifyBonusStrength(2);
-       // myPassiveManager.ModifyBonusWisdom(2);
-       // myPassiveManager.ModifyBonusStamina(20);
+        // myPassiveManager.ModifyBonusStrength(2);
+        // myPassiveManager.ModifyBonusWisdom(2);
+        // myPassiveManager.ModifyBonusStamina(20);
         //myPassiveManager.ModifyBonusInitiative(2);
-       // myPassiveManager.ModifyBonusMobility(2);
-       // myPassiveManager.ModifyBonusDexterity(2);
+        // myPassiveManager.ModifyBonusMobility(2);
+        // myPassiveManager.ModifyBonusDexterity(2);
 
         // Core stat temp buffs
-      //  myPassiveManager.ModifyTemporaryStrength(2);
-       // myPassiveManager.ModifyTemporaryWisdom(2);
-       // myPassiveManager.ModifyTemporaryStamina(20);
-       // myPassiveManager.ModifyTemporaryInitiative(2);
-       // myPassiveManager.ModifyTemporaryMobility(2);
-       // myPassiveManager.ModifyTemporaryDexterity(2);
-       // myPassiveManager.ModifyTemporaryParry(50);
-      //  myPassiveManager.ModifyTemporaryDodge(50);
+        //  myPassiveManager.ModifyTemporaryStrength(2);
+        // myPassiveManager.ModifyTemporaryWisdom(2);
+        // myPassiveManager.ModifyTemporaryStamina(20);
+        // myPassiveManager.ModifyTemporaryInitiative(2);
+        // myPassiveManager.ModifyTemporaryMobility(2);
+        // myPassiveManager.ModifyTemporaryDexterity(2);
+        // myPassiveManager.ModifyTemporaryParry(50);
+        //  myPassiveManager.ModifyTemporaryDodge(50);
 
         // Temp Buffs
-       // myPassiveManager.ModifySharpenedBlade(1);
-       // myPassiveManager.ModifyCamoflage(1);
-       // myPassiveManager.ModifyPreparation(1);
-       // myPassiveManager.ModifyTemporaryTrueSight(1);
-       // myPassiveManager.ModifyTemporaryHawkEyeBonus(2);
-       // myPassiveManager.ModifyTranscendence(1);
-      //  myPassiveManager.ModifyOverwatch(1);
+        //  myPassiveManager.ModifySharpenedBlade(1);
+        // myPassiveManager.ModifyCamoflage(1);
+        // myPassiveManager.ModifyPreparation(1);
+        // myPassiveManager.ModifyTemporaryTrueSight(1);
+        // myPassiveManager.ModifyTemporaryHawkEyeBonus(2);
+        // myPassiveManager.ModifyTranscendence(1);
+        //  myPassiveManager.ModifyOverwatch(1);
         //myPassiveManager.ModifyBarrier(1);
         //myPassiveManager.ModifyTimeWarp(1);
 
         // Permanent Buffs (Non Stacking)       
-        //myPassiveManager.ModifyStealth(1);
-       // myPassiveManager.ModifyPatientStalker(1);
-        //myPassiveManager.ModifyPredator(1);
-        //myPassiveManager.ModifyUndead();
-       // myPassiveManager.ModifyPoisonImmunity();
-       // myPassiveManager.ModifyNimble(1);
-       // myPassiveManager.ModifyPerfectReflexes(1);
-       // myPassiveManager.ModifyMasochist(1);
-       // myPassiveManager.ModifySlippery(1);
-       // myPassiveManager.ModifyLastStand(1);
-       // myPassiveManager.ModifyRiposte(1);
+        // myPassiveManager.ModifyStealth(1);
+        // myPassiveManager.ModifyPatientStalker(1);
+        // myPassiveManager.ModifyPredator(1);
+       // myPassiveManager.ModifyUndead();
+        // myPassiveManager.ModifyPoisonImmunity();
+        // myPassiveManager.ModifyNimble(1);
+        //  myPassiveManager.ModifyPerfectReflexes(1);
+        // myPassiveManager.ModifyMasochist(1);
+        // myPassiveManager.ModifySlippery(1);
+        // myPassiveManager.ModifyLastStand(1);
+        // myPassiveManager.ModifyRiposte(1);
+       // myPassiveManager.ModifyLifeSteal(1);
        // myPassiveManager.ModifyShatter(1);
        // myPassiveManager.ModifyEtherealBeing(1);
-      //  myPassiveManager.ModifyFlux(1);
+       // myPassiveManager.ModifyFlux(1);
        // myPassiveManager.ModifyPhasing(1);
       //  myPassiveManager.ModifyTrueSight(1);
-      //  myPassiveManager.ModifyPerfectAim(1);
+       // myPassiveManager.ModifyPerfectAim(1);
 
         // Permanent Buffs (Stacking)
        // myPassiveManager.ModifyEnrage(2);
        // myPassiveManager.ModifyThorns(5);
        // myPassiveManager.ModifyOpportunist(50);
-       // myPassiveManager.ModifyVolatile(5);
+        //myPassiveManager.ModifyVolatile(5);
        // myPassiveManager.ModifyCautious(5);
-      //  myPassiveManager.ModifyGrowing(2);        
+       // myPassiveManager.ModifyGrowing(2);        
        // myPassiveManager.ModifyPoisonous(1);
       //  myPassiveManager.ModifyImmolation(1);
       //  myPassiveManager.ModifyRegeneration(3);
@@ -284,52 +291,56 @@ public class LivingEntity : MonoBehaviour
        // myPassiveManager.ModifyUnleashed(1);
        // myPassiveManager.ModifyUnstoppable(1);
        // myPassiveManager.ModifyInfallible(1);
-       // myPassiveManager.ModifyIncorruptable(1);
-       // myPassiveManager.ModifyUnwavering(1);
+        // myPassiveManager.ModifyIncorruptable(1);
+        // myPassiveManager.ModifyUnwavering(1);
+
+       // myPassiveManager.ModifyVulnerable(1);
+         //myPassiveManager.ModifyWeakened(1);
+
 
         // Permanent Imbuements
         //myPassiveManager.ModifyAirImbuement(1);
-       // myPassiveManager.ModifyFireImbuement(1);
-       // myPassiveManager.ModifyPoisonImbuement(1);
-       // myPassiveManager.ModifyShadowImbuement(1);
-      //  myPassiveManager.ModifyFrostImbuement(1);
+        // myPassiveManager.ModifyFireImbuement(1);
+        // myPassiveManager.ModifyPoisonImbuement(1);
+        // myPassiveManager.ModifyShadowImbuement(1);
+        //  myPassiveManager.ModifyFrostImbuement(1);
 
         // Temp Imbuements
-       // myPassiveManager.ModifyAirImbuement(1);
-       // myPassiveManager.ModifyFireImbuement(1);
-       // myPassiveManager.ModifyPoisonImbuement(1);
-       // myPassiveManager.ModifyShadowImbuement(1);
-      //  myPassiveManager.ModifyFrostImbuement(1);
+        // myPassiveManager.ModifyAirImbuement(1);
+        // myPassiveManager.ModifyFireImbuement(1);
+        // myPassiveManager.ModifyPoisonImbuement(1);
+        // myPassiveManager.ModifyShadowImbuement(1);
+        //  myPassiveManager.ModifyFrostImbuement(1);
 
         // Power passives
-       // myPassiveManager.ModifyPurity(1);
-       // myPassiveManager.ModifyRecklessness(1);
-       // myPassiveManager.ModifyTestudo(1);
-       // myPassiveManager.ModifyConcentration(1);
-       // myPassiveManager.ModifyInfuse(1);
-      //  myPassiveManager.ModifyRapidCloaking(1);
+        // myPassiveManager.ModifyPurity(1);
+        // myPassiveManager.ModifyRecklessness(1);
+        // myPassiveManager.ModifyTestudo(1);
+        // myPassiveManager.ModifyConcentration(1);
+        // myPassiveManager.ModifyInfuse(1);
+        //  myPassiveManager.ModifyRapidCloaking(1);
 
         // Auras
-       // myPassiveManager.ModifyEncouragingAura(10);
-       // myPassiveManager.ModifyStormAura(3);
-       // myPassiveManager.ModifyToxicAura(5);
-       // myPassiveManager.ModifyHatefulAura(1);
-       // myPassiveManager.ModifyFieryAura(3);
-       // myPassiveManager.ModifyGuardianAura(3);
-        //myPassiveManager.ModifySacredAura(1);
-      //  myPassiveManager.ModifyShadowAura(1);
-       // myPassiveManager.ModifySoulDrainAura(1);
+       //  myPassiveManager.ModifyEncouragingAura(10);
+        // myPassiveManager.ModifyStormAura(3);
+        // myPassiveManager.ModifyToxicAura(5);
+        // myPassiveManager.ModifyHatefulAura(2);
+        // myPassiveManager.ModifyFieryAura(3);
+        // myPassiveManager.ModifyGuardianAura(3);
+        // myPassiveManager.ModifySacredAura(1);
+        // myPassiveManager.ModifyShadowAura(1);
+        // myPassiveManager.ModifySoulDrainAura(1);
 
         // Forms
-       // myPassiveManager.ModifyShadowForm(1);
-       // myPassiveManager.ModifyDemon(1);
-       // myPassiveManager.ModifyToxicity(1);
-       // myPassiveManager.ModifyStormLord(1);
-       // myPassiveManager.ModifyFrozenHeart(1);
+        // myPassiveManager.ModifyShadowForm(1);
+        // myPassiveManager.ModifyDemon(1);
+        // myPassiveManager.ModifyToxicity(1);
+        // myPassiveManager.ModifyStormLord(1);
+        // myPassiveManager.ModifyFrozenHeart(1);
 
     }
-    
-    #endregion    
+
+    #endregion
 
     // Stat and property modifiers
     #region
@@ -372,9 +383,17 @@ public class LivingEntity : MonoBehaviour
     {
         int originalHealth = currentHealth;
         currentHealth += healthGainedOrLost;
+
+        // prevent health increasing over maximum
         if(currentHealth > currentMaxHealth)
         {
             currentHealth = currentMaxHealth;
+        }
+
+        // prevent health going less then 0
+        if(currentHealth < 0)
+        {
+            currentHealth = 0;
         }
 
         if(currentHealth > originalHealth)
@@ -530,6 +549,7 @@ public class LivingEntity : MonoBehaviour
         if (myPassiveManager.terrified)
         {
             Debug.Log("Unable to gain block: " + name + " is 'Terrified'");
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Terrified!");
         }
 
         if (currentBlock <= 0)
@@ -598,7 +618,9 @@ public class LivingEntity : MonoBehaviour
         LivingEntityManager.Instance.allLivingEntities.Remove(this);
 
         Defender defender = GetComponent<Defender>();
-        Enemy enemy = GetComponent<Enemy>();        
+        Enemy enemy = GetComponent<Enemy>();
+
+       // PlayDeathAnimation();
 
         if (myPassiveManager.Volatile)
         {
@@ -615,9 +637,12 @@ public class LivingEntity : MonoBehaviour
                 {
                     int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(this, entity, null, "Physical", false, myPassiveManager.volatileStacks);
                     Action volatileExplosion = CombatLogic.Instance.HandleDamage(finalDamageValue, this, entity, "Physical");
+                    //yield return new WaitForSeconds(0.1f);
                     yield return new WaitUntil(() => volatileExplosion.ActionResolved() == true);
                 }               
             }
+
+            yield return new WaitForSeconds(1);
         }
 
         // check for soul link and damage allies if they have it
@@ -672,7 +697,7 @@ public class LivingEntity : MonoBehaviour
         }
 
         DisableWorldSpaceCanvas();
-        Action destroyWindowAction = myActivationWindow.FadeOutWindow();        
+        Action destroyWindowAction = myActivationWindow.FadeOutWindow();
         PlayDeathAnimation();
         yield return new WaitUntil(() => MyDeathAnimationFinished() == true);
         Debug.Log("LivingEntity.HandleDeath() finished waiting for death anim to finish");
@@ -804,6 +829,7 @@ public class LivingEntity : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+        // Lightning Shield
         if (myPassiveManager.lightningShield)
         {
             myPassiveManager.lightningShield = false;
@@ -811,6 +837,7 @@ public class LivingEntity : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+        // Thick of the Fight
         if (myPassiveManager.thickOfTheFight)
         {
             int charactersInMyMeleeRange = 0;
@@ -872,7 +899,6 @@ public class LivingEntity : MonoBehaviour
         {
             Debug.Log("OnActivationEndCoroutine() clearing Weakened...");
             myPassiveManager.ModifyWeakened(-1);
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Weakened Removed");
             yield return new WaitForSeconds(1f);
         }
 
@@ -972,7 +998,7 @@ public class LivingEntity : MonoBehaviour
                     CombatLogic.Instance.IsTargetFriendly(this, entity))
                 {
                     Debug.Log("Character " + entity.name + " is within range of Encouraging presence, granting bonus Energy...");
-                    StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+                    StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(entity.transform.position));
                     entity.ModifyCurrentEnergy(myPassiveManager.encouragingAuraStacks);
                 }
             }            
@@ -1018,7 +1044,7 @@ public class LivingEntity : MonoBehaviour
                     CombatLogic.Instance.IsTargetFriendly(this, entity))
                 {
                     Debug.Log("Character " + entity.name + " is within range of Hateful Aura, granting bonus Strength...");
-                    entity.ModifyCurrentStrength(myPassiveManager.hatefulAuraStacks);
+                    entity.myPassiveManager.ModifyBonusStrength(myPassiveManager.hatefulAuraStacks);
                 }
             }
 
@@ -1165,7 +1191,7 @@ public class LivingEntity : MonoBehaviour
                     CombatLogic.Instance.IsTargetFriendly(this, entity))
                 {
                     Debug.Log("Character " + entity.name + " is within range of Sacred Aura, removing debuffs...");
-                    StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+                    StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(entity.transform.position));
                     
                     // Remove Immobilized
                     if (entity.myPassiveManager.immobilized)
@@ -1385,16 +1411,24 @@ public class LivingEntity : MonoBehaviour
         // Remove Terrified
         if (myPassiveManager.terrified)
         {
-            Debug.Log("OnActivationEndCoroutine() checking Temporary Bonus Terrified...");
+            Debug.Log("OnActivationEndCoroutine() checking Terrified...");
             myPassiveManager.ModifyTerrified(-myPassiveManager.terrifiedStacks);
+            yield return new WaitForSeconds(1f);
+        }
+
+        // Remove Temporary True Sight
+        if (myPassiveManager.temporaryTrueSight)
+        {
+            Debug.Log("OnActivationEndCoroutine() checking Temporary True Sight...");
+            myPassiveManager.ModifyTemporaryTrueSight(-myPassiveManager.temporaryTrueSightStacks);
             yield return new WaitForSeconds(1f);
         }
 
         // Resolve
         Debug.Log("OnActivationEndCoroutine() finished and resolving...");
         yield return new WaitForSeconds(1f);
-        action.actionResolved = true;
         myOnActivationEndEffectsFinished = true;
+        action.actionResolved = true;
 
     }
     public Action OnNewTurnCycleStarted()
@@ -1476,12 +1510,12 @@ public class LivingEntity : MonoBehaviour
     public Action StartPhasingMove()
     {
         Action action = new Action();
-        StartCoroutine(StartQuickReflexesMoveCoroutine(action));
+        StartCoroutine(StartPhasingMoveCoroutine(action));
         return action;
     }
-    public IEnumerator StartQuickReflexesMoveCoroutine(Action action)
+    public IEnumerator StartPhasingMoveCoroutine(Action action)
     {
-        // TO DO: prevent quick reflex movements from occuring on a characters own turn (only triggered during the enemies turn)
+        Debug.Log("StartPhasingMoveCoroutine() could not find a valid adjacent tile to teleport to...");
         if (ActivationManager.Instance.entityActivated != this)
         {           
             List<Tile> availableTiles = LevelManager.Instance.GetTilesWithinRange(2, tile);

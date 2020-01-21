@@ -87,10 +87,15 @@ public class Tile : MonoBehaviour
     #region
     private void OnMouseOver()
     {
-        LevelManager.Instance.mousedOverTile = this;
-        OnTileMousedOver();
+        //LevelManager.Instance.mousedOverTile = this;
+        //OnTileMouseEnter();
     }
-    public void OnTileMousedOver()
+    private void OnMouseEnter()
+    {
+        LevelManager.Instance.mousedOverTile = this;
+        OnTileMouseEnter();
+    }
+    public void OnTileMouseEnter()
     {
         if (PathRenderer.Instance.active && DefenderManager.Instance.selectedDefender != null)
         {

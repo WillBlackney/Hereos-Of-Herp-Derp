@@ -237,7 +237,7 @@ public class CombatLogic : MonoBehaviour
             // Opportunist
             if (attacker.myPassiveManager.opportunist)
             {
-                damageModifier += attacker.myPassiveManager.opportunistStacks / 100;
+                damageModifier += (float) attacker.myPassiveManager.opportunistStacks / 100;
                 Debug.Log("Damage percentage modifier after 'Opportunist' bonus: " + damageModifier.ToString());
             }
         }
@@ -418,19 +418,23 @@ public class CombatLogic : MonoBehaviour
 
         // Get total parry chance
         parryChanceReturned += EntityLogic.GetTotalParry(target);
+        Debug.Log(target.name + " total parry chance: " + parryChanceReturned.ToString() + "%");
 
         // Check for recklessness
         if (attacker.myPassiveManager.recklessness)
         {
+            Debug.Log(attacker.name + " has 'Recklessness' passive, reducing " + target.name + " parry chance to 0...");
             parryChanceReturned = 0;
         }
 
         // Cap Parry Chance at 80%
         if (parryChanceReturned > 80)
         {
+            Debug.Log(target.name + " has exceeded the parry chance cap, reducing to 80%...");
             parryChanceReturned = 80;
         }
 
+        Debug.Log("Final parry chance calculated for " + target.name +", being attacked by " + attacker.name + ": " + parryChanceReturned.ToString());
         return parryChanceReturned;
     }
     private int CalculateDodgeChance(LivingEntity target, LivingEntity attacker)
@@ -440,25 +444,30 @@ public class CombatLogic : MonoBehaviour
 
         // Get Total Dodge
         dodgeChanceReturned += EntityLogic.GetTotalDodge(target);
+        Debug.Log(target.name + " base Dodge chance: " + dodgeChanceReturned.ToString());
 
         // Check for Perfect aim
         if (attacker.myPassiveManager.perfectAim)
         {
+            Debug.Log(attacker.name + " has 'Perfect Aim' passive, reducing " + target.name + " dodge chance to 0...");
             dodgeChanceReturned = 0;
         }
 
         // Check for Concentration Power
         if (attacker.myPassiveManager.concentration)
         {
+            Debug.Log(attacker.name + " has 'Concentration' passive, reducing " + target.name + " dodge chance to 0...");
             dodgeChanceReturned = 0;
         }
 
         // Cap Dodge Chance at 80%
         if (dodgeChanceReturned > 80)
         {
+            Debug.Log(target.name + " has exceeded the dodge chance cap, reducing to 80%...");
             dodgeChanceReturned = 80;
         }
 
+        Debug.Log("Final dodge chance calculated for " + target.name + ", being attacked by " + attacker.name + ": " + dodgeChanceReturned.ToString());
         return dodgeChanceReturned;
     }
     public int CalculateBlockGainedByEffect(int baseBlockGain, LivingEntity caster)
@@ -562,6 +571,7 @@ public class CombatLogic : MonoBehaviour
         // Establish properties for this damage event
         int totalLifeLost = 0;
         int adjustedDamageValue = damageAmount;
+        int startingBlock = victim.currentBlock;
         int blockAfter = victim.currentBlock;
         int healthAfter = victim.currentHealth;
 
@@ -578,13 +588,14 @@ public class CombatLogic : MonoBehaviour
             }
         }
 
-        // Check for block
+        // Check for no block
         if (victim.currentBlock == 0)
         {
             healthAfter = victim.currentHealth - adjustedDamageValue;
             blockAfter = 0;
         }
 
+        // Check for block
         else if (victim.currentBlock > 0)
         {
             if(ignoreBlock == false)
@@ -602,6 +613,7 @@ public class CombatLogic : MonoBehaviour
                 }
             }            
 
+            // Check if damage event ignores block (poisoned, burning, pierce, etc)
             else if (ignoreBlock)
             {
                 blockAfter = victim.currentBlock;
@@ -617,19 +629,21 @@ public class CombatLogic : MonoBehaviour
             // Check for transcendence
             if (victim.myPassiveManager.transcendence)
             {
+                yield return new WaitForSeconds(0.5f);
+                VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Transcendence!");
                 adjustedDamageValue = 0;
-                healthAfter = victim.currentHealth;
-                yield return new WaitForSeconds(0.3f);
+                healthAfter = victim.currentHealth;                
             }
 
             // Check for barrier
             else if (victim.myPassiveManager.barrier && healthAfter < victim.currentHealth)
             {
+                yield return new WaitForSeconds(0.5f);
                 adjustedDamageValue = 0;
                 healthAfter = victim.currentHealth;
-                victim.myPassiveManager.ModifyBarrier(-1);
-                yield return new WaitForSeconds(0.3f);
+                victim.myPassiveManager.ModifyBarrier(-1);               
             }
+
         }           
 
         // Finished calculating the final damage, health lost and armor lost: p
@@ -640,7 +654,7 @@ public class CombatLogic : MonoBehaviour
         // Play VFX depending on whether the victim lost health, block, or was damaged by poison
         if (adjustedDamageValue > 0)
         {
-            if (totalLifeLost == 0)
+            if (totalLifeLost == 0 && blockAfter < startingBlock)
             {
                 // Create Lose Armor Effect
                 StartCoroutine(VisualEffectManager.Instance.CreateLoseBlockEffect(victim.transform.position, adjustedDamageValue));
@@ -649,6 +663,12 @@ public class CombatLogic : MonoBehaviour
             {
                 // Create Lose hp / damage effect
                 StartCoroutine(VisualEffectManager.Instance.CreateDamageEffect(victim.transform.position, totalLifeLost));
+
+                // Play hurt animation
+                if (victim.currentHealth > 0 && totalLifeLost > 0)
+                {
+                    victim.myAnimator.SetTrigger("Hurt");
+                }
             }
         }
 
@@ -661,8 +681,8 @@ public class CombatLogic : MonoBehaviour
         // Remove camoflage from victim if damage was taken
         if (victim.myPassiveManager.camoflage)
         {
-            victim.myPassiveManager.ModifyCamoflage(-1);
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.5f);
+            victim.myPassiveManager.ModifyCamoflage(-1);            
         }
 
         // Life steal
@@ -670,6 +690,7 @@ public class CombatLogic : MonoBehaviour
             abilityUsed != null &&
             abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
         {
+            yield return new WaitForSeconds(0.5f);
             Debug.Log(attacker.name + " has 'Life Steal', healing for " + totalLifeLost.ToString() + " damage");
             attacker.ModifyCurrentHealth(totalLifeLost);
         }
@@ -681,8 +702,8 @@ public class CombatLogic : MonoBehaviour
             abilityUsed.abilityType == AbilityDataSO.AbilityType.RangedAttack))
         {
             Debug.Log(attacker.name + " has 'Poisonous', applying " + attacker.myPassiveManager.poisonousStacks.ToString() + " 'Poisoned'");
+            yield return new WaitForSeconds(0.5f);
             victim.myPassiveManager.ModifyPoisoned(attacker.myPassiveManager.poisonousStacks, attacker);
-            yield return new WaitForSeconds(0.3f);
         }
 
         // Immolation trait
@@ -692,32 +713,34 @@ public class CombatLogic : MonoBehaviour
             abilityUsed.abilityType == AbilityDataSO.AbilityType.RangedAttack))
         {
             Debug.Log(attacker.name + " has 'Immolation', applying " + attacker.myPassiveManager.immolationStacks.ToString() + " 'Burning'");
+            yield return new WaitForSeconds(0.5f);
             victim.myPassiveManager.ModifyBurning(attacker.myPassiveManager.immolationStacks, attacker);
-            yield return new WaitForSeconds(0.3f);
         }
 
         // Remove sleeping
         if (victim.myPassiveManager.sleep && totalLifeLost > 0)
         {
             Debug.Log(victim.name + " took damage and is sleeping, removing sleep");
+            yield return new WaitForSeconds(0.5f);
             victim.myPassiveManager.ModifySleep(-victim.myPassiveManager.sleepStacks);
-            yield return new WaitForSeconds(0.3f);
         }
 
         // Enrage
         if (victim.myPassiveManager.enrage && totalLifeLost > 0)
         {
             Debug.Log(victim.name + " 'Enrage' triggered, gaining " + victim.myPassiveManager.enrage.ToString() + " bonus strength");
+            yield return new WaitForSeconds(0.5f);
             victim.myPassiveManager.ModifyBonusStrength(victim.myPassiveManager.enrageStacks);
-            yield return new WaitForSeconds(0.3f);
         }
 
         // Tenacious
         if (victim.myPassiveManager.tenacious && totalLifeLost > 0)
         {
             Debug.Log(victim.name + " 'Tenacious' triggered, gaining" + (CalculateBlockGainedByEffect(victim.myPassiveManager.tenaciousStacks, victim).ToString() + " block"));
+            yield return new WaitForSeconds(0.5f);
+            VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Tenacious!");
+            yield return new WaitForSeconds(0.5f);
             victim.ModifyCurrentBlock(CalculateBlockGainedByEffect(victim.myPassiveManager.tenaciousStacks, victim));
-            yield return new WaitForSeconds(0.3f);
         }
 
         // Thorns
@@ -726,6 +749,7 @@ public class CombatLogic : MonoBehaviour
             if (abilityUsed != null &&
                 abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
             {
+                yield return new WaitForSeconds(0.5f);
                 VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Thorns");
                 Debug.Log(victim.name + " has thorns and was struck by a melee attack, returning damage...");
                 int finalThornsDamageValue = GetFinalDamageValueAfterAllCalculations(victim, attacker, null, "Physical", false, victim.myPassiveManager.thornsStacks);
@@ -735,7 +759,8 @@ public class CombatLogic : MonoBehaviour
         }
 
         // Phasing
-        if (victim.timesAttackedThisTurnCycle == 0 &&
+        if (victim.currentHealth > 0 &&
+            victim.timesAttackedThisTurnCycle == 0 &&
             victim.myPassiveManager.phasing &&
             abilityUsed != null &&
             abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
@@ -752,11 +777,14 @@ public class CombatLogic : MonoBehaviour
         if (victim.currentHealth <= 0 && victim.inDeathProcess == false)
         {
             Debug.Log(victim.name + " has lost enough health to be killed by this damage event...");
+
             // Check for last stand passive
             if (victim.myPassiveManager.lastStand)
             {
                 Debug.Log(victim.name + " has 'Last Stand' passive, preventing death...");
+
                 // VFX Notification
+                yield return new WaitForSeconds(0.5f);
                 VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Last Stand!");
                 yield return new WaitForSeconds(0.5f);
 
@@ -768,6 +796,7 @@ public class CombatLogic : MonoBehaviour
 
                 // Gain 5 strength
                 victim.myPassiveManager.ModifyBonusStrength(5);
+                yield return new WaitForSeconds(0.5f);
             }
 
             else
@@ -779,13 +808,7 @@ public class CombatLogic : MonoBehaviour
                 StartCoroutine(victim.HandleDeath());
             }
             
-        }
-
-        // if not dead but hurt, play hurt animation
-        else if (victim.currentHealth > 0 && totalLifeLost > 0)
-        {
-            victim.myAnimator.SetTrigger("Hurt");
-        }
+        }       
 
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
@@ -803,9 +826,10 @@ public class CombatLogic : MonoBehaviour
         {
             Debug.Log(target.name + " parried an attack against " + attacker.name + " AND has riposte, performing riposte attack...");
             VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Riposte!");
+            yield return new WaitForSeconds(0.5f);
 
             // Perform riposte attack
-            Action parryAttackAction = AbilityLogic.Instance.PerformRiposteAttack(attacker, target);
+            Action parryAttackAction = AbilityLogic.Instance.PerformRiposteAttack(target, attacker);
             yield return new WaitUntil(() => parryAttackAction.ActionResolved() == true);
         }
         else

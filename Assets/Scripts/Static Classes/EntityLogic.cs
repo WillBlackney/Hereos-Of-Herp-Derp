@@ -244,13 +244,19 @@ public static class EntityLogic
     {
         Debug.Log("EntityLogic.IsAbleToMove() called for " + entity.name + "....");
 
-        if (entity.myPassiveManager.immobilized ||
-           GetTotalMobility(entity) <= 0)
+        if (entity.myPassiveManager.immobilized)
         {
+            Debug.Log(entity.name + " is not able to move due to being immobilized....");
+            return false;
+        }
+        else if(GetTotalMobility(entity) <= 0)
+        {
+            Debug.Log(entity.name + " is not able to move due to having 0 mobility....");
             return false;
         }
         else
         {
+            Debug.Log(entity.name + " is able to move...");
             return true;
         }
 
@@ -261,11 +267,13 @@ public static class EntityLogic
 
         if (entity.currentEnergy >= ability.abilityEnergyCost)
         {
+            Debug.Log(entity.name + " has enough energy to use " + ability.abilityName);
             return true;
         }
 
         else if (entity.myPassiveManager.preparation)
         {
+            Debug.Log(entity.name + " has enough energy to use " + ability.abilityName + " because of 'Preparation' passive");
             return true;
         }
 
@@ -273,12 +281,13 @@ public static class EntityLogic
                 entity.moveActionsTakenThisActivation == 0 &&
                 ability.abilityName == "Move")
         {
+            Debug.Log(entity.name + " has enough energy to use " + ability.abilityName + " because of 'Flux' passive");
             return true;
         }
 
         else
         {
-            Debug.Log("Action failed: Not enough AP");
+            Debug.Log(entity.name + " does not meet the energy requirments of " + ability.abilityName);
             return false;
         }
     }
@@ -286,15 +295,19 @@ public static class EntityLogic
     {
         Debug.Log("EntityLogic.IsAbleToTakeActions() called for " + entity.name + "...");
 
-        if (entity.myPassiveManager.stunned ||
-            entity.myPassiveManager.sleep)
+        if (entity.myPassiveManager.stunned)
         {
-            Debug.Log("Action failed. Unable to take actions while stunned or sleeping");
+            Debug.Log(entity.name + " is unable to take actions. REASON: 'Stunned' passive");
             return false;
         }
-        
+        else if (entity.myPassiveManager.sleep)
+        {
+            Debug.Log(entity.name + " is unable to take actions. REASON: 'Sleep' passive");
+            return false;
+        }
         else
         {
+            Debug.Log(entity.name + " is able to take actions");
             return true;
         }
     }

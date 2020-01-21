@@ -193,7 +193,7 @@ public class MovementLogic : Singleton<MovementLogic>
         // Check for knock back immunity
         if (target.myPassiveManager.unleashed)
         {
-            VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "Knock Back Immune!");
+            VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Knock Back Immune!");
             action.actionResolved = true;
             return action;
         }

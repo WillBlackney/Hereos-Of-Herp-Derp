@@ -490,10 +490,12 @@ public class PositionLogic : Singleton<PositionLogic>
 
         foreach (RaycastHit2D hit in hits)
         {
+            /*
             if (hit.transform.GetComponent<Tile>())
             {
                 Debug.Log("IsThereLosFromAtoB() raycast hit a tile!");
             }
+            */
 
             if (hit.transform.GetComponent<Tile>().BlocksLoS == true)
             {

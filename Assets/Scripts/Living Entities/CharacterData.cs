@@ -206,9 +206,6 @@ public class CharacterData : MonoBehaviour
     public bool KnowsSecondWind;
 
 
-
-
-
     [Header("Known Talents")]
     public bool KnowsImprovedPreparation;
     public bool KnowsImprovedDash;
@@ -236,7 +233,7 @@ public class CharacterData : MonoBehaviour
             ModifyStrength(0);
             ModifyMaxHealth(100);
             ModifyCurrentHealth(100);
-            ModifyStamina(60);
+            ModifyStamina(40);
             ModifyMaxEnergy(60);
             ModifyInitiative(3);
             ModifyMeleeRange(1);
@@ -247,11 +244,13 @@ public class CharacterData : MonoBehaviour
             KnowsMove = true;
             KnowsStrike = true;
 
-            KnowsFireBall = true;            
-            KnowsToxicSlash = true;
+            KnowsFireBall = true;  
             KnowsPhoenixDive = true;
             KnowsBloodOffering = true;
             KnowsSecondWind = true;
+            KnowsGuard = true;
+            KnowsFrostNova= true;
+            KnowsShadowStep = true;
 
 
             //talentTreeOne.InitializeSetup("Path of Rage");
@@ -281,8 +280,7 @@ public class CharacterData : MonoBehaviour
             KnowsStrike = true;
             KnowsDefend = true;
             KnowsFireBall = true;
-            KnowsTelekinesis = true;
-            KnowsFrostBolt = true;
+           
 
             talentTreeOne.InitializeSetup("Path of Manipulation");
             talentTreeTwo.InitializeSetup("Path of Wrath");
