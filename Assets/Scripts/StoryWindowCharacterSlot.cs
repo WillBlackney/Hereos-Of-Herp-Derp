@@ -22,10 +22,10 @@ public class StoryWindowCharacterSlot : MonoBehaviour, IPointerClickHandler, IPo
     {
         data.myStoryWindowCharacter = this;
         myCharacterData = data;
-        currentHealthText.text = data.CurrentHealth.ToString();
-        maxHealthText.text = data.MaxHealth.ToString();
+        currentHealthText.text = data.currentHealth.ToString();
+        maxHealthText.text = data.maxHealth.ToString();
         currentXPText.text = data.currentXP.ToString();
-        myImageComponent.sprite = data.myImageComponent.sprite;
+        //myImageComponent.sprite = data.myImageComponent.sprite;
     }
 
     public void ModifyCurrentHealthText(int newValue)

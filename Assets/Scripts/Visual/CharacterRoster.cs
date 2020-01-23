@@ -7,6 +7,8 @@ public class CharacterRoster : Singleton<CharacterRoster>
     [Header("Component References")]
     public GameObject CharacterRosterVisualParent;
     public GameObject CharacterRosterCloseButton;
+    public GameObject inventoryParent;
+
     public CharacterData characterOne;
     public CharacterData characterTwo;
     public CharacterData characterThree;
@@ -76,6 +78,15 @@ public class CharacterRoster : Singleton<CharacterRoster>
             }
         }
 
+        // hardcoded names, for testing. REMOVE LATER
+        characterOne.SetMyName("Will");
+        characterTwo.SetMyName("Cecilie");
+        characterThree.SetMyName("Leo");
+        characterFour.SetMyName("Ella");
+
+        // enable character one's panel view by default
+        OnCharacterDataButtonClicked(characterOne);
+
         // Disables the roster view on scene load
         //CharacterRosterVisualParent.SetActive(false);
     }
@@ -93,6 +104,29 @@ public class CharacterRoster : Singleton<CharacterRoster>
     }
     #endregion
 
+    // Enable/Disable Views
+    public void DisablesAllCharacterDataViews()
+    {
+        characterOne.DisableMainWindowView();
+        characterTwo.DisableMainWindowView();
+        characterThree.DisableMainWindowView();
+        characterFour.DisableMainWindowView();
+    }
+    public void OnCharacterDataButtonClicked(CharacterData characterSelected)
+    {
+        DisablesAllCharacterDataViews();
+        characterSelected.EnableMainWindowView();
+    }
+    public void EnableInventoryView()
+    {
+        inventoryParent.SetActive(true);
+    }
+    public void DisableInventoryView()
+    {
+        inventoryParent.SetActive(false);
+    }
+
+
     // Logic
     #region
     public void RewardAllCharactersXP(int xpRewarded)
@@ -108,7 +142,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
     }
     public bool CanCharacterSpawn(CharacterData character)
     {
-        if(character.CurrentHealth > 0)
+        if(character.currentHealth > 0)
         {
             return true;
         }

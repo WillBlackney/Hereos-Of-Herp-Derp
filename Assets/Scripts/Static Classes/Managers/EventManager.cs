@@ -531,7 +531,7 @@ public class EventManager : Singleton<EventManager>
         {
             Debug.Log("StartPreLootScreenVisualEvent() creating visual status xp gained effect...");
             // Dead characters get no XP
-            if(character.CurrentHealth > 0)
+            if(character.currentHealth > 0)
             {
                 VisualEffectManager.Instance.CreateStatusEffect(character.myDefenderGO.transform.position, "XP + " + xpReward.ToString());
             }            

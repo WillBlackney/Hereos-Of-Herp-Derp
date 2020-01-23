@@ -184,7 +184,7 @@ public class StoryEventManager : Singleton<StoryEventManager>
             // heal to full HP
             if (awaitingAskForHealthChoice)
             {
-                character.myCharacterData.ModifyCurrentHealth(character.myCharacterData.MaxHealth);
+                character.myCharacterData.ModifyCurrentHealth(character.myCharacterData.maxHealth);
             }
 
             // gain a level

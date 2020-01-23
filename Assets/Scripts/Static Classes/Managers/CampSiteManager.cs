@@ -87,7 +87,7 @@ public class CampSiteManager : MonoBehaviour
             bool atLeastOneCharacterIsDead = false;
             foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
             {
-                if (character.CurrentHealth == 0)
+                if (character.currentHealth == 0)
                 {
                     atLeastOneCharacterIsDead = true;
                     character.myCampSiteCharacter.SetGlowOutilineViewState(true);
@@ -196,7 +196,7 @@ public class CampSiteManager : MonoBehaviour
         // do nice visual stuff
 
         // heal 50%
-        characterClicked.myCharacterData.ModifyCurrentHealth(characterClicked.myCharacterData.MaxHealth / 2);
+        characterClicked.myCharacterData.ModifyCurrentHealth(characterClicked.myCharacterData.maxHealth / 2);
         ModifyCurrentCampSitePoints(-triagePointCost);
         awaitingTriageChoice = false;
         triageButton.SetGlowOutilineViewState(false);
@@ -227,7 +227,7 @@ public class CampSiteManager : MonoBehaviour
         // do nice visual stuff
 
         // heal 50%
-        characterClicked.myCharacterData.ModifyCurrentHealth(characterClicked.myCharacterData.MaxHealth / 2);
+        characterClicked.myCharacterData.ModifyCurrentHealth(characterClicked.myCharacterData.maxHealth / 2);
         ModifyCurrentCampSitePoints(-prayPointCost);
         awaitingPrayChoice = false;
         prayButton.SetGlowOutilineViewState(false);

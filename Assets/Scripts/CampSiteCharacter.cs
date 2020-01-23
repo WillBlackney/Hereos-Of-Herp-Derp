@@ -22,10 +22,10 @@ public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
     {
         data.myCampSiteCharacter = this;
         myCharacterData = data;
-        currentHealthText.text = data.CurrentHealth.ToString();
-        maxHealthText.text = data.MaxHealth.ToString();
+        currentHealthText.text = data.currentHealth.ToString();
+        maxHealthText.text = data.maxHealth.ToString();
         currentXPText.text = data.currentXP.ToString();
-        myImageComponent.sprite = data.myImageComponent.sprite;
+        //myImageComponent.sprite = data.myImageComponent.sprite;
     }
     public void ModifyCurrentHealthText(int newValue)
     {
@@ -50,7 +50,7 @@ public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
             CampSiteManager.Instance.PerformTrain(this);
         }
         else if (CampSiteManager.Instance.awaitingPrayChoice &&
-            myCharacterData.CurrentHealth == 0)
+            myCharacterData.currentHealth == 0)
         {
             CampSiteManager.Instance.PerformPray(this);
         }

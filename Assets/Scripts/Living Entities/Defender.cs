@@ -152,18 +152,18 @@ public class Defender : LivingEntity
         // Establish connection from defender script to character data
         myCharacterData.myDefenderGO = this;
         // Edit Properties
-        baseMaxHealth = myCharacterData.MaxHealth;
-        baseStartingHealth = myCharacterData.CurrentHealth;
-        baseStrength = myCharacterData.Strength;
-        baseWisdom = myCharacterData.Wisdom;
-        baseDexterity = myCharacterData.Dexterity;
-        baseMobility = myCharacterData.Mobility;
-        baseStamina = myCharacterData.Stamina;
-        baseInitiative = myCharacterData.Initiative;
-        baseMaxEnergy = myCharacterData.MaxEnergy;
+        baseMaxHealth = myCharacterData.maxHealth;
+        baseStartingHealth = myCharacterData.currentHealth;
+        baseStrength = myCharacterData.strength;
+        baseWisdom = myCharacterData.wisdom;
+        baseDexterity = myCharacterData.dexterity;
+        baseMobility = myCharacterData.mobility;
+        baseStamina = myCharacterData.stamina;
+        baseInitiative = myCharacterData.initiative;
+        baseMaxEnergy = myCharacterData.maxEnergy;
         baseStartingBlock = myCharacterData.startingBlock;
-        baseMeleeRange = myCharacterData.MeleeRange;
-        baseCriticalChance = myCharacterData.CriticalChance;
+        baseMeleeRange = myCharacterData.meleeRange;
+        baseCriticalChance = myCharacterData.criticalChance;
 
         // Edit passive traits
         if (myCharacterData.enrageStacks > 0)
@@ -295,7 +295,7 @@ public class Defender : LivingEntity
             baseStartingBlock += 6;
         }
         if(ArtifactManager.Instance.HasArtifact("Burning Blood") && 
-            myCharacterData.CurrentHealth < (myCharacterData.MaxHealth / 2))
+            myCharacterData.currentHealth < (myCharacterData.maxHealth / 2))
         {
             baseStrength += 3;
         }

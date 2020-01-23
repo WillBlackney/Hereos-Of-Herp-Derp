@@ -56,9 +56,6 @@ public class Talent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
             talentDescriptionText.text = talentData.description;
             talentImage.sprite = talentData.sprite;
         }
-
-
-
     }
     #endregion
 
