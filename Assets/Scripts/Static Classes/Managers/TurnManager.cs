@@ -142,18 +142,23 @@ public class TurnManager : Singleton<TurnManager>
         bool reachedMiddlePos = false;
         bool reachedEndPos = false;
 
+        GameObject parent = visualParentCG.gameObject;
+
         visualParentCG.gameObject.SetActive(true);
-        whoseTurnText.gameObject.transform.position = startPos.transform.position;
+        parent.transform.position = startPos.transform.position;
         visualParentCG.alpha = 0;
 
         whoseTurnText.text = "Turn " + currentTurnCount;
+
+        Vector3 middlePos1 = new Vector2(middlePos.transform.position.x, middlePos.transform.position.y);
+        Vector3 endPos1 = new Vector2(endPos.transform.position.x, endPos.transform.position.y);
 
 
         while(reachedMiddlePos == false)
         {
             visualParentCG.alpha += 0.08f;
-            whoseTurnText.gameObject.transform.position = Vector2.MoveTowards(whoseTurnText.gameObject.transform.position, middlePos.transform.position, 1000 * Time.deltaTime);
-            if(whoseTurnText.gameObject.transform.position == middlePos.transform.position)
+            parent.transform.position = Vector2.MoveTowards(parent.transform.position, middlePos1, 15 * Time.deltaTime);
+            if(parent.transform.position.x == middlePos1.x && parent.transform.position.y == middlePos1.y)
             {
                 Debug.Log("reached Middle pos");
                 reachedMiddlePos = true;
@@ -169,8 +174,8 @@ public class TurnManager : Singleton<TurnManager>
         while (reachedEndPos == false)
         {
             visualParentCG.alpha -= 0.08f;
-            whoseTurnText.gameObject.transform.position = Vector2.MoveTowards(whoseTurnText.gameObject.transform.position, endPos.transform.position, 1000 * Time.deltaTime);
-            if (whoseTurnText.gameObject.transform.position == endPos.transform.position)
+            parent.transform.position = Vector2.MoveTowards(parent.transform.position, endPos1, 15 * Time.deltaTime);
+            if (parent.transform.position.x == endPos1.x && parent.transform.position.y == endPos1.y)
             {
                 Debug.Log("reached end pos");
                 reachedEndPos = true;

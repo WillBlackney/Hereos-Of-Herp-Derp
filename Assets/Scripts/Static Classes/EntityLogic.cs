@@ -978,6 +978,23 @@ public static class EntityLogic
         // return final value
         return criticalReturned;
     }
+    public static int GetTotalAuraSize(LivingEntity entity)
+    {
+        Debug.Log("EntityLogic.GetTotalAuraSize() called for " + entity.name + "...");
+
+        // Get base ranged Crit
+        int auraSizeReturned = entity.currentAuraSize;
+
+        // Check for 'Radiance' passive
+        if (entity.myPassiveManager.radiance)
+        {
+            auraSizeReturned += entity.myPassiveManager.radianceStacks;
+            Debug.Log("Value after 'Radiance' passive bonus: " + auraSizeReturned.ToString());
+        }
+
+        // return final value
+        return auraSizeReturned;
+    }
 
     // Resistances
     public static int GetTotalResistance(LivingEntity entity, string resistanceType)

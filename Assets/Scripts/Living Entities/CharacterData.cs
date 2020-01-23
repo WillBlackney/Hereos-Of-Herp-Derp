@@ -164,6 +164,44 @@ public class CharacterData : MonoBehaviour
     public int corruptionPoints;
     public int naturalismPoints;
 
+    [Header("Passive Trait Properties")]
+    public int tenaciousStacks;
+    public int masochistStacks;
+    public int lastStandStacks;
+    public int slipperyStacks;
+    public int riposteStacks;
+    public int perfectReflexesStacks;
+    public int opportunistStacks;
+    public int patientStalkerStacks;
+    public int stealthStacks;
+    public int cautiousStacks;
+    public int guardianAuraStacks;
+    public int unwaveringStacks;
+    public int fieryAuraStacks;
+    public int immolationStacks;
+    public int demonStacks;
+    public int shatterStacks;
+    public int frozenHeartStacks;
+    public int predatorStacks;
+    public int hawkEyeStacks;
+    public int fluxStacks;
+    public int phasingStacks;
+    public int etherealBeingStacks;
+    public int encouragingAuraStacks;
+    public int radianceStacks;
+    public int sacredAuraStacks;
+    public int shadowAuraStacks;
+    public int shadowFormStacks;
+    public int poisonousStacks;
+    public int venomousStacks;
+    public int toxicityStacks;
+    public int toxicAuraStacks;
+    public int stormAuraStacks;
+    public int stormLordStacks;
+    public int thornsStacks;    
+
+    
+
     [Header("Misc Properties")]
     public string myName;
     #endregion
@@ -188,8 +226,6 @@ public class CharacterData : MonoBehaviour
     //public Image myImageComponent;
     public Defender myDefenderGO;
     public string myClass;
-    public TalentTree talentTreeOne;
-    public TalentTree talentTreeTwo;
     public CampSiteCharacter myCampSiteCharacter;
     public StoryWindowCharacterSlot myStoryWindowCharacter;    
 
@@ -200,30 +236,7 @@ public class CharacterData : MonoBehaviour
     [Header("Item Properties")]
     public List<ItemCard> myItems = new List<ItemCard>();
 
-    [Header("Base Passive Properties")]
-    public int enrageStacks;
-    public int growingStacks;
-    public int barrierStacks;
-    public int cautiousStacks;
-    public int fleetFootedStacks;
-    public int encouragingPresenceStacks;
-    public int poisonousStacks;
-    public int thornsStacks;
-    public int startingBlock;
-    public int startingEnergyBonus;
-    public int adaptiveStacks;
-    public int hatefulPresenceStacks;
-    public int fieryPresenceStacks;
-    public int guardianPresenceStacks;
-    public int masterfulEntrapmentStacks;
-    public int thickOfTheFightStacks;
-    public bool Stealth;
-    public bool Unwavering;
-    public bool camoflage;
-    public bool poisonImmunity;
-    public int trueSightStacks;
-    public int startingIntiativeBonus;
-    public bool venomous;
+    
 
     [Header("Ability Properties")]
     public bool KnowsMove;
@@ -267,7 +280,6 @@ public class CharacterData : MonoBehaviour
     public bool KnowsSiphonLife;
     public bool KnowsChaosBolt;
     public bool KnowsFrostNova;
-
     public bool KnowsDevastatingBlow;
     public bool KnowsKickToTheBalls;
     public bool KnowsBladeFlurry;
@@ -306,7 +318,7 @@ public class CharacterData : MonoBehaviour
     public bool KnowsTreeLeap;
     public bool KnowsConcentration;
     public bool KnowsOverwatch;
-    public bool KnowsDimenisonalBlast;
+    public bool KnowsDimensionalBlast;
     public bool KnowsMirage;
     public bool KnowsBurstOfKnowledge;
     public bool KnowsBlink;
@@ -322,6 +334,7 @@ public class CharacterData : MonoBehaviour
     public bool KnowsHex;
     public bool KnowsRainOfChaos;
     public bool KnowsShadowWreath;
+    public bool KnowsShadowBlast;
     public bool KnowsUnbridledChaos;
     public bool KnowsBlight;
     public bool KnowsBloodOffering;
@@ -396,8 +409,8 @@ public class CharacterData : MonoBehaviour
             ModifyShadowResistance(5);
 
             // Set up Talent + Ability Points
-            ModifyTalentPoints(7);
-            ModifyAbilityPoints(7);
+            ModifyTalentPoints(99);
+            ModifyAbilityPoints(99);
 
             // Set up Xp + Max Xp and Leve
             ModifyCurrentLevel(1);
@@ -405,18 +418,18 @@ public class CharacterData : MonoBehaviour
             ModifyCurrentXP(0);
 
             // Abiltiies + Passives
-            cautiousStacks = 5;
+            //cautiousStacks = 5;
 
             // Set up abilities
             KnowsMove = true;
             KnowsStrike = true;
-            KnowsFireBall = true;
-            KnowsPhoenixDive = true;
-            KnowsBloodOffering = true;
-            KnowsSecondWind = true;
-            KnowsGuard = true;
-            KnowsFrostNova = true;
-            KnowsShadowStep = true;
+            //KnowsFireBall = true;
+            //KnowsPhoenixDive = true;
+            //KnowsBloodOffering = true;
+           // KnowsSecondWind = true;
+            //KnowsGuard = true;
+            //KnowsFrostNova = true;
+           // KnowsShadowStep = true;
 
 
         }
@@ -438,17 +451,10 @@ public class CharacterData : MonoBehaviour
             ModifyMeleeRange(1);
             ModifyCriticalChance(5);
 
-            fleetFootedStacks = 1;
             KnowsMove = true;
             KnowsStrike = true;
             KnowsDefend = true;
             KnowsFireBall = true;
-
-
-            talentTreeOne.InitializeSetup("Path of Manipulation");
-            talentTreeTwo.InitializeSetup("Path of Wrath");
-
-
 
         }
 
@@ -488,7 +494,7 @@ public class CharacterData : MonoBehaviour
             ModifyMeleeRange(1);
             ModifyCriticalChance(5);
 
-            encouragingPresenceStacks = 10;
+            encouragingAuraStacks = 10;
 
             KnowsMove = true;
             KnowsStrike = true;
@@ -496,12 +502,6 @@ public class CharacterData : MonoBehaviour
             KnowsHolyFire = true;
             KnowsInvigorate = true;
             KnowsChaosBolt = true;
-
-
-            talentTreeOne.InitializeSetup("Path of Shadows");
-            talentTreeTwo.InitializeSetup("Path of Divinity");
-
-
 
         }
 
@@ -530,10 +530,6 @@ public class CharacterData : MonoBehaviour
             KnowsDash = true;
             KnowsPreparation = true;
 
-            talentTreeOne.InitializeSetup("Path of Combat");
-            talentTreeTwo.InitializeSetup("Path of Trickery");
-
-
         }
 
         else if (characterClass == "Shaman")
@@ -560,12 +556,7 @@ public class CharacterData : MonoBehaviour
             KnowsLightningShield = true;
             KnowsChainLightning = true;
 
-            talentTreeOne.InitializeSetup("Path of Storms");
-            talentTreeTwo.InitializeSetup("Path of Fury");
-
-
-            thickOfTheFightStacks += 2;
-
+            
         }
         // Set up talent trees
        // talentTreeOne.SetTalentTreePartner(talentTreeTwo);
@@ -823,6 +814,17 @@ public class CharacterData : MonoBehaviour
     public bool HasEnoughTalentPoints(int costOfAction)
     {
         if(talentPoints >= costOfAction)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool HasEnoughAbilityPoints(int costOfAction)
+    {
+        if (abilityPoints >= costOfAction)
         {
             return true;
         }
@@ -1228,26 +1230,181 @@ public class CharacterData : MonoBehaviour
         }
     }
 
-    #endregion
+    #endregion    
 
-    // Modify Passive Stats
+    // Modify Passive Traits
     #region
-    public void ModifyStartingBlock(int blockGainedOrLost)
+    public void ModifyTenacious(int stacks)
     {
-        startingBlock += blockGainedOrLost;
-    }    
-    public void ModifyStartingEnergyBonus(int apBonusGainedOrLost)
-    {
-        startingEnergyBonus += apBonusGainedOrLost;
-    }    
-    public void ModifyAdaptive(int adaptiveStacksGainedOrLost)
-    {
-        adaptiveStacks += adaptiveStacksGainedOrLost;
+        Debug.Log("CharacterData.ModifyTenacious() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        tenaciousStacks += stacks;
     }
-    public void ModifyThorns(int thornsGainedOrLost)
+    public void ModifyMasochist(int stacks)
     {
-        thornsStacks += thornsGainedOrLost;
+        Debug.Log("CharacterData.ModifyMasochist() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        tenaciousStacks += stacks;
     }
+    public void ModifyLastStand(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyLastStand() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        lastStandStacks += stacks;
+    }
+    public void ModifySlippery(int stacks)
+    {
+        Debug.Log("CharacterData.ModifySlippery() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        slipperyStacks += stacks;
+    }
+    public void ModifyRiposte(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyRiposte() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        riposteStacks += stacks;
+    }
+    public void ModifyPerfectReflexes(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyPerfectReflexes() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        perfectReflexesStacks += stacks;
+    }
+    public void ModifyOpportunist(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyOpportunist() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        opportunistStacks += stacks;
+    }
+    public void ModifyPatientStalker(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyPatientStalker() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        patientStalkerStacks += stacks;
+    }
+    public void ModifyStealth(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyStealth() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        stealthStacks += stacks;
+    }
+    public void ModifyCautious(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyCautious() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        cautiousStacks += stacks;
+    }
+    public void ModifyGuardianAura(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyGuardianAura() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        guardianAuraStacks += stacks;
+    }
+    public void ModifyUnwavering(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyUnwavering() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        unwaveringStacks += stacks;
+    }
+    public void ModifyFieryAura(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyFieryAura() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        fieryAuraStacks += stacks;
+    }
+    public void ModifyImmolation(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyImmolation() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        immolationStacks += stacks;
+    }
+    public void ModifyDemon(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyDemon() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        demonStacks += stacks;
+    }
+    public void ModifyShatter(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyShatter() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        shatterStacks += stacks;
+    }
+    public void ModifyFrozenHeart(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyFrozenHeart() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        frozenHeartStacks += stacks;
+    }
+    public void ModifyPredator(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyPredator() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        predatorStacks += stacks;
+    }
+    public void ModifyHawkEye(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyHawkEye() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        hawkEyeStacks += stacks;
+    }
+    public void ModifyFlux(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyFlux() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        fluxStacks += stacks;
+    }
+    public void ModifyPhasing(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyPhasing() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        phasingStacks += stacks;
+    }
+    public void ModifyEtherealBeing(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyEtherealBeing() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        etherealBeingStacks += stacks;
+    }
+    public void ModifyEncouragingAura(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyEncouragingAura() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        encouragingAuraStacks += stacks;
+    }
+    public void ModifyRadiance(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyRadiance() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        radianceStacks += stacks;
+    }
+    public void ModifySacredAura(int stacks)
+    {
+        Debug.Log("CharacterData.ModifySacredAura() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        sacredAuraStacks += stacks;
+    }
+    public void ModifyShadowAura(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyShadowAura() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        shadowAuraStacks += stacks;
+    }
+    public void ModifyShadowForm(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyShadowForm() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        shadowFormStacks += stacks;
+    }
+    public void ModifyPoisonous(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyPoisonous() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        poisonousStacks += stacks;
+    }
+    public void ModifyVenomous(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyVenomous() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        venomousStacks += stacks;
+    }
+    public void ModifyToxicity(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyToxicity() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        toxicityStacks += stacks;
+    }
+    public void ModifyToxicAura(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyToxicAura() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        toxicAuraStacks += stacks;
+    }
+    public void ModifyStormAura(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyStormAura() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        stormAuraStacks += stacks;
+    }
+    public void ModifyStormLord(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyStormLord() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        stormLordStacks += stacks;
+    }
+    public void ModifyThorns(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyThorns() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        thornsStacks += stacks;
+    }
+          
 
     #endregion
 
@@ -1316,60 +1473,6 @@ public class CharacterData : MonoBehaviour
     }
     #endregion
 
-    // Mouse + Button + Click Events
-    #region
-    public void OnCharacterImageButtonClicked()
-    {      
-        EnableFrontPage();
-    }   
-    public void OnAssignItemButtonClicked()
-    {
-        // assign selected char data
-        CharacterRoster.Instance.selectedCharacterData = this;
-        // enable inventory
-        InventoryManager.Instance.inventoryParent.SetActive(true);
-        // set inventory ready state
-        InventoryManager.Instance.readyToAcceptNewItem = true;
-    }
-    #endregion
 
-    // Visibility + View Logic
-    #region
-    public void SetTalentButtonVisibilities()
-    {
-        List<Talent> allTalentButtons = new List<Talent>();
-
-        allTalentButtons.AddRange(talentTreeOne.allTalentButtons);
-        allTalentButtons.AddRange(talentTreeTwo.allTalentButtons);
-
-        foreach (Talent talent in allTalentButtons)
-        {
-            talent.UpdateVisbilityState();
-        }
-    }
-    public void EnableFrontPage()
-    {
-        Debug.Log("Character image clicked, opening front page");
-        foreach (CharacterData characterData in CharacterRoster.Instance.allCharacterDataObjects)
-        {
-            if (characterData != this)
-            {
-                characterData.gameObject.SetActive(false);
-            }
-        }
-
-        CharacterRoster.Instance.CharacterRosterCloseButton.SetActive(false);
-
-    }
-    #endregion
-
-    // Items + Inventory Logic
-    #region
-    public void AddItemToEquiptment(ItemCard item)
-    {
-        GameObject newItem = Instantiate(item.gameObject, inventoryItemParent.transform);
-        myItems.Add(newItem.GetComponent<ItemCard>());
-        ItemLibrary.Instance.AssignItem(this, newItem.GetComponent<ItemCard>().myName);
-    }
-    #endregion
+    
 }

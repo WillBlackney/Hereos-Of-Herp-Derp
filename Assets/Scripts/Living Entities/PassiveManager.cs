@@ -284,6 +284,9 @@ public class PassiveManager : MonoBehaviour
     public bool tenacious;
     public int tenaciousStacks;
 
+    public bool radiance;
+    public int radianceStacks;
+
     public bool fading;
     public int fadingStacks;
 
@@ -2575,6 +2578,32 @@ public class PassiveManager : MonoBehaviour
             if (hawkEyeStacks <= 0)
             {
                 hawkEye = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyRadiance(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyRadianceBonus() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Radiance");
+
+        if (stacks > 0)
+        {
+            radianceStacks += stacks;
+            if (radianceStacks > 0)
+            {
+                radiance = true;
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            radianceStacks += stacks;
+            if (radianceStacks <= 0)
+            {
+                radiance = false;
             }
         }
 

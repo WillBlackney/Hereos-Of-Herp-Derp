@@ -79,6 +79,7 @@ public class SpellBook : MonoBehaviour
     public bool KnowsCheapShot;
     public bool KnowsShank;
     public bool KnowsShadowStep;
+    public bool KnowsShadowBlast;
     public bool KnowsAmbush;
     public bool KnowsStalk;
     public bool KnowsSharpenBlade;
@@ -249,6 +250,10 @@ public class SpellBook : MonoBehaviour
         if (cd.KnowsVoidBomb == true)
         {
             LearnVoidBomb();
+        }
+        if (cd.KnowsShadowBlast == true)
+        {
+            LearnShadowBlast();
         }
         if (cd.KnowsNightmare == true)
         {
@@ -497,7 +502,7 @@ public class SpellBook : MonoBehaviour
         {
             LearnOverwatch();
         }
-        if (cd.KnowsDimenisonalBlast == true)
+        if (cd.KnowsDimensionalBlast == true)
         {
             LearnDimenisonalBlast();
         }
@@ -1105,6 +1110,22 @@ public class SpellBook : MonoBehaviour
         else if (enemy)
         {
             EnemyLearnAbility("Nightmare");
+        }
+    }
+    public void LearnShadowBlast()
+    {
+        KnowsShadowBlast = true;
+        Enemy enemy = myLivingEntity.GetComponent<Enemy>();
+        Defender defender = myLivingEntity.GetComponent<Defender>();
+
+        if (defender)
+        {
+            DefenderLearnAbility("Shadow Blast");
+        }
+
+        else if (enemy)
+        {
+            EnemyLearnAbility("Shadow Blast");
         }
 
     }

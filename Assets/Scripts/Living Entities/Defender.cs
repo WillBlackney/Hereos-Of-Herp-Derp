@@ -143,15 +143,16 @@ public class Defender : LivingEntity
         UpdateCurrentStrengthStatText(currentStrength);
         UpdateCurrentMobilityStatText(currentMobility);
         mySpellBook.SetNewAbilityDescriptions();
-        //SetUpAPBarDividers();
         
     }
     public void RunSetupFromCharacterData()
     {
         Debug.Log("RunSetupFromCharacterData() called...");
+
         // Establish connection from defender script to character data
         myCharacterData.myDefenderGO = this;
-        // Edit Properties
+
+        // Setup Core Stats
         baseMaxHealth = myCharacterData.maxHealth;
         baseStartingHealth = myCharacterData.currentHealth;
         baseStrength = myCharacterData.strength;
@@ -160,100 +161,157 @@ public class Defender : LivingEntity
         baseMobility = myCharacterData.mobility;
         baseStamina = myCharacterData.stamina;
         baseInitiative = myCharacterData.initiative;
-        baseMaxEnergy = myCharacterData.maxEnergy;
-        baseStartingBlock = myCharacterData.startingBlock;
-        baseMeleeRange = myCharacterData.meleeRange;
-        baseCriticalChance = myCharacterData.criticalChance;
 
-        // Edit passive traits
-        if (myCharacterData.enrageStacks > 0)
+        // Setup Secondary Stats
+        baseCriticalChance = myCharacterData.criticalChance;
+        baseDodgeChance = myCharacterData.dodge;
+        baseParryChance = myCharacterData.parry;
+        baseAuraSize = myCharacterData.auraSize;
+        baseMaxEnergy = myCharacterData.maxEnergy;
+        baseMeleeRange = myCharacterData.meleeRange;
+
+        // Setup Resistances
+        basePhysicalResistance = myCharacterData.physicalResistance;
+        baseFireResistance = myCharacterData.fireResistance;
+        baseFrostResistance = myCharacterData.frostResistance;
+        basePoisonResistance = myCharacterData.poisonResistance;
+        baseShadowResistance = myCharacterData.shadowResistance;
+        baseAirResistance = myCharacterData.airResistance;
+
+        // Setup Passives
+        if (myCharacterData.tenaciousStacks > 0)
         {
-            myPassiveManager.ModifyEnrage(myCharacterData.enrageStacks);
+            myPassiveManager.ModifyTenacious(myCharacterData.tenaciousStacks);
         }
-        if (myCharacterData.growingStacks > 0)
+        if (myCharacterData.masochistStacks > 0)
         {
-            myPassiveManager.ModifyGrowing(myCharacterData.growingStacks);
+            myPassiveManager.ModifyMasochist(myCharacterData.masochistStacks);
         }
-        if (myCharacterData.barrierStacks > 0)
+        if (myCharacterData.lastStandStacks > 0)
         {
-            myPassiveManager.ModifyBarrier(myCharacterData.barrierStacks);
+            myPassiveManager.ModifyLastStand(myCharacterData.lastStandStacks);
+        }
+        if (myCharacterData.slipperyStacks > 0)
+        {
+            myPassiveManager.ModifySlippery(myCharacterData.slipperyStacks);
+        }
+        if (myCharacterData.riposteStacks > 0)
+        {
+            myPassiveManager.ModifyRiposte(myCharacterData.riposteStacks);
+        }
+        if (myCharacterData.perfectReflexesStacks > 0)
+        {
+            myPassiveManager.ModifyPerfectReflexes(myCharacterData.perfectReflexesStacks);
+        }
+        if (myCharacterData.opportunistStacks > 0)
+        {
+            myPassiveManager.ModifyOpportunist(myCharacterData.opportunistStacks);
+        }
+        if (myCharacterData.patientStalkerStacks > 0)
+        {
+            myPassiveManager.ModifyPatientStalker(myCharacterData.patientStalkerStacks);
+        }
+        if (myCharacterData.stealthStacks > 0)
+        {
+            myPassiveManager.ModifyStealth(myCharacterData.stealthStacks);
         }
         if (myCharacterData.cautiousStacks > 0)
         {
             myPassiveManager.ModifyCautious(myCharacterData.cautiousStacks);
         }
-        if (myCharacterData.fleetFootedStacks > 0)
+        if (myCharacterData.guardianAuraStacks > 0)
         {
-            myPassiveManager.ModifyFlux(myCharacterData.fleetFootedStacks);
+            myPassiveManager.ModifyGuardianAura(myCharacterData.guardianAuraStacks);
         }
-        if (myCharacterData.encouragingPresenceStacks > 0)
+        if (myCharacterData.unwaveringStacks > 0)
         {
-            myPassiveManager.ModifyEncouragingAura(myCharacterData.encouragingPresenceStacks);
+            myPassiveManager.ModifyUnwavering(myCharacterData.unwaveringStacks);
         }
-        if (myCharacterData.hatefulPresenceStacks > 0)
+        if (myCharacterData.fieryAuraStacks > 0)
         {
-            myPassiveManager.ModifyHatefulAura(myCharacterData.hatefulPresenceStacks);
+            myPassiveManager.ModifyFieryAura(myCharacterData.fieryAuraStacks);
         }
-        if (myCharacterData.fieryPresenceStacks > 0)
+        if (myCharacterData.immolationStacks > 0)
         {
-            myPassiveManager.ModifyFieryAura(myCharacterData.fieryPresenceStacks);
+            myPassiveManager.ModifyImmolation(myCharacterData.immolationStacks);
         }
-        
-        if (myCharacterData.guardianPresenceStacks > 0)
+        if (myCharacterData.demonStacks > 0)
         {
-            myPassiveManager.ModifyGuardianAura(myCharacterData.guardianPresenceStacks);
+            myPassiveManager.ModifyDemon(myCharacterData.demonStacks);
+        }
+        if (myCharacterData.shatterStacks > 0)
+        {
+            myPassiveManager.ModifyShatter(myCharacterData.shatterStacks);
+        }
+        if (myCharacterData.frozenHeartStacks > 0)
+        {
+            myPassiveManager.ModifyFrozenHeart(myCharacterData.frozenHeartStacks);
+        }
+        if (myCharacterData.predatorStacks > 0)
+        {
+            myPassiveManager.ModifyPredator(myCharacterData.predatorStacks);
+        }
+        if (myCharacterData.hawkEyeStacks > 0)
+        {
+            myPassiveManager.ModifyHawkEye(myCharacterData.hawkEyeStacks);
+        }
+        if (myCharacterData.fluxStacks > 0)
+        {
+            myPassiveManager.ModifyFlux(myCharacterData.fluxStacks);
+        }
+        if (myCharacterData.phasingStacks > 0)
+        {
+            myPassiveManager.ModifyPhasing(myCharacterData.phasingStacks);
+        }
+        if (myCharacterData.etherealBeingStacks > 0)
+        {
+            myPassiveManager.ModifyEtherealBeing(myCharacterData.etherealBeingStacks);
+        }
+        if (myCharacterData.encouragingAuraStacks > 0)
+        {
+            myPassiveManager.ModifyEncouragingAura(myCharacterData.encouragingAuraStacks);
+        }
+        if (myCharacterData.radianceStacks > 0)
+        {
+            myPassiveManager.ModifyRadiance(myCharacterData.radianceStacks);
+        }
+        if (myCharacterData.sacredAuraStacks > 0)
+        {
+            myPassiveManager.ModifySacredAura(myCharacterData.sacredAuraStacks);
+        }
+        if (myCharacterData.shadowAuraStacks > 0)
+        {
+            myPassiveManager.ModifyShadowAura(myCharacterData.shadowAuraStacks);
+        }
+        if (myCharacterData.shadowFormStacks > 0)
+        {
+            myPassiveManager.ModifyShadowForm(myCharacterData.shadowFormStacks);
         }
         if (myCharacterData.poisonousStacks > 0)
         {
             myPassiveManager.ModifyPoisonous(myCharacterData.poisonousStacks);
         }
-        if (myCharacterData.thornsStacks > 0)
+        if (myCharacterData.venomousStacks > 0)
         {
-            myPassiveManager.ModifyThorns(myCharacterData.thornsStacks);
+            myPassiveManager.ModifyVenomous(myCharacterData.venomousStacks);
         }
-        if (myCharacterData.adaptiveStacks > 0)
+        if (myCharacterData.toxicityStacks > 0)
         {
-            myPassiveManager.ModifyTenacious(myCharacterData.adaptiveStacks);
+            myPassiveManager.ModifyToxicity(myCharacterData.toxicityStacks);
         }
-        if (myCharacterData.startingEnergyBonus > 0)
+        if (myCharacterData.toxicAuraStacks > 0)
         {
-            baseStartingEnergyBonus += myCharacterData.startingEnergyBonus;
+            myPassiveManager.ModifyToxicAura(myCharacterData.toxicAuraStacks);
         }
-        if (myCharacterData.Stealth)
+        if (myCharacterData.stormAuraStacks > 0)
         {
-            myPassiveManager.ModifyStealth(1);
+            myPassiveManager.ModifyStormAura(myCharacterData.stormAuraStacks);
         }
-        if (myCharacterData.Unwavering)
+        if (myCharacterData.stormLordStacks > 0)
         {
-            myPassiveManager.ModifyUnwavering(1);
-        }
-        if (myCharacterData.poisonImmunity)
-        {
-            myPassiveManager.ModifyPoisonImmunity();
-        }
-        if (myCharacterData.camoflage)
-        {
-            myPassiveManager.ModifyCamoflage(1);
-        }
-        if (myCharacterData.thickOfTheFightStacks > 0)
-        {
-            myPassiveManager.ModifyThickOfTheFight(myCharacterData.thickOfTheFightStacks);
-        }
-        if(myCharacterData.trueSightStacks > 0)
-        {
-            myPassiveManager.ModifyTrueSight(1);
-        }
-        if (myCharacterData.venomous)
-        {
-            myPassiveManager.ModifyVenomous(1);
-        }
-        /*
-        if (myCharacterData.startingIntiativeBonus > 0)
-        {
-            baseInitiative += myCharacterData.startingIntiativeBonus;
-            myPassiveManager.ModifyTemporaryInitiative(myCharacterData.startingIntiativeBonus);
-        }
-        */
+            myPassiveManager.ModifyStormLord(myCharacterData.stormLordStacks);
+        }       
+        
 
     }    
     public void RunSetupFromArtifactData()

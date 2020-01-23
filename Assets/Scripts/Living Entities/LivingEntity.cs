@@ -125,7 +125,7 @@ public class LivingEntity : MonoBehaviour
         myPassiveManager.InitializeSetup();
         mySpellBook = GetComponent<SpellBook>();
         mySpellBook.InitializeSetup();
-        //StartCoroutine(PlaySpawnVFX());
+
         // Set grid position 'Point'
         gridPosition = startingGridPosition;
         // Set our current tile
@@ -991,7 +991,7 @@ public class LivingEntity : MonoBehaviour
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Encouraging Aura");
             yield return new WaitForSeconds(0.5f);
 
-            List<Tile> tilesInEncouragingPresenceRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
+            List<Tile> tilesInEncouragingPresenceRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(this), tile);
             foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
             {
                 if (tilesInEncouragingPresenceRange.Contains(entity.tile) &&
@@ -1014,7 +1014,7 @@ public class LivingEntity : MonoBehaviour
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Soul Drain Aura");
             yield return new WaitForSeconds(0.5f);
 
-            List<Tile> tilesInSoulDrainAuraRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
+            List<Tile> tilesInSoulDrainAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(this), tile);
             foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
             {
                 if (tilesInSoulDrainAuraRange.Contains(entity.tile) &&
@@ -1037,7 +1037,7 @@ public class LivingEntity : MonoBehaviour
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Hateful Aura");
             yield return new WaitForSeconds(0.5f);
 
-            List<Tile> tilesInHatefulPresenceRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
+            List<Tile> tilesInHatefulPresenceRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(this), tile);
             foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
             {
                 if (tilesInHatefulPresenceRange.Contains(entity.tile) &&
@@ -1058,7 +1058,7 @@ public class LivingEntity : MonoBehaviour
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fiery Aura");
             yield return new WaitForSeconds(0.5f);
 
-            List<Tile> tilesInFieryAuraRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
+            List<Tile> tilesInFieryAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(this), tile);
 
             foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
             {
@@ -1082,7 +1082,7 @@ public class LivingEntity : MonoBehaviour
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shadow Aura");
             yield return new WaitForSeconds(0.5f);
 
-            List<Tile> tilesInShadowAuraRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
+            List<Tile> tilesInShadowAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(this), tile);
 
             foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
             {
@@ -1104,7 +1104,7 @@ public class LivingEntity : MonoBehaviour
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Storm Aura");
             yield return new WaitForSeconds(0.5f);
 
-            List<LivingEntity> stormAuraRange = EntityLogic.GetAllEnemiesWithinRange(this, currentAuraSize);
+            List<LivingEntity> stormAuraRange = EntityLogic.GetAllEnemiesWithinRange(this, EntityLogic.GetTotalAuraSize(this));
             List<LivingEntity> targetsHit = new List<LivingEntity>();
 
             // are there even enemies within aura range?
@@ -1141,7 +1141,7 @@ public class LivingEntity : MonoBehaviour
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Guardian Aura");
             yield return new WaitForSeconds(0.5f);
 
-            List<Tile> tilesInGuardianAuraRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
+            List<Tile> tilesInGuardianAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(this), tile);
 
             foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
             {
@@ -1163,7 +1163,7 @@ public class LivingEntity : MonoBehaviour
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Toxic Aura");
             yield return new WaitForSeconds(0.5f);
 
-            List<Tile> tilesInToxicAuraRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
+            List<Tile> tilesInToxicAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(this), tile);
 
             foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
             {
@@ -1184,7 +1184,7 @@ public class LivingEntity : MonoBehaviour
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Sacred Aura");
             yield return new WaitForSeconds(0.5f);
 
-            List<Tile> tilesInEncouragingPresenceRange = LevelManager.Instance.GetTilesWithinRange(currentAuraSize, tile);
+            List<Tile> tilesInEncouragingPresenceRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(this), tile);
             foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
             {
                 if (tilesInEncouragingPresenceRange.Contains(entity.tile) &&

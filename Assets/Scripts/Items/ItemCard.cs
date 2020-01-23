@@ -72,7 +72,7 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             if(InventoryManager.Instance.readyToAcceptNewItem == true)
             {
-                CharacterRoster.Instance.selectedCharacterData.AddItemToEquiptment(this);
+                //CharacterRoster.Instance.selectedCharacterData.AddItemToEquiptment(this);
                 InventoryManager.Instance.RemoveItemFromInventory(this);
                 InventoryManager.Instance.readyToAcceptNewItem = false;
             }

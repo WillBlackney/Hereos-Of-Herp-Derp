@@ -17,21 +17,24 @@ public class AbilityLibrary : MonoBehaviour
     }
     #endregion
 
-    public AbilityDataSO GetAbilityByName(string name)
+    public AbilityDataSO GetAbilityByName(string _name)
     {
+        Debug.Log("AbilityLibrary.GetAbilityByName() called, searching with provided string: " + _name);
+
         AbilityDataSO abilityReturned = null;
 
         foreach(AbilityDataSO ability in AllAbilities)
         {
-            if(ability.abilityName == name)
+            if(ability.abilityName == _name)
             {
                 abilityReturned = ability;
+                break;
             }
         }
 
         if (abilityReturned == null)
         {
-            Debug.Log("AbilityLibrary.GetAbilityByName() couldn't find an ability called '" + name + "', returning null...");
+            Debug.Log("AbilityLibrary.GetAbilityByName() couldn't find an ability called '" + _name + "', returning null...");
         }
 
         return abilityReturned;
