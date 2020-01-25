@@ -427,6 +427,13 @@ public class CombatLogic : MonoBehaviour
             parryChanceReturned = 0;
         }
 
+        // Check for virtuoso
+        if (attacker.myPassiveManager.virtuoso)
+        {
+            Debug.Log(attacker.name + " has 'Virtuoso' passive, reducing " + target.name + " parry chance to 0...");
+            parryChanceReturned = 0;
+        }
+
         // Cap Parry Chance at 80%
         if (parryChanceReturned > 80)
         {

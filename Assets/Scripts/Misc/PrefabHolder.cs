@@ -6,6 +6,7 @@ public class PrefabHolder : Singleton<PrefabHolder>
 {
     [Header("Buttons + UI")]
     public GameObject AbilityButtonPrefab;
+    public GameObject AttributeTab;
     public GameObject spellInfoPrefab;
     public GameObject activationWindowPrefab;
     public GameObject statePrefab;
@@ -25,7 +26,9 @@ public class PrefabHolder : Singleton<PrefabHolder>
     public GameObject ArtifactRewardButton;
     public GameObject ArtifactGO;
     public GameObject ItemCard;
+    public GameObject InventoryItem;
     public GameObject TreasureChest;
+    
 
     [Header("World/Level Related")]
     public GameObject LevelBG;

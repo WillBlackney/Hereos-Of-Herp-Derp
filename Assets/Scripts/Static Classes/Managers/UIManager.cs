@@ -34,13 +34,15 @@ public class UIManager : Singleton<UIManager>
     {
         if (CharacterRoster.activeSelf == true)
         {
+            DisableInventoryView();
             DisableCharacterRosterView();
         }
 
         else
         {
             EnableCharacterRosterView();
-            DisableInventoryView();
+            EnableInventoryView();
+            //DisableInventoryView();
             DisableWorldMapView();
         }
             

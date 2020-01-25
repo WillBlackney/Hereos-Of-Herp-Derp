@@ -205,6 +205,9 @@ public class PassiveManager : MonoBehaviour
     public bool perfectAim;
     public int perfectAimStacks;
 
+    public bool virtuoso;
+    public int virtuosoStacks;
+
     public bool frozenHeart;
     public int frozenHeartStacks;
 
@@ -2343,6 +2346,33 @@ public class PassiveManager : MonoBehaviour
             {
                 riposteStacks = 0;
                 riposte = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyVirtuoso(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyVirtuoso() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Riposte");
+
+        if (stacks > 0)
+        {
+            virtuosoStacks += stacks;
+            if (virtuosoStacks > 0)
+            {
+                virtuoso = true;
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            virtuosoStacks += stacks;
+            if (virtuosoStacks <= 0)
+            {
+                virtuosoStacks = 0;
+                virtuoso = false;
             }
         }
 

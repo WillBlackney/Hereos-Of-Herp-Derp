@@ -379,7 +379,6 @@ public class EventManager : Singleton<EventManager>
         WorldManager.Instance.SetWorldMapReadyState();
         // Start loot creation/display process
         StartNewLootRewardEvent();
-        yield return null;
     }
     public Action StartNewEndEliteEncounterEvent()
     {

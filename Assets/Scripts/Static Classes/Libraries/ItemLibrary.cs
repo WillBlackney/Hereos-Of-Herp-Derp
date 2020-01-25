@@ -112,12 +112,5 @@ public class ItemLibrary : MonoBehaviour
     }
     #endregion
 
-    // Item Assignment Logic
-    #region
-    public void AssignItem(CharacterData character, string itemName)
-    {
-    }
-   
-    #endregion
-
+    
 }

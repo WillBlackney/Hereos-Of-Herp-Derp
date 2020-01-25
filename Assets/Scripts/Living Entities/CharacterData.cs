@@ -13,6 +13,7 @@ public class CharacterData : MonoBehaviour
     public GameObject statsPageParent;
     public GameObject talentsPageParent;
     public GameObject abilityPageParent;
+    public GameObject attributeTabContentParent;
     public TextMeshProUGUI myNameText;
 
     [Header("Page Button References")]
@@ -168,8 +169,11 @@ public class CharacterData : MonoBehaviour
     public int tenaciousStacks;
     public int masochistStacks;
     public int lastStandStacks;
+    public int perfectAimStacks;
+    public int virtuosoStacks;
     public int slipperyStacks;
     public int riposteStacks;
+    public int trueSightStacks;
     public int perfectReflexesStacks;
     public int opportunistStacks;
     public int patientStalkerStacks;
@@ -177,6 +181,7 @@ public class CharacterData : MonoBehaviour
     public int cautiousStacks;
     public int guardianAuraStacks;
     public int unwaveringStacks;
+    public int unstoppableStacks;
     public int fieryAuraStacks;
     public int immolationStacks;
     public int demonStacks;
@@ -198,12 +203,15 @@ public class CharacterData : MonoBehaviour
     public int toxicAuraStacks;
     public int stormAuraStacks;
     public int stormLordStacks;
-    public int thornsStacks;    
+    public int thornsStacks;
+    public int enrageStacks;
+    public int powerLimitStacks;
 
     
 
     [Header("Misc Properties")]
     public string myName;
+    public List<AttributeTab> myAttributeTabs;
     #endregion
 
 
@@ -373,11 +381,6 @@ public class CharacterData : MonoBehaviour
     {
         if (characterClass == "Warrior")
         {
-            //myImageComponent.sprite = CharacterLibrary.Instance.warriorSprite;
-           // myNameText.text = CharacterLibrary.Instance.warriorClassName;
-           // classSprite.sprite = CharacterLibrary.Instance.warriorSprite;
-           // classNameText.text = CharacterLibrary.Instance.warriorClassName;
-
             myClass = "Warrior";
 
             // Set up health
@@ -417,20 +420,12 @@ public class CharacterData : MonoBehaviour
             SetMaxXP(100);
             ModifyCurrentXP(0);
 
-            // Abiltiies + Passives
-            //cautiousStacks = 5;
+            // Misc Passives + Extras
+            ModifyPowerLimit(1);
 
             // Set up abilities
             KnowsMove = true;
             KnowsStrike = true;
-            //KnowsFireBall = true;
-            //KnowsPhoenixDive = true;
-            //KnowsBloodOffering = true;
-           // KnowsSecondWind = true;
-            //KnowsGuard = true;
-            //KnowsFrostNova = true;
-           // KnowsShadowStep = true;
-
 
         }
 
@@ -1062,31 +1057,37 @@ public class CharacterData : MonoBehaviour
     #region    
     public void ModifyStrength(int strengthGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyStrength() called, modifying by " + strengthGainedOrLost.ToString());
         strength += strengthGainedOrLost;
         strengthText.text = strength.ToString();
     }
     public void ModifyWisdom(int wisdomGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyWisdom() called, modifying by " + wisdomGainedOrLost.ToString());
         wisdom += wisdomGainedOrLost;
         wisdomText.text = wisdom.ToString();
     }
     public void ModifyDexterity(int dexterityGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyDexterity() called, modifying by " + dexterityGainedOrLost.ToString());
         dexterity += dexterityGainedOrLost;
         dexterityText.text = dexterity.ToString();
     }
     public void ModifyMobility(int mobilityGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyMobility() called, modifying by " + mobilityGainedOrLost.ToString());
         mobility += mobilityGainedOrLost;
         mobilityText.text = mobility.ToString();
     }
     public void ModifyInitiative(int initiativeGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyInitiative() called, modifying by " + initiativeGainedOrLost.ToString());
         initiative += initiativeGainedOrLost;
         initiativeText.text = initiative.ToString();
     }    
     public void ModifyStamina(int energyGainedOrlost)
     {
+        Debug.Log("CharacterData.ModifyStamina() called, modifying by " + energyGainedOrlost.ToString());
         stamina += energyGainedOrlost;
         staminaText.text = stamina.ToString();
     }
@@ -1096,31 +1097,37 @@ public class CharacterData : MonoBehaviour
     #region
     public void ModifyCriticalChance(int criticalGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyCriticalChance() called, modifying by " + criticalGainedOrLost.ToString());
         criticalChance += criticalGainedOrLost;
         criticalText.text = criticalChance.ToString();
     }
     public void ModifyDodge(int dodgeGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyDodge() called, modifying by " + dodgeGainedOrLost.ToString());
         dodge += dodgeGainedOrLost;
         dodgeText.text = dodge.ToString();
     }
     public void ModifyParry(int parryGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyParry() called, modifying by " + parryGainedOrLost.ToString());
         parry += parryGainedOrLost;
         parryText.text = parry.ToString();
     }
     public void ModifyAuraSize(int auraGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyAuraSize() called, modifying by " + auraGainedOrLost.ToString());
         auraSize += auraGainedOrLost;
         auraSizeText.text = auraSize.ToString();
     }
     public void ModifyMaxEnergy(int maxEnergyGainedOrlost)
     {
+        Debug.Log("CharacterData.ModifyMaxEnergy() called, modifying by " + maxEnergyGainedOrlost.ToString());
         maxEnergy += maxEnergyGainedOrlost;
         maxEnergyText.text = maxEnergy.ToString();
     }   
     public void ModifyMeleeRange(int meleeRangeGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyMeleeRange() called, modifying by " + meleeRangeGainedOrLost.ToString());
         meleeRange += meleeRangeGainedOrLost;
         meleeRangeText.text = meleeRange.ToString();
     }
@@ -1132,31 +1139,37 @@ public class CharacterData : MonoBehaviour
     #region
     public void ModifyPhysicalResistance(int resistanceGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyPhysicalResistance() called, modifying by " + resistanceGainedOrLost.ToString());
         physicalResistance += resistanceGainedOrLost;
         physicalResistanceText.text = physicalResistance.ToString();
     }
     public void ModifyFireResistance(int resistanceGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyFireResistance() called, modifying by " + resistanceGainedOrLost.ToString());
         fireResistance += resistanceGainedOrLost;
         fireResistanceText.text = fireResistance.ToString();
     }
     public void ModifyFrostResistance(int resistanceGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyFrostResistance() called, modifying by " + resistanceGainedOrLost.ToString());
         frostResistance += resistanceGainedOrLost;
         frostResistanceText.text = frostResistance.ToString();
     }
     public void ModifyPoisonResistance(int resistanceGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyPoisonResistance() called, modifying by " + resistanceGainedOrLost.ToString());
         poisonResistance += resistanceGainedOrLost;
         poisonResistanceText.text = poisonResistance.ToString();
     }
     public void ModifyAirResistance(int resistanceGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyAirResistance() called, modifying by " + resistanceGainedOrLost.ToString());
         airResistance += resistanceGainedOrLost;
         airResistanceText.text = airResistance.ToString();
     }
     public void ModifyShadowResistance(int resistanceGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyShadowResistance() called, modifying by " + resistanceGainedOrLost.ToString());
         shadowResistance += resistanceGainedOrLost;
         shadowResistanceText.text = shadowResistance.ToString();
     }
@@ -1167,6 +1180,8 @@ public class CharacterData : MonoBehaviour
     #region
     public void SetCurrentHealth(int newValue)
     {
+        Debug.Log("CharacterData.SetCurrentHealth() called, new health value: " + newValue.ToString());
+
         currentHealth = newValue;
 
         // prevent healing past max HP
@@ -1186,6 +1201,8 @@ public class CharacterData : MonoBehaviour
     }
     public void ModifyCurrentHealth(int healthGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyCurrentHealth() called, modifying by " + healthGainedOrLost.ToString());
+
         currentHealth += healthGainedOrLost;
 
         // prevent healing past max HP
@@ -1212,8 +1229,9 @@ public class CharacterData : MonoBehaviour
     }
     public void ModifyMaxHealth(int maxHealthGainedOrLost)
     {
+        Debug.Log("CharacterData.ModifyMaxHealth() called, modifying by " + maxHealthGainedOrLost.ToString());
+
         maxHealth += maxHealthGainedOrLost;
-        //panelMaxHealthText.text = MaxHealth.ToString();
         maxHealthText.text = maxHealth.ToString();
 
         if (currentHealth > maxHealth)
@@ -1238,173 +1256,245 @@ public class CharacterData : MonoBehaviour
     {
         Debug.Log("CharacterData.ModifyTenacious() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         tenaciousStacks += stacks;
+        StartAddAttributeTabProcess("Tenacious", stacks);
     }
     public void ModifyMasochist(int stacks)
     {
         Debug.Log("CharacterData.ModifyMasochist() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         tenaciousStacks += stacks;
+        StartAddAttributeTabProcess("Masochist", stacks);
     }
     public void ModifyLastStand(int stacks)
     {
         Debug.Log("CharacterData.ModifyLastStand() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         lastStandStacks += stacks;
+        StartAddAttributeTabProcess("Last Stand", stacks);
     }
     public void ModifySlippery(int stacks)
     {
         Debug.Log("CharacterData.ModifySlippery() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         slipperyStacks += stacks;
+        StartAddAttributeTabProcess("Slippery", stacks);
+    }
+    public void ModifyUnstoppable(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyUnstoppable() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        unstoppableStacks += stacks;
+        StartAddAttributeTabProcess("Unstoppable", stacks);
+    }
+    public void ModifyPerfectAim(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyPerfectAim() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        perfectAimStacks += stacks;
+        StartAddAttributeTabProcess("Perfect Aim", stacks);
+    }
+    public void ModifyVirtuoso(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyVirtuoso() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        virtuosoStacks += stacks;
+        StartAddAttributeTabProcess("Virtuoso", stacks);
     }
     public void ModifyRiposte(int stacks)
     {
         Debug.Log("CharacterData.ModifyRiposte() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         riposteStacks += stacks;
+        StartAddAttributeTabProcess("Riposte", stacks);
     }
     public void ModifyPerfectReflexes(int stacks)
     {
         Debug.Log("CharacterData.ModifyPerfectReflexes() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         perfectReflexesStacks += stacks;
+        StartAddAttributeTabProcess("Perfect Reflexes", stacks);
     }
     public void ModifyOpportunist(int stacks)
     {
         Debug.Log("CharacterData.ModifyOpportunist() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         opportunistStacks += stacks;
+        StartAddAttributeTabProcess("Opportunist", stacks);
+    }
+    public void ModifyPowerLimit(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyPowerLimit() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        powerLimitStacks += stacks;
     }
     public void ModifyPatientStalker(int stacks)
     {
         Debug.Log("CharacterData.ModifyPatientStalker() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         patientStalkerStacks += stacks;
+        StartAddAttributeTabProcess("Patient Stalker", stacks);
     }
     public void ModifyStealth(int stacks)
     {
         Debug.Log("CharacterData.ModifyStealth() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         stealthStacks += stacks;
+        StartAddAttributeTabProcess("Stealth", stacks);
     }
     public void ModifyCautious(int stacks)
     {
         Debug.Log("CharacterData.ModifyCautious() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         cautiousStacks += stacks;
+        StartAddAttributeTabProcess("Cautious", stacks);
     }
     public void ModifyGuardianAura(int stacks)
     {
         Debug.Log("CharacterData.ModifyGuardianAura() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         guardianAuraStacks += stacks;
+        StartAddAttributeTabProcess("Guardian Aura", stacks);
     }
     public void ModifyUnwavering(int stacks)
     {
         Debug.Log("CharacterData.ModifyUnwavering() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         unwaveringStacks += stacks;
+        StartAddAttributeTabProcess("Unwavering", stacks);
     }
     public void ModifyFieryAura(int stacks)
     {
         Debug.Log("CharacterData.ModifyFieryAura() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         fieryAuraStacks += stacks;
+        StartAddAttributeTabProcess("Fiery Aura", stacks);
     }
     public void ModifyImmolation(int stacks)
     {
         Debug.Log("CharacterData.ModifyImmolation() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         immolationStacks += stacks;
+        StartAddAttributeTabProcess("Immolation", stacks);
     }
     public void ModifyDemon(int stacks)
     {
         Debug.Log("CharacterData.ModifyDemon() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         demonStacks += stacks;
+        StartAddAttributeTabProcess("Demon", stacks);
     }
     public void ModifyShatter(int stacks)
     {
         Debug.Log("CharacterData.ModifyShatter() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         shatterStacks += stacks;
+        StartAddAttributeTabProcess("Shatter", stacks);
     }
     public void ModifyFrozenHeart(int stacks)
     {
         Debug.Log("CharacterData.ModifyFrozenHeart() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         frozenHeartStacks += stacks;
+        StartAddAttributeTabProcess("Frozen Heart", stacks);
     }
     public void ModifyPredator(int stacks)
     {
         Debug.Log("CharacterData.ModifyPredator() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         predatorStacks += stacks;
+        StartAddAttributeTabProcess("Predator", stacks);
     }
     public void ModifyHawkEye(int stacks)
     {
         Debug.Log("CharacterData.ModifyHawkEye() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         hawkEyeStacks += stacks;
+        StartAddAttributeTabProcess("Hawk Eye", stacks);
     }
     public void ModifyFlux(int stacks)
     {
         Debug.Log("CharacterData.ModifyFlux() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         fluxStacks += stacks;
+        StartAddAttributeTabProcess("Flux", stacks);
     }
     public void ModifyPhasing(int stacks)
     {
         Debug.Log("CharacterData.ModifyPhasing() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         phasingStacks += stacks;
+        StartAddAttributeTabProcess("Phasing", stacks);
     }
     public void ModifyEtherealBeing(int stacks)
     {
         Debug.Log("CharacterData.ModifyEtherealBeing() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         etherealBeingStacks += stacks;
+        StartAddAttributeTabProcess("Ethereal Being", stacks);
     }
     public void ModifyEncouragingAura(int stacks)
     {
         Debug.Log("CharacterData.ModifyEncouragingAura() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         encouragingAuraStacks += stacks;
+        StartAddAttributeTabProcess("Encouraging Aura", stacks);
     }
     public void ModifyRadiance(int stacks)
     {
         Debug.Log("CharacterData.ModifyRadiance() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         radianceStacks += stacks;
+        StartAddAttributeTabProcess("Radiance", stacks);
     }
     public void ModifySacredAura(int stacks)
     {
         Debug.Log("CharacterData.ModifySacredAura() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         sacredAuraStacks += stacks;
+        StartAddAttributeTabProcess("Sacred Aura", stacks);
     }
     public void ModifyShadowAura(int stacks)
     {
         Debug.Log("CharacterData.ModifyShadowAura() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         shadowAuraStacks += stacks;
+        StartAddAttributeTabProcess("Shadow Aura", stacks);
     }
     public void ModifyShadowForm(int stacks)
     {
         Debug.Log("CharacterData.ModifyShadowForm() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         shadowFormStacks += stacks;
+        StartAddAttributeTabProcess("Shadow Form", stacks);
     }
     public void ModifyPoisonous(int stacks)
     {
         Debug.Log("CharacterData.ModifyPoisonous() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         poisonousStacks += stacks;
+        StartAddAttributeTabProcess("Poisonous", stacks);
     }
     public void ModifyVenomous(int stacks)
     {
         Debug.Log("CharacterData.ModifyVenomous() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         venomousStacks += stacks;
+        StartAddAttributeTabProcess("Venomous", stacks);
     }
     public void ModifyToxicity(int stacks)
     {
         Debug.Log("CharacterData.ModifyToxicity() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         toxicityStacks += stacks;
+        StartAddAttributeTabProcess("Toxicity", stacks);
     }
     public void ModifyToxicAura(int stacks)
     {
         Debug.Log("CharacterData.ModifyToxicAura() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         toxicAuraStacks += stacks;
+        StartAddAttributeTabProcess("Toxic Aura", stacks);
     }
     public void ModifyStormAura(int stacks)
     {
         Debug.Log("CharacterData.ModifyStormAura() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         stormAuraStacks += stacks;
+        StartAddAttributeTabProcess("Storm Aura", stacks);
     }
     public void ModifyStormLord(int stacks)
     {
         Debug.Log("CharacterData.ModifyStormLord() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         stormLordStacks += stacks;
+        StartAddAttributeTabProcess("Storm Lord", stacks);
+
     }
     public void ModifyThorns(int stacks)
     {
         Debug.Log("CharacterData.ModifyThorns() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         thornsStacks += stacks;
+        StartAddAttributeTabProcess("Thorns", stacks);
+
     }
-          
+    public void ModifyEnrage(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyEnrage() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        enrageStacks += stacks;
+        StartAddAttributeTabProcess("Enrage", stacks);
+    }
+    public void ModifyTrueSight(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyTrueSight() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        trueSightStacks += stacks;
+        StartAddAttributeTabProcess("Thorns", stacks);
+
+    }
+
 
     #endregion
 
@@ -1473,6 +1563,83 @@ public class CharacterData : MonoBehaviour
     }
     #endregion
 
+    // Attribute View Logic
+    #region
+    public void StartAddAttributeTabProcess(string attributeName, int stacksGainedOrLost)
+    {
+        Debug.Log("CharacterData.StartAddAttributeTabProcess() called for " + attributeName);
 
-    
+        if (myAttributeTabs.Count > 0)
+        {
+            string at = null;
+            int stacks = 0;
+            bool tabUpdated = false;
+
+            foreach (AttributeTab tab in myAttributeTabs)
+            {
+                if (attributeName == tab.attributeName)
+                {
+                    // Attribute tab already exists in character's list
+                    UpdateAttributeTab(tab, stacksGainedOrLost);
+                    tabUpdated = true;
+                    break;
+                }
+
+                else
+                {
+                    at = attributeName;
+                    stacks = stacksGainedOrLost;
+                }
+            }
+
+            if (tabUpdated == false)
+            {
+                AddNewAttributeTab(at, stacks);
+            }
+
+        }
+        else
+        {
+            AddNewAttributeTab(attributeName, stacksGainedOrLost);
+        }
+
+
+    }
+    public void AddNewAttributeTab(string attributeName, int stacksGained)
+    {
+        Debug.Log("CharacterData.AddNewAttributeTab() called");
+
+        // only create an icon if the the effects' stacks are at least 1 or -1
+        if (stacksGained != 0)
+        {            
+            GameObject newAttributeTabGO = Instantiate(PrefabHolder.Instance.AttributeTab, attributeTabContentParent.transform);
+            AttributeTab newAttributeTab = newAttributeTabGO.GetComponent<AttributeTab>();
+            newAttributeTab.InitializeSetup(attributeName, stacksGained);
+            //newAttributeTab.ModifyStatusIconStacks(stacksGained);
+            myAttributeTabs.Add(newAttributeTab);
+        }
+
+
+    }
+    public void RemoveAttributeTab(AttributeTab tabRemoved)
+    {
+        Debug.Log("StatusManager.RemoveStatusProcess() called, removing tab named " + tabRemoved.attributeName);
+        myAttributeTabs.Remove(tabRemoved);
+        Destroy(tabRemoved.gameObject);
+    }
+    public void UpdateAttributeTab(AttributeTab tabToUpdate, int stacksGainedOrLost)
+    {
+        Debug.Log("StatusManager.UpdateStatusProcess() called, updating " +
+            tabToUpdate.attributeName + " tab, applying " + stacksGainedOrLost.ToString() + " stacks");
+
+        tabToUpdate.ModifyStacks(stacksGainedOrLost);
+        if (tabToUpdate.attributeStacks == 0)
+        {
+            RemoveAttributeTab(tabToUpdate);
+        }
+
+    }
+
+    #endregion
+
 }

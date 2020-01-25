@@ -191,6 +191,10 @@ public class Defender : LivingEntity
         {
             myPassiveManager.ModifyLastStand(myCharacterData.lastStandStacks);
         }
+        if (myCharacterData.unstoppableStacks > 0)
+        {
+            myPassiveManager.ModifyUnstoppable(1);
+        }
         if (myCharacterData.slipperyStacks > 0)
         {
             myPassiveManager.ModifySlippery(myCharacterData.slipperyStacks);
@@ -198,6 +202,10 @@ public class Defender : LivingEntity
         if (myCharacterData.riposteStacks > 0)
         {
             myPassiveManager.ModifyRiposte(myCharacterData.riposteStacks);
+        }
+        if (myCharacterData.virtuosoStacks > 0)
+        {
+            myPassiveManager.ModifyVirtuoso(myCharacterData.virtuosoStacks);
         }
         if (myCharacterData.perfectReflexesStacks > 0)
         {
@@ -254,6 +262,14 @@ public class Defender : LivingEntity
         if (myCharacterData.hawkEyeStacks > 0)
         {
             myPassiveManager.ModifyHawkEye(myCharacterData.hawkEyeStacks);
+        }
+        if (myCharacterData.thornsStacks > 0)
+        {
+            myPassiveManager.ModifyThorns(myCharacterData.thornsStacks);
+        }
+        if (myCharacterData.trueSightStacks > 0)
+        {
+            myPassiveManager.ModifyTrueSight(1);
         }
         if (myCharacterData.fluxStacks > 0)
         {

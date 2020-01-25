@@ -179,6 +179,7 @@ MonoBehaviour:
   KnowsCheapShot: 0
   KnowsShank: 0
   KnowsShadowStep: 0
+  KnowsShadowBlast: 0
   KnowsAmbush: 0
   KnowsStalk: 0
   KnowsSharpenBlade: 0
@@ -282,7 +283,7 @@ MonoBehaviour:
   temporaryBonusDodge: 0
   temporaryBonusDodgeStacks: 0
   temporaryTrueSight: 0
-  temporaryBonusTrueSightStacks: 0
+  temporaryTrueSightStacks: 0
   temporaryHawkEye: 0
   temporaryHawkEyeStacks: 0
   overwatch: 0
@@ -357,7 +358,7 @@ MonoBehaviour:
   unstoppableStacks: 0
   unwavering: 0
   unwaveringStacks: 0
-  unfallible: 0
+  infallible: 0
   unfallibleStacks: 0
   incorruptable: 0
   incorruptableStacks: 0
@@ -431,6 +432,8 @@ MonoBehaviour:
   immolationStacks: 0
   tenacious: 0
   tenaciousStacks: 0
+  radiance: 0
+  radianceStacks: 0
   fading: 0
   fadingStacks: 0
   hawkEye: 0
@@ -498,7 +501,7 @@ MonoBehaviour:
   enemy: {fileID: 0}
   baseMobility: 6
   baseMaxHealth: 30
-  baseStartingHealth: 30
+  baseStartingHealth: 1
   baseStamina: 40
   baseMaxEnergy: 60
   baseMeleeRange: 1

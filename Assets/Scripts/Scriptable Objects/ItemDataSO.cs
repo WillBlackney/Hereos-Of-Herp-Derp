@@ -6,10 +6,16 @@ using UnityEngine;
 public class ItemDataSO : ScriptableObject
 {
     public enum ItemRarity { NoRarity, Common, Rare, Epic };
-    public enum ItemType { None, Head, Chest, Gloves, Legs, Ring, Trinket, Offhand, Shield, MeleeOneHand, MeleeTwoHand, RangedTwoHand };
+    public enum ItemType { None, Head, Chest, Legs, Offhand, Shield, MeleeOneHand, MeleeTwoHand, RangedTwoHand };
     public enum WeaponDamageType { None, Physical, Poison, Fire, Frost, Shadow, Air };
     public enum GrantsAbility { None, Strike, Shoot, Block};
-    public enum ItemEffect { None};
+    public enum ItemEffect
+    { None, BonusStrength, BonusWisdom, BonusDexterity, BonusStamina, BonusInitiative, BonusMobility,
+      BonusCritical, BonusDodge, BonusParry, BonusMaxEnergy, BonusMeleeRange, BonusAuraSize,
+      BonusFireDamage, BonusFrostDamage, BonusPoisonDamage, BonusShadowDamage, BonusAirDamage,
+      Enrage, HawkEye, Thorns, Opportunist, BonusPowerLimit, BonusAllResistances,
+      Stealth, TrueSight, Slippery, Unstoppable, PerfectAim, Virtuoso, Riposte      
+    };
 
     [Header("Primary Properties")]
     public Sprite sprite;
@@ -31,10 +37,10 @@ public class ItemDataSO : ScriptableObject
     public WeaponDamageType weaponDamageType;
     public int baseDamage;
 
-    [Header("Color Properties")]
+    //[Header("Color Properties")]
     // to do in future: color properties should not be here. they should be in ItemManager or something else
-    public Color commonColour = Color.white;
-    public Color rareColour = Color.blue;
-    public Color epicColour = Color.red;
+    //public Color commonColour = Color.white;
+    //public Color rareColour = Color.blue;
+    //public Color epicColour = Color.red;
 
 }

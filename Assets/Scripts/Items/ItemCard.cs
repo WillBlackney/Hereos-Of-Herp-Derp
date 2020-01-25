@@ -7,26 +7,27 @@ using UnityEngine.EventSystems;
 public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     
-    [Header("Component References")]    
+    [Header("Image References")]    
     public Image itemImage;
     public Image itemImageFrame;
     public Image itemNameRibbonImage;
+    public Image itemDamageTypeImage;
+
+    [Header("Text References")]
     public TextMeshProUGUI myNameText;
     public TextMeshProUGUI myDescriptionText;
-    public Sprite commonRibbonSprite;
-    public Sprite rareRibbonSprite;
-    public Sprite epicRibbonSprite;
-    public Sprite commonFrameSprite;
-    public Sprite rareFrameSprite;
-    public Sprite epicFrameSprite;
+    public TextMeshProUGUI myItemTypeText;
+    public TextMeshProUGUI myBaseDamageText;
+
+    [Header("Game Object References")]
+    public GameObject weaponDamageTypeParent;    
 
     [Header("Properties")]
+    public ItemDataSO myItemDataSO;
     public bool inInventory;
     public bool inShop;
     public ItemSlot myItemSlot;
-    public string myName;
-    public ItemDataSO myItemDataSO;
-    public ItemDataSO.ItemRarity myItemRarity;
+    public string myName;    
     public float originalScale;
     public bool expanding;
     public bool shrinking;
@@ -36,31 +37,7 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     #region
     public void RunSetupFromItemData(ItemDataSO data)
     {
-        originalScale = GetComponent<RectTransform>().localScale.x;
-        myItemDataSO = data;
-        Debug.Log("RunSetupFromItemData() called...");
-        myName = data.Name;
-        myNameText.text = myName;
-        myDescriptionText.text = data.itemDescription;
-        itemImage.sprite = data.sprite;
-        myItemRarity = data.itemRarity;
-
-        if (myItemRarity == ItemDataSO.ItemRarity.Common)
-        {
-            itemImageFrame.sprite = commonFrameSprite;
-            itemNameRibbonImage.sprite = commonRibbonSprite;
-        }
-        else if (myItemRarity == ItemDataSO.ItemRarity.Rare)
-        {
-            itemImageFrame.sprite = rareFrameSprite;
-            itemNameRibbonImage.sprite = rareRibbonSprite;
-        }
-        else if (myItemRarity == ItemDataSO.ItemRarity.Epic)
-        {
-            itemImageFrame.sprite = epicFrameSprite;
-            itemNameRibbonImage.sprite = epicRibbonSprite;
-        }
-
+        ItemManager.Instance.SetUpItemCardFromData(this, data);
     }
     #endregion
 
@@ -70,11 +47,11 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (inInventory)
         {
-            if(InventoryManager.Instance.readyToAcceptNewItem == true)
+            //if(InventoryManager.Instance.readyToAcceptNewItem == true)
             {
                 //CharacterRoster.Instance.selectedCharacterData.AddItemToEquiptment(this);
-                InventoryManager.Instance.RemoveItemFromInventory(this);
-                InventoryManager.Instance.readyToAcceptNewItem = false;
+                //InventoryManager.Instance.RemoveItemFromInventory(this);
+                //InventoryManager.Instance.readyToAcceptNewItem = false;
             }
             return;
         }
@@ -87,7 +64,7 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         Debug.Log("Adding Item to inventory: " + myName);
         // add item to inventory
-        InventoryManager.Instance.AddItemToInventory(this);
+        InventoryController.Instance.AddItemToInventory(myItemDataSO);
         RewardScreen.Instance.DestroyAllItemCards();
         Destroy(RewardScreen.Instance.currentItemRewardButton);
         RewardScreen.Instance.currentItemRewardButton = null;        
