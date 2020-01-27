@@ -13,7 +13,8 @@ public class AbilityLibrary : MonoBehaviour
     public static AbilityLibrary Instance;
     private void Awake()
     {
-        Instance = this;        
+        Instance = this;
+        DontDestroyOnLoad(this);
     }
     #endregion
 

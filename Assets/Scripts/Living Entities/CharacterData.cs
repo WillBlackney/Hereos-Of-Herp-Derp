@@ -114,6 +114,12 @@ public class CharacterData : MonoBehaviour
     public GameObject corruptionPlusButton;
     public GameObject naturalismPlusButton;
 
+    [Header("Weapon Properties")]
+    public ItemDataSO mainHandWeapon;
+    public ItemDataSO offHandWeapon;
+    public CharacterItemSlot mainHandSlot;
+    public CharacterItemSlot offHandSlot;
+
     [Header("Health Properties")]
     public int currentHealth;
     public int maxHealth;
@@ -422,6 +428,9 @@ public class CharacterData : MonoBehaviour
 
             // Misc Passives + Extras
             ModifyPowerLimit(1);
+
+            // Assign simple sword as default REMOVE LATER
+            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Sword"), mainHandSlot);
 
             // Set up abilities
             KnowsMove = true;

@@ -158,35 +158,39 @@ public class LivingEntity : MonoBehaviour
     }    
     public virtual void SetBaseProperties()
     {
-        currentMobility = baseMobility;
-        currentMaxHealth = baseMaxHealth;        
-        if(enemy && ArtifactManager.Instance.HasArtifact("Black Star"))
-        {
-            baseStartingHealth = (int) (baseMaxHealth * 0.8f);
-        }
+        //currentMobility = baseMobility;
+        currentMaxHealth = baseMaxHealth;    
+        currentHealth = baseStartingHealth;
+        currentMaxEnergy = baseMaxEnergy;
+        //currentStamina = baseStamina;              
+        currentMeleeRange = baseMeleeRange;
 
         // remove later when we've made characters base power = 1 in the inspector
         baseMaxPowersCount++;
 
-        currentHealth = baseStartingHealth;
-        currentMaxEnergy = baseMaxEnergy;
-        currentStamina = baseStamina;              
-        currentMeleeRange = baseMeleeRange;
+        // Set Weapons
+        ItemManager.Instance.SetUpLivingEntityWeapons(this);        
 
-        //currentHealth = 10;
-        
+        // Set up core stats
         ModifyCurrentStrength(baseStrength);
         ModifyCurrentWisdom(baseWisdom);
         ModifyCurrentDexterity(baseDexterity);
-        ModifyCurrentInitiative(baseInitiative);        
-        ModifyCurrentBlock(baseStartingBlock);
-        ModifyCurrentEnergy(baseStartingEnergyBonus);
+        ModifyCurrentInitiative(baseInitiative);
+        ModifyCurrentStamina(baseStamina);
+        ModifyCurrentMobility(baseMobility);
+
+        // Set up secondary stats
         ModifyCurrentCriticalChance(baseCriticalChance);
         ModifyCurrentDodgeChance(baseDodgeChance);
         ModifyCurrentParryChance(baseParryChance);
         ModifyCurrentAuraSize(baseAuraSize);
         ModifyMaxPowersLimit(baseMaxPowersCount);
 
+        // Set up misc stats
+        ModifyCurrentBlock(baseStartingBlock);
+        ModifyCurrentEnergy(baseStartingEnergyBonus);        
+
+        // Refresh GUI's
         UpdateHealthGUIElements();
         SetColor(normalColour);
 
@@ -201,9 +205,9 @@ public class LivingEntity : MonoBehaviour
         //ModifyCurrentDodgeChance(100);
 
         // Modify items
-        ItemManager.Instance.AssignWeaponToCharacter(this, ItemLibrary.Instance.GetItemByName("Simple Sword"));
+        //ItemManager.Instance.AssignWeaponToLivingEntity(this, ItemLibrary.Instance.GetItemByName("Simple Sword"));
         //ItemManager.Instance.AssignWeaponToCharacter(this, ItemLibrary.Instance.GetItemByName("Simple Bow"));
-        ItemManager.Instance.AssignShieldToCharacter(this, ItemLibrary.Instance.GetItemByName("Simple Shield"));
+        //ItemManager.Instance.AssignShieldToCharacter(this, ItemLibrary.Instance.GetItemByName("Simple Shield"));
 
         // Modify Passives
 

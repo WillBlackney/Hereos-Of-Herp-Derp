@@ -38,10 +38,6 @@ public class InventoryController : Singleton<InventoryController>
         AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
         AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
         AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
     }
 
     public void AddItemToInventory(ItemDataSO itemAdded)
@@ -52,6 +48,19 @@ public class InventoryController : Singleton<InventoryController>
         InventoryItemCard itemCard = newInventoryItem.GetComponent<InventoryItemCard>();
         PlaceItemOnInventorySlot(itemCard, GetNextAvailableSlot());
         ItemManager.Instance.SetUpInventoryItemCardFromData(itemCard, itemAdded);
+
+    }
+
+    public void CreateAndAddItemDirectlyToCharacter(ItemDataSO itemAdded, CharacterItemSlot weaponSlot)
+    {
+        // Method used to set characters up with default items. Will be used later again when character presets are set up
+        Debug.Log("InventoryController.AddItemToInventory() called for " + itemAdded.Name);
+
+        GameObject newInventoryItem = Instantiate(PrefabHolder.Instance.InventoryItem, itemsParent.transform);
+        InventoryItemCard itemCard = newInventoryItem.GetComponent<InventoryItemCard>();
+
+        ItemManager.Instance.SetUpInventoryItemCardFromData(itemCard, itemAdded);
+        PlaceItemOnCharacterSlot(itemCard, weaponSlot);
 
     }
     public void PlaceItemOnInventorySlot(InventoryItemCard item, InventorySlot slot)
@@ -71,12 +80,28 @@ public class InventoryController : Singleton<InventoryController>
     public void PlaceItemOnCharacterSlot(InventoryItemCard itemCard, CharacterItemSlot characterSlot)
     {
         itemCard.transform.position = characterSlot.transform.position;
-        itemCard.myInventorySlot.occupied = false;
-        itemCard.equipted = true;
-        itemCard.myInventorySlot.myItemCard = null;
-        itemCard.myInventorySlot = null;
+        if(itemCard.myInventorySlot != null)
+        {
+            itemCard.myInventorySlot.occupied = false;
+            itemCard.myInventorySlot.myItemCard = null;
+            itemCard.myInventorySlot = null;
+        }
+        
+        itemCard.equipted = true;       
         itemCard.transform.SetParent(characterSlot.transform);
-        characterSlot.myItem = itemCard;        
+        characterSlot.myItem = itemCard;  
+        
+        // Weapon specific set up
+        if(characterSlot.mySlotType == CharacterItemSlot.SlotType.MainHand)
+        {
+            characterSlot.myCharacterData.mainHandWeapon = itemCard.myItemData;
+
+        }
+
+        else if (characterSlot.mySlotType == CharacterItemSlot.SlotType.OffHand)
+        {
+            characterSlot.myCharacterData.offHandWeapon = itemCard.myItemData;
+        }
 
         itemCard.SetRayCastingState(true);
     }
@@ -110,12 +135,39 @@ public class InventoryController : Singleton<InventoryController>
         // Prevent player from mismatching items to slots
         if (IsSlotValidForItem(itemCard, characterSlot))
         {
+            // check if player is adding a 1h to the off hand slot while a 2h weapon is equipted, if so, prevent this
+            if((characterSlot.myCharacterData.mainHandSlot.myItem.myItemData.itemType == ItemDataSO.ItemType.MeleeTwoHand ||
+                characterSlot.myCharacterData.mainHandSlot.myItem.myItemData.itemType == ItemDataSO.ItemType.MeleeTwoHand) && 
+                characterSlot.mySlotType == CharacterItemSlot.SlotType.OffHand
+                )
+            {
+                Debug.Log("InventoryController.PlaceItemOnCharacterSlot() detected player attempting to place item in off hand slot while 2h weapon equipted," +
+                    " cancelling item placement");
+                return;
+            }
+
             // is the slot empty? If so, just add new item
             if(characterSlot.myItem == null)
             {
                 Debug.Log("Slot is not occupied");
                 // Apply item to character slot
                 PlaceItemOnCharacterSlot(itemCard, characterSlot);
+
+                // Check if weapon being added is a 2h weapon. If it is, also remove the off hand weapon (cant duel wield 2h weapons)
+                if (
+                    (itemCard.myItemData.itemType == ItemDataSO.ItemType.MeleeTwoHand ||
+                    itemCard.myItemData.itemType == ItemDataSO.ItemType.RangedTwoHand) &&
+                    characterSlot.myCharacterData.offHandSlot.myItem != null
+                    )
+                {
+                    PlaceItemOnInventorySlot(characterSlot.myCharacterData.offHandSlot.myItem, GetNextAvailableSlot());
+
+                    // Remove old item effects from character
+                    ItemManager.Instance.ApplyAllItemEffectsToCharacterData(characterSlot.myCharacterData, characterSlot.myCharacterData.offHandSlot.myItem.myItemData, true);
+
+                    // null off hand slot
+                    characterSlot.myCharacterData.offHandSlot.myItem = null;
+                }
 
                 // Apply item effects
                 ItemManager.Instance.ApplyAllItemEffectsToCharacterData(characterSlot.myCharacterData, itemCard.myItemData);
@@ -131,6 +183,22 @@ public class InventoryController : Singleton<InventoryController>
 
                 // Remove old item effects from character
                 ItemManager.Instance.ApplyAllItemEffectsToCharacterData(characterSlot.myCharacterData, characterSlot.myItem.myItemData, true);
+
+                // Check if weapon being added is a 2h weapon. If it is, also remove the off hand weapon (cant duel wield 2h weapons)
+                if(
+                    (itemCard.myItemData.itemType == ItemDataSO.ItemType.MeleeTwoHand || 
+                    itemCard.myItemData.itemType == ItemDataSO.ItemType.RangedTwoHand) &&
+                    characterSlot.myCharacterData.offHandSlot.myItem != null
+                    )
+                {
+                    PlaceItemOnInventorySlot(characterSlot.myCharacterData.offHandSlot.myItem, GetNextAvailableSlot());
+
+                    // Remove old item effects from character
+                    ItemManager.Instance.ApplyAllItemEffectsToCharacterData(characterSlot.myCharacterData, characterSlot.myCharacterData.offHandSlot.myItem.myItemData, true);
+
+                    // null off hand slot
+                    characterSlot.myCharacterData.offHandSlot.myItem = null;
+                }
 
                 // Apply new item to character slot
                 PlaceItemOnCharacterSlot(itemCard, characterSlot);

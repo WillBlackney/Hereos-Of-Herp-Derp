@@ -13,7 +13,7 @@ public class StatusIconLibrary : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        //PopulateStatusIconLibrary();
+        DontDestroyOnLoad(this);
     }
     public void PopulateStatusIconLibrary()
     {
