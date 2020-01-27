@@ -201,6 +201,20 @@ public static class CharacterModelController
         model.simpleSwordMH.SetActive(true);
     }
 
+    public static void SetUpAsRandomPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.randomLeftLeg.SetActive(true);
+        model.randomRightLeg.SetActive(true);
+        model.randomHead.SetActive(true);
+        model.randomRightHand.SetActive(true);
+        model.randomRightArm.SetActive(true);
+        model.randomLeftHand.SetActive(true);
+        model.randomLeftArm.SetActive(true);
+        model.randomChest.SetActive(true);
+    }
+
 
 
 
@@ -277,6 +291,10 @@ public static class CharacterModelController
         else if (preset == "Spell Blade")
         {
             SetUpAsSpellBladePreset(model);
+        }
+        else if (preset == "Random")
+        {
+            SetUpAsRandomPreset(model);
         }
     }
 }

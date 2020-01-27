@@ -6,6 +6,7 @@ public class UniversalCharacterModel : MonoBehaviour
 {
     [Header("Left Leg References")]
     public List<GameObject> allLeftLegs;
+    public GameObject randomLeftLeg;
     public GameObject paladinLeftLeg;
     public GameObject knightLeftLeg;
     public GameObject mageLeftLeg;
@@ -21,6 +22,7 @@ public class UniversalCharacterModel : MonoBehaviour
 
     [Header("Right Leg References")]
     public List<GameObject> allRightLegs;
+    public GameObject randomRightLeg;
     public GameObject paladinRightLeg;
     public GameObject knightRightLeg;
     public GameObject mageRightLeg;
@@ -36,6 +38,7 @@ public class UniversalCharacterModel : MonoBehaviour
 
     [Header("Head References")]
     public List<GameObject> allHeads;
+    public GameObject randomHead;
     public GameObject paladinHead;
     public GameObject knightHead;
     public GameObject mageHead;
@@ -51,6 +54,7 @@ public class UniversalCharacterModel : MonoBehaviour
 
     [Header("Right Hand References")]
     public List<GameObject> allRightHands;
+    public GameObject randomRightHand;
     public GameObject paladinRightHand;
     public GameObject knightRightHand;
     public GameObject mageRightHand;
@@ -66,6 +70,7 @@ public class UniversalCharacterModel : MonoBehaviour
 
     [Header("Right Arm References")]
     public List<GameObject> allRightArms;
+    public GameObject randomRightArm;
     public GameObject paladinRightArm;
     public GameObject knightRightArm;
     public GameObject mageRightArm;
@@ -81,6 +86,7 @@ public class UniversalCharacterModel : MonoBehaviour
 
     [Header("Left Hand References")]
     public List<GameObject> allLeftHands;
+    public GameObject randomLeftHand;
     public GameObject paladinLeftHand;
     public GameObject knightLeftHand;
     public GameObject mageLeftHand;
@@ -96,6 +102,7 @@ public class UniversalCharacterModel : MonoBehaviour
 
     [Header("Left Arm References")]
     public List<GameObject> allLeftArms;
+    public GameObject randomLeftArm;
     public GameObject paladinLeftArm;
     public GameObject knightLeftArm;
     public GameObject mageLeftArm;
@@ -111,6 +118,7 @@ public class UniversalCharacterModel : MonoBehaviour
 
     [Header("Chest References")]
     public List<GameObject> allChests;
+    public GameObject randomChest;
     public GameObject paladinChest;
     public GameObject knightChest;
     public GameObject mageChest;

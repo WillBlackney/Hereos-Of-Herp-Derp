@@ -7,10 +7,12 @@ public class MainMenuManager : Singleton<MainMenuManager>
 {
     [Header("Component References")]
     public GameObject HeroSelectionScreen;
+    public GameObject arrowParent;
 
     [Header("Properties")]
     public List<string> characterClassNames;
     public bool startGameEventTriggered;
+    public MenuCharacter selectedMenuCharacter;
 
     [Header("Color Stuff")]
     public Color normalColour;
@@ -22,16 +24,34 @@ public class MainMenuManager : Singleton<MainMenuManager>
     public MenuCharacter characterThree;
     public MenuCharacter characterFour;
 
+    private void Start()
+    {
+        // set character one as selected by default
+        SetSelectedCharacter(characterOne);
+    }
+    private void Update()
+    {
+        MoveArrowTowardsSelectedCharacter();       
+    }
 
+    public void MoveArrowTowardsSelectedCharacter()
+    {
+        if (selectedMenuCharacter != null)
+        {
+            arrowParent.transform.position = Vector2.MoveTowards(arrowParent.transform.position, selectedMenuCharacter.transform.position, 20 * Time.deltaTime);
+        }
+    }
     // Mouse + Button + Click Events
     #region
     public void OnNewGameButtonClicked()
     {
         HeroSelectionScreen.SetActive(true);
+        arrowParent.SetActive(true);
     }
     public void OnBackToMainMenuButtonCicked()
     {
         HeroSelectionScreen.SetActive(false);
+        arrowParent.SetActive(false);
     }
     public void OnStartGameButtonClicked()
     {
@@ -46,40 +66,35 @@ public class MainMenuManager : Singleton<MainMenuManager>
     {
         Debug.Log("Start Game Button Clicked...");
 
+        // Disable arrow
+        arrowParent.SetActive(false);
+
         // Start screen fade transistion
         Action fadeAction = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything,2, 1, true);
-        yield return new WaitUntil(() => fadeAction.ActionResolved() == true);        
+        yield return new WaitUntil(() => fadeAction.ActionResolved() == true);
 
-        CharacterBox[] chosenCharacters = FindObjectsOfType<CharacterBox>();
-
+        // Set Properties
+        List<MenuCharacter> allCharacters = new List<MenuCharacter> { characterOne, characterTwo, characterThree, characterFour };
         List<string> chosenClasses = new List<string>();
 
-        foreach (CharacterBox character in chosenCharacters)
+        // add chosen menu characters names as strings to list
+        foreach(MenuCharacter character in allCharacters)
         {
-            chosenClasses.Add(character.currentSelectedCharacter);
-        }
-
-        // choose character classes for characters that were set as random
-
-        foreach (CharacterBox character in chosenCharacters)
-        {
-            if (character.currentSelectedCharacter == "Random")
+            // randomize presets for characters marked as random
+            if(character.myPresetName == "Random")
             {
-                character.currentSelectedCharacter = "Warrior";
-                /*
-                while (chosenClasses.Contains(character.currentSelectedCharacter))
-                {
-                    character.currentSelectedCharacter = GetRandomClassString();
-                }
-                */
+                character.myPresetName = GetRandomClassString();
             }
+            chosenClasses.Add(character.myPresetName);
         }
 
-        foreach (CharacterBox character in chosenCharacters)
+        // store selected preset data between scene change
+        foreach (string characterName in chosenClasses)
         {
-            SceneChangeDataStorage.Instance.chosenCharacters.Add(character.currentSelectedCharacter);
+            SceneChangeDataStorage.Instance.chosenCharacters.Add(characterName);
         }
 
+        // Ready, load the game scene
         SceneManager.LoadScene("Game Scene");
     }
     #endregion
@@ -102,6 +117,7 @@ public class MainMenuManager : Singleton<MainMenuManager>
         characterFour.DisableInfoPanel();
 
         character.EnableInfoPanel();
+        selectedMenuCharacter = character;
     }
     public string GetNextPresetString(string currentPresetString)
     {
@@ -164,6 +180,11 @@ public class MainMenuManager : Singleton<MainMenuManager>
     public void BuildCharacterAbilityTabs(MenuCharacter character)
     {
         Debug.Log("MainMenuManager.BuildCharacterAbilityTabs() called...");
+
+        character.tabOne.gameObject.SetActive(true);
+        character.tabTwo.gameObject.SetActive(true);
+        character.tabThree.gameObject.SetActive(true);
+        character.tabFour.gameObject.SetActive(true);
 
         if (character.myPresetName == "Paladin")
         {
@@ -256,6 +277,15 @@ public class MainMenuManager : Singleton<MainMenuManager>
             character.tabThree.SetUpAbilityTabAsAbility("Hex");
             character.tabFour.SetUpAbilityTabAsPassive("Venomous", 1);
         }
+        else if (character.myPresetName == "Random")
+        {
+            character.tabOne.gameObject.SetActive(false);
+            character.tabTwo.gameObject.SetActive(false);
+            character.tabThree.gameObject.SetActive(false);
+            character.tabFour.gameObject.SetActive(false);
+        }
+
+        
     }
     public void BuildAttributeTexts(MenuCharacter character)
     {

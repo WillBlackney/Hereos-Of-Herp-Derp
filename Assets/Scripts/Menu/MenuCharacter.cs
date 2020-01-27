@@ -28,13 +28,21 @@ public class MenuCharacter : MonoBehaviour
     public MenuAbilityTab tabThree;
     public MenuAbilityTab tabFour;
 
-
+    private void Start()
+    {
+        // set default view state as random character
+        BuildMyViewsFromPresetString("Random");
+    }
 
     // Mouse + Button Click Events
     public void OnMouseEnter()
     {
         Debug.Log("MenuCharacter.OnMouseEnter() called...");
-        myER.Color = MainMenuManager.Instance.highlightColour;
+
+        if(myPresetName != "Random")
+        {
+            myER.Color = MainMenuManager.Instance.highlightColour;
+        }        
 
     }
     public void OnMouseDown()
@@ -45,7 +53,11 @@ public class MenuCharacter : MonoBehaviour
     public void OnMouseExit()
     {
         Debug.Log("MenuCharacter.OnMouseExit() called...");
-        myER.Color = MainMenuManager.Instance.normalColour;
+
+        if (myPresetName != "Random")
+        {
+            myER.Color = MainMenuManager.Instance.normalColour;
+        }            
     }
     public void OnPreviousPresetButtonClicked()
     {

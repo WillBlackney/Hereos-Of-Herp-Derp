@@ -133,7 +133,7 @@ public class TalentController : MonoBehaviour
             PurchaseTalent(character, talent);
         }
     }
-    public void PurchaseTalent(CharacterData character, Talent talent)
+    public void PurchaseTalent(CharacterData character, Talent talent, bool requiresPayemnt = true)
     {
         Debug.Log("TalentController.PurchaseTalent() called...");
 
@@ -141,7 +141,11 @@ public class TalentController : MonoBehaviour
         talent.unlocked = true;
 
         // Pay ability points
-        character.ModifyAbilityPoints(-1);
+        if (requiresPayemnt)
+        {
+            character.ModifyAbilityPoints(-1);
+        }
+        
 
         // Apply benefits of the talent
         if (talent.isPassive)
@@ -634,6 +638,28 @@ public class TalentController : MonoBehaviour
             character.KnowsSuperConductor = true;
         }
 
+
+    }
+    public Talent GetTalentByName(CharacterData character, string talentName)
+    {
+        Debug.Log("TalentController.GetTalentByName() called, searching for " + talentName);
+        Talent talentReturned = null;
+
+        foreach(Talent talent in character.allTalentButtons)
+        {
+            if(talent.name == talentName)
+            {
+                talentReturned = talent;
+                break;
+            }
+        }
+
+        if(talentReturned == null)
+        {
+            Debug.Log("TalentController.GetTalentByName() could not find a talent with the name " + talentName + ", returning null");
+        }
+
+        return talentReturned;
 
     }
     

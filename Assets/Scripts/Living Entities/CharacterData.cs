@@ -15,6 +15,7 @@ public class CharacterData : MonoBehaviour
     public GameObject abilityPageParent;
     public GameObject attributeTabContentParent;
     public TextMeshProUGUI myNameText;
+    public List<Talent> allTalentButtons;
 
     [Header("Page Button References")]
     public GameObject statsPageButton;
@@ -383,195 +384,121 @@ public class CharacterData : MonoBehaviour
 
     // Initialization + Setup
     #region
-    public void InitializeSetup(string characterClass)
+    public void InitializeSetupFromPresetString(string characterClass)
     {
-        if (characterClass == "Warrior")
+        if (characterClass == "Knight")
         {
-            myClass = "Warrior";
+            myClass = "Knight";
 
-            // Set up health
-            ModifyMaxHealth(100);
-            ModifyCurrentHealth(100);
+            // Modify Attributes
+            ModifyGuardianPoints(2);
+            ModifyDuelistPoints(1);
 
-            // Set up core stats
-            ModifyStrength(5);
-            ModifyWisdom(5);
-            ModifyDexterity(5);
-            ModifyStamina(40);
-            ModifyMobility(2);
-            ModifyInitiative(3);
+            // Learn abilities + passive
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Dash"));
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Provoke"));
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Guard"));
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Cautious"));            
 
-            // Set up secondary stats
-            ModifyCriticalChance(5);
-            ModifyParry(5);
-            ModifyDodge(5);
-            ModifyAuraSize(1);
-            ModifyMaxEnergy(60);
-            ModifyMeleeRange(1);
-
-            // Set up resistances
-            ModifyPhysicalResistance(5);
-            ModifyFireResistance(5);
-            ModifyFrostResistance(5);
-            ModifyPoisonResistance(5);
-            ModifyAirResistance(5);
-            ModifyShadowResistance(5);
-
-            // Set up Talent + Ability Points
-            ModifyTalentPoints(99);
-            ModifyAbilityPoints(99);
-
-            // Set up Xp + Max Xp and Leve
-            ModifyCurrentLevel(1);
-            SetMaxXP(100);
-            ModifyCurrentXP(0);
-
-            // Misc Passives + Extras
-            ModifyPowerLimit(1);
-
-            // Assign simple sword as default REMOVE LATER
+            // Assign preset weapons
             InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Sword"), mainHandSlot);
+            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Shield"), offHandSlot);
 
-            // Set up abilities
-            KnowsMove = true;
-            KnowsStrike = true;
-
-        }
-
-        else if (characterClass == "Mage")
-        {
-            //myImageComponent.sprite = CharacterLibrary.Instance.mageSprite;
-           // myNameText.text = CharacterLibrary.Instance.mageClassName;
-          //  classSprite.sprite = CharacterLibrary.Instance.mageSprite;
-           // classNameText.text = CharacterLibrary.Instance.mageClassName;
-            myClass = "Mage";
-            ModifyMobility(2);
-            ModifyStrength(0);
-            ModifyMaxHealth(90);
-            ModifyCurrentHealth(90);
-            ModifyStamina(40);
-            ModifyInitiative(3);
-            ModifyMaxEnergy(60);
-            ModifyMeleeRange(1);
-            ModifyCriticalChance(5);
-
+            // Set up base abilities
             KnowsMove = true;
             KnowsStrike = true;
             KnowsDefend = true;
-            KnowsFireBall = true;
 
         }
 
-        else if (characterClass == "Ranger")
+        else if (characterClass == "Paladin")
         {
-            //myImageComponent.sprite = CharacterLibrary.Instance.rangerSprite;
-          //  myNameText.text = CharacterLibrary.Instance.rangerClassName;
-           // classSprite.sprite = CharacterLibrary.Instance.rangerSprite;
-           // classNameText.text = CharacterLibrary.Instance.rangerClassName;
-            myClass = "Ranger";
-            ModifyMobility(5);
-            ModifyStrength(0);
-            ModifyMaxHealth(90);
-            ModifyCurrentHealth(90);
-            ModifyStamina(40);
-            ModifyMaxEnergy(60);
-            ModifyInitiative(3);
-            ModifyMeleeRange(1);
-            ModifyCriticalChance(5);
+            myClass = "Paladin";
 
-        }
+            // Modify Attributes
+            ModifyGuardianPoints(1);
+            ModifyDivinityPoints(2);
 
-        else if (characterClass == "Priest")
-        {
-            //myImageComponent.sprite = CharacterLibrary.Instance.priestSprite;
-           // myNameText.text = CharacterLibrary.Instance.priestClassName;
-           // classSprite.sprite = CharacterLibrary.Instance.priestSprite;
-           // classNameText.text = CharacterLibrary.Instance.priestClassName;
-            myClass = "Priest";
-            ModifyMobility(2);
-            ModifyStrength(0);
-            ModifyMaxHealth(100);
-            ModifyCurrentHealth(100);
-            ModifyStamina(40);
-            ModifyMaxEnergy(60);
-            ModifyInitiative(3);
-            ModifyMeleeRange(1);
-            ModifyCriticalChance(5);
+            // Learn abilities + passive
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Sword And Board"));
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Invigorate"));
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Inspire"));
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Encouraging Aura"));
 
-            encouragingAuraStacks = 10;
+            // Assign preset weapons
+            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Sword"), mainHandSlot);
+            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Shield"), offHandSlot);
 
+            // Set up base abilities
             KnowsMove = true;
             KnowsStrike = true;
             KnowsDefend = true;
-            KnowsHolyFire = true;
-            KnowsInvigorate = true;
-            KnowsChaosBolt = true;
 
         }
 
-        else if (characterClass == "Rogue")
+        else if (characterClass == "Barbarian")
         {
-            //myImageComponent.sprite = CharacterLibrary.Instance.rogueSprite;
-           // myNameText.text = CharacterLibrary.Instance.rogueClassName;
-            //classSprite.sprite = CharacterLibrary.Instance.rogueSprite;
-           // classNameText.text = CharacterLibrary.Instance.rogueClassName;
-            myClass = "Rogue";
-            ModifyMobility(2);
-            ModifyStrength(0);
-            ModifyMaxHealth(95);
-            ModifyCurrentHealth(95);
-            ModifyStamina(40);
-            ModifyMaxEnergy(60);
-            ModifyInitiative(3);
-            ModifyMeleeRange(1);
-            ModifyCriticalChance(5);
-            poisonousStacks = 1;
+            myClass = "Barbarian";
 
+            // Modify Attributes
+            ModifyCorruptionPoints(1);
+            ModifyBrawlerPoints(2);
+
+            // Learn abilities + passive
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Whirlwind"));
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Blood Offering"));
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Charge"));
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Tenacious"));
+
+            // Assign preset weapons
+            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Battle Axe"), mainHandSlot);
+
+            // Set up base abilities
             KnowsMove = true;
             KnowsStrike = true;
             KnowsDefend = true;
-            KnowsTwinStrike = true;
-            KnowsDash = true;
-            KnowsPreparation = true;
 
         }
 
-        else if (characterClass == "Shaman")
-        {
-            //myImageComponent.sprite = CharacterLibrary.Instance.shamanSprite;
-            myNameText.text = CharacterLibrary.Instance.shamanClassName;
-            classSprite.sprite = CharacterLibrary.Instance.shamanSprite;
-            classNameText.text = CharacterLibrary.Instance.shamanClassName;
-            myClass = "Shaman";
-            ModifyMobility(2);
-            ModifyStrength(0);
-            ModifyMaxHealth(100);
-            ModifyCurrentHealth(100);
-            ModifyStamina(40);
-            ModifyInitiative(3);
-            ModifyMaxEnergy(60);
-            ModifyMeleeRange(1);
-            ModifyCriticalChance(5);
+        // Set up health
+        ModifyMaxHealth(100);
+        ModifyCurrentHealth(100);
 
-            KnowsMove = true;
-            KnowsStrike = true;
-            KnowsDefend = true;
-            KnowsSmash = true;
-            KnowsLightningShield = true;
-            KnowsChainLightning = true;
+        // Set up core stats
+        ModifyStrength(0);
+        ModifyWisdom(0);
+        ModifyDexterity(0);
+        ModifyStamina(40);
+        ModifyMobility(2);
+        ModifyInitiative(3);
 
-            
-        }
-        // Set up talent trees
-       // talentTreeOne.SetTalentTreePartner(talentTreeTwo);
-        //talentTreeTwo.SetTalentTreePartner(talentTreeOne);
+        // Set up secondary stats
+        ModifyCriticalChance(5);
+        ModifyParry(5);
+        ModifyDodge(5);
+        ModifyAuraSize(1);
+        ModifyMaxEnergy(60);
+        ModifyMeleeRange(1);
 
-        /*
+        // Set up resistances
+        ModifyPhysicalResistance(0);
+        ModifyFireResistance(0);
+        ModifyFrostResistance(0);
+        ModifyPoisonResistance(0);
+        ModifyAirResistance(0);
+        ModifyShadowResistance(0);
+
+        // Set up Talent + Ability Points
+        ModifyTalentPoints(0);
+        ModifyAbilityPoints(0);
+
+        // Set up Xp + Max Xp and Leve
         ModifyCurrentLevel(1);
         SetMaxXP(100);
         ModifyCurrentXP(0);
-        ModifyTalentPoints(0);
-        */
+
+        // Misc Passives + Extras
+        ModifyPowerLimit(1);
 
     }
     public void CreateMyDefenderGameObject()

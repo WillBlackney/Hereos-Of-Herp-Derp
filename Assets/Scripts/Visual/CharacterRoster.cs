@@ -43,7 +43,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
         {
             if(characterOneSetupComplete == false)
             {
-                characterOne.InitializeSetup(characterData);
+                characterOne.InitializeSetupFromPresetString(characterData);
                 characterOneSetupComplete = true;
                 allCharacterDataObjects.Add(characterOne);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[0], characterOne);
@@ -52,7 +52,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
 
             else if (characterTwoSetupComplete == false)
             {
-                characterTwo.InitializeSetup(characterData);
+                characterTwo.InitializeSetupFromPresetString(characterData);
                 characterTwoSetupComplete = true;
                 allCharacterDataObjects.Add(characterTwo);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[1], characterTwo);
@@ -61,7 +61,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
 
             else if (characterThreeSetupComplete == false)
             {
-                characterThree.InitializeSetup(characterData);
+                characterThree.InitializeSetupFromPresetString(characterData);
                 characterThreeSetupComplete = true;
                 allCharacterDataObjects.Add(characterThree);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[2], characterThree);
@@ -70,7 +70,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
 
             else if (characterFourSetupComplete == false)
             {
-                characterFour.InitializeSetup(characterData);
+                characterFour.InitializeSetupFromPresetString(characterData);
                 characterFourSetupComplete = true;
                 allCharacterDataObjects.Add(characterFour);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[3], characterFour);
