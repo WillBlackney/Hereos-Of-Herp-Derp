@@ -32,7 +32,7 @@ public class ItemLibrary : MonoBehaviour
 
         if (itemReturned == null)
         {
-            Debug.Log("ItemLibrary.GetItem() search error: could not find a matching item in library");
+            Debug.Log("ItemLibrary.GetItem() search error: could not find a matching item in library with the name " + itemName);
         }
 
         return itemReturned;

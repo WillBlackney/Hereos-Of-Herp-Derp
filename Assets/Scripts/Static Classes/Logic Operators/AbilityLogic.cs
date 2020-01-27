@@ -3610,8 +3610,9 @@ public class AbilityLogic : MonoBehaviour
         // Pay energy cost, + etc
         OnAbilityUsedStart(invigorate, caster);
 
-        // Apply bonus strength
+        // Give bonus energy
         target.ModifyCurrentEnergy(invigorate.abilityPrimaryValue);
+        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(target.transform.position));
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
@@ -3763,7 +3764,7 @@ public class AbilityLogic : MonoBehaviour
 
         // Apply camoflage
         target.myPassiveManager.ModifyCamoflage(1);
-        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(target.transform.position));
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
