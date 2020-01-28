@@ -581,6 +581,90 @@ public class TalentController : MonoBehaviour
         {
             character.KnowsToxicSlash = true;
         }
+        else if (talent.talentName == "Charge")
+        {
+            character.KnowsCharge= true;
+        }
+        else if (talent.talentName == "Preparation")
+        {
+            character.KnowsPreparation = true;
+        }
+        else if (talent.talentName == "Slice And Dice")
+        {
+            character.KnowsSliceAndDice = true;
+        }
+        else if (talent.talentName == "Smash")
+        {
+            character.KnowsSmash = true;
+        }
+        else if (talent.talentName == "Sanctity")
+        {
+            character.KnowsSanctity = true;
+        }
+        else if (talent.talentName == "Devastating Blow")
+        {
+            character.KnowsDevastatingBlow = true;
+        }
+        else if (talent.talentName == "Kick To The Balls")
+        {
+            character.KnowsKickToTheBalls = true;
+        }
+        else if (talent.talentName == "Blade Flurry")
+        {
+            character.KnowsBladeFlurry = true;
+        }
+        else if (talent.talentName == "Recklessness")
+        {
+            character.KnowsRecklessness = true;
+        }
+        else if (talent.talentName == "Tendon Slash")
+        {
+            character.KnowsTendonSlash = true;
+        }
+        else if (talent.talentName == "Shield Shatter")
+        {
+            character.KnowsShieldShatter = true;
+        }
+        else if (talent.talentName == "Evasion")
+        {
+            character.KnowsEvasion = true;
+        }
+        else if (talent.talentName == "Decapitate")
+        {
+            character.KnowsDecapitate = true;
+        }
+        else if (talent.talentName == "Cheap Shot")
+        {
+            character.KnowsCheapShot = true;
+        }
+        else if (talent.talentName == "Shank")
+        {
+            character.KnowsShank = true;
+        }
+        else if (talent.talentName == "Shadow Step")
+        {
+            character.KnowsShadowStep = true;
+        }
+        else if (talent.talentName == "Ambush")
+        {
+            character.KnowsAmbush = true;
+        }
+        else if (talent.talentName == "Sharpen Blade")
+        {
+            character.KnowsSharpenBlade = true;
+        }
+        else if (talent.talentName == "Rapid Cloaking")
+        {
+            character.KnowsRapidCloaking = true;
+        }
+        else if (talent.talentName == "Disarm")
+        {
+            character.KnowsDisarm = true;
+        }
+        else if (talent.talentName == "Second Wind")
+        {
+            character.KnowsSecondWind = true;
+        }
         else if (talent.talentName == "Noxious Fumes")
         {
             character.KnowsNoxiousFumes = true;
@@ -636,6 +720,22 @@ public class TalentController : MonoBehaviour
         else if (talent.talentName == "Super Conductor")
         {
             character.KnowsSuperConductor = true;
+        }
+        else if (talent.talentName == "Vanish")
+        {
+            character.KnowsVanish = true;
+        }
+        else if (talent.talentName == "Head Shot")
+        {
+            character.KnowsHeadShot = true;
+        }
+        else if (talent.talentName == "Dash")
+        {
+            character.KnowsDash = true;
+        }
+        else if (talent.talentName == "Whirlwind")
+        {
+            character.KnowsWhirlwind = true;
         }
 
 

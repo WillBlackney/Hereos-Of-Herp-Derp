@@ -13,6 +13,7 @@ public class PrefabHolder : Singleton<PrefabHolder>
     public GameObject apBarDividerPrefab;
 
     [Header("Defender Game Object Prefabs")]
+    public GameObject defenderPrefab;
     public GameObject warriorPrefab;
     public GameObject magePrefab;
     public GameObject priestPrefab;

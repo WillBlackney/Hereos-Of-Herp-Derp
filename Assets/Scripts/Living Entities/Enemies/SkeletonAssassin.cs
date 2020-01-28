@@ -8,14 +8,20 @@ public class SkeletonAssassin : Enemy
     public override void SetBaseProperties()
     {
         base.SetBaseProperties();
+        myName = "Skeleton Assassin";
+
+        CharacterModelController.SetUpAsSkeletonAssassinPreset(myModel);
 
         mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Move");
-        mySpellBook.EnemyLearnAbility("Twin Strike");
+        mySpellBook.EnemyLearnAbility("Cheap Shot");
         mySpellBook.EnemyLearnAbility("Dash");
 
         myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyStealth(1);
+
+        myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Dagger");
+        myOffHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Dagger");
     }
 
     public override IEnumerator StartMyActivationCoroutine()
@@ -23,11 +29,11 @@ public class SkeletonAssassin : Enemy
         Ability strike = mySpellBook.GetAbilityByName("Strike");
         Ability move = mySpellBook.GetAbilityByName("Move");
         Ability dash = mySpellBook.GetAbilityByName("Dash");
-        Ability twinStrike = mySpellBook.GetAbilityByName("Twin Strike");
+        Ability cheapShot = mySpellBook.GetAbilityByName("Cheap Shot");
 
         ActionStart:
 
-        SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
+        SetTargetDefender(EntityLogic.GetBestTarget(this, false, true));
 
         while (EventManager.Instance.gameOverEventStarted)
         {
@@ -39,15 +45,15 @@ public class SkeletonAssassin : Enemy
             EndMyActivation();
         }
 
-        // Twin Strike
-        else if (EntityLogic.IsTargetInRange(this,EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, twinStrike))
+        // Cheap Shot
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, false, true), currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, cheapShot))
         {
-            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike");
+            SetTargetDefender(EntityLogic.GetBestTarget(this, false, true));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Cheap Shot");
             yield return new WaitForSeconds(0.5f);
 
-            Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformCheapShot(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
@@ -55,10 +61,10 @@ public class SkeletonAssassin : Enemy
         }
 
         // Strike
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, false, true), currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, strike)) 
         {
-            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
+            SetTargetDefender(EntityLogic.GetBestTarget(this, false, true));
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
             yield return new WaitForSeconds(0.5f);
             
@@ -70,14 +76,14 @@ public class SkeletonAssassin : Enemy
         }
 
         // Dash
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) == false &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, false, true), currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, dash) &&
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(dash, strike, this) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange, dash.abilityPrimaryValue) != null
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetBestTarget(this, false, true), currentMeleeRange, dash.abilityPrimaryValue) != null
             )
         {
-            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
+            SetTargetDefender(EntityLogic.GetBestTarget(this, false, true));
 
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dash");
             yield return new WaitForSeconds(0.5f);
@@ -92,14 +98,14 @@ public class SkeletonAssassin : Enemy
         }
 
         // Move
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), currentMeleeRange) == false &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, false, true), currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null &&
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, strike, this)
             )
         {
-            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
+            SetTargetDefender(EntityLogic.GetBestTarget(this, false, true));
             
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
@@ -115,15 +121,15 @@ public class SkeletonAssassin : Enemy
 
         // If, for whatever reason, we cant attack or move towards the weakest enemy, attack the nearest enemy
 
-        // Twin Strike
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, twinStrike))
+        // Cheap shot closest target
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, true), currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, cheapShot))
         {
-            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike");
+            SetTargetDefender(EntityLogic.GetBestTarget(this, true));
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Cheap Shot");
             yield return new WaitForSeconds(0.5f);
 
-            Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformCheapShot(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
@@ -131,10 +137,10 @@ public class SkeletonAssassin : Enemy
         }
 
         // Strike
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), currentMeleeRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, true), currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, strike))
         {
-            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
+            SetTargetDefender(EntityLogic.GetBestTarget(this, true));
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
             yield return new WaitForSeconds(0.5f);
 

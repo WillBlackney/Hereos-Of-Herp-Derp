@@ -13,6 +13,7 @@ public class LivingEntity : MonoBehaviour
     public GameObject myWorldSpaceCanvasParent;
     public GameObject mySpriteParent;
     public GameObject myModelParent;
+    public UniversalCharacterModel myModel;
     public EntityRenderer myEntityRenderer;
     public GameObject myBlockIcon;
     public TextMeshProUGUI myBlockText;
@@ -91,6 +92,7 @@ public class LivingEntity : MonoBehaviour
     public List<Ability> activePowers;
 
     [Header("Miscealaneous Properties ")]
+    public string myName;
     public float speed;   
     public bool mouseIsOverStatusIconPanel;
     public bool mouseIsOverCharacter;
@@ -125,6 +127,7 @@ public class LivingEntity : MonoBehaviour
         myPassiveManager.InitializeSetup();
         mySpellBook = GetComponent<SpellBook>();
         mySpellBook.InitializeSetup();
+        myModel.myLivingEntity = this;
 
         // Set grid position 'Point'
         gridPosition = startingGridPosition;
@@ -158,18 +161,9 @@ public class LivingEntity : MonoBehaviour
     }    
     public virtual void SetBaseProperties()
     {
-        //currentMobility = baseMobility;
+        // Set health
         currentMaxHealth = baseMaxHealth;    
-        currentHealth = baseStartingHealth;
-        currentMaxEnergy = baseMaxEnergy;
-        //currentStamina = baseStamina;              
-        currentMeleeRange = baseMeleeRange;
-
-        // remove later when we've made characters base power = 1 in the inspector
-        baseMaxPowersCount++;
-
-        // Set Weapons
-        ItemManager.Instance.SetUpLivingEntityWeapons(this);        
+        currentHealth = baseStartingHealth;                    
 
         // Set up core stats
         ModifyCurrentStrength(baseStrength);
@@ -185,6 +179,8 @@ public class LivingEntity : MonoBehaviour
         ModifyCurrentParryChance(baseParryChance);
         ModifyCurrentAuraSize(baseAuraSize);
         ModifyMaxPowersLimit(baseMaxPowersCount);
+        currentMaxEnergy = baseMaxEnergy;
+        currentMeleeRange = baseMeleeRange;
 
         // Set up misc stats
         ModifyCurrentBlock(baseStartingBlock);
@@ -538,7 +534,7 @@ public class LivingEntity : MonoBehaviour
     }
     public virtual void ModifyCurrentBlock(int blockGainedOrLost)
     {
-        Debug.Log("LivingEntity.ModifyCurrentBlock() called for " + name);
+        Debug.Log("LivingEntity.ModifyCurrentBlock() called for " + myName);
 
         if (!myPassiveManager.terrified && blockGainedOrLost > 0)
         {

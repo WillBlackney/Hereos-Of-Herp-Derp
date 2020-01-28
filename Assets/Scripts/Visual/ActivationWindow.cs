@@ -102,7 +102,7 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
         //Vector3 targetPos = new Vector3(slot.transform.position.x, slot.transform.position.y - 80, slot.transform.position.z);
         if (!dontFollowSlot)
         {
-            transform.position = Vector2.MoveTowards(transform.position, slot.transform.position, 400 * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, slot.transform.position, 10 * Time.deltaTime);
         }
         
     }

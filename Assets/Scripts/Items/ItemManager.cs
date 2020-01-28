@@ -131,45 +131,30 @@ public class ItemManager : Singleton<ItemManager>
         return stringReturned;
     }
 
-    // Assign items
-    public void AssignWeaponToLivingEntity(LivingEntity entity, ItemDataSO weapon)
+    // Assign items    
+    public void SetUpDefenderWeaponsFromCharacterData(LivingEntity entity)
     {
-        Debug.Log("ItemManager.AssignWeaponToCharacter() called, assigning " + weapon.Name + " to " + entity.name);
-        entity.myMainHandWeapon = weapon;
-    }
-    public void AssignShieldToCharacter(LivingEntity entity, ItemDataSO shield)
-    {
-        Debug.Log("ItemManager.AssignShieldToCharacter() called, assigning " + shield.Name + " to " + entity.name);
-        entity.myOffHandWeapon = shield;
-    }
-    public void SetUpLivingEntityWeapons(LivingEntity entity)
-    {
-        Debug.Log("ItemManager.SetUpLivingEntityWeapons() called for " + entity.name);
+        Debug.Log("ItemManager.SetUpLivingEntityWeapons() called for " + entity.myName);
 
         if(entity.defender)
         {
-            Debug.Log(entity.name + " is a 'Defender', checking character data for weapon info...");
+            Debug.Log(entity.myName + " is a 'Defender', checking character data for weapon info...");
 
             // check for and assign main hand weapon
             if (entity.defender.myCharacterData.mainHandWeapon != null)
             {
-                Debug.Log("Assigning " + entity.defender.myCharacterData.mainHandWeapon.Name + " to " + entity.name + " main hand weapon variable...");
+                Debug.Log("Assigning " + entity.defender.myCharacterData.mainHandWeapon.Name + " to " + entity.myName + " main hand weapon variable...");
                 entity.myMainHandWeapon = entity.defender.myCharacterData.mainHandWeapon;
             }
 
             // check for and assign off hand weapon
             if (entity.defender.myCharacterData.offHandWeapon != null)
             {
-                Debug.Log("Assigning " + entity.defender.myCharacterData.offHandWeapon.Name + " to " + entity.name + " off hand weapon variable...");
+                Debug.Log("Assigning " + entity.defender.myCharacterData.offHandWeapon.Name + " to " + entity.myName + " off hand weapon variable...");
                 entity.myOffHandWeapon = entity.defender.myCharacterData.offHandWeapon;
             }
         }
 
-        else if (entity.enemy)
-        {
-            Debug.Log(entity.name + " is a 'Enemy', assigning Simple Sword to main hand weapon variable...");
-            entity.myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Sword");
-        }
     }
     public void ApplyAllItemEffectsToCharacterData(CharacterData character, ItemDataSO item, bool removing = false)
     {

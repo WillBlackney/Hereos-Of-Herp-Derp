@@ -117,7 +117,6 @@ public class Defender : LivingEntity
     public bool energyBarPositionCurrentlyUpdating;
     public bool healthBarPositionCurrentlyUpdating;
 
-
     // Initialization + Setup
     #region
     public override void InitializeSetup(Point startingGridPosition, Tile startingTile)
@@ -129,12 +128,14 @@ public class Defender : LivingEntity
     }
     public override void SetBaseProperties()
     {
+        // Build view model
+        CharacterModelController.BuildModelFromPresetString(myModel, myCharacterData.myClass);
+
+        // Get and build from relevant character data values
         RunSetupFromCharacterData();
         RunSetupFromArtifactData();
+        myName = myCharacterData.myClass;
         base.SetBaseProperties();
-
-        // Remove item assignment in future
-        //ItemManager.Instance.AssignWeaponToCharacter(this, ItemLibrary.Instance.GetItemByName("Simple Bow"));
 
         // Set up visuals
         UpdateCurrentEnergyText(currentEnergy);
@@ -326,8 +327,10 @@ public class Defender : LivingEntity
         if (myCharacterData.stormLordStacks > 0)
         {
             myPassiveManager.ModifyStormLord(myCharacterData.stormLordStacks);
-        }       
-        
+        }
+
+        // Set Weapons from character data
+        ItemManager.Instance.SetUpDefenderWeaponsFromCharacterData(this);
 
     }    
     public void RunSetupFromArtifactData()

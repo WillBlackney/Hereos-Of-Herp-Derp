@@ -10,8 +10,6 @@ public class Enemy : LivingEntity
     [Header("Enemy Components")]
     public CharacterInfoPanel myInfoPanel;
     public GameObject freeStrikeIndicator;
-    [Header("Enemy Properties")]
-    public string myName;
 
     // Initialization + Setup
     #region

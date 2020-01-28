@@ -505,6 +505,17 @@ public static class EntityLogic
             }
         }
 
+        if(closestGrassTile == null)
+        {
+            Debug.Log("EntityLogic.GetValidGrassTileWithinRange() could not find a valid grass tile within " +
+                range.ToString() + ", returning a null tile...");
+        }
+
+        else
+        {
+            Debug.Log("EntityLogic.GetValidGrassTileWithinRange() returning tile " + closestGrassTile.GridPosition.X.ToString() +
+                ", " + closestGrassTile.GridPosition.Y.ToString());
+        }
         return closestGrassTile;
     }
     public static Tile GetFurthestTileFromTargetWithinRange(LivingEntity originCharacter, LivingEntity target, int range)
@@ -702,11 +713,11 @@ public static class EntityLogic
     }
     public static int GetTotalMobility(LivingEntity entity)
     {
-        Debug.Log("EntityLogic.GetTotalMobility() called for " + entity.name + "...");
+        Debug.Log("EntityLogic.GetTotalMobility() called for " + entity.myName + "...");
 
         // Get base Mobility
         int mobilityReturned = entity.currentMobility;
-        Debug.Log(entity.name + " base mobility: " + mobilityReturned.ToString());
+        Debug.Log(entity.myName + " base mobility: " + mobilityReturned.ToString());
 
         // Add bonus Mobility
         if (entity.myPassiveManager.bonusMobility)

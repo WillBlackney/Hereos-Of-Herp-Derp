@@ -129,7 +129,7 @@ public class AbilityLogic : MonoBehaviour
         {
             Debug.Log(entity.name +" does not meet the weapon requirments of " + ability.abilityName);
             boolReturned = false;
-        }
+        }        
 
         return boolReturned;
     }
@@ -304,7 +304,7 @@ public class AbilityLogic : MonoBehaviour
     // Move
     public Action PerformMove(LivingEntity characterMoved, Tile destination)
     {
-        Debug.Log("AbilityLogic.PerformStrike() called. Caster = " + characterMoved.name + 
+        Debug.Log("AbilityLogic.PerformMove() called. Caster = " + characterMoved.name + 
             ", Target Tile = " + destination.GridPosition.X.ToString() + ", " + destination.GridPosition.Y.ToString());
         Action action = new Action();
         StartCoroutine(PerformMoveCoroutine(characterMoved, destination, action));

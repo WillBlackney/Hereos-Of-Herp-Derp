@@ -20,6 +20,8 @@ public class ItemLibrary : MonoBehaviour
     #region
     public ItemDataSO GetItemByName(string itemName)
     {
+        Debug.Log("ItemLibrary.GetItemByName() called, searching for " + itemName);
+
         ItemDataSO itemReturned = null;
 
         foreach (ItemDataSO itemData in allItems)
@@ -32,7 +34,7 @@ public class ItemLibrary : MonoBehaviour
 
         if (itemReturned == null)
         {
-            Debug.Log("ItemLibrary.GetItem() search error: could not find a matching item in library with the name " + itemName);
+            Debug.Log("ItemLibrary.GetItemByName() search error: could not find a matching item in library with the name " + itemName);
         }
 
         return itemReturned;

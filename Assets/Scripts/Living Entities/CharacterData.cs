@@ -731,128 +731,28 @@ public class CharacterData : MonoBehaviour
     }
     public void CreateMyDefenderGameObject()
     {
+        // Set up
         List<Tile> possibleSpawnLocations = LevelManager.Instance.GetDefenderSpawnTiles();
         Tile spawnLocation = null;
 
-        if (myClass == "Warrior")
-        {
-            // Instantiate GO from prefab
-            GameObject defenderGO = Instantiate(PrefabHolder.Instance.warriorPrefab, transform.position, Quaternion.identity);
-            // Get a reference to the defender script 
-            Defender defender = defenderGO.GetComponent<Defender>();
-            foreach (Tile tile in possibleSpawnLocations)
-            {
-                if (tile.IsEmpty && tile.IsWalkable)
-                {
-                    spawnLocation = tile;
-                    break;
-                }
-            }
+        // Instantiate Defender GO from prefab, get defender script ref
+        GameObject defenderGO = Instantiate(PrefabHolder.Instance.defenderPrefab, transform.position, Quaternion.identity);
+        Defender defender = defenderGO.GetComponent<Defender>();
 
-            // Run the defender constructor
-            defender.myCharacterData = this;
-            defender.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
+        // calculate spawn location
+        foreach (Tile tile in possibleSpawnLocations)
+        {
+            if (tile.IsEmpty && tile.IsWalkable)
+            {
+                spawnLocation = tile;
+                break;
+            }
         }
 
-        else if (myClass == "Mage")
-        {
-            // Instantiate GO from prefab
-            GameObject defenderGO = Instantiate(PrefabHolder.Instance.magePrefab, transform.position, Quaternion.identity);
-            // Get a reference to the defender script 
-            Defender defender = defenderGO.GetComponent<Defender>();
-            foreach (Tile tile in possibleSpawnLocations)
-            {
-                if (tile.IsEmpty && tile.IsWalkable)
-                {
-                    spawnLocation = tile;
-                    break;
-                }
-            }
-
-            // Run the defender constructor
-            defender.myCharacterData = this;
-            defender.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
-        }
-
-        else if (myClass == "Priest")
-        {
-            // Instantiate GO from prefab
-            GameObject defenderGO = Instantiate(PrefabHolder.Instance.priestPrefab, transform.position, Quaternion.identity);
-            // Get a reference to the defender script 
-            Defender defender = defenderGO.GetComponent<Defender>();
-            foreach (Tile tile in possibleSpawnLocations)
-            {
-                if (tile.IsEmpty && tile.IsWalkable)
-                {
-                    spawnLocation = tile;
-                    break;
-                }
-            }
-
-            // Run the defender constructor
-            defender.myCharacterData = this;
-            defender.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
-        }
-
-        else if (myClass == "Ranger")
-        {
-            // Instantiate GO from prefab
-            GameObject defenderGO = Instantiate(PrefabHolder.Instance.rangerPrefab, transform.position, Quaternion.identity);
-            // Get a reference to the defender script 
-            Defender defender = defenderGO.GetComponent<Defender>();
-            foreach (Tile tile in possibleSpawnLocations)
-            {
-                if (tile.IsEmpty && tile.IsWalkable)
-                {
-                    spawnLocation = tile;
-                    break;
-                }
-            }
-
-            // Run the defender constructor
-            defender.myCharacterData = this;
-            defender.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
-        }
-
-        else if (myClass == "Rogue")
-        {
-            // Instantiate GO from prefab
-            GameObject defenderGO = Instantiate(PrefabHolder.Instance.roguePrefab, transform.position, Quaternion.identity);
-            // Get a reference to the defender script 
-            Defender defender = defenderGO.GetComponent<Defender>();
-            foreach (Tile tile in possibleSpawnLocations)
-            {
-                if (tile.IsEmpty && tile.IsWalkable)
-                {
-                    spawnLocation = tile;
-                    break;
-                }
-            }
-
-            // Run the defender constructor
-            defender.myCharacterData = this;
-            defender.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
-        }
-
-        else if (myClass == "Shaman")
-        {
-            // Instantiate GO from prefab
-            GameObject defenderGO = Instantiate(PrefabHolder.Instance.shamanPrefab, transform.position, Quaternion.identity);
-            // Get a reference to the defender script 
-            Defender defender = defenderGO.GetComponent<Defender>();
-            foreach (Tile tile in possibleSpawnLocations)
-            {
-                if (tile.IsEmpty && tile.IsWalkable)
-                {
-                    spawnLocation = tile;
-                    break;
-                }
-            }
-
-            // Run the defender constructor
-            defender.myCharacterData = this;
-            defender.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
-        }
+        // Run the defender constructor
+        defender.myCharacterData = this;
+        defender.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
+        
     }
     #endregion
 

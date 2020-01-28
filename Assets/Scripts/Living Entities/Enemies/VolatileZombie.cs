@@ -7,9 +7,16 @@ public class VolatileZombie : Enemy
     public override void SetBaseProperties()
     {
         base.SetBaseProperties();
+        myName = "Volatile Zombie";
+
+        CharacterModelController.SetUpAsVolatileZombiePreset(myModel);
 
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Strike");
+
+        myPassiveManager.ModifyVolatile(10);
+
+        myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Sword");
     }
 
     public override IEnumerator StartMyActivationCoroutine()

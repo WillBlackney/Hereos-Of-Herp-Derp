@@ -2477,7 +2477,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyOpportunist(int stacks)
     {
-        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyOpportunist() called, stacks = " + stacks.ToString());
+        Debug.Log(myLivingEntity.myName + ".PassiveManager.ModifyOpportunist() called, stacks = " + stacks.ToString());
 
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Opportunist");
         opportunist = true;

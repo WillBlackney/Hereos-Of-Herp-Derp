@@ -21,7 +21,7 @@ public class PositionLogic : Singleton<PositionLogic>
 
             else
             {
-                character.mySpriteRenderer.flipX = true;
+               character.mySpriteRenderer.flipX = true;
                 if (character.myModelParent != null)
                 {
                     character.myModelParent.transform.localScale = new Vector3(-1, 1, 1);

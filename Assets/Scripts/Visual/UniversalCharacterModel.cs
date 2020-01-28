@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class UniversalCharacterModel : MonoBehaviour
 {
+    [Header("Properties")]
+    public LivingEntity myLivingEntity;
+
     [Header("Left Leg References")]
     public List<GameObject> allLeftLegs;
     public GameObject randomLeftLeg;
@@ -19,6 +22,14 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanLeftLeg;
     public GameObject wayfarerLeftLeg;
     public GameObject spellBladeLeftLeg;
+    public GameObject volatileZombieLeftLeg;
+    public GameObject skeletonArcherLeftLeg;
+    public GameObject skeletonAssassinLeftLeg;
+    public GameObject skeletonBarbarianLeftLeg;
+    public GameObject skeletonMageLeftLeg;
+    public GameObject skeletonWarriorLeftLeg;
+    public GameObject skeletonPriestLeftLeg;
+
 
     [Header("Right Leg References")]
     public List<GameObject> allRightLegs;
@@ -35,6 +46,13 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanRightLeg;
     public GameObject wayfarerRightLeg;
     public GameObject spellBladeRightLeg;
+    public GameObject volatileZombieRightLeg;
+    public GameObject skeletonArcherRightLeg;
+    public GameObject skeletonAssassinRightLeg;
+    public GameObject skeletonBarbarianRightLeg;
+    public GameObject skeletonMageRightLeg;
+    public GameObject skeletonWarriorRightLeg;
+    public GameObject skeletonPriestRightLeg;
 
     [Header("Head References")]
     public List<GameObject> allHeads;
@@ -51,6 +69,13 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanHead;
     public GameObject wayfarerHead;
     public GameObject spellBladeHead;
+    public GameObject volatileZombieHead;
+    public GameObject skeletonArcherHead;
+    public GameObject skeletonAssassinHead;
+    public GameObject skeletonBarbarianHead;
+    public GameObject skeletonMageHead;
+    public GameObject skeletonWarriorHead;
+    public GameObject skeletonPriestHead;
 
     [Header("Right Hand References")]
     public List<GameObject> allRightHands;
@@ -67,6 +92,13 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanRightHand;
     public GameObject wayfarerRightHand;
     public GameObject spellBladeRightHand;
+    public GameObject volatileZombieRightHand;
+    public GameObject skeletonArcherRightHand;
+    public GameObject skeletonAssassinRightHand;
+    public GameObject skeletonBarbarianRightHand;
+    public GameObject skeletonMageRightHand;
+    public GameObject skeletonWarriorRightHand;
+    public GameObject skeletonPriestRightHand;
 
     [Header("Right Arm References")]
     public List<GameObject> allRightArms;
@@ -83,6 +115,13 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanRightArm;
     public GameObject wayfarerRightArm;
     public GameObject spellBladeRightArm;
+    public GameObject volatileZombieRightArm;
+    public GameObject skeletonArcherRightArm;
+    public GameObject skeletonAssassinRightArm;
+    public GameObject skeletonBarbarianRightArm;
+    public GameObject skeletonMageRightArm;
+    public GameObject skeletonWarriorRightArm;
+    public GameObject skeletonPriestRightArm;
 
     [Header("Left Hand References")]
     public List<GameObject> allLeftHands;
@@ -99,6 +138,13 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanLeftHand;
     public GameObject wayfarerLeftHand;
     public GameObject spellBladeLeftHand;
+    public GameObject volatileZombieLeftHand;
+    public GameObject skeletonArcherLeftHand;
+    public GameObject skeletonAssassinLeftHand;
+    public GameObject skeletonBarbarianLeftHand;
+    public GameObject skeletonMageLeftHand;
+    public GameObject skeletonWarriorLeftHand;
+    public GameObject skeletonPriestLeftHand;
 
     [Header("Left Arm References")]
     public List<GameObject> allLeftArms;
@@ -115,6 +161,13 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanLeftArm;
     public GameObject wayfarerLeftArm;
     public GameObject spellBladeLeftArm;
+    public GameObject volatileZombieLeftArm;
+    public GameObject skeletonArcherLeftArm;
+    public GameObject skeletonAssassinLeftArm;
+    public GameObject skeletonBarbarianLeftArm;
+    public GameObject skeletonMageLeftArm;
+    public GameObject skeletonWarriorLeftArm;
+    public GameObject skeletonPriestLeftArm;
 
     [Header("Chest References")]
     public List<GameObject> allChests;
@@ -131,6 +184,13 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanChest;
     public GameObject wayfarerChest;
     public GameObject spellBladeChest;
+    public GameObject volatileZombieChest;
+    public GameObject skeletonArcherChest;
+    public GameObject skeletonAssassinChest;
+    public GameObject skeletonBarbarianChest;
+    public GameObject skeletonMageChest;
+    public GameObject skeletonWarriorChest;
+    public GameObject skeletonPriestChest;
 
     [Header("Main Hand Weapon References")]
     public List<GameObject> allMainHandWeapons;
@@ -147,4 +207,11 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject simpleShieldOH;
 
 
+    public void SetDeathAnimAsFinished()
+    {
+        if(myLivingEntity != null)
+        {
+            myLivingEntity.SetDeathAnimAsFinished();
+        }
+    }
 }

@@ -9,22 +9,33 @@ public class SkeletonArcher : Enemy
     public override void SetBaseProperties()
     {
         base.SetBaseProperties();
+        myName = "Skeleton Archer";
+
+        CharacterModelController.SetUpAsSkeletonArcherPreset(myModel);
+
         mySpellBook.EnemyLearnAbility("Shoot");
         mySpellBook.EnemyLearnAbility("Move");
-        mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Impaling Bolt");
-        myPassiveManager.ModifyUndead();
-        myPassiveManager.ModifyFlux(1);
+        mySpellBook.EnemyLearnAbility("Snipe");
+
+        myPassiveManager.ModifyUndead();        
+        myPassiveManager.ModifyTrueSight(1);
+        //myPassiveManager.ModifyFlux(1);
+
+        myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Bow");
     }       
 
     public override IEnumerator StartMyActivationCoroutine()
     {
         Ability shoot = mySpellBook.GetAbilityByName("Shoot");
+        Ability snipe = mySpellBook.GetAbilityByName("Snipe");
         Ability move = mySpellBook.GetAbilityByName("Move");
-        Ability strike = mySpellBook.GetAbilityByName("Strike");
         Ability impalingBolt = mySpellBook.GetAbilityByName("Impaling Bolt");
 
         ActionStart:
+
+        SetTargetDefender(EntityLogic.GetBestTarget(this, false, false, true));
+
         while (EventManager.Instance.gameOverEventStarted)
         {
             yield return null;
@@ -36,12 +47,14 @@ public class SkeletonArcher : Enemy
         }
 
         // Impaling Bolt        
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), impalingBolt.abilityRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, true), impalingBolt.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, impalingBolt)
             )
         {
-            Debug.Log("Skeleton Archer using Impaling Bolt...");
-            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
+            Debug.Log("Skeleton Archer using Impaling Bolt against " + myCurrentTarget.myName);
+            
+            SetTargetDefender(EntityLogic.GetBestTarget(this, true));
+
             // VFX notification
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Impaling Bolt");
             yield return new WaitForSeconds(0.5f);
@@ -53,16 +66,32 @@ public class SkeletonArcher : Enemy
 
         }
 
-        // shoot target if in range
-        // move into range if not in range
-        // if already in range, try move to a grass tile if the grass tile is in range of enemy still
-        // Snipe the most vulnerable target
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetMostVulnerableEnemy(this), shoot.abilityRange) &&
+        // Snipe most vulnerable target
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, snipe.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, snipe))
+        {
+            Debug.Log("Skeleton Archer using snipe against most vulnerable target: " + myCurrentTarget.myName);
+
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Snipe");
+            yield return new WaitForSeconds(0.5f);
+
+            Action action = AbilityLogic.Instance.PerformSnipe(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            // brief delay between actions
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
+        // Shoot most vulnerable target
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, shoot.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, shoot))
         {
-            SetTargetDefender(EntityLogic.GetMostVulnerableEnemy(this));
+            Debug.Log("Skeleton Archer using shoot against most vulnerable target: " + myCurrentTarget.myName);
+
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot");
             yield return new WaitForSeconds(0.5f);
+
             Action action = AbilityLogic.Instance.PerformShoot(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -72,12 +101,16 @@ public class SkeletonArcher : Enemy
         }
 
         // Shoot the target with lowest current HP
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), shoot.abilityRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, false, true), shoot.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, shoot))
         {
-            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
+            
+            SetTargetDefender(EntityLogic.GetBestTarget(this, false, true));
+            Debug.Log("Skeleton Archer using shoot against most lowest HP target: " + myCurrentTarget.myName);
+
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot");
             yield return new WaitForSeconds(0.5f);
+
             Action action = AbilityLogic.Instance.PerformShoot(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -86,13 +119,16 @@ public class SkeletonArcher : Enemy
             goto ActionStart;
         }
 
-        // Snipe the closest target if the most vulnerable and the weakest cant be targetted
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), shoot.abilityRange) &&
+        // Shoot the closest target if the most vulnerable and lowest HP target cant be targetted
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, true), shoot.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, shoot))
         {
-            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
+            SetTargetDefender(EntityLogic.GetBestTarget(this, true));
+            Debug.Log("Skeleton Archer using shoot against closest target: " + myCurrentTarget.myName);
+
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot");
             yield return new WaitForSeconds(0.5f);
+
             Action action = AbilityLogic.Instance.PerformShoot(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -103,15 +139,16 @@ public class SkeletonArcher : Enemy
 
         // Is any target in range and valid?
 
-        // Try move into range
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), shoot.abilityRange) == false &&
+        // Try move into range if nothing is in range
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, true), shoot.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, shoot, this) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestValidEnemy(this), shoot.abilityRange, EntityLogic.GetTotalMobility(this)) != null &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetBestTarget(this, true), shoot.abilityRange, EntityLogic.GetTotalMobility(this)) != null &&
             EntityLogic.IsAbilityUseable(this, move)
             )
         {
-            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));            
+            SetTargetDefender(EntityLogic.GetBestTarget(this, true));
+            Debug.Log("Skeleton Archer moving towards: " + myCurrentTarget.myName);
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, EntityLogic.GetTotalMobility(this));
             
@@ -129,7 +166,7 @@ public class SkeletonArcher : Enemy
         // If we have no AP but can still make a free move, try to move towards a grass tile first
         else if (myPassiveManager.flux &&
             moveActionsTakenThisActivation == 0 &&
-            currentEnergy == 0 &&
+            currentEnergy < 20 &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.GetValidGrassTileWithinRange(this, EntityLogic.GetTotalMobility(this)) != null &&
             tile.myTileType != Tile.TileType.Grass

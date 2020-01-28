@@ -703,6 +703,7 @@ public class SpellBook : MonoBehaviour
     #region
     public Ability GetAbilityByName(string abilityName)
     {
+        Debug.Log("SpellBook.GetAbilityByName() called, searching for " + abilityName);
         Ability ability = null;
         foreach (Ability abilityButton in myActiveAbilities)
         {
@@ -719,7 +720,9 @@ public class SpellBook : MonoBehaviour
         return ability;
     }
     public void EnemyLearnAbility(string abilityName)
-    {        
+    {
+        Debug.Log("SpellBook.EnemyLearnAbility() called, enemy " + myLivingEntity.name + " learning ability " + abilityName);
+
         Ability newAbility = gameObject.AddComponent<Ability>();
         newAbility.SetupBaseProperties(AbilityLibrary.Instance.GetAbilityByName(abilityName));
         PlaceAbilityOnNextAvailableSlot(newAbility);
@@ -729,6 +732,7 @@ public class SpellBook : MonoBehaviour
     }
     public void DefenderLearnAbility(string abilityName)
     {
+        Debug.Log("SpellBook.DefenderLearnAbility() called, defender " + myLivingEntity.myName + " learning ability " + abilityName); 
         GetComponent<Defender>().myAbilityBar.PlaceButtonOnNextAvailableSlot(abilityName);
     }
     #endregion

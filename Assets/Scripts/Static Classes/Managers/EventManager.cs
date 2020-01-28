@@ -17,7 +17,7 @@ public class EventManager : Singleton<EventManager>
         StartCoroutine(StartNewBasicEncounterEventCoroutine(action, enemyWave));
         return action;
     }
-    public IEnumerator StartNewBasicEncounterEventCoroutine(Action action, EnemyWaveSO enemyWave = null)
+    private IEnumerator StartNewBasicEncounterEventCoroutine(Action action, EnemyWaveSO enemyWave = null)
     {
         // Destroy the previous level and tiles + reset values/properties, turn off unneeded views
         ClearPreviousEncounter();

@@ -200,7 +200,6 @@ public static class CharacterModelController
         model.simpleShieldOH.SetActive(true);
         model.simpleSwordMH.SetActive(true);
     }
-
     public static void SetUpAsRandomPreset(UniversalCharacterModel model)
     {
         CompletelyDisableAllViews(model);
@@ -214,11 +213,100 @@ public static class CharacterModelController
         model.randomLeftArm.SetActive(true);
         model.randomChest.SetActive(true);
     }
+    #endregion
+    // Enemy Preset views
+    #region
+    public static void SetUpAsVolatileZombiePreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
 
+        model.volatileZombieLeftLeg.SetActive(true);
+        model.volatileZombieRightLeg.SetActive(true);
+        model.volatileZombieHead.SetActive(true);
+        model.volatileZombieRightHand.SetActive(true);
+        model.volatileZombieRightArm.SetActive(true);
+        model.volatileZombieLeftHand.SetActive(true);
+        model.volatileZombieLeftArm.SetActive(true);
+        model.volatileZombieChest.SetActive(true);
+    }
+    public static void SetUpAsSkeletonArcherPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
 
+        model.skeletonArcherLeftLeg.SetActive(true);
+        model.skeletonArcherRightLeg.SetActive(true);
+        model.skeletonArcherHead.SetActive(true);
+        model.skeletonArcherRightHand.SetActive(true);
+        model.skeletonArcherRightArm.SetActive(true);
+        model.skeletonArcherLeftHand.SetActive(true);
+        model.skeletonArcherLeftArm.SetActive(true);
+        model.skeletonArcherChest.SetActive(true);
+    }
+    public static void SetUpAsSkeletonAssassinPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
 
+        model.skeletonAssassinLeftLeg.SetActive(true);
+        model.skeletonAssassinRightLeg.SetActive(true);
+        model.skeletonAssassinHead.SetActive(true);
+        model.skeletonAssassinRightHand.SetActive(true);
+        model.skeletonAssassinRightArm.SetActive(true);
+        model.skeletonAssassinLeftHand.SetActive(true);
+        model.skeletonAssassinLeftArm.SetActive(true);
+        model.skeletonAssassinChest.SetActive(true);
+    }
+    public static void SetUpAsSkeletonWarriorPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
 
+        model.skeletonWarriorLeftLeg.SetActive(true);
+        model.skeletonWarriorRightLeg.SetActive(true);
+        model.skeletonWarriorHead.SetActive(true);
+        model.skeletonWarriorRightHand.SetActive(true);
+        model.skeletonWarriorRightArm.SetActive(true);
+        model.skeletonWarriorLeftHand.SetActive(true);
+        model.skeletonWarriorLeftArm.SetActive(true);
+        model.skeletonWarriorChest.SetActive(true);
+    }
+    public static void SetUpAsSkeletonBarbarianPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
 
+        model.skeletonBarbarianLeftLeg.SetActive(true);
+        model.skeletonBarbarianRightLeg.SetActive(true);
+        model.skeletonBarbarianHead.SetActive(true);
+        model.skeletonBarbarianRightHand.SetActive(true);
+        model.skeletonBarbarianRightArm.SetActive(true);
+        model.skeletonBarbarianLeftHand.SetActive(true);
+        model.skeletonBarbarianLeftArm.SetActive(true);
+        model.skeletonBarbarianChest.SetActive(true);
+    }
+    public static void SetUpAsSkeletonPriestPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.skeletonPriestLeftLeg.SetActive(true);
+        model.skeletonPriestRightLeg.SetActive(true);
+        model.skeletonPriestHead.SetActive(true);
+        model.skeletonPriestRightHand.SetActive(true);
+        model.skeletonPriestRightArm.SetActive(true);
+        model.skeletonPriestLeftHand.SetActive(true);
+        model.skeletonPriestLeftArm.SetActive(true);
+        model.skeletonPriestChest.SetActive(true);
+    }
+    public static void SetUpAsSkeletonMagePreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.skeletonMageLeftLeg.SetActive(true);
+        model.skeletonMageRightLeg.SetActive(true);
+        model.skeletonMageHead.SetActive(true);
+        model.skeletonMageRightHand.SetActive(true);
+        model.skeletonMageRightArm.SetActive(true);
+        model.skeletonMageLeftHand.SetActive(true);
+        model.skeletonMageLeftArm.SetActive(true);
+        model.skeletonMageChest.SetActive(true);
+    }
     #endregion
 
     public static void CompletelyDisableAllViews(UniversalCharacterModel model)
@@ -239,7 +327,6 @@ public static class CharacterModelController
         DisableAllViewsInList(model.allLeftArms);
         DisableAllViewsInList(model.allChests);
     }
-
     public static void BuildModelFromPresetString(UniversalCharacterModel model, string preset)
     {
         Debug.Log("CharacterModelController.BuildModelFromPresetString() called, preset string: " + preset);
