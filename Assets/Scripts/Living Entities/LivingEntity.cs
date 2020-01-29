@@ -546,22 +546,30 @@ public class LivingEntity : MonoBehaviour
             }
         }
 
-        if (myPassiveManager.terrified)
+        else if (myPassiveManager.terrified && blockGainedOrLost > 0)
         {
             Debug.Log("Unable to gain block: " + name + " is 'Terrified'");
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Terrified!");
         }
 
-        if (currentBlock <= 0)
+        else if(blockGainedOrLost < 0)
         {
-            currentBlock = 0;
-            myBlockIcon.SetActive(false);
-        }
+            currentBlock += blockGainedOrLost;
+            if (currentBlock <= 0)
+            {
+                currentBlock = 0;
+                myBlockIcon.SetActive(false);
+            }
+        }        
 
-        else if(currentBlock > 0)
+        if(currentBlock > 0)
         {
             myBlockIcon.SetActive(true);
         }        
+        else if(currentBlock == 0)
+        {
+            myBlockIcon.SetActive(false);
+        }
 
         UpdateBlockAmountText(currentBlock);
     }
@@ -1492,8 +1500,10 @@ public class LivingEntity : MonoBehaviour
     }
     public void ModifyBlockOnActivationStart()
     {
+        Debug.Log("LivingEntity.ModifyBlockOnActivationStart() called for " + myName);
         if (myPassiveManager.unwavering)
         {
+            Debug.Log(myName + " has 'Unwavering' passive, not removing block");
             return;
         }
         else

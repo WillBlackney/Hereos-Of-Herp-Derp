@@ -7,6 +7,9 @@ public class SkeletonBarbarian : Enemy
     public override void SetBaseProperties()
     {
         base.SetBaseProperties();
+        myName = "Skeleton Barbarian";
+
+        CharacterModelController.SetUpAsSkeletonBarbarianPreset(myModel);
 
         mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Move");
@@ -14,57 +17,68 @@ public class SkeletonBarbarian : Enemy
         mySpellBook.EnemyLearnAbility("Whirlwind");
 
         myPassiveManager.ModifyUndead();
-        myPassiveManager.ModifyEnrage(1);
+        myPassiveManager.ModifyEnrage(2);
+
+        myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Battle Axe");
     }       
     
     public override IEnumerator StartMyActivationCoroutine()
     {
+        // Get ability data
         Ability strike = mySpellBook.GetAbilityByName("Strike");
         Ability move = mySpellBook.GetAbilityByName("Move");
         Ability charge = mySpellBook.GetAbilityByName("Charge");
         Ability whirlwind = mySpellBook.GetAbilityByName("Whirlwind");
 
         ActionStart:
+
+        // Pause if game over event has started
         while (EventManager.Instance.gameOverEventStarted)
         {
             yield return null;
         }
 
-        SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
-        // below line used later to prevent charging this is already in melee with
+        // Decide on target
+        SetTargetDefender(EntityLogic.GetBestTarget(this, true));
+
+        // below line used later to prevent charging against a this is already in melee with
         List<Tile> tilesInMyMeleeRange = LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, tile);
 
+        // End activation if stunned, out of energy, etc
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             EndMyActivation();
         }
 
-        // Charge
-        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, charge.abilityRange) &&
+        // Try Charge
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, charge.abilityRange + EntityLogic.GetTotalMobility(this)) &&
             EntityLogic.IsAbilityUseable(this, charge) &&
             tilesInMyMeleeRange.Contains(myCurrentTarget.tile) == false &&
             EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, charge.abilityRange) != null
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, charge.abilityRange + EntityLogic.GetTotalMobility(this)) != null
             )
         {            
-            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, charge.abilityRange);
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, charge.abilityRange + EntityLogic.GetTotalMobility(this));
             
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Charge");
             yield return new WaitForSeconds(0.5f);
+
             Action chargeAction = AbilityLogic.Instance.PerformCharge(this, myCurrentTarget, destination);
             yield return new WaitUntil(() => chargeAction.ActionResolved() == true);
+
             // brief delay between actions
             yield return new WaitForSeconds(1f);
             goto ActionStart;
 
         }        
 
-        // Whirlwind
+        // Try Whirlwind
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, whirlwind))
         {            
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Whirlwind");
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
+
             Action action = AbilityLogic.Instance.PerformWhirlwind(this);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -82,6 +96,7 @@ public class SkeletonBarbarian : Enemy
 
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
+
             // brief delay between actions
             yield return new WaitForSeconds(1f);
             goto ActionStart;

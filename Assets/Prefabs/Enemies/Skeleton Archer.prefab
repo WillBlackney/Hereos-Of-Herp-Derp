@@ -131,8 +131,8 @@ MonoBehaviour:
   defender: {fileID: 0}
   enemy: {fileID: 0}
   baseMobility: 2
-  baseMaxHealth: 60
-  baseStartingHealth: 60
+  baseMaxHealth: 50
+  baseStartingHealth: 50
   baseStamina: 40
   baseMaxEnergy: 60
   baseMeleeRange: 1
@@ -182,6 +182,7 @@ MonoBehaviour:
   myCurrentTarget: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   activePowers: []
+  myName: Skeleton Archer
   speed: 3
   mouseIsOverStatusIconPanel: 0
   mouseIsOverCharacter: 0
@@ -200,7 +201,6 @@ MonoBehaviour:
   myOnActivationEndEffectsFinished: 0
   myInfoPanel: {fileID: 8205476209254731278}
   freeStrikeIndicator: {fileID: 3690774067484426535}
-  myName: Skeleton Archer
   currentlyActivated: 0
 --- !u!114 &-3784379066773537958
 MonoBehaviour:

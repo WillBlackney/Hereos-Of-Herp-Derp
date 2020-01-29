@@ -130,9 +130,9 @@ MonoBehaviour:
   myActivationWindow: {fileID: 0}
   defender: {fileID: 0}
   enemy: {fileID: 0}
-  baseMobility: 1
-  baseMaxHealth: 60
-  baseStartingHealth: 60
+  baseMobility: 2
+  baseMaxHealth: 50
+  baseStartingHealth: 50
   baseStamina: 40
   baseMaxEnergy: 60
   baseMeleeRange: 1
@@ -182,6 +182,7 @@ MonoBehaviour:
   myCurrentTarget: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   activePowers: []
+  myName: Skeleton Warrior
   speed: 3
   mouseIsOverStatusIconPanel: 0
   mouseIsOverCharacter: 0
@@ -200,7 +201,6 @@ MonoBehaviour:
   myOnActivationEndEffectsFinished: 0
   myInfoPanel: {fileID: 2095069968850433237}
   freeStrikeIndicator: {fileID: 7221693735101132410}
-  myName: Skeleton Warrior
   currentlyActivated: 0
 --- !u!114 &-2275895814606721917
 MonoBehaviour:

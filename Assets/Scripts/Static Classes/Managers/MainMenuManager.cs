@@ -103,8 +103,12 @@ public class MainMenuManager : Singleton<MainMenuManager>
     #region
     public string GetRandomClassString()
     {
-        int randomIndex = Random.Range(0, characterClassNames.Count);
-        return characterClassNames[randomIndex];
+        List<string> classes = new List<string>();
+        classes.AddRange(characterClassNames);
+        classes.Remove("Random");
+
+        int randomIndex = Random.Range(0, classes.Count);
+        return classes[randomIndex];
     }
     #endregion
 

@@ -163,25 +163,6 @@ public class SkeletonArcher : Enemy
             goto ActionStart;
         }
 
-        // If we have no AP but can still make a free move, try to move towards a grass tile first
-        else if (myPassiveManager.flux &&
-            moveActionsTakenThisActivation == 0 &&
-            currentEnergy < 20 &&
-            EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.GetValidGrassTileWithinRange(this, EntityLogic.GetTotalMobility(this)) != null &&
-            tile.myTileType != Tile.TileType.Grass
-            )
-        {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-
-            Action movementAction = AbilityLogic.Instance.PerformMove(this, EntityLogic.GetValidGrassTileWithinRange(this, EntityLogic.GetTotalMobility(this)));
-            yield return new WaitUntil(() => movementAction.ActionResolved() == true);
-
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
-
         EndMyActivation();
     }
     

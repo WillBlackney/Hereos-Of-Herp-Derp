@@ -503,8 +503,8 @@ MonoBehaviour:
   defender: {fileID: 0}
   enemy: {fileID: 0}
   baseMobility: 2
-  baseMaxHealth: 60
-  baseStartingHealth: 60
+  baseMaxHealth: 50
+  baseStartingHealth: 50
   baseStamina: 40
   baseMaxEnergy: 40
   baseMeleeRange: 1
@@ -554,6 +554,7 @@ MonoBehaviour:
   myCurrentTarget: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   activePowers: []
+  myName: Skeleton Mage
   speed: 3
   mouseIsOverStatusIconPanel: 0
   mouseIsOverCharacter: 0
@@ -572,7 +573,6 @@ MonoBehaviour:
   myOnActivationEndEffectsFinished: 0
   myInfoPanel: {fileID: 2095069968850433237}
   freeStrikeIndicator: {fileID: 4403231297682996212}
-  myName: Skeleton Mage
   currentlyActivated: 0
 --- !u!1 &6908134588171031293
 GameObject:

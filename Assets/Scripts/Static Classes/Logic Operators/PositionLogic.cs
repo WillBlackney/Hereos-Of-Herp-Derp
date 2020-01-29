@@ -483,6 +483,10 @@ public class PositionLogic : Singleton<PositionLogic>
     #region
     public bool IsThereLosFromAtoB(Tile a, Tile b)
     {
+        Debug.Log("PositionLogic.IsThereLosFromAtoB() called, checking LoS from tile " +
+            a.GridPosition.X.ToString() + ", " + a.GridPosition.Y.ToString() + " to tile " +
+            b.GridPosition.X.ToString() + ", " + b.GridPosition.Y.ToString());
+
         bool hasLoS = true;
 
         // first ray cast and check from the tile the attacker is on        
@@ -490,13 +494,6 @@ public class PositionLogic : Singleton<PositionLogic>
 
         foreach (RaycastHit2D hit in hits)
         {
-            /*
-            if (hit.transform.GetComponent<Tile>())
-            {
-                Debug.Log("IsThereLosFromAtoB() raycast hit a tile!");
-            }
-            */
-
             if (hit.transform.GetComponent<Tile>().BlocksLoS == true)
             {
                 hasLoS = false;

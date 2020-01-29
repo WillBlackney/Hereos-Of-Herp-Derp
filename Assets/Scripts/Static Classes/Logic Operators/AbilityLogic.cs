@@ -4941,12 +4941,19 @@ public class AbilityLogic : MonoBehaviour
         StartCoroutine(PerformHealingLightCoroutine(caster, target, action));
         return action;
     }
-    public IEnumerator PerformHealingLightCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    private IEnumerator PerformHealingLightCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
+        // Setup
         Ability healingLight = caster.mySpellBook.GetAbilityByName("Healing Light");
         OnAbilityUsedStart(healingLight, caster);
+
+        // Give target health
         target.ModifyCurrentHealth(healingLight.abilityPrimaryValue);
+        //StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
         yield return new WaitForSeconds(0.5f);
+
+        // Finish event
+        OnAbilityUsedFinish(healingLight, caster);
         action.actionResolved = true;
 
     }

@@ -7,27 +7,33 @@ public class SkeletonWarrior : Enemy
     public override void SetBaseProperties()
     {
         base.SetBaseProperties();
+        myName = "Skeleton Warrior";
+
+        CharacterModelController.SetUpAsSkeletonWarriorPreset(myModel);
 
         mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Guard");
         mySpellBook.EnemyLearnAbility("Inspire");
+        mySpellBook.EnemyLearnAbility("Sword And Board");
 
         myPassiveManager.ModifyUndead();
-        myPassiveManager.ModifyThorns(2);
+        myPassiveManager.ModifyThorns(3);
 
+        myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Sword");
+        myOffHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Shield");
     }
 
     public override IEnumerator StartMyActivationCoroutine()
     {
         Ability strike = mySpellBook.GetAbilityByName("Strike");
         Ability move = mySpellBook.GetAbilityByName("Move");
-        Ability guard = mySpellBook.GetAbilityByName("Guard");
         Ability inspire = mySpellBook.GetAbilityByName("Inspire");
+        Ability swordAndBoard = mySpellBook.GetAbilityByName("Sword And Board");
 
         ActionStart:
 
-        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
+        SetTargetDefender(EntityLogic.GetBestTarget(this, true));
 
         while (EventManager.Instance.gameOverEventStarted)
         {
@@ -57,6 +63,7 @@ public class SkeletonWarrior : Enemy
         {
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Inspire");
             yield return new WaitForSeconds(0.5f);
+
             Action action = AbilityLogic.Instance.PerformInspire(this, GetBestInspireTargetInRange(inspire.abilityRange));
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -65,6 +72,7 @@ public class SkeletonWarrior : Enemy
         }
 
         // Guard an ally if they are injured and in range
+        /*
         else if(GetBestBarrierTargetInRange(guard.abilityRange) != null &&
             EntityLogic.IsAbilityUseable(this, guard))
         {
@@ -76,12 +84,26 @@ public class SkeletonWarrior : Enemy
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
+        */
 
-        // Strike
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) &&
+        // Sword and Board against closest target
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, swordAndBoard))
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Sword And Board");
+            yield return new WaitForSeconds(0.5f);
+
+            Action action = AbilityLogic.Instance.PerformSwordAndBoard(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
+        // Strike closest target
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, strike))
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
             yield return new WaitForSeconds(0.5f);
 
@@ -93,14 +115,12 @@ public class SkeletonWarrior : Enemy
         }
 
         // Move
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) == false &&
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
-
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
@@ -130,16 +150,6 @@ public class SkeletonWarrior : Enemy
             {
                 myPointScore = 5;
                 if(myPointScore > pointScore)
-                {
-                    pointScore = myPointScore;
-                    bestTarget = enemy;
-                }
-            }
-
-            else if (enemy.GetComponent<SkeletonArcher>())
-            {
-                myPointScore = 4;
-                if (myPointScore > pointScore)
                 {
                     pointScore = myPointScore;
                     bestTarget = enemy;

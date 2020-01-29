@@ -161,9 +161,9 @@ MonoBehaviour:
   myActivationWindow: {fileID: 0}
   defender: {fileID: 0}
   enemy: {fileID: 0}
-  baseMobility: 1
-  baseMaxHealth: 60
-  baseStartingHealth: 60
+  baseMobility: 2
+  baseMaxHealth: 50
+  baseStartingHealth: 50
   baseStamina: 40
   baseMaxEnergy: 60
   baseMeleeRange: 1
@@ -213,6 +213,7 @@ MonoBehaviour:
   myCurrentTarget: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   activePowers: []
+  myName: Skeleton Barbarian
   speed: 3
   mouseIsOverStatusIconPanel: 0
   mouseIsOverCharacter: 0
@@ -231,7 +232,6 @@ MonoBehaviour:
   myOnActivationEndEffectsFinished: 0
   myInfoPanel: {fileID: 965131916148587032}
   freeStrikeIndicator: {fileID: 649665893593332405}
-  myName: Skeleton Barbarian
   currentlyActivated: 0
 --- !u!114 &-503137441469160467
 MonoBehaviour:

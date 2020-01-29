@@ -7,6 +7,10 @@ public class SkeletonMage : Enemy
     public override void SetBaseProperties()
     {
         base.SetBaseProperties();
+        myName = "Skeleton Mage";
+
+        CharacterModelController.SetUpAsSkeletonMagePreset(myModel);
+
         mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Fire Ball");
         mySpellBook.EnemyLearnAbility("Move");
@@ -14,6 +18,8 @@ public class SkeletonMage : Enemy
 
         myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyPhasing(1);
+
+        myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Staff");
     }
 
     public override IEnumerator StartMyActivationCoroutine()
@@ -24,7 +30,7 @@ public class SkeletonMage : Enemy
 
         ActionStart:
 
-        SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
+        SetTargetDefender(EntityLogic.GetBestTarget(this, true));
 
         while (EventManager.Instance.gameOverEventStarted)
         {
@@ -37,14 +43,15 @@ public class SkeletonMage : Enemy
         }
 
         // Frost Bolt
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), frostBolt.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, frostBolt)
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, frostBolt.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, frostBolt) &&
+            myCurrentTarget.myPassiveManager.immobilized == false
             )
-        {            
-            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
+        { 
             // VFX notification
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Frost Bolt");
             yield return new WaitForSeconds(0.5f);
+
             Action action = AbilityLogic.Instance.PerformFrostBolt(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -55,12 +62,14 @@ public class SkeletonMage : Enemy
 
 
         // Fireball the most vulnerable target
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetMostVulnerableEnemy(this), fireBall.abilityRange) &&            
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, false, false, true), fireBall.abilityRange) &&            
             EntityLogic.IsAbilityUseable(this, fireBall))
         {
-            SetTargetDefender(EntityLogic.GetMostVulnerableEnemy(this));
+            SetTargetDefender(EntityLogic.GetBestTarget(this, false, false, true));
+
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball");
             yield return new WaitForSeconds(0.5f);
+
             Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -70,12 +79,14 @@ public class SkeletonMage : Enemy
         }
 
         // Fireball the target with lowest current HP
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetEnemyWithLowestCurrentHP(this), fireBall.abilityRange) &&
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, false, true), fireBall.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, fireBall))
         {
-            SetTargetDefender(EntityLogic.GetEnemyWithLowestCurrentHP(this));
+            SetTargetDefender(EntityLogic.GetBestTarget(this, false, true));
+
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball");
             yield return new WaitForSeconds(0.5f);
+
             Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -84,12 +95,12 @@ public class SkeletonMage : Enemy
         }
 
         // Fireball the closest target if the most vulnerable and the weakest cant be targetted
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), fireBall.abilityRange) &&
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, fireBall.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, fireBall))
         {
-            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball");
             yield return new WaitForSeconds(0.5f);
+
             Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -99,15 +110,13 @@ public class SkeletonMage : Enemy
         
         // Move
         else if (
-            EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), fireBall.abilityRange) == false &&
+            EntityLogic.IsTargetInRange(this, myCurrentTarget, fireBall.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, fireBall, this) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestEnemy(this), fireBall.abilityRange, EntityLogic.GetTotalMobility(this)) != null
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, fireBall.abilityRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
-            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
-            
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 

@@ -207,7 +207,7 @@ public static class EntityLogic
         }
         else if (prioritizeClosest)
         {
-            targetReturned = GetClosestEnemy(entity);
+            targetReturned = GetClosestValidEnemy(entity);
         }
         else if (prioritizeLowHP)
         {
@@ -313,7 +313,7 @@ public static class EntityLogic
     }
     public static bool IsTargetInRange(LivingEntity caster, LivingEntity target, int range, bool ignoreLoS = false)
     {
-        Debug.Log("EntityLogic.IsTargetInRange() called for " + caster.name + ", ignore LoS = " + ignoreLoS.ToString());
+        Debug.Log("EntityLogic.IsTargetInRange() called for " + caster.myName + ", ignore LoS = " + ignoreLoS.ToString());
 
         List<Tile> tilesWithinMyRange = LevelManager.Instance.GetTilesWithinRange(range, caster.tile, false, ignoreLoS);
 
@@ -338,7 +338,8 @@ public static class EntityLogic
     }
     public static bool IsTargetVisible(LivingEntity caster, LivingEntity target)
     {
-        Debug.Log("EntityLogic.IsTargetVisible() called for " + caster.name + "..." );
+        Debug.Log("EntityLogic.IsTargetVisible() called for " + caster.myName + " against target " + target.myName);
+
         List<Tile> tilesWithinStealthSight = LevelManager.Instance.GetTilesWithinRange(1, caster.tile);
         bool passedStealthCheck = false;
         bool passedLosCheck = false;
@@ -387,7 +388,7 @@ public static class EntityLogic
         }
 
         // return the result of the checks
-        if(passedLosCheck && passedStealthCheck)
+        if(passedLosCheck == true && passedStealthCheck == true)
         {
             return true;
         }
@@ -763,7 +764,7 @@ public static class EntityLogic
     }
     public static int GetTotalStamina(LivingEntity entity)
     {
-        Debug.Log("EntityLogic.GetTotalStamina() called for " + entity.name + "...");
+        Debug.Log("EntityLogic.GetTotalStamina() called for " + entity.myName + "...");
 
         // Get base Stamina
         int staminaReturned = entity.currentStamina;
