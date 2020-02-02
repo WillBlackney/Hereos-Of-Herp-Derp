@@ -307,6 +307,45 @@ public static class CharacterModelController
         model.skeletonMageLeftArm.SetActive(true);
         model.skeletonMageChest.SetActive(true);
     }
+    public static void SetUpAsSkeletonNecromancerPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.skeletonNecromancerLeftLeg.SetActive(true);
+        model.skeletonNecromancerRightLeg.SetActive(true);
+        model.skeletonNecromancerHead.SetActive(true);
+        model.skeletonNecromancerRightHand.SetActive(true);
+        model.skeletonNecromancerRightArm.SetActive(true);
+        model.skeletonNecromancerLeftHand.SetActive(true);
+        model.skeletonNecromancerLeftArm.SetActive(true);
+        model.skeletonNecromancerChest.SetActive(true);
+    }
+    public static void SetUpAsGoblinStabbyPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.goblinStabbyLeftLeg.SetActive(true);
+        model.goblinStabbyRightLeg.SetActive(true);
+        model.goblinStabbyHead.SetActive(true);
+        model.goblinStabbyRightHand.SetActive(true);
+        model.goblinStabbyRightArm.SetActive(true);
+        model.goblinStabbyLeftHand.SetActive(true);
+        model.goblinStabbyLeftArm.SetActive(true);
+        model.goblinStabbyChest.SetActive(true);
+    }
+    public static void SetUpAsGoblinShootyPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.goblinShootyLeftLeg.SetActive(true);
+        model.goblinShootRightLeg.SetActive(true);
+        model.goblinShootyHead.SetActive(true);
+        model.goblinShootyRightHand.SetActive(true);
+        model.goblinShootyRightArm.SetActive(true);
+        model.goblinShootyLeftHand.SetActive(true);
+        model.goblinShootyLeftArm.SetActive(true);
+        model.goblinShootyChest.SetActive(true);
+    }
     #endregion
 
     public static void CompletelyDisableAllViews(UniversalCharacterModel model)

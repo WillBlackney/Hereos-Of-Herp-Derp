@@ -5,11 +5,13 @@ using System.Linq;
 
 public class SkeletonNecromancer : Enemy
 {
-    public GameObject zombiePrefab;
     public override void SetBaseProperties()
     {
         base.SetBaseProperties();
-        
+        myName = "Skeleton Necromancer";
+
+        CharacterModelController.SetUpAsSkeletonNecromancerPreset(myModel);
+
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Summon Undead");
@@ -17,7 +19,8 @@ public class SkeletonNecromancer : Enemy
 
         myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyToxicAura(2);
-        
+
+        myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Staff");
     }
 
     public override IEnumerator StartMyActivationCoroutine()
@@ -25,14 +28,16 @@ public class SkeletonNecromancer : Enemy
         Ability move = mySpellBook.GetAbilityByName("Move");
         Ability summonUndead = mySpellBook.GetAbilityByName("Summon Undead");        
         Ability blight = mySpellBook.GetAbilityByName("Blight");
+        Ability strike = mySpellBook.GetAbilityByName("Strike");
 
         ActionStart:
+
+        SetTargetDefender(EntityLogic.GetBestTarget(this, true));
+
         while (EventManager.Instance.gameOverEventStarted)
         {
             yield return null;
         }
-
-        SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
 
         // if unable to do anything, just end activation
         if (EntityLogic.IsAbleToTakeActions(this) == false)
@@ -57,17 +62,16 @@ public class SkeletonNecromancer : Enemy
         }
 
         // Blight
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), blight.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, blight) &&
-            IsThereAtleastOneZombie()                      
-            )
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, blight.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, blight))
         {
-            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Blight");
             yield return new WaitForSeconds(0.5f);
+
             Action action = AbilityLogic.Instance.PerformBlight(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
+            // brief delay between actions
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
@@ -83,16 +87,28 @@ public class SkeletonNecromancer : Enemy
             goto ActionStart;
         }
 
+        // Strike
+        else if (EntityLogic.IsAbilityUseable(this, strike) &&
+            EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
+            yield return new WaitForSeconds(0.5f);
+
+            Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
         // Move in range for Blight
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), blight.abilityRange) == false &&
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, blight.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, blight.abilityRange, EntityLogic.GetTotalMobility(this)) != null &&
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, blight, this)
             )
         {
-            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
-
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
@@ -104,34 +120,11 @@ public class SkeletonNecromancer : Enemy
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
+
         EndMyActivation();
-    }
+    }   
 
-      
-
-    public bool IsThereAtleastOneZombie()
-    {
-        Enemy zombie = null;
-
-        foreach(Enemy enemy in EnemyManager.Instance.allEnemies)
-        {
-            if(enemy.myName == "Volatile Zombie")
-            {
-                zombie = enemy;
-                break;
-            }
-        }
-
-        if(zombie == null)
-        {
-            return false;
-        }
-
-        else
-        {
-            return true;
-        }
-    }
+ 
 
     
 }

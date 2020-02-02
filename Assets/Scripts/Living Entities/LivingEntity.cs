@@ -1432,6 +1432,14 @@ public class LivingEntity : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
+        // Remove Temporary Hawk Eye
+        if (myPassiveManager.temporaryHawkEye)
+        {
+            Debug.Log("OnActivationEndCoroutine() checking Temporary Hawk Eye...");
+            myPassiveManager.ModifyTemporaryHawkEyeBonus(-myPassiveManager.temporaryHawkEyeStacks);
+            yield return new WaitForSeconds(1f);
+        }
+
         // Resolve
         Debug.Log("OnActivationEndCoroutine() finished and resolving...");
         yield return new WaitForSeconds(1f);

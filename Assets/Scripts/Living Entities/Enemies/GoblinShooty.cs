@@ -8,19 +8,25 @@ public class GoblinShooty : Enemy
     {
         base.SetBaseProperties();
 
+        myName = "Goblin Shooty";
+
+        CharacterModelController.SetUpAsGoblinShootyPreset(myModel);
+
         mySpellBook.EnemyLearnAbility("Move");
-        mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Shoot");
 
+        myPassiveManager.ModifyNimble(1);
+        myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Bow");
     }
 
     public override IEnumerator StartMyActivationCoroutine()
     {
-        Ability strike = mySpellBook.GetAbilityByName("Strike");
         Ability shoot = mySpellBook.GetAbilityByName("Shoot");
         Ability move = mySpellBook.GetAbilityByName("Move");
 
         ActionStart:
+
+        SetTargetDefender(EntityLogic.GetBestTarget(this, true));
 
         while (EventManager.Instance.gameOverEventStarted)
         {
@@ -52,7 +58,7 @@ public class GoblinShooty : Enemy
         // Move
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, shoot.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, strike, this) &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, shoot, this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, EntityLogic.GetTotalMobility(this)) != null
             )
@@ -72,6 +78,7 @@ public class GoblinShooty : Enemy
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
+
         EndMyActivation();
     }
 }

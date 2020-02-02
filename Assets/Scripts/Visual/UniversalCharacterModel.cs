@@ -29,6 +29,9 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonMageLeftLeg;
     public GameObject skeletonWarriorLeftLeg;
     public GameObject skeletonPriestLeftLeg;
+    public GameObject skeletonNecromancerLeftLeg;
+    public GameObject goblinStabbyLeftLeg;
+    public GameObject goblinShootyLeftLeg;
 
 
     [Header("Right Leg References")]
@@ -53,6 +56,9 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonMageRightLeg;
     public GameObject skeletonWarriorRightLeg;
     public GameObject skeletonPriestRightLeg;
+    public GameObject skeletonNecromancerRightLeg;
+    public GameObject goblinStabbyRightLeg;
+    public GameObject goblinShootRightLeg;
 
     [Header("Head References")]
     public List<GameObject> allHeads;
@@ -76,6 +82,9 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonMageHead;
     public GameObject skeletonWarriorHead;
     public GameObject skeletonPriestHead;
+    public GameObject skeletonNecromancerHead;
+    public GameObject goblinStabbyHead;
+    public GameObject goblinShootyHead;
 
     [Header("Right Hand References")]
     public List<GameObject> allRightHands;
@@ -99,6 +108,9 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonMageRightHand;
     public GameObject skeletonWarriorRightHand;
     public GameObject skeletonPriestRightHand;
+    public GameObject skeletonNecromancerRightHand;
+    public GameObject goblinStabbyRightHand;
+    public GameObject goblinShootyRightHand;
 
     [Header("Right Arm References")]
     public List<GameObject> allRightArms;
@@ -122,6 +134,9 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonMageRightArm;
     public GameObject skeletonWarriorRightArm;
     public GameObject skeletonPriestRightArm;
+    public GameObject skeletonNecromancerRightArm;
+    public GameObject goblinStabbyRightArm;
+    public GameObject goblinShootyRightArm;
 
     [Header("Left Hand References")]
     public List<GameObject> allLeftHands;
@@ -145,6 +160,9 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonMageLeftHand;
     public GameObject skeletonWarriorLeftHand;
     public GameObject skeletonPriestLeftHand;
+    public GameObject skeletonNecromancerLeftHand;
+    public GameObject goblinStabbyLeftHand;
+    public GameObject goblinShootyLeftHand;
 
     [Header("Left Arm References")]
     public List<GameObject> allLeftArms;
@@ -168,6 +186,9 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonMageLeftArm;
     public GameObject skeletonWarriorLeftArm;
     public GameObject skeletonPriestLeftArm;
+    public GameObject skeletonNecromancerLeftArm;
+    public GameObject goblinStabbyLeftArm;
+    public GameObject goblinShootyLeftArm;
 
     [Header("Chest References")]
     public List<GameObject> allChests;
@@ -191,6 +212,9 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonMageChest;
     public GameObject skeletonWarriorChest;
     public GameObject skeletonPriestChest;
+    public GameObject skeletonNecromancerChest;
+    public GameObject goblinStabbyChest;
+    public GameObject goblinShootyChest;
 
     [Header("Main Hand Weapon References")]
     public List<GameObject> allMainHandWeapons;

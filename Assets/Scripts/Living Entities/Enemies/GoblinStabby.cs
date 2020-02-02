@@ -7,27 +7,32 @@ public class GoblinStabby : Enemy
     public override void SetBaseProperties()
     {
         base.SetBaseProperties();
+        myName = "Goblin Stabby";
+
+        CharacterModelController.SetUpAsGoblinStabbyPreset(myModel);
 
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Strike");
-        mySpellBook.EnemyLearnAbility("Rend");
+        mySpellBook.EnemyLearnAbility("Tendon Slash");
 
+        myPassiveManager.ModifyNimble(1);
+        myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Sword");
     }
 
     public override IEnumerator StartMyActivationCoroutine()
     {
         Ability strike = mySpellBook.GetAbilityByName("Strike");
-        Ability rend = mySpellBook.GetAbilityByName("Rend");
+        Ability tendonSlash = mySpellBook.GetAbilityByName("Tendon Slash");
         Ability move = mySpellBook.GetAbilityByName("Move");
 
         ActionStart:
+
+        SetTargetDefender(EntityLogic.GetBestTarget(this, true));
 
         while (EventManager.Instance.gameOverEventStarted)
         {
             yield return null;
         }
-
-        SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
@@ -35,14 +40,15 @@ public class GoblinStabby : Enemy
 
         }
 
-        // Rend
-        else if (EntityLogic.IsAbilityUseable(this, rend) &&
-            EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
+        // Tendon Slash
+        else if (EntityLogic.IsAbilityUseable(this, tendonSlash) &&
+            EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
+            myCurrentTarget.myPassiveManager.weakened == false)
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Rend");
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Tendon Slash");
             yield return new WaitForSeconds(0.5f);
 
-            Action action = AbilityLogic.Instance.PerformRend(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformTendonSlash(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
@@ -67,11 +73,10 @@ public class GoblinStabby : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
-            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, strike, this) &&
+            //EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, strike, this) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
-            //SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 

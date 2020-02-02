@@ -2576,7 +2576,7 @@ public class AbilityLogic : MonoBehaviour
 
         // Give target bonus to ranged attacks
         target.myPassiveManager.ModifyTemporaryHawkEyeBonus(steadyHands.abilityPrimaryValue);
-        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(target.transform.position));
         yield return new WaitForSeconds(0.5f);
 
         // Resolve Event
@@ -4831,7 +4831,7 @@ public class AbilityLogic : MonoBehaviour
         StartCoroutine(PerformSummonUndeadCoroutine(caster, target, action));
         return action;
     }
-    public IEnumerator PerformSummonUndeadCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    private IEnumerator PerformSummonUndeadCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         Ability summonUndead = caster.mySpellBook.GetAbilityByName("Summon Undead");
         OnAbilityUsedStart(summonUndead, caster);
