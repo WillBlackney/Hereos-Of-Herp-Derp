@@ -941,6 +941,8 @@ public class PassiveManager : MonoBehaviour
             bonusWisdomStacks += stacks;
             if (bonusWisdomStacks > 0)
             {
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Wisdom + " + stacks.ToString());
+                StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
                 bonusWisdom = true;
             }
         }
@@ -967,6 +969,8 @@ public class PassiveManager : MonoBehaviour
             bonusDexterityStacks += stacks;
             if (bonusDexterityStacks > 0)
             {
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Dexterity + " + stacks.ToString());
+                StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
                 bonusDexterity = true;
             }
         }
@@ -993,6 +997,8 @@ public class PassiveManager : MonoBehaviour
             bonusStaminaStacks += stacks;
             if (bonusStaminaStacks > 0)
             {
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Stamina + " + stacks.ToString());
+                StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
                 bonusStamina = true;
             }
         }
@@ -1123,7 +1129,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyPreparation(int stacks)
     {
-        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPreparation() called, stacks = " + stacks.ToString());
+        Debug.Log(myLivingEntity.myName + ".PassiveManager.ModifyPreparation() called, stacks = " + stacks.ToString());
 
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Preparation");
 

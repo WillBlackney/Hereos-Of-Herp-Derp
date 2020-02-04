@@ -5,12 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New StateDataSO", menuName = "StateDataSO", order = 52)]
 public class StateDataSO : ScriptableObject
 {
-    public Sprite sprite;
-    public string Name;
-    public string description;
-    public ExpirationCondition expirationCondition;
+    public enum ExpirationCondition { None, Timer, EndOfAct };
 
+    public Sprite stateSprite;
+    public string stateName;
+    public string stateDescription;
     public bool affliction;
-    public int duration;    
-    public enum ExpirationCondition { None, Timer, EndOfAct};
+    public ExpirationCondition expirationCondition;
+    public int duration;
+    
+       
+    
 }

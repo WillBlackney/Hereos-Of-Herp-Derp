@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class CampSiteButton : MonoBehaviour
 {
     public Image myGlowOutline;
-    public CanvasGroup myGlowCG;
 
     public void SetGlowOutilineViewState(bool onOrOff)
     {

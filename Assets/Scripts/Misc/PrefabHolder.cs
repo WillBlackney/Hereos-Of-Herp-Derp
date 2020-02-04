@@ -10,6 +10,7 @@ public class PrefabHolder : Singleton<PrefabHolder>
     public GameObject spellInfoPrefab;
     public GameObject activationWindowPrefab;
     public GameObject statePrefab;
+    public GameObject afflicationOnPanelPrefab;
     public GameObject apBarDividerPrefab;
 
     [Header("Defender Game Object Prefabs")]

@@ -14,7 +14,29 @@ public class WorldManager : Singleton<WorldManager>
     public List<GameObject> worldMapPrefabs;    
     public GameObject worldMapParent;
 
-    
+    [Header("Testing Properties")]
+    public bool onlySpawnBasics;
+    public bool onlySpawnElites;
+    public bool onlySpawnMysterys;
+    public bool onlySpawnShops;
+    public bool onlySpawnTreasures;
+    public bool onlySpawnCampSites;
+
+    [Header("Encounter Type Images")]
+    public Sprite basicEncounterImage;
+    public Sprite eliteEncounterImage;
+    public Sprite campSiteEncounterImage;
+    public Sprite shopEncounterImage;
+    public Sprite treasureEncounterImage;
+    public Sprite mysteryEncounterImage;
+
+    [Header("Encounter Type Shadow Images")]
+    public Sprite basicEncounterShadowImage;
+    public Sprite eliteEncounterShadowImage;
+    public Sprite campSiteEncounterShadowImage;
+    public Sprite shopEncounterShadowImage;
+    public Sprite treasureEncounterShadowImage;
+    public Sprite mysteryEncounterShadowImage;
 
     // Initialization + Setup
     #region
@@ -58,11 +80,15 @@ public class WorldManager : Singleton<WorldManager>
                 }
             }
         }
-        else if (playerPosition != null)
+        
+        else if(playerPosition != null)
         {
-            foreach (WorldEncounter encounter in playerPosition.connectingEncounters)
+            foreach (WorldEncounter encounter in currentWorld.allEncounters)
             {
-                encountersReturned.Add(encounter);
+                if (encounter.column == playerEncounterPosition.column + 1)
+                {
+                    encountersReturned.Add(encounter);
+                }
             }
         }
 
@@ -101,7 +127,7 @@ public class WorldManager : Singleton<WorldManager>
             encounter.PlayBreatheAnimation();
         }
     }
-    public void UnhighlightAllHexagons()
+    public void IdleAllEncounters()
     {
         foreach (WorldEncounter encounter in currentWorld.allEncounters)
         {

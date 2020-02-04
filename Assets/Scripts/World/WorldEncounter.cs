@@ -20,26 +20,11 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public Image circleImage;    
     public Animator myAnimator;
 
-    [Header("Encounter Type Images")]
-    public Sprite basicEncounterImage;
-    public Sprite eliteEncounterImage;    
-    public Sprite campSiteEncounterImage;
-    public Sprite shopEncounterImage;
-    public Sprite treasureEncounterImage;
-    public Sprite mysteryEncounterImage;
-
-    [Header("Encounter Type Shadow Images")]
-    public Sprite basicEncounterShadowImage;
-    public Sprite eliteEncounterShadowImage;
-    public Sprite campSiteEncounterShadowImage;
-    public Sprite shopEncounterShadowImage;
-    public Sprite treasureEncounterShadowImage;
-    public Sprite mysteryEncounterShadowImage;
-
     // Initialization + Setup
     #region
     public void InitializeSetup()
     {
+        SetEncounterType();
         SetEncounterTypeSprite();        
     }    
     #endregion
@@ -66,45 +51,72 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (myEncounterType == EncounterType.BasicEnemy)
         {
-            myEncounterTypeImage.sprite = basicEncounterImage;
-            myEncounterTypeShadowImage.sprite = basicEncounterShadowImage;
+            myEncounterTypeImage.sprite = WorldManager.Instance.basicEncounterImage;
+            myEncounterTypeShadowImage.sprite = WorldManager.Instance.basicEncounterShadowImage;
         }
 
         else if (myEncounterType == EncounterType.CampSite)
         {
-            myEncounterTypeImage.sprite = campSiteEncounterImage;
-            myEncounterTypeShadowImage.sprite = campSiteEncounterShadowImage;
+            myEncounterTypeImage.sprite = WorldManager.Instance.campSiteEncounterImage;
+            myEncounterTypeShadowImage.sprite = WorldManager.Instance.campSiteEncounterShadowImage;
         }
 
         else if (myEncounterType == EncounterType.EliteEnemy)
         {
-            myEncounterTypeImage.sprite = eliteEncounterImage;
-            myEncounterTypeShadowImage.sprite = eliteEncounterShadowImage;
+            myEncounterTypeImage.sprite = WorldManager.Instance.eliteEncounterImage;
+            myEncounterTypeShadowImage.sprite = WorldManager.Instance.eliteEncounterShadowImage;
         }
 
         else if (myEncounterType == EncounterType.Shop)
         {
-            myEncounterTypeImage.sprite = shopEncounterImage;
-            myEncounterTypeShadowImage.sprite = shopEncounterShadowImage;
+            myEncounterTypeImage.sprite = WorldManager.Instance.shopEncounterImage;
+            myEncounterTypeShadowImage.sprite = WorldManager.Instance.shopEncounterShadowImage;
         }
 
         else if (myEncounterType == EncounterType.Treasure)
         {
-            myEncounterTypeImage.sprite = treasureEncounterImage;
-            myEncounterTypeShadowImage.sprite = treasureEncounterShadowImage;
+            myEncounterTypeImage.sprite = WorldManager.Instance.treasureEncounterImage;
+            myEncounterTypeShadowImage.sprite = WorldManager.Instance.treasureEncounterShadowImage;
         }
 
         else if (myEncounterType == EncounterType.Mystery)
         {
-            myEncounterTypeImage.sprite = mysteryEncounterImage;
-            myEncounterTypeShadowImage.sprite = mysteryEncounterShadowImage;
+            myEncounterTypeImage.sprite = WorldManager.Instance.mysteryEncounterImage;
+            myEncounterTypeShadowImage.sprite = WorldManager.Instance.mysteryEncounterShadowImage;
         }
         else if (myEncounterType == EncounterType.Boss)
         {
-            myEncounterTypeImage.sprite = eliteEncounterImage;
-            myEncounterTypeShadowImage.sprite = eliteEncounterShadowImage;
+            myEncounterTypeImage.sprite = WorldManager.Instance.eliteEncounterImage;
+            myEncounterTypeShadowImage.sprite = WorldManager.Instance.eliteEncounterShadowImage;
             myEncounterTypeImage.color = Color.red;
             myEncounterTypeShadowImage.color = Color.red;
+        }
+    }
+    public void SetEncounterType()
+    {
+        if (WorldManager.Instance.onlySpawnBasics)
+        {
+            myEncounterType = EncounterType.BasicEnemy;
+        }
+        else if (WorldManager.Instance.onlySpawnElites)
+        {
+            myEncounterType = EncounterType.EliteEnemy;
+        }
+        else if (WorldManager.Instance.onlySpawnMysterys)
+        {
+            myEncounterType = EncounterType.Mystery;
+        }
+        else if (WorldManager.Instance.onlySpawnCampSites)
+        {
+            myEncounterType = EncounterType.CampSite;
+        }
+        else if (WorldManager.Instance.onlySpawnMysterys)
+        {
+            myEncounterType = EncounterType.Mystery;
+        }
+        else if (WorldManager.Instance.onlySpawnShops)
+        {
+            myEncounterType = EncounterType.Shop;
         }
     }
     
@@ -135,7 +147,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             WorldManager.Instance.SetPlayerPosition(this);
             Debug.Log("Starting new rest site event");
-            EventManager.Instance.StartNewRestSiteEncounterEvent();
+            EventManager.Instance.StartNewCampSiteEncounterEvent();
         }
 
         else if (myEncounterType == EncounterType.EliteEnemy)
@@ -173,7 +185,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             EventManager.Instance.StartNewBossEncounterEvent();
         }
 
-        WorldManager.Instance.UnhighlightAllHexagons();
+        WorldManager.Instance.IdleAllEncounters();
     }
     public void OnPointerEnter(PointerEventData eventData)
     {

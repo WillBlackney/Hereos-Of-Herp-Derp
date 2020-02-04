@@ -177,11 +177,11 @@ public class EventManager : Singleton<EventManager>
         // declare this event complete
         action.actionResolved = true;
     }
-    public void StartNewRestSiteEncounterEvent()
+    public void StartNewCampSiteEncounterEvent()
     {
-        StartCoroutine(StartNewRestSiteEncounterEventCoroutine());
+        StartCoroutine(StartNewCampSiteEncounterEventCoroutine());
     }
-    public IEnumerator StartNewRestSiteEncounterEventCoroutine()
+    private IEnumerator StartNewCampSiteEncounterEventCoroutine()
     {
         // Disable player's ability to click on encounter buttons and start new encounters
         //WorldMap.Instance.canSelectNewEncounter = false;
@@ -189,7 +189,7 @@ public class EventManager : Singleton<EventManager>
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
         // turn off hexagon highlights
-        WorldManager.Instance.UnhighlightAllHexagons();
+        WorldManager.Instance.IdleAllEncounters();
         // Destroy the previous level and tiles + reset values/properties
         ClearPreviousEncounter();
         CampSiteManager.Instance.EnableCampSiteView();
@@ -201,6 +201,10 @@ public class EventManager : Singleton<EventManager>
         // Fade scene back in, wait until completed
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+
+        // REMOVE IN FUTURE, FOR TESTING ONLY
+        StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Exhausted"));
+        StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Curse Of The Blood God"));
     }
     public Action StartShopEncounterEvent()
     {
@@ -216,7 +220,7 @@ public class EventManager : Singleton<EventManager>
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
         // turn off hexagon highlights
-        WorldManager.Instance.UnhighlightAllHexagons();
+        WorldManager.Instance.IdleAllEncounters();
         // Destroy the previous level and tiles + reset values/properties
         ClearPreviousEncounter();
         ShopScreenManager.Instance.EnableShopScreenView();

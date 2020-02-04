@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 
 public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    // Properties + Component References
+    #region
     [Header("Component References")]
     public Image myImageComponent;
     public GameObject infoPanelParent;
@@ -23,13 +25,17 @@ public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public bool affliction;
     public int duration;
     public int currentDuration;
+    #endregion
+
+    // Initialization + Setup
+    #region
     public void InitializeSetup(StateDataSO stateData)
     {
         myStateData = stateData;
-        sprite = stateData.sprite;
+        sprite = stateData.stateSprite;
         myImageComponent.sprite = sprite;
-        Name = stateData.Name;
-        description = stateData.description;
+        Name = stateData.stateName;
+        description = stateData.stateDescription;
         expirationCondition = stateData.expirationCondition;
         affliction = stateData.affliction;
         duration = stateData.duration;
@@ -46,23 +52,14 @@ public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         descriptionText.text = description;
         nameText.text = Name;
     }
+    #endregion
+
+    // View Logic
+    #region
     public void SetInfoPanelViewState(bool onOrOff)
     {
         infoPanelParent.SetActive(onOrOff);
-    }
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        SetInfoPanelViewState(true);
-    }
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        SetInfoPanelViewState(false);
-    }
-    public void ModifyCountdown(int timeGainedOrLost)
-    {
-        currentDuration += timeGainedOrLost;
-        durationText.text = currentDuration.ToString();
-    }
+    }  
     public Action PlayExpireVfxAndDestroy()
     {
         Debug.Log("PlayExpireVfxAndDestroy().called");
@@ -70,7 +67,7 @@ public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         StartCoroutine(PlayExpireVfxAndDestroyCoroutine(action));
         return action;
     }
-    public IEnumerator PlayExpireVfxAndDestroyCoroutine(Action action)
+    private IEnumerator PlayExpireVfxAndDestroyCoroutine(Action action)
     {
         Debug.Log("State '" + Name + "' expiration condition met, destroying... "); 
         // TO DO: play some cool expiration VFX, like it burning up or fading out
@@ -79,5 +76,26 @@ public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         action.actionResolved = true;
         Destroy(gameObject);
     }
+    #endregion
 
+    // Mouse + Click Events
+    #region
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        SetInfoPanelViewState(true);
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        SetInfoPanelViewState(false);
+    }
+    #endregion
+
+    // Misc Logic
+    #region
+    public void ModifyCountdown(int timeGainedOrLost)
+    {
+        currentDuration += timeGainedOrLost;
+        durationText.text = currentDuration.ToString();
+    }
+    #endregion
 }

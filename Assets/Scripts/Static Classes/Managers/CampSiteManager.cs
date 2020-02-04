@@ -29,10 +29,12 @@ public class CampSiteManager : MonoBehaviour
     public int feastPointCost;
     public int restPointCost;
     public int prayPointCost;
+    public int bathePointCost;
     public bool playerHasMadeChoice;
     public bool awaitingTrainChoice;
     public bool awaitingTriageChoice;
     public bool awaitingPrayChoice;
+    public bool awaitingBatheChoice;
     #endregion
 
     // Initialization + Singleton Pattern
@@ -48,6 +50,7 @@ public class CampSiteManager : MonoBehaviour
         feastPointCost = 1;
         restPointCost = 2;
         prayPointCost = 3;
+        bathePointCost = 2;
     }
     public void SetupCampSiteCharacter(CampSiteCharacter characterSlot, CharacterData characterData)
     {
@@ -59,6 +62,7 @@ public class CampSiteManager : MonoBehaviour
     #region
     public void OnTriageButtonClicked()
     {
+        Debug.Log("CampSiteManager.OnTriageButtonClicked() called...");
         ClearAllOrders();
 
         if (HasEnoughCampSitePoints(triagePointCost))
@@ -71,6 +75,8 @@ public class CampSiteManager : MonoBehaviour
     }        
     public void OnTrainButtonClicked()
     {
+        Debug.Log("CampSiteManager.OnTrainButtonClicked() called...");
+
         ClearAllOrders();
         if (HasEnoughCampSitePoints(trainPointCost))
         {
@@ -81,6 +87,8 @@ public class CampSiteManager : MonoBehaviour
     }
     public void OnPrayButtonClicked()
     {
+        Debug.Log("CampSiteManager.OnPrayButtonClicked() called...");
+
         ClearAllOrders();
         if (HasEnoughCampSitePoints(prayPointCost))
         {
@@ -105,6 +113,8 @@ public class CampSiteManager : MonoBehaviour
     }
     public void OnFeastButtonClicked()
     {
+        Debug.Log("CampSiteManager.OnFeastButtonClicked() called...");
+
         ClearAllOrders();
         if (HasEnoughCampSitePoints(feastPointCost))
         {
@@ -113,6 +123,8 @@ public class CampSiteManager : MonoBehaviour
     }
     public void OnRestButtonClicked()
     {
+        Debug.Log("CampSiteManager.OnRestButtonClicked() called...");
+
         ClearAllOrders();
         if (HasEnoughCampSitePoints(restPointCost))
         {
@@ -120,8 +132,29 @@ public class CampSiteManager : MonoBehaviour
         }
 
     }
+    public void OnBatheButtonClicked()
+    {
+        Debug.Log("CampSiteManager.OnBatheButtonClicked() called...");
+
+        ClearAllOrders();
+
+        if (HasEnoughCampSitePoints(bathePointCost) && StateManager.Instance.HasAtleastOneAfflicationState())
+        {
+            Debug.Log("'Bathe' action requirments met, awaiting bathe choice...");
+            awaitingBatheChoice = true;
+
+            StateManager.Instance.ClearAfflicationsPanel();
+            StateManager.Instance.SetAfflicationPanelViewState(true);
+            StateManager.Instance.PopulateAfflicationsPanel();
+            // TO DO: Enable afflications panel view here
+
+        }
+
+    }
     public void OnContinueButtonClicked()
     {
+        Debug.Log("CampSiteManager.OnContinueButtonClicked() called...");
+
         DisableCampSiteView();
         UIManager.Instance.OnWorldMapButtonClicked();
         UIManager.Instance.EnableWorldMapView();
@@ -154,19 +187,11 @@ public class CampSiteManager : MonoBehaviour
         trainButton.SetGlowOutilineViewState(false);
         prayButton.SetGlowOutilineViewState(false);
     }
-    public void ClearAllOrders()
-    {
-        awaitingTrainChoice = false;
-        awaitingTriageChoice = false;
-        awaitingPrayChoice = false;
-        SetCharacterPanelGlowOutlineViewStates(false);
-        DisableAllButtonGlows();
-
-    }
+    
     
     #endregion
 
-    // Misc
+    // Misc Logic
     #region
     public void ResetEventProperties()
     {
@@ -183,17 +208,30 @@ public class CampSiteManager : MonoBehaviour
             return false;
         }
     }
-    #endregion
+    public void ClearAllOrders()
+    {
+        awaitingTrainChoice = false;
+        awaitingTriageChoice = false;
+        awaitingPrayChoice = false;
+        awaitingBatheChoice = false;
+        SetCharacterPanelGlowOutlineViewStates(false);
+        DisableAllButtonGlows();
 
-    // Trigger Camp Site Events
+    }
     public void ModifyCurrentCampSitePoints(int pointsGainedOrLost)
     {
+        Debug.Log("CampSiteManager.ModifyCurrentCampSitePoints() called, modifying camp site points by " + pointsGainedOrLost.ToString());
+
         currentActionPoints += pointsGainedOrLost;
         actionPointsText.text = currentActionPoints.ToString();
     }
+    #endregion
+
+    // Trigger Camp Site Events
+    #region
     public void PerformTriage(CampSiteCharacter characterClicked)
     {
-        // do nice visual stuff
+        Debug.Log("CampSiteManager.PerformTriage() called...");
 
         // heal 50%
         characterClicked.myCharacterData.ModifyCurrentHealth(characterClicked.myCharacterData.maxHealth / 2);
@@ -204,19 +242,11 @@ public class CampSiteManager : MonoBehaviour
     }
     public void PerformTrain(CampSiteCharacter characterClicked)
     {
-        // do nice visual stuff
+        Debug.Log("CampSiteManager.PerformTrain() called...");
 
-        if (ArtifactManager.Instance.HasArtifact("Kettle Bell"))
-        {
-            characterClicked.myCharacterData.ModifyCurrentLevel(2);
-            characterClicked.myCharacterData.ModifyTalentPoints(2);
-
-        }
-        else
-        {
-            characterClicked.myCharacterData.ModifyCurrentLevel(1);
-            characterClicked.myCharacterData.ModifyTalentPoints(1);
-        }
+        // Grant +50 XP
+        characterClicked.myCharacterData.ModifyCurrentXP(50);
+        
         ModifyCurrentCampSitePoints(-trainPointCost);
         awaitingTrainChoice = false;
         trainButton.SetGlowOutilineViewState(false);
@@ -224,7 +254,7 @@ public class CampSiteManager : MonoBehaviour
     }
     public void PerformPray(CampSiteCharacter characterClicked)
     {
-        // do nice visual stuff
+        Debug.Log("CampSiteManager.PerformPray() called...");
 
         // heal 50%
         characterClicked.myCharacterData.ModifyCurrentHealth(characterClicked.myCharacterData.maxHealth / 2);
@@ -235,14 +265,27 @@ public class CampSiteManager : MonoBehaviour
     }
     public void PerformFeast()
     {
+        Debug.Log("CampSiteManager.PerformFeast() called...");
+
         StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Well Fed"));
         ModifyCurrentCampSitePoints(-feastPointCost);        
     }
     public void PerformRest()
     {
+        Debug.Log("CampSiteManager.PerformRest() called...");
+
         StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Well Rested"));
         ModifyCurrentCampSitePoints(-restPointCost);
     }
+    public void PerformBathe(AfflictionOnPanel chosenState)
+    {
+        Debug.Log("CampSiteManager.PerformBathe() called...");
+
+        chosenState.myState.PlayExpireVfxAndDestroy();
+        StateManager.Instance.SetAfflicationPanelViewState(false);
+        StateManager.Instance.ClearAfflicationsPanel();
+    }
+    #endregion
 
 
 

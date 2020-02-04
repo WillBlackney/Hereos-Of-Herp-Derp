@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f110a72238310bb46a3dcb1b5c39950f, type: 3}
   m_Name: Well Rested
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 5e139de9b546e3a41bee4282493b97b1, type: 3}
-  Name: Well Rested
-  description: Your characters have +1 Energy
-  expirationCondition: 1
+  stateSprite: {fileID: 21300000, guid: ea62d57ab4d83b54294ffb6514f64184, type: 3}
+  stateName: Well Rested
+  stateDescription: Your characters start combat with +10 Stamina and Max Energy
   affliction: 0
+  expirationCondition: 1
   duration: 1

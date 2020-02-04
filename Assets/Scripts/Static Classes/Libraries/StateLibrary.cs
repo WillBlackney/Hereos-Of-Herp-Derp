@@ -5,13 +5,14 @@ using UnityEngine;
 public class StateLibrary : Singleton<StateLibrary>
 {
     public List<StateDataSO> allStates;
-
     public StateDataSO GetStateByName(string name)
     {
+        Debug.Log("StateLibrary.GetStateByName() called, searching for " + name + "...");
+
         StateDataSO stateReturned = null;
         foreach(StateDataSO state in allStates)
         {
-            if(state.Name == name)
+            if(state.stateName == name)
             {
                 stateReturned = state;
                 break;
