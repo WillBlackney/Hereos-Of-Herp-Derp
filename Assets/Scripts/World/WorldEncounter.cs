@@ -118,6 +118,10 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             myEncounterType = EncounterType.Shop;
         }
+        else if (WorldManager.Instance.onlySpawnTreasures)
+        {
+            myEncounterType = EncounterType.Treasure;
+        }
     }
     
     #endregion

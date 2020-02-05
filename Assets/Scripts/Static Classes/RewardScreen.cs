@@ -6,6 +6,7 @@ public class RewardScreen : MonoBehaviour
 {
     [Header("Canvas Groups")]
     public CanvasGroup itemRewardCG;
+    public CanvasGroup stateRewardCG;
     public CanvasGroup frontPageCG;
     public CanvasGroup masterCG;    
     public CanvasGroup blackScreenCG;
@@ -17,18 +18,25 @@ public class RewardScreen : MonoBehaviour
     public GameObject TitleImage;
     public GameObject ChooseItemScreenParent;
     public GameObject ChooseItemScreenContent;
+    public GameObject ChooseStateScreenParent;
+    public GameObject ChooseStateScreenContent;
     public GameObject RewardScreenParent;
     public GameObject BlackScreenParent;   
 
     [Header("Current Button References")]
     public GameObject currentGoldRewardButton;
     public GameObject currentItemRewardButton;
-    public GameObject currentArtifactRewardButton;
+    public GameObject currentStateRewardButton;
 
     [Header("Current Item References")]
     public GameObject currentItemOne;
     public GameObject currentItemTwo;
     public GameObject currentItemThree;
+
+    [Header("Current State References")]
+    public GameObject currentStateOne;
+    public GameObject currentStateTwo;
+    public GameObject currentStateThree;
 
     // Initialization + Singleton Pattern
     #region
@@ -48,12 +56,10 @@ public class RewardScreen : MonoBehaviour
         GoldRewardButton gwrButton = currentGoldRewardButton.GetComponent<GoldRewardButton>();
         gwrButton.InitializeSetup();
     }
-    public void CreateArtifactRewardButton()
+    public void CreateStateRewardButton()
     {
-        Debug.Log("CreateArtifactRewardButton() called...");
-        currentArtifactRewardButton = Instantiate(PrefabHolder.Instance.ArtifactRewardButton, RewardButtonParent.transform);
-        ArtifactRewardButton arButton = currentArtifactRewardButton.GetComponent<ArtifactRewardButton>();
-        arButton.InitializeSetup();         
+        Debug.Log("CreateStateRewardButton() called...");
+        currentStateRewardButton = Instantiate(PrefabHolder.Instance.stateRewardButton, RewardButtonParent.transform);       
     }
     public void CreateItemRewardButton()
     {
@@ -75,12 +81,51 @@ public class RewardScreen : MonoBehaviour
         {
             Destroy(currentItemRewardButton);
         }
-        if (currentArtifactRewardButton != null)
+
+        if (currentStateRewardButton != null)
         {
-            Destroy(currentArtifactRewardButton);
+            Destroy(currentStateRewardButton);
         }
 
         DestroyAllItemCards();
+        DestroyAllStateCards();
+    }
+    public void PopulateStateRewardScreen()
+    {
+        Debug.Log("RewardScreen.PopulateStateRewardScreen() called...");
+
+        // Generate random state for state reward 1
+        GameObject newStateOne = Instantiate(PrefabHolder.Instance.StateCard, ChooseStateScreenContent.transform);
+        StateCard stateOne = newStateOne.GetComponent<StateCard>();
+        stateOne.BuildFromStateData(StateLibrary.Instance.GetRandomStateReward());
+        currentStateOne = newStateOne;
+
+        // Generate random state for state reward 2
+        GameObject newStateTwo = Instantiate(PrefabHolder.Instance.StateCard, ChooseStateScreenContent.transform);
+        StateCard stateTwo = newStateTwo.GetComponent<StateCard>();
+        stateTwo.BuildFromStateData(StateLibrary.Instance.GetRandomStateReward());
+        currentStateTwo = newStateTwo;
+
+        // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
+        while (stateTwo.myStateData.stateName == stateOne.myStateData.stateName)
+        {
+            Debug.Log("RewardScreen.PopulateStateScreen() detected a duplicate state reward, rerolling state two...");
+            stateTwo.BuildFromStateData(StateLibrary.Instance.GetRandomStateReward());
+        }
+
+        // Generate random state for state reward 3
+        GameObject newStateThree = Instantiate(PrefabHolder.Instance.StateCard, ChooseStateScreenContent.transform);
+        StateCard stateThree = newStateThree.GetComponent<StateCard>();
+        stateThree.BuildFromStateData(StateLibrary.Instance.GetRandomStateReward());
+        currentStateThree = newStateThree;
+
+        // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
+        while (stateThree.myStateData.stateName == stateOne.myStateData.stateName ||
+               stateThree.myStateData.stateName == stateTwo.myStateData.stateName)
+        {
+            Debug.Log("RewardScreen.PopulateStateScreen() detected a duplicate state reward, rerolling state three...");
+            stateThree.BuildFromStateData(StateLibrary.Instance.GetRandomStateReward());
+        }
     }
     public void PopulateItemScreen()
     {
@@ -209,6 +254,17 @@ public class RewardScreen : MonoBehaviour
         Destroy(currentItemThree);
         currentItemThree = null;
     }
+    public void DestroyAllStateCards()
+    {
+        Destroy(currentStateOne);
+        currentStateOne = null;
+
+        Destroy(currentStateTwo);
+        currentStateTwo = null;
+
+        Destroy(currentStateThree);
+        currentStateThree = null;
+    }
     #endregion
 
     // Mouse + Click Events
@@ -244,6 +300,29 @@ public class RewardScreen : MonoBehaviour
         }
 
     }
+    public void EnableChooseStateRewardScreen()
+    {
+        StartCoroutine(EnableChooseStateRewardScreenCoroutine());
+    }
+    public IEnumerator EnableChooseStateRewardScreenCoroutine()
+    {
+        RewardButtonParent.SetActive(false);
+        SkipRewardsButton.SetActive(false);
+        Background.SetActive(false);
+        TitleImage.SetActive(false);
+        ChooseStateScreenParent.SetActive(true);
+
+        stateRewardCG.alpha = 0;
+        frontPageCG.alpha = 1;
+
+        while (stateRewardCG.alpha < 1)
+        {
+            stateRewardCG.alpha += 0.2f;
+            frontPageCG.alpha -= 0.2f;
+            yield return new WaitForEndOfFrame();
+        }
+
+    }
     public void DisableItemLootScreen()
     {
         StartCoroutine(DisableItemLootScreenCoroutine());
@@ -262,6 +341,28 @@ public class RewardScreen : MonoBehaviour
         while (itemRewardCG.alpha > 0)
         {
             itemRewardCG.alpha -= 0.2f;
+            frontPageCG.alpha += 0.2f;
+            yield return new WaitForEndOfFrame();
+        }
+    }
+    public void DisableStateRewardScreen()
+    {
+        StartCoroutine(DisableStateRewardScreenCoroutine());
+    }
+    public IEnumerator DisableStateRewardScreenCoroutine()
+    {
+        RewardButtonParent.SetActive(true);
+        SkipRewardsButton.SetActive(true);
+        Background.SetActive(true);
+        TitleImage.SetActive(true);
+        ChooseStateScreenParent.SetActive(false);
+
+        stateRewardCG.alpha = 1;
+        frontPageCG.alpha = 0;
+
+        while (stateRewardCG.alpha > 0)
+        {
+            stateRewardCG.alpha -= 0.2f;
             frontPageCG.alpha += 0.2f;
             yield return new WaitForEndOfFrame();
         }

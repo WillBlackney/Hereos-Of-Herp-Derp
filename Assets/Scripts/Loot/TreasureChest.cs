@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TreasureChest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class TreasureChest : MonoBehaviour
 {
     [Header("Component References")]
     public SpriteRenderer mySpriteRenderer;
@@ -23,27 +23,13 @@ public class TreasureChest : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     #endregion
 
     // Mouse + Click Events
-    #region    
-    public void OnPointerClick(PointerEventData eventData)
+    #region   
+   
+    public void OnMouseDown()
     {
         Debug.Log("OnPointerClick() detected on treasure chest");
         mySpriteRenderer.color = normalColor;
-        UIManager.Instance.EnableRewardScreenView();
-    }
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        Debug.Log("OnPointerExit() detected on treasure chest");
-        mySpriteRenderer.color = normalColor;
-    }
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        Debug.Log("OnPointerEnter() detected on treasure chest");
-        mySpriteRenderer.color = highLightColor;
-    }
-    public void OnMouseDown()
-    {
-        mySpriteRenderer.color = normalColor;
-        UIManager.Instance.EnableRewardScreenView();
+        EventManager.Instance.StartNewLootRewardEvent(WorldEncounter.EncounterType.Treasure);
     }
     public void OnMouseEnter()
     {

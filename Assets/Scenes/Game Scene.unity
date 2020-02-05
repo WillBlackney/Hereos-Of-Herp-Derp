@@ -5289,10 +5289,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allStates:
+  - {fileID: 11400000, guid: 887c5dd3236dc4d42b4dc4d3c0abd67c, type: 2}
+  - {fileID: 11400000, guid: 63014a6703346574bb3a51e01e73fea2, type: 2}
+  - {fileID: 11400000, guid: 87a69dd37d9d9664d919847755846a61, type: 2}
+  - {fileID: 11400000, guid: 263949c9a756a8841bef1fac184630c7, type: 2}
   - {fileID: 11400000, guid: 915e4a0aa6b81ad468483f4553f40158, type: 2}
+  - {fileID: 11400000, guid: 0abaaae597230cd44950b2f8572471eb, type: 2}
   - {fileID: 11400000, guid: aec10ced334c75d49a730b11160f0040, type: 2}
+  - {fileID: 11400000, guid: 3eac90e97bd3dca4998e5b396cc1c4ec, type: 2}
+  - {fileID: 11400000, guid: ad5e56b84fc590944882e32451bd00f6, type: 2}
+  - {fileID: 11400000, guid: 3dc26399fc58c724291d0a741ce68156, type: 2}
+  - {fileID: 11400000, guid: fca795a49a4c5c84dafb94e8dfe34e9b, type: 2}
+  - {fileID: 11400000, guid: 04723fe5a7c7f39468859c0045c5fe4a, type: 2}
   - {fileID: 11400000, guid: edc9fb057e1b6a049bd6b21a9bd6ba6b, type: 2}
+  - {fileID: 11400000, guid: 89f89ea4019d7be41a56a8e9c39860da, type: 2}
   - {fileID: 11400000, guid: 7ee5db148a7497b4fa5ed5340b83147b, type: 2}
+  - {fileID: 11400000, guid: bf2a8938fc3c57641b086308c4c7ebce, type: 2}
   - {fileID: 11400000, guid: c72167834d348c04ead762ed24ea9d06, type: 2}
   - {fileID: 11400000, guid: 8ad8b3f3981c8ba4e844dec7765d927f, type: 2}
 --- !u!1 &1127213969
@@ -9464,7 +9476,7 @@ MonoBehaviour:
   onlySpawnElites: 0
   onlySpawnMysterys: 0
   onlySpawnShops: 0
-  onlySpawnTreasures: 0
+  onlySpawnTreasures: 1
   onlySpawnCampSites: 0
   basicEncounterImage: {fileID: 21300000, guid: 47b5da88bd52fb34aa9f7cae65b45cba,
     type: 3}
@@ -9624,11 +9636,13 @@ MonoBehaviour:
     type: 3}
   ItemRewardButton: {fileID: 8757620878221013843, guid: b85aec8319f4a0948bdc4e9c758abcfa,
     type: 3}
-  ArtifactRewardButton: {fileID: 8757620878221013843, guid: 5fde9767743e7c646a3812fe6d6c4e3f,
+  stateRewardButton: {fileID: 7226369991877361790, guid: 3a034ea8e68b52142ba9291ce5a0615e,
     type: 3}
   ArtifactGO: {fileID: 6814500050501459451, guid: 6936986fd8e3a2c438a0a25680d55000,
     type: 3}
   ItemCard: {fileID: 6102940201404517147, guid: aeb27dee0749bce458ec2ce0df595b1f,
+    type: 3}
+  StateCard: {fileID: 1152788829285936789, guid: 3207eeaf84e02e640b132b05a9ed31e1,
     type: 3}
   InventoryItem: {fileID: 1905020281608936624, guid: e8a6da6a8621d62448e6be451c8866b1,
     type: 3}
@@ -12989,6 +13003,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1605336556}
     m_Modifications:
+    - target: {fileID: 303043744, guid: 3a08b461c645f6f40935a97095b99377, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436841240562908390, guid: 3a08b461c645f6f40935a97095b99377,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5317225970947133359, guid: 3a08b461c645f6f40935a97095b99377,
         type: 3}
       propertyPath: m_IsActive
@@ -13053,6 +13076,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8292003995377755105, guid: 3a08b461c645f6f40935a97095b99377,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a08b461c645f6f40935a97095b99377, type: 3}

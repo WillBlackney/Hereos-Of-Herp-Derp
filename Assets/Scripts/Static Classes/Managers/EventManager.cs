@@ -229,30 +229,46 @@ public class EventManager : Singleton<EventManager>
         UIManager.Instance.DisableCharacterRosterView();
         UIManager.Instance.DisableInventoryView();
         UIManager.Instance.DisableWorldMapView();
-        // Fade scene back in, wait until completed
-        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
-        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+        
         //CampSiteManager.Instance.ResetEventProperties();
         action.actionResolved = true;
     }
-    public void StartNewTreasureRoomEncounterEvent()
+    public Action StartNewTreasureRoomEncounterEvent()
+    {
+        Action action = new Action();
+        StartCoroutine(StartNewTreasureRoomEncounterEventCoroutine(action));
+        return action;
+    }
+    public IEnumerator StartNewTreasureRoomEncounterEventCoroutine(Action action)
     {
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = true;
-        // turn off hexagon highlights
-        //WorldMap.Instance.UnHighlightAllHexagons();
+
+        // fade out view, wait until completed
+        Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
+        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
+
         // Destroy the previous level and tiles + reset values/properties
         ClearPreviousEncounter();
+
         // Create a new level
         LevelManager.Instance.CreateLevel();
+
         // Set up activation window holders
-        ActivationManager.Instance.CreateSlotAndWindowHolders();
-        //EnemySpawner.Instance.PopulateEnemySpawnLocations();        
-        CharacterRoster.Instance.InstantiateDefenders();        
+        ActivationManager.Instance.CreateSlotAndWindowHolders();     
+        CharacterRoster.Instance.InstantiateDefenders();
+
         // disable world map view
         UIManager.Instance.DisableWorldMapView();
+
         // Instantiate treasure chest and populate it with loot
         CreateNewTreasureChest();
+
+        // Fade scene back in, wait until completed
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+        action.actionResolved = true;
+
     }
     public Action StartNewStoryEvent()
     {
@@ -330,26 +346,29 @@ public class EventManager : Singleton<EventManager>
 
         
     }
-    public void StartNewLootRewardEvent(bool basicEnemy = true)
+    public void StartNewLootRewardEvent(WorldEncounter.EncounterType encounterType)
     {
         Debug.Log("StartNewLootRewardEvent() called...");
 
-        if (basicEnemy == true)
+        if (encounterType == WorldEncounter.EncounterType.BasicEnemy)
         {
-            //BlackScreenManager.Instance.FadeOut(5, .5f,true);
             UIManager.Instance.EnableRewardScreenView();
             RewardScreen.Instance.CreateGoldRewardButton();
             RewardScreen.Instance.CreateItemRewardButton();
             RewardScreen.Instance.PopulateItemScreen();
         }
-        else if (basicEnemy == false)
+        else if (encounterType == WorldEncounter.EncounterType.EliteEnemy)
         {
-            //BlackScreenManager.Instance.FadeOut(5, .5f);
             UIManager.Instance.EnableRewardScreenView();
             RewardScreen.Instance.CreateGoldRewardButton();
             RewardScreen.Instance.CreateItemRewardButton();
-            //RewardScreen.Instance.CreateArtifactRewardButton();
             RewardScreen.Instance.PopulateItemScreen();
+        }
+        else if (encounterType == WorldEncounter.EncounterType.Treasure)
+        {
+            UIManager.Instance.EnableRewardScreenView();
+            RewardScreen.Instance.CreateStateRewardButton();
+            RewardScreen.Instance.PopulateStateRewardScreen();
         }
 
     }
@@ -382,7 +401,7 @@ public class EventManager : Singleton<EventManager>
         // re enable world map + get next viable enocunter hexagon tiles
         WorldManager.Instance.SetWorldMapReadyState();
         // Start loot creation/display process
-        StartNewLootRewardEvent();
+        StartNewLootRewardEvent(WorldEncounter.EncounterType.BasicEnemy);
     }
     public Action StartNewEndEliteEncounterEvent()
     {
@@ -411,7 +430,7 @@ public class EventManager : Singleton<EventManager>
         // re enable world map + get next viable enocunter hexagon tiles
         WorldManager.Instance.SetWorldMapReadyState();
         // Start loot creation/display process
-        StartNewLootRewardEvent(false);        
+        StartNewLootRewardEvent(WorldEncounter.EncounterType.EliteEnemy);        
         action.actionResolved = true;
         
     }
@@ -598,7 +617,6 @@ public class EventManager : Singleton<EventManager>
         // create a treasure chest game object
         GameObject newTreasureChest = Instantiate(PrefabHolder.Instance.TreasureChest);
         newTreasureChest.GetComponent<TreasureChest>().InitializeSetup();
-        RewardScreen.Instance.CreateArtifactRewardButton();
     }
     #endregion
 

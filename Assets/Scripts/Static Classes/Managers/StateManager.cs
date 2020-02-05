@@ -32,6 +32,24 @@ public class StateManager : Singleton<StateManager>
         // Add state to active state lists
         activeStates.Add(stateScript);
     }
+    public bool DoesPlayerAlreadyHaveState(string stateName)
+    {
+        Debug.Log("StateManager.DoesPlayerAlreadyHaveState() called, checking for state: " + stateName);
+
+        bool boolReturned = false;
+
+        foreach(State state in activeStates)
+        {
+            if(state.myStateData.stateName == stateName)
+            {
+                Debug.Log("Player already has " + stateName + " as an active state");
+                boolReturned = true;
+                break;
+            }
+        }
+
+        return boolReturned;
+    }
     #endregion
 
     // Apply States to characters logic
