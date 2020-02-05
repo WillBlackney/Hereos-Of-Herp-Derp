@@ -1514,6 +1514,11 @@ public class LivingEntity : MonoBehaviour
             Debug.Log(myName + " has 'Unwavering' passive, not removing block");
             return;
         }
+        else if(defender && StateManager.Instance.DoesPlayerAlreadyHaveState("Polished Armour"))
+        {
+            Debug.Log(myName + " has 'Polished Armour' state buff, not removing block");
+            return;
+        }
         else
         {
             // Remove all block

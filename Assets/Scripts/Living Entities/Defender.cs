@@ -133,7 +133,6 @@ public class Defender : LivingEntity
 
         // Get and build from relevant character data values
         RunSetupFromCharacterData();
-        RunSetupFromArtifactData();
         myName = myCharacterData.myClass;
         base.SetBaseProperties();
 
@@ -333,50 +332,7 @@ public class Defender : LivingEntity
         ItemManager.Instance.SetUpDefenderWeaponsFromCharacterData(this);
 
     }    
-    public void RunSetupFromArtifactData()
-    {
-        if (ArtifactManager.Instance.HasArtifact("Shuriken"))
-        {
-            baseStrength += 1;
-        }
-        if (ArtifactManager.Instance.HasArtifact("Champion Belt"))
-        {
-            baseDexterity += 1;
-        }
-        if (ArtifactManager.Instance.HasArtifact("Wind Up Boots"))
-        {
-            baseMobility += 1;
-        }
-        if (ArtifactManager.Instance.HasArtifact("Coffee Dripper"))
-        {
-            baseStamina += 1;
-        }
-        if (ArtifactManager.Instance.HasArtifact("Bottomless Backpack"))
-        {
-            baseInitiative += 1;
-        }
-        if (ArtifactManager.Instance.HasArtifact("Dark Magic Book"))
-        {
-            baseWisdom += 1;
-        }
-        if (ArtifactManager.Instance.HasArtifact("Bendy Spoon"))
-        {
-            baseMaxEnergy += 2;
-        }
-        if (ArtifactManager.Instance.HasArtifact("Energy Biscuit"))
-        {
-            baseStartingEnergyBonus += baseMaxEnergy;
-        }
-        if (ArtifactManager.Instance.HasArtifact("Blacksmith Pliers"))
-        {
-            baseStartingBlock += 6;
-        }
-        if(ArtifactManager.Instance.HasArtifact("Burning Blood") && 
-            myCharacterData.currentHealth < (myCharacterData.maxHealth / 2))
-        {
-            baseStrength += 3;
-        }
-    }
+   
     #endregion
 
 

@@ -1576,7 +1576,15 @@ public class CharacterData : MonoBehaviour
     }
     public void ModifyCurrentXP(int xpGainedOrLost)
     {
+        // Increase XP gain by 50% if player has 'Genius' state
+        if (StateManager.Instance.DoesPlayerAlreadyHaveState("Genius") &&
+            xpGainedOrLost > 0)
+        {
+            xpGainedOrLost += (int) (xpGainedOrLost * 0.5f);
+        }
+
         currentXP += xpGainedOrLost;
+
         if (currentXP > currentMaxXP)
         {
             currentXP = currentXP - currentMaxXP;

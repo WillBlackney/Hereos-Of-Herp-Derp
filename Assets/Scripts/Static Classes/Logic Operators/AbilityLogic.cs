@@ -30,6 +30,25 @@ public class AbilityLogic : MonoBehaviour
         int finalCD = ability.abilityBaseCooldownTime;
        
         // Reduce AP by cost of the ability
+
+        // Check for 'Well Drilled' State
+        if(entity.defender &&
+           StateManager.Instance.DoesPlayerAlreadyHaveState("Well Drilled") &&
+           (ability.name == "Strike" || ability.name == "Move" || ability.name == "Defend" || ability.name == "Shoot")
+           )
+        {
+            if(finalApCost > 5)
+            {
+                finalApCost -= 5;
+            }
+
+            // dont let ability cost less then 5
+            if(finalApCost < 5)
+            {
+                finalApCost = 5;
+            }
+        }
+
         // check for preparation here
         if (entity.myPassiveManager.preparation && ability.abilityName != "Preparation" && 
             ability.abilityName != "Slice And Dice" &&

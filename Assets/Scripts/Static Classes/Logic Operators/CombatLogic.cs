@@ -145,6 +145,7 @@ public class CombatLogic : MonoBehaviour
 
         // Apply final resistance calculations to the value returned
         damageValueReturned = (int)(damageValueReturned * resistanceMultiplier);
+
         Debug.Log("Final damage value calculated: " + damageValueReturned.ToString());
 
         return damageValueReturned;
@@ -269,8 +270,16 @@ public class CombatLogic : MonoBehaviour
         Debug.Log("CombatLogic.GetFinalDamageValueAfterAllCalculations() finalDamageValueReturned value after non resistance modifier calculations: " + finalDamageValueReturned.ToString());
 
         // calcualte damage value after resistances
-        finalDamageValueReturned = GetDamageValueAfterResistances(finalDamageValueReturned, damageType, target);
-        Debug.Log("CombatLogic.GetFinalDamageValueAfterAllCalculations() finalDamageValueReturned value after resitance type calculations: " + finalDamageValueReturned.ToString());
+        if(attacker.defender &&
+            StateManager.Instance.DoesPlayerAlreadyHaveState("Godly"))
+        {
+            Debug.Log("CombatLogic.GetFinalDamageValueAfterAllCalculations() detected that attacker is defender and has state 'Godly', ignoring target resistances...");
+        }
+        else
+        {
+            finalDamageValueReturned = GetDamageValueAfterResistances(finalDamageValueReturned, damageType, target);
+            Debug.Log("CombatLogic.GetFinalDamageValueAfterAllCalculations() finalDamageValueReturned value after resitance type calculations: " + finalDamageValueReturned.ToString());
+        }       
 
         // return final value
         Debug.Log("CombatLogic.GetFinalDamageValueAfterAllCalculations() finalDamageValueReturned final value returned: " + finalDamageValueReturned.ToString());
@@ -804,6 +813,39 @@ public class CombatLogic : MonoBehaviour
                 // Gain 5 strength
                 victim.myPassiveManager.ModifyBonusStrength(5);
                 yield return new WaitForSeconds(0.5f);
+            }
+
+            // Check for Blessing of Undeath 
+            else if(victim.defender && StateManager.Instance.DoesPlayerAlreadyHaveState("Blessing Of Undeath"))
+            {
+                Debug.Log(victim.name + " is protected by 'Blessing Of Undeath' state, preventing death...");
+
+                // VFX Notification
+                yield return new WaitForSeconds(0.5f);
+                VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Blessing Of Undeath!");
+                yield return new WaitForSeconds(0.5f);
+
+                // Set victim at 50% HP
+                victim.ModifyCurrentHealth(victim.currentMaxHealth / 2);
+
+                // Reduce blessing of undeath counter, check for removal
+                State blessingOfUndeathState = null;
+                foreach(State state in StateManager.Instance.activeStates)
+                {
+                    if(state.myStateData.stateName == "Blessing Of Undeath")
+                    {
+                        blessingOfUndeathState = state;
+                        break;
+                    }
+                }
+
+                blessingOfUndeathState.ModifyCountdown(-1);
+                if(blessingOfUndeathState.duration <= 0)
+                {
+                    blessingOfUndeathState.PlayExpireVfxAndDestroy();
+                }
+                yield return new WaitForSeconds(0.5f);
+
             }
 
             else

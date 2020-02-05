@@ -40,6 +40,9 @@ public class EventManager : Singleton<EventManager>
         // Set up activation window holders
         ActivationManager.Instance.CreateSlotAndWindowHolders();
 
+        // REMOVE AFTER TESTING 
+        StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Polished Armour"));
+
         // Create defender GO's        
         CharacterRoster.Instance.InstantiateDefenders();  
         
@@ -541,7 +544,11 @@ public class EventManager : Singleton<EventManager>
     {
         Debug.Log("StartPreLootScreenVisualEvent() coroutine started...");
         preLootScreenEventFinished = false;
-        // THIS COROUTINE DOES NOT ACTUALLY MODIFY XP/LEVEL!!!! only displays visual info
+
+        if (StateManager.Instance.DoesPlayerAlreadyHaveState("Genius"))
+        {
+            xpReward += (int) (xpReward * 0.5f);
+        }
 
         // disable activation panel view
         ActivationManager.Instance.SetActivationWindowViewState(false);

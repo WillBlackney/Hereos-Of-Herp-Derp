@@ -27,7 +27,7 @@ public class PlayerDataManager : Singleton<PlayerDataManager>
     public void ModifyGold(int goldGainedOrLost)
     {
         int goldGainFinalValue = 0;
-        if(ArtifactManager.Instance.HasArtifact("Lucky Shovel") && goldGainedOrLost > 0)
+        if(StateManager.Instance.DoesPlayerAlreadyHaveState("Pennywise") && goldGainedOrLost > 0)
         {
             goldGainFinalValue = (int) (goldGainedOrLost * 1.5f);
         }

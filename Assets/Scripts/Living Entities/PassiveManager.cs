@@ -414,6 +414,12 @@ public class PassiveManager : MonoBehaviour
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Stun Immune!");
         }
 
+        else if (myLivingEntity.defender && StateManager.Instance.DoesPlayerAlreadyHaveState("Determined") && stacks > 0)
+        {
+            stacks = 0;
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Stun Immune!");
+        }
+
         if (stacks > 0)
         {
             if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity))
@@ -451,7 +457,11 @@ public class PassiveManager : MonoBehaviour
             stacks = 0;
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Blind Immune");
         }
-
+        else if (myLivingEntity.defender && StateManager.Instance.DoesPlayerAlreadyHaveState("Determined") && stacks > 0)
+        {
+            stacks = 0;
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Blind Immune");
+        }
         else if (stacks > 0)
         {
             if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity))
@@ -485,6 +495,11 @@ public class PassiveManager : MonoBehaviour
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Silenced");
 
         if (stacks > 0 && infallible)
+        {
+            stacks = 0;
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Silence Immune");
+        }
+        else if (myLivingEntity.defender && StateManager.Instance.DoesPlayerAlreadyHaveState("Determined") && stacks > 0)
         {
             stacks = 0;
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Silence Immune");
@@ -526,6 +541,11 @@ public class PassiveManager : MonoBehaviour
         {
             stacks = 0;
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Disarm Immune" );
+        }
+        else if (myLivingEntity.defender && StateManager.Instance.DoesPlayerAlreadyHaveState("Determined") && stacks > 0)
+        {
+            stacks = 0;
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Disarm Immune");
         }
 
         else if (stacks > 0)
@@ -595,6 +615,11 @@ public class PassiveManager : MonoBehaviour
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Sleep");
 
         if (unstoppable && stacks > 0)
+        {
+            stacks = 0;
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Sleep Immune!");
+        }
+        else if (myLivingEntity.defender && StateManager.Instance.DoesPlayerAlreadyHaveState("Determined") && stacks > 0)
         {
             stacks = 0;
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Sleep Immune!");
@@ -701,7 +726,13 @@ public class PassiveManager : MonoBehaviour
         Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyChilled() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Chilled");
 
-        if (stacks > 0)
+        if (myLivingEntity.defender && StateManager.Instance.DoesPlayerAlreadyHaveState("Blessing Of Elements") && stacks > 0)
+        {
+            stacks = 0;
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Chilled Immune!");
+        }
+
+        else if (stacks > 0)
         {
             if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity))
             {
@@ -734,7 +765,12 @@ public class PassiveManager : MonoBehaviour
         Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyShocked() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Shocked");
 
-        if (stacks > 0)
+        if (myLivingEntity.defender && StateManager.Instance.DoesPlayerAlreadyHaveState("Blessing Of Elements") && stacks > 0)
+        {
+            stacks = 0;
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Shock Immune!");
+        }
+        else if (stacks > 0)
         {
             if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity))
             {
@@ -765,6 +801,7 @@ public class PassiveManager : MonoBehaviour
     public void ModifyPoisoned(int stacks, LivingEntity applier = null)
     {
         Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPoisoned() called, stacks = " + stacks.ToString());
+
         if (applier != null)
         {
             if (applier.myPassiveManager.venomous && stacks > 0)
@@ -773,7 +810,13 @@ public class PassiveManager : MonoBehaviour
             }
         }
 
-        if ((poisonedImmunity || undead) && stacks > 0)
+        if (myLivingEntity.defender && StateManager.Instance.DoesPlayerAlreadyHaveState("Blessing Of Elements") && stacks > 0)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Poison Immunity");
+            return;
+        }
+
+        else if ((poisonedImmunity || undead) && stacks > 0)
         {
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Poison Immunity");
             return;
@@ -808,6 +851,13 @@ public class PassiveManager : MonoBehaviour
     public void ModifyBurning(int stacks, LivingEntity applier = null)
     {
         Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyBurning() called, stacks = " + stacks.ToString());
+
+        if (myLivingEntity.defender && StateManager.Instance.DoesPlayerAlreadyHaveState("Blessing Of Elements") && stacks > 0)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Burning Immunity");
+            return;
+        }
+
         if (stacks > 0)
         {
             if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity))
