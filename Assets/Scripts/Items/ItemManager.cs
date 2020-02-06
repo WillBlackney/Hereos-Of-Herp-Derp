@@ -349,6 +349,12 @@ public class ItemManager : Singleton<ItemManager>
         {
             character.ModifyRiposte(stacksApplied);
         }
+
+        // Shadow Form
+        else if (itemEffect == ItemDataSO.ItemEffect.ShadowForm)
+        {
+            character.ModifyShadowForm(stacksApplied);
+        }
     }
 
     // Bools and conditional checks

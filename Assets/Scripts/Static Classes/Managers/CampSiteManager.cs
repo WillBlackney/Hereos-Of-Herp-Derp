@@ -45,12 +45,13 @@ public class CampSiteManager : MonoBehaviour
         Instance = this;
 
         maxActionPoints = 3;
+
         triagePointCost = 1;
         trainPointCost = 2;
         feastPointCost = 1;
         restPointCost = 2;
         prayPointCost = 3;
-        bathePointCost = 2;
+        bathePointCost = 3;
     }
     public void SetupCampSiteCharacter(CampSiteCharacter characterSlot, CharacterData characterData)
     {

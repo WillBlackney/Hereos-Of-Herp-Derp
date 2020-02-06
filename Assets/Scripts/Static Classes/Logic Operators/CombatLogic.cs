@@ -573,7 +573,8 @@ public class CombatLogic : MonoBehaviour
     private IEnumerator HandleDamageCoroutine(int damageAmount, LivingEntity attacker, LivingEntity victim, string damageType, Action action, Ability abilityUsed = null, bool ignoreBlock = false)
     {
         // Debug setup
-        string abilityNameString = "None";        
+        string abilityNameString = "None";  
+        
         if(abilityUsed != null)
         {
             abilityNameString = abilityUsed.abilityName;
@@ -583,6 +584,13 @@ public class CombatLogic : MonoBehaviour
             "), damageType(" + damageType + "), abilityUsed (" + abilityNameString + "), ignoreBlock (" + ignoreBlock.ToString()
             );
 
+        // Cancel this if character is already in death process
+        if (victim.inDeathProcess)
+        {
+            Debug.Log("CombatLogic.NewHandleDamageCoroutine() detected that " + victim.myName + " is already in death process, exiting damage event...");
+            action.actionResolved = true;
+            yield break;
+        }
 
         // Establish properties for this damage event
         int totalLifeLost = 0;

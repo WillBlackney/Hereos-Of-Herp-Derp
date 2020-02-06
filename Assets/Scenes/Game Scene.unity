@@ -4152,6 +4152,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 75fb4bdeb7457994888328207ae3ef60, type: 2}
   - {fileID: 11400000, guid: 24a7d73a2db0ff44bb29ac1f4fc06ebd, type: 2}
   - {fileID: 11400000, guid: 61b56cfa6bce1a648a483a1c8a5d8e82, type: 2}
+  - {fileID: 11400000, guid: b94c89841beb6d74c80f5035024adf10, type: 2}
 --- !u!1 &832089852
 GameObject:
   m_ObjectHideFlags: 0
@@ -5155,7 +5156,7 @@ MonoBehaviour:
   eventImage: {fileID: 1843142515}
   continueButton: {fileID: 4059583735741346009}
   allStoryEvents:
-  - {fileID: 11400000, guid: 903473569bc018840b13dffb87a6a2ff, type: 2}
+  - {fileID: 11400000, guid: 09920e37518157143810fee11ad90a97, type: 2}
   viableStoryEvents: []
   currentStoryEvent: {fileID: 0}
   allCharacterSlots:
@@ -5298,9 +5299,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: aec10ced334c75d49a730b11160f0040, type: 2}
   - {fileID: 11400000, guid: 3eac90e97bd3dca4998e5b396cc1c4ec, type: 2}
   - {fileID: 11400000, guid: ad5e56b84fc590944882e32451bd00f6, type: 2}
+  - {fileID: 11400000, guid: a648203e44897a643b3a5614334db219, type: 2}
   - {fileID: 11400000, guid: 3dc26399fc58c724291d0a741ce68156, type: 2}
   - {fileID: 11400000, guid: fca795a49a4c5c84dafb94e8dfe34e9b, type: 2}
   - {fileID: 11400000, guid: 04723fe5a7c7f39468859c0045c5fe4a, type: 2}
+  - {fileID: 11400000, guid: 7461df2187161c0498db3bb09cc89bb3, type: 2}
   - {fileID: 11400000, guid: edc9fb057e1b6a049bd6b21a9bd6ba6b, type: 2}
   - {fileID: 11400000, guid: 89f89ea4019d7be41a56a8e9c39860da, type: 2}
   - {fileID: 11400000, guid: 7ee5db148a7497b4fa5ed5340b83147b, type: 2}
@@ -5676,6 +5679,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1262793656}
   - component: {fileID: 1262793657}
+  - component: {fileID: 1262793659}
+  - component: {fileID: 1262793658}
   m_Layer: 5
   m_Name: States Panel
   m_TagString: Untagged
@@ -5726,6 +5731,44 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &1262793658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262793655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!223 &1262793659
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262793655}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 100
+  m_TargetDisplay: 0
 --- !u!1 &1268252139
 GameObject:
   m_ObjectHideFlags: 0

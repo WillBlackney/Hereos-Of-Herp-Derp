@@ -346,6 +346,19 @@ public static class CharacterModelController
         model.goblinShootyLeftArm.SetActive(true);
         model.goblinShootyChest.SetActive(true);
     }
+    public static void SetUpAsMorkPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.morkLeftLeg.SetActive(true);
+        model.morkRightLeg.SetActive(true);
+        model.morkHead.SetActive(true);
+        model.morkRightHand.SetActive(true);
+        model.morkRightArm.SetActive(true);
+        model.morkLeftHand.SetActive(true);
+        model.morkLeftArm.SetActive(true);
+        model.morkChest.SetActive(true);
+    }
     #endregion
 
     public static void CompletelyDisableAllViews(UniversalCharacterModel model)

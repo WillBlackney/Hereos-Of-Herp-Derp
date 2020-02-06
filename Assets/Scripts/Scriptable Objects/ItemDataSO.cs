@@ -14,7 +14,7 @@ public class ItemDataSO : ScriptableObject
       BonusCritical, BonusDodge, BonusParry, BonusMaxEnergy, BonusMeleeRange, BonusAuraSize,
       BonusFireDamage, BonusFrostDamage, BonusPoisonDamage, BonusShadowDamage, BonusAirDamage,
       Enrage, HawkEye, Thorns, Opportunist, BonusPowerLimit, BonusAllResistances,
-      Stealth, TrueSight, Slippery, Unstoppable, PerfectAim, Virtuoso, Riposte      
+      Stealth, TrueSight, Slippery, Unstoppable, PerfectAim, Virtuoso, Riposte, ShadowForm      
     };
 
     [Header("Primary Properties")]
@@ -24,6 +24,7 @@ public class ItemDataSO : ScriptableObject
     public ItemRarity itemRarity;
     public ItemType itemType;
     public GrantsAbility grantsAbility;
+    public bool storyEventItem;
 
     [Header("Item Effect Properties")]
     public ItemEffect itemEffectOne;

@@ -285,9 +285,6 @@ public class EventManager : Singleton<EventManager>
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = false;
 
-        // turn off hexagon highlights
-        //WorldMap.Instance.UnHighlightAllHexagons();
-
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
@@ -297,12 +294,7 @@ public class EventManager : Singleton<EventManager>
 
         // Load a random event + set up story event screen
         StoryEventManager.Instance.LoadNewStoryEvent();
-
-        /* LOGIC FOR GENREATING A NEW STORY EVENT GOES HERE
-         * 
-         * 
-         */
-
+       
         // Fade scene back in, wait until completed
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);

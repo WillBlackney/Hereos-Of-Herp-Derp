@@ -39,10 +39,7 @@ public class ItemLibrary : MonoBehaviour
 
         return itemReturned;
     }
-    public ItemDataSO GetRandomItem()
-    {
-        return allItems[Random.Range(0, allItems.Count)];
-    }
+    
     public ItemDataSO GetRandomCommonItem()
     {
         List<ItemDataSO> allCommonItems = new List<ItemDataSO>();
@@ -75,7 +72,7 @@ public class ItemLibrary : MonoBehaviour
         randomIndex = Random.Range(0, allRareItems.Count);
         return allRareItems[randomIndex];
     }
-    public ItemDataSO GetRandomEpicItem()
+    public ItemDataSO GetRandomEpicItem(bool includeStoryItems = false)
     {
         List<ItemDataSO> allEpicItems = new List<ItemDataSO>();
         int randomIndex;
@@ -84,34 +81,19 @@ public class ItemLibrary : MonoBehaviour
         {
             if (item.itemRarity == ItemDataSO.ItemRarity.Epic)
             {
-                allEpicItems.Add(item);
+                if(!item.storyEventItem ||
+                    (item.storyEventItem && includeStoryItems == true))
+                {
+                    allEpicItems.Add(item);
+                }               
+                
             }
         }
 
         randomIndex = Random.Range(0, allEpicItems.Count);
         return allEpicItems[randomIndex];
     }
-    public ItemDataSO GetRandomLootRewardItem()
-    {
-        ItemDataSO itemReturned = null;
-        int randomNumber = Random.Range(0, 100);
-
-        if(randomNumber >= 0 && randomNumber <= 69)
-        {
-            itemReturned = GetRandomCommonItem();
-        }
-        else if (randomNumber >= 70 && randomNumber <= 97)
-        {
-            itemReturned = GetRandomRareItem();
-        }
-        else if (randomNumber >= 98 && randomNumber <= 99)
-        {
-            itemReturned = GetRandomEpicItem();
-        }
-
-        return itemReturned;
-
-    }
+    
     #endregion
 
     

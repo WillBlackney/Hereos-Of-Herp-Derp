@@ -35,6 +35,7 @@ public class StoryEventManager : Singleton<StoryEventManager>
 
 
     // Initialization + Setup
+    #region
     private void Start()
     {
         viableStoryEvents.AddRange(allStoryEvents);
@@ -43,15 +44,17 @@ public class StoryEventManager : Singleton<StoryEventManager>
     {
         characterSlot.InitializeSetup(characterData);
     }
+    #endregion
 
     // Story Event Logic
     #region
     public void LoadNewStoryEvent(StoryEventDataSO storyEvent = null)
     {
-        if(storyEvent == null)
+        if (storyEvent == null)
         {
             storyEvent = GetRandomViableStoryEventData();
         }
+
         currentStoryEvent = storyEvent;
 
         // Set up main window
@@ -83,10 +86,6 @@ public class StoryEventManager : Singleton<StoryEventManager>
         HideAllActionButtons();
         DisableContinueButton();
     }
-    public StoryEventDataSO GetRandomStoryEventData()
-    {
-        return allStoryEvents[Random.Range(0, allStoryEvents.Count)];
-    }
     public StoryEventDataSO GetRandomViableStoryEventData()
     {
         StoryEventDataSO storyEventReturned = viableStoryEvents[Random.Range(0, viableStoryEvents.Count)];
@@ -96,63 +95,142 @@ public class StoryEventManager : Singleton<StoryEventManager>
     public void ResolveAction(int buttonPressed)
     {
         // Disable Action Buttons to stop player bugging event
-        HideAllActionButtons();
+        //HideAllActionButtons();
 
         // Ultimatum At The Bridge
         if (currentStoryEvent.eventName == "Ultimatum At The Bridge")
         {
-            // Fight Mork
-            if (buttonPressed == 1)
-            {
-                EventManager.Instance.StartNewBasicEncounterEvent(EnemySpawner.Instance.GetEnemyWaveByName("Mork"));
-                HideAllActionButtons();
-            }
-
-            // Pay Mork
-            else if (buttonPressed == 2)
-            {
-                PlayerDataManager.Instance.ModifyGold(-PlayerDataManager.Instance.currentGold);
-                EnableContinueButton();
-            }
-
-            // Walk the long way around
-            else if (buttonPressed == 3)
-            {
-                EnableContinueButton();
-                StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Over Marched"));
-            }
+            ResolveUltimatumAtTheBridgeAction(buttonPressed);
         }
 
-        // The Three Witches
-        else if (currentStoryEvent.eventName == "The Three Witches")
+        // Blade Of The Blood God
+        else if (currentStoryEvent.eventName == "Blade Of The Blood God")
         {
-            // Ask For Wisdom
-            if (buttonPressed == 1)
-            {
-                EnableCharacterPanelPage();
-                awaitingAskForWisdomChoice = true;
-            }
-
-            // Ask For Health
-            else if (buttonPressed == 2)
-            {
-                // enable character panel view, awaiting choice
-                EnableCharacterPanelPage();
-                awaitingAskForHealthChoice = true;
-            }
-
-            // Ask For Riches
-            else if (buttonPressed == 3)
-            {
-                PlayerDataManager.Instance.ModifyGold(100);
-                EnableContinueButton();
-            }
+            ResolveBladeOfTheBloodGodAction(buttonPressed);
         }
+
+        // Vampire Cult
+        else if (currentStoryEvent.eventName == "Vampire Cult")
+        {
+            ResolveVampireCultAction(buttonPressed);
+        }
+
+        // War Refugees
+        else if (currentStoryEvent.eventName == "War Refugees")
+        {
+            ResolveWarRefugeesAction(buttonPressed);
+        }
+
     }
     public void ClearAllAwaitingOrders()
     {
         awaitingAskForHealthChoice = false;
         awaitingAskForWisdomChoice = false;
+    }
+    #endregion
+
+    // Resolve Specific Story Events
+    #region
+    public void ResolveUltimatumAtTheBridgeAction(int buttonPressed)
+    {
+        // Fight Mork
+        if (buttonPressed == 1)
+        {
+            EventManager.Instance.StartNewBasicEncounterEvent(EnemySpawner.Instance.GetEnemyWaveByName("Mork"));
+            HideAllActionButtons();
+        }
+
+        // Pay Mork
+        else if (buttonPressed == 2)
+        {
+            PlayerDataManager.Instance.ModifyGold(-PlayerDataManager.Instance.currentGold);
+            HideAllActionButtons();
+            EnableContinueButton();
+        }
+
+        // Walk the long way around
+        else if (buttonPressed == 3)
+        {
+            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Exhausted"));
+            HideAllActionButtons();
+            EnableContinueButton();
+            
+        }
+    }
+    public void ResolveBladeOfTheBloodGodAction(int buttonPressed)
+    {
+        // Take the Sword
+        if (buttonPressed == 1)
+        {
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetItemByName("Blade Of The Blood God"));
+            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Curse Of The Blood God"));
+            HideAllActionButtons();
+            EnableContinueButton();
+        }
+
+        // Pillage the Shrine
+        else if (buttonPressed == 2)
+        {
+            PlayerDataManager.Instance.ModifyGold(15);            
+            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Shame"));
+            HideAllActionButtons();
+            EnableContinueButton();
+        }
+
+    }
+    public void ResolveVampireCultAction(int buttonPressed)
+    {
+        // Join The Cult
+        if (buttonPressed == 1)
+        {
+            foreach(CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyMaxHealth(-character.maxHealth / 2);
+            }
+            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Vampirism"));
+            HideAllActionButtons();
+            EnableContinueButton();
+        }
+
+        // Donate Blood
+        else if (buttonPressed == 2)
+        {
+            PlayerDataManager.Instance.ModifyGold(15);
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                float healthLost = character.maxHealth * 0.3f;
+                character.ModifyCurrentHealth((int)-healthLost);
+            }
+            HideAllActionButtons();
+            EnableContinueButton();
+        }
+
+    }
+    public void ResolveWarRefugeesAction(int buttonPressed)
+    {
+        // Help The Refugees
+        if (buttonPressed == 1)
+        {
+            // Cant pay 10g if player doesnt actually have 10g
+            if(PlayerDataManager.Instance.currentGold >= 10)
+            {
+                PlayerDataManager.Instance.ModifyGold(-10);
+                StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Heroism"));
+                HideAllActionButtons();
+                EnableContinueButton();
+            }
+           
+        }
+
+        // Rob The Refugees
+        else if (buttonPressed == 2)
+        {
+            PlayerDataManager.Instance.ModifyGold(10);
+            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Wanted"));
+            HideAllActionButtons();
+            EnableContinueButton();
+        }
+
     }
     #endregion
 

@@ -95,9 +95,7 @@ public class InventoryController : Singleton<InventoryController>
         if(characterSlot.mySlotType == CharacterItemSlot.SlotType.MainHand)
         {
             characterSlot.myCharacterData.mainHandWeapon = itemCard.myItemData;
-
         }
-
         else if (characterSlot.mySlotType == CharacterItemSlot.SlotType.OffHand)
         {
             characterSlot.myCharacterData.offHandWeapon = itemCard.myItemData;

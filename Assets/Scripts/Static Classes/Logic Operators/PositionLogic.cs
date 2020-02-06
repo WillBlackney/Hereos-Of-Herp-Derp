@@ -494,10 +494,13 @@ public class PositionLogic : Singleton<PositionLogic>
 
         foreach (RaycastHit2D hit in hits)
         {
-            if (hit.transform.GetComponent<Tile>().BlocksLoS == true)
+            if (hit.transform.GetComponent<Tile>())
             {
-                hasLoS = false;
-                break;
+                if(hit.transform.GetComponent<Tile>().BlocksLoS == true)
+                {
+                    hasLoS = false;
+                    break;
+                }                
             }
         }
 

@@ -72,8 +72,8 @@ public class SkeletonBarbarian : Enemy
 
         }        
 
-        // Try Whirlwind
-        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
+        // Whirlwind
+        else if (EntityLogic.GetAllEnemiesWithinRange(this, currentMeleeRange).Count > 1 &&
             EntityLogic.IsAbilityUseable(this, whirlwind))
         {            
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Whirlwind");
