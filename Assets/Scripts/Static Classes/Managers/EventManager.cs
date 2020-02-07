@@ -25,9 +25,6 @@ public class EventManager : Singleton<EventManager>
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = false;
 
-        // turn off hexagon highlights
-        //WorldMap.Instance.UnHighlightAllHexagons();
-
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
@@ -39,10 +36,7 @@ public class EventManager : Singleton<EventManager>
 
         // Set up activation window holders
         ActivationManager.Instance.CreateSlotAndWindowHolders();
-
-        // REMOVE AFTER TESTING 
-        StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Polished Armour"));
-
+        
         // Create defender GO's        
         CharacterRoster.Instance.InstantiateDefenders();  
         

@@ -762,5 +762,36 @@ public class TalentController : MonoBehaviour
         return talentReturned;
 
     }
-    
+    public void BuildTalentInfoPanelFromData(Talent talent)
+    {
+        if (talent.isAbility)
+        {
+            BuildTalentInfoPanelFromAbilityData(talent);
+        }
+        else
+        {
+            BuildTalentInfoPanelFromPassiveData(talent);
+            BuildTalentInfoPanelFromPassiveData(talent);
+        }
+
+    }
+    public void BuildTalentInfoPanelFromAbilityData(Talent talent)
+    {
+        // Get data
+        AbilityDataSO data = AbilityLibrary.Instance.GetAbilityByName(talent.talentName);
+
+        // build text and images assets
+        talent.abilityNameText.text = data.abilityName;
+        talent.abilityDescriptionText.text = data.description;
+        talent.abilityCooldownText.text = data.baseCooldownTime.ToString();
+        talent.abilityRangeText.text = data.range.ToString();
+        talent.abilityEnergyText.text = data.energyCost.ToString();
+
+    }
+    public void BuildTalentInfoPanelFromPassiveData(Talent talent)
+    {
+        TextLogic.SetStatusIconDescriptionText(talent.talentName, talent.passiveDescriptionText, talent.passiveStacks);
+        talent.passiveNameText.text = talent.talentName;
+        talent.passiveImage.sprite = talent.talentImage.sprite;
+    }
 }

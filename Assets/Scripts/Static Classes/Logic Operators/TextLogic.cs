@@ -1,220 +1,629 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public static class TextLogic 
 {
     [Header("RGBA Colour Codes")]
     public static string white = "<color=#FFFFFF>";
-    public static string brown = "<color=#968300>";
-    public static string blue = "<color=#00BEFF>";
     public static string yellow = "<color=#FFF91C>";
+
+    public static string physical = "<color=#BA8400>";
+    public static string fire = "<color=#FF6637>";
+    public static string frost = "<color=#3687FF>";
+    public static string shadow = "<color=#CF01BC>";
+    public static string air = "<color=#36EDFF>";
+    public static string poison = "<color=#00EC4A>";
+
+    public static string blue = "<color=#00BEFF>";    
     public static string purple = "<color=#CF01BC>";
     public static string darkRed = "<color=#AB0500>";
 
-    public static void SetStatusIconDescriptionText(StatusIcon icon)
+    public static void SetStatusIconDescriptionText(string statusName, TextMeshProUGUI statusDescriptionText, int statusStacks)
     {
-        if(icon.statusName == "Strength")
+        if (statusName == "Bonus Strength")
         {
-            icon.statusDescriptionText.text =
-                "Increases " + ReturnColoredText("Physical", brown) +
-                " damage from abilities by " + ReturnColoredText(icon.statusStacks.ToString(), yellow);
+            statusDescriptionText.text =
+                "Increases the base damage of Melee Attacks by" + ReturnColoredText(statusStacks.ToString(), yellow);
         }
-        else if (icon.statusName == "Dexterity")
+        else if (statusName == "Temporary Bonus Strength")
         {
-            icon.statusDescriptionText.text =
+            statusDescriptionText.text =
+                "Increases the base damage of Melee Attacks by" + ReturnColoredText(statusStacks.ToString(), yellow) +
+            ". Expires on activation end";
+        }
+        else if (statusName == "Bonus Dexterity")
+        {
+            statusDescriptionText.text =
                 "Increases the amount of " + ReturnColoredText("Block", yellow) +
-                " gained from abilities and effects by " + ReturnColoredText(icon.statusStacks.ToString(), yellow);
+                " granted from abilities and effects by " + ReturnColoredText(statusStacks.ToString(), yellow);
         }
-        else if (icon.statusName == "Wisdom")
+        else if (statusName == "Temporary Bonus Dexterity")
         {
-            icon.statusDescriptionText.text =
-                "Increases " + ReturnColoredText("Magic", blue) +
-                " damage from abilities by " + ReturnColoredText(icon.statusStacks.ToString(), yellow);
+            statusDescriptionText.text =
+                "Increases the amount of " + ReturnColoredText("Block", yellow) +
+                " granted from abilities and effects by  " + ReturnColoredText(statusStacks.ToString(), yellow)
+                + ". Expires on activation end";
         }
-        else if (icon.statusName == "Stunned")
+        else if (statusName == "Bonus Wisdom")
         {
-            icon.statusDescriptionText.text =
-                "This character skips its next activation, and cannot take any actions";
+            statusDescriptionText.text =
+                "Increases all " +
+                ReturnColoredText("Fire", fire) + ", " +
+                ReturnColoredText("Frost", frost) + ", " +
+                ReturnColoredText("Poison", poison) + ", " +
+                ReturnColoredText("Shadow", shadow) + ", and " +
+                ReturnColoredText("Air", air) +
+                " damage from abilities by and effects by " + ReturnColoredText(statusStacks.ToString(), yellow);
         }
-        else if (icon.statusName == "Pinned")
+        else if (statusName == "Temporary Bonus Wisdom")
         {
-            icon.statusDescriptionText.text =
-                "Unable to take movement actions with abilities and effects";
+            statusDescriptionText.text =
+            "Increases all " +
+                ReturnColoredText("Fire", fire) + ", " +
+                ReturnColoredText("Frost", frost) + ", " +
+                ReturnColoredText("Poison", poison) + ", " +
+                ReturnColoredText("Shadow", shadow) + ", and" +
+                ReturnColoredText("Air", air) +
+                " damage from abilities by and effects by " + ReturnColoredText(statusStacks.ToString(), yellow)
+                + ". Expires on activation end"; 
         }
-        else if (icon.statusName == "Barrier")
+        else if (statusName == "Bonus Mobility")
         {
-            icon.statusDescriptionText.text =
-                "The next " + ReturnColoredText(icon.statusStacks.ToString(), yellow) + 
-                "time(s) this character would lose HP, ignore it";
+            statusDescriptionText.text =
+                "Increase the range of movement abilities by " + ReturnColoredText(statusStacks.ToString(), yellow);
         }
-        else if (icon.statusName == "Enrage")
+        else if (statusName == "Temporary Bonus Mobility")
         {
-            icon.statusDescriptionText.text =
-                "Whenever this character loses HP, it gains " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
-                + " Strength";
+            statusDescriptionText.text =
+                "Increase the range of movement abilities by " + ReturnColoredText(statusStacks.ToString(), yellow)
+                + ". Expires on activation end"; 
         }
-        else if (icon.statusName == "Growing")
+        else if (statusName == "Bonus Initiative")
         {
-            icon.statusDescriptionText.text =
-                "At the start of this characters activation, it gains  " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
-                + " Strength";
-        }        
-        else if (icon.statusName == "Volatile")
-        {
-            icon.statusDescriptionText.text =
-                "On death, this character explodes, dealing " + ReturnColoredText(icon.statusStacks.ToString(), yellow) + " " +
-                ReturnColoredText("Physical", brown) + " damage to ALL adjacent characters";
+            statusDescriptionText.text =
+                "Increases your activation order roll by " + ReturnColoredText(statusStacks.ToString(), yellow);
         }
-        else if (icon.statusName == "Camoflage")
+        else if (statusName == "Temporary Bonus Initiative")
         {
-            icon.statusDescriptionText.text =
+            statusDescriptionText.text =
+                "Increases your activation order roll by " + ReturnColoredText(statusStacks.ToString(), yellow)
+                + ". Expires on activation end"; 
+        }
+        else if (statusName == "Bonus Stamina")
+        {
+            statusDescriptionText.text =
+                "Increase the amount of "+ ReturnColoredText("Energy", yellow) + 
+                " gained on activation start by " + ReturnColoredText(statusStacks.ToString(), yellow);
+        }
+        else if (statusName == "Temporary Bonus Stamina")
+        {
+            statusDescriptionText.text =
+                "Increase the amount of " + ReturnColoredText("Energy", yellow) +
+                " gained on activation start by " + ReturnColoredText(statusStacks.ToString(), yellow)
+                + ". Expires on activation end"; 
+        }
+        else if (statusName == "Temporary Dodge")
+        {
+            statusDescriptionText.text =
+                "Increases your chance to completely avoid Ranged Attacks by " +
+                ReturnColoredText(statusStacks.ToString(), yellow)
+                + "%. Expires on activation end";
+        }
+        else if (statusName == "Temporary Parry")
+        {
+            statusDescriptionText.text =
+                "Increases your chance to completely avoid Melee Attacks by " +
+                ReturnColoredText(statusStacks.ToString(), yellow)
+                + "%. Expires on activation end";
+        }
+        else if (statusName == "Vulnerable")
+        {
+            statusDescriptionText.text =
+                "This character takes 50% increased damage from all attacks";
+        }
+        else if (statusName == "Weakened")
+        {
+            statusDescriptionText.text =
+                "This character deals 50% less damage with all attacks";
+        }
+        else if (statusName == "Burning")
+        {
+            statusDescriptionText.text =
+                "On activation end, take " + ReturnColoredText(statusStacks.ToString(), yellow) + " damage";
+        }
+        else if (statusName == "Poisoned")
+        {
+            statusDescriptionText.text =
+                "On activation end, take " + ReturnColoredText(statusStacks.ToString(), yellow) + " damage";
+        }
+        else if (statusName == "Fading")
+        {
+            statusDescriptionText.text =
+                "On activation end, lose " + ReturnColoredText(statusStacks.ToString(), yellow) + " health";
+        }
+        else if (statusName == "Camoflage")
+        {
+            statusDescriptionText.text =
                 "This character cannot be targetted by enemy abilities from further than " + ReturnColoredText("1", yellow)
                 + " tile away. Cancelled by moving off a " + ReturnColoredText("Grass", yellow) + " tile";
         }
-        
-        else if (icon.statusName == "Poison")
+        else if (statusName == "Cautious")
         {
-            icon.statusDescriptionText.text =
-                "At the end of this character's activation, it loses " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
-                + " health";
-        }
-        else if (icon.statusName == "Cautious")
-        {
-            icon.statusDescriptionText.text =
-                "At the end of this character's activation, it gains " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
+            statusDescriptionText.text =
+                "On activation end, if this character has no Block, it gains " + ReturnColoredText(statusStacks.ToString(), yellow)
                 + " Block";
         }
-        else if (icon.statusName == "Fleet Footed")
+        else if (statusName == "Chilled")
         {
-            icon.statusDescriptionText.text =
-                "This character's first 'Move' ability each turn costs " + ReturnColoredText("0", yellow)+ " AP";
+            statusDescriptionText.text =
+                "This character has -1 " + ReturnColoredText("Mobility", yellow) + " and " +
+                ReturnColoredText("Initiative", yellow) + ". Expire on activation end";
         }
-        else if (icon.statusName == "Encouraging Presence")
+        else if (statusName == "Concentration")
         {
-            icon.statusDescriptionText.text =
-                "At the end of this character's activation, it grants " + ReturnColoredText(icon.statusStacks.ToString(), yellow) + " Energy to adjacent allies";
+            statusDescriptionText.text =
+                "This character's Ranged Attack abilities cannot be dodged. +20 Ranged Critical Chance";
         }
-        else if (icon.statusName == "Poisonous")
+        else if (statusName == "Demon")
         {
-            icon.statusDescriptionText.text =
-                "Whenever this character reduces health with a melee attack, it applies " + ReturnColoredText(icon.statusStacks.ToString(), yellow) + " poison";
+            statusDescriptionText.text =
+                "Increase all "+ ReturnColoredText("Fire", fire) + " damage dealt by 20%. +20 " + 
+                ReturnColoredText("Fire", fire) + " Resistance";
         }
-        else if (icon.statusName == "Preparation")
+        else if (statusName == "Shadow Form")
         {
-            icon.statusDescriptionText.text =
-                "This character's next ability costs " + ReturnColoredText("0", yellow) + " AP";
+            statusDescriptionText.text =
+                "Increase all " + ReturnColoredText("Shadow", shadow) + " damage dealt by 20%. +20 " +
+                ReturnColoredText("Shadow", shadow) + " Resistance";
         }
-        else if (icon.statusName == "Stealth")
+        else if (statusName == "Toxicity")
         {
-            icon.statusDescriptionText.text =
-                "This character cannot be targetted by enemy abilities from further than " + ReturnColoredText("1", yellow)
-                + " tile away";
+            statusDescriptionText.text =
+                "Increase all " + ReturnColoredText("Poison", poison) + " damage dealt by 20%. +20 " +
+                ReturnColoredText("Poison", poison) + " Resistance";
         }
-        else if (icon.statusName == "Thorns")
+        else if (statusName == "Storm Lord")
         {
-            icon.statusDescriptionText.text =
-                "Whenever this character is hit with a melee attack, it deals " +
-                ReturnColoredText(icon.statusStacks.ToString(), yellow) + " " + ReturnColoredText("Physical", brown) +
-                " damage back to it's attacker";                
+            statusDescriptionText.text =
+                "Increase all " + ReturnColoredText("Air", air) + " damage dealt by 20%. +20 " +
+                ReturnColoredText("Air", air) + " Resistance";
         }
-        else if (icon.statusName == "Unhygienic")
+        else if (statusName == "Frozen Heart")
         {
-            icon.statusDescriptionText.text =
-                "At the end of this character's activation, it applies " +
-                ReturnColoredText(icon.statusStacks.ToString(), yellow) +
-                " poison to all adjacent enemies";
+            statusDescriptionText.text =
+                "Increase all " + ReturnColoredText("Frost", frost) + " damage dealt by 20%. +20 " +
+                ReturnColoredText("Frost", frost) + " Resistance";
         }
-        else if (icon.statusName == "Quick Reflexes")
+        else if (statusName == "Disarmed")
         {
-            icon.statusDescriptionText.text =
-                "The first time this character is attacked each turn cycle, it teleports to a random adjacent tile";
+            statusDescriptionText.text =
+                "This character cannot use Melee Attacks. Expires on activation end";
         }
-        else if (icon.statusName == "Regeneration")
+        else if (statusName == "Blind")
         {
-            icon.statusDescriptionText.text =
-                "At the end of this character's activation, it heals " + ReturnColoredText(icon.statusStacks.ToString(), yellow) 
-                + " HP";
+            statusDescriptionText.text =
+                "This character cannot use Ranged Attacks. Expires on activation end";
         }
-        else if (icon.statusName == "Adaptive")
+        else if (statusName == "Silenced")
         {
-            icon.statusDescriptionText.text =
-                "Whenever this character loses HP, it gains " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
+            statusDescriptionText.text =
+                "This character cannot use Skills. Expires on activation end";
+        }
+        else if (statusName == "Terrified")
+        {
+            statusDescriptionText.text =
+                "This character cannot gain Block";
+        }
+        else if (statusName == "Stunned")
+        {
+            statusDescriptionText.text =
+                "This character skips its next activation, and cannot take any actions";
+        }
+        else if (statusName == "Taunted")
+        {
+            statusDescriptionText.text =
+                "This character is forced to target its taunter during its next activation";
+        }
+        else if (statusName == "Sleep")
+        {
+            statusDescriptionText.text =
+                "This character skips its next activation, and cannot take any actions. Removed by taking damage";
+        }
+        else if (statusName == "Immobilized")
+        {
+            statusDescriptionText.text =
+                "Unable to take movement actions with abilities and effects";
+        }
+        else if (statusName == "Radiance")
+        {
+            statusDescriptionText.text =
+                "This character's Aura size is increased by " + ReturnColoredText(statusStacks.ToString(), yellow);
+        }
+        else if (statusName == "Encouraging Aura")
+        {
+            statusDescriptionText.text =
+                "On activation end, this character grants " + ReturnColoredText(statusStacks.ToString(), yellow) + " Energy to allies within it's Aura";
+        }
+        else if (statusName == "Fiery Aura")
+        {
+            statusDescriptionText.text =
+                "On activation end, this character deals " + ReturnColoredText(statusStacks.ToString(), yellow) +
+                " " + ReturnColoredText("Fire", fire) + " damage to enemies within it's Aura";
+        }
+        else if (statusName == "Toxic Aura")
+        {
+            statusDescriptionText.text =
+                "On activation end, this character applies " + ReturnColoredText(statusStacks.ToString(), yellow) +
+                 " Poisoned to enemies within it's Aura";
+        }
+        else if (statusName == "Storm Aura")
+        {
+            statusDescriptionText.text =
+                "On activation end, this character deals " + ReturnColoredText(statusStacks.ToString(), yellow) +
+                " " + ReturnColoredText("Air", air) + " damage to a random enemy within it's Aura twice";
+        }
+        else if (statusName == "Soul Drain Aura")
+        {
+            statusDescriptionText.text =
+                "On activation end, this character steals " + ReturnColoredText(statusStacks.ToString(), yellow) +
+                " Strength from enemies within it's Aura";
+        }
+        else if (statusName == "Guardian Aura")
+        {
+            statusDescriptionText.text =
+                "On activation end, this character grants " + ReturnColoredText(statusStacks.ToString(), yellow) +
+                 " Block to allies within it's Aura";
+        }
+        else if (statusName == "Hateful Aura")
+        {
+            statusDescriptionText.text =
+                "On activation end, this character grants " + ReturnColoredText(statusStacks.ToString(), yellow)
+                + " Strength to allies within it's Aura";
+        }
+        else if (statusName == "Enrage")
+        {
+            statusDescriptionText.text =
+                "Whenever this character loses HP, it gains " + ReturnColoredText(statusStacks.ToString(), yellow)
+                + " Strength";
+        }
+        else if (statusName == "Tenacious")
+        {
+            statusDescriptionText.text =
+                "Whenever this character loses HP, it gains " + ReturnColoredText(statusStacks.ToString(), yellow)
                 + " Block";
         }
-        else if (icon.statusName == "Hateful Presence")
+        else if (statusName == "Opportunist")
         {
-            icon.statusDescriptionText.text =
-                "At the end of this character's activation, it grants " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
-                + " Strength to adjacent allies";
+            statusDescriptionText.text =
+                "This character deals " + ReturnColoredText(statusStacks.ToString(), yellow)
+                + "% extra damage with Melee Attacks when back striking";
         }
-        else if (icon.statusName == "Soul Drain Aura")
+        else if (statusName == "Hawk Eye")
         {
-            icon.statusDescriptionText.text =
-                "At the end of this character's activation, it steals " + ReturnColoredText(icon.statusStacks.ToString(), yellow)
-                + "Sstrength from adjacent enemies";
+            statusDescriptionText.text =
+                "This character has +" + ReturnColoredText(statusStacks.ToString(), yellow)
+                + " range with Ranged Attack abilities";
         }
-        else if (icon.statusName == "Lightning Shield")
+        else if (statusName == "Temporary Hawk Eye")
         {
-            icon.statusDescriptionText.text =
-                "Whenever this character is hit with an attack, it deals " +
-                ReturnColoredText(icon.statusStacks.ToString(), yellow) + " " + ReturnColoredText("Magic", blue) +
-                " damage back to it's attacker. Expires on next activation start";
-        }
-        else if (icon.statusName == "Thick Of The Fight")
-        {
-            icon.statusDescriptionText.text =
-                "At the start of this character's activation, if there is an enemy within melee range, it gains " +
-                ReturnColoredText(icon.statusStacks.ToString(), yellow) + 
-                " Energy";
-        }
-        else if (icon.statusName == "Temporary Strength")
-        {
-            icon.statusDescriptionText.text =
-                "At the end of this character's activation, it loses " +
-                ReturnColoredText(icon.statusStacks.ToString(), yellow) +
-                " Strength";
-        }
-        else if (icon.statusName == "Temporary Initiative")
-        {
-            icon.statusDescriptionText.text =
-                "At the end of this character's activation, it loses " +
-                ReturnColoredText(icon.statusStacks.ToString(), yellow) +
-                " Initiative";
-        }
-        else if (icon.statusName == "Rune")
-        {
-            icon.statusDescriptionText.text =
-                "The next " +
-                ReturnColoredText(icon.statusStacks.ToString(), yellow) +
-                " time(s) this character would suffer a negative status effect, ignore it";
-        }
-        else if (icon.statusName == "Exposed")
-        {
-            icon.statusDescriptionText.text =
-                "This character takes 50% increased damage from all attacks for " +
-                ReturnColoredText(icon.statusStacks.ToString(), yellow) +
-                " turn(s)";
-        }
-        else if (icon.statusName == "Exhausted")
-        {
-            icon.statusDescriptionText.text =
-                "This character deals 50% less damage with all attacks for " +
-                ReturnColoredText(icon.statusStacks.ToString(), yellow) +
-                " turn(s)";
+            statusDescriptionText.text =
+                "This character has +" + ReturnColoredText(statusStacks.ToString(), yellow)
+                + " range with Ranged Attack abilities. Expires on activation end";
         }
 
+        else if (statusName == "Ethereal Being")
+        {
+            statusDescriptionText.text =
+                "This character ignores line of sight when targetting";
+        }
+
+        else if (statusName == "True Sight")
+        {
+            statusDescriptionText.text =
+                "This character ignores Camoflage when attacking";
+        }
+        else if (statusName == "Temporary True Sight")
+        {
+            statusDescriptionText.text =
+                "This character ignores Camoflage when attacking. Expires on activation end";
+        }
+        else if (statusName == "Overwatch")
+        {
+            statusDescriptionText.text =
+                "This character will perform 'Shoot' against the first enemy that moves within its weapon range";
+        }
+
+        else if (statusName == "Fiery Imbuement")
+        {
+            statusDescriptionText.text =
+                "This character coverts all damage with Melee Attacks into " +
+                ReturnColoredText("Fire", fire) + " damage";
+        }
+        else if (statusName == "Temporary Fiery Imbuement")
+        {
+            statusDescriptionText.text =
+                "This character coverts all damage with Melee Attacks into " +
+                ReturnColoredText("Fire", fire) + " damage. Expires on activation end";
+        }
+        else if (statusName == "Shadow Imbuement")
+        {
+            statusDescriptionText.text =
+                "This character coverts all damage with Melee Attacks into " +
+                ReturnColoredText("Shadow", shadow) + " damage";
+        }
+        else if (statusName == "Temporary Shadow Imbuement")
+        {
+            statusDescriptionText.text =
+                "This character coverts all damage with Melee Attacks into " +
+                ReturnColoredText("Shadow", shadow) + " damage. Expires on activation end";
+        }
+        else if (statusName == "Frost Imbuement")
+        {
+            statusDescriptionText.text =
+                "This character coverts all damage with Melee Attacks into " +
+                ReturnColoredText("Frost", frost) + " damage";
+        }
+        else if (statusName == "Temporary Frost Imbuement")
+        {
+            statusDescriptionText.text =
+                "This character coverts all damage with Melee Attacks into " +
+                ReturnColoredText("Frost", frost) + " damage. Expires on activation end";
+        }
+        else if (statusName == "Poison Imbuement")
+        {
+            statusDescriptionText.text =
+                "This character coverts all damage with Melee Attacks into " +
+                ReturnColoredText("Poison", poison) + " damage";
+        }
+        else if (statusName == "Temporary Poison Imbuement")
+        {
+            statusDescriptionText.text =
+                "This character coverts all damage with Melee Attacks into " +
+                ReturnColoredText("Poison", poison) + " damage. Expires on activation end";
+        }
+        else if (statusName == "Air Imbuement")
+        {
+            statusDescriptionText.text =
+                "This character coverts all damage with Melee Attacks into " +
+                ReturnColoredText("Air", air) + " damage";
+        }
+        else if (statusName == "Temporary Air Imbuement")
+        {
+            statusDescriptionText.text =
+                "This character coverts all damage with Melee Attacks into " +
+                ReturnColoredText("Air", air) + " damage. Expires on activation end";
+        }
+        else if (statusName == "Flux")
+        {
+            statusDescriptionText.text =
+                "This character's first 'Move' ability each activation costs 0 Energy";
+        }
+        else if (statusName == "Transcendence")
+        {
+            statusDescriptionText.text =
+                "This character is immune to all damage until the end of the current turn cycle";
+        }
+        else if (statusName == "Immolation")
+        {
+            statusDescriptionText.text =
+                "Whenever this character reduces health with a melee attack, it applies " + ReturnColoredText(statusStacks.ToString(), yellow) + " Burning";
+        }
+        else if (statusName == "Poisonous")
+        {
+            statusDescriptionText.text =
+                "Whenever this character reduces health with a melee attack, it applies " + ReturnColoredText(statusStacks.ToString(), yellow) + " Poisoned";
+        }
+        else if (statusName == "Growing")
+        {
+            statusDescriptionText.text =
+                "On activation start, this character gains " + ReturnColoredText(statusStacks.ToString(), yellow)
+                + " Strength";
+        }
+        else if (statusName == "Incorruptable")
+        {
+            statusDescriptionText.text =
+                "This character is immune to Weakened and Vulnerable";
+        }
+        else if (statusName == "Unfallible")
+        {
+            statusDescriptionText.text =
+                "This character is immune to Blind, Silenced and Disarmed";
+        }
+        else if (statusName == "Undead")
+        {
+            statusDescriptionText.text =
+                "This character is immune Poisoned and Terrified";
+        }
+        else if (statusName == "Unstoppable")
+        {
+            statusDescriptionText.text =
+                "This character is immune to Immobilized and Knock Back";
+        }
+        else if (statusName == "Unwavering")
+        {
+            statusDescriptionText.text =
+                "This character's Block does not expire on activation start";
+        }
+        else if (statusName == "Infuse")
+        {
+            statusDescriptionText.text =
+                "This character has +20 to all resistances";
+        }
+        else if (statusName == "Testudo")
+        {
+            statusDescriptionText.text =
+                "On activation start, this character gains " + ReturnColoredText("5", yellow);
+        }
+        else if (statusName == "Last Stand")
+        {
+            statusDescriptionText.text =
+                "The first time this character would take lethal damage, it gains 5 Strength, and its health is set at 1";
+        }
+        else if (statusName == "Rapid Cloaking")
+        {
+            statusDescriptionText.text =
+                "On activation end, this character gains Camoflage";
+        }
+        else if (statusName == "Life Steal")
+        {
+            statusDescriptionText.text =
+                "Whenever this character reduces health with a melee attack, it heals that much health";
+        }
+        else if (statusName == "Masochist")
+        {
+            statusDescriptionText.text =
+                "While this character has 50% or less health, it has +20 Critical Chance";
+        }
+        else if (statusName == "Nimble")
+        {
+            statusDescriptionText.text =
+                "This character's Dodge and Parry chance is increased by 10";
+        }
+        else if (statusName == "Perfect Reflexes")
+        {
+            statusDescriptionText.text =
+                "This character's Dodge and Parry chance is increased by 20";
+        }
+        else if (statusName == "Patient Stalker")
+        {
+            statusDescriptionText.text =
+                "This character has +1 Mobility and +20 Critical Strike chance while Camoflaged";
+        }
+        else if (statusName == "Perfect Aim")
+        {
+            statusDescriptionText.text =
+                "This character's Ranged Attacks cannot be dodged";
+        }
+        else if (statusName == "Phasing")
+        {
+            statusDescriptionText.text =
+                "The first time this character is attacked each turn cycle, it teleports to a random tile within 2";
+        }
+        else if (statusName == "Poison Immunity")
+        {
+            statusDescriptionText.text =
+                "This character cannot be Poisoned";
+        }
+        else if (statusName == "Predator")
+        {
+            statusDescriptionText.text =
+                "This character has +20 Critical Chance while Camoflaged";
+        }
+        else if (statusName == "Preparation")
+        {
+            statusDescriptionText.text =
+                "The next ability this character uses costs 0 Energy";
+        }
+        else if (statusName == "Purity")
+        {
+            statusDescriptionText.text =
+                "This character has +2 Strength, Wisdom and Dexterity";
+        }
+        else if (statusName == "Recklessness")
+        {
+            statusDescriptionText.text =
+                "This character has +20 Melee Critical Chance and its Melee Attacks cannot be parried";
+        }
+        else if (statusName == "Riposte")
+        {
+            statusDescriptionText.text =
+                "Whenever this character parries an attack, it performs 'Strike' against its attacker";
+        }
+        else if (statusName == "Sacred Aura")
+        {
+            statusDescriptionText.text =
+                "On activation end, this character removes Blind, Immobilized, Disarmed, Silenced and Terrified" +
+                " from allies within its Aura";
+        }
+        else if (statusName == "Shadow Aura")
+        {
+            statusDescriptionText.text =
+                "On activation end, this character applies" +
+                " Weakened to enemies within its Aura";
+        }
+        else if (statusName == "Sharpened Blade")
+        {
+            statusDescriptionText.text =
+                "This character's next Melee Attack is guaranteed to critically strike";
+        }
+        else if (statusName == "Shatter")
+        {
+            statusDescriptionText.text =
+                "This character has +20 Critical Chance when attacking targets with Chilled";
+        }
+        else if (statusName == "Slippery")
+        {
+            statusDescriptionText.text =
+                "This character is immune to free strikes";
+        }
+        else if (statusName == "Stealth")
+        {
+            statusDescriptionText.text =
+                "This character is permanently Camoflaged";
+        }
+        else if (statusName == "Regeneration")
+        {
+            statusDescriptionText.text =
+                "On activation end, this character recovers " + 
+                ReturnColoredText(statusStacks.ToString(), yellow) + " health";
+        }
+        else if (statusName == "Thorns")
+        {
+            statusDescriptionText.text =
+                "Whenever this character is hit with a melee attack, it deals " +
+                ReturnColoredText(statusStacks.ToString(), yellow) + " " + ReturnColoredText("Physical", physical) +
+                " damage back to it's attacker";
+        }
+        else if (statusName == "Time Warp")
+        {
+            statusDescriptionText.text =
+                "This character gains " + ReturnColoredText(statusStacks.ToString(), yellow) + " extra activation";
+        }
+        else if (statusName == "Volatile")
+        {
+            statusDescriptionText.text =
+                "On death, this character explodes, dealing " + ReturnColoredText(statusStacks.ToString(), yellow) + " " +
+                ReturnColoredText("Physical", physical) + " damage to ALL adjacent characters";
+        }
+        
+        else if (statusName == "Growing")
+        {
+            statusDescriptionText.text =
+                "At the start of this characters activation, it gains  " + ReturnColoredText(statusStacks.ToString(), yellow)
+                + " Strength";
+        }
+        else if (statusName == "Virtuoso")
+        {
+            statusDescriptionText.text =
+                "This character's Melee Attacks cannot be parried";
+        }
+        else if (statusName == "Venomous")
+        {
+            statusDescriptionText.text =
+                "Whenever this character applies Poisoned, it applies " + ReturnColoredText(statusStacks.ToString(), yellow) + " extra";
+        }
+
+
+
     }
-    public static void SetAbilityDescriptionText(Ability ability)
+    public static void SetAbilityTextProperties(Ability ability)
     {
+        // Properties to set
+        // Energy Cost
+        // Range
+        // Cooldown
+        // Description
+
         if (ability.abilityName == "Strike")
         {
             ability.descriptionText.text =
                 "Deal " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
-                ReturnColoredText("Physical", brown) +
+                ReturnColoredText("Physical", physical) +
                 " damage to a target";
         }
-        else if (ability.abilityName == "Block")
+        else if (ability.abilityName == "Defend")
         {
             ability.descriptionText.text =
                 "Gain " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
@@ -239,7 +648,7 @@ public static class TextLogic
                 "Move to a target enemy within " + ReturnColoredText(ability.abilityRange.ToString(), yellow) +
                 " tiles. At the end of the movement, deal " +
                 ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
-                ReturnColoredText("Physical", brown) + " damage, and apply " +
+                ReturnColoredText("Physical", physical) + " damage, and apply " +
                 ReturnColoredText(ability.abilitySecondaryValue.ToString(), yellow) + " " +
                 ReturnColoredText("Exposed", darkRed);
         }
@@ -254,7 +663,7 @@ public static class TextLogic
 
             ability.descriptionText.text =
                 "Deal " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
-                ReturnColoredText("Physical", brown) +
+                ReturnColoredText("Physical", physical) +
                 " damage to all enemies within " +
                 ReturnColoredText(ability.myLivingEntity.currentMeleeRange.ToString(), yellow) + " " +
                 tile;
@@ -286,7 +695,7 @@ public static class TextLogic
         {
             ability.descriptionText.text =
                 "Deal " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
-                ReturnColoredText("Physical", brown) +
+                ReturnColoredText("Physical", physical) +
                 " damage to a target twice";
         }
         else if (ability.abilityName == "Dash")

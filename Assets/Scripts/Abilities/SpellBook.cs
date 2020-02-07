@@ -692,7 +692,7 @@ public class SpellBook : MonoBehaviour
         {
             foreach (Ability ability in myActiveAbilities)
             {
-                TextLogic.SetAbilityDescriptionText(ability);
+                TextLogic.SetAbilityTextProperties(ability);
             }
         }
         

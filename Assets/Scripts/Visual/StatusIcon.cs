@@ -35,7 +35,11 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         statusName = iconData.statusName;        
         statusDescription = iconData.statusDescription;
-        //statusStacks = iconData.statusStacks;
+        if (iconData.showStackCount)
+        {
+            statusStacksText.gameObject.SetActive(true);
+
+        }
         statusStacksText.text = statusStacks.ToString();
         
         // info panel set up
@@ -43,7 +47,7 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         statusDescriptionText.text = statusDescription;
         infoPanelIconImage.sprite = statusSprite;
 
-        TextLogic.SetStatusIconDescriptionText(this);        
+        TextLogic.SetStatusIconDescriptionText(statusName, statusDescriptionText, statusStacks);
     }
     #endregion
 
@@ -59,7 +63,7 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
 
         // Make sure status info panel text is updated when stacks data changes
-        TextLogic.SetStatusIconDescriptionText(this);
+        //TextLogic.SetStatusIconDescriptionText(this);
     }
     #endregion
 
@@ -68,6 +72,7 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Status Icon mouse over detected...");
+        TextLogic.SetStatusIconDescriptionText(statusName, statusDescriptionText, statusStacks);
         SetInfoPanelVisibility(true);
     }
     public void OnPointerExit(PointerEventData eventData)

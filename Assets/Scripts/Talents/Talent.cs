@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.UI;
 
 public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public enum TalentPool { Guardian, Duelist, Brawler, Assassination, Pyromania, Cyromancy,
         Ranger, Manipulation, Divinity, Shadowcraft, Corruption, Naturalism};
 
-    [Header("General Component References")]    
-    public GameObject passiveInfoPanel;
+    [Header("General Component References")]  
     public GameObject myGlowOutline;
     public GameObject fadeOutOverlay;
+    public Image talentImage;
 
     [Header("Inspector Properties")]
     public string talentName;
@@ -35,6 +36,17 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
     public TextMeshProUGUI abilityCooldownText;
     public TextMeshProUGUI abilityRangeText;
 
+    [Header("Passive Panel Components")]
+    public GameObject passiveInfoPanel;
+    public TextMeshProUGUI passiveNameText;
+    public TextMeshProUGUI passiveDescriptionText;
+    public Image passiveImage;
+
+    // Initialization
+    void Start()
+    {
+        TalentController.Instance.BuildTalentInfoPanelFromData(this);
+    }
   
     // Mouse + Pointer Events
     #region
@@ -49,8 +61,11 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
         myGlowOutline.SetActive(true);
         if (isAbility)
         {            
-            //TalentController.Instance.BuildTalentInfoPanelFromAbilityData(this);
             abilityInfoPanel.SetActive(true);
+        }
+        else
+        {
+            passiveInfoPanel.SetActive(true);
         }
         
     }
@@ -61,6 +76,10 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
         if (isAbility)
         {
             abilityInfoPanel.SetActive(false);
+        }
+        else
+        {
+            passiveInfoPanel.SetActive(false);
         }
     }
     #endregion

@@ -78,9 +78,6 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         requiresRangedWeapon = abilityFromLibrary.requiresRangedWeapon;
         requiresShield = abilityFromLibrary.requiresShield;
 
-        // Modify base properties if character has certain talents before updating text components
-        ModifyAbilityPropertiesFromTalents(this);
-
         // Set up info panel for defenders
         if (myLivingEntity != null &&
             myLivingEntity.GetComponent<Defender>())
@@ -93,26 +90,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
             //TextLogic.SetAbilityDescriptionText(this);
         }
     }
-    public void ModifyAbilityPropertiesFromTalents(Ability ability)
-    {
-        if (myLivingEntity == null || myLivingEntity.defender == null)
-        {
-            return;
-        }
-
-        // Improved Holy Fire
-        if (ability.abilityName == "Holy Fire" && myLivingEntity.defender.myCharacterData.KnowsImprovedHolyFire)
-        {
-            ability.abilityPrimaryValue++;
-            ability.abilityRange++;
-        }
-        // Improved Telekinesis
-        else if (ability.abilityName == "Telekinesis" && myLivingEntity.defender.myCharacterData.KnowsImprovedTelekinesis)
-        {
-            ability.abilityRange++;
-            ability.abilityBaseCooldownTime--;
-        }
-    }
+   
     #endregion
 
     // Mouse / Click Events
