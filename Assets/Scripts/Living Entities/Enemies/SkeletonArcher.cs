@@ -8,13 +8,13 @@ public class SkeletonArcher : Enemy
 
     public override void SetBaseProperties()
     {
-        base.SetBaseProperties();
         myName = "Skeleton Archer";
+        base.SetBaseProperties();       
 
         CharacterModelController.SetUpAsSkeletonArcherPreset(myModel);
-
-        mySpellBook.EnemyLearnAbility("Shoot");
+     
         mySpellBook.EnemyLearnAbility("Move");
+        mySpellBook.EnemyLearnAbility("Shoot");
         mySpellBook.EnemyLearnAbility("Impaling Bolt");
         mySpellBook.EnemyLearnAbility("Snipe");
 

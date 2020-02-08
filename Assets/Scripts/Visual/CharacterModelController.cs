@@ -435,5 +435,20 @@ public static class CharacterModelController
         {
             SetUpAsRandomPreset(model);
         }
+
+
+        // Enemy Presets
+        else if (preset == "Skeleton Mage")
+        {
+            SetUpAsSkeletonMagePreset(model);
+        }
+        else if (preset == "Skeleton Assassin")
+        {
+            SetUpAsSkeletonAssassinPreset(model);
+        }
+        else if (preset == "Skeleton Barbarian")
+        {
+            SetUpAsSkeletonBarbarianPreset(model);
+        }
     }
 }

@@ -7,8 +7,8 @@ public class SkeletonNecromancer : Enemy
 {
     public override void SetBaseProperties()
     {
-        base.SetBaseProperties();
         myName = "Skeleton Necromancer";
+        base.SetBaseProperties();       
 
         CharacterModelController.SetUpAsSkeletonNecromancerPreset(myModel);
 

@@ -6,13 +6,13 @@ public class Mork : Enemy
 {
     public override void SetBaseProperties()
     {
-        base.SetBaseProperties();
         myName = "Mork";
+        base.SetBaseProperties();       
 
         CharacterModelController.SetUpAsMorkPreset(myModel);
 
-        mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Move");
+        mySpellBook.EnemyLearnAbility("Strike");   
         mySpellBook.EnemyLearnAbility("Smash");
         mySpellBook.EnemyLearnAbility("Whirlwind");
 

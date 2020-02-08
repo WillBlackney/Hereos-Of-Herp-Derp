@@ -122,7 +122,10 @@ public class Defender : LivingEntity
     public override void InitializeSetup(Point startingGridPosition, Tile startingTile)
     {
         DefenderManager.Instance.allDefenders.Add(this);
+
+        myUIParent.GetComponent<Canvas>().worldCamera = Camera.main;
         myUIParent.SetActive(false);
+
         transform.SetParent(DefenderManager.Instance.defendersParent.transform);
         base.InitializeSetup(startingGridPosition, startingTile);
     }

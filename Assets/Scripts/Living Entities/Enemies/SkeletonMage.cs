@@ -6,14 +6,14 @@ public class SkeletonMage : Enemy
 {
     public override void SetBaseProperties()
     {
-        base.SetBaseProperties();
         myName = "Skeleton Mage";
+        base.SetBaseProperties();        
 
         CharacterModelController.SetUpAsSkeletonMagePreset(myModel);
 
-        mySpellBook.EnemyLearnAbility("Strike");
-        mySpellBook.EnemyLearnAbility("Fire Ball");
         mySpellBook.EnemyLearnAbility("Move");
+        mySpellBook.EnemyLearnAbility("Strike");
+        mySpellBook.EnemyLearnAbility("Fire Ball");        
         mySpellBook.EnemyLearnAbility("Frost Bolt");
 
         myPassiveManager.ModifyUndead();

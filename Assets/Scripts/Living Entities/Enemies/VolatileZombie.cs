@@ -6,8 +6,8 @@ public class VolatileZombie : Enemy
 {
     public override void SetBaseProperties()
     {
-        base.SetBaseProperties();
         myName = "Volatile Zombie";
+        base.SetBaseProperties();   
 
         CharacterModelController.SetUpAsVolatileZombiePreset(myModel);
 

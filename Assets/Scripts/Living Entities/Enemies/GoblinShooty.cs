@@ -6,9 +6,8 @@ public class GoblinShooty : Enemy
 {
     public override void SetBaseProperties()
     {
-        base.SetBaseProperties();
-
         myName = "Goblin Shooty";
+        base.SetBaseProperties();        
 
         CharacterModelController.SetUpAsGoblinShootyPreset(myModel);
 

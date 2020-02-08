@@ -8,7 +8,7 @@ using System.Linq;
 public class Enemy : LivingEntity
 {
     [Header("Enemy Components")]
-    public CharacterInfoPanel myInfoPanel;
+    public EnemyInfoPanel myInfoPanel;
     public GameObject freeStrikeIndicator;
 
     // Initialization + Setup

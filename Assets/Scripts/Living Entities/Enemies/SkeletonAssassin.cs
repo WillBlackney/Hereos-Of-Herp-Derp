@@ -7,13 +7,13 @@ public class SkeletonAssassin : Enemy
 {
     public override void SetBaseProperties()
     {
-        base.SetBaseProperties();
         myName = "Skeleton Assassin";
+        base.SetBaseProperties();        
 
         CharacterModelController.SetUpAsSkeletonAssassinPreset(myModel);
 
-        mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Move");
+        mySpellBook.EnemyLearnAbility("Strike");        
         mySpellBook.EnemyLearnAbility("Shank");
         mySpellBook.EnemyLearnAbility("Dash");
 

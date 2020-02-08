@@ -6,14 +6,13 @@ public class SkeletonWarrior : Enemy
 {
     public override void SetBaseProperties()
     {
-        base.SetBaseProperties();
         myName = "Skeleton Warrior";
+        base.SetBaseProperties();  
 
         CharacterModelController.SetUpAsSkeletonWarriorPreset(myModel);
 
-        mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Move");
-        mySpellBook.EnemyLearnAbility("Guard");
+        mySpellBook.EnemyLearnAbility("Strike");   
         mySpellBook.EnemyLearnAbility("Inspire");
         mySpellBook.EnemyLearnAbility("Sword And Board");
 

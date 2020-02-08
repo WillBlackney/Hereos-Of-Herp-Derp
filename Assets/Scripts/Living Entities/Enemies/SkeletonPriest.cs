@@ -6,13 +6,13 @@ public class SkeletonPriest : Enemy
 {
     public override void SetBaseProperties()
     {
-        base.SetBaseProperties();
         myName = "Skeleton Priest";
+        base.SetBaseProperties();       
 
         CharacterModelController.SetUpAsSkeletonPriestPreset(myModel);
 
-        mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Move");
+        mySpellBook.EnemyLearnAbility("Strike");       
         mySpellBook.EnemyLearnAbility("Shadow Blast");
         mySpellBook.EnemyLearnAbility("Healing Light");
         myPassiveManager.ModifyUndead();

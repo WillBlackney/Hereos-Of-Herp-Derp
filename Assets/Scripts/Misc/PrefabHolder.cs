@@ -7,7 +7,7 @@ public class PrefabHolder : Singleton<PrefabHolder>
     [Header("Buttons + UI")]
     public GameObject AbilityButtonPrefab;
     public GameObject AttributeTab;
-    public GameObject spellInfoPrefab;
+    public GameObject enemyPanelAbilityTab;
     public GameObject activationWindowPrefab;
     public GameObject statePrefab;
     public GameObject afflicationOnPanelPrefab;
