@@ -105,14 +105,14 @@ public class SkeletonNecromancer : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, blight.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, blight.abilityRange, EntityLogic.GetTotalMobility(this)) != null &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null &&
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, blight, this)
             )
         {
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
-            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, blight.abilityRange, EntityLogic.GetTotalMobility(this));
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 

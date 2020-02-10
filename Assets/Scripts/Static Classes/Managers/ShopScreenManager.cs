@@ -84,7 +84,6 @@ public class ShopScreenManager : MonoBehaviour
     public void LoadShopScreenEntities()
     {
         PopulateItemSlots();
-        PopulateArtifactSlots();
     }
     public void PopulateItemSlots()
     {
@@ -137,48 +136,7 @@ public class ShopScreenManager : MonoBehaviour
         }
 
     }
-    public void PopulateArtifactSlots()
-    {
-        Debug.Log("PopulateArtifactSlots() called...");
-
-        ArtifactDataSO adOne = ArtifactLibrary.Instance.GetRandomViableArtifact();
-        ArtifactDataSO adTwo = ArtifactLibrary.Instance.GetRandomViableArtifact();
-        ArtifactDataSO adThree = ArtifactLibrary.Instance.GetRandomViableArtifact();
-
-        if (adTwo.Name == adOne.Name)
-        {
-            if (adTwo.Name == "Stinky Poo")
-            {
-                // do nothing
-            }
-            else
-            {
-                while (adTwo.Name == adOne.Name)
-                {
-                    adTwo = ArtifactLibrary.Instance.GetRandomViableArtifact();
-                }
-            }
-        }
-
-        if (adThree.Name == adOne.Name || adThree.Name == adTwo.Name)
-        {
-            if (adThree.Name == "Stinky Poo")
-            {
-                // do nothing
-            }
-            else
-            {
-                while (adThree.Name == adOne.Name || adThree.Name == adTwo.Name)
-                {
-                    adThree = ArtifactLibrary.Instance.GetRandomViableArtifact();
-                }
-            }
-        }
-
-        artifactSlotOne.InitializeSetup(adOne);
-        artifactSlotTwo.InitializeSetup(adTwo);
-        artifactSlotThree.InitializeSetup(adThree);
-    }
+    
     #endregion
 
     // Get Item Data Logic

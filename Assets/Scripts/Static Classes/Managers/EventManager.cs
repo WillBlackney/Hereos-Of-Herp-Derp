@@ -79,9 +79,6 @@ public class EventManager : Singleton<EventManager>
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = false;
 
-        // turn off hexagon highlights
-        //WorldMap.Instance.UnHighlightAllHexagons();
-
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);        
@@ -199,9 +196,6 @@ public class EventManager : Singleton<EventManager>
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
 
-        // REMOVE IN FUTURE, FOR TESTING ONLY
-        StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Exhausted"));
-        StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Curse Of The Blood God"));
     }
     public Action StartShopEncounterEvent()
     {
@@ -213,21 +207,31 @@ public class EventManager : Singleton<EventManager>
     {
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = true;
+
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
+
         // turn off hexagon highlights
         WorldManager.Instance.IdleAllEncounters();
+
         // Destroy the previous level and tiles + reset values/properties
         ClearPreviousEncounter();
+
+        // Build shop elements
         ShopScreenManager.Instance.EnableShopScreenView();
         ShopScreenManager.Instance.LoadShopScreenEntities();
+
         // disable world map/char roster/inventory view to avoid clutter
         UIManager.Instance.DisableCharacterRosterView();
         UIManager.Instance.DisableInventoryView();
         UIManager.Instance.DisableWorldMapView();
-        
-        //CampSiteManager.Instance.ResetEventProperties();
+
+        // Fade scene back in, wait until completed
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+
+        // Resolve
         action.actionResolved = true;
     }
     public Action StartNewTreasureRoomEncounterEvent()

@@ -11,33 +11,9 @@ public class InventoryController : Singleton<InventoryController>
     [Header("Properties")]
     public GameObject itemBeingDragged;
 
-    // for testing
     private void Start()
     {
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
+        AddItemToInventory(ItemLibrary.Instance.GetItemByName("Flaming Longsword"));
     }
 
     public void AddItemToInventory(ItemDataSO itemAdded)
@@ -50,7 +26,6 @@ public class InventoryController : Singleton<InventoryController>
         ItemManager.Instance.SetUpInventoryItemCardFromData(itemCard, itemAdded);
 
     }
-
     public void CreateAndAddItemDirectlyToCharacter(ItemDataSO itemAdded, CharacterItemSlot weaponSlot)
     {
         // Method used to set characters up with default items. Will be used later again when character presets are set up

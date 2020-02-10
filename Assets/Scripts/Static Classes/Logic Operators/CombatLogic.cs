@@ -73,7 +73,7 @@ public class CombatLogic : MonoBehaviour
 
     // Damage, Damage Type and Resistance Calculators
     #region
-    private int GetBaseDamageValue(LivingEntity entity, int baseDamage, Ability abilityUsed, string attackDamageType, ItemDataSO weaponUsed = null)
+    public int GetBaseDamageValue(LivingEntity entity, int baseDamage, Ability abilityUsed, string attackDamageType, ItemDataSO weaponUsed = null)
     {
         Debug.Log("CombatLogic.GetBaseDamageValue() called...");
         int baseDamageValueReturned = 0;

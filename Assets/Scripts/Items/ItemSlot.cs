@@ -24,17 +24,17 @@ public class ItemSlot : MonoBehaviour
         if(rarity == ItemDataSO.ItemRarity.Common)
         {
             itemData = ItemLibrary.Instance.GetRandomCommonItem();
-            randomGoldCost = Random.Range(40, 60);
+            randomGoldCost = Random.Range(3, 7);
         }
         else if (rarity == ItemDataSO.ItemRarity.Rare)
         {
             itemData = ItemLibrary.Instance.GetRandomRareItem();
-            randomGoldCost = Random.Range(60, 100);
+            randomGoldCost = Random.Range(7, 11);
         }
         else if (rarity == ItemDataSO.ItemRarity.Epic)
         {
             itemData = ItemLibrary.Instance.GetRandomEpicItem();
-            randomGoldCost = Random.Range(100, 200);
+            randomGoldCost = Random.Range(11, 15);
         }
 
         myItemCard.RunSetupFromItemData(itemData);
@@ -56,7 +56,7 @@ public class ItemSlot : MonoBehaviour
         if (PlayerDataManager.Instance.currentGold >= goldCost)
         {
             Debug.Log("Buying Item " + myItemCard.myName + " for " + goldCost.ToString());
-            //InventoryManager.Instance.AddItemToInventory(myItemCard);
+            InventoryController.Instance.AddItemToInventory(myItemCard.myItemDataSO);
             PlayerDataManager.Instance.ModifyGold(-goldCost);
             DisableItemSlotView();
         }

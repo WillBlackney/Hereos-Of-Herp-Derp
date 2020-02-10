@@ -143,14 +143,14 @@ public class SkeletonArcher : Enemy
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, true), shoot.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, shoot, this) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetBestTarget(this, true), shoot.abilityRange, EntityLogic.GetTotalMobility(this)) != null &&
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetBestTarget(this, true), currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null &&
             EntityLogic.IsAbilityUseable(this, move)
             )
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, true));
             Debug.Log("Skeleton Archer moving towards: " + myCurrentTarget.myName);
 
-            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, EntityLogic.GetTotalMobility(this));
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);

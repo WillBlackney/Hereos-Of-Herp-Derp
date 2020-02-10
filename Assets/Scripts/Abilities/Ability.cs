@@ -106,6 +106,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     {
         if (myLivingEntity.GetComponent<Defender>())
         {
+            CalculateAndSetInfoPanelFields();
             SetInfoPanelVisibility(true);
             highlightButton = true;
             StartCoroutine(HighLight());
@@ -167,6 +168,14 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public void ReduceCooldownOnTurnStart()
     {
         ModifyCurrentCooldown(-1);
+    }
+    public void CalculateAndSetInfoPanelFields()
+    {
+        cdText.text = abilityBaseCooldownTime.ToString();
+        rangeText.text = AbilityLogic.Instance.CalculateAbilityRange(this, myLivingEntity).ToString();
+        apCostText.text = AbilityLogic.Instance.CalculateAbilityEnergyCost(this, myLivingEntity).ToString();
+        nameText.text = abilityName.ToString();
+        TextLogic.SetAbilityDescriptionText(this);
     }
     #endregion
 

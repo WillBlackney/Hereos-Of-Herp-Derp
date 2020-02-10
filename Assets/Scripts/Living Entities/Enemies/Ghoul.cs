@@ -33,7 +33,7 @@ public class Ghoul : Enemy
             yield return null;
         }
 
-        SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
+        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
@@ -89,7 +89,7 @@ public class Ghoul : Enemy
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null &&
             EntityLogic.IsAbilityUseable(this, move))
         {
-            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
+            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));           
 

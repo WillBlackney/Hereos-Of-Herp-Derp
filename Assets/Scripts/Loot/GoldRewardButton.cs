@@ -15,11 +15,11 @@ public class GoldRewardButton : MonoBehaviour
     {
         if(EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.BasicEnemy)
         {
-            goldAmount = Random.Range(10, 30);
+            goldAmount = Random.Range(3, 7);
         }
         else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.EliteEnemy)
         {
-            goldAmount = Random.Range(50, 100);
+            goldAmount = Random.Range(7, 11);
         }
         goldAmountText.text = goldAmount.ToString();
     }

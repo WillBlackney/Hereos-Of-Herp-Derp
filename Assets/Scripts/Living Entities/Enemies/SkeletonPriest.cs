@@ -43,21 +43,6 @@ public class SkeletonPriest : Enemy
             EndMyActivation();
         }
         
-        // Invigorate
-        /*
-        else if (EntityLogic.IsTargetInRange(this, GetBestInvigorateTarget(invigorate.abilityRange), invigorate.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, invigorate))
-        {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Invigorate");
-            yield return new WaitForSeconds(0.5f);
-
-            Action action = AbilityLogic.Instance.PerformInvigorate(this, GetBestInvigorateTarget(invigorate.abilityRange));
-            yield return new WaitUntil(() => action.ActionResolved() == true);
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
-        */
-
         // Healing Light
         else if (EntityLogic.IsTargetInRange(this, GetBestHealingLightTarget(), healingLight.abilityRange) &&
             GetBestHealingLightTarget().currentHealth < GetBestHealingLightTarget().currentMaxHealth &&
@@ -124,13 +109,13 @@ public class SkeletonPriest : Enemy
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, shadowBlast, this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shadowBlast.abilityRange, EntityLogic.GetTotalMobility(this)) != null
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
-            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shadowBlast.abilityRange, EntityLogic.GetTotalMobility(this));
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 

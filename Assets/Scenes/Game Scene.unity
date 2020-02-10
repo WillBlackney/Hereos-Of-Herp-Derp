@@ -1609,7 +1609,13 @@ MonoBehaviour:
   - {fileID: 8934735214695441209, guid: 2fcaf039bf69802438c02d5ddcfeb6d4, type: 3}
   - {fileID: 2677520615140809880, guid: 397f884ac821aed448cc1af8486a7309, type: 3}
   mapTextFiles:
-  - {fileID: 4900000, guid: fef66e7041fbdc042baa41510ebd6c3e, type: 3}
+  - {fileID: 4900000, guid: b0f6cf28c275dd14dbbfddd556019545, type: 3}
+  - {fileID: 4900000, guid: 1dca9f2fa5139ec46b606ed8f0f98881, type: 3}
+  - {fileID: 4900000, guid: 5814a51d1a1962847b50b38a71cf75af, type: 3}
+  - {fileID: 4900000, guid: d29db6ebb35f8cc468b6c230b0af589f, type: 3}
+  - {fileID: 4900000, guid: 68f3b1ba09435294ea59d88ede9e95e7, type: 3}
+  - {fileID: 4900000, guid: 3a0e222c5bae2464599e36762af1211b, type: 3}
+  - {fileID: 4900000, guid: 3f8323926d321f8449aa168462fddadf, type: 3}
   combatBGPrefab: {fileID: 7074628620822196889, guid: 0b6fe73c792677a4db814e03ba989caf,
     type: 3}
   tileParent: {fileID: 272816046}
@@ -3988,6 +3994,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 26d53275e021adb45800753a290e2a6f, type: 2}
   - {fileID: 11400000, guid: c121c30aa5cf9aa4684d111924655f64, type: 2}
   - {fileID: 11400000, guid: 165b0b2ad2c017444886d06884a3457c, type: 2}
+  - {fileID: 11400000, guid: b94c89841beb6d74c80f5035024adf10, type: 2}
   - {fileID: 11400000, guid: ddb8014d73445064aa9c9a0b98e138af, type: 2}
   - {fileID: 11400000, guid: 51d70963b43205f40afb5784d3c0ecd6, type: 2}
   - {fileID: 11400000, guid: 3002ff2fa1165d8499a1d620bb2cec5c, type: 2}
@@ -4008,8 +4015,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e5fd2e7169748644b87cd496f3a26ceb, type: 2}
   - {fileID: 11400000, guid: fc27fc5ce502c334880b4b1ad365f3f5, type: 2}
   - {fileID: 11400000, guid: a9b63f091a506604ab90d93fe27e416d, type: 2}
+  - {fileID: 11400000, guid: 75fb4bdeb7457994888328207ae3ef60, type: 2}
   - {fileID: 11400000, guid: 8e853370ec823c343be7be97c181c41b, type: 2}
+  - {fileID: 11400000, guid: 61b56cfa6bce1a648a483a1c8a5d8e82, type: 2}
   - {fileID: 11400000, guid: 3ec8f51bf49af3c45ba883ff8b711b7a, type: 2}
+  - {fileID: 11400000, guid: 24a7d73a2db0ff44bb29ac1f4fc06ebd, type: 2}
   - {fileID: 11400000, guid: 0b1f41053fe144e4fb378cad54327a91, type: 2}
   - {fileID: 11400000, guid: d224d2e6da23e5f41b95d8651c8cf681, type: 2}
   - {fileID: 11400000, guid: fc70953d6f2c5cc47a51379bc00bc4b3, type: 2}
@@ -4019,10 +4029,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d3289ccabc728784a922fcf7f91a67a1, type: 2}
   - {fileID: 11400000, guid: a69235a5c8889bc438b91679de7f40c7, type: 2}
   - {fileID: 11400000, guid: b70c322c41c50664aa2fe848a30ac0eb, type: 2}
-  - {fileID: 11400000, guid: 75fb4bdeb7457994888328207ae3ef60, type: 2}
-  - {fileID: 11400000, guid: 24a7d73a2db0ff44bb29ac1f4fc06ebd, type: 2}
-  - {fileID: 11400000, guid: 61b56cfa6bce1a648a483a1c8a5d8e82, type: 2}
-  - {fileID: 11400000, guid: b94c89841beb6d74c80f5035024adf10, type: 2}
 --- !u!1 &832089852
 GameObject:
   m_ObjectHideFlags: 0
@@ -9163,16 +9169,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72ab7d3845f51140802bb51ec0b3500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicEnemyWaves:
-  - {fileID: 11400000, guid: a925a91cb3c75e64cadf1f518e9a621e, type: 2}
-  eliteEnemyWaves:
-  - {fileID: 11400000, guid: 001c99eae2d3afd44a6633643c5971ab, type: 2}
+  basicEnemyWaves: []
+  eliteEnemyWaves: []
   bossEnemyWaves:
   - {fileID: 11400000, guid: ab136b349f737cc499a50245afbac768, type: 2}
   storyEventEnemyWaves:
   - {fileID: 11400000, guid: 27253031a909cbf4da8b90f4297a7004, type: 2}
-  viableBasicEnemyWaves: []
-  viableEliteEnemyWaves: []
+  viableBasicEnemyWaves:
+  - {fileID: 11400000, guid: c953b6a2b85d9ca439cae347a00ce672, type: 2}
+  - {fileID: 11400000, guid: 9c7a79d32d54c1f4a8e0c24b37645675, type: 2}
+  - {fileID: 11400000, guid: 4e0ae28ee3b68504caf41eb946c16f13, type: 2}
+  viableEliteEnemyWaves:
+  - {fileID: 11400000, guid: 20071468144ce6f47af115dea0c0357b, type: 2}
   spawnLocations: []
 --- !u!4 &1979019400
 Transform:
@@ -9386,7 +9394,7 @@ MonoBehaviour:
   - {fileID: 1221582495502255042, guid: aebcdccabe29ac24a8cbc15ada886ed4, type: 3}
   worldMapParent: {fileID: 2126798329}
   onlySpawnBasics: 0
-  onlySpawnElites: 0
+  onlySpawnElites: 1
   onlySpawnMysterys: 0
   onlySpawnShops: 0
   onlySpawnTreasures: 0

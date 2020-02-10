@@ -208,6 +208,10 @@ public static class EntityLogic
         else if (prioritizeClosest)
         {
             targetReturned = GetClosestValidEnemy(entity);
+            if(targetReturned == null)
+            {
+                targetReturned = GetClosestEnemy(entity);
+            }
         }
         else if (prioritizeLowHP)
         {
@@ -1058,7 +1062,7 @@ public static class EntityLogic
         Debug.Log("Final resistance value calculated: " + targetResistance.ToString());
         return targetResistance;
     }
-    public static int GetTotalPhysicalResistance(LivingEntity entity)
+    private static int GetTotalPhysicalResistance(LivingEntity entity)
     {
         Debug.Log("EntityLogic.GetTotalPhysicalResistance() called for " + entity.name + "...");
 
@@ -1069,7 +1073,7 @@ public static class EntityLogic
         // return final value
         return physicalResistanceReturned;
     }
-    public static int GetTotalFireResistance(LivingEntity entity)
+    private static int GetTotalFireResistance(LivingEntity entity)
     {
         Debug.Log("EntityLogic.GetTotalFireResistance() called for " + entity.name + "...");
 
@@ -1087,7 +1091,7 @@ public static class EntityLogic
         // return final value
         return fireResistanceReturned;
     }
-    public static int GetTotalShadowResistance(LivingEntity entity)
+    private static int GetTotalShadowResistance(LivingEntity entity)
     {
         Debug.Log("EntityLogic.GetTotalShadowResistance() called for " + entity.name + "...");
 
@@ -1105,7 +1109,7 @@ public static class EntityLogic
         // return final value
         return shadowResistanceReturned;
     }
-    public static int GetTotalFrostResistance(LivingEntity entity)
+    private static int GetTotalFrostResistance(LivingEntity entity)
     {
         Debug.Log("EntityLogic.GetTotalFrostResistance() called for " + entity.name + "...");
 
@@ -1123,7 +1127,7 @@ public static class EntityLogic
         // return final value
         return frostResistanceReturned;
     }
-    public static int GetTotalPoisonResistance(LivingEntity entity)
+    private static int GetTotalPoisonResistance(LivingEntity entity)
     {
         Debug.Log("EntityLogic.GetTotalPoisonResistance() called for " + entity.name + "...");
 
@@ -1141,7 +1145,7 @@ public static class EntityLogic
         // return final value
         return poisonResistanceReturned;
     }
-    public static int GetTotalAirResistance(LivingEntity entity)
+    private static int GetTotalAirResistance(LivingEntity entity)
     {
         Debug.Log("EntityLogic.GetTotalAirResistance() called for " + entity.name + "...");
 

@@ -26,62 +26,26 @@ public class AbilityLogic : MonoBehaviour
         PathRenderer.Instance.DeactivatePathRenderer();
 
         // temp variables
-        int finalApCost = ability.abilityEnergyCost;
         int finalCD = ability.abilityBaseCooldownTime;
-       
-        // Reduce AP by cost of the ability
-
-        // Check for 'Well Drilled' State
-        if(entity.defender &&
-           StateManager.Instance.DoesPlayerAlreadyHaveState("Well Drilled") &&
-           (ability.name == "Strike" || ability.name == "Move" || ability.name == "Defend" || ability.name == "Shoot")
-           )
-        {
-            if(finalApCost > 5)
-            {
-                finalApCost -= 5;
-            }
-
-            // dont let ability cost less then 5
-            if(finalApCost < 5)
-            {
-                finalApCost = 5;
-            }
-        }
-
-        // check for preparation here
-        if (entity.myPassiveManager.preparation && ability.abilityName != "Preparation" && 
-            ability.abilityName != "Slice And Dice" &&
-            ability.abilityName != "Rapid Fire")
-        {
-            entity.myPassiveManager.ModifyPreparation(-entity.myPassiveManager.preparationStacks);
-            finalApCost = 0;
-        }        
-
-        // Check for Flux passive
-        if(ability.abilityName == "Move")
-        {
-            // if character has a free move available
-            if (entity.moveActionsTakenThisActivation == 0 && entity.myPassiveManager.flux)
-            {
-                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Flux");
-                finalApCost = 0;
-            }
-            entity.moveActionsTakenThisActivation++;
-        }
-
-        else if (ability.abilityName == "Slice And Dice" || ability.abilityName == "Rapid Fire")
-        {
-            finalApCost = entity.currentEnergy;
-        }
+        int finalEnergyCost = CalculateAbilityEnergyCost(ability, entity);         
 
         // Modify AP
-        entity.ModifyCurrentEnergy(-finalApCost);
+        entity.ModifyCurrentEnergy(-finalEnergyCost);
+
         // Modify Cooldown
         ability.ModifyCurrentCooldown(finalCD);
 
+        // if character has a free move available from flux
+        if (entity.moveActionsTakenThisActivation == 0 && 
+            entity.myPassiveManager.flux &&
+            ability.abilityName == "Move")
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Flux");
+            entity.moveActionsTakenThisActivation++;
+        }
 
-        if(ability.abilityType == AbilityDataSO.AbilityType.Power)
+        // If ability is power, add to character power list
+        if (ability.abilityType == AbilityDataSO.AbilityType.Power)
         {
             AddPowerToEntity(entity, ability);
         }
@@ -185,6 +149,93 @@ public class AbilityLogic : MonoBehaviour
 
         Debug.Log("GetDamageTypeFromAbility() calculated that " + ability.abilityName + " has a damage type of " + damageTypeStringReturned);
         return damageTypeStringReturned;
+    }
+    public int CalculateAbilityEnergyCost(Ability ability, LivingEntity entity)
+    {
+        Debug.Log("AbilityLogic.CalculateAbilityEnergyCost() called for " + entity.myName +
+            " using ability " + ability.abilityName);
+
+        // Initialize at base energy cost
+        int finalApCost = ability.abilityEnergyCost;
+
+        // Check for 'Well Drilled' State
+        if (entity.defender &&
+           StateManager.Instance.DoesPlayerAlreadyHaveState("Well Drilled") &&
+           (ability.name == "Strike" || ability.name == "Move" || ability.name == "Defend" || ability.name == "Shoot")
+           )
+        {
+            if (finalApCost > 5)
+            {
+                finalApCost -= 5;
+            }
+
+            // dont let ability cost less then 5
+            if (finalApCost < 5)
+            {
+                finalApCost = 5;
+            }
+        }
+
+        // Check for Preparation
+        if (entity.myPassiveManager.preparation && ability.abilityName != "Preparation" &&
+            ability.abilityName != "Slice And Dice" &&
+            ability.abilityName != "Rapid Fire")
+        {
+            entity.myPassiveManager.ModifyPreparation(-entity.myPassiveManager.preparationStacks);
+            finalApCost = 0;
+        }
+
+        // Check for Flux passive
+        if (ability.abilityName == "Move")
+        {
+            // if character has a free move available
+            if (entity.moveActionsTakenThisActivation == 0 && entity.myPassiveManager.flux)
+            {
+                finalApCost = 0;
+            }
+        }
+
+        else if (ability.abilityName == "Slice And Dice" || ability.abilityName == "Rapid Fire")
+        {
+            finalApCost = entity.currentEnergy;
+        }
+
+        Debug.Log("AbilityLogic.CalculateAbilityEnergyCost() returning " + finalApCost.ToString() +
+            " as the final energy cost of " + ability.abilityName + " used by " + entity.myName);
+        return finalApCost;
+    }
+    public int CalculateAbilityRange(Ability ability, LivingEntity entity)
+    {
+        Debug.Log("AbilityLogic.CalculateAbilityRange() called for " +
+            entity.myName + " using ability " + ability.name);
+
+        int rangeReturned = 0;
+
+        if (ability.abilityType == AbilityDataSO.AbilityType.RangedAttack)
+        {
+            rangeReturned = EntityLogic.GetTotalRangeOfRangedAttack(entity, ability);
+        }
+        else if (ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        {
+            rangeReturned = entity.currentMeleeRange;
+        }
+        else if (ability.abilityType == AbilityDataSO.AbilityType.Skill)
+        {
+            rangeReturned = ability.abilityRange;
+        }
+        else if (ability.abilityType == AbilityDataSO.AbilityType.Power)
+        {
+            rangeReturned = 0;
+        }
+        else
+        {
+            rangeReturned = 0;
+        }
+
+        Debug.Log("AbilityLogic.CalculateAbilityRange() final range of " + ability.name +
+            " used by " + entity.myName + " is: " + rangeReturned.ToString());
+
+        return rangeReturned;
     }
     #endregion
 
@@ -725,10 +776,6 @@ public class AbilityLogic : MonoBehaviour
     {        
         // Set up properties
         Ability charge = attacker.mySpellBook.GetAbilityByName("Charge");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, charge);
-        bool parry = CombatLogic.Instance.RollForParry(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, charge, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, charge, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
 
         // Pay energy cost, + etc
         OnAbilityUsedStart(charge, attacker);
@@ -737,32 +784,13 @@ public class AbilityLogic : MonoBehaviour
         Action moveAction = MovementLogic.Instance.MoveEntity(attacker, destination, 4);
         yield return new WaitUntil(() => moveAction.ActionResolved() == true);
 
-
         // Play attack animation
         attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
 
-        // if the target successfully parried, dont do HandleDamage: do parry stuff instead
-        if (parry)
-        {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
-            yield return new WaitUntil(() => parryAction.ActionResolved() == true);
-        }
-
-        // if the target did not parry, handle damage event normally
-        else
-        {
-            if (critical)
-            {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
-            }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, charge);
-            yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-
-            // Apply vulnerable
-            victim.myPassiveManager.ModifyVulnerable(charge.abilitySecondaryValue);
-            attacker.myAnimator.SetTrigger("Idle");
-            action.actionResolved = true;
-        }        
+        // Apply vulnerable
+        victim.myPassiveManager.ModifyVulnerable(1);
+        attacker.myAnimator.SetTrigger("Idle");
+        action.actionResolved = true;
 
         // remove camoflage, etc
         OnAbilityUsedFinish(charge, attacker);

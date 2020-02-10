@@ -55,7 +55,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2982585462601462458}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -64,8 +64,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300026, guid: dafc2909b353f9c4fac65359dd10672c, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
@@ -75,6 +73,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &4324383094915582541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,7 +83,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2982585462601462458}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -129,8 +128,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!1 &4354891777653379711
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,7 +182,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4354891777653379711}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -194,8 +191,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 90a2dde0942123c4ebb9c4af580c5818, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -205,6 +200,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4354891777857011195
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,6 +307,7 @@ MonoBehaviour:
   artifactSlotTwo: {fileID: 6323916337636437658}
   artifactSlotThree: {fileID: 2757645990648955330}
   itemsInShopData: []
+  allItemsSlots: []
 --- !u!1 &4354891778623526343
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,7 +362,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5413765800559330997
 RectTransform:
   m_ObjectHideFlags: 0
@@ -395,11 +392,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5413765800559330997}
     m_Modifications:
-    - target: {fileID: 5876613393941161551, guid: d5be81cf9c6c0154ca714122afbb1b4e,
-        type: 3}
-      propertyPath: m_Name
-      value: Artifact Slot (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 5876613393941161550, guid: d5be81cf9c6c0154ca714122afbb1b4e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -505,6 +497,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5876613393941161551, guid: d5be81cf9c6c0154ca714122afbb1b4e,
+        type: 3}
+      propertyPath: m_Name
+      value: Artifact Slot (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 5876613395876736221, guid: d5be81cf9c6c0154ca714122afbb1b4e,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -552,11 +549,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5413765800559330997}
     m_Modifications:
-    - target: {fileID: 5876613393941161551, guid: d5be81cf9c6c0154ca714122afbb1b4e,
-        type: 3}
-      propertyPath: m_Name
-      value: Artifact Slot
-      objectReference: {fileID: 0}
     - target: {fileID: 5876613393941161550, guid: d5be81cf9c6c0154ca714122afbb1b4e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -661,6 +653,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876613393941161551, guid: d5be81cf9c6c0154ca714122afbb1b4e,
+        type: 3}
+      propertyPath: m_Name
+      value: Artifact Slot
       objectReference: {fileID: 0}
     - target: {fileID: 5876613395876736221, guid: d5be81cf9c6c0154ca714122afbb1b4e,
         type: 3}
@@ -1810,11 +1807,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5413765800559330997}
     m_Modifications:
-    - target: {fileID: 5876613393941161551, guid: d5be81cf9c6c0154ca714122afbb1b4e,
-        type: 3}
-      propertyPath: m_Name
-      value: Artifact Slot (2)
-      objectReference: {fileID: 0}
     - target: {fileID: 5876613393941161550, guid: d5be81cf9c6c0154ca714122afbb1b4e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1919,6 +1911,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876613393941161551, guid: d5be81cf9c6c0154ca714122afbb1b4e,
+        type: 3}
+      propertyPath: m_Name
+      value: Artifact Slot (2)
       objectReference: {fileID: 0}
     - target: {fileID: 5876613395876736221, guid: d5be81cf9c6c0154ca714122afbb1b4e,
         type: 3}

@@ -20,8 +20,8 @@ public class GoblinShooty : Enemy
 
     public override IEnumerator StartMyActivationCoroutine()
     {
-        Ability shoot = mySpellBook.GetAbilityByName("Shoot");
         Ability move = mySpellBook.GetAbilityByName("Move");
+        Ability shoot = mySpellBook.GetAbilityByName("Shoot");        
 
         ActionStart:
 
@@ -31,8 +31,6 @@ public class GoblinShooty : Enemy
         {
             yield return null;
         }
-
-        SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
@@ -59,15 +57,13 @@ public class GoblinShooty : Enemy
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, shoot, this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, EntityLogic.GetTotalMobility(this)) != null
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
-            SetTargetDefender(EntityLogic.GetClosestValidEnemy(this));
-
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
             yield return new WaitForSeconds(0.5f);
 
-            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, shoot.abilityRange, EntityLogic.GetTotalMobility(this));           
+            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));           
             
 
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
