@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UniversalCharacterModel : MonoBehaviour
 {
+    // Properties + Component References
+    #region
     [Header("Properties")]
     public LivingEntity myLivingEntity;
 
@@ -238,6 +240,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject simpleDaggerOH;
     public GameObject simpleShieldOH;
 
+    #endregion
 
     public void SetDeathAnimAsFinished()
     {
@@ -245,5 +248,23 @@ public class UniversalCharacterModel : MonoBehaviour
         {
             myLivingEntity.SetDeathAnimAsFinished();
         }
+    }
+    public void SetRangedAttackAnimAsFinished()
+    {
+        if (myLivingEntity != null)
+        {
+            myLivingEntity.SetRangedAttackAnimAsFinished();
+        }
+    }
+    public void RefreshRangedAttackBool()
+    {
+        if (myLivingEntity != null)
+        {
+            myLivingEntity.RefreshRangedAttackBool();
+        }
+    }
+    public void SetBaseAnim()
+    {
+        GetComponent<Animator>().SetTrigger("Base");
     }
 }

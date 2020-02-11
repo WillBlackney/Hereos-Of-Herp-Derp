@@ -67,7 +67,8 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         StatusIconDataSO data = StatusIconLibrary.Instance.GetStatusIconByName(passiveName);
 
         passiveNameText.text = data.statusName;
-        passiveDescriptionText.text = data.statusDescription;
+        //passiveDescriptionText.text = data.statusDescription;
+        TextLogic.SetStatusIconDescriptionText(data.statusName, passiveDescriptionText, stacks);
         passiveImage.sprite = data.statusSprite;
         passiveInfoPanelImage.sprite = data.statusSprite;
 

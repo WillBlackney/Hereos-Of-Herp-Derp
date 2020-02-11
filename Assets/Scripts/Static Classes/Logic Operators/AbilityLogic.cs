@@ -364,6 +364,7 @@ public class AbilityLogic : MonoBehaviour
     private IEnumerator PerformDefendCoroutine(LivingEntity caster, Action action)
     {
         Ability block = caster.mySpellBook.GetAbilityByName("Defend");
+        caster.PlaySkillAnimation();
         OnAbilityUsedStart(block, caster);
         caster.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(block.abilityPrimaryValue, caster));
         yield return new WaitForSeconds(0.5f);
@@ -410,8 +411,8 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsedStart(shoot, attacker);
 
         // Ranged attack anim
-        //attacker.PlayRangedAttackAnimation();
-        //yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
+        attacker.PlayRangedAttackAnimation();        
+        yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
 
         // Play arrow shot VFX
         Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
@@ -569,8 +570,9 @@ public class AbilityLogic : MonoBehaviour
             // Remove Overwatch
             attacker.myPassiveManager.ModifyOverwatch(-attacker.myPassiveManager.overwatchStacks);
 
-            // Play attack animation
-            attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+            // Ranged attack anim
+            attacker.PlayRangedAttackAnimation();
+            yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
 
             // Play arrow shot VFX
             Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
@@ -810,6 +812,9 @@ public class AbilityLogic : MonoBehaviour
         // Setup 
         Ability recklessness = caster.mySpellBook.GetAbilityByName("Recklessness");
         OnAbilityUsedStart(recklessness, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
 
         // Gain Recklessness
         caster.myPassiveManager.ModifyRecklessness(1);
@@ -1122,6 +1127,9 @@ public class AbilityLogic : MonoBehaviour
         // Pay energy cost, + etc
         OnAbilityUsedStart(evasion, caster);
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Apply temporary parry
         target.myPassiveManager.ModifyTemporaryParry(evasion.abilityPrimaryValue);
         StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
@@ -1211,6 +1219,9 @@ public class AbilityLogic : MonoBehaviour
         // Pay energy cost, + etc
         OnAbilityUsedStart(vanish, caster);
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Gain Max Energy
         caster.ModifyCurrentEnergy(caster.currentMaxEnergy);
         yield return new WaitForSeconds(0.5f);
@@ -1241,6 +1252,9 @@ public class AbilityLogic : MonoBehaviour
 
         // Pay energy cost, + etc
         OnAbilityUsedStart(vanish, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
 
         // Apply temporary parry
         caster.myPassiveManager.ModifyCamoflage(1);
@@ -1362,6 +1376,9 @@ public class AbilityLogic : MonoBehaviour
         Ability rapidCloaking = caster.mySpellBook.GetAbilityByName("Rapid Cloaking");
         OnAbilityUsedStart(rapidCloaking, caster);
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Gain Rapid Cloaking
         caster.myPassiveManager.ModifyRapidCloaking(1);
         yield return new WaitForSeconds(0.5f);
@@ -1457,6 +1474,9 @@ public class AbilityLogic : MonoBehaviour
         Ability preparation = caster.mySpellBook.GetAbilityByName("Preparation");
         OnAbilityUsedStart(preparation, caster);
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Apply preparation
         caster.myPassiveManager.ModifyPreparation(1);
         yield return new WaitForSeconds(0.5f);
@@ -1478,6 +1498,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up
         Ability preparation = caster.mySpellBook.GetAbilityByName("Sharpen Blade");
         OnAbilityUsedStart(preparation, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
 
         // Apply Sharpened Blade
         caster.myPassiveManager.ModifySharpenedBlade(1);
@@ -1567,6 +1590,9 @@ public class AbilityLogic : MonoBehaviour
         Ability guard = caster.mySpellBook.GetAbilityByName("Guard");
         OnAbilityUsedStart(guard, caster);
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Give target block
         target.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(guard.abilityPrimaryValue,caster));
         yield return new WaitForSeconds(0.5f);
@@ -1590,6 +1616,9 @@ public class AbilityLogic : MonoBehaviour
 
         // Pay energy cost, + etc
         OnAbilityUsedStart(provoke, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
 
         // Apply Taunted
         target.myPassiveManager.ModifyTaunted(1, caster);
@@ -1615,6 +1644,9 @@ public class AbilityLogic : MonoBehaviour
 
         // Calculate which characters are hit by the aoe taunt
         List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, caster.tile, 1, false, true);
+
+        // Play animation
+        caster.PlaySkillAnimation();
 
         // Pay energy cost
         OnAbilityUsedStart(challengingShout, caster);
@@ -1724,7 +1756,10 @@ public class AbilityLogic : MonoBehaviour
         Ability testudo = caster.mySpellBook.GetAbilityByName("Testudo");
         OnAbilityUsedStart(testudo, caster);
 
-        // Gain Air imbuement
+        // Play animation
+        caster.PlaySkillAnimation();
+
+        // Gain Testudo
         caster.myPassiveManager.ModifyTestudo(1);
         yield return new WaitForSeconds(0.5f);
 
@@ -1799,6 +1834,9 @@ public class AbilityLogic : MonoBehaviour
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, reactiveArmour, attacker.myMainHandWeapon);
         List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(attacker, attacker.currentMeleeRange);
         int baseDamage = attacker.currentBlock;
+
+        // Play animation
+        attacker.PlaySkillAnimation();
 
         // Pay energy cost
         OnAbilityUsedStart(reactiveArmour, attacker);
@@ -1895,6 +1933,9 @@ public class AbilityLogic : MonoBehaviour
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, fireNova);
         List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(attacker, fireNova.abilitySecondaryValue);
 
+        // Play animation
+        attacker.PlaySkillAnimation();
+
         // Pay energy cost
         OnAbilityUsedStart(fireNova, attacker);
 
@@ -1969,6 +2010,9 @@ public class AbilityLogic : MonoBehaviour
         Ability blaze = caster.mySpellBook.GetAbilityByName("Blaze");
         OnAbilityUsedStart(blaze, caster);
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Gain Fire imbuement
         caster.myPassiveManager.ModifyFireImbuement(1);
         yield return new WaitForSeconds(0.5f);
@@ -1992,6 +2036,9 @@ public class AbilityLogic : MonoBehaviour
 
         // Calculate which characters are hit by the aoe
         List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
+
+        // Play animation
+        attacker.PlaySkillAnimation();
 
         // Pay energy cost
         OnAbilityUsedStart(meteor, attacker);
@@ -2040,6 +2087,9 @@ public class AbilityLogic : MonoBehaviour
         int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, combustion, damageType, false, victim.myPassiveManager.burningStacks * combustion.abilityPrimaryValue);
         OnAbilityUsedStart(combustion, attacker);
 
+        // Play animation
+        attacker.PlaySkillAnimation();
+
         // Deal Damage
         Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, combustion);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -2068,6 +2118,9 @@ public class AbilityLogic : MonoBehaviour
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, dragonBreath);
         List<Tile> tilesInBreathPath = LevelManager.Instance.GetAllTilesInALine(attacker.tile, location, dragonBreath.abilitySecondaryValue, true);
         List<LivingEntity> entitiesInBreathPath = new List<LivingEntity>();
+
+        // Play animation
+        attacker.PlaySkillAnimation();
 
         // Calculate which characters are hit by the breath
         foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
@@ -2176,6 +2229,9 @@ public class AbilityLogic : MonoBehaviour
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, frostNova);
         List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(attacker, frostNova.abilitySecondaryValue);
 
+        // Play animation
+        attacker.PlaySkillAnimation();
+
         // Pay energy cost
         OnAbilityUsedStart(frostNova, attacker);
 
@@ -2219,6 +2275,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up
         Ability icyFocus = caster.mySpellBook.GetAbilityByName("Icy Focus");
         OnAbilityUsedStart(icyFocus, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
 
         // Give target wisdom
         target.myPassiveManager.ModifyBonusWisdom(icyFocus.abilityPrimaryValue);
@@ -2300,6 +2359,9 @@ public class AbilityLogic : MonoBehaviour
         Ability blizzard = attacker.mySpellBook.GetAbilityByName("Blizzard");
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, blizzard);
 
+        // Play animation
+        attacker.PlaySkillAnimation();
+
         // Calculate which characters are hit by the aoe
         List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
 
@@ -2345,6 +2407,9 @@ public class AbilityLogic : MonoBehaviour
         Ability frostArmour = caster.mySpellBook.GetAbilityByName("Frost Armour");
         OnAbilityUsedStart(frostArmour, caster);
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Give target block
         target.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(frostArmour.abilityPrimaryValue, caster));
         yield return new WaitForSeconds(0.5f);
@@ -2373,6 +2438,9 @@ public class AbilityLogic : MonoBehaviour
         Ability creepingFrost = caster.mySpellBook.GetAbilityByName("Creeping Frost");
         OnAbilityUsedStart(creepingFrost, caster);
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Gain Frost imbuement
         caster.myPassiveManager.ModifyFrostImbuement(1);
         yield return new WaitForSeconds(0.5f);
@@ -2396,6 +2464,9 @@ public class AbilityLogic : MonoBehaviour
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, glacialBurst);
         List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(attacker, attacker.currentMeleeRange);
         List<LivingEntity> targetsHit = new List<LivingEntity>();
+
+        // Play animation
+        attacker.PlaySkillAnimation();
 
         // get a random target 3 times
         for (int i = 0; i < glacialBurst.abilitySecondaryValue; i++)
@@ -2517,6 +2588,9 @@ public class AbilityLogic : MonoBehaviour
         Ability forestMedicine = caster.mySpellBook.GetAbilityByName("Forest Medicine");
         OnAbilityUsedStart(forestMedicine, caster);
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Give target block
         target.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(forestMedicine.abilityPrimaryValue, caster));
         yield return new WaitForSeconds(0.5f);
@@ -2552,8 +2626,8 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsedStart(snipe, attacker);
 
         // Ranged attack anim
-       // attacker.PlayRangedAttackAnimation();
-        //yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
+        attacker.PlayRangedAttackAnimation();
+        yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
 
         // Play arrow shot VFX
         Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
@@ -2596,6 +2670,9 @@ public class AbilityLogic : MonoBehaviour
         Ability haste = caster.mySpellBook.GetAbilityByName("Haste");
         OnAbilityUsedStart(haste, caster);
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Give target mobility and mobility
         target.myPassiveManager.ModifyBonusMobility(haste.abilityPrimaryValue);
         target.myPassiveManager.ModifyBonusInitiative(haste.abilityPrimaryValue);
@@ -2620,6 +2697,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up
         Ability steadyHands = caster.mySpellBook.GetAbilityByName("Steady Hands");
         OnAbilityUsedStart(steadyHands, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
 
         // Give target bonus to ranged attacks
         target.myPassiveManager.ModifyTemporaryHawkEyeBonus(steadyHands.abilityPrimaryValue);
@@ -2652,8 +2732,8 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsedStart(impalingBolt, attacker);
 
         // Ranged attack anim
-        //attacker.PlayRangedAttackAnimation();
-        //yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
+        attacker.PlayRangedAttackAnimation();
+        yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
 
         // Play arrow shot VFX
         Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
@@ -2708,8 +2788,8 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsedStart(headShot, attacker);
 
         // Ranged attack anim
-        //attacker.PlayRangedAttackAnimation();
-        //yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
+        attacker.PlayRangedAttackAnimation();
+        yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
 
         // Play arrow shot VFX
         Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
@@ -2752,6 +2832,9 @@ public class AbilityLogic : MonoBehaviour
         Ability concentration = caster.mySpellBook.GetAbilityByName("Concentration");
         OnAbilityUsedStart(concentration, caster);
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Gain Air imbuement
         caster.myPassiveManager.ModifyConcentration(1);
         yield return new WaitForSeconds(0.5f);
@@ -2772,6 +2855,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability overwatch = caster.mySpellBook.GetAbilityByName("Overwatch");
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(overwatch, caster);
 
@@ -2784,7 +2870,6 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;
 
     }
-
 
     // Tree Leap
     public Action PerformTreeLeap(LivingEntity caster, Tile destination)
@@ -2821,6 +2906,10 @@ public class AbilityLogic : MonoBehaviour
         Ability rapidFire = attacker.mySpellBook.GetAbilityByName("Rapid Fire");
         int shotsToFire = attacker.currentEnergy / 10;
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, rapidFire, attacker.myMainHandWeapon);
+
+        // Ranged attack anim
+        attacker.PlayRangedAttackAnimation();
+        yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
 
         // Pay energy cost, + etc
         OnAbilityUsedStart(rapidFire, attacker);
@@ -2886,6 +2975,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability blight = caster.mySpellBook.GetAbilityByName("Blight");
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(blight, caster);
 
@@ -2914,9 +3006,12 @@ public class AbilityLogic : MonoBehaviour
         // Pay energy cost, + etc
         OnAbilityUsedStart(bloodOffering, caster);
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Gain Energy
         caster.ModifyCurrentEnergy(bloodOffering.abilityPrimaryValue);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
 
         // Reduce Health
         Action selfDamageAction = CombatLogic.Instance.HandleDamage(bloodOffering.abilitySecondaryValue, caster, caster, "None", null, true);
@@ -2997,6 +3092,9 @@ public class AbilityLogic : MonoBehaviour
         // Pay energy cost
         OnAbilityUsedStart(noxiousFumes, attacker);
 
+        // Play animation
+        attacker.PlaySkillAnimation();
+
         // Resolve damage against targets
         foreach (LivingEntity entity in targetsInRange)
         {
@@ -3037,6 +3135,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability toxicEruption = attacker.mySpellBook.GetAbilityByName("Toxic Eruption");
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, toxicEruption);
+
+        // Play animation
+        attacker.PlaySkillAnimation();
 
         // Calculate which characters are hit by the aoe
         List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
@@ -3082,6 +3183,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability blight = caster.mySpellBook.GetAbilityByName("Chemical Reaction");
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(blight, caster);
 
@@ -3109,6 +3213,9 @@ public class AbilityLogic : MonoBehaviour
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, drain);
         int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, drain, damageType, false, victim.myPassiveManager.poisonedStacks * 2);        
         OnAbilityUsedStart(drain, attacker);
+
+        // Play animation
+        attacker.PlaySkillAnimation();
 
         // Deal Damage
         Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, drain);
@@ -3142,6 +3249,12 @@ public class AbilityLogic : MonoBehaviour
     {
         Ability telekinesis = caster.mySpellBook.GetAbilityByName("Telekinesis");
         OnAbilityUsedStart(telekinesis, caster);
+
+        if(target != caster)
+        {
+            // Play animation
+            caster.PlaySkillAnimation();
+        }
 
         Action teleportAction = MovementLogic.Instance.TeleportEntity(target, destination);
         yield return new WaitUntil(() => teleportAction.ActionResolved() == true);
@@ -3214,6 +3327,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability mirage = caster.mySpellBook.GetAbilityByName("Mirage");
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(mirage, caster);
 
@@ -3270,6 +3386,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability burstOfKnowledge = caster.mySpellBook.GetAbilityByName("Burst Of Knowledge");
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(burstOfKnowledge, caster);
 
@@ -3318,6 +3437,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability dimensionalHex = caster.mySpellBook.GetAbilityByName("Dimensional Hex");
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(dimensionalHex, caster);
 
@@ -3347,6 +3469,9 @@ public class AbilityLogic : MonoBehaviour
         Ability infuse = caster.mySpellBook.GetAbilityByName("Infuse");
         OnAbilityUsedStart(infuse, caster);
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Gain Air imbuement
         caster.myPassiveManager.ModifyInfuse(1);
         yield return new WaitForSeconds(0.5f);
@@ -3366,6 +3491,9 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability timeWarp = caster.mySpellBook.GetAbilityByName("Time Warp");
+
+        // Play animation
+        caster.PlaySkillAnimation();
 
         // Pay energy cost, + etc
         OnAbilityUsedStart(timeWarp, caster);
@@ -3399,6 +3527,9 @@ public class AbilityLogic : MonoBehaviour
         // Setup
         Ability holyFire = caster.mySpellBook.GetAbilityByName("Holy Fire");
         OnAbilityUsedStart(holyFire, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
 
         // Create holy fire from prefab and play animation
         Action holyFireHit = VisualEffectManager.Instance.ShootHolyFire(target.tile.WorldPosition);
@@ -3458,6 +3589,9 @@ public class AbilityLogic : MonoBehaviour
         Ability blindingLight = attacker.mySpellBook.GetAbilityByName("Blinding Light");
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, blindingLight);
 
+        // Play animation
+        attacker.PlaySkillAnimation();
+
         // Calculate which characters are hit by the aoe
         List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
 
@@ -3508,6 +3642,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability inspire = caster.mySpellBook.GetAbilityByName("Inspire");
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(inspire, caster);
 
@@ -3532,6 +3669,9 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability bless = caster.mySpellBook.GetAbilityByName("Bless");
+
+        // Play animation
+        caster.PlaySkillAnimation();
 
         // Pay energy cost, + etc
         OnAbilityUsedStart(bless, caster);
@@ -3575,6 +3715,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability transcendence = caster.mySpellBook.GetAbilityByName("Transcendence");
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(transcendence, caster);
 
@@ -3601,6 +3744,9 @@ public class AbilityLogic : MonoBehaviour
         Ability consecrate = attacker.mySpellBook.GetAbilityByName("Consecrate");
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, consecrate);
         List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, attacker.tile, attacker.currentMeleeRange, true, true);
+
+        // Play animation
+        attacker.PlaySkillAnimation();
 
         // Pay energy cost
         OnAbilityUsedStart(consecrate, attacker);
@@ -3656,6 +3802,9 @@ public class AbilityLogic : MonoBehaviour
 
         // Pay energy cost, + etc
         OnAbilityUsedStart(invigorate, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
 
         // Give bonus energy
         target.ModifyCurrentEnergy(invigorate.abilityPrimaryValue);
@@ -3735,7 +3884,10 @@ public class AbilityLogic : MonoBehaviour
         Ability purity = caster.mySpellBook.GetAbilityByName("Purity");
         OnAbilityUsedStart(purity, caster);
 
-        // Gain Air imbuement
+        // Play animation
+        caster.PlaySkillAnimation();
+
+        // Gain Purity buff
         caster.myPassiveManager.ModifyPurity(1);
         yield return new WaitForSeconds(0.5f);
 
@@ -3760,6 +3912,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability rainOfChaos = attacker.mySpellBook.GetAbilityByName("Rain Of Chaos");
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, rainOfChaos);
+
+        // Play animation
+        attacker.PlaySkillAnimation();
 
         // Calculate which characters are hit by the aoe
         List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
@@ -3806,6 +3961,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability shroud = caster.mySpellBook.GetAbilityByName("Shroud");
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(shroud, caster);
 
@@ -3834,6 +3992,9 @@ public class AbilityLogic : MonoBehaviour
 
         // Pay energy cost, + etc
         OnAbilityUsedStart(hex, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
 
         // Apply Weakened
         target.myPassiveManager.ModifyWeakened(1);
@@ -3915,6 +4076,9 @@ public class AbilityLogic : MonoBehaviour
         // Pay energy cost, + etc
         OnAbilityUsedStart(nightmare, caster);
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Apply Sleep
         target.myPassiveManager.ModifySleep(1);
         yield return new WaitForSeconds(0.5f);
@@ -3939,6 +4103,9 @@ public class AbilityLogic : MonoBehaviour
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, unbridledChaos);
         List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, attacker.tile, 3, true, false);
         List<LivingEntity> targetsHit = new List<LivingEntity>();
+
+        // Play animation
+        attacker.PlaySkillAnimation();
 
         // get a random target 6 times
         for (int i = 0; i < unbridledChaos.abilitySecondaryValue; i++)
@@ -4007,6 +4174,9 @@ public class AbilityLogic : MonoBehaviour
         // Setup 
         Ability shadowWreath = caster.mySpellBook.GetAbilityByName("Shadow Wreath");
         OnAbilityUsedStart(shadowWreath, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
 
         // Gain Air imbuement
         caster.myPassiveManager.ModifyShadowImbuement(1);
@@ -4192,6 +4362,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability spiritSurge = caster.mySpellBook.GetAbilityByName("Spirit Surge");
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Start
         OnAbilityUsedStart(spiritSurge, caster);
 
@@ -4225,6 +4398,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability spiritSurge = caster.mySpellBook.GetAbilityByName("Spirit Vision");
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Start
         OnAbilityUsedStart(spiritSurge, caster);
 
@@ -4255,6 +4431,9 @@ public class AbilityLogic : MonoBehaviour
         int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, chainLightning, damageType, critical, chainLightning.abilityPrimaryValue);
         LivingEntity currentTarget = victim;
         LivingEntity previousTarget = victim;
+
+        // Play animation
+        attacker.PlaySkillAnimation();
 
         OnAbilityUsedStart(chainLightning, attacker);
 
@@ -4327,6 +4506,9 @@ public class AbilityLogic : MonoBehaviour
         Ability thunderStorm = attacker.mySpellBook.GetAbilityByName("Thunder Storm");
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, thunderStorm);
 
+        // Play animation
+        attacker.PlaySkillAnimation();
+
         // Calculate which characters are hit by the aoe
         List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
 
@@ -4374,6 +4556,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability primalRage = caster.mySpellBook.GetAbilityByName("Primal Rage");
 
+        // Play animation
+        caster.PlaySkillAnimation();
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(primalRage, caster);
 
@@ -4399,6 +4584,9 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability concealingClouds = attacker.mySpellBook.GetAbilityByName("Concealing Clouds");
+
+        // Play animation
+        attacker.PlaySkillAnimation();
 
         // Calculate which characters are hit by the aoe
         List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
@@ -4432,6 +4620,9 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability superConductor = attacker.mySpellBook.GetAbilityByName("Super Conductor");
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, superConductor);
+
+        // Play animation
+        attacker.PlaySkillAnimation();
 
         // Calculate which characters are hit by the aoe
         List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, attacker.tile, 1, true, true);
@@ -4490,6 +4681,9 @@ public class AbilityLogic : MonoBehaviour
         // Setup 
         Ability overload = caster.mySpellBook.GetAbilityByName("Overload");
         OnAbilityUsedStart(overload, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
 
         // Gain Air imbuement
         caster.myPassiveManager.ModifyAirImbuement(1);

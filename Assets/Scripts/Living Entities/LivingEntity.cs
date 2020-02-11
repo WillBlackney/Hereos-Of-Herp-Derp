@@ -746,7 +746,11 @@ public class LivingEntity : MonoBehaviour
     }
     public void PlayRangedAttackAnimation()
     {
-        myAnimator.SetTrigger("Ranged Attack");
+        myAnimator.SetTrigger("Shoot Bow");
+    }
+    public void PlaySkillAnimation()
+    {
+        myAnimator.SetTrigger("Skill One");
     }
     public void SetRangedAttackAnimAsFinished()
     {

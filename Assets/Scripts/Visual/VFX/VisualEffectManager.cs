@@ -54,7 +54,6 @@ public class VisualEffectManager : MonoBehaviour
         yield return null;       
 
     }
-
     public Action CreateStatusEffect(Vector3 location, string statusEffectName, string color = "White")
     {
         Action action = new Action();
@@ -198,6 +197,7 @@ public class VisualEffectManager : MonoBehaviour
     }
     public Action ShootArrow(Vector3 startPos, Vector3 endPos, float speed = 7)
     {
+        Debug.Log("VisualEffectManager.ShootArrow() called...");
         Action action = new Action();
         StartCoroutine(ShootArrowCoroutine(startPos, endPos, action, speed));
         return action;

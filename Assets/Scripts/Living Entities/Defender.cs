@@ -122,6 +122,7 @@ public class Defender : LivingEntity
     public override void InitializeSetup(Point startingGridPosition, Tile startingTile)
     {
         DefenderManager.Instance.allDefenders.Add(this);
+        myName = myCharacterData.myClass;
 
         myUIParent.GetComponent<Canvas>().worldCamera = Camera.main;
         myUIParent.SetActive(false);
@@ -136,7 +137,8 @@ public class Defender : LivingEntity
 
         // Get and build from relevant character data values
         RunSetupFromCharacterData();
-        myName = myCharacterData.myClass;
+        //myName = myCharacterData.myClass;
+        //CharacterModelController.BuildModelFromPresetString(myActivationWindow.myUCM, myName);
         base.SetBaseProperties();
 
         // Set up visuals

@@ -8,10 +8,16 @@ public class MainMenuManager : Singleton<MainMenuManager>
     [Header("Component References")]
     public GameObject HeroSelectionScreen;
     public GameObject arrowParent;
+    public GameObject allElementsParent;
+    public GameObject northPos;
+    public GameObject centrePos;
+    public CanvasGroup textElementsParentCG;
 
     [Header("Properties")]
     public List<string> characterClassNames;
     public bool startGameEventTriggered;
+    public bool goToTeamBuilderScreenEventTriggered;
+    public bool returnToMainMenuEventTriggered;
     public MenuCharacter selectedMenuCharacter;
 
     [Header("Color Stuff")]
@@ -26,6 +32,9 @@ public class MainMenuManager : Singleton<MainMenuManager>
 
     private void Start()
     {
+        // Play starting visual sequence
+        PlayStartSequence();
+
         // set character one as selected by default
         SetSelectedCharacter(characterOne);
     }
@@ -41,17 +50,49 @@ public class MainMenuManager : Singleton<MainMenuManager>
             arrowParent.transform.position = Vector2.MoveTowards(arrowParent.transform.position, selectedMenuCharacter.transform.position, 20 * Time.deltaTime);
         }
     }
+
     // Mouse + Button + Click Events
     #region
     public void OnNewGameButtonClicked()
     {
+        if(goToTeamBuilderScreenEventTriggered == false)
+        {
+            goToTeamBuilderScreenEventTriggered = true;
+            StartCoroutine(OnNewGameButtonClickedCoroutine());
+        }
+        
+    }
+    public IEnumerator OnNewGameButtonClickedCoroutine()
+    {
+        Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 4, 1, true);
+        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
+        goToTeamBuilderScreenEventTriggered = false;
         HeroSelectionScreen.SetActive(true);
         arrowParent.SetActive(true);
+
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 4, 0, false);
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
     }
     public void OnBackToMainMenuButtonCicked()
     {
+        if(returnToMainMenuEventTriggered == false)
+        {
+            returnToMainMenuEventTriggered = true;
+            StartCoroutine(OnBackToMainMenuButtonCickedCoroutine());
+        }
+        
+    }
+    public IEnumerator OnBackToMainMenuButtonCickedCoroutine()
+    {
+        Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 4, 1, true);
+        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
+
         HeroSelectionScreen.SetActive(false);
         arrowParent.SetActive(false);
+        returnToMainMenuEventTriggered = false;
+
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 4, 0, false);
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
     }
     public void OnStartGameButtonClicked()
     {
@@ -109,6 +150,40 @@ public class MainMenuManager : Singleton<MainMenuManager>
 
         int randomIndex = Random.Range(0, classes.Count);
         return classes[randomIndex];
+    }
+    public void PlayStartSequence()
+    {
+        StartCoroutine(PlayStartSequenceCoroutine());
+    }
+    public IEnumerator PlayStartSequenceCoroutine()
+    {
+        // Set up
+        BlackScreenManager.Instance.canvasGroup.alpha = 1;
+        textElementsParentCG.alpha = 0;
+        allElementsParent.transform.position = northPos.transform.position;
+
+        // Start fade in
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 1, 0, false);      
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+
+        // move screen to normal position
+        while(allElementsParent.transform.position != centrePos.transform.position)
+        {
+            allElementsParent.transform.position = Vector3.MoveTowards(allElementsParent.transform.position, centrePos.transform.position, 5 * Time.deltaTime);           
+            yield return new WaitForEndOfFrame();
+        }
+
+        // brief wait
+        yield return new WaitForSeconds(0.5f);
+
+        // fade in text elements and UI
+        while(textElementsParentCG.alpha < 1)
+        {
+            Debug.Log("fading in text and ui");
+            textElementsParentCG.alpha += 0.05f;
+            yield return new WaitForEndOfFrame();
+        }
+        
     }
     #endregion
 

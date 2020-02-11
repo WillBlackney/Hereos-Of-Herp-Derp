@@ -450,5 +450,29 @@ public static class CharacterModelController
         {
             SetUpAsSkeletonBarbarianPreset(model);
         }
+        else if (preset == "Skeleton Warrior")
+        {
+            SetUpAsSkeletonWarriorPreset(model);
+        }
+        else if (preset == "Skeleton Priest")
+        {
+            SetUpAsSkeletonPriestPreset(model);
+        }
+        else if (preset == "Skeleton Archer")
+        {
+            SetUpAsSkeletonArcherPreset(model);
+        }
+        else if (preset == "Skeleton Necromancer")
+        {
+            SetUpAsSkeletonNecromancerPreset(model);
+        }
+        else if (preset == "Goblin Stabby")
+        {
+            SetUpAsGoblinStabbyPreset(model);
+        }
+        else if (preset == "Goblin Shooty")
+        {
+            SetUpAsGoblinShootyPreset(model);
+        }
     }
 }

@@ -13,6 +13,7 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public Slider myHealthBar;
     public GameObject myGlowOutline;
     public CanvasGroup myCanvasGroup;
+    public UniversalCharacterModel myUCM;
 
     [Header("Properties")]
     public LivingEntity myLivingEntity;
@@ -27,6 +28,12 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
         myCanvasGroup = GetComponent<CanvasGroup>();
         gameObject.SetActive(false);
         gameObject.SetActive(true);
+
+        Debug.Log("Setting up activation window UC Model for " + entity.myName);
+
+        // Set up model        
+        CharacterModelController.BuildModelFromPresetString(myUCM, entity.myName);
+        myUCM.SetBaseAnim();
     }
 
     private void Update()
