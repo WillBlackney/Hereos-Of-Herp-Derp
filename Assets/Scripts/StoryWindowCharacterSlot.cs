@@ -17,6 +17,7 @@ public class StoryWindowCharacterSlot : MonoBehaviour, IPointerClickHandler, IPo
     public Image myImageComponent;
     public Image myGlowOutline;
     public CanvasGroup myGlowCG;
+    public UniversalCharacterModel myModel;
 
     public void InitializeSetup(CharacterData data)
     {
@@ -25,7 +26,8 @@ public class StoryWindowCharacterSlot : MonoBehaviour, IPointerClickHandler, IPo
         currentHealthText.text = data.currentHealth.ToString();
         maxHealthText.text = data.maxHealth.ToString();
         currentXPText.text = data.currentXP.ToString();
-        //myImageComponent.sprite = data.myImageComponent.sprite;
+        CharacterModelController.BuildModelFromPresetString(myModel, myCharacterData.myName);
+        myModel.SetBaseAnim();
     }
 
     public void ModifyCurrentHealthText(int newValue)
@@ -42,15 +44,18 @@ public class StoryWindowCharacterSlot : MonoBehaviour, IPointerClickHandler, IPo
     }
     public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log("OnPointerClick() called...");
         StoryEventManager.Instance.HandleCharacterWindowClicked(this);
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("OnPointerEnter() called...");
         myGlowOutline.gameObject.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        Debug.Log("OnPointerExit() called...");
         myGlowOutline.gameObject.SetActive(false);
     }
     public void SetGlowOutilineViewState(bool onOrOff)

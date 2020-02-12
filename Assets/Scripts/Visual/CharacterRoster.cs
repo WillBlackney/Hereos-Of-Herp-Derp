@@ -14,6 +14,11 @@ public class CharacterRoster : Singleton<CharacterRoster>
     public CharacterData characterThree;
     public CharacterData characterFour;
 
+    public UniversalCharacterModel characterOneButtonModel;
+    public UniversalCharacterModel characterTwoButtonModel;
+    public UniversalCharacterModel characterThreeButtonModel;
+    public UniversalCharacterModel characterFourButtonModel;
+
     [Header("Properties")]
     public CharacterData selectedCharacterData;
     public List<CharacterData> allCharacterDataObjects;
@@ -46,8 +51,11 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 characterOne.InitializeSetupFromPresetString(characterData);
                 characterOneSetupComplete = true;
                 allCharacterDataObjects.Add(characterOne);
+                characterOne.SetMyName(characterData);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[0], characterOne);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[0], characterOne);
+                CharacterModelController.BuildModelFromPresetString(characterOneButtonModel, characterData);
+                characterOneButtonModel.SetBaseAnim();
             }
 
             else if (characterTwoSetupComplete == false)
@@ -55,8 +63,11 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 characterTwo.InitializeSetupFromPresetString(characterData);
                 characterTwoSetupComplete = true;
                 allCharacterDataObjects.Add(characterTwo);
+                characterTwo.SetMyName(characterData);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[1], characterTwo);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[1], characterTwo);
+                CharacterModelController.BuildModelFromPresetString(characterTwoButtonModel, characterData);
+                characterTwoButtonModel.SetBaseAnim();
             }
 
             else if (characterThreeSetupComplete == false)
@@ -64,8 +75,11 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 characterThree.InitializeSetupFromPresetString(characterData);
                 characterThreeSetupComplete = true;
                 allCharacterDataObjects.Add(characterThree);
+                characterThree.SetMyName(characterData);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[2], characterThree);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[2], characterThree);
+                CharacterModelController.BuildModelFromPresetString(characterThreeButtonModel, characterData);
+                characterThreeButtonModel.SetBaseAnim();
             }
 
             else if (characterFourSetupComplete == false)
@@ -73,16 +87,19 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 characterFour.InitializeSetupFromPresetString(characterData);
                 characterFourSetupComplete = true;
                 allCharacterDataObjects.Add(characterFour);
+                characterFour.SetMyName(characterData);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[3], characterFour);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[3], characterFour);
+                CharacterModelController.BuildModelFromPresetString(characterFourButtonModel, characterData);
+                characterFourButtonModel.SetBaseAnim();
             }
         }
 
         // hardcoded names, for testing. REMOVE LATER
-        characterOne.SetMyName("Will");
-        characterTwo.SetMyName("Cecilie");
-        characterThree.SetMyName("Leo");
-        characterFour.SetMyName("Ella");
+        //characterOne.SetMyName("Will");
+        //characterTwo.SetMyName("Cecilie");
+        //characterThree.SetMyName("Leo");
+        //characterFour.SetMyName("Ella");
 
         // enable character one's panel view by default
         OnCharacterDataButtonClicked(characterOne);

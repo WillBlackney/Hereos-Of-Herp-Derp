@@ -17,6 +17,7 @@ public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
     public Image myImageComponent;
     public Image myGlowOutline;
     public CanvasGroup myGlowCG;
+    public UniversalCharacterModel myButtonModel;
 
     public void InitializeSetup(CharacterData data)
     {
@@ -25,7 +26,8 @@ public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
         currentHealthText.text = data.currentHealth.ToString();
         maxHealthText.text = data.maxHealth.ToString();
         currentXPText.text = data.currentXP.ToString();
-        //myImageComponent.sprite = data.myImageComponent.sprite;
+        CharacterModelController.BuildModelFromPresetString(myButtonModel, myCharacterData.myName);
+        myButtonModel.SetBaseAnim();
     }
     public void ModifyCurrentHealthText(int newValue)
     {
@@ -38,6 +40,24 @@ public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
     public void ModifyCurrentXPText(int newValue)
     {
         currentXPText.text = newValue.ToString();
+    }
+    public void OnMouseDown()
+    {
+        Debug.Log("CampSiteCharacter.OnMouseDown() called...");
+
+        if (CampSiteManager.Instance.awaitingTriageChoice)
+        {
+            CampSiteManager.Instance.PerformTriage(this);
+        }
+        else if (CampSiteManager.Instance.awaitingTrainChoice)
+        {
+            CampSiteManager.Instance.PerformTrain(this);
+        }
+        else if (CampSiteManager.Instance.awaitingPrayChoice &&
+            myCharacterData.currentHealth == 0)
+        {
+            CampSiteManager.Instance.PerformPray(this);
+        }
     }
     public void OnPointerClick(PointerEventData eventData)
     {

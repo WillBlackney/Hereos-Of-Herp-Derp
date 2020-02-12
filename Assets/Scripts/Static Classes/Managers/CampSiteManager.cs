@@ -61,6 +61,37 @@ public class CampSiteManager : MonoBehaviour
 
     // On Button Click Events
     #region
+    public void OnCampSiteButtonClicked(string buttonName)
+    {
+        if(buttonName == "Triage")
+        {
+            OnTriageButtonClicked();
+        }
+        else if (buttonName == "Train")
+        {
+            OnTrainButtonClicked();
+        }
+        else if (buttonName == "Pray")
+        {
+            OnPrayButtonClicked();
+        }
+        else if (buttonName == "Feast")
+        {
+            OnFeastButtonClicked();
+        }
+        else if (buttonName == "Rest")
+        {
+            OnRestButtonClicked();
+        }
+        else if (buttonName == "Bathe")
+        {
+            OnBatheButtonClicked();
+        }
+        else if(buttonName == "Continue")
+        {
+            OnContinueButtonClicked();
+        }
+    }
     public void OnTriageButtonClicked()
     {
         Debug.Log("CampSiteManager.OnTriageButtonClicked() called...");
