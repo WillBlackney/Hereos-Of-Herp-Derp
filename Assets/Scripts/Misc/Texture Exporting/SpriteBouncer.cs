@@ -9,6 +9,7 @@ public class SpriteBouncer : MonoBehaviour
     private void Start()
     {
         BounceSpriteSheet();
+        //PrintPath();
     }
 
     public void BounceSpriteSheet()
@@ -25,5 +26,9 @@ public class SpriteBouncer : MonoBehaviour
 
             Debug.Log("SprintBouncer exported sprite sheet to "+ Application.persistentDataPath);
         }
+    }
+    public void PrintPath()
+    {
+        Debug.Log(Application.persistentDataPath);
     }
 }

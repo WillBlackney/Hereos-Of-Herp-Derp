@@ -55,7 +55,7 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         abilityCooldownText.text = data.baseCooldownTime.ToString();
         abilityRangeText.text = data.range.ToString();
         abilityEnergyCostText.text = data.energyCost.ToString();
-        abilityDescriptionText.text = data.description;
+        TextLogic.SetAbilityDescriptionText(data, abilityDescriptionText);
         abilityImage.sprite = data.sprite;
 
 
@@ -67,7 +67,6 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         StatusIconDataSO data = StatusIconLibrary.Instance.GetStatusIconByName(passiveName);
 
         passiveNameText.text = data.statusName;
-        //passiveDescriptionText.text = data.statusDescription;
         TextLogic.SetStatusIconDescriptionText(data.statusName, passiveDescriptionText, stacks);
         passiveImage.sprite = data.statusSprite;
         passiveInfoPanelImage.sprite = data.statusSprite;

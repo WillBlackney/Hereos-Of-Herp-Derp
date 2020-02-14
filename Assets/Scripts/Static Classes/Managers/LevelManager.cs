@@ -49,7 +49,7 @@ public class LevelManager : Singleton<LevelManager>
         }
 
         // Turn on level background
-        //ToggleLevelBackgroundView(true);
+        ToggleLevelBackgroundView(true);
 
         // Move camera to focus on the centre tile
         FindObjectOfType<CameraMovement>().cinemachineCamera.transform.position = new Vector3(GetWorldCentreTile().WorldPosition.x, GetWorldCentreTile().WorldPosition.y + 0.5f, -10);

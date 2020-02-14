@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class TalentController : MonoBehaviour
 {
+
+    // Initialization + Setup Singleton
+    #region
     public static TalentController Instance;
     private void Awake()
     {
         Instance = this;
     }
+    #endregion
 
+    // Conditional checks + bools
+    #region
     public bool IsTalentPurchaseable(CharacterData character, Talent talent)
     {
         Debug.Log("TalentController.IsTalentPurchaseable() called...");
@@ -26,7 +32,7 @@ public class TalentController : MonoBehaviour
             return false;
         }
 
-        else if (talent.unlocked)
+        else if (talent.purchased)
         {
             Debug.Log("Unable to purchase " + talent.talentName + ": " + character.myName + " has already purchased this talent");
             return false;
@@ -123,6 +129,10 @@ public class TalentController : MonoBehaviour
             return false;
         }
     }
+    #endregion
+
+    // Mouse + Input Events
+    #region
     public void OnTalentButtonClicked(CharacterData character, Talent talent)
     {
         Debug.Log("TalentController.OnTalentButtonClicked() called...");
@@ -133,19 +143,22 @@ public class TalentController : MonoBehaviour
             PurchaseTalent(character, talent);
         }
     }
+    #endregion
+
+    // Talent Purchase Related
+    #region
     public void PurchaseTalent(CharacterData character, Talent talent, bool requiresPayemnt = true)
     {
         Debug.Log("TalentController.PurchaseTalent() called...");
 
         // Unlock talent to prevent further purchase
-        talent.unlocked = true;
+        talent.purchased = true;
 
         // Pay ability points
         if (requiresPayemnt)
         {
             character.ModifyAbilityPoints(-1);
-        }
-        
+        }        
 
         // Apply benefits of the talent
         if (talent.isPassive)
@@ -156,6 +169,8 @@ public class TalentController : MonoBehaviour
         {
             ApplyTalentAbilityToCharacter(character, talent);
         }
+
+        RefreshAllTalentButtonViewStates(character);
         
     }
     public void ApplyTalentPassiveEffectToCharacter(CharacterData character, Talent talent)
@@ -740,21 +755,25 @@ public class TalentController : MonoBehaviour
 
 
     }
+    #endregion
+
+    // Build Talent Info Panels + Get Data
+    #region
     public Talent GetTalentByName(CharacterData character, string talentName)
     {
         Debug.Log("TalentController.GetTalentByName() called, searching for " + talentName);
         Talent talentReturned = null;
 
-        foreach(Talent talent in character.allTalentButtons)
+        foreach (Talent talent in character.allTalentButtons)
         {
-            if(talent.name == talentName)
+            if (talent.name == talentName)
             {
                 talentReturned = talent;
                 break;
             }
         }
 
-        if(talentReturned == null)
+        if (talentReturned == null)
         {
             Debug.Log("TalentController.GetTalentByName() could not find a talent with the name " + talentName + ", returning null");
         }
@@ -780,9 +799,12 @@ public class TalentController : MonoBehaviour
         // Get data
         AbilityDataSO data = AbilityLibrary.Instance.GetAbilityByName(talent.talentName);
 
+        // Set button image
+        talent.talentImage.sprite = data.sprite;
+
         // build text and images assets
         talent.abilityNameText.text = data.abilityName;
-        talent.abilityDescriptionText.text = data.description;
+        TextLogic.SetAbilityDescriptionText(data, talent.abilityDescriptionText);
         talent.abilityCooldownText.text = data.baseCooldownTime.ToString();
         talent.abilityRangeText.text = data.range.ToString();
         talent.abilityEnergyText.text = data.energyCost.ToString();
@@ -791,7 +813,36 @@ public class TalentController : MonoBehaviour
     public void BuildTalentInfoPanelFromPassiveData(Talent talent)
     {
         TextLogic.SetStatusIconDescriptionText(talent.talentName, talent.passiveDescriptionText, talent.passiveStacks);
+
+        // Set button image
+        StatusIconDataSO data = StatusIconLibrary.Instance.GetStatusIconByName(talent.talentName);
+        talent.talentImage.sprite = data.statusSprite;
+
         talent.passiveNameText.text = talent.talentName;
         talent.passiveImage.sprite = talent.talentImage.sprite;
+    }
+    #endregion
+
+    // View Logic
+    public void RefreshAllTalentButtonViewStates(CharacterData character)
+    {
+        foreach(Talent talent in character.allTalentButtons)
+        {
+            if(!IsTalentPurchaseable(character, talent) && talent.purchased == false)
+            {
+                talent.purchasedOverlay.SetActive(false);
+                talent.blackTintOverlay.SetActive(true);
+            }
+            else if (talent.purchased)
+            {
+                talent.blackTintOverlay.SetActive(false);
+                talent.purchasedOverlay.SetActive(true);
+            }
+            else
+            {
+                talent.blackTintOverlay.SetActive(false);
+                talent.purchasedOverlay.SetActive(false);
+            }
+        }
     }
 }

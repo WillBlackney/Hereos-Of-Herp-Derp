@@ -4342,6 +4342,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6658478457831567376, guid: b65d3cb7cd64ce84f889bb922061dcef,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8203343926446577753, guid: b65d3cb7cd64ce84f889bb922061dcef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b65d3cb7cd64ce84f889bb922061dcef, type: 3}
 --- !u!224 &836732566 stripped
@@ -9462,11 +9472,9 @@ MonoBehaviour:
   storyEventEnemyWaves:
   - {fileID: 11400000, guid: 27253031a909cbf4da8b90f4297a7004, type: 2}
   viableBasicEnemyWaves:
-  - {fileID: 11400000, guid: c953b6a2b85d9ca439cae347a00ce672, type: 2}
-  - {fileID: 11400000, guid: 9c7a79d32d54c1f4a8e0c24b37645675, type: 2}
-  - {fileID: 11400000, guid: 4e0ae28ee3b68504caf41eb946c16f13, type: 2}
+  - {fileID: 11400000, guid: 241410e7a039fad46b9203d68bd47782, type: 2}
   viableEliteEnemyWaves:
-  - {fileID: 11400000, guid: 20071468144ce6f47af115dea0c0357b, type: 2}
+  - {fileID: 11400000, guid: 2a8f2071b7e0b19429dfc0293b338e55, type: 2}
   spawnLocations: []
 --- !u!4 &1979019400
 Transform:
@@ -9684,7 +9692,7 @@ MonoBehaviour:
   onlySpawnMysterys: 0
   onlySpawnShops: 0
   onlySpawnTreasures: 0
-  onlySpawnCampSites: 1
+  onlySpawnCampSites: 0
   basicEncounterImage: {fileID: 21300000, guid: 47b5da88bd52fb34aa9f7cae65b45cba,
     type: 3}
   eliteEncounterImage: {fileID: 21300000, guid: 022057d0588adb643a7fadcf97f15af2,

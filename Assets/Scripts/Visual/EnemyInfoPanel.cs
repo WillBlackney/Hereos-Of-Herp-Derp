@@ -99,8 +99,7 @@ public class EnemyInfoPanel : MonoBehaviour
         tooltipData.energyCostText.text = ability.myAbilityData.energyCost.ToString();
         tooltipData.cdText.text = ability.myAbilityData.baseCooldownTime.ToString();
         tooltipData.rangeText.text = ability.myAbilityData.range.ToString();
-        tooltipData.descriptionText.text = ability.myAbilityData.description;
-
+        TextLogic.SetAbilityDescriptionText(ability.myAbilityData, tooltipData.descriptionText);
     }
     #endregion
 

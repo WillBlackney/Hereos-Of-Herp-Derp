@@ -182,6 +182,14 @@ public class LivingEntity : MonoBehaviour
         currentMaxEnergy = baseMaxEnergy;
         currentMeleeRange = baseMeleeRange;
 
+        // Set up Resistances
+        ModifyPhysicalResistance(basePhysicalResistance);
+        ModifyPoisonResistance(basePoisonResistance);        
+        ModifyFireResistance(baseFireResistance);
+        ModifyFrostResistance(baseFrostResistance);
+        ModifyShadowResistance(baseShadowResistance);
+        ModifyAirResistance(baseAirResistance);
+
         // Set up misc stats
         ModifyCurrentBlock(baseStartingBlock);
         ModifyCurrentEnergy(baseStartingEnergyBonus);        

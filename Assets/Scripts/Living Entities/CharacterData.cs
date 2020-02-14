@@ -222,8 +222,8 @@ public class CharacterData : MonoBehaviour
     public List<AttributeTab> myAttributeTabs;
     #endregion
 
-
     // Enable + Disable All My Views
+    #region
     public void DisableMainWindowView()
     {
         masterVisualParent.SetActive(false);
@@ -233,6 +233,7 @@ public class CharacterData : MonoBehaviour
         masterVisualParent.SetActive(true);
         CharacterRoster.Instance.EnableInventoryView();
     }
+    #endregion
 
     // Legacy properties
     #region
@@ -728,6 +729,9 @@ public class CharacterData : MonoBehaviour
         // Misc Passives + Extras
         ModifyPowerLimit(1);
 
+        // Set default talent page
+        SetDefaultTalentPageView();
+
     }
     public void CreateMyDefenderGameObject()
     {
@@ -754,6 +758,58 @@ public class CharacterData : MonoBehaviour
         defender.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
         
     }
+    public void SetDefaultTalentPageView()
+    {
+        if(guardianPoints > 0)
+        {
+            guardianTreeParent.SetActive(true);
+        }
+        else if (duelistPoints > 0)
+        {
+            duelistTreeParent.SetActive(true);
+        }
+        else if (brawlerPoints > 0)
+        {
+            brawlerTreeParent.SetActive(true);
+        }
+        else if (assassinationPoints > 0)
+        {
+            assassinationTreeParent.SetActive(true);
+        }
+        else if (pyromaniaPoints > 0)
+        {
+            pyromaniaTreeParent.SetActive(true);
+        }
+        else if (cyromancyPoints > 0)
+        {
+            cyromancyTreeParent.SetActive(true);
+        }
+        else if (rangerPoints > 0)
+        {
+            rangerTreeParent.SetActive(true);
+        }
+        else if (manipulationPoints > 0)
+        {
+            manipulationTreeParent.SetActive(true);
+        }
+        else if (divinityPoints > 0)
+        {
+            divinityTreeParent.SetActive(true);
+        }
+        else if (shadowcraftPoints > 0)
+        {
+            shadowcraftTreeParent.SetActive(true);
+        }
+        else if (corruptionPoints > 0)
+        {
+            corruptionTreeParent.SetActive(true);
+        }
+        else if (naturalismPoints > 0)
+        {
+            naturalismTreeParent.SetActive(true);
+        }
+
+    }
     #endregion
 
     // Talent, Stats and Ability Pages OnButtonClicked Logic
@@ -772,8 +828,6 @@ public class CharacterData : MonoBehaviour
         statsPageParent.SetActive(true);
         talentsPageParent.SetActive(false);
     }
-
-
     #endregion
 
     // Talent Tree Button 'OnButtonClick' methods
@@ -993,6 +1047,8 @@ public class CharacterData : MonoBehaviour
         {
             EnableTopBarTalentButton(guardianTopBarButton);
         }
+
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
     }
     public void ModifyDuelistPoints(int pointsGainedOrLost)
     {
@@ -1004,6 +1060,7 @@ public class CharacterData : MonoBehaviour
         {
             EnableTopBarTalentButton(duelistTopBarButton);
         }
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
     }
     public void ModifyBrawlerPoints(int pointsGainedOrLost)
     {
@@ -1015,6 +1072,8 @@ public class CharacterData : MonoBehaviour
         {
             EnableTopBarTalentButton(brawlerTopBarButton);
         }
+
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
     }
     public void ModifyAssassinationPoints(int pointsGainedOrLost)
     {
@@ -1026,6 +1085,8 @@ public class CharacterData : MonoBehaviour
         {
             EnableTopBarTalentButton(assassinationTopBarButton);
         }
+
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
     }
     public void ModifyPyromaniaPoints(int pointsGainedOrLost)
     {
@@ -1037,6 +1098,8 @@ public class CharacterData : MonoBehaviour
         {
             EnableTopBarTalentButton(pyromaniaTopBarButton);
         }
+
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
     }
     public void ModifyCyromancyPoints(int pointsGainedOrLost)
     {
@@ -1048,6 +1111,8 @@ public class CharacterData : MonoBehaviour
         {
             EnableTopBarTalentButton(cyromancyTopBarButton);
         }
+
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
     }
     public void ModifyRangerPoints(int pointsGainedOrLost)
     {
@@ -1059,6 +1124,8 @@ public class CharacterData : MonoBehaviour
         {
             EnableTopBarTalentButton(rangerTopBarButton);
         }
+
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
     }
     public void ModifyManipulationPoints(int pointsGainedOrLost)
     {
@@ -1070,6 +1137,8 @@ public class CharacterData : MonoBehaviour
         {
             EnableTopBarTalentButton(manipulationTopBarButton);
         }
+
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
     }
     public void ModifyDivinityPoints(int pointsGainedOrLost)
     {
@@ -1081,6 +1150,8 @@ public class CharacterData : MonoBehaviour
         {
             EnableTopBarTalentButton(divinityTopBarButton);
         }
+
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
     }
     public void ModifyShadowcraftPoints(int pointsGainedOrLost)
     {
@@ -1092,6 +1163,8 @@ public class CharacterData : MonoBehaviour
         {
             EnableTopBarTalentButton(shadowcraftTopBarButton);
         }
+
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
     }
     public void ModifyCorruptionPoints(int pointsGainedOrLost)
     {
@@ -1103,6 +1176,8 @@ public class CharacterData : MonoBehaviour
         {
             EnableTopBarTalentButton(corruptionTopBarButton);
         }
+
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
     }
     public void ModifyNaturalismPoints(int pointsGainedOrLost)
     {
@@ -1114,6 +1189,8 @@ public class CharacterData : MonoBehaviour
         {
             EnableTopBarTalentButton(naturalismTopBarButton);
         }
+
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
     }
     #endregion
 
@@ -1623,6 +1700,7 @@ public class CharacterData : MonoBehaviour
     {
         abilityPoints += abilityPointsGainedOrLost;
         abilityPointsText.text = abilityPoints.ToString();
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
     }
     #endregion
 

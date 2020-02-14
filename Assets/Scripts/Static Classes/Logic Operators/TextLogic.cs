@@ -25,12 +25,14 @@ public static class TextLogic
         if (statusName == "Bonus Strength")
         {
             statusDescriptionText.text =
-                "Increases the base damage of Melee Attacks by" + ReturnColoredText(statusStacks.ToString(), yellow);
+                "Increases the base damage of "+ ReturnColoredText("Melee Attack", yellow)+ " abilities by" +
+                ReturnColoredText(statusStacks.ToString(), yellow);
         }
         else if (statusName == "Temporary Bonus Strength")
         {
             statusDescriptionText.text =
-                "Increases the base damage of Melee Attacks by" + ReturnColoredText(statusStacks.ToString(), yellow) +
+                "Increases the base damage of " + ReturnColoredText("Melee Attack", yellow) + " abilities by" +
+                ReturnColoredText(statusStacks.ToString(), yellow) +
             ". Expires on activation end";
         }
         else if (statusName == "Bonus Dexterity")
@@ -147,7 +149,7 @@ public static class TextLogic
         {
             statusDescriptionText.text =
                 "This character cannot be targetted by enemy abilities from further than " + ReturnColoredText("1", yellow)
-                + " tile away. Cancelled by moving off a " + ReturnColoredText("Grass", yellow) + " tile";
+                + " tile away. Cancelled by using abilities (except Move), or taking damage";
         }
         else if (statusName == "Cautious")
         {
@@ -159,7 +161,7 @@ public static class TextLogic
         {
             statusDescriptionText.text =
                 "This character has -1 " + ReturnColoredText("Mobility", yellow) + " and " +
-                ReturnColoredText("Initiative", yellow) + ". Expire on activation end";
+                ReturnColoredText("Initiative", yellow) + ". Expires on activation end";
         }
         else if (statusName == "Concentration")
         {
@@ -169,47 +171,47 @@ public static class TextLogic
         else if (statusName == "Demon")
         {
             statusDescriptionText.text =
-                "Increase all "+ ReturnColoredText("Fire", fire) + " damage dealt by 20%. +20 " + 
-                ReturnColoredText("Fire", fire) + " Resistance";
+                "Increase all "+ ReturnColoredText("Fire", fire) + " damage dealt by " + ReturnColoredText("20%", yellow) + ". " +
+                ReturnColoredText("Fire", fire) + " Resistance increased by 20";
         }
         else if (statusName == "Shadow Form")
         {
             statusDescriptionText.text =
-                "Increase all " + ReturnColoredText("Shadow", shadow) + " damage dealt by 20%. +20 " +
-                ReturnColoredText("Shadow", shadow) + " Resistance";
+                "Increase all " + ReturnColoredText("Shadow", shadow) + " damage dealt by " + ReturnColoredText("20%", yellow) + ". " +
+                ReturnColoredText("Shadow", shadow) + " Resistance increased by 20";
         }
         else if (statusName == "Toxicity")
         {
             statusDescriptionText.text =
-                "Increase all " + ReturnColoredText("Poison", poison) + " damage dealt by 20%. +20 " +
-                ReturnColoredText("Poison", poison) + " Resistance";
+                "Increase all " + ReturnColoredText("Poison", poison) + " damage dealt by " + ReturnColoredText("20%", yellow) + ". " +
+                ReturnColoredText("Poison", poison) + " Resistance increased by 20";
         }
         else if (statusName == "Storm Lord")
         {
             statusDescriptionText.text =
-                "Increase all " + ReturnColoredText("Air", air) + " damage dealt by 20%. +20 " +
-                ReturnColoredText("Air", air) + " Resistance";
+                "Increase all " + ReturnColoredText("Air", air) + " damage dealt by " + ReturnColoredText("20%", yellow) + ". " +
+                ReturnColoredText("Air", air) + " Resistance increased by 20";
         }
         else if (statusName == "Frozen Heart")
         {
             statusDescriptionText.text =
-                "Increase all " + ReturnColoredText("Frost", frost) + " damage dealt by 20%. +20 " +
-                ReturnColoredText("Frost", frost) + " Resistance";
+                "Increase all " + ReturnColoredText("Frost", frost) + " damage dealt by " + ReturnColoredText("20%", yellow) + ". " +
+                ReturnColoredText("Frost", frost) + " Resistance increased by 20";
         }
         else if (statusName == "Disarmed")
         {
             statusDescriptionText.text =
-                "This character cannot use Melee Attacks. Expires on activation end";
+                "This character cannot use " + ReturnColoredText("Melee Attack", yellow) + " abilities. Expires on activation end";
         }
         else if (statusName == "Blind")
         {
             statusDescriptionText.text =
-                "This character cannot use Ranged Attacks. Expires on activation end";
+                "This character cannot use " + ReturnColoredText("Ranged Attack", yellow) + " abilities. Expires on activation end";
         }
         else if (statusName == "Silenced")
         {
             statusDescriptionText.text =
-                "This character cannot use Skills. Expires on activation end";
+                "This character cannot use " + ReturnColoredText("Skill", yellow) + " abilities. Expires on activation end";
         }
         else if (statusName == "Terrified")
         {
@@ -229,7 +231,7 @@ public static class TextLogic
         else if (statusName == "Sleep")
         {
             statusDescriptionText.text =
-                "This character skips its next activation, and cannot take any actions. Removed by taking damage";
+                "This character skips its next activation, and cannot take any actions. Removed if damaged";
         }
         else if (statusName == "Immobilized")
         {
@@ -256,7 +258,7 @@ public static class TextLogic
         {
             statusDescriptionText.text =
                 "On activation end, this character applies " + ReturnColoredText(statusStacks.ToString(), yellow) +
-                 " Poisoned to enemies within it's Aura";
+                 ReturnColoredText("Poisoned", poison) + " to enemies within it's Aura";
         }
         else if (statusName == "Storm Aura")
         {
@@ -298,19 +300,19 @@ public static class TextLogic
         {
             statusDescriptionText.text =
                 "This character deals " + ReturnColoredText(statusStacks.ToString(), yellow)
-                + "% extra damage with Melee Attacks when back striking";
+                + "% extra damage with "+ ReturnColoredText("Melee Attack", yellow) + " abilities when back striking";
         }
         else if (statusName == "Hawk Eye")
         {
             statusDescriptionText.text =
                 "This character has +" + ReturnColoredText(statusStacks.ToString(), yellow)
-                + " range with Ranged Attack abilities";
+                + " range with " + ReturnColoredText("Ranged Attack", yellow) + " abilities";
         }
         else if (statusName == "Temporary Hawk Eye")
         {
             statusDescriptionText.text =
                 "This character has +" + ReturnColoredText(statusStacks.ToString(), yellow)
-                + " range with Ranged Attack abilities. Expires on activation end";
+                + " range with " + ReturnColoredText("Ranged Attack", yellow) + " abilities. Expires on activation end";
         }
 
         else if (statusName == "Ethereal Being")
@@ -322,83 +324,85 @@ public static class TextLogic
         else if (statusName == "True Sight")
         {
             statusDescriptionText.text =
-                "This character ignores Camoflage when attacking";
+                "This character ignores " + ReturnColoredText("Camoflage", yellow) + " when attacking";
         }
         else if (statusName == "Temporary True Sight")
         {
             statusDescriptionText.text =
-                "This character ignores Camoflage when attacking. Expires on activation end";
+               "This character ignores " + ReturnColoredText("Camoflage", yellow) + " when attacking. Expires on activation end";
         }
         else if (statusName == "Overwatch")
         {
             statusDescriptionText.text =
-                "This character will perform 'Shoot' against the first enemy that moves within its weapon range";
+                "This character will perform " + ReturnColoredText("Shoot", yellow) + 
+                " against the first enemy that moves within it's weapon range";
         }
 
         else if (statusName == "Fiery Imbuement")
         {
             statusDescriptionText.text =
-                "This character coverts all damage with Melee Attacks into " +
+                "This character coverts all damage with " + ReturnColoredText("Melee Attack", yellow) + " abilities into " +
                 ReturnColoredText("Fire", fire) + " damage";
         }
         else if (statusName == "Temporary Fiery Imbuement")
         {
             statusDescriptionText.text =
-                "This character coverts all damage with Melee Attacks into " +
+                "This character coverts all damage with " + ReturnColoredText("Melee Attack", yellow) + " abilities into " +
                 ReturnColoredText("Fire", fire) + " damage. Expires on activation end";
         }
         else if (statusName == "Shadow Imbuement")
         {
             statusDescriptionText.text =
-                "This character coverts all damage with Melee Attacks into " +
+                "This character coverts all damage with " + ReturnColoredText("Melee Attack", yellow) + " abilities into " +
                 ReturnColoredText("Shadow", shadow) + " damage";
         }
         else if (statusName == "Temporary Shadow Imbuement")
         {
             statusDescriptionText.text =
-                "This character coverts all damage with Melee Attacks into " +
+                "This character coverts all damage with " + ReturnColoredText("Melee Attack", yellow) + " abilities into " +
                 ReturnColoredText("Shadow", shadow) + " damage. Expires on activation end";
         }
         else if (statusName == "Frost Imbuement")
         {
             statusDescriptionText.text =
-                "This character coverts all damage with Melee Attacks into " +
+                "This character coverts all damage with " + ReturnColoredText("Melee Attack", yellow) + " abilities into " +
                 ReturnColoredText("Frost", frost) + " damage";
         }
         else if (statusName == "Temporary Frost Imbuement")
         {
             statusDescriptionText.text =
-                "This character coverts all damage with Melee Attacks into " +
+                "This character coverts all damage with " + ReturnColoredText("Melee Attack", yellow) + " abilities into " +
                 ReturnColoredText("Frost", frost) + " damage. Expires on activation end";
         }
         else if (statusName == "Poison Imbuement")
         {
             statusDescriptionText.text =
-                "This character coverts all damage with Melee Attacks into " +
+                "This character coverts all damage with " + ReturnColoredText("Melee Attack", yellow) + " abilities into " +
                 ReturnColoredText("Poison", poison) + " damage";
         }
         else if (statusName == "Temporary Poison Imbuement")
         {
             statusDescriptionText.text =
-                "This character coverts all damage with Melee Attacks into " +
+                "This character coverts all damage with " + ReturnColoredText("Melee Attack", yellow) + " abilities into " +
                 ReturnColoredText("Poison", poison) + " damage. Expires on activation end";
         }
         else if (statusName == "Air Imbuement")
         {
             statusDescriptionText.text =
-                "This character coverts all damage with Melee Attacks into " +
+                "This character coverts all damage with " + ReturnColoredText("Melee Attack", yellow) + " abilities into " +
                 ReturnColoredText("Air", air) + " damage";
         }
         else if (statusName == "Temporary Air Imbuement")
         {
             statusDescriptionText.text =
-                "This character coverts all damage with Melee Attacks into " +
+                "This character coverts all damage with " + ReturnColoredText("Melee Attack", yellow) + " abilities into " +
                 ReturnColoredText("Air", air) + " damage. Expires on activation end";
         }
         else if (statusName == "Flux")
         {
             statusDescriptionText.text =
-                "This character's first 'Move' ability each activation costs 0 Energy";
+                "This character's first " + ReturnColoredText("Move", yellow) +
+                " ability each activation costs " + ReturnColoredText("0", yellow) + " Energy";
         }
         else if (statusName == "Transcendence")
         {
@@ -408,12 +412,16 @@ public static class TextLogic
         else if (statusName == "Immolation")
         {
             statusDescriptionText.text =
-                "Whenever this character reduces health with a melee attack, it applies " + ReturnColoredText(statusStacks.ToString(), yellow) + " Burning";
+                "Whenever this character reduces health with a " + ReturnColoredText("Melee Attack", yellow) +
+                " ability, it applies " + ReturnColoredText(statusStacks.ToString(), yellow) + " "
+                + ReturnColoredText("Burning", fire);
         }
         else if (statusName == "Poisonous")
         {
             statusDescriptionText.text =
-                "Whenever this character reduces health with a melee attack, it applies " + ReturnColoredText(statusStacks.ToString(), yellow) + " Poisoned";
+                "Whenever this character reduces health with a " + ReturnColoredText("Melee Attack", yellow) +
+                " ability, it applies " + ReturnColoredText(statusStacks.ToString(), yellow) + " "
+                + ReturnColoredText("Poisoned", poison);
         }
         else if (statusName == "Growing")
         {
@@ -424,22 +432,26 @@ public static class TextLogic
         else if (statusName == "Incorruptable")
         {
             statusDescriptionText.text =
-                "This character is immune to Weakened and Vulnerable";
+                "This character is immune to " + ReturnColoredText("Weakened", yellow) + " and " + ReturnColoredText("Vulnerable", yellow);
         }
         else if (statusName == "Unfallible")
         {
             statusDescriptionText.text =
-                "This character is immune to Blind, Silenced and Disarmed";
+                "This character is immune to " + ReturnColoredText("Blind", yellow) + ", "
+                + ReturnColoredText("Silenced", yellow) + " and "
+                + ReturnColoredText("Disarmed", yellow);
         }
         else if (statusName == "Undead")
         {
             statusDescriptionText.text =
-                "This character is immune Poisoned and Terrified";
+                "This character is immune to "+ ReturnColoredText("Poisoned", poison) + 
+                " and " + ReturnColoredText("Terrified", yellow);
         }
         else if (statusName == "Unstoppable")
         {
             statusDescriptionText.text =
-                "This character is immune to Immobilized and Knock Back";
+                "This character is immune to " + ReturnColoredText("Immobilized", yellow) + " and "
+                + ReturnColoredText("Knock Back", yellow);
         }
         else if (statusName == "Unwavering")
         {
@@ -449,12 +461,12 @@ public static class TextLogic
         else if (statusName == "Infuse")
         {
             statusDescriptionText.text =
-                "This character has +20 to all resistances";
+                "This character has +" + ReturnColoredText("20", yellow) + " to all resistances";
         }
         else if (statusName == "Testudo")
         {
             statusDescriptionText.text =
-                "On activation start, this character gains " + ReturnColoredText("5", yellow);
+                "On activation start, this character gains " + ReturnColoredText("5", yellow) + " Block";
         }
         else if (statusName == "Last Stand")
         {
@@ -464,52 +476,54 @@ public static class TextLogic
         else if (statusName == "Rapid Cloaking")
         {
             statusDescriptionText.text =
-                "On activation end, this character gains Camoflage";
+                "On activation end, this character gains " + ReturnColoredText("Camoflage", yellow);
         }
         else if (statusName == "Life Steal")
         {
             statusDescriptionText.text =
-                "Whenever this character reduces health with a melee attack, it heals that much health";
+                "Whenever this character reduces health with a " + ReturnColoredText("Melee Attack", yellow) + 
+                " ability, it heals that much health";
         }
         else if (statusName == "Masochist")
         {
             statusDescriptionText.text =
-                "While this character has 50% or less health, it has +20 Critical Chance";
+                "While this character has 50% or less health, it has +" + ReturnColoredText("20", yellow) + " Critical Chance";
         }
         else if (statusName == "Nimble")
         {
             statusDescriptionText.text =
-                "This character's Dodge and Parry chance is increased by 10";
+                "This character's Dodge and Parry chance is increased by " + ReturnColoredText("10", yellow) ;
         }
         else if (statusName == "Perfect Reflexes")
         {
             statusDescriptionText.text =
-                "This character's Dodge and Parry chance is increased by 20";
+                "This character's Dodge and Parry chance is increased by " + ReturnColoredText("20", yellow);
         }
         else if (statusName == "Patient Stalker")
         {
             statusDescriptionText.text =
-                "This character has +1 Mobility and +20 Critical Strike chance while Camoflaged";
+                "This character has +1 Mobility and +20 Critical Strike chance while " + ReturnColoredText("Camoflaged", yellow);
         }
         else if (statusName == "Perfect Aim")
         {
             statusDescriptionText.text =
-                "This character's Ranged Attacks cannot be dodged";
+                "This character's " + ReturnColoredText("Ranged Attack", yellow)+ " abilities cannot be dodged";
         }
         else if (statusName == "Phasing")
         {
             statusDescriptionText.text =
-                "The first time this character is attacked each turn cycle, it teleports to a random tile within 2";
+                "The first time this character is attacked each turn cycle, it " + ReturnColoredText("Teleports", yellow) +
+                " to a random tile within " + ReturnColoredText("2", yellow);
         }
         else if (statusName == "Poison Immunity")
         {
             statusDescriptionText.text =
-                "This character cannot be Poisoned";
+                "This character cannot be " + ReturnColoredText("Poisoned", poison);
         }
         else if (statusName == "Predator")
         {
             statusDescriptionText.text =
-                "This character has +20 Critical Chance while Camoflaged";
+                "This character has +20 Critical Chance while " + ReturnColoredText("Camoflaged", yellow);
         }
         else if (statusName == "Preparation")
         {
@@ -519,39 +533,46 @@ public static class TextLogic
         else if (statusName == "Purity")
         {
             statusDescriptionText.text =
-                "This character has +2 Strength, Wisdom and Dexterity";
+                "This character has +2 " + ReturnColoredText("Strength", yellow) + ", " +
+                ReturnColoredText("Wisdom", yellow) + " and " +
+                ReturnColoredText("Dexterity", yellow);
         }
         else if (statusName == "Recklessness")
         {
             statusDescriptionText.text =
-                "This character has +20 Melee Critical Chance and its Melee Attacks cannot be parried";
+                "This character has +20 Melee Critical Chance and it's " + ReturnColoredText("Melee Attack", yellow)+ 
+                " abilities cannot be parried";
         }
         else if (statusName == "Riposte")
         {
             statusDescriptionText.text =
-                "Whenever this character parries an attack, it performs 'Strike' against its attacker";
+                "Whenever this character parries an attack, it performs "+ ReturnColoredText("Strike", yellow)+ " against its attacker";
         }
         else if (statusName == "Sacred Aura")
         {
             statusDescriptionText.text =
-                "On activation end, this character removes Blind, Immobilized, Disarmed, Silenced and Terrified" +
+                "On activation end, this character removes " + ReturnColoredText("Blind", yellow) + ", "
+                + ReturnColoredText("Immobilized", yellow) + ", "
+                + ReturnColoredText("Disarmed", yellow) + ", "
+                + ReturnColoredText("Silenced", yellow) + " and "
+                + ReturnColoredText("Terrified", yellow) + 
                 " from allies within its Aura";
         }
         else if (statusName == "Shadow Aura")
         {
             statusDescriptionText.text =
-                "On activation end, this character applies" +
-                " Weakened to enemies within its Aura";
+                "On activation end, this character applies "+ ReturnColoredText("Weakened", yellow) +
+                " to enemies within its Aura";
         }
         else if (statusName == "Sharpened Blade")
         {
             statusDescriptionText.text =
-                "This character's next Melee Attack is guaranteed to critically strike";
+                "This character's next " + ReturnColoredText("Melee Attack", yellow) + " ability is guaranteed to critically strike";
         }
         else if (statusName == "Shatter")
         {
             statusDescriptionText.text =
-                "This character has +20 Critical Chance when attacking targets with Chilled";
+                "This character has +20 Critical Chance when attacking targets with " + ReturnColoredText("Chilled", frost);
         }
         else if (statusName == "Slippery")
         {
@@ -561,7 +582,7 @@ public static class TextLogic
         else if (statusName == "Stealth")
         {
             statusDescriptionText.text =
-                "This character is permanently Camoflaged";
+                "This character is permanently " + ReturnColoredText("Camoflaged", yellow);
         }
         else if (statusName == "Regeneration")
         {
@@ -572,7 +593,7 @@ public static class TextLogic
         else if (statusName == "Thorns")
         {
             statusDescriptionText.text =
-                "Whenever this character is hit with a melee attack, it deals " +
+                "Whenever this character is hit with a " + ReturnColoredText("Melee Attack", yellow) + "ability, it deals " +
                 ReturnColoredText(statusStacks.ToString(), yellow) + " " + ReturnColoredText("Physical", physical) +
                 " damage back to it's attacker";
         }
@@ -597,12 +618,13 @@ public static class TextLogic
         else if (statusName == "Virtuoso")
         {
             statusDescriptionText.text =
-                "This character's Melee Attacks cannot be parried";
+                "This character's " + ReturnColoredText("Melee Attack", yellow) + " abilities cannot be parried";
         }
         else if (statusName == "Venomous")
         {
             statusDescriptionText.text =
-                "Whenever this character applies Poisoned, it applies " + ReturnColoredText(statusStacks.ToString(), yellow) + " extra";
+                "Whenever this character applies "+ ReturnColoredText("Poisoned", poison)+ 
+                ", it applies " + ReturnColoredText(statusStacks.ToString(), yellow) + " extra";
         }
 
 
@@ -679,7 +701,7 @@ public static class TextLogic
             ability.descriptionText.text =
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
-                " damage to a target and apply " + ReturnColoredText("Shocked", yellow);
+                " damage to a target and apply " + ReturnColoredText("Shocked", air);
         }
         else if (ability.abilityName == "Frost Bolt")
         {
@@ -687,7 +709,7 @@ public static class TextLogic
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage to a target and apply " +
-                ReturnColoredText("Pinned", yellow);
+                ReturnColoredText("Immobilized", yellow);
         }
         else if (ability.abilityName == "Telekinesis")
         {
@@ -760,7 +782,7 @@ public static class TextLogic
         else if (ability.abilityName == "Blaze")
         {
             ability.descriptionText.text =
-                "While channeled, your Melee Attack abilities deal " + ReturnColoredText("Fire", fire) +
+                "While channeled, your " + ReturnColoredText("Melee Attack", yellow) + " abilities deal " + ReturnColoredText("Fire", fire) +
                 " damage";
         }
         else if (ability.abilityName == "Testudo")
@@ -773,19 +795,19 @@ public static class TextLogic
         else if (ability.abilityName == "Shadow Wreath")
         {
             ability.descriptionText.text =
-                "While channeled, your Melee Attack abilities deal " + ReturnColoredText("Shadow", shadow) +
+                "While channeled, your " + ReturnColoredText("Melee Attack", yellow) + " abilities deal " + ReturnColoredText("Shadow", shadow) +
                 " damage";
         }
         else if (ability.abilityName == "Creeping Frost")
         {
             ability.descriptionText.text =
-                "While channeled, your Melee Attack abilities deal " + ReturnColoredText("Frost", frost) +
+                "While channeled, your " + ReturnColoredText("Melee Attack", yellow) + " abilities deal " + ReturnColoredText("Frost", frost) +
                 " damage";
         }
         else if (ability.abilityName == "Overload")
         {
             ability.descriptionText.text =
-                "While channeled, your Melee Attack abilities deal " + ReturnColoredText("Air", air) +
+                "While channeled, your " + ReturnColoredText("Melee Attack", yellow) + " abilities deal " + ReturnColoredText("Air", air) +
                 " damage";
         }
         else if (ability.abilityName == "Infuse")
@@ -809,8 +831,8 @@ public static class TextLogic
         else if (ability.abilityName == "Recklessness")
         {
             ability.descriptionText.text =
-                "While channeled, your Melee Attack abilities have +" + ReturnColoredText("20", yellow) +
-                " critical chance and cannot be parried";
+                "While channeled, your " + ReturnColoredText("Melee Attack", yellow) + " abilities have +" + ReturnColoredText("20", yellow) +
+                " Critical chance and cannot be parried";
         }
         else if (ability.abilityName == "Bless")
         {
@@ -824,7 +846,7 @@ public static class TextLogic
             ability.descriptionText.text =
                 "Apply " + ReturnColoredText((ability.abilityPrimaryValue + entity.myPassiveManager.venomousStacks).ToString(), yellow) +
                 "  " +
-                ReturnColoredText("Poisoned", yellow) + " to a target";
+                ReturnColoredText("Poisoned", poison) + " to a target";
         }
         else if (ability.abilityName == "Blinding Light")
         {
@@ -839,7 +861,7 @@ public static class TextLogic
             ability.descriptionText.text =
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
-                " damage and apply " + ReturnColoredText("Chilled", yellow) +
+                " damage and apply " + ReturnColoredText("Chilled", frost) +
                 " to all characters in a 3x3 area. ";
         }
         else if (ability.abilityName == "Toxic Eruption")
@@ -848,7 +870,7 @@ public static class TextLogic
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage and apply " + ReturnColoredText((1 + entity.myPassiveManager.venomousStacks).ToString(), yellow) + " " +
-                ReturnColoredText("Poisoned", yellow) +
+                ReturnColoredText("Poisoned", poison) +
                 " to all characters in a 3x3 area. ";
         }
         else if (ability.abilityName == "Meteor")
@@ -857,7 +879,7 @@ public static class TextLogic
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage and apply " + ReturnColoredText("1", yellow) + " " +
-                ReturnColoredText("Burning", yellow) +
+                ReturnColoredText("Burning", fire) +
                 " to all characters in a 3x3 area. ";
         }
         else if (ability.abilityName == "Thunder Storm")
@@ -866,7 +888,7 @@ public static class TextLogic
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage and apply " +
-                ReturnColoredText("Shocked", yellow) +
+                ReturnColoredText("Shocked", air) +
                 " to all characters in a 3x3 area. ";
         }
         else if (ability.abilityName == "Rain Of Chaos")
@@ -933,7 +955,7 @@ public static class TextLogic
             ability.descriptionText.text =
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
-                " damage to a target and apply " + ReturnColoredText("Chilled", yellow);
+                " damage to a target and apply " + ReturnColoredText("Chilled", frost);
         }
         else if (ability.abilityName == "Combustion")
         {
@@ -949,15 +971,14 @@ public static class TextLogic
                 " to all characters in a 3x3 area";
 
         }
-        else if (ability.abilityName == "Consecration")
+        else if (ability.abilityName == "Consecrate")
         {
             ability.descriptionText.text =
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage to adjacent enemies. Give " + ReturnColoredText(ability.abilitySecondaryValue.ToString(), yellow) +
-                " to adjacent allies";
-        }
-       
+                " Energy to adjacent allies";
+        }       
         else if (ability.abilityName == "Decapitate")
         {
             ability.descriptionText.text =
@@ -978,13 +999,13 @@ public static class TextLogic
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) +
                 " damage of a random damage type to a target";
         }
-        else if (ability.abilityName == "Dimensional Blast")
+        else if (ability.abilityName == "Dimensional Hex")
         {
             ability.descriptionText.text =
-                "Apply " + ReturnColoredText("Burning", yellow) + ", " +
-                ReturnColoredText("Poisoned", yellow) + ", " +
-                ReturnColoredText("Chilled", yellow) + " and " +
-                ReturnColoredText("Shocked", yellow) +
+                "Apply " + ReturnColoredText("Burning", fire) + ", " +
+                ReturnColoredText("Poisoned", poison) + ", " +
+                ReturnColoredText("Chilled", frost) + " and " +
+                ReturnColoredText("Shocked", air) +
                 " to a target";
         }
         else if (ability.abilityName == "Disarm")
@@ -1028,14 +1049,14 @@ public static class TextLogic
             ability.descriptionText.text =
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
-                " damage to adjacent enemies, and apply 1 " + ReturnColoredText("Burning", yellow);
+                " damage to adjacent enemies, and apply 1 " + ReturnColoredText("Burning", fire);
         }
         else if (ability.abilityName == "Frost Nova")
         {
             ability.descriptionText.text =
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
-                " damage to adjacent enemies, and apply " + ReturnColoredText("Chilled", yellow);
+                " damage to adjacent enemies, and apply " + ReturnColoredText("Chilled", frost);
         }
         else if (ability.abilityName == "Noxious Fumes")
         {
@@ -1044,7 +1065,7 @@ public static class TextLogic
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage to adjacent enemies, and apply " +
                 ReturnColoredText((ability.abilitySecondaryValue + entity.myPassiveManager.venomousStacks).ToString(), yellow) + " " +
-                ReturnColoredText("Poisoned", yellow);
+                ReturnColoredText("Poisoned", poison);
         }
         else if (ability.abilityName == "Get Down!")
         {
@@ -1052,7 +1073,7 @@ public static class TextLogic
                 "Move to a tile within " +
                 ReturnColoredText((ability.abilityPrimaryValue + EntityLogic.GetTotalMobility(entity)).ToString(), yellow) +
                 ". At the end of the movement, give " +
-                ReturnColoredText(CombatLogic.Instance.CalculateBlockGainedByEffect(ability.abilityPrimaryValue, entity).ToString(), yellow) +
+                ReturnColoredText(CombatLogic.Instance.CalculateBlockGainedByEffect(ability.abilitySecondaryValue, entity).ToString(), yellow) +
                 " " + ReturnColoredText("Block", yellow) + " to adjacent allies";
         }
         else if (ability.abilityName == "Glacial Burst")
@@ -1143,8 +1164,8 @@ public static class TextLogic
         {
             ability.descriptionText.text =
                 "Teleport to a location within " + ReturnColoredText(ability.abilityRange.ToString(), yellow) +
-                ". On arrial, apply "+ ReturnColoredText(ability.abilitySecondaryValue.ToString(), yellow) + " " +
-                ReturnColoredText("Burning", yellow) +
+                ". On arrival, apply "+ ReturnColoredText(ability.abilitySecondaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Burning", fire) +
                 " to adjacent enemies";         
 
         }
@@ -1198,7 +1219,7 @@ public static class TextLogic
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage to a target";
         }
-        else if (ability.abilityName == "Sharpened Blade")
+        else if (ability.abilityName == "Sharpen Blade")
         {
             ability.descriptionText.text =
                 "Your next Melee Attack is guaranteed to be a " + ReturnColoredText("Critical", yellow);
@@ -1209,6 +1230,13 @@ public static class TextLogic
                 "Remove all " + ReturnColoredText("Block", yellow) +
                 " from a target, then deal " + ReturnColoredText(damageValue.ToString(), yellow) +
                 " " + ReturnColoredText(damageType, GetColorCodeFromString(damageType)) + " damage";
+        }
+        else if (ability.abilityName == "Shield Slam")
+        {
+            ability.descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target, then apply 1 " + ReturnColoredText("Knock Back", yellow);
         }
         else if (ability.abilityName == "Shroud")
         {
@@ -1246,7 +1274,7 @@ public static class TextLogic
         else if (ability.abilityName == "Steady Hands")
         {
             ability.descriptionText.text =
-                "Give an ally " + ReturnColoredText(ability.abilitySecondaryValue.ToString(), yellow) +
+                "Give an ally " + ReturnColoredText("2", yellow) +
                 " " + ReturnColoredText("Temporary Hawk Eye", yellow);
         }
         else if (ability.abilityName == "Super Conductor")
@@ -1255,8 +1283,8 @@ public static class TextLogic
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) +
                 " " + ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage to all enemies within " + ReturnColoredText(entity.currentMeleeRange.ToString(), yellow) +
-                " and apply " + ReturnColoredText("Shocked", yellow) +
-                ". If any enemies are already " + ReturnColoredText("Shocked", yellow) +
+                " and apply " + ReturnColoredText("Shocked", air) +
+                ". If any enemies are already " + ReturnColoredText("Shocked", air) +
                 " apply " + ReturnColoredText("Stunned", yellow) + " instead";
         }
         else if (ability.abilityName == "Sword And Board")
@@ -1264,7 +1292,7 @@ public static class TextLogic
             ability.descriptionText.text =
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
-                " damage and gain" + 
+                " damage and gain " + 
                 ReturnColoredText(CombatLogic.Instance.CalculateBlockGainedByEffect(ability.abilityPrimaryValue, entity).ToString(), yellow) +
                 " " + ReturnColoredText("Block", yellow);
         }
@@ -1282,7 +1310,7 @@ public static class TextLogic
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage and apply " + 
                 ReturnColoredText((ability.abilityPrimaryValue + entity.myPassiveManager.venomousStacks).ToString(), yellow)
-                + " "+ ReturnColoredText("Poisoned", yellow);
+                + " "+ ReturnColoredText("Poisoned", poison);
         }
         else if (ability.abilityName == "Thunder Strike")
         {
@@ -1290,14 +1318,14 @@ public static class TextLogic
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage and apply "
-                + " " + ReturnColoredText("Shocked", yellow);
+                + " " + ReturnColoredText("Shocked", air);
         }
         else if (ability.abilityName == "Thaw")
         {
             ability.descriptionText.text =
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
-                " damage. If the target is " + ReturnColoredText("Chilled", yellow) +
+                " damage. If the target is " + ReturnColoredText("Chilled", frost) +
                 ", refund the " + ReturnColoredText("Energy", yellow) + " spent";
         }
         else if (ability.abilityName == "Time Warp")
@@ -1332,6 +1360,750 @@ public static class TextLogic
               "Immediately gain " + ReturnColoredText("Camoflage", yellow);
         }
     }
+    public static void SetAbilityDescriptionText(AbilityDataSO ability, TextMeshProUGUI descriptionText)
+    {
+        // Set up
+        string damageValue;
+        string damageType;
+
+        // Setup for abilities that use a weapon
+        if (ability.requiresMeleeWeapon ||
+            ability.requiresRangedWeapon)
+        {
+            damageValue = (ability.weaponDamagePercentage * 100).ToString() + "%";
+            damageType = "weapon";
+        }
+        // Setup for abilities that DONT use a weapon
+        else
+        {
+            damageValue = ability.primaryValue.ToString();
+            damageType = ability.damageType.ToString();
+        }   
+        
+
+        // Set Text
+        if (ability.abilityName == "Strike")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target";
+        }
+        else if (ability.abilityName == "Shoot")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target";
+        }
+        else if (ability.abilityName == "Move")
+        {
+            descriptionText.text = "Move to a tile within your " + ReturnColoredText("Mobility", yellow);
+        }
+        else if (ability.abilityName == "Defend")
+        {
+            descriptionText.text =
+                "Gain " + ReturnColoredText(ability.primaryValue.ToString(), yellow)
+                + " " + ReturnColoredText("Block", yellow);
+        }
+        else if (ability.abilityName == "Inspire")
+        {
+            descriptionText.text =
+                "Increase a target's " + ReturnColoredText("Strength", yellow) + " by " +
+                ReturnColoredText(ability.primaryValue.ToString(), yellow);
+        }
+        else if (ability.abilityName == "Charge")
+        {
+            descriptionText.text =
+                "Move to a target enemy within " + ReturnColoredText("Mobility", yellow) + " + " +
+                ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                " and apply " +
+                ReturnColoredText("Vulnerable", yellow);
+        }
+        else if (ability.abilityName == "Whirlwind")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to all enemies within " +
+                ReturnColoredText("1", yellow);
+        }
+        else if (ability.abilityName == "Fire Ball")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target";
+        }
+        else if (ability.abilityName == "Lightning Bolt")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target and apply " + ReturnColoredText("Shocked", air);
+        }
+        else if (ability.abilityName == "Frost Bolt")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target and apply " +
+                ReturnColoredText("Immobilized", yellow);
+        }
+        else if (ability.abilityName == "Telekinesis")
+        {
+            descriptionText.text =
+                ReturnColoredText("Teleport", yellow) + " a target anywhere within " + ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                " of its current position";
+        }
+        else if (ability.abilityName == "Dash")
+        {
+            descriptionText.text =
+                "Move to a tile within " + ReturnColoredText("Mobility", yellow) +
+                " + " + ReturnColoredText(ability.primaryValue.ToString(), yellow) + 
+                " of your current position";
+        }
+        else if (ability.abilityName == "Preparation")
+        {
+            descriptionText.text =
+                "The next ability you use costs " + ReturnColoredText("0", yellow) +
+                " Energy";
+        }
+        else if (ability.abilityName == "Holy Fire")
+        {
+            descriptionText.text =
+                "Give " + ReturnColoredText(ability.primaryValue.ToString(), yellow)
+                + " " +
+                ReturnColoredText("Block", yellow) +
+                " to an ally, or deal " +
+                ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to an enemy";
+        }
+        else if (ability.abilityName == "Invigorate")
+        {
+            descriptionText.text =
+                "Give an ally " + ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                " Energy";
+        }
+        else if (ability.abilityName == "Chaos Bolt")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target, and apply " +
+                ReturnColoredText("Vulnerable", yellow);
+        }
+        else if (ability.abilityName == "Ambush")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target. If this back strikes, gain " +
+                ReturnColoredText(ability.secondaryValue.ToString(), yellow) +
+                ReturnColoredText(" Energy", yellow);
+        }
+        else if (ability.abilityName == "Blade Flurry")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a random enemy within " +
+                ReturnColoredText("1", yellow) +
+                " three times";
+        }
+        else if (ability.abilityName == "Purity")
+        {
+            descriptionText.text =
+                "While channeled, this character has +2 " + ReturnColoredText("Strength", yellow) + ", " +
+                ReturnColoredText("Wisdom", yellow) + " and " +
+                ReturnColoredText("Dexterity", yellow);
+        }
+        else if (ability.abilityName == "Blaze")
+        {
+            descriptionText.text =
+                "While channeled, your Melee Attack abilities deal " + ReturnColoredText("Fire", fire) +
+                " damage";
+        }
+        else if (ability.abilityName == "Testudo")
+        {
+            descriptionText.text =
+                "While channeled, gain " +
+                ReturnColoredText("3", yellow) +
+                " " + ReturnColoredText("Block", yellow) + " on activation start";
+        }
+        else if (ability.abilityName == "Shadow Wreath")
+        {
+            descriptionText.text =
+                "While channeled, your Melee Attack abilities deal " + ReturnColoredText("Shadow", shadow) +
+                " damage";
+        }
+        else if (ability.abilityName == "Creeping Frost")
+        {
+            descriptionText.text =
+                "While channeled, your Melee Attack abilities deal " + ReturnColoredText("Frost", frost) +
+                " damage";
+        }
+        else if (ability.abilityName == "Overload")
+        {
+            descriptionText.text =
+                "While channeled, your Melee Attack abilities deal " + ReturnColoredText("Air", air) +
+                " damage";
+        }
+        else if (ability.abilityName == "Infuse")
+        {
+            descriptionText.text =
+                "While channeled, you have " + ReturnColoredText("20", yellow) +
+                " extra resistance to all damage types";
+        }
+        else if (ability.abilityName == "Concentration")
+        {
+            descriptionText.text =
+                "While channeled, your Ranged Attack abilities have +" + ReturnColoredText("20", yellow) +
+                " Critical chance and cannot be dodged";
+        }
+        else if (ability.abilityName == "Rapid Cloaking")
+        {
+            descriptionText.text =
+                "While channeled, gain " + ReturnColoredText("Camoflage", yellow) +
+                " on activation end";
+        }
+        else if (ability.abilityName == "Recklessness")
+        {
+            descriptionText.text =
+                "While channeled, your " + ReturnColoredText("Melee Attack", yellow) + " abilities have +" + ReturnColoredText("20", yellow) +
+                " Critical chance and cannot be parried";
+        }
+        else if (ability.abilityName == "Bless")
+        {
+            descriptionText.text =
+                "Remove " + ReturnColoredText("Weakened", yellow) + ", " +
+                ReturnColoredText("Vulnerable", yellow) + " and " +
+                ReturnColoredText("Stunned", yellow) + " from an ally";
+        }
+        else if (ability.abilityName == "Blight")
+        {
+            descriptionText.text =
+                "Apply " + ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                "  " +
+                ReturnColoredText("Poisoned", poison) + " to a target";
+        }
+        else if (ability.abilityName == "Blinding Light")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage and apply " + ReturnColoredText("Blind", yellow) +
+                " to all characters in a 3x3 area. ";
+        }
+        else if (ability.abilityName == "Blizzard")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage and apply " + ReturnColoredText("Chilled", frost) +
+                " to all characters in a 3x3 area. ";
+        }
+        else if (ability.abilityName == "Toxic Eruption")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage and apply " + ReturnColoredText(ability.primaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Poisoned", poison) +
+                " to all characters in a 3x3 area. ";
+        }
+        else if (ability.abilityName == "Meteor")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage and apply " + ReturnColoredText("1", yellow) + " " +
+                ReturnColoredText("Burning", fire) +
+                " to all characters in a 3x3 area. ";
+        }
+        else if (ability.abilityName == "Thunder Storm")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage and apply " +
+                ReturnColoredText("Shocked", air) +
+                " to all characters in a 3x3 area. ";
+        }
+        else if (ability.abilityName == "Rain Of Chaos")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage and apply " + ReturnColoredText("Weakened", yellow) + " " +
+                " to all characters in a 3x3 area. ";
+        }
+        else if (ability.abilityName == "Blink")
+        {
+            descriptionText.text =
+                ReturnColoredText("Teleport", yellow) + 
+                " to a location within " + ReturnColoredText(ability.range.ToString(), yellow);
+        }
+        else if (ability.abilityName == "Blood Offering")
+        {
+            descriptionText.text =
+                "Lose " + ReturnColoredText(ability.secondaryValue.ToString(), yellow) +
+                " health, then gain " + ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                " " + ReturnColoredText("Energy", yellow);
+        }
+        else if (ability.abilityName == "Burst Of Knowledge")
+        {
+            descriptionText.text =
+                "Give an ally " + ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                " " + ReturnColoredText("Temporary Wisdom", yellow);
+        }
+        else if (ability.abilityName == "Primal Rage")
+        {
+            descriptionText.text =
+                "Give an ally " + ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                " " + ReturnColoredText("Temporary Strength", yellow);
+        }
+        else if (ability.abilityName == "Chain Lightning")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target. Jumps to a random adjacent enemy 2 times";
+        }
+        else if (ability.abilityName == "Challenging Shout")
+        {
+            descriptionText.text =
+                "Force all enemies within " + ReturnColoredText("1", yellow) +
+                " to focus their attacks on you during their next activations";
+        }
+        else if (ability.abilityName == "Cheap Shot")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target. If you have " + ReturnColoredText("Camoflage", yellow) +
+                ", apply " + ReturnColoredText("Vulnerable", yellow);
+        }
+        else if (ability.abilityName == "Chemical Reaction")
+        {
+            descriptionText.text =
+                "Double a targets current " + ReturnColoredText("Poisoned", yellow) +
+                " amount";
+        }
+        else if (ability.abilityName == "Chilling Blow")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target and apply " + ReturnColoredText("Chilled", frost);
+        }
+        else if (ability.abilityName == "Combustion")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target for each stack of " + ReturnColoredText("Burning", fire) + " on them";
+        }
+        else if (ability.abilityName == "Concealing Clouds")
+        {
+            descriptionText.text =
+                "Give " + ReturnColoredText("Camoflage", yellow) +
+                " to all characters in a 3x3 area";
+
+        }
+        else if (ability.abilityName == "Consecrate")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to adjacent enemies. Give " + ReturnColoredText(ability.secondaryValue.ToString(), yellow) +
+                " Energy to adjacent allies";
+        }
+        else if (ability.abilityName == "Decapitate")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target. Target is killed instantly if they have 20% or less health";
+        }
+        else if (ability.abilityName == "Devastating Blow")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target";
+        }
+        else if (ability.abilityName == "Dimensional Blast")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) +
+                " damage of a random damage type to a target";
+        }
+        else if (ability.abilityName == "Dimensional Hex")
+        {
+            descriptionText.text =
+                "Apply " + ReturnColoredText("Burning", fire) + ", " +
+                ReturnColoredText("Poisoned", poison) + ", " +
+                ReturnColoredText("Chilled", frost) + " and " +
+                ReturnColoredText("Shocked", air) +
+                " to a target";
+        }
+        else if (ability.abilityName == "Disarm")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target and apply " + ReturnColoredText("Disarmed", yellow);
+        }
+        else if (ability.abilityName == "Dragon Breath")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to all characters in a line, up to " + ReturnColoredText(ability.secondaryValue.ToString(), yellow) +
+                " tiles away";
+        }
+        else if (ability.abilityName == "Drain")
+        {
+            descriptionText.text =
+                "Remove all " + ReturnColoredText("Poisoned", yellow) +
+                " from a target. Deal " + ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage equal to amount removed";
+        }
+        else if (ability.abilityName == "Evasion")
+        {
+            descriptionText.text =
+                "Increase an ally's  " + ReturnColoredText("Parry", yellow) +
+                " chance by " + ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                " until the end of the current turn cycle";
+        }
+        else if (ability.abilityName == "Mirage")
+        {
+            descriptionText.text =
+                "Increase an ally's  " + ReturnColoredText("Dodge", yellow) +
+                " chance by  " + ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                " until the end of the current turn cycle";
+        }
+        else if (ability.abilityName == "Fire Nova")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to adjacent enemies, and apply " +
+                ReturnColoredText("1", yellow)+ " " +
+                ReturnColoredText("Burning", fire);
+        }
+        else if (ability.abilityName == "Frost Nova")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to adjacent enemies, and apply " + ReturnColoredText("Chilled", frost);
+        }
+        else if (ability.abilityName == "Noxious Fumes")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to adjacent enemies, and apply " +
+                ReturnColoredText(ability.secondaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Poisoned", poison);
+        }
+        else if (ability.abilityName == "Get Down!")
+        {
+            descriptionText.text =
+                "Move to a tile within " + ReturnColoredText("Mobility", yellow) +
+                " + " + ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                ". At the end of the movement, give " +
+                ReturnColoredText(ability.secondaryValue.ToString(), yellow) +
+                " " + ReturnColoredText("Block", yellow) + " to adjacent allies";
+        }
+        else if (ability.abilityName == "Glacial Burst")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a random enemy in your melee range " + ReturnColoredText(ability.secondaryValue.ToString(), yellow) +
+                " times";
+        }
+        else if (ability.abilityName == "Guard")
+        {
+            descriptionText.text =
+                "Give an ally " +
+                ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                " " + ReturnColoredText("Block", yellow);
+        }
+        else if (ability.abilityName == "Haste")
+        {
+            descriptionText.text =
+                "Give an ally " +
+                ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                " " + ReturnColoredText("Mobility", yellow) + " and " +
+                ReturnColoredText("Initiative", yellow);
+        }
+        else if (ability.abilityName == "Head Shot")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target";
+        }
+        else if (ability.abilityName == "Hex")
+        {
+            descriptionText.text =
+                "Apply " + ReturnColoredText("Weakened", yellow) + " and " +
+                ReturnColoredText("Vulnerable", yellow) +
+                " to a target";
+        }
+        else if (ability.abilityName == "Icy Focus")
+        {
+            descriptionText.text =
+                "Give an ally " + ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                " " + ReturnColoredText("Wisdom", yellow);
+        }
+        else if (ability.abilityName == "Impaling Bolt")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target and apply " +
+                ReturnColoredText(ability.secondaryValue.ToString(), yellow) +
+                " " + ReturnColoredText("Knock Back", yellow);
+        }
+        else if (ability.abilityName == "Judgement")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target and apply " +
+                ReturnColoredText("Vulnerable", yellow) + " and " +
+                ReturnColoredText("Weakened", yellow);
+        }
+        else if (ability.abilityName == "Kick To The Balls")
+        {
+            descriptionText.text =
+                "Apply " + ReturnColoredText("Stunned", yellow) + " to a target";
+        }
+        else if (ability.abilityName == "Nightmare")
+        {
+            descriptionText.text =
+                "Apply " + ReturnColoredText("Sleep", yellow) + " to a target";
+        }
+        else if (ability.abilityName == "Overwatch")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to the first enemy that moves within " +
+                ReturnColoredText("5", yellow);
+        }
+        else if (ability.abilityName == "Phase Shift")
+        {
+            descriptionText.text =
+                "Switch locations with a target character";
+        }
+        else if (ability.abilityName == "Phoenix Dive")
+        {
+            descriptionText.text =
+                "Teleport to a location within " + ReturnColoredText(ability.range.ToString(), yellow) +
+                ". On arrival, apply " + ReturnColoredText("1", yellow) + " " +
+                ReturnColoredText("Burning", fire) +
+                " to adjacent enemies";
+
+        }
+        else if (ability.abilityName == "Provoke")
+        {
+            descriptionText.text =
+                "Force an enemy within " + ReturnColoredText("1", yellow) +
+                " to focus its attacks on you during its next activation";
+        }
+        else if (ability.abilityName == "Rapid Fire")
+        {
+            descriptionText.text =
+                "Spend all your Energy. For each " + ReturnColoredText("10", yellow) +
+                " Energy spent, deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target";
+        }
+        else if (ability.abilityName == "Slice And Dice")
+        {
+            descriptionText.text =
+                "Spend all your Energy. For each " + ReturnColoredText("10", yellow) +
+                " Energy spent, deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target";
+        }
+        else if (ability.abilityName == "Reactive Armour")
+        {
+            descriptionText.text =
+                "Remove all your " + ReturnColoredText("Block", yellow) +
+                ", then deal that amount in " + 
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to all enemies within " + ReturnColoredText("1", yellow);
+        }
+        else if (ability.abilityName == "Second Wind")
+        {
+            descriptionText.text =
+                "Gain " + ReturnColoredText("Energy", yellow) +
+                " equal to your maximum";
+        }
+        else if (ability.abilityName == "Shadow Step")
+        {
+            descriptionText.text =
+                "Target an enemy within " + ReturnColoredText(ability.range.ToString(), yellow) +
+                " and " + ReturnColoredText("Teleport", yellow) +
+                " to their back tile";
+        }
+        else if (ability.abilityName == "Shank")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target";
+        }
+        else if (ability.abilityName == "Sharpen Blade")
+        {
+            descriptionText.text =
+                "Your next Melee Attack is guaranteed to be a " + ReturnColoredText("Critical", yellow);
+        }
+        else if (ability.abilityName == "Shield Shatter")
+        {
+            descriptionText.text =
+                "Remove all " + ReturnColoredText("Block", yellow) +
+                " from a target, then deal " + ReturnColoredText(damageValue.ToString(), yellow) +
+                " " + ReturnColoredText(damageType, GetColorCodeFromString(damageType)) + " damage";
+        }
+        else if (ability.abilityName == "Shield Slam")
+        {
+            descriptionText.text =
+                "Deal " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target equal to your current " + ReturnColoredText("Block", yellow) + 
+                ", then apply 1 " + ReturnColoredText("Knock Back", yellow);
+        }
+        else if (ability.abilityName == "Shroud")
+        {
+            descriptionText.text =
+                "Give an ally " + ReturnColoredText("Camoflage", yellow);
+        }
+        else if (ability.abilityName == "Spirit Vision")
+        {
+            descriptionText.text =
+                "Give an ally " + ReturnColoredText("Temporary True Sight", yellow);
+        }
+        else if (ability.abilityName == "Smash")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target and apply " + ReturnColoredText(ability.secondaryValue.ToString(), yellow) +
+                " " + ReturnColoredText("Knock Back", yellow);
+        }
+        else if (ability.abilityName == "Snipe")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target";
+        }
+        else if (ability.abilityName == "Spirit Surge")
+        {
+            descriptionText.text =
+                "Give an ally " + ReturnColoredText(ability.secondaryValue.ToString(), yellow) +
+                " " + ReturnColoredText("Strength", yellow) + ", " +
+                ReturnColoredText("Wisdom", yellow) + " and " +
+                ReturnColoredText("Dexterity", yellow);
+        }
+        else if (ability.abilityName == "Steady Hands")
+        {
+            descriptionText.text =
+                "Give an ally " + ReturnColoredText("2", yellow) +
+                " " + ReturnColoredText("Temporary Hawk Eye", yellow);
+        }
+        else if (ability.abilityName == "Super Conductor")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) +
+                " " + ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to all enemies within " + ReturnColoredText("1", yellow) +
+                " and apply " + ReturnColoredText("Shocked", yellow) +
+                ". If any enemies are already " + ReturnColoredText("Shocked", yellow) +
+                " apply " + ReturnColoredText("Stunned", yellow) + " instead";
+        }
+        else if (ability.abilityName == "Sword And Board")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage and gain " +
+                ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                " " + ReturnColoredText("Block", yellow);
+        }
+        else if (ability.abilityName == "Tendon Slash")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage and apply " + ReturnColoredText("Weakened", yellow);
+        }
+        else if (ability.abilityName == "Toxic Slash")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage and apply " +
+                ReturnColoredText(ability.primaryValue.ToString(), yellow)
+                + " " + ReturnColoredText("Poisoned", poison);
+        }
+        else if (ability.abilityName == "Thunder Strike")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage and apply "
+                + " " + ReturnColoredText("Shocked", air);
+        }
+        else if (ability.abilityName == "Thaw")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage. If the target is " + ReturnColoredText("Chilled", frost) +
+                ", refund the " + ReturnColoredText("Energy", yellow) + " spent";
+        }
+        else if (ability.abilityName == "Time Warp")
+        {
+            descriptionText.text =
+                "When target character finishes their next activation, they activate once more";
+        }
+        else if (ability.abilityName == "Transcendence")
+        {
+            descriptionText.text =
+                "Target ally becomes immune to all damage until the end of the current turn cycle";
+        }
+        else if (ability.abilityName == "Tree Leap")
+        {
+            descriptionText.text =
+               ReturnColoredText("Teleport", yellow) +
+               " to a grass tile within " + ReturnColoredText(ability.range.ToString(), yellow);
+        }
+        else if (ability.abilityName == "Unbridled Chaos")
+        {
+            descriptionText.text =
+              "Deal " + ReturnColoredText(damageValue.ToString(), yellow) +
+              " " + ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+              " damage to a random character (yourself included) within " +
+              ReturnColoredText("3", yellow) + " tiles " +
+              ReturnColoredText(ability.secondaryValue.ToString(), yellow) +
+              " times";
+        }
+        else if (ability.abilityName == "Vanish")
+        {
+            descriptionText.text =
+              "Immediately gain " + ReturnColoredText("Camoflage", yellow);
+        }
+    }
     public static string ReturnColoredText(string text, string color)
     {
         return (color + text + white);
@@ -1363,6 +2135,10 @@ public static class TextLogic
         else if (damageType == "Air")
         {
             colorCodeReturned = air;
+        }
+        else
+        {
+            colorCodeReturned = white;
         }
 
         return colorCodeReturned;

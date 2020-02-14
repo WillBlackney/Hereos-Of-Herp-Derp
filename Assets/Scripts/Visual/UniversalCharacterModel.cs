@@ -35,6 +35,10 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject goblinStabbyLeftLeg;
     public GameObject goblinShootyLeftLeg;
     public GameObject morkLeftLeg;
+    public GameObject fireGolemLeftLeg;
+    public GameObject frostGolemLeftLeg;
+    public GameObject poisonGolemLeftLeg;
+    public GameObject airGolemLeftLeg;
 
 
     [Header("Right Leg References")]
@@ -63,6 +67,10 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject goblinStabbyRightLeg;
     public GameObject goblinShootRightLeg;
     public GameObject morkRightLeg;
+    public GameObject fireGolemRightLeg;
+    public GameObject frostGolemRightLeg;
+    public GameObject poisonGolemRightLeg;
+    public GameObject airGolemRightLeg;
 
     [Header("Head References")]
     public List<GameObject> allHeads;
@@ -90,6 +98,10 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject goblinStabbyHead;
     public GameObject goblinShootyHead;
     public GameObject morkHead;
+    public GameObject fireGolemHead;
+    public GameObject frostGolemHead;
+    public GameObject poisonGolemHead;
+    public GameObject airGolemHead;
 
     [Header("Right Hand References")]
     public List<GameObject> allRightHands;
@@ -117,6 +129,10 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject goblinStabbyRightHand;
     public GameObject goblinShootyRightHand;
     public GameObject morkRightHand;
+    public GameObject fireGolemRightHand;
+    public GameObject frostGolemRightHand;
+    public GameObject poisonGolemRightHand;
+    public GameObject airGolemRightHand;
 
     [Header("Right Arm References")]
     public List<GameObject> allRightArms;
@@ -144,6 +160,10 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject goblinStabbyRightArm;
     public GameObject goblinShootyRightArm;
     public GameObject morkRightArm;
+    public GameObject fireGolemRightArm;
+    public GameObject frostGolemRightArm;
+    public GameObject poisonGolemRightArm;
+    public GameObject airGolemRightArm;
 
     [Header("Left Hand References")]
     public List<GameObject> allLeftHands;
@@ -171,6 +191,10 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject goblinStabbyLeftHand;
     public GameObject goblinShootyLeftHand;
     public GameObject morkLeftHand;
+    public GameObject fireGolemLeftHand;
+    public GameObject frostGolemLeftHand;
+    public GameObject poisonGolemLeftHand;
+    public GameObject airGolemLeftHand;
 
     [Header("Left Arm References")]
     public List<GameObject> allLeftArms;
@@ -198,6 +222,10 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject goblinStabbyLeftArm;
     public GameObject goblinShootyLeftArm;
     public GameObject morkLeftArm;
+    public GameObject fireGolemLeftArm;
+    public GameObject frostGolemLeftArm;
+    public GameObject poisonGolemLeftArm;
+    public GameObject airGolemLeftArm;
 
     [Header("Chest References")]
     public List<GameObject> allChests;
@@ -225,6 +253,10 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject goblinStabbyChest;
     public GameObject goblinShootyChest;
     public GameObject morkChest;
+    public GameObject fireGolemChest;
+    public GameObject frostGolemChest;
+    public GameObject poisonGolemChest;
+    public GameObject airGolemChest;
 
     [Header("Main Hand Weapon References")]
     public List<GameObject> allMainHandWeapons;
@@ -242,6 +274,8 @@ public class UniversalCharacterModel : MonoBehaviour
 
     #endregion
 
+    // Animation Logic
+    #region
     public void SetDeathAnimAsFinished()
     {
         if(myLivingEntity != null)
@@ -267,4 +301,5 @@ public class UniversalCharacterModel : MonoBehaviour
     {
         GetComponent<Animator>().SetTrigger("Base");
     }
+    #endregion
 }

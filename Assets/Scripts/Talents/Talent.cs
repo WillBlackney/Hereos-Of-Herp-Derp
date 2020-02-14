@@ -12,7 +12,8 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
 
     [Header("General Component References")]  
     public GameObject myGlowOutline;
-    public GameObject fadeOutOverlay;
+    public GameObject blackTintOverlay;
+    public GameObject purchasedOverlay;
     public Image talentImage;
 
     [Header("Inspector Properties")]
@@ -26,7 +27,7 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
     [Header("Properties")]
     public CharacterData myCharacterData;
     public AbilityDataSO myAbilityData;
-    public bool unlocked;
+    public bool purchased;
 
     [Header("Ability Panel Components")]
     public GameObject abilityInfoPanel;

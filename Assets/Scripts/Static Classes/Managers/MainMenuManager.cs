@@ -179,7 +179,7 @@ public class MainMenuManager : Singleton<MainMenuManager>
         // fade in text elements and UI
         while(textElementsParentCG.alpha < 1)
         {
-            Debug.Log("fading in text and ui");
+            //Debug.Log("fading in text and ui");
             textElementsParentCG.alpha += 0.05f;
             yield return new WaitForEndOfFrame();
         }

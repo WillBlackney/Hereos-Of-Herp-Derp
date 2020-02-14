@@ -4,7 +4,120 @@ using UnityEngine;
 
 public static class CharacterModelController
 {
-    // Disable Sprites
+    // View Logic
+    #region
+    public static void BuildModelFromPresetString(UniversalCharacterModel model, string preset)
+    {
+        Debug.Log("CharacterModelController.BuildModelFromPresetString() called, preset string: " + preset);
+
+        if (preset == "Paladin")
+        {
+            SetUpAsPaladinPreset(model);
+        }
+        else if (preset == "Knight")
+        {
+            SetUpAsKnightPreset(model);
+        }
+        else if (preset == "Mage")
+        {
+            SetUpAsMagePreset(model);
+        }
+        else if (preset == "Barbarian")
+        {
+            SetUpAsBarbarianPreset(model);
+        }
+        else if (preset == "Shadow Blade")
+        {
+            SetUpAsShadowBladePreset(model);
+        }
+        else if (preset == "Rogue")
+        {
+            SetUpAsRoguePreset(model);
+        }
+        else if (preset == "Monk")
+        {
+            SetUpAsMonkPreset(model);
+        }
+        else if (preset == "Priest")
+        {
+            SetUpAsPriestPreset(model);
+        }
+        else if (preset == "Warlock")
+        {
+            SetUpAsWarlockPreset(model);
+        }
+        else if (preset == "Marksman")
+        {
+            SetUpAsMarksmanPreset(model);
+        }
+        else if (preset == "Wayfarer")
+        {
+            SetUpAsWayfarerPreset(model);
+        }
+        else if (preset == "Spell Blade")
+        {
+            SetUpAsSpellBladePreset(model);
+        }
+        else if (preset == "Random")
+        {
+            SetUpAsRandomPreset(model);
+        }
+
+
+        // Enemy Presets
+        else if (preset == "Skeleton Mage")
+        {
+            SetUpAsSkeletonMagePreset(model);
+        }
+        else if (preset == "Skeleton Assassin")
+        {
+            SetUpAsSkeletonAssassinPreset(model);
+        }
+        else if (preset == "Skeleton Barbarian")
+        {
+            SetUpAsSkeletonBarbarianPreset(model);
+        }
+        else if (preset == "Skeleton Warrior")
+        {
+            SetUpAsSkeletonWarriorPreset(model);
+        }
+        else if (preset == "Skeleton Priest")
+        {
+            SetUpAsSkeletonPriestPreset(model);
+        }
+        else if (preset == "Skeleton Archer")
+        {
+            SetUpAsSkeletonArcherPreset(model);
+        }
+        else if (preset == "Skeleton Necromancer")
+        {
+            SetUpAsSkeletonNecromancerPreset(model);
+        }
+        else if (preset == "Goblin Stabby")
+        {
+            SetUpAsGoblinStabbyPreset(model);
+        }
+        else if (preset == "Goblin Shooty")
+        {
+            SetUpAsGoblinShootyPreset(model);
+        }
+        else if (preset == "Fire Golem")
+        {
+            SetUpAsFireGolemPreset(model);
+        }
+        else if (preset == "Frost Golem")
+        {
+            SetUpAsFrostGolemPreset(model);
+        }
+        else if (preset == "Air Golem")
+        {
+            SetUpAsAirGolemPreset(model);
+        }
+        else if (preset == "Poison Golem")
+        {
+            SetUpAsPoisonGolemPreset(model);
+        }
+    }
     public static void DisableAllViewsInList(List<GameObject> listOfViews)
     {
         foreach(GameObject go in listOfViews)
@@ -12,8 +125,27 @@ public static class CharacterModelController
             go.SetActive(false);
         }
     }
+    public static void CompletelyDisableAllViews(UniversalCharacterModel model)
+    {
+        Debug.Log("CharacterModelController.CompletelyDisableAllViews() called...");
 
-    // Build From Preset Methods
+        // Disable weapons
+        DisableAllViewsInList(model.allMainHandWeapons);
+        DisableAllViewsInList(model.allOffHandWeapons);
+
+        // Disable all body pieces
+        DisableAllViewsInList(model.allLeftLegs);
+        DisableAllViewsInList(model.allRightLegs);
+        DisableAllViewsInList(model.allHeads);
+        DisableAllViewsInList(model.allRightHands);
+        DisableAllViewsInList(model.allRightArms);
+        DisableAllViewsInList(model.allLeftHands);
+        DisableAllViewsInList(model.allLeftArms);
+        DisableAllViewsInList(model.allChests);
+    }
+    #endregion
+
+    // Build Defender Presets
     #region
     public static void SetUpAsPaladinPreset(UniversalCharacterModel model)
     {
@@ -214,7 +346,8 @@ public static class CharacterModelController
         model.randomChest.SetActive(true);
     }
     #endregion
-    // Enemy Preset views
+
+    // Build Enemy Presets
     #region
     public static void SetUpAsVolatileZombiePreset(UniversalCharacterModel model)
     {
@@ -359,120 +492,60 @@ public static class CharacterModelController
         model.morkLeftArm.SetActive(true);
         model.morkChest.SetActive(true);
     }
+    public static void SetUpAsFireGolemPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.fireGolemLeftLeg.SetActive(true);
+        model.fireGolemRightLeg.SetActive(true);
+        model.fireGolemHead.SetActive(true);
+        model.fireGolemRightHand.SetActive(true);
+        model.fireGolemRightArm.SetActive(true);
+        model.fireGolemLeftHand.SetActive(true);
+        model.fireGolemLeftArm.SetActive(true);
+        model.fireGolemChest.SetActive(true);
+    }
+    public static void SetUpAsAirGolemPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.airGolemLeftLeg.SetActive(true);
+        model.airGolemRightLeg.SetActive(true);
+        model.airGolemHead.SetActive(true);
+        model.airGolemRightHand.SetActive(true);
+        model.airGolemRightArm.SetActive(true);
+        model.airGolemLeftHand.SetActive(true);
+        model.airGolemLeftArm.SetActive(true);
+        model.airGolemChest.SetActive(true);
+    }
+    public static void SetUpAsPoisonGolemPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.poisonGolemLeftLeg.SetActive(true);
+        model.poisonGolemRightLeg.SetActive(true);
+        model.poisonGolemHead.SetActive(true);
+        model.poisonGolemRightHand.SetActive(true);
+        model.poisonGolemRightArm.SetActive(true);
+        model.poisonGolemLeftHand.SetActive(true);
+        model.poisonGolemLeftArm.SetActive(true);
+        model.poisonGolemChest.SetActive(true);
+    }
+    public static void SetUpAsFrostGolemPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.frostGolemLeftLeg.SetActive(true);
+        model.frostGolemRightLeg.SetActive(true);
+        model.frostGolemHead.SetActive(true);
+        model.frostGolemRightHand.SetActive(true);
+        model.frostGolemRightArm.SetActive(true);
+        model.frostGolemLeftHand.SetActive(true);
+        model.frostGolemLeftArm.SetActive(true);
+        model.frostGolemChest.SetActive(true);
+    }
     #endregion
 
-    public static void CompletelyDisableAllViews(UniversalCharacterModel model)
-    {
-        Debug.Log("CharacterModelController.CompletelyDisableAllViews() called...");
-
-        // Disable weapons
-        DisableAllViewsInList(model.allMainHandWeapons);
-        DisableAllViewsInList(model.allOffHandWeapons);
-
-        // Disable all body pieces
-        DisableAllViewsInList(model.allLeftLegs);
-        DisableAllViewsInList(model.allRightLegs);
-        DisableAllViewsInList(model.allHeads);
-        DisableAllViewsInList(model.allRightHands);
-        DisableAllViewsInList(model.allRightArms);
-        DisableAllViewsInList(model.allLeftHands);
-        DisableAllViewsInList(model.allLeftArms);
-        DisableAllViewsInList(model.allChests);
-    }
-    public static void BuildModelFromPresetString(UniversalCharacterModel model, string preset)
-    {
-        Debug.Log("CharacterModelController.BuildModelFromPresetString() called, preset string: " + preset);
-
-        if(preset == "Paladin")
-        {
-            SetUpAsPaladinPreset(model);
-        }
-        else if (preset == "Knight")
-        {
-            SetUpAsKnightPreset(model);
-        }
-        else if (preset == "Mage")
-        {
-            SetUpAsMagePreset(model);
-        }
-        else if (preset == "Barbarian")
-        {
-            SetUpAsBarbarianPreset(model);
-        }
-        else if (preset == "Shadow Blade")
-        {
-            SetUpAsShadowBladePreset(model);
-        }
-        else if (preset == "Rogue")
-        {
-            SetUpAsRoguePreset(model);
-        }
-        else if (preset == "Monk")
-        {
-            SetUpAsMonkPreset(model);
-        }
-        else if (preset == "Priest")
-        {
-            SetUpAsPriestPreset(model);
-        }
-        else if (preset == "Warlock")
-        {
-            SetUpAsWarlockPreset(model);
-        }
-        else if (preset == "Marksman")
-        {
-            SetUpAsMarksmanPreset(model);
-        }
-        else if (preset == "Wayfarer")
-        {
-            SetUpAsWayfarerPreset(model);
-        }
-        else if (preset == "Spell Blade")
-        {
-            SetUpAsSpellBladePreset(model);
-        }
-        else if (preset == "Random")
-        {
-            SetUpAsRandomPreset(model);
-        }
 
 
-        // Enemy Presets
-        else if (preset == "Skeleton Mage")
-        {
-            SetUpAsSkeletonMagePreset(model);
-        }
-        else if (preset == "Skeleton Assassin")
-        {
-            SetUpAsSkeletonAssassinPreset(model);
-        }
-        else if (preset == "Skeleton Barbarian")
-        {
-            SetUpAsSkeletonBarbarianPreset(model);
-        }
-        else if (preset == "Skeleton Warrior")
-        {
-            SetUpAsSkeletonWarriorPreset(model);
-        }
-        else if (preset == "Skeleton Priest")
-        {
-            SetUpAsSkeletonPriestPreset(model);
-        }
-        else if (preset == "Skeleton Archer")
-        {
-            SetUpAsSkeletonArcherPreset(model);
-        }
-        else if (preset == "Skeleton Necromancer")
-        {
-            SetUpAsSkeletonNecromancerPreset(model);
-        }
-        else if (preset == "Goblin Stabby")
-        {
-            SetUpAsGoblinStabbyPreset(model);
-        }
-        else if (preset == "Goblin Shooty")
-        {
-            SetUpAsGoblinShootyPreset(model);
-        }
-    }
 }
