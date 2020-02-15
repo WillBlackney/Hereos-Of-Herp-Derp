@@ -141,8 +141,7 @@ public class UIManager : Singleton<UIManager>
     public void SetEndTurnButtonText(string newText)
     {
         EndTurnButtonText.text = newText;
-    }
-    
+    }    
     public Action FadeInGameOverScreen()
     {
         Action action = new Action();
@@ -163,7 +162,6 @@ public class UIManager : Singleton<UIManager>
 
         action.actionResolved = true;
     }
-
     public void OnMainMenuButtonClicked()
     {
         StartCoroutine(OnMainMenuButtonClickedCoroutine());

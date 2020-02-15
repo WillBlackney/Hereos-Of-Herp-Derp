@@ -58,6 +58,10 @@ public static class CharacterModelController
         {
             SetUpAsSpellBladePreset(model);
         }
+        else if (preset == "King")
+        {
+            SetUpAsKingPreset(model);
+        }
         else if (preset == "Random")
         {
             SetUpAsRandomPreset(model);
@@ -344,6 +348,19 @@ public static class CharacterModelController
         model.randomLeftHand.SetActive(true);
         model.randomLeftArm.SetActive(true);
         model.randomChest.SetActive(true);
+    }
+    public static void SetUpAsKingPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.kingLeftLeg.SetActive(true);
+        model.kingRightLeg.SetActive(true);
+        model.kingHead.SetActive(true);
+        model.kingRightHand.SetActive(true);
+        model.kingRightArm.SetActive(true);
+        model.kingLeftHand.SetActive(true);
+        model.kingLeftArm.SetActive(true);
+        model.kingChest.SetActive(true);
     }
     #endregion
 

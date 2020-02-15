@@ -96,6 +96,10 @@ public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         currentDuration += timeGainedOrLost;
         durationText.text = currentDuration.ToString();
+        if (duration <= 0)
+        {
+            PlayExpireVfxAndDestroy();
+        }
     }
     #endregion
 }

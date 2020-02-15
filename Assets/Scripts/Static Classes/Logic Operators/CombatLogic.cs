@@ -847,11 +847,7 @@ public class CombatLogic : MonoBehaviour
                     }
                 }
 
-                blessingOfUndeathState.ModifyCountdown(-1);
-                if(blessingOfUndeathState.duration <= 0)
-                {
-                    blessingOfUndeathState.PlayExpireVfxAndDestroy();
-                }
+                blessingOfUndeathState.ModifyCountdown(-1);                
                 yield return new WaitForSeconds(0.5f);
 
             }

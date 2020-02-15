@@ -324,6 +324,19 @@ public class StateManager : Singleton<StateManager>
             }
             yield return new WaitForSeconds(.5f);
         }
+        else if (stateApplied.Name == "King's Decree")
+        {
+            Debug.Log("StateManager applying King's Decree...");
+
+            // Lose 50% health
+            foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
+            {
+                VisualEffectManager.Instance.CreateStatusEffect(enemy.transform.position, "King's Decree!");
+                enemy.ModifyCurrentHealth(-(enemy.currentMaxHealth / 2));
+            }
+            yield return new WaitForSeconds(.5f);
+
+        }
 
         if (stateApplied.expirationCondition == StateDataSO.ExpirationCondition.Timer)
         {

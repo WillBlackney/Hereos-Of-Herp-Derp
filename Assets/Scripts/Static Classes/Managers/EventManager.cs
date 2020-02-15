@@ -151,7 +151,7 @@ public class EventManager : Singleton<EventManager>
 
         // disable world map view
         UIManager.Instance.DisableWorldMapView();
-        currentEncounterType = WorldEncounter.EncounterType.Boss;
+        currentEncounterType = WorldEncounter.EncounterType.BasicEnemy;
 
         // Fade scene back in, wait until completed
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
@@ -434,20 +434,27 @@ public class EventManager : Singleton<EventManager>
     public IEnumerator StartNewEndBossEncounterEventCoroutine()
     {
         Debug.Log("StartNewEndBossEncounterEvent() coroutine started...");
+
         // Destroy windows
         ActivationManager.Instance.ClearAllWindowsFromActivationPanel();
+
         // Show combat end visual events before loot reward screen appears
         preLootScreenEventFinished = false;
+
         // Disable end turn button
         UIManager.Instance.DisableEndTurnButtonView();
+
         // Unselect defender to hide ability bar UI, prevent null behaviors
         DefenderManager.Instance.ClearSelectedDefender();
-        // Hide ability info panel
+
         // Show xp rewards + level ups
-        Action lootEvent = StartPreLootScreenVisualEvent(100);
+        Action lootEvent = StartPreLootScreenVisualEvent(20);
         yield return new WaitUntil(() => lootEvent.ActionResolved() == true);
+
         // Give characters xp
         CharacterRoster.Instance.RewardAllCharactersXP(100);
+
+        // Finish game
         StartNewGameOverVictoryEvent();
         yield return null;
     }

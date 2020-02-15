@@ -55,6 +55,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[0], characterOne);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[0], characterOne);
                 CharacterModelController.BuildModelFromPresetString(characterOneButtonModel, characterData);
+                CharacterModelController.BuildModelFromPresetString(KingsBlessingManager.Instance.modelOne, characterData);
                 characterOneButtonModel.SetBaseAnim();
             }
 
@@ -67,6 +68,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[1], characterTwo);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[1], characterTwo);
                 CharacterModelController.BuildModelFromPresetString(characterTwoButtonModel, characterData);
+                CharacterModelController.BuildModelFromPresetString(KingsBlessingManager.Instance.modelTwo, characterData);
                 characterTwoButtonModel.SetBaseAnim();
             }
 
@@ -79,6 +81,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[2], characterThree);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[2], characterThree);
                 CharacterModelController.BuildModelFromPresetString(characterThreeButtonModel, characterData);
+                CharacterModelController.BuildModelFromPresetString(KingsBlessingManager.Instance.modelThree, characterData);
                 characterThreeButtonModel.SetBaseAnim();
             }
 
@@ -91,6 +94,7 @@ public class CharacterRoster : Singleton<CharacterRoster>
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[3], characterFour);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[3], characterFour);
                 CharacterModelController.BuildModelFromPresetString(characterFourButtonModel, characterData);
+                CharacterModelController.BuildModelFromPresetString(KingsBlessingManager.Instance.modelFour, characterData);
                 characterFourButtonModel.SetBaseAnim();
             }
         }

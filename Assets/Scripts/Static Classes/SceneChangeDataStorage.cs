@@ -7,6 +7,6 @@ public class SceneChangeDataStorage : Singleton<SceneChangeDataStorage>
     public List<string> chosenCharacters = new List<string>();
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 }

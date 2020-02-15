@@ -66,6 +66,7 @@ public class MainMenuManager : Singleton<MainMenuManager>
     {
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 4, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
+
         goToTeamBuilderScreenEventTriggered = false;
         HeroSelectionScreen.SetActive(true);
         arrowParent.SetActive(true);

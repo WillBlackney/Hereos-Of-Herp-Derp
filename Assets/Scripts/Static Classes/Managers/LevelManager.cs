@@ -334,7 +334,7 @@ public class LevelManager : Singleton<LevelManager>
         {
             if (
                 (tile.GridPosition.X == 12) 
-                && (tile.GridPosition.Y == 2 || tile.GridPosition.Y == 3 || tile.GridPosition.Y == 4 || tile.GridPosition.Y == 5 || tile.GridPosition.Y == 6)
+                && (tile.GridPosition.Y == 0 || tile.GridPosition.Y == 1 || tile.GridPosition.Y == 2 || tile.GridPosition.Y == 3 || tile.GridPosition.Y == 4 || tile.GridPosition.Y == 5 || tile.GridPosition.Y == 6)
                 )
             {
                 enemySpawnTiles.Add(tile);

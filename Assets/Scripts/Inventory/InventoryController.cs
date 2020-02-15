@@ -11,11 +11,6 @@ public class InventoryController : Singleton<InventoryController>
     [Header("Properties")]
     public GameObject itemBeingDragged;
 
-    private void Start()
-    {
-        AddItemToInventory(ItemLibrary.Instance.GetItemByName("Flaming Longsword"));
-    }
-
     public void AddItemToInventory(ItemDataSO itemAdded)
     {
         Debug.Log("InventoryController.AddItemToInventory() called for " + itemAdded.Name);

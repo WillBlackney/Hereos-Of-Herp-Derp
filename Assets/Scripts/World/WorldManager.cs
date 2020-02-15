@@ -49,7 +49,8 @@ public class WorldManager : Singleton<WorldManager>
         CreateNewWorld();
         SetPlayerPosition(0);
         SetWorldMapReadyState();
-        UIManager.Instance.OnWorldMapButtonClicked();
+        // UIManager.Instance.OnWorldMapButtonClicked();
+        UIManager.Instance.DisableInventoryView();
     }
     public void CreateNewWorld()
     {

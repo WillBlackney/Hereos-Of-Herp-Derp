@@ -39,6 +39,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject frostGolemLeftLeg;
     public GameObject poisonGolemLeftLeg;
     public GameObject airGolemLeftLeg;
+    public GameObject kingLeftLeg;
 
 
     [Header("Right Leg References")]
@@ -71,6 +72,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject frostGolemRightLeg;
     public GameObject poisonGolemRightLeg;
     public GameObject airGolemRightLeg;
+    public GameObject kingRightLeg;
 
     [Header("Head References")]
     public List<GameObject> allHeads;
@@ -102,6 +104,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject frostGolemHead;
     public GameObject poisonGolemHead;
     public GameObject airGolemHead;
+    public GameObject kingHead;
 
     [Header("Right Hand References")]
     public List<GameObject> allRightHands;
@@ -133,6 +136,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject frostGolemRightHand;
     public GameObject poisonGolemRightHand;
     public GameObject airGolemRightHand;
+    public GameObject kingRightHand;
 
     [Header("Right Arm References")]
     public List<GameObject> allRightArms;
@@ -164,6 +168,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject frostGolemRightArm;
     public GameObject poisonGolemRightArm;
     public GameObject airGolemRightArm;
+    public GameObject kingRightArm;
 
     [Header("Left Hand References")]
     public List<GameObject> allLeftHands;
@@ -195,6 +200,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject frostGolemLeftHand;
     public GameObject poisonGolemLeftHand;
     public GameObject airGolemLeftHand;
+    public GameObject kingLeftHand;
 
     [Header("Left Arm References")]
     public List<GameObject> allLeftArms;
@@ -226,6 +232,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject frostGolemLeftArm;
     public GameObject poisonGolemLeftArm;
     public GameObject airGolemLeftArm;
+    public GameObject kingLeftArm;
 
     [Header("Chest References")]
     public List<GameObject> allChests;
@@ -257,6 +264,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject frostGolemChest;
     public GameObject poisonGolemChest;
     public GameObject airGolemChest;
+    public GameObject kingChest;
 
     [Header("Main Hand Weapon References")]
     public List<GameObject> allMainHandWeapons;
