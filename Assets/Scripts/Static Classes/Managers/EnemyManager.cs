@@ -20,7 +20,16 @@ public class EnemyManager : Singleton<EnemyManager>
 
         Defender selectedDefender = DefenderManager.Instance.selectedDefender;
 
-        if (selectedDefender != null && selectedDefender.awaitingStrikeOrder == true)
+        // check consumables first
+        if(ConsumableManager.Instance.awaitingLovePotionTarget ||
+            ConsumableManager.Instance.awaitingHandCannonTarget ||
+            ConsumableManager.Instance.awaitingBlinkPotionCharacterTarget)
+        {
+            ConsumableManager.Instance.ApplyConsumableToTarget(selectedEnemy);
+        }
+
+        // check defender abilities second
+        else if (selectedDefender != null && selectedDefender.awaitingStrikeOrder == true)
         {
             selectedDefender.StartStrikeProcess();
         }

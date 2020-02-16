@@ -355,7 +355,19 @@ public class Defender : LivingEntity
             return;
         }
 
-        if (selectedDefender != null && selectedDefender.awaitingInspireOrder)
+        // Check for consumable orders first
+        if (ConsumableManager.Instance.awaitingAdrenalinePotionTarget ||
+            ConsumableManager.Instance.awaitingBottledBrillianceTarget ||
+            ConsumableManager.Instance.awaitingBottledMadnessTarget ||
+            ConsumableManager.Instance.awaitingPotionOfMightTarget ||
+            ConsumableManager.Instance.awaitingPotionOfClarityTarget ||
+            ConsumableManager.Instance.awaitingVanishPotionTarget)
+        {
+            ConsumableManager.Instance.ApplyConsumableToTarget(this);
+        }
+        
+
+        else if (selectedDefender != null && selectedDefender.awaitingInspireOrder)
         {
             selectedDefender.StartInspireProcess(this);
             return;
@@ -560,6 +572,7 @@ public class Defender : LivingEntity
         bool enableTileHover = true;
         LevelManager.Instance.UnhighlightAllTiles();
         ClearAllOrders();
+        ConsumableManager.Instance.ClearAllConsumableOrders();
 
         // Enable tile hover if ability is usable, and requires targetting
         Ability ability = mySpellBook.GetAbilityByName(abilityName);

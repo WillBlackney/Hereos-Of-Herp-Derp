@@ -237,8 +237,7 @@ public static class EntityLogic
         }
            
         return targetReturned;
-    }
-    
+    }    
 
     #endregion
 

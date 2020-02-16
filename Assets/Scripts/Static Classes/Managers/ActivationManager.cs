@@ -358,7 +358,6 @@ public class ActivationManager : Singleton<ActivationManager>
             return false;
         }
     }
-
     public bool AllEntitiesHaveActivatedThisTurn()
     {
         bool boolReturned = true;

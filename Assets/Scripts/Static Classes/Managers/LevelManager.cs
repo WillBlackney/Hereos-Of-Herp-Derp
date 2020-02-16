@@ -362,6 +362,28 @@ public class LevelManager : Singleton<LevelManager>
         return defenderSpawnTiles;
 
     }   
+    public List<Tile> GetAllCurrentDefenderLocations()
+    {
+        List<Tile> defenderLocations = new List<Tile>();
+
+        foreach(Defender defender in DefenderManager.Instance.allDefenders)
+        {
+            defenderLocations.Add(defender.tile);
+        }
+
+        return defenderLocations;
+    }
+    public List<Tile> GetAllCurrentEnemyLocations()
+    {
+        List<Tile> enemyLocations = new List<Tile>();
+
+        foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
+        {
+            enemyLocations.Add(enemy.tile);
+        }
+
+        return enemyLocations;
+    }
     public Tile GetClosestValidTile(List <Tile> tiles, Tile tileFrom)
     {
         Tile closestTile = null;

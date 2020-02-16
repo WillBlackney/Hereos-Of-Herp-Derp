@@ -118,7 +118,7 @@ public class CombatLogic : MonoBehaviour
         return baseDamageValueReturned;
 
     }
-    private int GetDamageValueAfterResistances(int damageValue, string attackDamageType, LivingEntity target)
+    public int GetDamageValueAfterResistances(int damageValue, string attackDamageType, LivingEntity target)
     {
         // Debug
         Debug.Log("CombatLogic.GetDamageValueAfterResistances() called...");
@@ -573,14 +573,20 @@ public class CombatLogic : MonoBehaviour
     private IEnumerator HandleDamageCoroutine(int damageAmount, LivingEntity attacker, LivingEntity victim, string damageType, Action action, Ability abilityUsed = null, bool ignoreBlock = false)
     {
         // Debug setup
-        string abilityNameString = "None";  
+        string abilityNameString = "None";
+        string attackerName = "No Attacker";
+
+        if(attacker != null)
+        {
+            attackerName = attacker.myName;
+        }
         
         if(abilityUsed != null)
         {
             abilityNameString = abilityUsed.abilityName;
         }
 
-        Debug.Log("CombatLogic.NewHandleDamageCoroutine() started: damageAmount (" + damageAmount.ToString() + "), attacker (" + attacker.name +
+        Debug.Log("CombatLogic.NewHandleDamageCoroutine() started: damageAmount (" + damageAmount.ToString() + "), attacker (" + attackerName +
             "), damageType(" + damageType + "), abilityUsed (" + abilityNameString + "), ignoreBlock (" + ignoreBlock.ToString()
             );
 
@@ -710,7 +716,8 @@ public class CombatLogic : MonoBehaviour
         }
 
         // Life steal
-        if (attacker.myPassiveManager.lifeSteal && totalLifeLost > 0 &&
+        if (attacker != null &&
+            attacker.myPassiveManager.lifeSteal && totalLifeLost > 0 &&
             abilityUsed != null &&
             abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
         {
@@ -720,7 +727,8 @@ public class CombatLogic : MonoBehaviour
         }
 
         // Poisonous trait
-        if (attacker.myPassiveManager.poisonous && totalLifeLost > 0 &&
+        if (attacker != null &&
+            attacker.myPassiveManager.poisonous && totalLifeLost > 0 &&
             abilityUsed != null &&
             (abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack ||
             abilityUsed.abilityType == AbilityDataSO.AbilityType.RangedAttack))
@@ -731,7 +739,8 @@ public class CombatLogic : MonoBehaviour
         }
 
         // Immolation trait
-        if (attacker.myPassiveManager.immolation && totalLifeLost > 0 &&
+        if (attacker != null &&
+            attacker.myPassiveManager.immolation && totalLifeLost > 0 &&
             abilityUsed != null &&
             (abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack ||
             abilityUsed.abilityType == AbilityDataSO.AbilityType.RangedAttack))
@@ -768,7 +777,7 @@ public class CombatLogic : MonoBehaviour
         }
 
         // Thorns
-        if (victim.myPassiveManager.thorns)
+        if (victim.myPassiveManager.thorns && attacker != null)
         {
             if (abilityUsed != null &&
                 abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
@@ -855,6 +864,7 @@ public class CombatLogic : MonoBehaviour
             else
             {
                 Debug.Log(victim.name + " has no means to prevent death, starting death process...");
+
                 // the victim was killed, start death process
                 victim.inDeathProcess = true;
                 victim.StopAllCoroutines();

@@ -118,7 +118,17 @@ public class Tile : MonoBehaviour
         LevelManager.Instance.selectedTile = this;
         Defender selectedDefender = DefenderManager.Instance.selectedDefender;
 
-        if (selectedDefender != null && selectedDefender.awaitingMoveOrder == true)
+        // check consumables first
+        if(ConsumableManager.Instance.awaitingMolotovTarget ||
+            ConsumableManager.Instance.awaitingDynamiteTarget ||
+            ConsumableManager.Instance.awaitingPoisonGrenadeTarget ||
+            ConsumableManager.Instance.awaitingBottledFrostTarget)
+        {
+            ConsumableManager.Instance.ApplyConsumableToTarget(this);
+        }
+
+        // Check abilities second
+        else if (selectedDefender != null && selectedDefender.awaitingMoveOrder == true)
         {
             Debug.Log("Starting Movement Process...");
             selectedDefender.StartMoveAbilityProcess(this);

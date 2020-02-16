@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
         if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape))
         {
             UnselecteDefender();
+            ConsumableManager.Instance.ClearAllConsumableOrders();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
