@@ -30,10 +30,15 @@ public class SceneController : MonoBehaviour
     }
     private IEnumerator LoadSceneAsyncCoroutine(string sceneName)
     {
-        bool fadeOutStarted = false;
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        // Set up
+        loadingScreenSlider.value = 0;
+        bool fadeOutStarted = false;        
         float startTime = Time.time;
 
+        // Start async scene load
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+
+        // Update load progress bar + text
         while (operation.isDone == false)
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
