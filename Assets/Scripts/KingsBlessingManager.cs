@@ -136,6 +136,7 @@ public class KingsBlessingManager : MonoBehaviour
         {
             ConsumableManager.Instance.StartGainConsumableProcess(ConsumableLibrary.Instance.GetRandomConsumable());
             ConsumableManager.Instance.StartGainConsumableProcess(ConsumableLibrary.Instance.GetRandomConsumable());
+            ConsumableManager.Instance.StartGainConsumableProcess(ConsumableLibrary.Instance.GetConsumableDataByName("Hand Cannon"));
         }
         else if (choiceName == "Gain A Random State. Gain A Random Afflication")
         {

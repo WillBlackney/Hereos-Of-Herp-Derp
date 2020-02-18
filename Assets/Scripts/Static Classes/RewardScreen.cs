@@ -27,6 +27,7 @@ public class RewardScreen : MonoBehaviour
     public GameObject currentGoldRewardButton;
     public GameObject currentItemRewardButton;
     public GameObject currentStateRewardButton;
+    public GameObject currentConsumableRewardButton;
 
     [Header("Current Item References")]
     public GameObject currentItemOne;
@@ -51,19 +52,27 @@ public class RewardScreen : MonoBehaviour
     #region
     public void CreateGoldRewardButton()
     {
-        Debug.Log("CreateGoldRewardButton() called...");
+        Debug.Log("RewardScreen.CreateGoldRewardButton() called...");
         currentGoldRewardButton = Instantiate(PrefabHolder.Instance.GoldRewardButton, RewardButtonParent.transform);
         GoldRewardButton gwrButton = currentGoldRewardButton.GetComponent<GoldRewardButton>();
         gwrButton.InitializeSetup();
     }
+    public void CreateConsumableRewardButton()
+    {
+        Debug.Log("RewardScreen.CreateConsumableRewardButton() called...");
+        currentConsumableRewardButton = Instantiate(PrefabHolder.Instance.ConsumableRewardButton, RewardButtonParent.transform);
+        ConsumableRewardButton crButton = currentConsumableRewardButton.GetComponent<ConsumableRewardButton>();
+        crButton.InitializeSetup();
+
+    }
     public void CreateStateRewardButton()
     {
-        Debug.Log("CreateStateRewardButton() called...");
+        Debug.Log("RewardScreen.CreateStateRewardButton() called...");
         currentStateRewardButton = Instantiate(PrefabHolder.Instance.stateRewardButton, RewardButtonParent.transform);       
     }
     public void CreateItemRewardButton()
     {
-        Debug.Log("CreateItemRewardButton() called...");
+        Debug.Log("RewardScreen.CreateItemRewardButton() called...");
         currentItemRewardButton = Instantiate(PrefabHolder.Instance.ItemRewardButton, RewardButtonParent.transform);
     }
     #endregion
@@ -83,6 +92,10 @@ public class RewardScreen : MonoBehaviour
         }
 
         if (currentStateRewardButton != null)
+        {
+            Destroy(currentStateRewardButton);
+        }
+        if (currentConsumableRewardButton != null)
         {
             Destroy(currentStateRewardButton);
         }

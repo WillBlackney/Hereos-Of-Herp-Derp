@@ -17,7 +17,7 @@ public class CombatLogic : MonoBehaviour
     #region
     public bool IsTargetFriendly(LivingEntity caster, LivingEntity target)
     {
-        Debug.Log("CombatLogic.IsTargetFriendly() called, comparing " + caster.name + " and " + target.name);
+        Debug.Log("CombatLogic.IsTargetFriendly() called, comparing " + caster.myName + " and " + target.myName);
 
         Defender defender = caster.GetComponent<Defender>();
         Enemy enemy = caster.GetComponent<Enemy>();

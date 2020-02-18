@@ -20,6 +20,11 @@ public class ShopScreenManager : MonoBehaviour
     public ItemSlot itemSlotSeven;
     public ItemSlot itemSlotEight;
 
+    [Header("Consumable Slot References")]
+    public ConsumableInShop consumableSlotOne;
+    public ConsumableInShop consumableSlotTwo;
+    public ConsumableInShop consumableSlotThree;
+
     [Header("Artifact Slot References")]
     public ArtifactSlot artifactSlotOne;
     public ArtifactSlot artifactSlotTwo;
@@ -84,6 +89,7 @@ public class ShopScreenManager : MonoBehaviour
     public void LoadShopScreenEntities()
     {
         PopulateItemSlots();
+        PopulateConsumableSlots();
     }
     public void PopulateItemSlots()
     {
@@ -136,7 +142,12 @@ public class ShopScreenManager : MonoBehaviour
         }
 
     }
-    
+    public void PopulateConsumableSlots()
+    {
+        consumableSlotOne.BuildFromData(ConsumableLibrary.Instance.GetRandomConsumable());
+        consumableSlotTwo.BuildFromData(ConsumableLibrary.Instance.GetRandomConsumable());
+        consumableSlotThree.BuildFromData(ConsumableLibrary.Instance.GetRandomConsumable());
+    }
     #endregion
 
     // Get Item Data Logic

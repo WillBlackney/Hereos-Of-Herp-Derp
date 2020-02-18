@@ -348,6 +348,7 @@ public class EventManager : Singleton<EventManager>
             UIManager.Instance.EnableRewardScreenView();
             RewardScreen.Instance.CreateGoldRewardButton();
             RewardScreen.Instance.CreateItemRewardButton();
+            RewardScreen.Instance.CreateConsumableRewardButton();
             RewardScreen.Instance.PopulateItemScreen();
         }
         else if (encounterType == WorldEncounter.EncounterType.EliteEnemy)
@@ -355,6 +356,7 @@ public class EventManager : Singleton<EventManager>
             UIManager.Instance.EnableRewardScreenView();
             RewardScreen.Instance.CreateGoldRewardButton();
             RewardScreen.Instance.CreateItemRewardButton();
+            RewardScreen.Instance.CreateConsumableRewardButton();
             RewardScreen.Instance.PopulateItemScreen();
         }
         else if (encounterType == WorldEncounter.EncounterType.Treasure)

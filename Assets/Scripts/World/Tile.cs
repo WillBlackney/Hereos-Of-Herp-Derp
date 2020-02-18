@@ -119,12 +119,20 @@ public class Tile : MonoBehaviour
         Defender selectedDefender = DefenderManager.Instance.selectedDefender;
 
         // check consumables first
-        if(ConsumableManager.Instance.awaitingMolotovTarget ||
+        if (ConsumableManager.Instance.awaitingMolotovTarget ||
             ConsumableManager.Instance.awaitingDynamiteTarget ||
             ConsumableManager.Instance.awaitingPoisonGrenadeTarget ||
             ConsumableManager.Instance.awaitingBottledFrostTarget)
         {
             ConsumableManager.Instance.ApplyConsumableToTarget(this);
+        }
+
+        else if (ConsumableManager.Instance.awaitingBlinkPotionDestinationTarget &&
+            IsWalkable &&
+            IsEmpty &&
+            LevelManager.Instance.GetTilesWithinRange(2, ConsumableManager.Instance.blinkPotionTarget.tile).Contains(this))
+        {
+            ConsumableManager.Instance.PerformBlinkPotion(this);
         }
 
         // Check abilities second

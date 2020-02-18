@@ -25,6 +25,7 @@ public class PrefabHolder : Singleton<PrefabHolder>
 
     [Header("Loot Related")]
     public GameObject GoldRewardButton;
+    public GameObject ConsumableRewardButton;
     public GameObject ItemRewardButton;
     public GameObject stateRewardButton;
     public GameObject ArtifactGO;

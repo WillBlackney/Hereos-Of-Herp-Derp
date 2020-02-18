@@ -11,6 +11,7 @@ public class ConsumableManager : Singleton<ConsumableManager>
     public ConsumableTopPanelSlot slotThree;
 
     [Header("Consumable Order Properties")]
+    public LivingEntity blinkPotionTarget;
     public bool awaitingAdrenalinePotionTarget;
     public bool awaitingBottledBrillianceTarget;
     public bool awaitingBottledMadnessTarget;
@@ -253,6 +254,8 @@ public class ConsumableManager : Singleton<ConsumableManager>
         LevelManager.Instance.UnhighlightAllTiles();
         TileHover.Instance.SetVisibility(false);
 
+        blinkPotionTarget = null;
+
         awaitingAdrenalinePotionTarget = false;
         awaitingBottledBrillianceTarget = false;
         awaitingBottledMadnessTarget = false;
@@ -305,9 +308,9 @@ public class ConsumableManager : Singleton<ConsumableManager>
             RemoveConsumable(GetActiveConsumableByName("Potion Of Might"));
             ClearAllConsumableOrders();
         }
-        else if (awaitingPotionOfMightTarget)
+        else if (awaitingVanishPotionTarget)
         {
-            Debug.Log("ConsumableManager.ApplyConsumableToTarget() applying Potion Of Might to " + target.myName);
+            Debug.Log("ConsumableManager.ApplyConsumableToTarget() applying Vanish Potion to " + target.myName);
 
             target.myPassiveManager.ModifyCamoflage(1);
             RemoveConsumable(GetActiveConsumableByName("Vanish Potion"));
@@ -379,6 +382,22 @@ public class ConsumableManager : Singleton<ConsumableManager>
             RemoveConsumable(GetActiveConsumableByName("Poison Grenade"));
             ClearAllConsumableOrders();
             PerformPoisonGrenade(location);
+        }
+    }
+    public void BuyConsumableFromShop(ConsumableInShop consumable)
+    {
+        Debug.Log("CnsumableManager.BuyConsumableFromShop() called...");
+
+        if (PlayerDataManager.Instance.currentGold >= consumable.goldCost && HasAtleastOneSlotAvailble())
+        {
+            Debug.Log("Buying Consumable " + consumable.myData.consumableName + " for " + consumable.goldCost.ToString());            
+            PlayerDataManager.Instance.ModifyGold(-consumable.goldCost);
+            consumable.DisableSlotView();
+            GainConsumable(consumable.myData);
+        }
+        else
+        {
+            Debug.Log("Cannot buy consumable: Not enough gold, or no empty consumable slots...");
         }
     }
 
@@ -568,6 +587,31 @@ public class ConsumableManager : Singleton<ConsumableManager>
         // Resolve and Finish
         action.actionResolved = true;
 
+    }
+    public void StartBlinkPotionLocationSettingProcess(LivingEntity target)
+    {
+        LevelManager.Instance.UnhighlightAllTiles();
+
+        blinkPotionTarget = target;
+        LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetValidMoveableTilesWithinRange(2, blinkPotionTarget.tile, true));
+        awaitingBlinkPotionCharacterTarget = false;
+        awaitingBlinkPotionDestinationTarget = true;
+    }
+    public Action PerformBlinkPotion(Tile location)
+    {
+        Action action = new Action();
+        StartCoroutine(PerformBlinkPotionCoroutine(location, action));
+        return action;
+    }
+    public IEnumerator PerformBlinkPotionCoroutine(Tile location, Action action)
+    {
+        RemoveConsumable(GetActiveConsumableByName("Blink Potion"));        
+
+        Action teleportAction = MovementLogic.Instance.TeleportEntity(blinkPotionTarget, location);
+        ClearAllConsumableOrders();
+        yield return new WaitUntil(() => teleportAction.ActionResolved() == true);
+
+        action.actionResolved = true;
     }
     #endregion
 }

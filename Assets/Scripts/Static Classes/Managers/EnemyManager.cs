@@ -21,11 +21,23 @@ public class EnemyManager : Singleton<EnemyManager>
         Defender selectedDefender = DefenderManager.Instance.selectedDefender;
 
         // check consumables first
-        if(ConsumableManager.Instance.awaitingLovePotionTarget ||
-            ConsumableManager.Instance.awaitingHandCannonTarget ||
-            ConsumableManager.Instance.awaitingBlinkPotionCharacterTarget)
+        if (ConsumableManager.Instance.awaitingLovePotionTarget ||
+            ConsumableManager.Instance.awaitingHandCannonTarget)
         {
             ConsumableManager.Instance.ApplyConsumableToTarget(selectedEnemy);
+        }
+
+        else if (ConsumableManager.Instance.awaitingMolotovTarget ||
+            ConsumableManager.Instance.awaitingDynamiteTarget ||
+            ConsumableManager.Instance.awaitingPoisonGrenadeTarget ||
+            ConsumableManager.Instance.awaitingBottledFrostTarget)
+        {
+            ConsumableManager.Instance.ApplyConsumableToTarget(selectedEnemy.tile);
+        }
+
+        else if (ConsumableManager.Instance.awaitingBlinkPotionCharacterTarget)
+        {
+            ConsumableManager.Instance.StartBlinkPotionLocationSettingProcess(selectedEnemy);
         }
 
         // check defender abilities second

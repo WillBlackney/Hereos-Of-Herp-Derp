@@ -365,8 +365,21 @@ public class Defender : LivingEntity
         {
             ConsumableManager.Instance.ApplyConsumableToTarget(this);
         }
-        
 
+        else if (ConsumableManager.Instance.awaitingMolotovTarget ||
+            ConsumableManager.Instance.awaitingDynamiteTarget ||
+            ConsumableManager.Instance.awaitingPoisonGrenadeTarget ||
+            ConsumableManager.Instance.awaitingBottledFrostTarget)
+        {
+            ConsumableManager.Instance.ApplyConsumableToTarget(tile);
+        }
+
+        else if (ConsumableManager.Instance.awaitingBlinkPotionCharacterTarget)
+        {
+            ConsumableManager.Instance.StartBlinkPotionLocationSettingProcess(this);
+        }
+
+        // Check ability orders second
         else if (selectedDefender != null && selectedDefender.awaitingInspireOrder)
         {
             selectedDefender.StartInspireProcess(this);

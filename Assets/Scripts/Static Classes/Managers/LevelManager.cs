@@ -384,6 +384,15 @@ public class LevelManager : Singleton<LevelManager>
 
         return enemyLocations;
     }
+    public List<Tile> GetAllCurrentLivingEntitiesLocations()
+    {
+        List<Tile> entityLocations = new List<Tile>();
+
+        entityLocations.AddRange(GetAllCurrentDefenderLocations());
+        entityLocations.AddRange(GetAllCurrentEnemyLocations());
+
+        return entityLocations;
+    }
     public Tile GetClosestValidTile(List <Tile> tiles, Tile tileFrom)
     {
         Tile closestTile = null;

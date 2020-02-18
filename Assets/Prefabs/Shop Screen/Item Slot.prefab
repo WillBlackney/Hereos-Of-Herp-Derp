@@ -32,7 +32,7 @@ RectTransform:
   - {fileID: 6107719639591057014}
   - {fileID: 6107719639213127903}
   m_Father: {fileID: 6107719639412350651}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -56,7 +56,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6107719638907649146}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -65,8 +65,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 4d6a99baee23b654f9e4bb672ae0b438, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
@@ -76,6 +74,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6107719639213127902
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,7 +129,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6107719639213127902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -139,8 +138,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 34c25562f89b231479b5f754ed7c3252, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -150,6 +147,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6107719639412350650
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,8 +176,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 32375540733836517}
   - {fileID: 6107719638907649147}
+  - {fileID: 32375540733836517}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -266,8 +264,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 72
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a4e594a45eb5ad0468b0c37f19dae334, type: 2}
@@ -368,10 +364,35 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6107719639412350651}
     m_Modifications:
-    - target: {fileID: 6102940201404517147, guid: aeb27dee0749bce458ec2ce0df595b1f,
+    - target: {fileID: 6102940200329026938, guid: aeb27dee0749bce458ec2ce0df595b1f,
         type: 3}
-      propertyPath: m_Name
-      value: Item Card
+      propertyPath: m_textInfo.characterCount
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6102940200329026938, guid: aeb27dee0749bce458ec2ce0df595b1f,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6102940200329026938, guid: aeb27dee0749bce458ec2ce0df595b1f,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6102940200329026938, guid: aeb27dee0749bce458ec2ce0df595b1f,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6102940200329026938, guid: aeb27dee0749bce458ec2ce0df595b1f,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6102940200376418101, guid: aeb27dee0749bce458ec2ce0df595b1f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.19999695
       objectReference: {fileID: 0}
     - target: {fileID: 6102940201404517146, guid: aeb27dee0749bce458ec2ce0df595b1f,
         type: 3}
@@ -411,7 +432,7 @@ PrefabInstance:
     - target: {fileID: 6102940201404517146, guid: aeb27dee0749bce458ec2ce0df595b1f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6102940201404517146, guid: aeb27dee0749bce458ec2ce0df595b1f,
         type: 3}
@@ -488,10 +509,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 6102940200376418101, guid: aeb27dee0749bce458ec2ce0df595b1f,
+    - target: {fileID: 6102940201404517147, guid: aeb27dee0749bce458ec2ce0df595b1f,
         type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.19999695
+      propertyPath: m_Name
+      value: Item Card
       objectReference: {fileID: 0}
     - target: {fileID: 6102940202297351437, guid: aeb27dee0749bce458ec2ce0df595b1f,
         type: 3}
@@ -514,31 +535,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6102940202297351437, guid: aeb27dee0749bce458ec2ce0df595b1f,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6102940200329026938, guid: aeb27dee0749bce458ec2ce0df595b1f,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 6102940200329026938, guid: aeb27dee0749bce458ec2ce0df595b1f,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6102940200329026938, guid: aeb27dee0749bce458ec2ce0df595b1f,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6102940200329026938, guid: aeb27dee0749bce458ec2ce0df595b1f,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6102940200329026938, guid: aeb27dee0749bce458ec2ce0df595b1f,
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 1
