@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterRoster : Singleton<CharacterRoster>
+public class CharacterRoster : MonoBehaviour
 {
     [Header("Component References")]
     public GameObject CharacterRosterVisualParent;
@@ -25,6 +25,11 @@ public class CharacterRoster : Singleton<CharacterRoster>
 
     // Initialization + Setup
     #region
+    public static CharacterRoster Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void Start()
     {
         InitializeSetup();
@@ -99,17 +104,8 @@ public class CharacterRoster : Singleton<CharacterRoster>
             }
         }
 
-        // hardcoded names, for testing. REMOVE LATER
-        //characterOne.SetMyName("Will");
-        //characterTwo.SetMyName("Cecilie");
-        //characterThree.SetMyName("Leo");
-        //characterFour.SetMyName("Ella");
-
         // enable character one's panel view by default
         OnCharacterDataButtonClicked(characterOne);
-
-        // Disables the roster view on scene load
-        //CharacterRosterVisualParent.SetActive(false);
     }
     public void InstantiateDefenders()
     {

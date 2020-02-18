@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : Singleton<EnemyManager>
+public class EnemyManager : MonoBehaviour
 {   
     [Header("Component References")]
     public GameObject enemiesParent;
@@ -11,6 +11,11 @@ public class EnemyManager : Singleton<EnemyManager>
     public List<Enemy> allEnemies = new List<Enemy>();    
     public Enemy selectedEnemy;
 
+    public static EnemyManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
     // Logic
     #region
     public void SelectEnemy(Enemy enemy)

@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArtifactLibrary : Singleton<ArtifactLibrary>
+public class ArtifactLibrary : MonoBehaviour
 {
     [Header("Properties")]
     public List<ArtifactDataSO> allArtifacts;
     public ArtifactDataSO stinkyPooArtifact;
+
+    public static ArtifactLibrary Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public ArtifactDataSO GetRandomViableArtifact()
     {

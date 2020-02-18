@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class TileSpriteManager : Singleton<TileSpriteManager>
+public class TileSpriteManager : MonoBehaviour
 {
     [Header("Component References")]
     public GameObject edgePrefabGO;
@@ -17,6 +17,12 @@ public class TileSpriteManager : Singleton<TileSpriteManager>
     public Sprite northWestEdge;
     public Sprite southEastEdge;
     public Sprite southWestEdge;
+
+    public static TileSpriteManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Edge + position checks
     #region

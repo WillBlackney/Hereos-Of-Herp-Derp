@@ -867,7 +867,7 @@ public class CombatLogic : MonoBehaviour
 
                 // the victim was killed, start death process
                 victim.inDeathProcess = true;
-                victim.StopAllCoroutines();
+                //victim.StopAllCoroutines();
                 StartCoroutine(victim.HandleDeath());
             }
             

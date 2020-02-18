@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldManager : Singleton<WorldManager>
+public class WorldManager : MonoBehaviour
 {
     [Header("Properties")]
     public World currentWorld;
@@ -40,6 +40,11 @@ public class WorldManager : Singleton<WorldManager>
 
     // Initialization + Setup
     #region
+    public static WorldManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void Start()
     {
         OnNewGameStarted();

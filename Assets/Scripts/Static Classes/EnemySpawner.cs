@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawner : Singleton<EnemySpawner>
+public class EnemySpawner : MonoBehaviour
 {
     [Header("Enemy Encounter Lists")]
     public List<EnemyWaveSO> basicEnemyWaves;
@@ -19,6 +19,11 @@ public class EnemySpawner : Singleton<EnemySpawner>
 
     // Initialization + Setup
     #region
+    public static EnemySpawner Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void Start()
     {
         PopulateWaveList(viableBasicEnemyWaves, basicEnemyWaves);

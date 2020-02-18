@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class TurnManager : Singleton<TurnManager>
+public class TurnManager : MonoBehaviour
 {
     [Header("Turn Notifier Properties + Components")]
     public TextMeshProUGUI whoseTurnText;
@@ -13,9 +13,14 @@ public class TurnManager : Singleton<TurnManager>
     public GameObject middlePos;
 
     public bool currentlyPlayersTurn = false;
-
     public int currentTurnCount = 0;
     public int enemyTurnCount = 0;
+
+    public static TurnManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public bool playerOnTurnEndEventsResolved;
     public bool PlayerOnTurnEndEventsResolved()

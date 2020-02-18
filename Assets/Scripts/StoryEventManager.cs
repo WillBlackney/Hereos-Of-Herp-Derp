@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StoryEventManager : Singleton<StoryEventManager>
+public class StoryEventManager : MonoBehaviour
 {
     [Header("Button References")]
     public StoryEventButton actionButtonOne;
@@ -33,6 +33,11 @@ public class StoryEventManager : Singleton<StoryEventManager>
     public bool awaitingAskForWisdomChoice;
     public bool awaitingAskForHealthChoice;
 
+    public static StoryEventManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Initialization + Setup
     #region

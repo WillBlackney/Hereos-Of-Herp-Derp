@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileHover : Singleton<TileHover>
+public class TileHover : MonoBehaviour
 {
     [Header("Component References")]
     public GameObject myVisualParent;    
@@ -25,5 +25,11 @@ public class TileHover : Singleton<TileHover>
         myVisualParent.SetActive(onOrOff);
         isActive = onOrOff;
     }
-    
+
+    public static TileHover Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
+
 }

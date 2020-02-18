@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConsumableManager : Singleton<ConsumableManager>
+public class ConsumableManager : MonoBehaviour
 {
+    public static ConsumableManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     [Header("Component References")]
     public List<Consumable> activeConsumables;
     public ConsumableTopPanelSlot slotOne;

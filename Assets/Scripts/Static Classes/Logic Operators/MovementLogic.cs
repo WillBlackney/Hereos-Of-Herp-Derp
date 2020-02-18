@@ -3,8 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class MovementLogic : Singleton<MovementLogic>
+public class MovementLogic : MonoBehaviour
 {
+    public static MovementLogic Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     // Path Generation + AStar Logic
     public bool movementPaused;
     #region

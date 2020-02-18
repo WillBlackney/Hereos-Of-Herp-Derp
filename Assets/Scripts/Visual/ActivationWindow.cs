@@ -91,13 +91,15 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 }                
                 ActivationManager.Instance.panelSlots.Remove(slotDestroyed);                
                 Destroy(slotDestroyed);
-                Destroy(gameObject);
-                action.actionResolved = true;
+               // Destroy(gameObject);
+                //action.actionResolved = true;
             }
             yield return new WaitForEndOfFrame();
-        }        
-        
+        }
 
+        action.actionResolved = true;
+        //Destroy(slotDestroyed);
+        Destroy(gameObject);
     }
 
     public void DestroyWindowOnCombatEnd()

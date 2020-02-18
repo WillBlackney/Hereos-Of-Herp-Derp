@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PlayerDataManager : Singleton<PlayerDataManager>
+public class PlayerDataManager : MonoBehaviour
 {
     [Header("Component References")]
     public TextMeshProUGUI currentGoldText;    
@@ -11,6 +11,12 @@ public class PlayerDataManager : Singleton<PlayerDataManager>
     [Header("Properties")]
     public int startingGold;
     public int currentGold;
+
+    public static PlayerDataManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Initialization + Setup
     #region

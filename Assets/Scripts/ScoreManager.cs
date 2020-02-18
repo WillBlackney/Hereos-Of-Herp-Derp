@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ScoreManager : Singleton<ScoreManager>
+public class ScoreManager : MonoBehaviour
 {
     [Header("Component References")]
     public GameObject scoreElementPrefab;
@@ -30,6 +30,11 @@ public class ScoreManager : Singleton<ScoreManager>
     public int killedEliteNoDamageTaken;
     public int killedBossNoDamageTaken;
 
+    public static ScoreManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
     public Action CalculateFinalScore()
     {
         Action action = new Action();

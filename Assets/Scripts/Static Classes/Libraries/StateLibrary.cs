@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateLibrary : Singleton<StateLibrary>
+public class StateLibrary : MonoBehaviour
 {
+    public static StateLibrary Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
     public List<StateDataSO> allStates;
     public StateDataSO GetStateByName(string name)
     {

@@ -49,7 +49,6 @@ public class SkeletonAssassin : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, shank))
         {
-            //SetTargetDefender(EntityLogic.GetBestTarget(this, false, true));
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shank");
             yield return new WaitForSeconds(0.5f);
 

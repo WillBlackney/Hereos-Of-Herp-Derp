@@ -31,7 +31,7 @@ Transform:
   - {fileID: 4617488775616908}
   m_Father: {fileID: 4950898996263370}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 164.42459}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 170.72328}
 --- !u!1 &1182538731375984
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myLivingEntity: {fileID: 0}
+  allRenderers: []
   allLeftLegs:
   - {fileID: 7841373731511505985}
   - {fileID: 4079551044057570074}
@@ -642,7 +643,7 @@ Transform:
   - {fileID: 4503815895446138}
   m_Father: {fileID: 4168412347097908}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 91.14197}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -179.82867}
 --- !u!1 &1317261067654994
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,7 +674,7 @@ Transform:
   - {fileID: 4050583861506420}
   m_Father: {fileID: 4168412347097908}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -105.87053}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -34.040966}
 --- !u!1 &1335816973895354
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,7 +705,7 @@ Transform:
   - {fileID: 9133241293255526422}
   m_Father: {fileID: 4950898996263370}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 2.99664}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.28647295}
 --- !u!1 &1376393480637814
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,7 +828,7 @@ Transform:
   - {fileID: 4448513962729206}
   m_Father: {fileID: 4168412347097908}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -76.31821}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -15.563664}
 --- !u!1 &1479701135195444
 GameObject:
   m_ObjectHideFlags: 0
@@ -1327,7 +1328,7 @@ Transform:
   - {fileID: 4268558079222172}
   m_Father: {fileID: 4950898996263370}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -168.51227}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 173.95712}
 --- !u!1 &1862461108867550
 GameObject:
   m_ObjectHideFlags: 0
@@ -3759,7 +3760,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: eedb7c51da7aa9a468d4c397cf6d0066, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -4079,7 +4080,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: 79e63baa7c7a68147bf92fd3632b55e9, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -4801,7 +4802,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 00956ea1996a5f342b704b22185df4fb, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -7826,7 +7827,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: ed510bc3343df504794f59d9f254edf3, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -13902,7 +13903,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: 266aabaeb0fbbdb438fadee3a184f5e2, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -16871,7 +16872,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: c2d1ea6f83db76f4ea898d43ff4fa86c, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -16954,7 +16955,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: 5a59c76d2541a5f4d8b3fc9f5407cd3f, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -20406,7 +20407,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 2874ac521884cf744b48c7cb5990731f, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -64176,6 +64177,13 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
+  - time: 0.51666665
+    functionName: StartDeathFadeOut
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 1
     functionName: SetDeathAnimAsFinished
     data: 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryController : Singleton<InventoryController>
+public class InventoryController : MonoBehaviour
 {
     [Header("Component References")]
     public GameObject itemsParent;
@@ -11,6 +11,11 @@ public class InventoryController : Singleton<InventoryController>
     [Header("Properties")]
     public GameObject itemBeingDragged;
 
+    public static InventoryController Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
     public void AddItemToInventory(ItemDataSO itemAdded)
     {
         Debug.Log("InventoryController.AddItemToInventory() called for " + itemAdded.Name);

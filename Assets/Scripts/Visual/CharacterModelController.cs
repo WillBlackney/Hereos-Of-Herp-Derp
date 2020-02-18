@@ -121,6 +121,10 @@ public static class CharacterModelController
         {
             SetUpAsPoisonGolemPreset(model);
         }
+        else if (preset == "Volatile Zombie")
+        {
+            SetUpAsVolatileZombiePreset(model);
+        }
     }
     public static void DisableAllViewsInList(List<GameObject> listOfViews)
     {

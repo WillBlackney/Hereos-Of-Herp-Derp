@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConsumableLibrary : Singleton<ConsumableLibrary>
+public class ConsumableLibrary : MonoBehaviour
 {
     public List<ConsumableDataSO> allConsumables;
-
+    public static ConsumableLibrary Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
     public ConsumableDataSO GetConsumableDataByName(string name)
     {
         Debug.Log("ConsumableLibrary.GetConsumableDataByName() called, searching for: " + name);

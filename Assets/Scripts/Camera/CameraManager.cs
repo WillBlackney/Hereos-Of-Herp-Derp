@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class CameraManager : Singleton<CameraManager>
+public class CameraManager : MonoBehaviour
 {
     [Header("Component References")]
     public Camera unityCamera;
@@ -11,6 +11,12 @@ public class CameraManager : Singleton<CameraManager>
 
     [Header("Properties")]
     public GameObject currentLookAtTarget;
+
+    public static CameraManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void SetCameraLookAtTarget(GameObject target)
     {

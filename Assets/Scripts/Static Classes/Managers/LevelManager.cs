@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class LevelManager : Singleton<LevelManager>
+public class LevelManager : MonoBehaviour
 {
     [Header("Prefab References")]
     [SerializeField] private GameObject[] tilePrefabs;    
@@ -19,7 +19,13 @@ public class LevelManager : Singleton<LevelManager>
     public GameObject currentLevelBG;
     public Tile mousedOverTile;
     public Dictionary<Point, Tile> Tiles { get; set; }
-    public List<Tile> HighlightedTiles = new List<Tile>();    
+    public List<Tile> HighlightedTiles = new List<Tile>();
+
+    public static LevelManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Initialzation + Level Creation
     #region

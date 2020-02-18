@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefenderManager : Singleton<DefenderManager>
+public class DefenderManager : MonoBehaviour
 {
     [Header("Component References")]
     public GameObject defendersParent;
@@ -11,6 +11,12 @@ public class DefenderManager : Singleton<DefenderManager>
     public Defender selectedDefender;
     public List<Defender> allDefenders = new List<Defender>();
     public List<Tile> spawnLocations = new List<Tile>();
+
+    public static DefenderManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Defender Selection
     #region

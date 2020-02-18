@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PrefabHolder : Singleton<PrefabHolder>
+public class PrefabHolder : MonoBehaviour
 {
     [Header("Buttons + UI")]
     public GameObject AbilityButtonPrefab;
@@ -43,4 +43,10 @@ public class PrefabHolder : Singleton<PrefabHolder>
     public GameObject SkeletonPeasantPrefab;
     public List<GameObject> skeletonPrefabs;
 
+
+    public static PrefabHolder Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 }

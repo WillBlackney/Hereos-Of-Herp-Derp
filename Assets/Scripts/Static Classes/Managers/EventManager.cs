@@ -2,12 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventManager : Singleton<EventManager>
+public class EventManager : MonoBehaviour
 {
     [Header("Properties")]
     public bool gameOverEventStarted;
     public TreasureChest activeTreasureChest;
     public WorldEncounter.EncounterType currentEncounterType;
+
+    public static EventManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Start New Encounter Events
     #region

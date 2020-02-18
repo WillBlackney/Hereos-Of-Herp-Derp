@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathRenderer : Singleton<PathRenderer>
+public class PathRenderer : MonoBehaviour
 {
     [Header("Component References")]
     public LineRenderer lineRenderer;
@@ -11,6 +11,12 @@ public class PathRenderer : Singleton<PathRenderer>
     [Header("Properties")]
     public List<Tile> currentPath;
     public bool active;
+
+    public static PathRenderer Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void DrawPath()
     {

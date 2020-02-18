@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class ActivationManager : Singleton<ActivationManager>
+public class ActivationManager : MonoBehaviour
 {
     [Header("Component References")]
     public GameObject activationSlotContentParent;
@@ -36,6 +36,11 @@ public class ActivationManager : Singleton<ActivationManager>
         ActivationWindow newWindowScript = newWindow.GetComponent<ActivationWindow>();
         newWindowScript.InitializeSetup(entity);        
         activationOrder.Add(entity);
+    }
+    public static ActivationManager Instance;
+    private void Awake()
+    {
+        Instance = this;
     }
     #endregion
 

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class UIManager : Singleton<UIManager>
+public class UIManager : MonoBehaviour
 {
     [Header("UI Component References")]    
     public GameObject GameOverScreenParent;
@@ -23,6 +23,11 @@ public class UIManager : Singleton<UIManager>
     public Sprite EndTurnButtonDisabledSprite;
     public Sprite EndTurnButtonEnabledSprite;
 
+    public static UIManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Mouse + Click Events
     #region

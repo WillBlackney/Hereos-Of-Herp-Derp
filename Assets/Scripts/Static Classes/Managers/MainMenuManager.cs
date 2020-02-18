@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
-public class MainMenuManager : Singleton<MainMenuManager>
+public class MainMenuManager : MonoBehaviour
 {
     [Header("Component References")]
     public GameObject HeroSelectionScreen;
@@ -30,6 +32,11 @@ public class MainMenuManager : Singleton<MainMenuManager>
     public MenuCharacter characterThree;
     public MenuCharacter characterFour;
 
+    public static MainMenuManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void Start()
     {
         // Play starting visual sequence
@@ -112,7 +119,7 @@ public class MainMenuManager : Singleton<MainMenuManager>
         arrowParent.SetActive(false);
 
         // Start screen fade transistion
-        Action fadeAction = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything,2, 1, true);
+        Action fadeAction = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 4, 1, true);
         yield return new WaitUntil(() => fadeAction.ActionResolved() == true);
 
         // Set Properties
@@ -136,8 +143,15 @@ public class MainMenuManager : Singleton<MainMenuManager>
             SceneChangeDataStorage.Instance.chosenCharacters.Add(characterName);
         }
 
+        // Enable loading screen
+        SceneController.Instance.loadScreenVisualParent.SetActive(true);
+
+        // Fade Screen back in
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 4, 0, false);
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+
         // Ready, load the game scene
-        SceneManager.LoadScene("Game Scene");
+        SceneController.Instance.LoadSceneAsync("Game Scene");
     }
     #endregion
 

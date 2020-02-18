@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemManager : Singleton<ItemManager>
+public class ItemManager : MonoBehaviour
 {
     [Header("Ribbon Sprite References")]
     public Sprite commonRibbonSprite;
@@ -22,6 +22,11 @@ public class ItemManager : Singleton<ItemManager>
     public Sprite airDamageSprite;
     public Sprite shadowDamageSprite;
 
+    public static ItemManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Get Data
     public string GetDamageTypeFromWeapon(ItemDataSO weapon)

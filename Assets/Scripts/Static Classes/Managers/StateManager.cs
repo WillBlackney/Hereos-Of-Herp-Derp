@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateManager : Singleton<StateManager>
+public class StateManager : MonoBehaviour
 {
+    public static StateManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     // Properties + Component References
     #region
     [Header("Component References")]

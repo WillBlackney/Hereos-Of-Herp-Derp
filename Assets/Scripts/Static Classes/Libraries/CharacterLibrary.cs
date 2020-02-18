@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterLibrary : Singleton<CharacterLibrary>
+public class CharacterLibrary : MonoBehaviour
 {
     [Header("Warrior Data")]
     public Sprite warriorSprite;
@@ -28,4 +28,9 @@ public class CharacterLibrary : Singleton<CharacterLibrary>
     public Sprite shamanSprite;
     public string shamanClassName;
 
+    public static CharacterLibrary Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 }

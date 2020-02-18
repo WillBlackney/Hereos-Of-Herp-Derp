@@ -120,6 +120,9 @@ public class LivingEntity : MonoBehaviour
         {
             myAnimator = GetComponent<Animator>();
         }
+
+        // Remove in future perhaps, currently used to make death anim fade out work
+        myModel.PopulateRenderersList();
         
         defender = GetComponent<Defender>();
         enemy = GetComponent<Enemy>();
@@ -636,6 +639,8 @@ public class LivingEntity : MonoBehaviour
         Defender defender = GetComponent<Defender>();
         Enemy enemy = GetComponent<Enemy>();
 
+        bool endCombatEventTriggered = false;
+
        // PlayDeathAnimation();
 
         if (myPassiveManager.Volatile)
@@ -653,7 +658,6 @@ public class LivingEntity : MonoBehaviour
                 {
                     int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(this, entity, null, "Physical", false, myPassiveManager.volatileStacks);
                     Action volatileExplosion = CombatLogic.Instance.HandleDamage(finalDamageValue, this, entity, "Physical");
-                    //yield return new WaitForSeconds(0.1f);
                     yield return new WaitUntil(() => volatileExplosion.ActionResolved() == true);
                 }               
             }
@@ -695,15 +699,18 @@ public class LivingEntity : MonoBehaviour
                 // End combat event, loot screen etc
                 if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.EliteEnemy)
                 {
+                    endCombatEventTriggered = true;
                     EventManager.Instance.StartNewEndEliteEncounterEvent();
                 }
                 else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.BasicEnemy)
                 {
+                    endCombatEventTriggered = true;
                     //StartCoroutine(EventManager.Instance.StartNewEndBasicEncounterEvent());
                     EventManager.Instance.StartNewEndBasicEncounterEvent();
                 }
                 else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.Boss)
                 {
+                    endCombatEventTriggered = true;
                     //StartCoroutine(EventManager.Instance.StartNewEndBasicEncounterEvent());
                     EventManager.Instance.StartNewEndBossEncounterEvent();
                 }
@@ -713,13 +720,19 @@ public class LivingEntity : MonoBehaviour
         }
 
         DisableWorldSpaceCanvas();
-        Action destroyWindowAction = myActivationWindow.FadeOutWindow();
+        if(endCombatEventTriggered == false)
+        {
+            Action destroyWindowAction = myActivationWindow.FadeOutWindow();
+        }
+        
         PlayDeathAnimation();
         yield return new WaitUntil(() => MyDeathAnimationFinished() == true);
+        Debug.Log("Destroying " + myName + " game object");
+        Destroy(gameObject, 0.2f);
         Debug.Log("LivingEntity.HandleDeath() finished waiting for death anim to finish");
-        myAnimator.enabled = false;
-        yield return new WaitUntil(() => destroyWindowAction.ActionResolved() == true);
-        Debug.Log("LivingEntity.HandleDeath() finished waiting for activation window to be destroyed");          
+        //myAnimator.enabled = false;
+        //yield return new WaitUntil(() => destroyWindowAction.ActionResolved() == true);
+       // Debug.Log("LivingEntity.HandleDeath() finished waiting for activation window to be destroyed");          
 
         // end turn and activation triggers just incase        
         myOnActivationEndEffectsFinished = true;
@@ -729,7 +742,8 @@ public class LivingEntity : MonoBehaviour
             ActivationManager.Instance.ActivateNextEntity();
         }
         ActivationManager.Instance.activationOrder.Remove(this);
-        Destroy(gameObject,0.1f);
+        //Debug.Log("Destroying " + myName + " game object");
+       // Destroy(gameObject,0.1f);
     }
     public void PlayDeathAnimation()
     {
@@ -747,10 +761,26 @@ public class LivingEntity : MonoBehaviour
             return false;
         }
     }
+    public IEnumerator FadeOutModel()
+    {
+        Debug.Log("LivingEntity.FadeOutModel() called...");
+
+        while (myEntityRenderer.Color.a > 0)
+        {
+            float newAlpha = myEntityRenderer.Color.a - 25;
+            myEntityRenderer.Color = new Color(myEntityRenderer.Color.r, myEntityRenderer.Color.g, myEntityRenderer.Color.b, newAlpha);
+            Debug.Log(myName + " current alpha value = " + myEntityRenderer.Color.a);
+            yield return new WaitForEndOfFrame();
+        }
+    }
     public void SetDeathAnimAsFinished()
     {
         myDeathAnimationFinished = true;
-        //mySpriteRenderer.enabled = false;
+    }
+    public void StartDeathFadeOut()
+    {
+        Debug.Log("LivingEntity.StartDeathFadeOut() called...");
+        StartCoroutine(FadeOutModel());
     }
     public void PlayRangedAttackAnimation()
     {
