@@ -6,6 +6,7 @@ public class PrefabHolder : MonoBehaviour
 {
     [Header("Buttons + UI")]
     public GameObject AbilityButtonPrefab;
+    public GameObject abilityPageAbility;
     public GameObject consumable;
     public GameObject AttributeTab;
     public GameObject enemyPanelAbilityTab;
@@ -32,6 +33,7 @@ public class PrefabHolder : MonoBehaviour
     public GameObject ItemCard;
     public GameObject StateCard;
     public GameObject InventoryItem;
+    public GameObject AbilityTomeInventoryCard;
     public GameObject TreasureChest;
     
 

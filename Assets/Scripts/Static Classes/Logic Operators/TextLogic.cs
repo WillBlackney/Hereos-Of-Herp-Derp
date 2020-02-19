@@ -1164,7 +1164,7 @@ public static class TextLogic
         {
             ability.descriptionText.text =
                 "Teleport to a location within " + ReturnColoredText(ability.abilityRange.ToString(), yellow) +
-                ". On arrival, apply "+ ReturnColoredText(ability.abilitySecondaryValue.ToString(), yellow) + " " +
+                ". On arrival, apply "+ ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) + " " +
                 ReturnColoredText("Burning", fire) +
                 " to adjacent enemies";         
 

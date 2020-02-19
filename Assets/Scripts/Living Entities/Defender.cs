@@ -137,8 +137,6 @@ public class Defender : LivingEntity
 
         // Get and build from relevant character data values
         RunSetupFromCharacterData();
-        //myName = myCharacterData.myClass;
-        //CharacterModelController.BuildModelFromPresetString(myActivationWindow.myUCM, myName);
         base.SetBaseProperties();
 
         // Set up visuals

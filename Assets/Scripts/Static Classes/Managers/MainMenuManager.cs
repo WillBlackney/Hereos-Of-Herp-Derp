@@ -36,6 +36,7 @@ public class MainMenuManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        //Debug.unityLogger.logEnabled = false;
     }
     private void Start()
     {

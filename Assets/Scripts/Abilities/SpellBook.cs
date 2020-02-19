@@ -158,6 +158,12 @@ public class SpellBook : MonoBehaviour
     {
         CharacterData cd = myLivingEntity.GetComponent<Defender>().myCharacterData;
 
+        foreach(AbilityPageAbility abilityData in cd.activeAbilities)
+        {
+            DefenderLearnAbility(abilityData.myData.abilityName);
+        }
+
+        /*
         if (cd.KnowsMove == true)
         {
             LearnMove();
@@ -630,6 +636,7 @@ public class SpellBook : MonoBehaviour
         {
             LearnSuperConductor();
         }
+        */
 
 
     }

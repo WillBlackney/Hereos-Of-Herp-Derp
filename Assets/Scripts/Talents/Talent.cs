@@ -44,11 +44,13 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
     public Image passiveImage;
 
     // Initialization
+    #region
     void Start()
     {
         TalentController.Instance.BuildTalentInfoPanelFromData(this);
     }
-  
+    #endregion
+
     // Mouse + Pointer Events
     #region
     public void OnPointerClick(PointerEventData eventData)

@@ -15,7 +15,7 @@ public class InventoryController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-    }
+    }   
     public void AddItemToInventory(ItemDataSO itemAdded)
     {
         Debug.Log("InventoryController.AddItemToInventory() called for " + itemAdded.Name);
@@ -25,6 +25,13 @@ public class InventoryController : MonoBehaviour
         PlaceItemOnInventorySlot(itemCard, GetNextAvailableSlot());
         ItemManager.Instance.SetUpInventoryItemCardFromData(itemCard, itemAdded);
 
+    }
+    public void AddAbilityTomeToInventory(AbilityDataSO abilityData)
+    {
+        GameObject newAbilityTomeGO = Instantiate(PrefabHolder.Instance.AbilityTomeInventoryCard, itemsParent.transform);
+        AbilityTomeInventoryCard abilityTome = newAbilityTomeGO.GetComponent<AbilityTomeInventoryCard>();
+        PlaceAbilityTomeOnInventorySlot(abilityTome, GetNextAvailableSlot());
+        abilityTome.BuildFromAbilityData(abilityData);
     }
     public void CreateAndAddItemDirectlyToCharacter(ItemDataSO itemAdded, CharacterItemSlot weaponSlot)
     {
@@ -52,6 +59,19 @@ public class InventoryController : MonoBehaviour
 
         item.SetRayCastingState(true);
     }
+    public void PlaceAbilityTomeOnInventorySlot(AbilityTomeInventoryCard abilityCard, InventorySlot slot)
+    {
+        Debug.Log("InventoryController.AddItemToInventory() called...");
+
+        abilityCard.transform.position = slot.transform.position;
+        abilityCard.transform.SetParent(itemsParent.transform);
+
+        abilityCard.myInventorySlot = slot;
+        slot.myAbilityTomeCard = abilityCard;
+        slot.occupied = true;
+
+        abilityCard.SetRayCastingState(true);
+    }
     public void PlaceItemOnCharacterSlot(InventoryItemCard itemCard, CharacterItemSlot characterSlot)
     {
         itemCard.transform.position = characterSlot.transform.position;
@@ -74,6 +94,15 @@ public class InventoryController : MonoBehaviour
         else if (characterSlot.mySlotType == CharacterItemSlot.SlotType.OffHand)
         {
             characterSlot.myCharacterData.offHandWeapon = itemCard.myItemData;
+        }
+
+        // Check for weapon slot changes, then update weapon related abilities
+        if(itemCard.myItemData.itemType == ItemDataSO.ItemType.MeleeOneHand ||
+            itemCard.myItemData.itemType == ItemDataSO.ItemType.MeleeTwoHand ||
+            itemCard.myItemData.itemType == ItemDataSO.ItemType.RangedTwoHand ||
+            itemCard.myItemData.itemType == ItemDataSO.ItemType.Shield)
+        {
+            UpdateCharacterAbilitiesFromWeapons(characterSlot.myCharacterData);
         }
 
         itemCard.SetRayCastingState(true);
@@ -239,6 +268,71 @@ public class InventoryController : MonoBehaviour
         {
             Debug.Log(item.myItemData.Name + " is NOT valid in the " + slot.mySlotType.ToString() + " slot, returning false...");
             return false;
+        }
+    }
+    public void UpdateCharacterAbilitiesFromWeapons(CharacterData character)
+    {
+        Debug.Log("InventoryController.UpdateCharacterAbilitiesFromWeapons() called...");
+        List<AbilityDataSO> abilitiesToLearn = new List<AbilityDataSO>();
+
+        ItemDataSO mainHandWeapon = character.mainHandWeapon;
+        ItemDataSO offHandWeapon = character.offHandWeapon;
+
+        AbilityDataSO strike = AbilityLibrary.Instance.GetAbilityByName("Strike");
+        AbilityDataSO defend = AbilityLibrary.Instance.GetAbilityByName("Defend");
+        AbilityDataSO shoot = AbilityLibrary.Instance.GetAbilityByName("Shoot");
+
+        // Unlearn previous weapon related abilities first
+        if (character.DoesCharacterAlreadyKnowAbility(strike))
+        {
+            character.HandleUnlearnAbility(strike);
+        }
+        if (character.DoesCharacterAlreadyKnowAbility(shoot))
+        {
+            character.HandleUnlearnAbility(shoot);
+        }
+        if (character.DoesCharacterAlreadyKnowAbility(defend))
+        {
+            character.HandleUnlearnAbility(defend);
+        }
+
+
+        // Twin Strike
+        if (mainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand &&
+            offHandWeapon != null && offHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand)
+        {
+            Debug.Log(character.myName + " learning Twin Strike from weapon loadout");
+            // TO DO: learn twin strike ability here when we implement it
+        }
+
+        // Strike and Defend
+        else if (mainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand &&
+            offHandWeapon != null && offHandWeapon.itemType == ItemDataSO.ItemType.Shield)
+        {
+            Debug.Log(character.myName + " learning Strike and Defend from weapon loadout");
+            abilitiesToLearn.Add(strike);
+            abilitiesToLearn.Add(defend);
+        }
+
+        // Strike
+        else if (mainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand ||
+            mainHandWeapon.itemType == ItemDataSO.ItemType.MeleeTwoHand)
+        {
+            Debug.Log(character.myName + " learning Strike from weapon loadout");
+            abilitiesToLearn.Add(strike);
+        }        
+
+        // Shoot
+        else if(mainHandWeapon.itemType == ItemDataSO.ItemType.RangedTwoHand)
+        {
+            Debug.Log(character.myName + " learning Shoot from weapon loadout");
+            abilitiesToLearn.Add(shoot);
+        }
+
+        // Learn abilities
+        foreach(AbilityDataSO ability in abilitiesToLearn)
+        {
+            character.HandleLearnAbility(ability);
         }
     }
 }

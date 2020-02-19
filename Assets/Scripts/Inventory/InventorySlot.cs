@@ -7,4 +7,5 @@ public class InventorySlot : MonoBehaviour
     [Header("Properties")]
     public bool occupied;
     public InventoryItemCard myItemCard;
+    public AbilityTomeInventoryCard myAbilityTomeCard;
 }

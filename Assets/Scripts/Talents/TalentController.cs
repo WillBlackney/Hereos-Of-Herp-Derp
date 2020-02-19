@@ -347,11 +347,14 @@ public class TalentController : MonoBehaviour
     {
         Debug.Log("TalentController.ApplyTalentAbilityToCharacter() called...");
 
+        AbilityDataSO data = AbilityLibrary.Instance.GetAbilityByName(talent.talentName);
+        character.HandleLearnAbility(data);
+
+        /*
         if (talent.talentName == "Provoke")
         {
             character.KnowsProvoke = true;
         }
-
         else if (talent.talentName == "Guard")
         {
             character.KnowsGuard = true;
@@ -752,6 +755,8 @@ public class TalentController : MonoBehaviour
         {
             character.KnowsWhirlwind = true;
         }
+        */
+        
 
 
     }

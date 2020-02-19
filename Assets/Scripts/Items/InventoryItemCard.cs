@@ -29,7 +29,6 @@ public class InventoryItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler,
         }
         
     }
-
     public void OnDrag(PointerEventData eventData)
     {
         // Follow mouse position
@@ -43,7 +42,6 @@ public class InventoryItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler,
         }
         
     }
-
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Log("InventoryItemCard.OnEndDrag() called...");
@@ -61,7 +59,6 @@ public class InventoryItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler,
         }
         
     }
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         // dont display item cards of other items will an item is being dragged
@@ -71,12 +68,10 @@ public class InventoryItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler,
         }
         
     }
-
     public void OnPointerExit(PointerEventData eventData)
     {
         infoItemCardVisualParent.SetActive(false);
     }
-
     public void SetRayCastingState(bool onOrOff)
     {
         Debug.Log("InventoryItemCard.SetRayCastingState() called...");

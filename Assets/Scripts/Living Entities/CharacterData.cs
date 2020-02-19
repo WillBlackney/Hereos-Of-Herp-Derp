@@ -18,6 +18,12 @@ public class CharacterData : MonoBehaviour
     public UniversalCharacterModel myCharacterModel;
     public List<Talent> allTalentButtons;
 
+    [Header("Ability References")]
+    public List<AbilitySlot> allKnownAbilitySlots;
+    public List<AbilitySlot> allActiveAbilitySlots;
+    public List<AbilityPageAbility> activeAbilities;
+    public List<AbilityPageAbility> knownAbilities;
+
     [Header("Page Button References")]
     public GameObject statsPageButton;
     public GameObject talentsPageButton;
@@ -388,6 +394,9 @@ public class CharacterData : MonoBehaviour
     #region
     public void InitializeSetupFromPresetString(string characterClass)
     {
+        // Learn Move
+        HandleLearnAbility(AbilityLibrary.Instance.GetAbilityByName("Move"));
+
         if (characterClass == "Knight")
         {
             myClass = "Knight";
@@ -396,7 +405,7 @@ public class CharacterData : MonoBehaviour
             ModifyGuardianPoints(2);
             ModifyDuelistPoints(1);
 
-            // Learn abilities + passive
+            // Learn abilities + passive            
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Dash"), false);
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Provoke"), false);
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Guard"), false);
@@ -679,7 +688,7 @@ public class CharacterData : MonoBehaviour
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Venomous"), false);
 
             // Assign preset weapons
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Bow"), mainHandSlot);
+            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Staff"), mainHandSlot);
 
             // Set up character view model
             CharacterModelController.SetUpAsWarlockPreset(myCharacterModel);
@@ -820,6 +829,7 @@ public class CharacterData : MonoBehaviour
         CharacterRoster.Instance.DisableInventoryView();
         talentsPageParent.SetActive(true);
         statsPageParent.SetActive(false);
+        abilityPageParent.SetActive(false);
     }
     public void OnStatsPageButtonClicked()
     {
@@ -827,6 +837,164 @@ public class CharacterData : MonoBehaviour
         CharacterRoster.Instance.EnableInventoryView();
         statsPageParent.SetActive(true);
         talentsPageParent.SetActive(false);
+        abilityPageParent.SetActive(false);
+    }
+    public void OnAbilitiesPageButtonClicked()
+    {
+        Debug.Log("CharacterData.OnAbilitiesPageButtonClicked() called...");
+        CharacterRoster.Instance.EnableInventoryView();
+        abilityPageParent.SetActive(true);
+        statsPageParent.SetActive(false);
+        talentsPageParent.SetActive(false);
+    }
+    #endregion
+
+    // Ability Page Logic
+    #region
+    public AbilityPageAbility CreateNewAbilityPageAbilityTab(AbilityDataSO data, AbilitySlot parent)
+    {
+        GameObject abilityTabGO = Instantiate(PrefabHolder.Instance.abilityPageAbility, parent.transform);
+        AbilityPageAbility abilityScript = abilityTabGO.GetComponent<AbilityPageAbility>();
+        abilityScript.InitializeSetup(data);
+
+        abilityScript.myCharacter = this;
+        abilityScript.myCurrentSlot = parent;
+        parent.occupied = true;
+
+        if (parent.activeAbilityBarSlot)
+        {
+            abilityScript.onAbilityBar = true;
+        }
+
+        return abilityScript;
+
+    }
+    public bool DoesCharacterAlreadyKnowAbility(AbilityDataSO ability)
+    {
+        bool boolReturned = false;
+
+        foreach(AbilityPageAbility knownAbility in knownAbilities)
+        {
+            if(ability.abilityName == knownAbility.myData.abilityName)
+            {
+                boolReturned = true;
+                break;
+            }
+        }
+
+        return boolReturned;
+    }    
+    public void HandleLearnAbility(AbilityDataSO data)
+    {
+        Debug.Log("CharacterData.HandeLearnAbility() called, trying to learn " + data.abilityName);
+
+        if (!DoesCharacterAlreadyKnowAbility(data))
+        {
+            Debug.Log("Character does not already know " + data.abilityName + ", learning...");
+
+            // Add to known abilities list
+            knownAbilities.Add(CreateNewAbilityPageAbilityTab(data, GetNextAvailbleKnownAbilitySlot()));
+
+            // Auto add new ability to active ability slot of there is room availble
+            AbilitySlot abilityBarSlot = GetNextAvailableAbilityBarSlot();
+
+            if (abilityBarSlot != null)
+            {
+                activeAbilities.Add(CreateNewAbilityPageAbilityTab(data, abilityBarSlot));                
+            }
+        }
+    }
+    public void HandleUnlearnAbility(AbilityDataSO data)
+    {
+        Debug.Log("CharacterData.HandeUnlearnAbility() called, trying to unlearn " + data.abilityName);
+
+        if (DoesCharacterAlreadyKnowAbility(data))
+        {
+            Debug.Log("Character already knows " + data.abilityName + ", unlearning...");
+
+            // Remove from  know abilities first, then active abilities after
+            RemoveAbilityFromKnownAbilitiesList(data);
+
+            // Remove from active abilities
+            RemoveAbilityFromActiveAbilityBar(data);
+        }
+    }
+    public AbilitySlot GetNextAvailbleKnownAbilitySlot()
+    {
+        Debug.Log("CharacterData.GetNextAvailbleKnownAbilitySlot() called...");
+        AbilitySlot slotReturned = null;
+
+        foreach(AbilitySlot slot in allKnownAbilitySlots)
+        {
+            if(slot.occupied == false)
+            {
+                slotReturned = slot;
+                break;
+            }
+        }
+
+        if(slotReturned == null)
+        {
+            Debug.Log("CharacterData.GetNextAvailbleKnownAbilitySlot() could not find any availble slots");
+        }
+
+        return slotReturned;
+
+        
+    }
+    public AbilitySlot GetNextAvailableAbilityBarSlot()
+    {
+        Debug.Log("CharacterData.GetNextAvailableAbilityBarSlot() called...");
+        AbilitySlot slotReturned = null;
+
+        foreach (AbilitySlot slot in allActiveAbilitySlots)
+        {
+            if (slot.occupied == false)
+            {
+                slotReturned = slot;
+                break;
+            }
+        }
+
+        if (slotReturned == null)
+        {
+            Debug.Log("CharacterData.GetNextAvailableAbilityBarSlot() could not find any availble slots");
+        }
+
+        return slotReturned;
+    }
+    public void RemoveAbilityFromActiveAbilityBar(AbilityDataSO data)
+    {
+        // Remove from active abilities
+        AbilityPageAbility activeAbilityToRemove = null;
+        foreach (AbilityPageAbility apa in activeAbilities)
+        {
+            if (apa.myData.abilityName == data.abilityName)
+            {
+                activeAbilityToRemove = apa;
+            }
+        }
+
+        activeAbilities.Remove(activeAbilityToRemove);
+        // open up slot
+        activeAbilityToRemove.myCurrentSlot.occupied = false;
+        Destroy(activeAbilityToRemove.gameObject);
+    }
+    public void RemoveAbilityFromKnownAbilitiesList(AbilityDataSO data)
+    {
+        AbilityPageAbility abilityToRemove = null;
+        foreach (AbilityPageAbility apa in knownAbilities)
+        {
+            if (apa.myData.abilityName == data.abilityName)
+            {
+                abilityToRemove = apa;
+            }
+        }
+
+        knownAbilities.Remove(abilityToRemove);
+        // open up slot
+        abilityToRemove.myCurrentSlot.occupied = false;
+        Destroy(abilityToRemove.gameObject);
     }
     #endregion
 
