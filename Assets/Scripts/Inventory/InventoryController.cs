@@ -11,6 +11,21 @@ public class InventoryController : MonoBehaviour
     [Header("Properties")]
     public GameObject itemBeingDragged;
 
+    [Header("Ability Tome Colours")]
+    public Color neutralColor;
+    public Color brawlerColor;
+    public Color duelistColor;
+    public Color assassinationColor;
+    public Color guardianColor;
+    public Color pyromaniaColor;
+    public Color cyromancyColor;
+    public Color rangerColor;
+    public Color manipulationColor;
+    public Color divinityColor;
+    public Color shadowcraftColor;
+    public Color corruptionColor;
+    public Color naturalismColor;
+
     public static InventoryController Instance;
     private void Awake()
     {
@@ -212,6 +227,44 @@ public class InventoryController : MonoBehaviour
         }      
         
     }
+    public void TryPlaceAbilityTomeOnDropSlot(AbilityTomeInventoryCard tome, AbilityTomeDropSlot dropSlot)
+    {
+        Debug.Log("InventoryController.TryPlaceAbilityTomeOnDropSlot() called, attempting to teach " +
+                 tome.myData.abilityName + " to " + dropSlot.myCharacter.myName);
+
+        if (IsTomeDropActionValid(tome.myData, dropSlot.myCharacter))
+        {
+            dropSlot.myCharacter.HandleLearnAbility(tome.myData);
+            tome.myInventorySlot.occupied = false;
+            tome.myInventorySlot.myAbilityTomeCard = null;
+            Destroy(tome.gameObject);
+        }
+    }
+    public bool IsTomeDropActionValid(AbilityDataSO data, CharacterData character)
+    {
+        Debug.Log("InventoryController.IsTomeDropActionValid() called, checking validity of placing " +
+            data.abilityName + " tome on " + character.myName + "'s drop slot...");
+
+        bool boolReturned = true;
+
+        // check if character has already learnt the ability
+        if (character.DoesCharacterAlreadyKnowAbility(data))
+        {
+            Debug.Log("Tome drop action invalid: " + character.myName + " already knows " + data.abilityName);
+            boolReturned = false;
+        }
+
+        // check that character meets tier requirments
+        else if (!character.DoesCharacterMeetAbilityTierRequirment(data))
+        {
+            Debug.Log("Tome drop action invalid: " + character.myName + " does not meet ability tier requirmens of " 
+                + data.abilityName);
+            boolReturned = false;
+        }       
+
+        // return evaluation
+        return boolReturned;
+    }
     public bool IsSlotValidForItem(InventoryItemCard item, CharacterItemSlot slot)
     {
         Debug.Log("InventoryController.IsSlotValidForItem() called for: " + item.myItemData.Name);
@@ -333,6 +386,22 @@ public class InventoryController : MonoBehaviour
         foreach(AbilityDataSO ability in abilitiesToLearn)
         {
             character.HandleLearnAbility(ability);
+        }
+    }
+    public void BuyAbilityTomeFromShop(AbilityTomeInShop tome)
+    {
+        Debug.Log("InventoryController.BuyAbilityTomeFromShop() called...");
+
+        if (PlayerDataManager.Instance.currentGold >= tome.goldCost)
+        {
+            Debug.Log("Buying Ability Tome " + tome.myData.abilityName + " for " + tome.goldCost.ToString());
+            PlayerDataManager.Instance.ModifyGold(-tome.goldCost);
+            tome.DisableSlotView();
+            AddAbilityTomeToInventory(tome.myData);
+        }
+        else
+        {
+            Debug.Log("Cannot buy ability tome: Not enough gold...");
         }
     }
 }

@@ -25,6 +25,11 @@ public class ShopScreenManager : MonoBehaviour
     public ConsumableInShop consumableSlotTwo;
     public ConsumableInShop consumableSlotThree;
 
+    [Header("Ability Tome Slot References")]
+    public AbilityTomeInShop abilityTomeSlotOne;
+    public AbilityTomeInShop abilityTomeSlotTwo;
+    public AbilityTomeInShop abilityTomeSlotThree;
+
     [Header("Artifact Slot References")]
     public ArtifactSlot artifactSlotOne;
     public ArtifactSlot artifactSlotTwo;
@@ -90,6 +95,7 @@ public class ShopScreenManager : MonoBehaviour
     {
         PopulateItemSlots();
         PopulateConsumableSlots();
+        PopulateAbilityTomeSlots();
     }
     public void PopulateItemSlots()
     {
@@ -147,6 +153,12 @@ public class ShopScreenManager : MonoBehaviour
         consumableSlotOne.BuildFromData(ConsumableLibrary.Instance.GetRandomConsumable());
         consumableSlotTwo.BuildFromData(ConsumableLibrary.Instance.GetRandomConsumable());
         consumableSlotThree.BuildFromData(ConsumableLibrary.Instance.GetRandomConsumable());
+    }
+    public void PopulateAbilityTomeSlots()
+    {
+        abilityTomeSlotOne.BuildFromData(AbilityLibrary.Instance.GetRandomValidAbilityTomeAbility());
+        abilityTomeSlotTwo.BuildFromData(AbilityLibrary.Instance.GetRandomValidAbilityTomeAbility());
+        abilityTomeSlotThree.BuildFromData(AbilityLibrary.Instance.GetRandomValidAbilityTomeAbility());
     }
     #endregion
 

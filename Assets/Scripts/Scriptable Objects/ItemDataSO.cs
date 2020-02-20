@@ -25,6 +25,7 @@ public class ItemDataSO : ScriptableObject
     public ItemType itemType;
     public GrantsAbility grantsAbility;
     public bool storyEventItem;
+    public bool startingItem;
 
     [Header("Item Effect Properties")]
     public ItemEffect itemEffectOne;

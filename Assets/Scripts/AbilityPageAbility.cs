@@ -68,7 +68,7 @@ public class AbilityPageAbility : MonoBehaviour, IPointerClickHandler, IPointerE
             AbilitySlot abilityBarSlot = myCharacter.GetNextAvailableAbilityBarSlot();
 
             // create ability on active bar
-            if (abilityBarSlot != null)
+            if (abilityBarSlot != null && !myCharacter.IsAbilityAlreadyOnActiveBar(myData))
             {
                 myCharacter.activeAbilities.Add(myCharacter.CreateNewAbilityPageAbilityTab(myData, abilityBarSlot));
             }

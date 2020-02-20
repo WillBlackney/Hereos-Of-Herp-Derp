@@ -49,7 +49,8 @@ public class ItemLibrary : MonoBehaviour
 
         foreach(ItemDataSO item in allItems)
         {
-            if(item.itemRarity == ItemDataSO.ItemRarity.Common)
+            if(item.itemRarity == ItemDataSO.ItemRarity.Common &&
+                item.startingItem == false)
             {
                 allCommonItems.Add(item);
             }

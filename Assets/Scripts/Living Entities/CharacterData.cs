@@ -883,7 +883,104 @@ public class CharacterData : MonoBehaviour
         }
 
         return boolReturned;
-    }    
+    }
+    public bool DoesCharacterMeetAbilityTierRequirment(AbilityDataSO ability)
+    {
+        Debug.Log("TalentController.DoesCharacterMeetTalentTierRequirment() called...");
+
+        if (ability.abilitySchool == AbilityDataSO.AbilitySchool.Guardian &&
+            guardianPoints >= ability.tier)
+        {
+            Debug.Log(myName + " meets the ability tier requirments of " + ability.abilityName);
+            return true;
+        }
+        else if (ability.abilitySchool == AbilityDataSO.AbilitySchool.Duelist &&
+            duelistPoints >= ability.tier)
+        {
+            Debug.Log(myName + " meets the ability tier requirments of " + ability.abilityName);
+            return true;
+        }
+        else if (ability.abilitySchool == AbilityDataSO.AbilitySchool.Brawler &&
+            brawlerPoints >= ability.tier)
+        {
+            Debug.Log(myName + " meets the ability tier requirments of " + ability.abilityName);
+            return true;
+        }
+        else if (ability.abilitySchool == AbilityDataSO.AbilitySchool.Assassination &&
+            assassinationPoints >= ability.tier)
+        {
+            Debug.Log(myName + " meets the ability tier requirments of " + ability.abilityName);
+            return true;
+        }
+        else if (ability.abilitySchool == AbilityDataSO.AbilitySchool.Pyromania &&
+            pyromaniaPoints >= ability.tier)
+        {
+            Debug.Log(myName + " meets the ability tier requirments of " + ability.abilityName);
+            return true;
+        }
+        else if (ability.abilitySchool == AbilityDataSO.AbilitySchool.Cyromancy &&
+            cyromancyPoints >= ability.tier)
+        {
+            Debug.Log(myName + " meets the ability tier requirments of " + ability.abilityName);
+            return true;
+        }
+        else if (ability.abilitySchool == AbilityDataSO.AbilitySchool.Ranger &&
+            rangerPoints >= ability.tier)
+        {
+            Debug.Log(myName + " meets the ability tier requirments of " + ability.abilityName);
+            return true;
+        }
+        else if (ability.abilitySchool == AbilityDataSO.AbilitySchool.Manipulation &&
+            manipulationPoints >= ability.tier)
+        {
+            Debug.Log(myName + " meets the ability tier requirments of " + ability.abilityName);
+            return true;
+        }
+        else if (ability.abilitySchool == AbilityDataSO.AbilitySchool.Divinity &&
+            divinityPoints >= ability.tier)
+        {
+            Debug.Log(myName + " meets the ability tier requirments of " + ability.abilityName);
+            return true;
+        }
+        else if (ability.abilitySchool == AbilityDataSO.AbilitySchool.Shadowcraft &&
+            shadowcraftPoints >= ability.tier)
+        {
+            Debug.Log(myName + " meets the ability tier requirments of " + ability.abilityName);
+            return true;
+        }
+        else if (ability.abilitySchool == AbilityDataSO.AbilitySchool.Corruption &&
+            corruptionPoints >= ability.tier)
+        {
+            Debug.Log(myName + " meets the ability tier requirments of " + ability.abilityName);
+            return true;
+        }
+        else if (ability.abilitySchool == AbilityDataSO.AbilitySchool.Naturalism &&
+            naturalismPoints >= ability.tier)
+        {
+            Debug.Log(myName + " meets the ability tier requirments of " + ability.abilityName);
+            return true;
+        }     
+        else
+        {
+            Debug.Log(myName + " does NOT meet the talent tier requirments of " + ability.abilityName);
+            return false;
+        }
+    }
+    public bool IsAbilityAlreadyOnActiveBar(AbilityDataSO ability)
+    {
+        bool boolReturned = false;
+
+        foreach (AbilityPageAbility activeAbility in activeAbilities)
+        {
+            if (ability.abilityName == activeAbility.myData.abilityName)
+            {
+                boolReturned = true;
+                break;
+            }
+        }
+
+        return boolReturned;
+    }
     public void HandleLearnAbility(AbilityDataSO data)
     {
         Debug.Log("CharacterData.HandeLearnAbility() called, trying to learn " + data.abilityName);
@@ -895,10 +992,10 @@ public class CharacterData : MonoBehaviour
             // Add to known abilities list
             knownAbilities.Add(CreateNewAbilityPageAbilityTab(data, GetNextAvailbleKnownAbilitySlot()));
 
-            // Auto add new ability to active ability slot of there is room availble
+            // Auto add new ability to active ability slot of there is room availble, and ability is not already active
             AbilitySlot abilityBarSlot = GetNextAvailableAbilityBarSlot();
 
-            if (abilityBarSlot != null)
+            if (abilityBarSlot != null && !IsAbilityAlreadyOnActiveBar(data))
             {
                 activeAbilities.Add(CreateNewAbilityPageAbilityTab(data, abilityBarSlot));                
             }

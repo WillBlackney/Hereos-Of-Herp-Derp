@@ -40,5 +40,29 @@ public class AbilityLibrary : MonoBehaviour
 
         return abilityReturned;
     }    
+    public AbilityDataSO GetRandomAbility()
+    {
+        Debug.Log("AbilityLibrary.GetRandomAbility() called...");
+
+        return AllAbilities[Random.Range(0, AllAbilities.Count)];
+    }
+    public AbilityDataSO GetRandomValidAbilityTomeAbility()
+    {
+        List<AbilityDataSO> validAbilities = new List<AbilityDataSO>();
+
+        foreach(AbilityDataSO data in AllAbilities)
+        {
+            if(data.abilityName != "Strike" ||
+                data.abilityName != "Defend" ||
+                data.abilityName != "Move" ||
+                data.abilityName != "Shoot" ||
+                data.abilityName != "Twin Strike")
+            {
+                validAbilities.Add(data);
+            }
+        }
+
+        return validAbilities[Random.Range(0, validAbilities.Count)];
+    }
 
 }

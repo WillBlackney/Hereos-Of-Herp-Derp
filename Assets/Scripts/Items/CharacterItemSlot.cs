@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CharacterItemSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler
+public class CharacterItemSlot : MonoBehaviour, IDropHandler
 {
     public enum SlotType { None, Head, Legs, Chest, MainHand, OffHand};
 
@@ -15,12 +15,15 @@ public class CharacterItemSlot : MonoBehaviour, IDropHandler, IPointerEnterHandl
     public void OnDrop(PointerEventData eventData)
     {
         Debug.Log("CharacterItemSlot.OnDrop() called...");
-        InventoryController.Instance.TryPlaceItemOnCharacterSlot
-            (InventoryController.Instance.itemBeingDragged.GetComponent<InventoryItemCard>(), this);
-        InventoryController.Instance.itemBeingDragged = null;
+
+        InventoryItemCard draggedItem = InventoryController.Instance.itemBeingDragged.GetComponent<InventoryItemCard>();
+
+        if (draggedItem)
+        {
+            InventoryController.Instance.TryPlaceItemOnCharacterSlot(draggedItem, this);
+            InventoryController.Instance.itemBeingDragged = null;
+        }
+    
     }
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        Debug.Log("CharacterItemSlot.OnPointerEnter() called...");
-    }
+    
 }

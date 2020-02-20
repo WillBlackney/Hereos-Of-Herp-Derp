@@ -122,7 +122,9 @@ public class KingsBlessingManager : MonoBehaviour
         }
         else if (choiceName == "Gain 2 Random Spell Books")
         {
-            //
+            InventoryController.Instance.AddAbilityTomeToInventory(AbilityLibrary.Instance.GetRandomValidAbilityTomeAbility());
+            InventoryController.Instance.AddAbilityTomeToInventory(AbilityLibrary.Instance.GetRandomValidAbilityTomeAbility());
+
         }
         else if (choiceName == "Enemies In The Next Two Combats Have 50% Health")
         {
@@ -136,7 +138,6 @@ public class KingsBlessingManager : MonoBehaviour
         {
             ConsumableManager.Instance.StartGainConsumableProcess(ConsumableLibrary.Instance.GetRandomConsumable());
             ConsumableManager.Instance.StartGainConsumableProcess(ConsumableLibrary.Instance.GetRandomConsumable());
-            ConsumableManager.Instance.StartGainConsumableProcess(ConsumableLibrary.Instance.GetConsumableDataByName("Hand Cannon"));
         }
         else if (choiceName == "Gain A Random State. Gain A Random Afflication")
         {
@@ -153,6 +154,8 @@ public class KingsBlessingManager : MonoBehaviour
             InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
             InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
             InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
+
+            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomAfflication());
         }
 
     }
@@ -166,16 +169,16 @@ public class KingsBlessingManager : MonoBehaviour
 
         allChoiceData = new List<BlessingChoice>();
 
-        //allChoiceData.Add(new BlessingChoice("Gain 10 Gold"));
+        allChoiceData.Add(new BlessingChoice("Gain 10 Gold"));
         //allChoiceData.Add(new BlessingChoice("Choose A Rare Item"));
-       // allChoiceData.Add(new BlessingChoice("Gain 3 Random Common Items"));
-        //allChoiceData.Add(new BlessingChoice("Gain 2 Random Spell Books"));
+        allChoiceData.Add(new BlessingChoice("Gain 3 Random Common Items"));
+        allChoiceData.Add(new BlessingChoice("Gain 2 Random Spell Books"));
         allChoiceData.Add(new BlessingChoice("Enemies In The Next Two Combats Have 50% Health"));
         allChoiceData.Add(new BlessingChoice("All Characters Gain 75 XP"));
         allChoiceData.Add(new BlessingChoice("Gain 2 Random Consumables"));
         allChoiceData.Add(new BlessingChoice("Gain A Random State. Gain A Random Afflication"));
         //allChoiceData.Add(new BlessingChoice("Gain A Random Epic Item. Gain A Random Afflication"));
-       // allChoiceData.Add(new BlessingChoice("Gain 3 Random Rare Items. Gain A Random Afflication"));
+        allChoiceData.Add(new BlessingChoice("Gain 3 Random Rare Items. Gain A Random Afflication"));
     }   
     public void CreateChoiceButtons()
     {

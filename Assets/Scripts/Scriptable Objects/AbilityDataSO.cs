@@ -8,12 +8,16 @@ public class AbilityDataSO : ScriptableObject
     public enum DamageType { None, Physical, Magic, Poison, Frost, Fire, Shadow, Air};
     public enum AttackType { None, Melee, Ranged};
     public enum AbilityType { None, Skill, MeleeAttack, RangedAttack, Power};
+    public enum AbilitySchool { None, Brawler, Duelist, Assassination, Guardian, Pyromania, Cyromancy, Ranger, Manipulation,
+    Divinity, Shadowcraft, Corruption, Naturalism};
 
     
     [Header("Ability Type Properties")]
     public DamageType damageType;
     public AttackType attackType;
     public AbilityType abilityType;
+    public AbilitySchool abilitySchool;
+    public int tier;
 
     [Header("Ability Properties")]
     public Sprite sprite;
