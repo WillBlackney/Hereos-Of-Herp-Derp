@@ -43,7 +43,7 @@ public class SceneController : MonoBehaviour
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
             loadingScreenSlider.value = progress;
-            loadingValueText.text = (progress * 100).ToString();
+            loadingValueText.text = ((int)(progress * 100)).ToString() + "%";
 
             if(operation.progress >= 0.9f && fadeOutStarted == false)
             {

@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class csShowAllEffect : MonoBehaviour
 {
     public string[] EffectNames;
     public string[] Effect2Names;
     public Transform[] Effect;
-    public GUIText Text1;
+    public Text Text1;
     int i = 0;
     int a = 0;
 
