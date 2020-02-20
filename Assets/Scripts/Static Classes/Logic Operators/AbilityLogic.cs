@@ -353,6 +353,83 @@ public class AbilityLogic : MonoBehaviour
 
     }
 
+    // Twin Strike
+    public Action PerformTwinStrike(LivingEntity attacker, LivingEntity victim)
+    {
+        Debug.Log("AbilityLogic.PerformStrike() called. Caster = " + attacker.name + ", Target = " + victim.name);
+        Action action = new Action();
+        StartCoroutine(PerformTwinStrikeCoroutine(attacker, victim, action));
+        return action;
+    }
+    private IEnumerator PerformTwinStrikeCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    {
+        // Set up properties
+        Ability twinStrike = attacker.mySpellBook.GetAbilityByName("Twin Strike");
+        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, twinStrike);
+        bool parry = CombatLogic.Instance.RollForParry(victim, attacker);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, twinStrike, attacker.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, twinStrike, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(twinStrike, attacker);
+
+        // Play attack animation
+        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+
+        // if the target successfully parried, dont do HandleDamage: do parry stuff instead
+        if (parry)
+        {
+            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+            yield return new WaitUntil(() => parryAction.ActionResolved() == true);
+        }
+
+        // if the target did not parry, handle damage event normally
+        else
+        {
+            if (critical)
+            {
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+            }
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, twinStrike);
+            yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+        }
+
+        // SECOND ATTACK
+        if(victim.inDeathProcess == false)
+        {
+            bool critical2 = CombatLogic.Instance.RollForCritical(attacker, victim, twinStrike);
+            bool parry2 = CombatLogic.Instance.RollForParry(victim, attacker);
+            string damageType2 = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, twinStrike, attacker.myOffHandWeapon);
+            int finalDamageValue2 = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, twinStrike, damageType2, critical2, attacker.myOffHandWeapon.baseDamage, attacker.myOffHandWeapon);
+
+            // Play attack animation
+            attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+
+            // if the target successfully parried, dont do HandleDamage: do parry stuff instead
+            if (parry2)
+            {
+                Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+                yield return new WaitUntil(() => parryAction.ActionResolved() == true);
+            }
+
+            // if the target did not parry, handle damage event normally
+            else
+            {
+                if (critical2)
+                {
+                    VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                }
+                Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue2, attacker, victim, damageType2, twinStrike);
+                yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+            }
+        }
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(twinStrike, attacker);
+        action.actionResolved = true;
+
+    }
+
     // Defend
     public Action PerformDefend(LivingEntity caster)
     {
@@ -4727,34 +4804,7 @@ public class AbilityLogic : MonoBehaviour
     }
 
    
-    // Twin Strike
-    public Action PerformTwinStrike(LivingEntity attacker, LivingEntity victim)
-    {
-        Action action = new Action();
-        StartCoroutine(PerformTwinStrikeCoroutine(attacker, victim, action));
-        return action;
-    }
-    public IEnumerator PerformTwinStrikeCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
-    {
-        Ability twinStrike = attacker.mySpellBook.GetAbilityByName("Twin Strike");
-        OnAbilityUsedStart(twinStrike, attacker);
-        StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
-        //Action abilityAction = CombatLogic.Instance.HandleDamage(twinStrike.abilityPrimaryValue, attacker, victim, false, twinStrike.abilityAttackType, twinStrike.abilityDamageType);
-        //yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-        yield return new WaitForSeconds(0.3f);
-
-        // check to make sure the target is still valid for the second attack
-        if (victim.inDeathProcess == false && 
-            EntityLogic.IsTargetInRange(attacker, victim, attacker.currentMeleeRange))
-        {
-            StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
-            //Action abilityAction2 = CombatLogic.Instance.HandleDamage(twinStrike.abilityPrimaryValue, attacker, victim, false, twinStrike.abilityAttackType, twinStrike.abilityDamageType);
-            //yield return new WaitUntil(() => abilityAction2.ActionResolved() == true);
-        }
-
-        action.actionResolved = true;
-    }
-
+    
     // Mork Smash
     public Action PerformMorkSmash(LivingEntity attacker, LivingEntity victim)
     {

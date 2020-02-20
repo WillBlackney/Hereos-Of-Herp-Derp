@@ -18,6 +18,8 @@ public class AbilityLibrary : MonoBehaviour
     }
     #endregion
 
+    // Ability Data Search Methods
+    #region
     public AbilityDataSO GetAbilityByName(string _name)
     {
         Debug.Log("AbilityLibrary.GetAbilityByName() called, searching with provided string: " + _name);
@@ -64,5 +66,6 @@ public class AbilityLibrary : MonoBehaviour
 
         return validAbilities[Random.Range(0, validAbilities.Count)];
     }
+    #endregion
 
 }

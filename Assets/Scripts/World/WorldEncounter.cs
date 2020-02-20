@@ -5,7 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
-{    
+{
+    // Properties + Component References
+    #region
     public enum EncounterType { NoType, BasicEnemy, EliteEnemy, Home, CampSite, Shop, Treasure, Mystery, Boss};
 
     [Header("Properties")]
@@ -19,6 +21,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public Image myEncounterTypeShadowImage;
     public Image circleImage;    
     public Animator myAnimator;
+    #endregion
 
     // Initialization + Setup
     #region

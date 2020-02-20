@@ -52,6 +52,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -512,13 +513,13 @@ MonoBehaviour:
   baseWisdom: 0
   baseDexterity: 0
   baseInitiative: 3
-  baseCriticalChance: 0
-  baseDodgeChance: 0
-  baseParryChance: 0
+  baseCriticalChance: 5
+  baseDodgeChance: 5
+  baseParryChance: 5
   baseAuraSize: 1
   baseStartingBlock: 0
   baseStartingEnergyBonus: 0
-  baseMaxPowersCount: 0
+  baseMaxPowersCount: 1
   basePhysicalResistance: 0
   baseFireResistance: 0
   baseFrostResistance: 0
@@ -554,6 +555,7 @@ MonoBehaviour:
   myCurrentTarget: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   activePowers: []
+  myName: Volatile Zombie
   speed: 3
   mouseIsOverStatusIconPanel: 0
   mouseIsOverCharacter: 0
@@ -572,7 +574,6 @@ MonoBehaviour:
   myOnActivationEndEffectsFinished: 0
   myInfoPanel: {fileID: 8089505841474664817}
   freeStrikeIndicator: {fileID: 7938872416344579992}
-  myName: Volatile Zombie
   currentlyActivated: 0
 --- !u!1 &7892589003505560018
 GameObject:

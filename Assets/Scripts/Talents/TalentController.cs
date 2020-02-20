@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TalentController : MonoBehaviour
 {
-
     // Initialization + Setup Singleton
     #region
     public static TalentController Instance;
@@ -829,6 +828,7 @@ public class TalentController : MonoBehaviour
     #endregion
 
     // View Logic
+    #region
     public void RefreshAllTalentButtonViewStates(CharacterData character)
     {
         foreach(Talent talent in character.allTalentButtons)
@@ -850,4 +850,5 @@ public class TalentController : MonoBehaviour
             }
         }
     }
+    #endregion
 }

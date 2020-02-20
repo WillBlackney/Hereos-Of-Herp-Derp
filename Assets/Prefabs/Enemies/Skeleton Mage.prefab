@@ -52,6 +52,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -513,8 +514,8 @@ MonoBehaviour:
   baseDexterity: 0
   baseInitiative: 3
   baseCriticalChance: 5
-  baseDodgeChance: 0
-  baseParryChance: 0
+  baseDodgeChance: 5
+  baseParryChance: 5
   baseAuraSize: 1
   baseStartingBlock: 0
   baseStartingEnergyBonus: 0

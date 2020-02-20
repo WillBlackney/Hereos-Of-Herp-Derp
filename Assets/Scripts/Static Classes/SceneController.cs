@@ -7,10 +7,13 @@ using TMPro;
 
 public class SceneController : MonoBehaviour
 {
+    // Properties + Components
+    #region
     [Header("Component References")]
     public Slider loadingScreenSlider;
     public TextMeshProUGUI loadingValueText;
     public GameObject loadScreenVisualParent;
+    #endregion
 
     // Singleton Set up
     #region

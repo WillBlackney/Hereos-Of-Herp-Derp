@@ -651,6 +651,21 @@ public static class TextLogic
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage to a target";
         }
+        else if (ability.abilityName == "Twin Strike")
+        {
+            // Get off hand weapon data
+
+            string offHandDamageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(entity, ability, entity.myOffHandWeapon);
+            int offHandDamageValue = CombatLogic.Instance.GetBaseDamageValue(entity, ability.abilityPrimaryValue, ability, offHandDamageType, entity.myOffHandWeapon);
+
+            ability.descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage, then " +
+                ReturnColoredText(offHandDamageValue.ToString(), yellow) + " " +
+                ReturnColoredText(offHandDamageType, GetColorCodeFromString(offHandDamageType)) +
+                " damage to a target";
+        }
         else if (ability.abilityName == "Shoot")
         {
             ability.descriptionText.text =
@@ -1388,6 +1403,16 @@ public static class TextLogic
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage to a target";
+        }
+        else if (ability.abilityName == "Twin Strike")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " main hand " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage, then " +
+                ReturnColoredText(damageValue.ToString(), yellow) + " off hand " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " to a target";
         }
         else if (ability.abilityName == "Shoot")
         {

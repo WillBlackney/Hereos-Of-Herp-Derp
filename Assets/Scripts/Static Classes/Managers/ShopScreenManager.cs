@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ShopScreenManager : MonoBehaviour
 {
-    public static ShopScreenManager Instance;
-
+    // Properties + Component References
+    #region
     [Header("Component References")]
     public GameObject visualParent;
     public GameObject continueButton;
@@ -38,9 +38,11 @@ public class ShopScreenManager : MonoBehaviour
     [Header("Properties")]
     public List<ItemDataSO> itemsInShopData;
     public List<ItemSlot> allItemsSlots;
+    #endregion
 
     // Initialization + Setup
     #region
+    public static ShopScreenManager Instance;
     private void Awake()
     {
         Instance = this;

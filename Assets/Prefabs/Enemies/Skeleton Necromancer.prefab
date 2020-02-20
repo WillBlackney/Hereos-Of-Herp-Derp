@@ -83,6 +83,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -544,8 +545,8 @@ MonoBehaviour:
   baseDexterity: 0
   baseInitiative: 3
   baseCriticalChance: 5
-  baseDodgeChance: 0
-  baseParryChance: 0
+  baseDodgeChance: 5
+  baseParryChance: 5
   baseAuraSize: 1
   baseStartingBlock: 0
   baseStartingEnergyBonus: 0
@@ -605,8 +606,6 @@ MonoBehaviour:
   myInfoPanel: {fileID: 1490631549828721525}
   freeStrikeIndicator: {fileID: 2917544381856343169}
   currentlyActivated: 0
-  zombiePrefab: {fileID: 331731056945787492, guid: 47f5564b9ebf0b245aebf669a401e825,
-    type: 3}
 --- !u!1001 &2953596426433073739
 PrefabInstance:
   m_ObjectHideFlags: 0

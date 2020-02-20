@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    // Properties + Components
+    #region
     [Header("Prefab References")]
     [SerializeField] private GameObject[] tilePrefabs;    
     [SerializeField] private List <TextAsset> mapTextFiles;
@@ -20,12 +22,16 @@ public class LevelManager : MonoBehaviour
     public Tile mousedOverTile;
     public Dictionary<Point, Tile> Tiles { get; set; }
     public List<Tile> HighlightedTiles = new List<Tile>();
+    #endregion
 
+    // Singleton Setup
+    #region
     public static LevelManager Instance;
     private void Awake()
     {
         Instance = this;
     }
+    #endregion
 
     // Initialzation + Level Creation
     #region

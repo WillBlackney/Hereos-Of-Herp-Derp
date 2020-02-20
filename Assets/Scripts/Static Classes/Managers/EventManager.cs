@@ -4,18 +4,25 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
+    // Properties + Component References
+    #region
     [Header("Properties")]
     public bool gameOverEventStarted;
     public TreasureChest activeTreasureChest;
     public WorldEncounter.EncounterType currentEncounterType;
 
+    #endregion
+
+    // Singleton Set up
+    #region
     public static EventManager Instance;
     private void Awake()
     {
         Instance = this;
     }
+    #endregion
 
-    // Start New Encounter Events
+    // Start New Combat Encounter Events
     #region
     public Action StartNewBasicEncounterEvent(EnemyWaveSO enemyWave = null)
     {
@@ -77,7 +84,7 @@ public class EventManager : MonoBehaviour
         StartCoroutine(StartNewEliteEncounterEventCoroutine(action));
         return action;
     }
-    public IEnumerator StartNewEliteEncounterEventCoroutine(Action action)
+    private IEnumerator StartNewEliteEncounterEventCoroutine(Action action)
     {
         // Destroy the previous level and tiles + reset values/properties
         ClearPreviousEncounter();
@@ -129,7 +136,7 @@ public class EventManager : MonoBehaviour
         StartCoroutine(StartNewBossEncounterEventCoroutine(action, enemyWave));
         return action;
     }
-    public IEnumerator StartNewBossEncounterEventCoroutine(Action action, EnemyWaveSO enemyWave = null)
+    private IEnumerator StartNewBossEncounterEventCoroutine(Action action, EnemyWaveSO enemyWave = null)
     {
         // Destroy the previous level and tiles + reset values/properties, turn off unneeded views
         ClearPreviousEncounter();
@@ -177,6 +184,10 @@ public class EventManager : MonoBehaviour
         // declare this event complete
         action.actionResolved = true;
     }
+    #endregion
+
+    // Start Shop + Mysteru + Camp Site + Treasure Events
+    #region
     public void StartNewCampSiteEncounterEvent()
     {
         StartCoroutine(StartNewCampSiteEncounterEventCoroutine());
@@ -345,35 +356,7 @@ public class EventManager : MonoBehaviour
 
         
     }
-    public void StartNewLootRewardEvent(WorldEncounter.EncounterType encounterType)
-    {
-        Debug.Log("StartNewLootRewardEvent() called...");
-
-        if (encounterType == WorldEncounter.EncounterType.BasicEnemy)
-        {
-            UIManager.Instance.EnableRewardScreenView();
-            RewardScreen.Instance.CreateGoldRewardButton();
-            RewardScreen.Instance.CreateItemRewardButton();
-            RewardScreen.Instance.CreateConsumableRewardButton();
-            RewardScreen.Instance.PopulateItemScreen();
-        }
-        else if (encounterType == WorldEncounter.EncounterType.EliteEnemy)
-        {
-            UIManager.Instance.EnableRewardScreenView();
-            RewardScreen.Instance.CreateGoldRewardButton();
-            RewardScreen.Instance.CreateItemRewardButton();
-            RewardScreen.Instance.CreateConsumableRewardButton();
-            RewardScreen.Instance.PopulateItemScreen();
-        }
-        else if (encounterType == WorldEncounter.EncounterType.Treasure)
-        {
-            UIManager.Instance.EnableRewardScreenView();
-            RewardScreen.Instance.CreateStateRewardButton();
-            RewardScreen.Instance.PopulateStateRewardScreen();
-        }
-
-    }
-    #endregion
+#endregion  
 
     // End Encounter Events
     #region
@@ -528,16 +511,10 @@ public class EventManager : MonoBehaviour
         yield return new WaitUntil(() => scoreReveal.ActionResolved() == true);
 
     }
-    public void EndNewLootRewardEvent()
-    {
-        RewardScreen.Instance.ClearRewards();
-        UIManager.Instance.DisableRewardScreenView();
-        UIManager.Instance.EnableWorldMapView();
-        WorldManager.Instance.HighlightNextAvailableEncounters();
-    }
+   
     #endregion
 
-    // Misc Events
+    // Loot Event Logic
     #region
     public Action StartPreLootScreenVisualEvent(int xpReward)
     {
@@ -600,6 +577,49 @@ public class EventManager : MonoBehaviour
         {
             return false;
         }
+    }
+    public void EndNewLootRewardEvent()
+    {
+        RewardScreen.Instance.ClearRewards();
+        UIManager.Instance.DisableRewardScreenView();
+        UIManager.Instance.EnableWorldMapView();
+        WorldManager.Instance.HighlightNextAvailableEncounters();
+    }
+    public void StartNewLootRewardEvent(WorldEncounter.EncounterType encounterType)
+    {
+        Debug.Log("StartNewLootRewardEvent() called...");
+
+        if (encounterType == WorldEncounter.EncounterType.BasicEnemy)
+        {
+            UIManager.Instance.EnableRewardScreenView();
+            RewardScreen.Instance.CreateGoldRewardButton();
+            RewardScreen.Instance.CreateItemRewardButton();
+            RewardScreen.Instance.PopulateItemScreen();
+
+            // 50% chance to get a consumable from basic encounters
+            int consumableRoll = Random.Range(1, 101);
+            if (consumableRoll > 50)
+            {
+                RewardScreen.Instance.CreateConsumableRewardButton();
+            }
+
+
+        }
+        else if (encounterType == WorldEncounter.EncounterType.EliteEnemy)
+        {
+            UIManager.Instance.EnableRewardScreenView();
+            RewardScreen.Instance.CreateGoldRewardButton();
+            RewardScreen.Instance.CreateItemRewardButton();
+            RewardScreen.Instance.CreateConsumableRewardButton();
+            RewardScreen.Instance.PopulateItemScreen();
+        }
+        else if (encounterType == WorldEncounter.EncounterType.Treasure)
+        {
+            UIManager.Instance.EnableRewardScreenView();
+            RewardScreen.Instance.CreateStateRewardButton();
+            RewardScreen.Instance.PopulateStateRewardScreen();
+        }
+
     }
     #endregion
 
