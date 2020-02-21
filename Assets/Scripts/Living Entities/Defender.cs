@@ -186,6 +186,10 @@ public class Defender : LivingEntity
         {
             myPassiveManager.ModifyTenacious(myCharacterData.tenaciousStacks);
         }
+        if (myCharacterData.enrageStacks > 0)
+        {
+            myPassiveManager.ModifyEnrage(myCharacterData.tenaciousStacks);
+        }
         if (myCharacterData.masochistStacks > 0)
         {
             myPassiveManager.ModifyMasochist(myCharacterData.masochistStacks);
@@ -558,6 +562,57 @@ public class Defender : LivingEntity
         awaitingSanctityOrder = false;
         awaitingBlessOrder = false;
         awaitingSiphonLifeOrder = false;
+        awaitingChaosBoltOrder = false;
+        awaitingKickToTheBallsOrder = false;
+        awaitingDevastatingBlowOrder = false;
+        awaitingBladeFlurryOrder = false;
+        awaitingEvasionOrder = false;
+        awaitingShieldSlamOrder = false;
+        awaitingTendonSlashOrder = false;
+        awaitingShieldShatterOrder = false;
+        awaitingSwordAndBoardOrder = false;
+        awaitingPhoenixDiveOrder = false;
+        awaitingChillingBlowOrder = false;
+        awaitingIcyFocusOrder = false;
+        awaitingCombustionOrder = false;
+        awaitingDragonBreathOrder = false;
+        awaitingBlizzardOrder = false;
+        awaitingFrostArmourOrder = false;
+        awaitingThawOrder = false;
+        awaitingSnipeOrder = false;
+        awaitingHasteOrder = false;
+        awaitingSteadyHandsOrder = false;
+        awaitingTreeLeapOrder = false;
+        awaitingDimensionalBlastOrder = false;
+        awaitingMirageOrder = false;
+        awaitingBurstOfKnowledgeOrder = false;
+        awaitingBlinkOrder = false;
+        awaitingTimeWarpOrder = false;
+        awaitingDimensionalHexOrder = false;
+        awaitingBlindingLightOrder = false;
+        awaitingTranscendenceOrder = false;
+        awaitingJudgementOrder = false;
+        awaitingShroudOrder = false;
+        awaitingRainOfChaosOrder = false;
+        awaitingBlightOrder = false;
+        awaitingToxicSlashOrder = false;
+        awaitingToxicEruptionOrder = false;
+        awaitingDrainOrder = false;
+        awaitingSpiritSurgeOrder = false;
+        awaitingLightningBoltOrder = false;
+        awaitingThunderStrikeOrder = false;
+        awaitingSpiritVisionOrder = false;
+        awaitingThunderStormOrder = false;
+        awaitingConcealingCloudsOrder = false;
+        awaitingHeadShotOrder = false;
+        awaitingHexOrder = false;
+        awaitingShankOrder = false;
+        awaitingCheapShotOrder = false;
+        awaitingAmbushOrder = false;
+        awaitingShadowStepOrder = false;
+        awaitingProvokeOrder = false;
+        awaitingDecapitateOrder = false;
+        awaitingDisarmOrder = false;
 
         TileHover.Instance.SetVisibility(false);
         LevelManager.Instance.UnhighlightAllTiles();
@@ -588,6 +643,15 @@ public class Defender : LivingEntity
         // Enable tile hover if ability is usable, and requires targetting
         Ability ability = mySpellBook.GetAbilityByName(abilityName);
         if (!EntityLogic.IsAbilityUseable(this, ability))
+        {
+            enableTileHover = false;
+        }
+        if(!EntityLogic.IsAbleToMove(this) &&
+            (ability.abilityName == "Move" ||
+            ability.abilityName == "Charge" ||
+            ability.abilityName == "Dash" ||
+            ability.abilityName == "Get Down!")
+            )
         {
             enableTileHover = false;
         }

@@ -1897,7 +1897,7 @@ public class CharacterData : MonoBehaviour
     {
         Debug.Log("CharacterData.ModifyTrueSight() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         trueSightStacks += stacks;
-        StartAddAttributeTabProcess("Thorns", stacks);
+        StartAddAttributeTabProcess("True Sight", stacks);
 
     }
 
@@ -2030,7 +2030,6 @@ public class CharacterData : MonoBehaviour
             GameObject newAttributeTabGO = Instantiate(PrefabHolder.Instance.AttributeTab, attributeTabContentParent.transform);
             AttributeTab newAttributeTab = newAttributeTabGO.GetComponent<AttributeTab>();
             newAttributeTab.InitializeSetup(attributeName, stacksGained);
-            //newAttributeTab.ModifyStatusIconStacks(stacksGained);
             myAttributeTabs.Add(newAttributeTab);
         }
 

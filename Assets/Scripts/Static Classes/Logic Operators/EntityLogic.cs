@@ -431,6 +431,8 @@ public static class EntityLogic
 
         if(!AbilityLogic.Instance.DoesAbilityMeetWeaponRequirements(entity, ability))
         {
+            Debug.Log(ability.abilityName + " use is invalid. REASON: " + entity.myName + " does not meet weapon requirments" +
+                "of ability");
             return false;
         }
         if (ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack && entity.myPassiveManager.disarmed)
@@ -452,22 +454,6 @@ public static class EntityLogic
         Debug.Log(ability.abilityName + " use by " + entity.name + " is valid");
         return true;
 
-        /*
-        if (!HasEnoughAP(entity, ability) ||
-            !IsAbilityOffCooldown(ability) ||
-            !AbilityLogic.Instance.DoesAbilityMeetWeaponRequirements(entity, ability) ||
-            (ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack && entity.myPassiveManager.disarmed) ||
-            (ability.abilityType == AbilityDataSO.AbilityType.RangedAttack && entity.myPassiveManager.blind) ||
-            (ability.abilityType == AbilityDataSO.AbilityType.Skill && entity.myPassiveManager.silenced)
-            )
-        {
-            return false;
-        }
-        else
-        {
-            return true; ;
-        }
-        */
     }
     public static bool CanPerformAbilityTwoAfterAbilityOne(Ability abilityOne, Ability abilityTwo, LivingEntity entity)
     {

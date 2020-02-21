@@ -96,7 +96,8 @@ public class Tile : MonoBehaviour
         OnTileMouseEnter();
     }
     public void OnTileMouseEnter()
-    {
+    {       
+
         if (PathRenderer.Instance.active && DefenderManager.Instance.selectedDefender != null)
         {
             Defender selectedDefender = DefenderManager.Instance.selectedDefender;

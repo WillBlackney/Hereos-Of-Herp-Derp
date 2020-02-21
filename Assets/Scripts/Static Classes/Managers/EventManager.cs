@@ -186,7 +186,7 @@ public class EventManager : MonoBehaviour
     }
     #endregion
 
-    // Start Shop + Mysteru + Camp Site + Treasure Events
+    // Start Shop + Mystery + Camp Site + Treasure Events
     #region
     public void StartNewCampSiteEncounterEvent()
     {
@@ -220,7 +220,7 @@ public class EventManager : MonoBehaviour
         StartCoroutine(StartShopEncounterEventCoroutine(action));
         return action;
     }
-    public IEnumerator StartShopEncounterEventCoroutine(Action action)
+    private IEnumerator StartShopEncounterEventCoroutine(Action action)
     {
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = true;
@@ -257,7 +257,7 @@ public class EventManager : MonoBehaviour
         StartCoroutine(StartNewTreasureRoomEncounterEventCoroutine(action));
         return action;
     }
-    public IEnumerator StartNewTreasureRoomEncounterEventCoroutine(Action action)
+    private IEnumerator StartNewTreasureRoomEncounterEventCoroutine(Action action)
     {
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = true;
@@ -295,7 +295,7 @@ public class EventManager : MonoBehaviour
         return action;
 
     }
-    public IEnumerator StartNewStoryEventCoroutine(Action action)
+    private IEnumerator StartNewStoryEventCoroutine(Action action)
     {
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = false;
@@ -323,40 +323,66 @@ public class EventManager : MonoBehaviour
         StartCoroutine(StartNewMysteryEncounterEventCoroutine(action));
         return action;
     }
-    public IEnumerator StartNewMysteryEncounterEventCoroutine(Action action)
+    private IEnumerator StartNewMysteryEncounterEventCoroutine(Action action)
     {
-        int randomNumber = Random.Range(1, 101);
+        Debug.Log("EventManager.StartNewMysteryEncounterEventCoroutine() called...");
 
-        if (randomNumber >= 1 && randomNumber <= 100)
+        // Randomly decide encounter type
+        int randomNumber = Random.Range(1, 101);
+        Debug.Log("EventManager.StartNewMysteryEncounterEventCoroutine() rolled " +
+            randomNumber.ToString() + " for mystery event roll");
+
+        // Story Event
+        if (randomNumber >= 1 && randomNumber <= 60)
         {
             if(StoryEventManager.Instance.viableStoryEvents.Count > 0)
             {
+                Debug.Log("EventManager.StartNewMysteryEncounterEventCoroutine() rolled a Story event...");
                 StartNewStoryEvent();
             }
             else
             {
+                Debug.Log("EventManager.StartNewMysteryEncounterEventCoroutine() rolled a story event, " +
+                    "but none are valid: Start basic enemy encounter instead");
                 StartNewBasicEncounterEvent();
             }
         }
+
+        // Treasure Event
         else if (randomNumber >= 61 && randomNumber <= 70)
         {
+            Debug.Log("EventManager.StartNewMysteryEncounterEventCoroutine() rolled a Treasure event...");
             StartNewTreasureRoomEncounterEvent();
         }
-        else if (randomNumber >= 71 && randomNumber <= 90)
+
+        // Shop Event
+        else if (randomNumber >= 71 && randomNumber <= 80)
         {
+            Debug.Log("EventManager.StartNewMysteryEncounterEventCoroutine() rolled a Shop event...");
             StartShopEncounterEvent();
         }
-        else if (randomNumber >= 91 && randomNumber <= 100)
+
+        // Basic Enemy Event
+        else if (randomNumber >= 81 && randomNumber <= 90)
         {
+            Debug.Log("EventManager.StartNewMysteryEncounterEventCoroutine() rolled a Basic Enemy event...");
             StartNewBasicEncounterEvent();
         }
 
+        // Elite Enemy Event
+        else if (randomNumber >= 91 && randomNumber <= 100)
+        {
+            Debug.Log("EventManager.StartNewMysteryEncounterEventCoroutine() rolled an Elite Enemy event...");
+            StartNewEliteEncounterEvent();
+        }
+
+        // Resolve  
         yield return null;
         action.actionResolved = true;
 
         
     }
-#endregion  
+    #endregion  
 
     // End Encounter Events
     #region
@@ -364,7 +390,7 @@ public class EventManager : MonoBehaviour
     {
         StartCoroutine(StartNewEndBasicEncounterEventCoroutine());        
     }
-    public IEnumerator StartNewEndBasicEncounterEventCoroutine()
+    private IEnumerator StartNewEndBasicEncounterEventCoroutine()
     {        
         Debug.Log("StartNewEndBasicEncounterEvent() coroutine started...");
         // Destroy windows
@@ -393,7 +419,7 @@ public class EventManager : MonoBehaviour
         StartCoroutine(StartNewEndEliteEncounterEventCoroutine(action));
         return action;
     }
-    public IEnumerator StartNewEndEliteEncounterEventCoroutine(Action action)
+    private IEnumerator StartNewEndEliteEncounterEventCoroutine(Action action)
     {
         Debug.Log("StartNewEndEliteEncounterEvent() coroutine started...");
         // Destroy windows
@@ -422,7 +448,7 @@ public class EventManager : MonoBehaviour
     {
         StartCoroutine(StartNewEndBossEncounterEventCoroutine());
     }
-    public IEnumerator StartNewEndBossEncounterEventCoroutine()
+    private IEnumerator StartNewEndBossEncounterEventCoroutine()
     {
         Debug.Log("StartNewEndBossEncounterEvent() coroutine started...");
 
@@ -453,7 +479,7 @@ public class EventManager : MonoBehaviour
     {
         StartCoroutine(StartNewGameOverDefeatedEventCoroutine());
     }
-    public IEnumerator StartNewGameOverDefeatedEventCoroutine()
+    private IEnumerator StartNewGameOverDefeatedEventCoroutine()
     {
         Debug.Log("StartNewGameOverDefeatedEventCoroutine() coroutine started...");
         gameOverEventStarted = true;
@@ -488,7 +514,7 @@ public class EventManager : MonoBehaviour
     {
         StartCoroutine(StartNewGameOverVictoryEventCoroutine());
     }
-    public IEnumerator StartNewGameOverVictoryEventCoroutine()
+    private IEnumerator StartNewGameOverVictoryEventCoroutine()
     {
         Debug.Log("StartNewGameOverDefeatedEventCoroutine() coroutine started...");
         gameOverEventStarted = true;
@@ -522,7 +548,7 @@ public class EventManager : MonoBehaviour
         StartCoroutine(StartPreLootScreenVisualEventCoroutine(xpReward, action));
         return action;
     }
-    public IEnumerator StartPreLootScreenVisualEventCoroutine(int xpReward, Action action)
+    private IEnumerator StartPreLootScreenVisualEventCoroutine(int xpReward, Action action)
     {
         Debug.Log("StartPreLootScreenVisualEvent() coroutine started...");
         preLootScreenEventFinished = false;
