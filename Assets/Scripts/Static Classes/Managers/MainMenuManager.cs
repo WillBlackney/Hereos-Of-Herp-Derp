@@ -41,7 +41,7 @@ public class MainMenuManager : MonoBehaviour
     private void Start()
     {
         // Play starting visual sequence
-        PlayStartSequence();
+        //PlayStartSequence();
 
         // set character one as selected by default
         SetSelectedCharacter(characterOne);
@@ -173,7 +173,9 @@ public class MainMenuManager : MonoBehaviour
     }
     public IEnumerator PlayStartSequenceCoroutine()
     {
+        Debug.Log("MainMenuManager.PlayStartSequenceCoroutine() started...");
         // Set up
+        BlackScreenManager.Instance.canvasGroup.alpha = 0;
         BlackScreenManager.Instance.canvasGroup.alpha = 1;
         textElementsParentCG.alpha = 0;
         allElementsParent.transform.position = northPos.transform.position;
@@ -181,6 +183,7 @@ public class MainMenuManager : MonoBehaviour
         // Start fade in
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 1, 0, false);      
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+        yield return new WaitForSeconds(1);
 
         // move screen to normal position
         while(allElementsParent.transform.position != centrePos.transform.position)

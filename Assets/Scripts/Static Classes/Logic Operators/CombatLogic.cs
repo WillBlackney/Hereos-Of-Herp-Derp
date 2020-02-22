@@ -562,7 +562,124 @@ public class CombatLogic : MonoBehaviour
     }
     #endregion
 
-    // Handle damage + attack related events
+    // Handle damage + death + attack related events
+    public Action HandleDeath(LivingEntity entity)
+    {
+        Action action = new Action();
+        StartCoroutine(HandleDeathCoroutine(entity, action));
+        return action;
+
+    }
+    public IEnumerator HandleDeathCoroutine(LivingEntity entity, Action action)
+    {
+        bool endCombatEventTriggered = false;
+        entity.inDeathProcess = true;
+
+        LevelManager.Instance.SetTileAsUnoccupied(entity.tile);
+        LivingEntityManager.Instance.allLivingEntities.Remove(entity);
+        entity.DisableWorldSpaceCanvas();
+        entity.myOnActivationEndEffectsFinished = true;
+        ActivationManager.Instance.activationOrder.Remove(entity);
+
+        entity.PlayDeathAnimation();
+        Action destroyWindowAction = entity.myActivationWindow.FadeOutWindow();
+        yield return new WaitUntil(() => destroyWindowAction.actionResolved == true);
+        yield return new WaitUntil(() => entity.MyDeathAnimationFinished() == true);        
+
+
+        // Check death effects
+        if (entity.myPassiveManager.Volatile)
+        {
+            // Notification
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Volatile");
+
+            // Calculate which characters are hit by the aoe
+            List<LivingEntity> targetsInRange = GetAllLivingEntitiesWithinAoeEffect(entity, entity.tile, 1, true, true);
+
+            // Damage all targets hit
+            foreach (LivingEntity targetInBlast in targetsInRange)
+            {
+                if (targetInBlast.inDeathProcess == false)
+                {
+                    int finalDamageValue = GetFinalDamageValueAfterAllCalculations(entity, targetInBlast, null, "Physical", false, entity.myPassiveManager.volatileStacks);
+                    Action volatileExplosion = HandleDamage(finalDamageValue, null, targetInBlast, "Physical");
+                    yield return new WaitUntil(() => volatileExplosion.ActionResolved() == true);
+                }
+            }
+
+            yield return new WaitForSeconds(1);
+        }
+
+        // Remove entity from relavent lists
+        if (entity.defender)
+        {
+            DefenderManager.Instance.allDefenders.Remove(entity.defender);
+        }
+        else if (entity.enemy)
+        {
+            entity.enemy.currentlyActivated = false;
+            EnemyManager.Instance.allEnemies.Remove(entity.enemy);
+        }      
+
+
+        // Depending on the state of the combat, decide which ending or continuation occurs
+
+        // check if the player has lost all characters and thus the game
+        if (DefenderManager.Instance.allDefenders.Count == 0)
+        {
+            Debug.Log("Destroying " + entity.myName + " game object");
+            Destroy(entity.gameObject);
+
+            EventManager.Instance.StartNewGameOverDefeatedEvent();
+        }
+
+        // check if this was the last enemy in the encounter
+        else if (EnemyManager.Instance.allEnemies.Count == 0 &&
+            DefenderManager.Instance.allDefenders.Count >= 1)
+        {
+            Debug.Log("Destroying " + entity.myName + " game object");
+            Destroy(entity.gameObject);
+
+            // End combat event, loot screen etc
+            if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.EliteEnemy)
+            {
+                endCombatEventTriggered = true;
+                EventManager.Instance.StartNewEndEliteEncounterEvent();
+            }
+            else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.BasicEnemy)
+            {
+                endCombatEventTriggered = true;
+                EventManager.Instance.StartNewEndBasicEncounterEvent();
+            }
+            else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.Boss)
+            {
+                endCombatEventTriggered = true;
+                EventManager.Instance.StartNewEndBossEncounterEvent();
+            }
+
+        }
+
+        // Combat has not ended from deaths, check if the character
+        else if (ActivationManager.Instance.entityActivated == this &&
+            EventManager.Instance.gameOverEventStarted == false &&
+            endCombatEventTriggered == false)
+        {
+            Debug.Log("Destroying " + entity.myName + " game object");
+            Destroy(entity.gameObject);
+            ActivationManager.Instance.ActivateNextEntity();
+        }
+
+        // Destroy the entity GO now that this is finished
+        else
+        {
+            Debug.Log("Destroying " + entity.myName + " game object");
+            Destroy(entity.gameObject);
+        }
+
+        // Resolve
+        action.actionResolved = true;
+        
+    }
     public Action HandleDamage(int damageAmount, LivingEntity attacker, LivingEntity victim, string damageType, Ability abilityUsed = null, bool ignoreBlock = false)
     {
         Debug.Log("CombatLogic.NewHandleDamage() called...");
@@ -873,7 +990,7 @@ public class CombatLogic : MonoBehaviour
                 // the victim was killed, start death process
                 victim.inDeathProcess = true;
                 //victim.StopAllCoroutines();
-                StartCoroutine(victim.HandleDeath());
+                HandleDeath(victim);
             }
             
         }       

@@ -487,8 +487,6 @@ public class EventManager : MonoBehaviour
     {
         Debug.Log("StartNewGameOverDefeatedEventCoroutine() coroutine started...");
         gameOverEventStarted = true;
-        // Destroy windows
-        //ActivationManager.Instance.ClearAllWindowsFromActivationPanel();
 
         // Unselect defender to hide ability bar UI, prevent null behaviors
         DefenderManager.Instance.ClearSelectedDefender();
@@ -572,7 +570,7 @@ public class EventManager : MonoBehaviour
         {
             Debug.Log("StartPreLootScreenVisualEvent() creating visual status xp gained effect...");
             // Dead characters get no XP
-            if(character.currentHealth > 0)
+            if(character.currentHealth > 0 && character.myDefenderGO != null)
             {
                 VisualEffectManager.Instance.CreateStatusEffect(character.myDefenderGO.transform.position, "XP + " + xpReward.ToString());
             }            
@@ -586,7 +584,7 @@ public class EventManager : MonoBehaviour
             if(character.currentXP + xpReward >= character.currentMaxXP)
             {
                 Debug.Log("StartPreLootScreenVisualEvent() creating visual status LEVEL GAINED! effect...");
-                VisualEffectManager.Instance.CreateStatusEffect(character.myDefenderGO.transform.position, "LEVEL UP!" + xpReward.ToString());
+                VisualEffectManager.Instance.CreateStatusEffect(character.myDefenderGO.transform.position, "LEVEL UP!");
                 yield return new WaitForSeconds(0.5f);
 
             }            

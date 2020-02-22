@@ -1275,7 +1275,7 @@ public class AbilityLogic : MonoBehaviour
                 VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "DECAPITATED!");             
                 victim.inDeathProcess = true;
                 victim.StopAllCoroutines();
-                StartCoroutine(victim.HandleDeath());
+                CombatLogic.Instance.HandleDeath(victim);
             }
         }
 

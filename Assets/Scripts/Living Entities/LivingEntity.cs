@@ -683,7 +683,7 @@ public class LivingEntity : MonoBehaviour
             if (DefenderManager.Instance.allDefenders.Count == 0)
             {
                 //LivingEntityManager.Instance.StopAllEntityCoroutines();
-                EventManager.Instance.StartNewGameOverDefeatedEvent();
+                EventManager.Instance.gameOverEventStarted = true;
 
             }
         }
@@ -736,13 +736,18 @@ public class LivingEntity : MonoBehaviour
         // end turn and activation triggers just incase        
         myOnActivationEndEffectsFinished = true;
 
-        if (ActivationManager.Instance.entityActivated == this)
+        if (EventManager.Instance.gameOverEventStarted)
+        {
+            EventManager.Instance.StartNewGameOverDefeatedEvent();
+        }        
+
+        if (ActivationManager.Instance.entityActivated == this &&
+            EventManager.Instance.gameOverEventStarted == false &&
+            endCombatEventTriggered == false)
         {
             ActivationManager.Instance.ActivateNextEntity();
         }
         ActivationManager.Instance.activationOrder.Remove(this);
-        //Debug.Log("Destroying " + myName + " game object");
-       // Destroy(gameObject,0.1f);
     }
     public void PlayDeathAnimation()
     {

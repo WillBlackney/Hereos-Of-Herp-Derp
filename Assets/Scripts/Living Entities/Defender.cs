@@ -129,6 +129,10 @@ public class Defender : LivingEntity
 
         transform.SetParent(DefenderManager.Instance.defendersParent.transform);
         base.InitializeSetup(startingGridPosition, startingTile);
+
+        // REMOVE LATER
+        //ModifyCurrentHealth(-(currentHealth - 1));
+        //ModifyCurrentMobility(10);
     }
     public override void SetBaseProperties()
     {

@@ -184,6 +184,9 @@ public class MovementLogic : MonoBehaviour
         target.myModelParent.SetActive(true);
         target.myWorldSpaceCanvasParent.SetActive(true);
 
+        // Retrigger animation
+        target.myModel.SetIdleAnim();
+
         // Set new tile location, resolve event
         LevelManager.Instance.SetTileAsOccupied(destination);
         OnNewTileSet(target);

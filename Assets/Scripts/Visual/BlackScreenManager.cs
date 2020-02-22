@@ -44,18 +44,22 @@ public class BlackScreenManager : MonoBehaviour
     #region
     private void OnEnable()
     {
-        SceneManager.sceneLoaded += OnLevelFinishedLoading;
+        //SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
     private void OnDisable()
     {
-        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+        //SceneManager.sceneLoaded -= OnLevelFinishedLoading;
     }
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("Level Loaded");
-        FadeIn(aboveEverything, 2, 0, false);
-        Debug.Log(scene.name);
-        Debug.Log(mode);
+        /*
+        Debug.Log("Loaded " + scene.name + " in mode " + mode);
+        if(scene.name =="Game Scene")
+        {
+            FadeIn(aboveEverything, 2, 0, false);
+        }
+        */
+        
     }
     #endregion
 
@@ -89,6 +93,7 @@ public class BlackScreenManager : MonoBehaviour
     }
     public IEnumerator FadeInCoroutine(int sortingLayer, int speed, float alphaTarget, bool setActiveOnComplete, Action action)
     {
+        fadingIn = false;
         fadingOut = false;
         fadingIn = true;
         
@@ -122,6 +127,7 @@ public class BlackScreenManager : MonoBehaviour
     public IEnumerator FadeOutCoroutine(int sortingLayer, int speed, float alphaTarget, bool setActiveOnComplete, Action action)
     {
         fadingIn = false;
+        fadingOut = false;
         fadingOut = true;
 
         SetActive(true);

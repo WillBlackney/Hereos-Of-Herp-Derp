@@ -30,6 +30,10 @@ public class SceneController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void Start()
+    {
+        PlayStartSequence();
+    }
     #endregion
 
     // Load Scene Logic
@@ -42,7 +46,7 @@ public class SceneController : MonoBehaviour
     {
         // Set up
         loadingScreenSlider.value = 0;
-        bool fadeOutStarted = false;        
+        bool fadeOutStarted = false;    
         float startTime = Time.time;
 
         // Start async scene load
@@ -60,11 +64,11 @@ public class SceneController : MonoBehaviour
                 fadeOutStarted = true;
 
                 // brief wait before fade out
-                yield return new WaitForSeconds(1);
+                //yield return new WaitForSeconds(1);
 
                 // Start screen fade transistion
                 Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 2, 1, true);
-                yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
+                yield return new WaitUntil(() => fadeOut.ActionResolved() == true);                
 
                 // disable load screen view
                 loadScreenVisualParent.SetActive(false);
@@ -73,8 +77,61 @@ public class SceneController : MonoBehaviour
             yield return null;
         }
 
+        // Start fade in
+        if(sceneName == "Game Scene")
+        {
+            Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 2, 0, false);
+            yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+        }
+
+        else if(sceneName == "Menu Scene")
+        {
+            MainMenuManager.Instance.PlayStartSequence();
+        }
+        
+
         Debug.Log("Scene load duration: " + (Time.time - startTime).ToString() + " seconds");
         
     }
+
     #endregion
+
+    public void PlayStartSequence()
+    {
+        StartCoroutine(PlayStartSequenceCoroutine());
+    }
+    public IEnumerator PlayStartSequenceCoroutine()
+    {
+        Debug.Log("MainMenuManager.PlayStartSequenceCoroutine() started...");
+        // Set up
+        BlackScreenManager.Instance.canvasGroup.alpha = 0;
+        BlackScreenManager.Instance.canvasGroup.alpha = 1;
+        MainMenuManager.Instance.textElementsParentCG.alpha = 0;
+        MainMenuManager.Instance.allElementsParent.transform.position = MainMenuManager.Instance.northPos.transform.position;
+
+        // Start fade in
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 1, 0, false);
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+        yield return new WaitForSeconds(1);
+
+        // move screen to normal position
+        while (MainMenuManager.Instance.allElementsParent.transform.position != MainMenuManager.Instance.centrePos.transform.position)
+        {
+            MainMenuManager.Instance.allElementsParent.transform.position = Vector3.MoveTowards(MainMenuManager.Instance.allElementsParent.transform.position,
+                MainMenuManager.Instance.centrePos.transform.position, 5 * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+
+        // brief wait
+        yield return new WaitForSeconds(0.5f);
+
+        // fade in text elements and UI
+        while (MainMenuManager.Instance.textElementsParentCG.alpha < 1)
+        {
+            //Debug.Log("fading in text and ui");
+            MainMenuManager.Instance.textElementsParentCG.alpha += 0.05f;
+            yield return new WaitForEndOfFrame();
+        }
+
+    }
 }
