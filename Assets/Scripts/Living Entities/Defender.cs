@@ -1337,7 +1337,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Get Down! button clicked, awaiting Get Down! target");
             awaitingGetDownOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(getDown.abilityPrimaryValue + EntityLogic.GetTotalMobility(this), LevelManager.Instance.Tiles[gridPosition], true));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetValidMoveableTilesWithinRange(getDown.abilityPrimaryValue + EntityLogic.GetTotalMobility(this), LevelManager.Instance.Tiles[gridPosition]));
             PathRenderer.Instance.ActivatePathRenderer();
         }
 
@@ -1552,7 +1552,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Dash button clicked, awaiting Dash tile target");
             awaitingDashOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(dash.abilityPrimaryValue + EntityLogic.GetTotalMobility(this), LevelManager.Instance.Tiles[gridPosition], false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetValidMoveableTilesWithinRange(dash.abilityPrimaryValue + EntityLogic.GetTotalMobility(this), LevelManager.Instance.Tiles[gridPosition]));
             PathRenderer.Instance.ActivatePathRenderer();
         }        
     }
@@ -3106,7 +3106,7 @@ public class Defender : LivingEntity
             awaitingChargeTargetOrder = false;
 
             List<Tile> tilesWithinChargeRangeOfCharacter = LevelManager.Instance.GetValidMoveableTilesWithinRange(charge.abilityPrimaryValue + EntityLogic.GetTotalMobility(this), tile);
-            List<Tile> tilesWithinMeleeRangeOfTarget = LevelManager.Instance.GetValidMoveableTilesWithinRange(1, enemyTarget.tile);
+            List<Tile> tilesWithinMeleeRangeOfTarget = LevelManager.Instance.GetValidMoveableTilesWithinRange(currentMeleeRange, enemyTarget.tile);
             List<Tile> validChargeLocationTiles = new List<Tile>();
 
             foreach (Tile tile in tilesWithinMeleeRangeOfTarget)

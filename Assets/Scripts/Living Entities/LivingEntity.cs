@@ -120,6 +120,7 @@ public class LivingEntity : MonoBehaviour
         {
             myAnimator = GetComponent<Animator>();
         }
+        myAnimator.SetTrigger("Idle");
 
         // Remove in future perhaps, currently used to make death anim fade out work
         myModel.PopulateRenderersList();
@@ -852,7 +853,7 @@ public class LivingEntity : MonoBehaviour
     protected IEnumerator OnActivationStartCoroutine(Action action)
     {
         moveActionsTakenThisActivation = 0;
-        timesAttackedThisTurnCycle = 0;
+        //timesAttackedThisTurnCycle = 0;
         GainEnergyOnActivationStart();
         ReduceCooldownsOnActivationStart();
         ModifyBlockOnActivationStart();
@@ -1299,7 +1300,7 @@ public class LivingEntity : MonoBehaviour
             Debug.Log("OnActivationEndCoroutine() checking Poisoned...");
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Poisoned");
             yield return new WaitForSeconds(0.5f);
-            Action poisonDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.poisonedStacks, this, this, "None", null, true);
+            Action poisonDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.poisonedStacks, null, this, "Poison", null);
             yield return new WaitUntil(() => poisonDamage.ActionResolved() == true);
             yield return new WaitForSeconds(1f);
         }
@@ -1311,7 +1312,7 @@ public class LivingEntity : MonoBehaviour
 
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Burning");
             yield return new WaitForSeconds(0.5f);
-            Action burningDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.burningStacks, this, this, "None", null, true);
+            Action burningDamage = CombatLogic.Instance.HandleDamage(myPassiveManager.burningStacks, null, this, "Fire", null);
             yield return new WaitUntil(() => burningDamage.ActionResolved() == true);
             yield return new WaitForSeconds(1f);
         }

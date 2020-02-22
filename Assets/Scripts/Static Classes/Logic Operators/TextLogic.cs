@@ -512,7 +512,7 @@ public static class TextLogic
         else if (statusName == "Phasing")
         {
             statusDescriptionText.text =
-                "The first time this character is attacked each turn cycle, it " + ReturnColoredText("Teleports", yellow) +
+                "The first time this character is melee attacked each turn cycle, it " + ReturnColoredText("Teleports", yellow) +
                 " to a random tile within " + ReturnColoredText("2", yellow);
         }
         else if (statusName == "Poison Immunity")

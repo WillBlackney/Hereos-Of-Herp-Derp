@@ -304,6 +304,10 @@ public class EventManager : MonoBehaviour
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
 
+        // Disable Map + Character Roster
+        UIManager.Instance.DisableWorldMapView();
+        UIManager.Instance.DisableCharacterRosterView();
+
         // Destroy the previous level and tiles + reset values/properties
         ClearPreviousEncounter();
 
@@ -637,13 +641,16 @@ public class EventManager : MonoBehaviour
             RewardScreen.Instance.CreateGoldRewardButton();
             RewardScreen.Instance.CreateItemRewardButton();
             RewardScreen.Instance.CreateConsumableRewardButton();
+            RewardScreen.Instance.CreateStateRewardButton();
+
+            RewardScreen.Instance.PopulateStateRewardScreen();
             RewardScreen.Instance.PopulateItemScreen();
         }
         else if (encounterType == WorldEncounter.EncounterType.Treasure)
         {
             UIManager.Instance.EnableRewardScreenView();
             RewardScreen.Instance.CreateStateRewardButton();
-            RewardScreen.Instance.PopulateStateRewardScreen();
+            
         }
 
     }

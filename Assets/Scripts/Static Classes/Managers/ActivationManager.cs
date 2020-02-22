@@ -36,6 +36,7 @@ public class ActivationManager : MonoBehaviour
         ActivationWindow newWindowScript = newWindow.GetComponent<ActivationWindow>();
         newWindowScript.InitializeSetup(entity);        
         activationOrder.Add(entity);
+        newWindowScript.myUCM.SetBaseAnim();
     }
     public static ActivationManager Instance;
     private void Awake()

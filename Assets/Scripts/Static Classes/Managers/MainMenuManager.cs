@@ -317,7 +317,7 @@ public class MainMenuManager : MonoBehaviour
         {
             character.tabOne.SetUpAbilityTabAsAbility("Fire Ball");
             character.tabTwo.SetUpAbilityTabAsAbility("Telekinesis");
-            character.tabThree.SetUpAbilityTabAsAbility("Frost Nova");
+            character.tabThree.SetUpAbilityTabAsAbility("Icy Focus");
             character.tabFour.SetUpAbilityTabAsPassive("Flux", 1);
         }
 

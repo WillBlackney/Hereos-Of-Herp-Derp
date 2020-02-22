@@ -972,10 +972,15 @@ public class PassiveManager : MonoBehaviour
         {
             StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(myLivingEntity.transform.position));
             bonusStrengthStacks += stacks;
-            if (bonusStrengthStacks <= 0)
+            if (bonusStrengthStacks < 0)
             {
-                bonusStrength = false;
+                bonusStrength = true;
             }
+        }
+
+        if(bonusStrengthStacks == 0)
+        {
+            bonusStrength = false;
         }
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
@@ -1000,10 +1005,15 @@ public class PassiveManager : MonoBehaviour
         else if (stacks < 0)
         {
             bonusWisdomStacks += stacks;
-            if (bonusWisdomStacks <= 0)
+            if (bonusWisdomStacks < 0)
             {
-                bonusWisdom = false;
+                bonusWisdom = true;
             }
+        }
+
+        if (bonusWisdomStacks == 0)
+        {
+            bonusWisdom = false;
         }
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
@@ -1028,10 +1038,15 @@ public class PassiveManager : MonoBehaviour
         else if (stacks < 0)
         {
             bonusDexterityStacks += stacks;
-            if (bonusDexterityStacks <= 0)
+            if (bonusDexterityStacks < 0)
             {
-                bonusDexterity = false;
+                bonusDexterity = true;
             }
+        }
+
+        if (bonusDexterityStacks == 0)
+        {
+            bonusDexterity = false;
         }
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
@@ -1056,10 +1071,14 @@ public class PassiveManager : MonoBehaviour
         else if (stacks < 0)
         {
             bonusStaminaStacks += stacks;
-            if (bonusStaminaStacks <= 0)
+            if (bonusStaminaStacks < 0)
             {
-                bonusStamina = false;
+                bonusStamina = true;
             }
+        }
+        if (bonusStaminaStacks == 0)
+        {
+            bonusStamina = false;
         }
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
@@ -1081,10 +1100,14 @@ public class PassiveManager : MonoBehaviour
         else if (stacks < 0)
         {
             bonusInitiativeStacks += stacks;
-            if (bonusInitiativeStacks <= 0)
+            if (bonusInitiativeStacks < 0)
             {
                 bonusInitiative = false;
             }
+        }
+        if (bonusInitiativeStacks == 0)
+        {
+            bonusInitiative = false;
         }
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
@@ -1098,16 +1121,24 @@ public class PassiveManager : MonoBehaviour
         if (stacks > 0)
         {
             bonusMobilityStacks += stacks;
-            if (bonusMobilityStacks > 0)
+            if (bonusMobilityStacks != 0)
             {
                 bonusMobility = true;
+            }
+            else
+            {
+                bonusMobility = false;
             }
         }
 
         else if (stacks < 0)
         {
             bonusMobilityStacks += stacks;
-            if (bonusMobilityStacks <= 0)
+            if (bonusMobilityStacks != 0)
+            {
+                bonusMobility = true;
+            }
+            else
             {
                 bonusMobility = false;
             }

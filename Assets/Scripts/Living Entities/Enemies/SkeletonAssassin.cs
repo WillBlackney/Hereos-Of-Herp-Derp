@@ -13,7 +13,7 @@ public class SkeletonAssassin : Enemy
         CharacterModelController.SetUpAsSkeletonAssassinPreset(myModel);
 
         mySpellBook.EnemyLearnAbility("Move");
-        mySpellBook.EnemyLearnAbility("Strike");        
+        mySpellBook.EnemyLearnAbility("Twin Strike");        
         mySpellBook.EnemyLearnAbility("Shank");
         mySpellBook.EnemyLearnAbility("Dash");
 
@@ -26,7 +26,7 @@ public class SkeletonAssassin : Enemy
 
     public override IEnumerator StartMyActivationCoroutine()
     {
-        Ability strike = mySpellBook.GetAbilityByName("Strike");
+        Ability twinStrike = mySpellBook.GetAbilityByName("Twin Strike");
         Ability move = mySpellBook.GetAbilityByName("Move");
         Ability dash = mySpellBook.GetAbilityByName("Dash");
         Ability shank = mySpellBook.GetAbilityByName("Shank");
@@ -59,14 +59,14 @@ public class SkeletonAssassin : Enemy
             goto ActionStart;
         }
 
-        // Strike best target
+        // Twin Strike best target
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, strike)) 
+            EntityLogic.IsAbilityUseable(this, twinStrike)) 
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike");
             yield return new WaitForSeconds(0.5f);
             
-            Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
@@ -90,13 +90,13 @@ public class SkeletonAssassin : Enemy
 
         // Strike closest target
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, true), currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, strike))
+            EntityLogic.IsAbilityUseable(this, twinStrike))
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, true));
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike");
             yield return new WaitForSeconds(0.5f);
 
-            Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
@@ -109,7 +109,7 @@ public class SkeletonAssassin : Enemy
             // dont dash if already in melee (this would trigger a free strike)
             EntityLogic.GetAllEnemiesWithinRange(this, currentMeleeRange).Count == 0 &&
             EntityLogic.IsAbilityUseable(this, dash) &&
-            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(dash, strike, this) &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(dash, twinStrike, this) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetBestTarget(this, false, true), currentMeleeRange, dash.abilityPrimaryValue + EntityLogic.GetTotalMobility(this)) != null
             )
         {
@@ -132,7 +132,7 @@ public class SkeletonAssassin : Enemy
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null &&
-            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, strike, this)
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, twinStrike, this)
             )
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, false, true));
@@ -156,25 +156,25 @@ public class SkeletonAssassin : Enemy
             EntityLogic.IsAbilityUseable(this, shank))
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, true));
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Cheap Shot");
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shank");
             yield return new WaitForSeconds(0.5f);
 
-            Action action = AbilityLogic.Instance.PerformCheapShot(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformShank(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
 
-        // Strike
+        // Twin Strike
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, true), currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, strike))
+            EntityLogic.IsAbilityUseable(this, twinStrike))
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, true));
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike");
             yield return new WaitForSeconds(0.5f);
 
-            Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);

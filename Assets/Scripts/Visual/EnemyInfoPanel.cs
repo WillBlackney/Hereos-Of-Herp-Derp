@@ -59,6 +59,7 @@ public class EnemyInfoPanel : MonoBehaviour
 
         // Build character model
         CharacterModelController.BuildModelFromPresetString(myModel, myEnemy.myName);
+        myModel.SetIdleAnim();
 
         // Set up text files
         characterNameText.text = enemy.myName;
@@ -109,6 +110,7 @@ public class EnemyInfoPanel : MonoBehaviour
     {
         StartCoroutine(FadeIn());
         StartCoroutine(MoveToCentrePosition());
+        myModel.SetIdleAnim();
     }
     public void DisablePanelView()
     {

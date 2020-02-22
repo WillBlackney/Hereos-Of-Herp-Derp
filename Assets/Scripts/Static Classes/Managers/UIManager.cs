@@ -37,10 +37,16 @@ public class UIManager : MonoBehaviour
     }
     public void OnCharacterPanelButtonClicked()
     {
+        KingsBlessingManager.Instance.DisableView();
+
         if (CharacterRoster.activeSelf == true)
         {
             DisableInventoryView();
             DisableCharacterRosterView();
+            if(KingsBlessingManager.Instance.eventCompleted == false)
+            {
+                KingsBlessingManager.Instance.EnableView();
+            }
         }
 
         else
@@ -68,9 +74,15 @@ public class UIManager : MonoBehaviour
     }
     public void OnWorldMapButtonClicked()
     {
+        KingsBlessingManager.Instance.DisableView();
+
         if(worldMap.activeSelf == true)
         {
             DisableWorldMapView();
+            if (KingsBlessingManager.Instance.eventCompleted == false)
+            {
+                KingsBlessingManager.Instance.EnableView();
+            }
         }
 
         else if (worldMap.activeSelf == false)

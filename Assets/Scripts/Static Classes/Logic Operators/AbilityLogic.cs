@@ -33,7 +33,7 @@ public class AbilityLogic : MonoBehaviour
         entity.ModifyCurrentEnergy(-finalEnergyCost);
 
         // Modify Cooldown
-        ability.ModifyCurrentCooldown(finalCD);
+        ability.ModifyCurrentCooldown(finalCD);        
 
         // if character has a free move available from flux
         if (entity.moveActionsTakenThisActivation == 0 && 
@@ -41,6 +41,11 @@ public class AbilityLogic : MonoBehaviour
             ability.abilityName == "Move")
         {
             VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Flux");
+        }
+
+        // increment move actions taken if ability used is 'Move
+        if (ability.abilityName == "Move")
+        {
             entity.moveActionsTakenThisActivation++;
         }
 
@@ -704,7 +709,7 @@ public class AbilityLogic : MonoBehaviour
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, whirlwind, attacker.myMainHandWeapon);
 
         // Calculate which characters are hit by the aoe
-        List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, attacker.tile, 1, false, true);
+        List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, attacker.tile, attacker.currentMeleeRange, false, true);
 
         // Pay energy cost
         OnAbilityUsedStart(whirlwind, attacker);

@@ -32,6 +32,7 @@ public class MenuCharacter : MonoBehaviour
     {
         // set default view state as random character
         BuildMyViewsFromPresetString("Random");
+        myModel.SetIdleAnim();
     }
 
     // Mouse + Button Click Events

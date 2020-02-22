@@ -319,6 +319,10 @@ public class UniversalCharacterModel : MonoBehaviour
     {
         GetComponent<Animator>().SetTrigger("Base");
     }
+    public void SetIdleAnim()
+    {
+        GetComponent<Animator>().SetTrigger("Idle");
+    }
     public void PopulateRenderersList()
     {
         allRenderers = GetAllSpriteRenderers();

@@ -513,7 +513,7 @@ public class CharacterData : MonoBehaviour
             // Learn abilities + passive
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Telekinesis"), false);
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Fire Ball"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Frost Nova"), false);
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Icy Focus"), false);
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Flux"), false);
 
             // Assign preset weapons
@@ -740,6 +740,9 @@ public class CharacterData : MonoBehaviour
 
         // Set default talent page
         SetDefaultTalentPageView();
+
+        // Play idle anim on model
+        myCharacterModel.SetIdleAnim();
 
     }
     public void CreateMyDefenderGameObject()
@@ -1932,6 +1935,7 @@ public class CharacterData : MonoBehaviour
             currentXP = currentXP - currentMaxXP;
             ModifyCurrentLevel(1);
             ModifyTalentPoints(1);
+            ModifyAbilityPoints(1);
 
         }
         else if(currentXP == currentMaxXP)
@@ -1939,6 +1943,7 @@ public class CharacterData : MonoBehaviour
             currentXP = 0;
             ModifyCurrentLevel(1);
             ModifyTalentPoints(1);
+            ModifyAbilityPoints(1);
         }
 
         xpText.text = currentXP.ToString();

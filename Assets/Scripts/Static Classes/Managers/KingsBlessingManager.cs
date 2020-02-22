@@ -18,6 +18,7 @@ public class KingsBlessingManager : MonoBehaviour
     #region
     [Header("Component References")]
     public GameObject visualParent;
+    public GameObject continueButton;
     public UniversalCharacterModel modelOne;
     public UniversalCharacterModel modelTwo;
     public UniversalCharacterModel modelThree;
@@ -27,11 +28,12 @@ public class KingsBlessingManager : MonoBehaviour
     [Header("Properties")]
     private List<BlessingChoice> allChoiceData;
     public List<BlessingChoiceButton> allChoiceButtons;
+    public bool eventCompleted;
     public BlessingChoiceButton choiceButtonOne;
     public BlessingChoiceButton choiceButtonTwo;
     public BlessingChoiceButton choiceButtonThree;
     public BlessingChoiceButton choiceButtonFour;
-    public GameObject continueButton;
+    
     #endregion
 
     // Singleton Setup + Awake / Start
@@ -57,6 +59,8 @@ public class KingsBlessingManager : MonoBehaviour
         PopulateChoiceDataList();
         CreateChoiceButtons();
         CharacterModelController.BuildModelFromPresetString(kingModel, "King");
+        PlayIdleAnimOnAllModels();
+
     }
     #endregion
 
@@ -81,12 +85,22 @@ public class KingsBlessingManager : MonoBehaviour
         choiceButtonThree.gameObject.SetActive(false);
         choiceButtonFour.gameObject.SetActive(false);
     }
+
+    public void PlayIdleAnimOnAllModels()
+    {
+        modelOne.SetIdleAnim();
+        modelTwo.SetIdleAnim();
+        modelThree.SetIdleAnim();
+        modelFour.SetIdleAnim();
+        kingModel.SetIdleAnim();
+    }
     #endregion
 
     // Events
     #region
     public void OnContinueButtonClicked()
     {
+        eventCompleted = true;
         DisableView();
         UIManager.Instance.OnWorldMapButtonClicked();
     }
@@ -130,9 +144,9 @@ public class KingsBlessingManager : MonoBehaviour
         {
             StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("King's Decree"));
         }
-        else if (choiceName == "All Characters Gain 75 XP")
+        else if (choiceName == "All Characters Gain 80 XP")
         {
-            CharacterRoster.Instance.RewardAllCharactersXP(75);
+            CharacterRoster.Instance.RewardAllCharactersXP(80);
         }
         else if (choiceName == "Gain 2 Random Consumables")
         {
@@ -174,7 +188,7 @@ public class KingsBlessingManager : MonoBehaviour
         allChoiceData.Add(new BlessingChoice("Gain 3 Random Common Items"));
         allChoiceData.Add(new BlessingChoice("Gain 2 Random Spell Books"));
         allChoiceData.Add(new BlessingChoice("Enemies In The Next Two Combats Have 50% Health"));
-        allChoiceData.Add(new BlessingChoice("All Characters Gain 75 XP"));
+        allChoiceData.Add(new BlessingChoice("All Characters Gain 80 XP"));
         allChoiceData.Add(new BlessingChoice("Gain 2 Random Consumables"));
         allChoiceData.Add(new BlessingChoice("Gain A Random State. Gain A Random Afflication"));
         //allChoiceData.Add(new BlessingChoice("Gain A Random Epic Item. Gain A Random Afflication"));

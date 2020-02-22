@@ -798,13 +798,17 @@ public class CombatLogic : MonoBehaviour
             abilityUsed != null &&
             abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
         {
-            Debug.Log(victim.name + " 'Phasing' triggered, teleporting....");
+            Debug.Log(victim.name + "'Phasing' triggered, teleporting....");
             VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Phasing");
             Action phasingAction = victim.StartPhasingMove();
             yield return new WaitUntil(() => phasingAction.ActionResolved() == true);
         }
 
-        victim.timesAttackedThisTurnCycle++;
+        // Increment times attack counter
+        if(abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        {
+            victim.timesAttackedThisTurnCycle++;
+        }
 
         // Check if the victim was killed by the damage
         if (victim.currentHealth <= 0 && victim.inDeathProcess == false)
