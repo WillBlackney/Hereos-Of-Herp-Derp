@@ -27,8 +27,16 @@ public class BlackScreenManager : MonoBehaviour
     }
     public void SetupSingleton()
     {
-        Instance = this;
-        DontDestroyOnLoad(this);
+        if(Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }       
+        
     }
     #endregion
 

@@ -805,7 +805,8 @@ public class CombatLogic : MonoBehaviour
         }
 
         // Increment times attack counter
-        if(abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        if(abilityUsed != null &&
+           abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
         {
             victim.timesAttackedThisTurnCycle++;
         }

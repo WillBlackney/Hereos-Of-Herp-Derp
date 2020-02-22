@@ -179,18 +179,25 @@ public class UIManager : MonoBehaviour
 
         action.actionResolved = true;
     }
-    public void OnMainMenuButtonClicked()
+    public void OnGameOverScreenMainMenuButtonClicked()
     {
-        StartCoroutine(OnMainMenuButtonClickedCoroutine());
+        StartCoroutine(OnGameOverScreenMainMenuButtonClickedCoroutine());
     }
-    public IEnumerator OnMainMenuButtonClickedCoroutine()
+    public IEnumerator OnGameOverScreenMainMenuButtonClickedCoroutine()
     {        
         // Start screen fade transistion
         Action fadeAction = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 2, 1, true);
         yield return new WaitUntil(() => fadeAction.ActionResolved() == true);
 
-        // Load menu scene
-        SceneManager.LoadScene("Menu Scene");
+        // Enable loading screen
+        SceneController.Instance.loadScreenVisualParent.SetActive(true);
+
+        // Fade Screen back in
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 4, 0, false);
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+
+        // Ready, load the game scene
+        SceneController.Instance.LoadSceneAsync("Menu Scene");
     }
     #endregion
 }

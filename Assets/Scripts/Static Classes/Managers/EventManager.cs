@@ -164,7 +164,7 @@ public class EventManager : MonoBehaviour
 
         // disable world map view
         UIManager.Instance.DisableWorldMapView();
-        currentEncounterType = WorldEncounter.EncounterType.BasicEnemy;
+        currentEncounterType = WorldEncounter.EncounterType.Boss;
 
         // Fade scene back in, wait until completed
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);

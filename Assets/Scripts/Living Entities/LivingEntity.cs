@@ -706,13 +706,11 @@ public class LivingEntity : MonoBehaviour
                 else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.BasicEnemy)
                 {
                     endCombatEventTriggered = true;
-                    //StartCoroutine(EventManager.Instance.StartNewEndBasicEncounterEvent());
                     EventManager.Instance.StartNewEndBasicEncounterEvent();
                 }
                 else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.Boss)
                 {
                     endCombatEventTriggered = true;
-                    //StartCoroutine(EventManager.Instance.StartNewEndBasicEncounterEvent());
                     EventManager.Instance.StartNewEndBossEncounterEvent();
                 }
 
