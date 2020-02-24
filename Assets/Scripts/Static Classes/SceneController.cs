@@ -129,7 +129,7 @@ public class SceneController : MonoBehaviour
         while (MainMenuManager.Instance.textElementsParentCG.alpha < 1)
         {
             //Debug.Log("fading in text and ui");
-            MainMenuManager.Instance.textElementsParentCG.alpha += 0.05f;
+            MainMenuManager.Instance.textElementsParentCG.alpha += 0.5f * Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
 

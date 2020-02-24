@@ -180,13 +180,17 @@ public class ActivationManager : MonoBehaviour
     #region
     public void OnEndTurnButtonClicked()
     {
-        //Action action = new Action();
-        StartCoroutine(OnEndTurnButtonClickedCoroutine());
+        if (!ActionManager.Instance.UnresolvedCombatActions())
+        {
+            StartCoroutine(OnEndTurnButtonClickedCoroutine());
+        }
+        
     }
     public IEnumerator OnEndTurnButtonClickedCoroutine()
     {
-        UIManager.Instance.DisableEndTurnButtonInteractions();
-        Debug.Log("OnEndTurnButtonClickedCoroutine() started...");        
+        Debug.Log("OnEndTurnButtonClickedCoroutine() started...");
+
+        UIManager.Instance.DisableEndTurnButtonInteractions();             
         // endplayer turn will trigger all player end turn effects, BEFORE switching to enemy turn
         Action endTurnEvent = EndEntityActivation(entityActivated);
         yield return new WaitUntil(() => endTurnEvent.ActionResolved() == true);        
