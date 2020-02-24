@@ -142,10 +142,14 @@ public class Vampire : Enemy
             // small delay here in order to seperate the two actions a bit.
             yield return new WaitForSeconds(1f);
             goto ActionStart;
-        }       
-       
+        }
 
-        EndMyActivation();
+
+        // Can't do anything more, end activation
+        else
+        {
+            EndMyActivation();
+        }
     }
 
     public void ChooseRandomTargetingLogic()

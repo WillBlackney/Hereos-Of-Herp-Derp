@@ -133,12 +133,14 @@ public static class TextLogic
         else if (statusName == "Burning")
         {
             statusDescriptionText.text =
-                "On activation end, take " + ReturnColoredText(statusStacks.ToString(), yellow) + " damage";
+                "On activation end, take " + ReturnColoredText(statusStacks.ToString(), yellow) + " " +
+                ReturnColoredText("Fire", fire) + " damage";
         }
         else if (statusName == "Poisoned")
         {
             statusDescriptionText.text =
-                "On activation end, take " + ReturnColoredText(statusStacks.ToString(), yellow) + " damage";
+                "On activation end, take " + ReturnColoredText(statusStacks.ToString(), yellow) + " " +
+                ReturnColoredText("Poison", poison) + " damage";
         }
         else if (statusName == "Fading")
         {

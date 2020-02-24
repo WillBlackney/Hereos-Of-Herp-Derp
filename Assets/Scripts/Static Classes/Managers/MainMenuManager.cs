@@ -32,32 +32,22 @@ public class MainMenuManager : MonoBehaviour
     public MenuCharacter characterThree;
     public MenuCharacter characterFour;
 
+    // Singleton Set up + Start + Update
+    #region
     public static MainMenuManager Instance;
     private void Awake()
     {
         Instance = this;
-        //Debug.unityLogger.logEnabled = false;
     }
     private void Start()
     {
-        // Play starting visual sequence
-        //PlayStartSequence();
-
-        // set character one as selected by default
         SetSelectedCharacter(characterOne);
     }
     private void Update()
     {
         MoveArrowTowardsSelectedCharacter();       
     }
-
-    public void MoveArrowTowardsSelectedCharacter()
-    {
-        if (selectedMenuCharacter != null)
-        {
-            arrowParent.transform.position = Vector2.MoveTowards(arrowParent.transform.position, selectedMenuCharacter.transform.position, 20 * Time.deltaTime);
-        }
-    }
+    #endregion 
 
     // Mouse + Button + Click Events
     #region
@@ -158,6 +148,13 @@ public class MainMenuManager : MonoBehaviour
 
     // Misc Logic
     #region
+    public void MoveArrowTowardsSelectedCharacter()
+    {
+        if (selectedMenuCharacter != null)
+        {
+            arrowParent.transform.position = Vector2.MoveTowards(arrowParent.transform.position, selectedMenuCharacter.transform.position, 20 * Time.deltaTime);
+        }
+    }
     public string GetRandomClassString()
     {
         List<string> classes = new List<string>();
@@ -207,6 +204,7 @@ public class MainMenuManager : MonoBehaviour
     #endregion
 
     // Main Menu Character Logic
+    #region
     public void SetSelectedCharacter(MenuCharacter character)
     {
         characterOne.DisableInfoPanel();
@@ -286,7 +284,7 @@ public class MainMenuManager : MonoBehaviour
 
         if (character.myPresetName == "Paladin")
         {
-            character.tabOne.SetUpAbilityTabAsAbility("Sword And Board");
+            character.tabOne.SetUpAbilityTabAsAbility("Guard");
             character.tabTwo.SetUpAbilityTabAsAbility("Invigorate");
             character.tabThree.SetUpAbilityTabAsAbility("Inspire");
             character.tabFour.SetUpAbilityTabAsPassive("Encouraging Aura", 10);
@@ -305,7 +303,7 @@ public class MainMenuManager : MonoBehaviour
             character.tabOne.SetUpAbilityTabAsAbility("Whirlwind");
             character.tabTwo.SetUpAbilityTabAsAbility("Blood Offering");
             character.tabThree.SetUpAbilityTabAsAbility("Charge");
-            character.tabFour.SetUpAbilityTabAsPassive("Tenacious", 3);
+            character.tabFour.SetUpAbilityTabAsPassive("Tenacious", 2);
         }
 
         else if (character.myPresetName == "Spell Blade")
@@ -578,5 +576,6 @@ public class MainMenuManager : MonoBehaviour
             character.presetDescriptionText.text = "The Warlock revels in death, capable of crippling enemies from afar with a variety of debuffs, poisons and spell attacks.";
         }
     }
+    #endregion
 
 }

@@ -132,7 +132,11 @@ public class SkeletonWarrior : Enemy
             goto ActionStart;
         }
 
-        EndMyActivation();
+        // Can't do anything more, end activation
+        else
+        {
+            EndMyActivation();
+        }
 
     }
 

@@ -12,6 +12,7 @@ public class StateDataSO : ScriptableObject
     public string stateDescription;
     public bool affliction;
     public ExpirationCondition expirationCondition;
+    public bool eventReward;
     public int duration;
     
        

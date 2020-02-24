@@ -53,7 +53,7 @@ public class MovementLogic : MonoBehaviour
     // Movement 
     public Action MoveEntity(LivingEntity characterMoved, Tile destination, float speed = 3, bool freeStrikeImmune = false)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(MoveEntityCoroutine(characterMoved, destination, action, speed, freeStrikeImmune));
         return action;
     }
@@ -157,7 +157,7 @@ public class MovementLogic : MonoBehaviour
     // Teleportation
     public Action TeleportEntity(LivingEntity target, Tile destination, bool switchingPosWithAnotherEntity = false)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(TeleportEntityCoroutine(target, destination,action, switchingPosWithAnotherEntity));
         return action;
     }
@@ -197,7 +197,7 @@ public class MovementLogic : MonoBehaviour
     // Knock Back
     public Action KnockBackEntity(LivingEntity attacker, LivingEntity target, int pushBackDistance)
     {
-        Action action = new Action();
+        Action action = new Action(true);
 
         // Check for knock back immunity
         if (target.myPassiveManager.unleashed)
@@ -682,7 +682,7 @@ public class MovementLogic : MonoBehaviour
     public Action OnLocationMovedTo(LivingEntity character, Tile newLocation, Tile previousLocation)
     {
         Debug.Log("OnLocationMovedToCalled() called....");
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(OnLocationMovedToCoroutine(character, newLocation, previousLocation,action));
         return action;
     }
@@ -715,7 +715,7 @@ public class MovementLogic : MonoBehaviour
     }
     public Action ResolveFreeStrikes(LivingEntity characterMoved, Tile previousLocation, Tile newLocation)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         
         // If charcter is free strike immune, dont bother resolving free strike coroutine
         if (characterMoved.myPassiveManager.slippery)
@@ -765,7 +765,7 @@ public class MovementLogic : MonoBehaviour
 
     public Action ResolveOverwatchAttacks(LivingEntity characterMoved, Tile previousLocation)
     {        
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(ResolveOverwatchAttacksCoroutine(characterMoved, action, previousLocation));
         return action;
     }

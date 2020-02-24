@@ -40,7 +40,9 @@ public class StateLibrary : MonoBehaviour
 
         foreach(StateDataSO data in allStates)
         {
-            if (!data.affliction && !StateManager.Instance.DoesPlayerAlreadyHaveState(data.stateName))
+            if (!data.affliction && 
+                !StateManager.Instance.DoesPlayerAlreadyHaveState(data.stateName) &&
+                !data.eventReward)
             {
                 viableStates.Add(data);
             }

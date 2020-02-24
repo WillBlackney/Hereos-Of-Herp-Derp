@@ -104,7 +104,11 @@ public class Ghoul : Enemy
             goto ActionStart;
         }
 
-        EndMyActivation();
+        // Can't do anything more, end activation
+        else
+        {
+            EndMyActivation();
+        }
     }
     public Enemy GetBestBarrierTargetInRange(int range)
     {

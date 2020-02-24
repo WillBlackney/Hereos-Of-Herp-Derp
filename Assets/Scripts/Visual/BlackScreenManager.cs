@@ -39,29 +39,7 @@ public class BlackScreenManager : MonoBehaviour
         
     }
     #endregion
-
-    // Scene Change Listeners + Related
-    #region
-    private void OnEnable()
-    {
-        //SceneManager.sceneLoaded += OnLevelFinishedLoading;
-    }
-    private void OnDisable()
-    {
-        //SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-    }
-    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
-    {
-        /*
-        Debug.Log("Loaded " + scene.name + " in mode " + mode);
-        if(scene.name =="Game Scene")
-        {
-            FadeIn(aboveEverything, 2, 0, false);
-        }
-        */
         
-    }
-    #endregion
 
     // Visibility + View Logic
     #region
@@ -105,7 +83,7 @@ public class BlackScreenManager : MonoBehaviour
 
         while (canvasGroup.alpha > alphaTarget && fadingIn)
         {
-            canvasGroup.alpha -= 0.01f * speed;
+            canvasGroup.alpha -= 0.25f * speed * Time.deltaTime;
             if(canvasGroup.alpha == alphaTarget)
             {
                 SetSortingLayer(behindEverything);
@@ -136,7 +114,7 @@ public class BlackScreenManager : MonoBehaviour
 
         while (canvasGroup.alpha < alphaTarget && fadingOut == true)
         {
-            canvasGroup.alpha += 0.01f * speed;
+            canvasGroup.alpha += 0.25f * speed * Time.deltaTime;
             if(canvasGroup.alpha == alphaTarget)
             {
                 SetActive(setActiveOnComplete);

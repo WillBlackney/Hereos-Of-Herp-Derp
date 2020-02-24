@@ -11,6 +11,7 @@ public class TreasureChest : MonoBehaviour
     [Header("Properties")]
     public Color normalColor;
     public Color highLightColor;
+    public bool alreadyOpened;
 
     // Intialization + Setup
     #region
@@ -27,9 +28,15 @@ public class TreasureChest : MonoBehaviour
    
     public void OnMouseDown()
     {
-        Debug.Log("OnPointerClick() detected on treasure chest");
-        mySpriteRenderer.color = normalColor;
-        EventManager.Instance.StartNewLootRewardEvent(WorldEncounter.EncounterType.Treasure);
+        // prevent chest open event triggering twice
+        if(alreadyOpened == false)
+        {
+            alreadyOpened = true;
+            Debug.Log("OnPointerClick() detected on treasure chest");
+            mySpriteRenderer.color = normalColor;
+            EventManager.Instance.StartNewLootRewardEvent(WorldEncounter.EncounterType.Treasure);
+        }
+        
     }
     public void OnMouseEnter()
     {

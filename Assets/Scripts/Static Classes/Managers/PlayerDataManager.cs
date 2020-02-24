@@ -44,5 +44,12 @@ public class PlayerDataManager : MonoBehaviour
 
         currentGold += goldGainFinalValue;
         currentGoldText.text = currentGold.ToString();
+
+        // Modify player score
+        if(goldGainFinalValue > 0)
+        {
+            ScoreManager.Instance.goldGained += goldGainFinalValue;
+        }
+        
     }
 }

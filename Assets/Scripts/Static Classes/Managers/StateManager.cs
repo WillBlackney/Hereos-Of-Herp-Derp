@@ -28,6 +28,9 @@ public class StateManager : MonoBehaviour
     {
         Debug.Log("StateManager.GainState() called, gaining state: " + stateGained.stateName);
 
+        // Modify Player Score
+        ScoreManager.Instance.statesCollected++;
+
         // Create State object out of prefab and parent it to the grid view panel
         GameObject newState = Instantiate(PrefabHolder.Instance.statePrefab, statePanel.transform);
 

@@ -284,16 +284,7 @@ public class UniversalCharacterModel : MonoBehaviour
     #endregion
     
     // Animation Logic
-    #region
-    public void StartDeathFadeOut()
-    {
-        Debug.Log("UniversalCharacterModel.StartDeathFadeOut() called...");
-
-        if (myLivingEntity != null)
-        {
-            StartCoroutine(FadeOutAllRenderers());
-        }
-    }
+    #region    
     public void SetDeathAnimAsFinished()
     {
         if(myLivingEntity != null)
@@ -323,36 +314,6 @@ public class UniversalCharacterModel : MonoBehaviour
     {
         GetComponent<Animator>().SetTrigger("Idle");
     }
-    public void PopulateRenderersList()
-    {
-        allRenderers = GetAllSpriteRenderers();
-    }
-    public List<SpriteRenderer> GetAllSpriteRenderers()
-    {
-        SpriteRenderer[] allRenderers = GetComponentsInChildren<SpriteRenderer>();
-        List<SpriteRenderer> allRenderersList = new List<SpriteRenderer>();
-
-        allRenderersList.AddRange(allRenderers);
-        return allRenderersList;
-    }
-    public IEnumerator FadeOutAllRenderers()
-    {
-        Debug.Log("UniversalCharacterModel.FadeOutAllRenderers() called...");
-
-        foreach(SpriteRenderer sr in allRenderers)
-        {
-            while(sr.color.a > 0)
-            {
-                float newAlphaValue = sr.color.a - 5;
-                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, newAlphaValue);
-                yield return new WaitForEndOfFrame();
-            }
-        }
-
-        
-    }
-    
-
 
     #endregion
 }

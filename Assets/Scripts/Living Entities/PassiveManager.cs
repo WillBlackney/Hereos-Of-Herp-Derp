@@ -1172,8 +1172,6 @@ public class PassiveManager : MonoBehaviour
             if (sharpenedBladeStacks <= 0)
             {
                 sharpenedBlade = false;
-                //StartCoroutine(VisualEffectManager.Instance.
-                //CreateStatusEffect(myLivingEntity.transform.position, "Sleep Removed!", false, "Blue"));
             }
         }
 
@@ -1183,6 +1181,12 @@ public class PassiveManager : MonoBehaviour
     {
         Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyCamoflage() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Camoflage");
+
+        // Dont apply camoflage to characters with stealth
+        if (stealth)
+        {
+            return;
+        }
 
         if (stacks > 0)
         {

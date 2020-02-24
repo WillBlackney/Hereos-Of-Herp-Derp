@@ -42,29 +42,24 @@ public class AbilityLibrary : MonoBehaviour
 
         return abilityReturned;
     }    
-    public AbilityDataSO GetRandomAbility()
-    {
-        Debug.Log("AbilityLibrary.GetRandomAbility() called...");
-
-        return AllAbilities[Random.Range(0, AllAbilities.Count)];
-    }
     public AbilityDataSO GetRandomValidAbilityTomeAbility()
     {
+        Debug.Log("AbilityLibrary.GetRandomValidAbilityTomeAbility() called...");
+
         List<AbilityDataSO> validAbilities = new List<AbilityDataSO>();
+        AbilityDataSO dataReturned = null;
 
         foreach(AbilityDataSO data in AllAbilities)
         {
-            if(data.abilityName != "Strike" ||
-                data.abilityName != "Defend" ||
-                data.abilityName != "Move" ||
-                data.abilityName != "Shoot" ||
-                data.abilityName != "Twin Strike")
+            if(data.abilitySchool != AbilityDataSO.AbilitySchool.None)
             {
                 validAbilities.Add(data);
             }
         }
 
-        return validAbilities[Random.Range(0, validAbilities.Count)];
+        dataReturned = validAbilities[Random.Range(0, validAbilities.Count)];
+        Debug.Log("AbilityLibrary.GetRandomValidAbilityTomeAbility() returning " + dataReturned.abilityName);
+        return dataReturned;
     }
     #endregion
 

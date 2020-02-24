@@ -7,9 +7,10 @@ public class EventManager : MonoBehaviour
     // Properties + Component References
     #region
     [Header("Properties")]
-    public bool gameOverEventStarted;
     public TreasureChest activeTreasureChest;
     public WorldEncounter.EncounterType currentEncounterType;
+    public bool damageTakenThisEncounter;
+    public bool gameOverEventStarted;
 
     #endregion
 
@@ -41,20 +42,20 @@ public class EventManager : MonoBehaviour
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
-        
-        StoryEventManager.Instance.DisableEventScreen();    
+
+        StoryEventManager.Instance.DisableEventScreen();
 
         // Create a new level
         LevelManager.Instance.CreateLevel();
 
         // Set up activation window holders
         ActivationManager.Instance.CreateSlotAndWindowHolders();
-        
+
         // Create defender GO's        
-        CharacterRoster.Instance.InstantiateDefenders();  
-        
+        CharacterRoster.Instance.InstantiateDefenders();
+
         // Instantiate enemies
-        EnemySpawner.Instance.SpawnEnemyWave("Basic", enemyWave);      
+        EnemySpawner.Instance.SpawnEnemyWave("Basic", enemyWave);
 
         // disable world map view
         UIManager.Instance.DisableWorldMapView();
@@ -74,7 +75,7 @@ public class EventManager : MonoBehaviour
 
         // Start activations / combat start events
         ActivationManager.Instance.OnNewCombatEventStarted();
-        
+
         // declare this event complete
         action.actionResolved = true;
     }
@@ -94,7 +95,7 @@ public class EventManager : MonoBehaviour
 
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
-        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);        
+        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
 
         // Create a new level
         LevelManager.Instance.CreateLevel();
@@ -106,7 +107,7 @@ public class EventManager : MonoBehaviour
         CharacterRoster.Instance.InstantiateDefenders();
 
         // Instantiate enemies
-        EnemySpawner.Instance.SpawnEnemyWave("Elite");        
+        EnemySpawner.Instance.SpawnEnemyWave("Elite");
 
         // disable world map view
         UIManager.Instance.DisableWorldMapView();
@@ -273,7 +274,7 @@ public class EventManager : MonoBehaviour
         LevelManager.Instance.CreateLevel();
 
         // Set up activation window holders
-        ActivationManager.Instance.CreateSlotAndWindowHolders();     
+        ActivationManager.Instance.CreateSlotAndWindowHolders();
         CharacterRoster.Instance.InstantiateDefenders();
 
         // disable world map view
@@ -313,7 +314,7 @@ public class EventManager : MonoBehaviour
 
         // Load a random event + set up story event screen
         StoryEventManager.Instance.LoadNewStoryEvent();
-       
+
         // Fade scene back in, wait until completed
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
@@ -339,7 +340,7 @@ public class EventManager : MonoBehaviour
         // Story Event
         if (randomNumber >= 1 && randomNumber <= 60)
         {
-            if(StoryEventManager.Instance.viableStoryEvents.Count > 0)
+            if (StoryEventManager.Instance.viableStoryEvents.Count > 0)
             {
                 Debug.Log("EventManager.StartNewMysteryEncounterEventCoroutine() rolled a Story event...");
                 StartNewStoryEvent();
@@ -384,7 +385,7 @@ public class EventManager : MonoBehaviour
         yield return null;
         action.actionResolved = true;
 
-        
+
     }
     #endregion  
 
@@ -392,11 +393,15 @@ public class EventManager : MonoBehaviour
     #region
     public void StartNewEndBasicEncounterEvent()
     {
-        StartCoroutine(StartNewEndBasicEncounterEventCoroutine());        
+        StartCoroutine(StartNewEndBasicEncounterEventCoroutine());
     }
     private IEnumerator StartNewEndBasicEncounterEventCoroutine()
-    {        
+    {
+        
         Debug.Log("StartNewEndBasicEncounterEvent() coroutine started...");
+
+        // Modify player score
+        ScoreManager.Instance.HandlePostCombatScoring();
         // Destroy windows
         ActivationManager.Instance.ClearAllWindowsFromActivationPanel();
         // Show combat end visual events before loot reward screen appears
@@ -410,7 +415,7 @@ public class EventManager : MonoBehaviour
         Action lootEvent = StartPreLootScreenVisualEvent(20);
         yield return new WaitUntil(() => lootEvent.ActionResolved() == true);
         // Give characters xp
-        CharacterRoster.Instance.RewardAllCharactersXP(20);      
+        CharacterRoster.Instance.RewardAllCharactersXP(20);
         //SpellInfoBox.Instance.HideInfoBox();       
         // re enable world map + get next viable enocunter hexagon tiles
         WorldManager.Instance.SetWorldMapReadyState();
@@ -426,6 +431,9 @@ public class EventManager : MonoBehaviour
     private IEnumerator StartNewEndEliteEncounterEventCoroutine(Action action)
     {
         Debug.Log("StartNewEndEliteEncounterEvent() coroutine started...");
+
+        // Modify player score
+        ScoreManager.Instance.HandlePostCombatScoring();
         // Destroy windows
         ActivationManager.Instance.ClearAllWindowsFromActivationPanel();
         // Show combat end visual events before loot reward screen appears
@@ -434,19 +442,18 @@ public class EventManager : MonoBehaviour
         UIManager.Instance.DisableEndTurnButtonView();
         // Unselect defender to hide ability bar UI, prevent null behaviors
         DefenderManager.Instance.ClearSelectedDefender();
-        // Hide ability info panel
         // Show xp rewards + level ups
         Action lootEvent = StartPreLootScreenVisualEvent(50);
         yield return new WaitUntil(() => lootEvent.ActionResolved() == true);
         // Give characters xp
         CharacterRoster.Instance.RewardAllCharactersXP(50);
-//        SpellInfoBox.Instance.HideInfoBox();
         // re enable world map + get next viable enocunter hexagon tiles
         WorldManager.Instance.SetWorldMapReadyState();
         // Start loot creation/display process
-        StartNewLootRewardEvent(WorldEncounter.EncounterType.EliteEnemy);        
+        StartNewLootRewardEvent(WorldEncounter.EncounterType.EliteEnemy);
+        // Resolve
         action.actionResolved = true;
-        
+
     }
     public void StartNewEndBossEncounterEvent()
     {
@@ -487,6 +494,9 @@ public class EventManager : MonoBehaviour
     {
         Debug.Log("StartNewGameOverDefeatedEventCoroutine() coroutine started...");
         gameOverEventStarted = true;
+
+        // Modify player score
+        ScoreManager.Instance.HandlePostCombatScoring();
 
         // Unselect defender to hide ability bar UI, prevent null behaviors
         DefenderManager.Instance.ClearSelectedDefender();
@@ -539,7 +549,7 @@ public class EventManager : MonoBehaviour
         yield return new WaitUntil(() => scoreReveal.ActionResolved() == true);
 
     }
-   
+
     #endregion
 
     // Loot Event Logic
@@ -557,7 +567,7 @@ public class EventManager : MonoBehaviour
 
         if (StateManager.Instance.DoesPlayerAlreadyHaveState("Genius"))
         {
-            xpReward += (int) (xpReward * 0.5f);
+            xpReward += (int)(xpReward * 0.5f);
         }
 
         // disable activation panel view
@@ -566,28 +576,26 @@ public class EventManager : MonoBehaviour
         // short yield for seconds to smoothen the transistion
         yield return new WaitForSeconds(1f);
 
-        foreach(CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+        foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
         {
             Debug.Log("StartPreLootScreenVisualEvent() creating visual status xp gained effect...");
             // Dead characters get no XP
-            if(character.currentHealth > 0 && character.myDefenderGO != null)
+            if (character.currentHealth > 0 && character.myDefenderGO != null)
             {
                 VisualEffectManager.Instance.CreateStatusEffect(character.myDefenderGO.transform.position, "XP + " + xpReward.ToString());
-            }            
-            yield return new WaitForSeconds(0.5f);
+            }
         }
 
         yield return new WaitForSeconds(1f);
 
         foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
         {
-            if(character.currentXP + xpReward >= character.currentMaxXP)
+            if (character.currentXP + xpReward >= character.currentMaxXP)
             {
                 Debug.Log("StartPreLootScreenVisualEvent() creating visual status LEVEL GAINED! effect...");
                 VisualEffectManager.Instance.CreateStatusEffect(character.myDefenderGO.transform.position, "LEVEL UP!");
-                yield return new WaitForSeconds(0.5f);
 
-            }            
+            }
         }
         yield return new WaitForSeconds(1f);
 
@@ -596,7 +604,7 @@ public class EventManager : MonoBehaviour
     public bool preLootScreenEventFinished;
     public bool PreLootScreenEventFinished()
     {
-        if(preLootScreenEventFinished == true)
+        if (preLootScreenEventFinished == true)
         {
             Debug.Log("PreLootScreenEventFinished() bool returning true...");
             return true;
@@ -615,7 +623,7 @@ public class EventManager : MonoBehaviour
     }
     public void StartNewLootRewardEvent(WorldEncounter.EncounterType encounterType)
     {
-        Debug.Log("StartNewLootRewardEvent() called...");
+        Debug.Log("EventManager.StartNewLootRewardEvent() called, encounter type = " + encounterType.ToString());
 
         if (encounterType == WorldEncounter.EncounterType.BasicEnemy)
         {
@@ -630,9 +638,8 @@ public class EventManager : MonoBehaviour
             {
                 RewardScreen.Instance.CreateConsumableRewardButton();
             }
-
-
         }
+
         else if (encounterType == WorldEncounter.EncounterType.EliteEnemy)
         {
             UIManager.Instance.EnableRewardScreenView();
@@ -644,11 +651,13 @@ public class EventManager : MonoBehaviour
             RewardScreen.Instance.PopulateStateRewardScreen();
             RewardScreen.Instance.PopulateItemScreen();
         }
+
         else if (encounterType == WorldEncounter.EncounterType.Treasure)
         {
             UIManager.Instance.EnableRewardScreenView();
             RewardScreen.Instance.CreateStateRewardButton();
-            
+            RewardScreen.Instance.PopulateStateRewardScreen();
+
         }
 
     }
@@ -658,6 +667,7 @@ public class EventManager : MonoBehaviour
     #region
     public void ClearPreviousEncounter()
     {
+        ResetEncounterProperties();
         // Destroy the level data + all tile Go's
         LevelManager.Instance.DestroyCurrentLevel();
         // Destroy defender GO's from previous encounter
@@ -670,16 +680,20 @@ public class EventManager : MonoBehaviour
         ShopScreenManager.Instance.DisableShopScreenView();
         // Destroy active treasure chest if it exists
         StoryEventManager.Instance.ResetStoryEventWindow();
-        if(activeTreasureChest != null)
+        if (activeTreasureChest != null)
         {
             activeTreasureChest.DestroyChest();
         }
-    }    
+    }
     public void CreateNewTreasureChest()
     {
         // create a treasure chest game object
         GameObject newTreasureChest = Instantiate(PrefabHolder.Instance.TreasureChest);
         newTreasureChest.GetComponent<TreasureChest>().InitializeSetup();
+    }
+    public void ResetEncounterProperties()
+    {
+        damageTakenThisEncounter = false;
     }
     #endregion
 

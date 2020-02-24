@@ -129,6 +129,10 @@ public class SkeletonMage : Enemy
             goto ActionStart;
         }
 
-        EndMyActivation();
+        // Can't do anything more, end activation
+        else
+        {
+            EndMyActivation();
+        }
     }
 }

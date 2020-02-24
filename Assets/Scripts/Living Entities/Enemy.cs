@@ -49,9 +49,9 @@ public class Enemy : LivingEntity
     public IEnumerator EndMyActivationCoroutine(Action action)
     {
         Action endActivation = ActivationManager.Instance.EndEntityActivation(this);
-        yield return new WaitUntil(() => endActivation.ActionResolved() == true);
-        action.actionResolved = true;
+        yield return new WaitUntil(() => endActivation.ActionResolved() == true);        
         ActivationManager.Instance.ActivateNextEntity();
+        action.actionResolved = true;
     }
 
     public bool currentlyActivated = false;

@@ -638,6 +638,13 @@ public class Defender : LivingEntity
             return;
         }
 
+        // Prevent player from making moves while there are unresolved ability events
+        if (ActionManager.Instance.UnresolvedCombatActions())
+        {
+            Debug.Log("Defender.OnAbilityButtonClicked() cancelling: there are unresolved combat events in the Action queue");
+            return;
+        }
+
         // Clear all previous view settings and defender orders
         bool enableTileHover = true;
         LevelManager.Instance.UnhighlightAllTiles();
@@ -2727,13 +2734,14 @@ public class Defender : LivingEntity
     }
     public void StartShadowStepProcess(LivingEntity target)
     {
-        Debug.Log("Defender.StartShadowStepProcess() called");
+        Debug.Log("Defender.StartShadowStepProcess() called");       
 
         Tile targetsBackTile = PositionLogic.Instance.GetTargetsBackArcTile(target);
         Ability shadowStep = mySpellBook.GetAbilityByName("Shadow Step");
    
         if (EntityLogic.IsTargetInRange(this, target, shadowStep.abilityRange) &&
-            MovementLogic.Instance.IsLocationMoveable(targetsBackTile, this, shadowStep.abilityRange + 1))
+            targetsBackTile.IsEmpty &&
+            targetsBackTile.IsWalkable)
         {
             awaitingShadowStepOrder = false;
             AbilityLogic.Instance.PerformShadowStep(this, targetsBackTile);
@@ -3185,7 +3193,7 @@ public class Defender : LivingEntity
     {        
         Ability telekinesis = mySpellBook.GetAbilityByName("Telekinesis");
         
-        List<Tile> validTeleportLocations = LevelManager.Instance.GetValidMoveableTilesWithinRange(telekinesis.abilityPrimaryValue, target.tile);
+        List<Tile> validTeleportLocations = LevelManager.Instance.GetValidMoveableTilesWithinRange(telekinesis.abilityPrimaryValue, target.tile, true);
 
         if (validTeleportLocations.Contains(destination))
         {

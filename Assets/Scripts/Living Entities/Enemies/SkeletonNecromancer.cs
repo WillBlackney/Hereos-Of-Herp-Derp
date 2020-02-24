@@ -121,7 +121,11 @@ public class SkeletonNecromancer : Enemy
             goto ActionStart;
         }
 
-        EndMyActivation();
+        // Can't do anything more, end activation
+        else
+        {
+            EndMyActivation();
+        }
     }   
 
  

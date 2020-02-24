@@ -5,6 +5,8 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
+    // Properties + Component References
+    #region
     [Header("Component References")]
     public GameObject scoreElementPrefab;
     public GameObject scoreScreenContentParent;
@@ -30,11 +32,19 @@ public class ScoreManager : MonoBehaviour
     public int killedEliteNoDamageTaken;
     public int killedBossNoDamageTaken;
 
+    #endregion
+
+    // Singleton Set up
+    #region
     public static ScoreManager Instance;
     private void Awake()
     {
         Instance = this;
     }
+    #endregion
+
+    // Calculate Score
+    #region
     public Action CalculateFinalScore()
     {
         Action action = new Action();
@@ -43,14 +53,13 @@ public class ScoreManager : MonoBehaviour
     }
     public IEnumerator CalculateFinalScoreCoroutine(Action action)
     {
-        
         // encounters completed
         if (encountersCompleted > 0)
         {
             totalScore += encountersCompleted * 5;
             CreateScoreElement("Encounters Completed", encountersCompleted, encountersCompleted * 5, "Complete an encounter");
         }
-        
+
         // basic enemys defeated
         if (basicsDefeated > 0)
         {
@@ -91,31 +100,31 @@ public class ScoreManager : MonoBehaviour
         {
             totalScore += itemsCollected * 2;
             CreateScoreElement("Item Collector", itemsCollected, itemsCollected * 2, "Collect an encounter");
-        }       
+        }
 
         // epic items collected
-        if(epicItemsCollected > 0)
+        if (epicItemsCollected > 0)
         {
             totalScore += epicItemsCollected * 5;
             CreateScoreElement("Well Armed", epicItemsCollected, epicItemsCollected * 5, "Collect an epic item");
-        }        
+        }
 
         // artifacts collected
-        if(artifactsCollected > 0)
+        if (artifactsCollected > 0)
         {
             totalScore += artifactsCollected * 10;
             CreateScoreElement("Artifact Collector", artifactsCollected, artifactsCollected * 10, "Collect an artifact");
-        }        
+        }
 
         // states collected
-        if(statesCollected > 0)
+        if (statesCollected > 0)
         {
             totalScore += statesCollected * 5;
             CreateScoreElement("State Collector", statesCollected, statesCollected * 5, "Gain a state");
-        }            
+        }
 
         // killed basic, no damage taken
-        if(killedBasicNoDamageTaken > 0)
+        if (killedBasicNoDamageTaken > 0)
         {
             totalScore += killedBasicNoDamageTaken * 10;
             CreateScoreElement("Rabble Wrecker", killedBasicNoDamageTaken, killedBasicNoDamageTaken * 10, "Defeat a basic enemy encounter without taking damage");
@@ -127,20 +136,22 @@ public class ScoreManager : MonoBehaviour
             totalScore += killedEliteNoDamageTaken * 20;
             CreateScoreElement("Champion", killedEliteNoDamageTaken, killedEliteNoDamageTaken * 20, "Defeat an elite enemy encounter without taking damage");
 
-        }        
+        }
 
         // killed basic, no damage taken
-        if(killedBossNoDamageTaken > 0)
+        if (killedBossNoDamageTaken > 0)
         {
             totalScore += killedBossNoDamageTaken * 50;
             CreateScoreElement("Unstoppable", killedBossNoDamageTaken, killedBossNoDamageTaken * 50, "Defeat an boss enemy encounter without taking damage");
         }
-        
-        foreach(ScoreElement scoreElement in scoreElements)
+
+        foreach (ScoreElement scoreElement in scoreElements)
         {
             StartCoroutine(scoreElement.FadeInPanel());
             yield return new WaitForSeconds(0.3f);
         }
+
+        finalScoreText.text = totalScore.ToString();
 
         action.actionResolved = true;
     }
@@ -151,5 +162,37 @@ public class ScoreManager : MonoBehaviour
         scoreElement.InitializeSetup(name, amount, finalScoreValue, description);
 
     }
+    #endregion
 
+    // Modify Score Elements
+    public void HandlePostCombatScoring()
+    {
+        if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.BasicEnemy)
+        {
+            basicsDefeated++;
+            if (EventManager.Instance.damageTakenThisEncounter == false)
+            {
+                killedBasicNoDamageTaken++;
+            }
+        }
+        else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.EliteEnemy)
+        {
+            elitesDefeated++;
+            if (EventManager.Instance.damageTakenThisEncounter == false)
+            {
+                killedEliteNoDamageTaken++;
+            }
+        }
+        else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.Boss)
+        {
+            bossesDefeated++;
+            if (EventManager.Instance.damageTakenThisEncounter == false)
+            {
+                killedBossNoDamageTaken++;
+            }
+        }
+
+        encountersCompleted++;
+
+    }
 }

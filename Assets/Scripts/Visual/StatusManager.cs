@@ -155,7 +155,10 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public Action FadeOut()
     {
         Action action = new Action();
-        StartCoroutine(FadeOutCoroutine(action));
+        if(myCG.gameObject.activeSelf == true)
+        {
+            StartCoroutine(FadeOutCoroutine(action));
+        }        
         return action;
     }
     public IEnumerator FadeOutCoroutine(Action action)

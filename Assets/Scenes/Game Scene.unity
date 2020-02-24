@@ -7197,17 +7197,17 @@ MonoBehaviour:
     type: 3}
   epicFrameSprite: {fileID: -6464370881243145693, guid: f3e53ef097a98e44fb1c3d96591ffa2e,
     type: 3}
-  physicalDamageSprite: {fileID: -3429785332923271143, guid: b5a26ee76563e6445aa7cf124fdc478b,
+  physicalDamageSprite: {fileID: -8115037194750826008, guid: 9bf1766a24935584a90b9f9dbc4a5f43,
     type: 3}
-  fireDamageSprite: {fileID: 7226762311546388410, guid: b5a26ee76563e6445aa7cf124fdc478b,
+  fireDamageSprite: {fileID: 869762779325548650, guid: 9bf1766a24935584a90b9f9dbc4a5f43,
     type: 3}
-  frostDamageSprite: {fileID: -2050541287647375684, guid: b5a26ee76563e6445aa7cf124fdc478b,
+  frostDamageSprite: {fileID: -5391307981071726051, guid: 9bf1766a24935584a90b9f9dbc4a5f43,
     type: 3}
-  poisonDamageSprite: {fileID: 5209125728709509196, guid: b5a26ee76563e6445aa7cf124fdc478b,
+  poisonDamageSprite: {fileID: -7650491522465657418, guid: 9bf1766a24935584a90b9f9dbc4a5f43,
     type: 3}
-  airDamageSprite: {fileID: -6609399209104157955, guid: b5a26ee76563e6445aa7cf124fdc478b,
+  airDamageSprite: {fileID: 6921521097408137175, guid: 9bf1766a24935584a90b9f9dbc4a5f43,
     type: 3}
-  shadowDamageSprite: {fileID: 5872671375625381360, guid: b5a26ee76563e6445aa7cf124fdc478b,
+  shadowDamageSprite: {fileID: 7582964038499862110, guid: 9bf1766a24935584a90b9f9dbc4a5f43,
     type: 3}
 --- !u!1 &834080289
 GameObject:
@@ -11855,9 +11855,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad9bc00a249b0b49898e3712662c4d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverEventStarted: 0
   activeTreasureChest: {fileID: 0}
   currentEncounterType: 0
+  damageTakenThisEncounter: 0
+  gameOverEventStarted: 0
   preLootScreenEventFinished: 0
 --- !u!4 &1414821886
 Transform:
@@ -13548,7 +13549,6 @@ MonoBehaviour:
   currentlyPlayersTurn: 0
   currentTurnCount: 0
   enemyTurnCount: 0
-  playerOnTurnEndEventsResolved: 0
 --- !u!4 &1673289521
 Transform:
   m_ObjectHideFlags: 0
@@ -16865,8 +16865,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c953b6a2b85d9ca439cae347a00ce672, type: 2}
   - {fileID: 11400000, guid: 241410e7a039fad46b9203d68bd47782, type: 2}
   viableEliteEnemyWaves:
-  - {fileID: 11400000, guid: 2a8f2071b7e0b19429dfc0293b338e55, type: 2}
-  - {fileID: 11400000, guid: 20071468144ce6f47af115dea0c0357b, type: 2}
+  - {fileID: 11400000, guid: a925a91cb3c75e64cadf1f518e9a621e, type: 2}
   spawnLocations: []
 --- !u!4 &1979019400
 Transform:

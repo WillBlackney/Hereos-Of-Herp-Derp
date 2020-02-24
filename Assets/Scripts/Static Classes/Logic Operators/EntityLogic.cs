@@ -361,32 +361,32 @@ public static class EntityLogic
              (caster.myPassiveManager.trueSight == false && caster.myPassiveManager.temporaryTrueSight == false)
             )
         {
-            Debug.Log("IsTargetVisible() determined that " + target.name + " CANNOT be seen by "+ caster.name + "...");
+            Debug.Log("IsTargetVisible() determined that " + target.myName + " CANNOT be seen by "+ caster.myName + "...");
             passedStealthCheck = false;
         }
 
         else
         {
-            Debug.Log("IsTargetVisible() determined that " + target.name + " CAN be seen by " + caster.name + "...");
+            Debug.Log("IsTargetVisible() determined that " + target.myName + " CAN be seen by " + caster.myName + "...");
             passedStealthCheck = true;
         }
 
         // check for LoS
         if(PositionLogic.Instance.IsThereLosFromAtoB(caster.tile, target.tile))
         {
-            Debug.Log("IsTargetVisible() determined that " + caster.name + " has line of sight to " + target.name + "...");
+            Debug.Log("IsTargetVisible() determined that " + caster.myName + " has line of sight to " + target.myName + "...");
             passedLosCheck = true;
         }
         // check if caster has ignores LoS to target
         else if (PositionLogic.Instance.IsThereLosFromAtoB(caster.tile, target.tile) == false &&
                  caster.myPassiveManager.etherealBeing)
         {
-            Debug.Log("IsTargetVisible() determined that " + caster.name + " does not have direct line of sight to " + target.name + ", but has 'Ethereal Being' passive...");
+            Debug.Log("IsTargetVisible() determined that " + caster.myName + " does not have direct line of sight to " + target.myName + ", but has 'Ethereal Being' passive...");
             passedLosCheck = true;
         }
         else
         {
-            Debug.Log("IsTargetVisible() determined that " + caster.name + " DOES NOT have line of sight to " + target.name + "...");
+            Debug.Log("IsTargetVisible() determined that " + caster.myName + " DOES NOT have line of sight to " + target.myName + "...");
             passedLosCheck = false;
         }
 

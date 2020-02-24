@@ -184,6 +184,12 @@ public class InventoryController : MonoBehaviour
     {
         Debug.Log("InventoryController.AddItemToInventory() called for " + itemAdded.Name);
 
+        ScoreManager.Instance.itemsCollected++;
+        if(itemAdded.itemRarity == ItemDataSO.ItemRarity.Epic)
+        {
+            ScoreManager.Instance.epicItemsCollected++;
+        }
+
         GameObject newInventoryItem = Instantiate(PrefabHolder.Instance.InventoryItem, itemsParent.transform);
         InventoryItemCard itemCard = newInventoryItem.GetComponent<InventoryItemCard>();
         PlaceItemOnInventorySlot(itemCard, GetNextAvailableSlot());

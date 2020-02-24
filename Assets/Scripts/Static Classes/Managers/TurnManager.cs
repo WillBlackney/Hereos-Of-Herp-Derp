@@ -20,121 +20,7 @@ public class TurnManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-    }
-
-    public bool playerOnTurnEndEventsResolved;
-    public bool PlayerOnTurnEndEventsResolved()
-    {
-        if(playerOnTurnEndEventsResolved == true)
-        {
-            Debug.Log("Player 'OnTurnEnd' events resolved and finished...");
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-
-    public void OnEndTurnButtonClicked()
-    {
-        StartCoroutine(OnEndTurnButtonClickedCoroutine());
-    }
-    public IEnumerator OnEndTurnButtonClickedCoroutine()
-    {
-        Debug.Log("OnEndTurnButtonClickedCoroutine() started...");
-        // TO DO: endplayerturn will need to be a coroutine most likely
-        // endplayer turn will trigger all player end turn effects, BEFORE switching to enemy turn
-        EndPlayerTurn();
-        yield return new WaitUntil(() => PlayerOnTurnEndEventsResolved() == true);
-        // reset boolean for future use
-        playerOnTurnEndEventsResolved = false;
-
-        StartEnemyTurn();
-    }
-
-    public void StartEnemyTurn()
-    {
-        foreach (Defender defender in DefenderManager.Instance.allDefenders)
-        {
-            defender.myOnActivationEndEffectsFinished = false;
-        }
-        Debug.Log("StartEnemyTurn() called...");
-        //ResetEnemyTurnProperties();
-        StartCoroutine(StartEnemyTurnCoroutine());
-    }
-
-    public IEnumerator StartEnemyTurnCoroutine()
-    {
-        /*
-        enemyTurnCount++;
-        Action action = DisplayTurnChangeNotification();
-        // notification yield not currently working
-        yield return new WaitUntil(() => NotificationComplete() == true);
-        //yield return new WaitForSeconds(1.5f);
-
-        EnemyManager.Instance.StartEnemyTurnSequence();
-        yield return new WaitUntil(() => EnemyManager.Instance.AllEnemiesHaveActivated() == true);
-        StartCoroutine(EndEnemyTurnCoroutine());
-        */
-        yield return null;
-    }
-
-    
-    public IEnumerator StartPlayerTurn()
-    {
-        /*
-        currentTurnCount++;
-
-        StartCoroutine( DisplayTurnChangeNotificationCoroutine(true));
-        yield return new WaitUntil(() => NotificationComplete() == true);
-        //yield return new WaitForSeconds(1.5f);
-
-        
-        currentlyPlayersTurn = true;
-        foreach(Defender defender in DefenderManager.Instance.allDefenders)
-        {
-            StartCoroutine(defender.OnActivationStart());
-            defender.myOnActivationEndEffectsFinished = false;
-        }
-
-        UIManager.Instance.EnableEndTurnButton();
-        // turn on controls
-        // re-enable end turn button
-        */
-        yield return null;
-    }
-
-    public void EndPlayerTurn()
-    {
-        // disable defender spell bars to stop player doing stuff during enemy turn
-        DefenderManager.Instance.ClearSelectedDefender();
-        UIManager.Instance.DisableEndTurnButtonInteractions();
-        currentlyPlayersTurn = false;
-        StartCoroutine(EndPlayerTurnCoroutine());
-        // disable en turn button
-        // turn off controls
-        // trigger on turn effects(bleed, poison etc)
-    }
-
-    public IEnumerator EndPlayerTurnCoroutine()
-    {
-        foreach(Defender defender in DefenderManager.Instance.allDefenders)
-        {
-            defender.OnActivationEnd();
-            yield return new WaitUntil(() => defender.MyOnTurnEndEffectsFinished() == true);
-        }
-
-        playerOnTurnEndEventsResolved = true;
-    }
-
-    public void ResetTurnManagerPropertiesOnCombatStart()
-    {
-        currentTurnCount = 0;
-        enemyTurnCount = 0;
-    }
-
+    }  
 
     public Action DisplayTurnChangeNotification()
     {
@@ -162,7 +48,7 @@ public class TurnManager : MonoBehaviour
         while(reachedMiddlePos == false)
         {
             visualParentCG.alpha += 0.08f;
-            parent.transform.position = Vector2.MoveTowards(parent.transform.position, middlePos1, 15 * Time.deltaTime);
+            parent.transform.position = Vector2.MoveTowards(parent.transform.position, middlePos1, 10 * Time.deltaTime);
             if(parent.transform.position.x == middlePos1.x && parent.transform.position.y == middlePos1.y)
             {
                 Debug.Log("reached Middle pos");
@@ -179,7 +65,7 @@ public class TurnManager : MonoBehaviour
         while (reachedEndPos == false)
         {
             visualParentCG.alpha -= 0.08f;
-            parent.transform.position = Vector2.MoveTowards(parent.transform.position, endPos1, 15 * Time.deltaTime);
+            parent.transform.position = Vector2.MoveTowards(parent.transform.position, endPos1, 10 * Time.deltaTime);
             if (parent.transform.position.x == endPos1.x && parent.transform.position.y == endPos1.y)
             {
                 Debug.Log("reached end pos");

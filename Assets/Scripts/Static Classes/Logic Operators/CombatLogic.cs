@@ -565,7 +565,7 @@ public class CombatLogic : MonoBehaviour
     // Handle damage + death + attack related events
     public Action HandleDeath(LivingEntity entity)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(HandleDeathCoroutine(entity, action));
         return action;
 
@@ -583,7 +583,7 @@ public class CombatLogic : MonoBehaviour
 
         entity.PlayDeathAnimation();
         Action destroyWindowAction = entity.myActivationWindow.FadeOutWindow();
-        yield return new WaitUntil(() => destroyWindowAction.actionResolved == true);
+        yield return new WaitUntil(() => destroyWindowAction.ActionResolved() == true);
         yield return new WaitUntil(() => entity.MyDeathAnimationFinished() == true);        
 
 
@@ -683,7 +683,7 @@ public class CombatLogic : MonoBehaviour
     public Action HandleDamage(int damageAmount, LivingEntity attacker, LivingEntity victim, string damageType, Ability abilityUsed = null, bool ignoreBlock = false)
     {
         Debug.Log("CombatLogic.NewHandleDamage() called...");
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(HandleDamageCoroutine(damageAmount, attacker, victim, damageType, action, abilityUsed, ignoreBlock));
         return action;
     }
@@ -823,6 +823,9 @@ public class CombatLogic : MonoBehaviour
         if (victim.defender != null && totalLifeLost > 0)
         {
             victim.defender.myCharacterData.ModifyCurrentHealth(-totalLifeLost);
+
+            // flick bool for scoring
+            EventManager.Instance.damageTakenThisEncounter = true;
         }
 
         // Remove camoflage from victim if damage was taken
@@ -1001,7 +1004,7 @@ public class CombatLogic : MonoBehaviour
     public Action HandleParry(LivingEntity attacker, LivingEntity target)
     {
         Debug.Log("CombatLogic.HandleParry() called...");
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(HandleParryCoroutine(attacker, target, action));
         return action;
     }
@@ -1030,7 +1033,7 @@ public class CombatLogic : MonoBehaviour
     public Action HandleDodge(LivingEntity attacker, LivingEntity target)
     {
         Debug.Log("CombatLogic.HandleDodge() called...");
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(HandleDodgeCoroutine(attacker, target, action));
         return action;
     }

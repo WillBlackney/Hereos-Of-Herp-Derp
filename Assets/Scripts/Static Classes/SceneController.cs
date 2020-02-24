@@ -110,7 +110,7 @@ public class SceneController : MonoBehaviour
         MainMenuManager.Instance.allElementsParent.transform.position = MainMenuManager.Instance.northPos.transform.position;
 
         // Start fade in
-        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 1, 0, false);
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 2, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
         yield return new WaitForSeconds(1);
 

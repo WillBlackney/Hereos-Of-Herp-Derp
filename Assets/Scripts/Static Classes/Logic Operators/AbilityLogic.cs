@@ -315,7 +315,7 @@ public class AbilityLogic : MonoBehaviour
     public Action PerformStrike(LivingEntity attacker, LivingEntity victim)
     {
         Debug.Log("AbilityLogic.PerformStrike() called. Caster = " + attacker.name + ", Target = " + victim.name);
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformStrikeCoroutine(attacker, victim, action));
         return action;
     }
@@ -362,7 +362,7 @@ public class AbilityLogic : MonoBehaviour
     public Action PerformTwinStrike(LivingEntity attacker, LivingEntity victim)
     {
         Debug.Log("AbilityLogic.PerformStrike() called. Caster = " + attacker.name + ", Target = " + victim.name);
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformTwinStrikeCoroutine(attacker, victim, action));
         return action;
     }
@@ -439,7 +439,7 @@ public class AbilityLogic : MonoBehaviour
     public Action PerformDefend(LivingEntity caster)
     {
         Debug.Log("AbilityLogic.PerformDefend() called. Caster = " + caster.name);
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformDefendCoroutine(caster, action));
         return action;
     }
@@ -459,7 +459,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Debug.Log("AbilityLogic.PerformMove() called. Caster = " + characterMoved.name + 
             ", Target Tile = " + destination.GridPosition.X.ToString() + ", " + destination.GridPosition.Y.ToString());
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformMoveCoroutine(characterMoved, destination, action));
         return action;
     }
@@ -476,7 +476,7 @@ public class AbilityLogic : MonoBehaviour
     // Shoot
     public Action PerformShoot(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformShootCoroutine(attacker, victim, action));
         return action;
     }
@@ -527,7 +527,7 @@ public class AbilityLogic : MonoBehaviour
     // Free Strike
     public Action PerformFreeStrike(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformFreeStrikeCoroutine(attacker, victim, action));
         return action;
     }
@@ -576,7 +576,7 @@ public class AbilityLogic : MonoBehaviour
     public Action PerformRiposteAttack(LivingEntity attacker, LivingEntity victim)
     {
         Debug.Log("AbilityLogic.PerformRiposteAttack() called...");
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformRiposteAttackCoroutine(attacker, victim, action));
         return action;
     }
@@ -630,7 +630,7 @@ public class AbilityLogic : MonoBehaviour
     // Over Watch Shot
     public Action PerformOverwatchShot(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformOverwatchShotCoroutine(attacker, victim, action));
         return action;
     }
@@ -698,7 +698,7 @@ public class AbilityLogic : MonoBehaviour
     // Whirlwind
     public Action PerformWhirlwind(LivingEntity attacker)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformWhirlwindCoroutine(attacker, action));
         return action;
     }
@@ -753,7 +753,7 @@ public class AbilityLogic : MonoBehaviour
     // Devastating Blow
     public Action PerformDevastatingBlow(LivingEntity attacker, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformDevastatingBlowCoroutine(attacker, target, action));
         return action;
     }
@@ -798,7 +798,7 @@ public class AbilityLogic : MonoBehaviour
     // Smash
     public Action PerformSmash(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformSmashCoroutine(attacker, victim, action));
         return action;
     }
@@ -852,7 +852,7 @@ public class AbilityLogic : MonoBehaviour
     // Charge
     public Action PerformCharge(LivingEntity caster, LivingEntity target, Tile destination)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformChargeCoroutine(caster, target, destination, action));
         return action;
     }
@@ -885,7 +885,7 @@ public class AbilityLogic : MonoBehaviour
     // Recklessness
     public Action PerformRecklessness(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformRecklessnessCoroutine(caster, action));
         return action;
     }
@@ -910,7 +910,7 @@ public class AbilityLogic : MonoBehaviour
     // Kick To The Balls
     public Action PerformKickToTheBalls(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformKickToTheBallsCoroutine(attacker, victim, action));
         return action;
     }
@@ -949,7 +949,7 @@ public class AbilityLogic : MonoBehaviour
     // Blade Flurry
     public Action PerformBladeFlurry(LivingEntity attacker)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformBladeFlurryCoroutine(attacker, action));
         return action;
     }
@@ -1020,7 +1020,7 @@ public class AbilityLogic : MonoBehaviour
     // Dash
     public Action PerformDash(LivingEntity characterMoved, Tile destination)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformDashCoroutine(characterMoved, destination, action));
         return action;
     }
@@ -1042,7 +1042,7 @@ public class AbilityLogic : MonoBehaviour
     // Tendon Slash
     public Action PerformTendonSlash(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformTendonSlashCoroutine(attacker, victim, action));
         return action;
     }
@@ -1095,7 +1095,7 @@ public class AbilityLogic : MonoBehaviour
     // Disarm
     public Action PerformDisarm(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformDisarmCoroutine(attacker, victim, action));
         return action;
     }
@@ -1148,7 +1148,7 @@ public class AbilityLogic : MonoBehaviour
     // Shield Shatter
     public Action PerformShieldShatter(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformShieldShatterCoroutine(attacker, victim, action));
         return action;
     }
@@ -1197,7 +1197,7 @@ public class AbilityLogic : MonoBehaviour
     // Evasion
     public Action PerformEvasion(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformEvasionCoroutine(caster, target, action));
         return action;
     }
@@ -1226,7 +1226,7 @@ public class AbilityLogic : MonoBehaviour
     // Decapitate
     public Action PerformDecapitate(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformDecapitateCoroutine(attacker, victim, action));
         return action;
     }
@@ -1288,7 +1288,7 @@ public class AbilityLogic : MonoBehaviour
     // Second Wind
     public Action PerformSecondWind(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformSecondWindCoroutine(caster, action));
         return action;
 
@@ -1322,7 +1322,7 @@ public class AbilityLogic : MonoBehaviour
     // Vanish
     public Action PerformVanish(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformVanishCoroutine(caster, action));
         return action;
 
@@ -1351,7 +1351,7 @@ public class AbilityLogic : MonoBehaviour
     // Cheap Shot
     public Action PerformCheapShot(LivingEntity attacker, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformCheapShotCoroutine(attacker, target, action));
         return action;
     }
@@ -1387,8 +1387,8 @@ public class AbilityLogic : MonoBehaviour
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, cheapShot);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
-            // Apply vulnerable if backstabbing
-            if (PositionLogic.Instance.CanAttackerBackStrikeTarget(attacker, target))
+            // Apply vulnerable if camoflaged
+            if (attacker.myPassiveManager.camoflage || attacker.myPassiveManager.stealth)
             {
                 target.myPassiveManager.ModifyVulnerable(1);
                 yield return new WaitForSeconds(0.5f);
@@ -1403,7 +1403,7 @@ public class AbilityLogic : MonoBehaviour
     // Shank
     public Action PerformShank(LivingEntity attacker, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformShankCoroutine(attacker, target, action));
         return action;
     }
@@ -1448,7 +1448,7 @@ public class AbilityLogic : MonoBehaviour
     // Rapid Cloaking
     public Action PerformRapidCloaking(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformRapidCloakingCoroutine(caster, action));
         return action;
     }
@@ -1472,7 +1472,7 @@ public class AbilityLogic : MonoBehaviour
     // Shadow Step
     public Action PerformShadowStep(LivingEntity caster, Tile destination)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformShadowStepCoroutine(caster, destination, action));
         return action;
     }
@@ -1494,7 +1494,7 @@ public class AbilityLogic : MonoBehaviour
     // Ambush
     public Action PerformAmbush(LivingEntity attacker, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformAmbushCoroutine(attacker, target, action));
         return action;
     }
@@ -1546,7 +1546,7 @@ public class AbilityLogic : MonoBehaviour
     // Preparation
     public Action PerformPreparation(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformPreparationCoroutine(caster, action));
         return action;
     }
@@ -1571,7 +1571,7 @@ public class AbilityLogic : MonoBehaviour
     // Sharpen Blades
     public Action PerformSharpenBlade(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformSharpenBladeCoroutine(caster, action));
         return action;
     }
@@ -1596,7 +1596,7 @@ public class AbilityLogic : MonoBehaviour
     // Slice And Dice
     public Action PerformSliceAndDice(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformSliceAndDiceCoroutine(attacker, victim, action));
         return action;
     }
@@ -1662,7 +1662,7 @@ public class AbilityLogic : MonoBehaviour
     // Guard
     public Action PerformGuard(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformGuardCoroutine(caster, target, action));
         return action;
     }
@@ -1687,7 +1687,7 @@ public class AbilityLogic : MonoBehaviour
     // Provoke
     public Action PerformProvoke(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformProvokeCoroutine(caster, target, action));
         return action;
     }
@@ -1715,7 +1715,7 @@ public class AbilityLogic : MonoBehaviour
     // Challenging Shout
     public Action PerformChallengingShout(LivingEntity attacker)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformChallengingShoutCoroutine(attacker, action));
         return action;
     }
@@ -1748,7 +1748,7 @@ public class AbilityLogic : MonoBehaviour
     // Sword And Board
     public Action PerformSwordAndBoard(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformSwordAndBoardCoroutine(attacker, victim, action));
         return action;
     }
@@ -1797,7 +1797,7 @@ public class AbilityLogic : MonoBehaviour
     // Get Down!
     public Action PerformGetDown(LivingEntity caster, Tile destination)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformGetDownCoroutine(caster, destination, action));
         return action;
     }
@@ -1828,7 +1828,7 @@ public class AbilityLogic : MonoBehaviour
     // Testudo
     public Action PerformTestudo(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformTestudoCoroutine(caster, action));
         return action;
     }
@@ -1852,7 +1852,7 @@ public class AbilityLogic : MonoBehaviour
     // Shield Slam
     public Action PerformShieldSlam(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformShieldSlamCoroutine(attacker, victim, action));
         return action;
     }
@@ -1905,7 +1905,7 @@ public class AbilityLogic : MonoBehaviour
     // Reactive Armour
     public Action PerformReactiveArmour(LivingEntity attacker)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformReactiveArmourCoroutine(attacker, action));
         return action;
     }
@@ -1956,7 +1956,7 @@ public class AbilityLogic : MonoBehaviour
     // Fire Ball
     public Action PerformFireBall(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformFireBallCoroutine(attacker, victim, action));
         return action;
     }
@@ -2004,7 +2004,7 @@ public class AbilityLogic : MonoBehaviour
     // Fire Nova
     public Action PerformFireNova(LivingEntity attacker)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformFireNovaCoroutine(attacker, action));
         return action;
     }
@@ -2052,7 +2052,7 @@ public class AbilityLogic : MonoBehaviour
     // Phoenix Dive
     public Action PerformPhoenixDive(LivingEntity caster, Tile destination)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformPhoenixDiveCoroutine(caster, destination, action));
         return action;
     }
@@ -2082,7 +2082,7 @@ public class AbilityLogic : MonoBehaviour
     // Blaze
     public Action PerformBlaze(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformBlazeCoroutine(caster, action));
         return action;
     }
@@ -2106,7 +2106,7 @@ public class AbilityLogic : MonoBehaviour
     // Meteor
     public Action PerformMeteor(LivingEntity attacker, Tile location)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformMeteorCoroutine(attacker, location, action));
         return action;
     }
@@ -2157,7 +2157,7 @@ public class AbilityLogic : MonoBehaviour
     // Combustion
     public Action PerformCombustion(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformCombustionCoroutine(attacker, victim, action));
         return action;
     }
@@ -2189,7 +2189,7 @@ public class AbilityLogic : MonoBehaviour
     // Dragon Breath
     public Action PerformDragonBreath(LivingEntity attacker, Tile location)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformDragonBreathCoroutine(attacker, location, action));
         return action;
     }
@@ -2248,7 +2248,7 @@ public class AbilityLogic : MonoBehaviour
     // Chilling Blow
     public Action PerformChillingBlow(LivingEntity attacker, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformChillingBlowCoroutine(attacker, target, action));
         return action;
     }
@@ -2300,7 +2300,7 @@ public class AbilityLogic : MonoBehaviour
     // Frost Nova
     public Action PerformFrostNova(LivingEntity attacker)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformFrostNovaCoroutine(attacker, action));
         return action;
     }
@@ -2348,7 +2348,7 @@ public class AbilityLogic : MonoBehaviour
     // Icy Focus
     public Action PerformIcyFocus(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformIcyFocusCoroutine(caster, target, action));
         return action;
     }
@@ -2374,7 +2374,7 @@ public class AbilityLogic : MonoBehaviour
     // Frost bolt
     public Action PerformFrostBolt(LivingEntity caster, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformFrostBoltCoroutine(caster, victim, action));
         return action;
     }
@@ -2431,7 +2431,7 @@ public class AbilityLogic : MonoBehaviour
     // Blizzard
     public Action PerformBlizzard(LivingEntity attacker, Tile location)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformBlizzardCoroutine(attacker, location, action));
         return action;
     }
@@ -2479,7 +2479,7 @@ public class AbilityLogic : MonoBehaviour
     // Frost Armour
     public Action PerformFrostArmour(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformFrostArmourCoroutine(caster, target, action));
         return action;
     }
@@ -2510,7 +2510,7 @@ public class AbilityLogic : MonoBehaviour
     // Creeping Frost
     public Action PerformCreepingFrost(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformCreepingFrostCoroutine(caster, action));
         return action;
     }
@@ -2535,7 +2535,7 @@ public class AbilityLogic : MonoBehaviour
     // Glacial Burst
     public Action PerformGlacialBurst(LivingEntity attacker)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformGlacialBurstCoroutine(attacker, action));
         return action;
     }
@@ -2608,7 +2608,7 @@ public class AbilityLogic : MonoBehaviour
     // Thaw
     public Action PerformThaw(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformThawCoroutine(attacker, victim, action));
         return action;
     }
@@ -2660,7 +2660,7 @@ public class AbilityLogic : MonoBehaviour
     // Forest Medicine
     public Action PerformForestMedicine(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformForestMedicineCoroutine(caster, target, action));
         return action;
     }
@@ -2691,7 +2691,7 @@ public class AbilityLogic : MonoBehaviour
     // Snipe
     public Action PerformSnipe(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformSnipeCoroutine(attacker, victim, action));
         return action;
     }
@@ -2742,7 +2742,7 @@ public class AbilityLogic : MonoBehaviour
     // Haste
     public Action PerformHaste(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformHasteCoroutine(caster, target, action));
         return action;
     }
@@ -2770,7 +2770,7 @@ public class AbilityLogic : MonoBehaviour
     // Steady Hands
     public Action PerformSteadyHands(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformSteadyHandsCoroutine(caster, target, action));
         return action;
     }
@@ -2797,7 +2797,7 @@ public class AbilityLogic : MonoBehaviour
     // Impaling Bolt
     public Action PerformImpalingBolt(LivingEntity caster, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformImpalingBoltCoroutine(caster, victim, action));
         return action;
     }
@@ -2853,7 +2853,7 @@ public class AbilityLogic : MonoBehaviour
     // Head Shot
     public Action PerformHeadShot(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformHeadShotCoroutine(attacker, victim, action));
         return action;
     }
@@ -2904,7 +2904,7 @@ public class AbilityLogic : MonoBehaviour
     // Concentration
     public Action PerformConcentration(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformConcentrationCoroutine(caster, action));
         return action;
     }
@@ -2928,7 +2928,7 @@ public class AbilityLogic : MonoBehaviour
     // Overwatch
     public Action PerformOverwatch(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformOverwatchCoroutine(caster, action));
         return action;
     }
@@ -2956,7 +2956,7 @@ public class AbilityLogic : MonoBehaviour
     // Tree Leap
     public Action PerformTreeLeap(LivingEntity caster, Tile destination)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformTreeLeapCoroutine(caster, destination, action));
         return action;
     }
@@ -2978,7 +2978,7 @@ public class AbilityLogic : MonoBehaviour
     // Rapid Fire
     public Action PerformRapidFire(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformRapidFireCoroutine(attacker, victim, action));
         return action;
     }
@@ -3048,7 +3048,7 @@ public class AbilityLogic : MonoBehaviour
     // Blight
     public Action PerformBlight(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformBlightCoroutine(caster, target, action));
         return action;
     }
@@ -3076,7 +3076,7 @@ public class AbilityLogic : MonoBehaviour
     // Blood Offering
     public Action PerformBloodOffering(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformBloodOfferingCoroutine(caster, action));
         return action;
     }
@@ -3108,7 +3108,7 @@ public class AbilityLogic : MonoBehaviour
     // Toxic Slash
     public Action PerformToxicSlash(LivingEntity attacker, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformToxicSlashCoroutine(attacker, target, action));
         return action;
     }
@@ -3160,7 +3160,7 @@ public class AbilityLogic : MonoBehaviour
     // Noxious Fumes
     public Action PerformNoxiousFumes(LivingEntity attacker)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformNoxiousFumesCoroutine(attacker, action));
         return action;
     }
@@ -3208,7 +3208,7 @@ public class AbilityLogic : MonoBehaviour
     // Toxic Eruption
     public Action PerformToxicEruption(LivingEntity attacker, Tile location)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformToxicEruptionCoroutine(attacker, location, action));
         return action;
     }
@@ -3256,7 +3256,7 @@ public class AbilityLogic : MonoBehaviour
     // Chemical Reaction
     public Action PerformChemicalReaction(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformChemicalReactionCoroutine(caster, target, action));
         return action;
     }
@@ -3284,7 +3284,7 @@ public class AbilityLogic : MonoBehaviour
     // Drain
     public Action PerformDrain(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformDrainCoroutine(attacker, victim, action));
         return action;
     }
@@ -3323,7 +3323,7 @@ public class AbilityLogic : MonoBehaviour
     // Telekinesis
     public Action PerformTelekinesis(LivingEntity caster, LivingEntity target, Tile destination)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformTelekinesisCoroutine(caster, target, destination, action));
         return action;
     }
@@ -3350,7 +3350,7 @@ public class AbilityLogic : MonoBehaviour
     // Dimensional Blast
     public Action PerformDimensionalBlast(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformDimensionalBlastCoroutine(attacker, victim, action));
         return action;
     }
@@ -3400,7 +3400,7 @@ public class AbilityLogic : MonoBehaviour
     // Evasion
     public Action PerformMirage(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformMirageCoroutine(caster, target, action));
         return action;
     }
@@ -3429,7 +3429,7 @@ public class AbilityLogic : MonoBehaviour
     // Phase Shift
     public Action PerformPhaseShift(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformPhaseShiftCoroutine(caster, target, action));
         return action;
     }
@@ -3459,7 +3459,7 @@ public class AbilityLogic : MonoBehaviour
     // Burst Of Knowledge
     public Action PerformBurstOfKnowledge(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformBurstOfKnowledgeCoroutine(caster, target, action));
         return action;
     }
@@ -3488,7 +3488,7 @@ public class AbilityLogic : MonoBehaviour
     // Blink
     public Action PerformBlink(LivingEntity caster, Tile destination)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformBlinkCoroutine(caster, destination, action));
         return action;
     }
@@ -3510,7 +3510,7 @@ public class AbilityLogic : MonoBehaviour
     // Dimensional Hex
     public Action PerformDimensionalHex(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformDimensionalHexCoroutine(caster, target, action));
         return action;
     }
@@ -3541,7 +3541,7 @@ public class AbilityLogic : MonoBehaviour
     // Infuse
     public Action PerformInfuse(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformInfuseCoroutine(caster, action));
         return action;
     }
@@ -3565,7 +3565,7 @@ public class AbilityLogic : MonoBehaviour
     // Time Warp
     public Action PerformTimeWarp(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformTimeWarpCoroutine(caster, target, action));
         return action;
     }
@@ -3600,7 +3600,7 @@ public class AbilityLogic : MonoBehaviour
     // Holy Fire
     public Action PerformHolyFire(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformHolyFireCoroutine(caster, target, action));
         return action;
     }
@@ -3661,7 +3661,7 @@ public class AbilityLogic : MonoBehaviour
     // Blinding Light
     public Action PerformBlindingLight(LivingEntity attacker, Tile location)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformBlindingLightCoroutine(attacker, location, action));
         return action;
     }
@@ -3715,7 +3715,7 @@ public class AbilityLogic : MonoBehaviour
     // Inspire
     public Action PerformInspire(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformInspireCoroutine(caster, target, action));
         return action;
     }
@@ -3743,7 +3743,7 @@ public class AbilityLogic : MonoBehaviour
     // Bless
     public Action PerformBless(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformBlessCoroutine(caster, target, action));
         return action;
     }
@@ -3788,7 +3788,7 @@ public class AbilityLogic : MonoBehaviour
     // Transcendence
     public Action PerformTranscendence(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformTranscendenceCoroutine(caster, target, action));
         return action;
     }
@@ -3816,7 +3816,7 @@ public class AbilityLogic : MonoBehaviour
     // Consecrate
     public Action PerformConsecrate(LivingEntity attacker)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformConsecrateCoroutine(attacker, action));
         return action;
     }
@@ -3873,7 +3873,7 @@ public class AbilityLogic : MonoBehaviour
     // Invigorate
     public Action PerformInvigorate(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformInvigorateCoroutine(caster, target, action));
         return action;
     }
@@ -3902,7 +3902,7 @@ public class AbilityLogic : MonoBehaviour
     // Judgement
     public Action PerformJudgement(LivingEntity attacker, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformJudgementCoroutine(attacker, target, action));
         return action;
     }
@@ -3956,7 +3956,7 @@ public class AbilityLogic : MonoBehaviour
     // Purity
     public Action PerformPurity(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformPurityCoroutine(caster, action));
         return action;
     }
@@ -3985,7 +3985,7 @@ public class AbilityLogic : MonoBehaviour
     // Rain Of Chaos
     public Action PerformRainOfChaos(LivingEntity attacker, Tile location)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformRainOfChaosCoroutine(attacker, location, action));
         return action;
     }
@@ -4034,7 +4034,7 @@ public class AbilityLogic : MonoBehaviour
     // Shroud
     public Action PerformShroud(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformShroudCoroutine(caster, target, action));
         return action;
     }
@@ -4063,7 +4063,7 @@ public class AbilityLogic : MonoBehaviour
     // Hex
     public Action PerformHex(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformHexCoroutine(caster, target, action));
         return action;
     }
@@ -4095,7 +4095,7 @@ public class AbilityLogic : MonoBehaviour
     // Chaos Bolt
     public Action PerformChaosBolt(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformChaosBoltCoroutine(attacker, victim, action));
         return action;
     }
@@ -4146,7 +4146,7 @@ public class AbilityLogic : MonoBehaviour
     // Nightmare
     public Action PerformNightmare(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformNightmareCoroutine(caster, target, action));
         return action;
     }
@@ -4174,7 +4174,7 @@ public class AbilityLogic : MonoBehaviour
     // Unbridled Chaos
     public Action PerformUnbridledChaos(LivingEntity attacker)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformUnbridledChaosCoroutine(attacker, action));
         return action;
     }
@@ -4247,7 +4247,7 @@ public class AbilityLogic : MonoBehaviour
     // Shadow Wreath
     public Action PerformShadowWreath(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformShadowWreathCoroutine(caster, action));
         return action;
     }
@@ -4271,7 +4271,7 @@ public class AbilityLogic : MonoBehaviour
     // Shadow Blast
     public Action PerformShadowBlast(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformShadowBlastCoroutine(attacker, victim, action));
         return action;
     }
@@ -4331,7 +4331,7 @@ public class AbilityLogic : MonoBehaviour
     // Thunder Strike
     public Action PerformThunderStrike(LivingEntity attacker, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformThunderStrikeCoroutine(attacker, target, action));
         return action;
     }
@@ -4383,7 +4383,7 @@ public class AbilityLogic : MonoBehaviour
     // Lightning Bolt
     public Action PerformLightningBolt(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformLightningBoltCoroutine(attacker, victim, action));
         return action;
     }
@@ -4435,7 +4435,7 @@ public class AbilityLogic : MonoBehaviour
     // Spirit Surge
     public Action PerformSpiritSurge(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformSpiritSurgeCoroutine(caster, target, action));
         return action;
     }
@@ -4471,7 +4471,7 @@ public class AbilityLogic : MonoBehaviour
     // Spirit Vision
     public Action PerformSpiritVision(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformSpiritVisionCoroutine(caster, target, action));
         return action;
     }
@@ -4499,7 +4499,7 @@ public class AbilityLogic : MonoBehaviour
     // Chain Lightning
     public Action PerformChainLightning(LivingEntity attacker, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformChainLightningCoroutine(attacker, target, action));
         return action;
     }
@@ -4578,7 +4578,7 @@ public class AbilityLogic : MonoBehaviour
     // Thunder Storm
     public Action PerformThunderStorm(LivingEntity attacker, Tile location)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformThunderStormCoroutine(attacker, location, action));
         return action;
     }
@@ -4629,7 +4629,7 @@ public class AbilityLogic : MonoBehaviour
     // Primal Rage
     public Action PerformPrimalRage(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformPrimalRageCoroutine(caster, target, action));
         return action;
     }
@@ -4658,7 +4658,7 @@ public class AbilityLogic : MonoBehaviour
     // Concealing Clouds
     public Action PerformConcealingClouds(LivingEntity attacker, Tile location)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformConcealingCloudsCoroutine(attacker, location, action));
         return action;
     }
@@ -4693,7 +4693,7 @@ public class AbilityLogic : MonoBehaviour
     // Super Conductor
     public Action PerformSuperConductor(LivingEntity attacker)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformSuperConductorCoroutine(attacker, action));
         return action;
     }
@@ -4754,7 +4754,7 @@ public class AbilityLogic : MonoBehaviour
     // Over Load
     public Action PerformOverload(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformOverloadCoroutine(caster, action));
         return action;
     }
@@ -4791,7 +4791,7 @@ public class AbilityLogic : MonoBehaviour
     //Rend
     public Action PerformRend(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformRendCoroutine(attacker, victim, action));
         return action;
     }
@@ -4813,7 +4813,7 @@ public class AbilityLogic : MonoBehaviour
     // Mork Smash
     public Action PerformMorkSmash(LivingEntity attacker, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformMorkSmashCoroutine(attacker, victim, action));
         return action;
     }
@@ -4859,7 +4859,7 @@ public class AbilityLogic : MonoBehaviour
     // Poison Dart
     public Action PerformPoisonDart(LivingEntity caster, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformPoisonDartCoroutine(caster, victim, action));
         return action;
     }
@@ -4879,7 +4879,7 @@ public class AbilityLogic : MonoBehaviour
     // Acid Spit
     public Action PerformAcidSpit(LivingEntity caster, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformAcidSpitCoroutine(caster, victim, action));
         return action;
     }
@@ -4904,7 +4904,7 @@ public class AbilityLogic : MonoBehaviour
     // Rock Toss
     public Action PerformRockToss(LivingEntity caster, LivingEntity victim)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformRockTossCoroutine(caster, victim, action));
         return action;
     }
@@ -4929,7 +4929,7 @@ public class AbilityLogic : MonoBehaviour
     // Lightning Shield
     public Action PerformLightningShield(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformLightningShieldCoroutine(caster, target, action));
         return action;
     }
@@ -4953,7 +4953,7 @@ public class AbilityLogic : MonoBehaviour
     // Siphon Life
     public Action PerformSiphonLife(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformSiphonLifeCoroutine(caster, target, action));
         return action;
     }
@@ -4971,7 +4971,7 @@ public class AbilityLogic : MonoBehaviour
     // Sanctity
     public Action PerformSanctity(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformSanctityCoroutine(caster, target, action));
         return action;
     }
@@ -5009,7 +5009,7 @@ public class AbilityLogic : MonoBehaviour
     // Void Bomb
     public Action PerformVoidBomb(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformVoidBombCoroutine(caster, target, action));
         return action;
     }
@@ -5035,7 +5035,7 @@ public class AbilityLogic : MonoBehaviour
     // Teleport
     public Action PerformTeleport(LivingEntity caster, Tile destination)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformTeleportCoroutine(caster, destination, action));
         return action;
     }
@@ -5055,7 +5055,7 @@ public class AbilityLogic : MonoBehaviour
     // Doom
     public Action PerformDoom(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformDoomCoroutine(caster, action));
         return action;
     }
@@ -5077,7 +5077,7 @@ public class AbilityLogic : MonoBehaviour
     // Empower Binding
     public Action PerformEmpowerBinding(LivingEntity caster)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformEmpowerBindingCoroutine(caster, action));
         return action;
     }
@@ -5100,7 +5100,7 @@ public class AbilityLogic : MonoBehaviour
     // Crushing Blow
     public Action PerformCrushingBlow(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformCrushingBlowCoroutine(caster, target, action));
         return action;
     }
@@ -5123,7 +5123,7 @@ public class AbilityLogic : MonoBehaviour
     // Summon Undead
     public Action PerformSummonUndead(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformSummonUndeadCoroutine(caster, target, action));
         return action;
     }
@@ -5177,7 +5177,7 @@ public class AbilityLogic : MonoBehaviour
     // Summon Undead
     public Action PerformSummonSkeleton(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformSummonSkeletonCoroutine(caster, target, action));
         return action;
     }
@@ -5233,7 +5233,7 @@ public class AbilityLogic : MonoBehaviour
     // Healing Light
     public Action PerformHealingLight(LivingEntity caster, LivingEntity target)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(PerformHealingLightCoroutine(caster, target, action));
         return action;
     }

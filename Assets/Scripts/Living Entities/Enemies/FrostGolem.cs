@@ -92,7 +92,6 @@ public class FrostGolem : Enemy
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
-            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, chillingBlow, this) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
@@ -108,6 +107,10 @@ public class FrostGolem : Enemy
             goto ActionStart;
         }
 
-        EndMyActivation();
+        // Can't do anything more, end activation
+        else
+        {
+            EndMyActivation();
+        }
     }
 }

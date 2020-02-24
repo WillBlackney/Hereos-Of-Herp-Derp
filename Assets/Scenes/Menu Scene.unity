@@ -3290,6 +3290,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 309655578}
   m_CullTransparentMesh: 0
+--- !u!1 &327902066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 327902068}
+  - component: {fileID: 327902067}
+  m_Layer: 0
+  m_Name: Action Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &327902067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327902066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5973f88ec3af5948a6d1190a1b0fc44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &327902068
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327902066}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.1822495, y: 0.8778691, z: 104.10604}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &342554771
 GameObject:
   m_ObjectHideFlags: 0
@@ -7197,7 +7240,7 @@ PrefabInstance:
     - target: {fileID: 1493032418395024028, guid: 9fa387b2828fa234d8f3005ebe2f2e25,
         type: 3}
       propertyPath: sheetName
-      value: shiny_rpg_potions_16x16
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 1493032418395024029, guid: 9fa387b2828fa234d8f3005ebe2f2e25,
         type: 3}
@@ -7207,7 +7250,7 @@ PrefabInstance:
     - target: {fileID: 1493032418395024029, guid: 9fa387b2828fa234d8f3005ebe2f2e25,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1493032418395024035, guid: 9fa387b2828fa234d8f3005ebe2f2e25,
         type: 3}

@@ -121,9 +121,6 @@ public class LivingEntity : MonoBehaviour
             myAnimator = GetComponent<Animator>();
         }
         myAnimator.SetTrigger("Idle");
-
-        // Remove in future perhaps, currently used to make death anim fade out work
-        myModel.PopulateRenderersList();
         
         defender = GetComponent<Defender>();
         enemy = GetComponent<Enemy>();
