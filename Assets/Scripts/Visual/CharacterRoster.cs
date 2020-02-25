@@ -142,6 +142,20 @@ public class CharacterRoster : MonoBehaviour
     {
         inventoryParent.SetActive(false);
     }
+    public void PlayIdleAnimOnAllModels()
+    {
+        characterOne.myCharacterModel.SetIdleAnim();
+        characterTwo.myCharacterModel.SetIdleAnim();
+        characterThree.myCharacterModel.SetIdleAnim();
+        characterFour.myCharacterModel.SetIdleAnim();
+    }
+    public void SetDefaultViewState()
+    {
+        DisablesAllCharacterDataViews();
+
+        characterOne.EnableMainWindowView();
+        characterOne.OnStatsPageButtonClicked();
+    }
 
 
     // Logic

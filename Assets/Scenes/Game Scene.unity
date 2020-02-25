@@ -2162,12 +2162,6 @@ Transform:
   m_Father: {fileID: 125540712}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &321742256 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3936239811403564453, guid: dd400610af43683468ccc1e16e2c9655,
-    type: 3}
-  m_PrefabInstance: {fileID: 3936239811149996053}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &336287661
 GameObject:
   m_ObjectHideFlags: 0
@@ -4043,7 +4037,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameOverScreenParent: {fileID: 6007144666871292805}
   GameOverScreenTitleText: {fileID: 6007144667082964732}
-  CharacterRoster: {fileID: 321742256}
+  characterRoster: {fileID: 3936239811149996055}
   worldMap: {fileID: 2126798329}
   rewardScreen: {fileID: 5510776551508022951}
   Inventory: {fileID: 2096382343}
@@ -16900,7 +16894,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1986046733
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30660,6 +30654,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3936239811149996055 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3936239811403564453, guid: dd400610af43683468ccc1e16e2c9655,
+    type: 3}
+  m_PrefabInstance: {fileID: 3936239811149996053}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4059583735741346008
 PrefabInstance:
   m_ObjectHideFlags: 0

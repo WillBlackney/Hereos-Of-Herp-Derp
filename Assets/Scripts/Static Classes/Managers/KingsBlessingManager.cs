@@ -69,6 +69,11 @@ public class KingsBlessingManager : MonoBehaviour
     public void EnableView()
     {
         visualParent.SetActive(true);
+        modelOne.SetIdleAnim();
+        modelTwo.SetIdleAnim();
+        modelThree.SetIdleAnim();
+        modelFour.SetIdleAnim();
+        kingModel.SetIdleAnim();
     }
     public void DisableView()
     {

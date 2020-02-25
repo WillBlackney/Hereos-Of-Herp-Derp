@@ -131,6 +131,10 @@ public class ItemManager : MonoBehaviour
         {
             stringReturned = "Ranged 2H";
         }
+        else if (data.itemType == ItemDataSO.ItemType.Shield)
+        {
+            stringReturned = "Shield";
+        }
 
         Debug.Log("Conversion returned: " + stringReturned);
         return stringReturned;
@@ -396,7 +400,6 @@ public class ItemManager : MonoBehaviour
         itemCard.myName = data.Name;
         itemCard.myNameText.text = data.Name;
         itemCard.itemImage.sprite = data.sprite;
-        //itemCard.myItemRarity = data.itemRarity;
         itemCard.myDescriptionText.text = data.itemDescription;
         itemCard.myItemTypeText.text = ConvertItemTypeEnumToString(data);
 

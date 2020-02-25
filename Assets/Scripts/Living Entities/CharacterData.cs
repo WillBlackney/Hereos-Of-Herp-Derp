@@ -844,8 +844,8 @@ public class CharacterData : MonoBehaviour
     {
         Debug.Log("CharacterData.OnStatsPageButtonClicked() called...");
         CharacterRoster.Instance.EnableInventoryView();
-        myCharacterModel.SetIdleAnim();
         statsPageParent.SetActive(true);
+        myCharacterModel.SetIdleAnim();
         talentsPageParent.SetActive(false);
         abilityPageParent.SetActive(false);
     }

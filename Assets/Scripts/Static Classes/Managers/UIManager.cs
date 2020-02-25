@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
     [Header("UI Component References")]    
     public GameObject GameOverScreenParent;
     public TextMeshProUGUI GameOverScreenTitleText;
-    public GameObject CharacterRoster;
+    public GameObject characterRoster;
     public GameObject worldMap;
     public GameObject rewardScreen;
     public GameObject Inventory;
@@ -33,13 +33,13 @@ public class UIManager : MonoBehaviour
     #region
     public void OnCharacterPanelBackButtonClicked()
     {
-        CharacterRoster.SetActive(false);        
+        characterRoster.SetActive(false);        
     }
     public void OnCharacterPanelButtonClicked()
     {
         KingsBlessingManager.Instance.DisableView();
 
-        if (CharacterRoster.activeSelf == true)
+        if (characterRoster.activeSelf == true)
         {
             DisableInventoryView();
             DisableCharacterRosterView();
@@ -53,7 +53,6 @@ public class UIManager : MonoBehaviour
         {
             EnableCharacterRosterView();
             EnableInventoryView();
-            //DisableInventoryView();
             DisableWorldMapView();
         }
             
@@ -126,11 +125,15 @@ public class UIManager : MonoBehaviour
     }
     public void EnableCharacterRosterView()
     {
-        CharacterRoster.SetActive(true);
+        characterRoster.SetActive(true);
+        //CharacterRoster.Instance.PlayIdleAnimOnAllModels();
+
+        // set character one as default view
+        CharacterRoster.Instance.SetDefaultViewState();
     }
     public void DisableCharacterRosterView()
     {
-        CharacterRoster.SetActive(false);
+        characterRoster.SetActive(false);
         CampSiteManager.Instance.awaitingTrainChoice = false;
     }
     public void DisableEndTurnButtonInteractions()
