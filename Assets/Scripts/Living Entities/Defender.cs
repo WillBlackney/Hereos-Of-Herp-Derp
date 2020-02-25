@@ -3559,6 +3559,4 @@ public class Defender : LivingEntity
 
 
 
-
-
 }
