@@ -73,11 +73,14 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         Debug.Log("Status Icon mouse over detected...");
         TextLogic.SetStatusIconDescriptionText(statusName, statusDescriptionText, statusStacks);
-        SetInfoPanelVisibility(true);
+       // SetInfoPanelVisibility(true);
+
+        InfoPanelHover.Instance.HandleIconMousedEnter(this);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        SetInfoPanelVisibility(false);
+       // SetInfoPanelVisibility(false);
+        InfoPanelHover.Instance.HandleIconMouseExit(this);
     }
     #endregion
 
