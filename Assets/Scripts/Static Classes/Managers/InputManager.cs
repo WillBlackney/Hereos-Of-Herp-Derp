@@ -8,8 +8,7 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape))
         {
-            UnselecteDefender();
-            ConsumableManager.Instance.ClearAllConsumableOrders();
+            HandleMouseRightClicked();            
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -67,6 +66,22 @@ public class InputManager : MonoBehaviour
         if (DefenderManager.Instance.selectedDefender != null)
         {
             DefenderManager.Instance.ClearSelectedDefender();
+        }
+    }
+
+    public void HandleMouseRightClicked()
+    {
+        ConsumableManager.Instance.ClearAllConsumableOrders();
+
+        if (DefenderManager.Instance.selectedDefender != null &&
+            !DefenderManager.Instance.selectedDefender.IsAwaitingOrder())
+        {
+            DefenderManager.Instance.ClearSelectedDefender();
+        }
+        else if (DefenderManager.Instance.selectedDefender != null &&
+           DefenderManager.Instance.selectedDefender.IsAwaitingOrder())
+        {
+            DefenderManager.Instance.selectedDefender.ClearAllOrders();
         }
     }
 }

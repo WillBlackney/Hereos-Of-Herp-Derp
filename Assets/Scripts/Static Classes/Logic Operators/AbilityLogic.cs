@@ -21,6 +21,10 @@ public class AbilityLogic : MonoBehaviour
         Debug.Log("OnAbilityUsedStart() called for " + entity.gameObject.name + " using " + ability.abilityName);
 
         // Disable tile hover + tile highlights
+        if (entity.defender)
+        {
+            entity.defender.awaitingAnOrder = false;
+        }
         TileHover.Instance.SetVisibility(false);
         LevelManager.Instance.UnhighlightAllTiles();
         PathRenderer.Instance.DeactivatePathRenderer();
@@ -534,17 +538,29 @@ public class AbilityLogic : MonoBehaviour
     private IEnumerator PerformFreeStrikeCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
     {
         // Make sure character actually knows strike, has a melee weapon, and the target is not in death process
-        if(attacker.mySpellBook.GetAbilityByName("Strike") != null &&
+        if((attacker.mySpellBook.GetAbilityByName("Strike") != null || attacker.mySpellBook.GetAbilityByName("Twin Strike") != null) &&
            victim.inDeathProcess == false &&
            (attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand || attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeTwoHand)
             )
         {
             // Set up properties
             Ability strike = attacker.mySpellBook.GetAbilityByName("Strike");
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, strike);
+            Ability twinStrike = attacker.mySpellBook.GetAbilityByName("Strike");
+            Ability abilityUsed = null;
+            if (strike)
+            {
+                abilityUsed = strike;
+            }
+            else if(twinStrike)
+            {
+                abilityUsed = twinStrike;
+            }
+
+            
+            bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, abilityUsed);
             //bool parry = CombatLogic.Instance.RollForParry(victim);
-            string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, strike, attacker.myMainHandWeapon);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, strike, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+            string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, abilityUsed, attacker.myMainHandWeapon);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, abilityUsed, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
 
             // Play attack animation
             attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
@@ -556,7 +572,7 @@ public class AbilityLogic : MonoBehaviour
             }
 
             // Deal damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, strike);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, abilityUsed);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Remove camo
@@ -865,7 +881,7 @@ public class AbilityLogic : MonoBehaviour
         OnAbilityUsedStart(charge, attacker);
 
         // Charge movement
-        Action moveAction = MovementLogic.Instance.MoveEntity(attacker, destination, 4);
+        Action moveAction = MovementLogic.Instance.MoveEntity(attacker, destination, 6);
         yield return new WaitUntil(() => moveAction.ActionResolved() == true);
 
         // Play attack animation
@@ -1030,7 +1046,7 @@ public class AbilityLogic : MonoBehaviour
 
         OnAbilityUsedStart(dash, characterMoved);
 
-        Action dashAction = MovementLogic.Instance.MoveEntity(characterMoved, destination, 4);
+        Action dashAction = MovementLogic.Instance.MoveEntity(characterMoved, destination, 6);
 
         yield return new WaitUntil(() => dashAction.ActionResolved() == true);
 

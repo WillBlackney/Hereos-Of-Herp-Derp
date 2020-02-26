@@ -197,8 +197,8 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         myLivingEntity.mouseIsOverStatusIconPanel = false;
         if (myLivingEntity.mouseIsOverCharacter == false)
         {
-            SetPanelViewState(false);
             DisableAllMyIcons();
+            SetPanelViewState(false);            
         }        
     }
     public void DisableAllMyIcons()

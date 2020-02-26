@@ -26,6 +26,7 @@ public class Defender : LivingEntity
 
 
     [Header("Ability Orders")]
+    public bool awaitingAnOrder;
     public bool awaitingMoveOrder;
     public bool awaitingStrikeOrder;
     public bool awaitingChargeTargetOrder;
@@ -532,6 +533,8 @@ public class Defender : LivingEntity
     }
     public void ClearAllOrders()
     {
+        awaitingAnOrder = false;
+
         awaitingMoveOrder = false;
         awaitingStrikeOrder = false;
         awaitingChargeTargetOrder = false;
@@ -629,6 +632,11 @@ public class Defender : LivingEntity
 
     // Ability Button Click Events
     #region
+
+    public bool IsAwaitingOrder()
+    {
+        return awaitingAnOrder;
+    }
     public void OnAbilityButtonClicked(string abilityName)
     {
         // Prevent player from using character abilities when it is not their turn
@@ -646,15 +654,17 @@ public class Defender : LivingEntity
         }
 
         // Clear all previous view settings and defender orders
-        bool enableTileHover = true;
+        bool enableTileHover = true;        
         LevelManager.Instance.UnhighlightAllTiles();
         ClearAllOrders();
+        awaitingAnOrder = true;
         ConsumableManager.Instance.ClearAllConsumableOrders();
 
         // Enable tile hover if ability is usable, and requires targetting
         Ability ability = mySpellBook.GetAbilityByName(abilityName);
         if (!EntityLogic.IsAbilityUseable(this, ability))
         {
+            awaitingAnOrder = false;
             enableTileHover = false;
         }
         if(!EntityLogic.IsAbleToMove(this) &&
@@ -664,11 +674,13 @@ public class Defender : LivingEntity
             ability.abilityName == "Get Down!")
             )
         {
+            awaitingAnOrder = false;
             enableTileHover = false;
         }
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
+            awaitingAnOrder = false;
             TileHover.Instance.SetVisibility(false);
             return;
         }
@@ -689,6 +701,7 @@ public class Defender : LivingEntity
         {
             OnDefendButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         
         else if (abilityName == "Frost Armour")
@@ -702,11 +715,13 @@ public class Defender : LivingEntity
         else if (abilityName == "Glacial Burst")
         {
             enableTileHover = false;
+            awaitingAnOrder = false;
             OnGlacialBurstButtonClicked();
         }
         else if (abilityName == "Challenging Shout")
         {
             enableTileHover = false;
+            awaitingAnOrder = false;
             OnChallengingShoutButtonClicked();
         }
         else if (abilityName == "Thaw")
@@ -752,6 +767,7 @@ public class Defender : LivingEntity
         else if (abilityName == "Overwatch")
         {
             enableTileHover = false;
+            awaitingAnOrder = false;
             OnOverwatchButtonClicked();
         }
         else if (abilityName == "Dimensional Blast")
@@ -781,6 +797,7 @@ public class Defender : LivingEntity
         else if (abilityName == "Consecrate")
         {
             enableTileHover = false;
+            awaitingAnOrder = false;
             OnConsecrateButtonClicked();
         }
         else if (abilityName == "Blinding Light")
@@ -810,6 +827,7 @@ public class Defender : LivingEntity
         else if (abilityName == "Unbridled Chaos")
         {
             enableTileHover = false;
+            awaitingAnOrder = false;
             OnUnbridledChaosButtonClicked();
         }
         else if (abilityName == "Blight")
@@ -823,6 +841,7 @@ public class Defender : LivingEntity
         else if (abilityName == "Blood Offering")
         {
             enableTileHover = false;
+            awaitingAnOrder = false;
             OnBloodOfferingButtonClicked();
         }
         else if (abilityName == "Toxic Slash")
@@ -853,10 +872,12 @@ public class Defender : LivingEntity
         {
             OnSharpenBladeButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Noxious Fumes")
         {
             enableTileHover = false;
+            awaitingAnOrder = false;
             OnNoxiousFumesButtonClicked();
         }
         else if (abilityName == "Toxic Eruption")
@@ -898,6 +919,7 @@ public class Defender : LivingEntity
         else if (abilityName == "Super Conductor")
         {
             enableTileHover = false;
+            awaitingAnOrder = false;
             OnSuperConductorButtonClicked();
         }       
        
@@ -965,61 +987,73 @@ public class Defender : LivingEntity
         {
             OnWhirlwindButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Second Wind")
         {
             OnSecondWindButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Infuse")
         {
             OnInfuseButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Purity")
         {
             OnPurityButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Shadow Wreath")
         {
             OnShadowWreathButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Overload")
         {
             OnOverloadButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Recklessness")
         {
             OnRecklessnessButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Rapid Cloaking")
         {
             OnRapidCloakingButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Concentration")
         {
             OnConcentrationButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Testudo")
         {
             OnTestudoButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Blaze")
         {
             OnBlazeButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Creeping Frost")
         {
             OnCreepingFrostButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Fire Nova")
         {
@@ -1030,16 +1064,19 @@ public class Defender : LivingEntity
         {
             OnFrostNovaButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Reactive Armour")
         {
             OnReactiveArmourButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Vanish")
         {
             OnVanishButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }       
 
         else if (abilityName == "Invigorate")
@@ -1084,6 +1121,7 @@ public class Defender : LivingEntity
         {
             OnPreparationButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
 
         else if (abilityName == "Slice And Dice")
@@ -1154,6 +1192,7 @@ public class Defender : LivingEntity
         {
             OnBladeFlurryButtonClicked();
             enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Kick To The Balls")
         {
