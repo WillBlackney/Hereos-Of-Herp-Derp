@@ -22,6 +22,12 @@ public class AbilityPageAbility : MonoBehaviour, IPointerClickHandler, IPointerE
     public TextMeshProUGUI energyCostText;
     public TextMeshProUGUI rangeText;
 
+    [Header("Type Button References")]
+    public GameObject meleeAttackIcon;
+    public GameObject rangedAttackIcon;
+    public GameObject skillIcon;
+    public GameObject powerIcon;
+
     // Setup
     #region
     public void InitializeSetup(AbilityDataSO data)
@@ -38,6 +44,28 @@ public class AbilityPageAbility : MonoBehaviour, IPointerClickHandler, IPointerE
         cooldownText.text = data.baseCooldownTime.ToString();
         rangeText.text = data.range.ToString();
         energyCostText.text = data.energyCost.ToString();
+
+        meleeAttackIcon.SetActive(false);
+        rangedAttackIcon.SetActive(false);
+        skillIcon.SetActive(false);
+        powerIcon.SetActive(false);
+
+        if (data.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        {
+            meleeAttackIcon.SetActive(true);
+        }
+        else if (data.abilityType == AbilityDataSO.AbilityType.RangedAttack)
+        {
+            rangedAttackIcon.SetActive(true);
+        }
+        else if (data.abilityType == AbilityDataSO.AbilityType.Skill)
+        {
+            skillIcon.SetActive(true);
+        }
+        else if (data.abilityType == AbilityDataSO.AbilityType.Power)
+        {
+            powerIcon.SetActive(true);
+        }
     }
     #endregion
 

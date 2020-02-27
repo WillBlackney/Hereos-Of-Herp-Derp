@@ -16,6 +16,12 @@ public class EnemyPanelAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointe
     public TextMeshProUGUI rangeText;
     public TextMeshProUGUI descriptionText;
 
+    [Header("Type Button References")]
+    public GameObject meleeAttackIcon;
+    public GameObject rangedAttackIcon;
+    public GameObject skillIcon;
+    public GameObject powerIcon;
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         abilityInfoPanelParent.SetActive(true);

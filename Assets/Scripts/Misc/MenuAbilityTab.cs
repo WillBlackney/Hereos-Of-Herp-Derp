@@ -23,10 +23,27 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public Image passiveImage;
     public Image passiveInfoPanelImage;
 
+    [Header("Rect Transform Panel Components")]
+    public RectTransform statusPanelParentRect;
+    public RectTransform statusPanelDescriptionRect;
+    public RectTransform statusPanelNameRect;
+
+    [Header("Type Button References")]
+    public GameObject meleeAttackIcon;
+    public GameObject rangedAttackIcon;
+    public GameObject skillIcon;
+    public GameObject powerIcon;
+
     [Header("Properties")]
     public bool isAbility;
     public bool isPassive;
 
+    void Start()
+    {
+        statusPanelParentRect = passiveInfoPanelParent.GetComponent<RectTransform>();
+        statusPanelDescriptionRect = passiveDescriptionText.GetComponent<RectTransform>();
+        statusPanelNameRect = passiveNameText.GetComponent<RectTransform>();
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (isAbility)
@@ -36,6 +53,7 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         else if (isPassive)
         {
             passiveInfoPanelParent.SetActive(true);
+            RefreshLayoutGroups();
         }
     }
     public void OnPointerExit(PointerEventData eventData)
@@ -58,6 +76,28 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         TextLogic.SetAbilityDescriptionText(data, abilityDescriptionText);
         abilityImage.sprite = data.sprite;
 
+        meleeAttackIcon.SetActive(false);
+        rangedAttackIcon.SetActive(false);
+        skillIcon.SetActive(false);
+        powerIcon.SetActive(false);
+
+        if (data.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        {
+            meleeAttackIcon.SetActive(true);
+        }
+        else if (data.abilityType == AbilityDataSO.AbilityType.RangedAttack)
+        {
+            rangedAttackIcon.SetActive(true);
+        }
+        else if (data.abilityType == AbilityDataSO.AbilityType.Skill)
+        {
+            skillIcon.SetActive(true);
+        }
+        else if (data.abilityType == AbilityDataSO.AbilityType.Power)
+        {
+            
+        }
+
 
     }
     public void SetUpAbilityTabAsPassive(string passiveName, int stacks)
@@ -71,5 +111,14 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         passiveImage.sprite = data.statusSprite;
         passiveInfoPanelImage.sprite = data.statusSprite;
 
+        // Refresh layout
+        RefreshLayoutGroups();
+
+    }
+    public void RefreshLayoutGroups()
+    {        
+        LayoutRebuilder.ForceRebuildLayoutImmediate(statusPanelDescriptionRect);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(statusPanelNameRect);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(statusPanelParentRect);
     }
 }

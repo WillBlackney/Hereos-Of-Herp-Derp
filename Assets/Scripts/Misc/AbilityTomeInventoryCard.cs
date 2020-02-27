@@ -20,6 +20,12 @@ public class AbilityTomeInventoryCard : MonoBehaviour, IBeginDragHandler, IDragH
     public TextMeshProUGUI rangeText;
     public TextMeshProUGUI energyCostText;
 
+    [Header("Type Button References")]
+    public GameObject meleeAttackIcon;
+    public GameObject rangedAttackIcon;
+    public GameObject skillIcon;
+    public GameObject powerIcon;
+
 
     // Initialization + Setup
     #region
@@ -35,6 +41,28 @@ public class AbilityTomeInventoryCard : MonoBehaviour, IBeginDragHandler, IDragH
         energyCostText.text = data.energyCost.ToString();
 
         SetBackgroundColor();
+
+        meleeAttackIcon.SetActive(false);
+        rangedAttackIcon.SetActive(false);
+        skillIcon.SetActive(false);
+        powerIcon.SetActive(false);
+
+        if (data.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        {
+            meleeAttackIcon.SetActive(true);
+        }
+        else if (data.abilityType == AbilityDataSO.AbilityType.RangedAttack)
+        {
+            rangedAttackIcon.SetActive(true);
+        }
+        else if (data.abilityType == AbilityDataSO.AbilityType.Skill)
+        {
+            skillIcon.SetActive(true);
+        }
+        else if (data.abilityType == AbilityDataSO.AbilityType.Power)
+        {
+            powerIcon.SetActive(true);
+        }
     }
     public void SetBackgroundColor()
     {

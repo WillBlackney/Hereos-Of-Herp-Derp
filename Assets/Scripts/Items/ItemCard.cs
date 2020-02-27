@@ -32,6 +32,10 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public bool expanding;
     public bool shrinking;
 
+    [Header("Info Panels + References")]
+    public GameObject panelOneParent;
+    public bool panelOneActive;
+
 
     // Setup + Initialization
     #region
@@ -39,6 +43,14 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         ItemManager.Instance.SetUpItemCardFromData(this, data);
     }
+    public void BuildInfoPanelsFromData(ItemDataSO data)
+    {
+        if(data.itemEffectOne != ItemDataSO.ItemEffect.None)
+        {
+
+        }
+    }
+    
     #endregion
 
     // Mouse + Click Events

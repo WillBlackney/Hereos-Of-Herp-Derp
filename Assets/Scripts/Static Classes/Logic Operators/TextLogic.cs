@@ -259,7 +259,7 @@ public static class TextLogic
         else if (statusName == "Toxic Aura")
         {
             statusDescriptionText.text =
-                "On activation end, this character applies " + ReturnColoredText(statusStacks.ToString(), yellow) +
+                "On activation end, this character applies " + ReturnColoredText(statusStacks.ToString(), yellow) + " " +
                  ReturnColoredText("Poisoned", poison) + " to enemies within it's Aura";
         }
         else if (statusName == "Storm Aura")
@@ -525,7 +525,7 @@ public static class TextLogic
         else if (statusName == "Predator")
         {
             statusDescriptionText.text =
-                "This character has +20 Critical Chance while " + ReturnColoredText("Camoflaged", yellow);
+                "This character has " + ReturnColoredText("20", yellow) + " bonus Critical Chance while " + ReturnColoredText("Camoflaged", yellow);
         }
         else if (statusName == "Preparation")
         {
@@ -2169,6 +2169,139 @@ public static class TextLogic
         }
 
         return colorCodeReturned;
+    }
+    public static string GetMouseOverElementString(string elementName)
+    {
+        string stringReturned = "";
+
+        if(elementName == "Strength")
+        {
+            stringReturned =
+                "Increases the base damage of all " + ReturnColoredText("Melee Attack", yellow) + " abilities";
+        }
+        else if (elementName == "Wisdom")
+        {
+            stringReturned =
+                "Increases all " +
+                ReturnColoredText("Fire", fire) + ", " +
+                ReturnColoredText("Frost", frost) + ", " +
+                ReturnColoredText("Poison", poison) + ", " +
+                ReturnColoredText("Shadow", shadow) + ", and " +
+                ReturnColoredText("Air", air) +
+                " damage from abilities and effects";
+        }
+        else if (elementName == "Dexterity")
+        {
+            stringReturned =
+                "Increases the amount of " + ReturnColoredText("Block", yellow) +
+                " granted from abilities and effects";
+        }
+        else if (elementName == "Stamina")
+        {
+            stringReturned =
+                "The amount of " + ReturnColoredText("Energy", yellow) +
+                " this character gains at the start of their activation";
+        }
+        else if (elementName == "Mobility")
+        {
+            stringReturned =
+                "The range in tiles this character can travel with movement abilities";
+        }
+        else if (elementName == "Initiative")
+        {
+            stringReturned =
+                "The value added to a character's turn order roll";
+        }
+        else if (elementName == "Critical")
+        {
+            stringReturned =
+                "The percentage chance this character has to deal " + ReturnColoredText("50%", yellow) + " bonus damage with "
+                + ReturnColoredText("Melee Attack", yellow) + " and " + ReturnColoredText("Ranged Attack", yellow) + " abilities";
+        }
+        else if (elementName == "Dodge")
+        {
+            stringReturned =
+                "The percentage chance this character has to completelty avoid damage from "
+                + ReturnColoredText("Ranged Attack", yellow) + " abilities";
+        }
+        else if (elementName == "Parry")
+        {
+            stringReturned =
+                "The percentage chance this character has to completelty avoid damage from "
+                + ReturnColoredText("Melee Attack", yellow) + " abilities";
+        }
+        else if (elementName == "Aura Size")
+        {
+            stringReturned =
+                "The range in tiles this character's aura effect passives and abilities will affect";
+        }
+        else if (elementName == "Melee Range")
+        {
+            stringReturned =
+                "The range in tiles this character's " + ReturnColoredText("Melee Attack", yellow) +
+                " abilities can target";
+        }
+        else if (elementName == "Max Energy")
+        {
+            stringReturned =
+                "The maximum amount of " + ReturnColoredText("Energy", yellow) +
+                " this character can have at any one time";
+        }
+        else if (elementName == "Fire Resistance")
+        {
+            stringReturned =
+                "Reduces all incoming " + ReturnColoredText("Fire", fire) + " damage dealt to this character";
+        }
+        else if (elementName == "Poison Resistance")
+        {
+            stringReturned =
+                "Reduces all incoming " + ReturnColoredText("Poison", poison) + " damage dealt to this character";
+        }
+        else if (elementName == "Frost Resistance")
+        {
+            stringReturned =
+                "Reduces all incoming " + ReturnColoredText("Frost", frost) + " damage dealt to this character";
+        }
+        else if (elementName == "Shadow Resistance")
+        {
+            stringReturned =
+                "Reduces all incoming " + ReturnColoredText("Shadow", shadow) + " damage dealt to this character";
+        }
+        else if (elementName == "Air Resistance")
+        {
+            stringReturned =
+                "Reduces all incoming " + ReturnColoredText("Air", air) + " damage dealt to this character";
+        }
+        else if (elementName == "Physical Resistance")
+        {
+            stringReturned =
+                "Reduces all incoming " + ReturnColoredText("Physical", physical) + " damage dealt to this character";
+        }
+        else if (elementName == "Health")
+        {
+            stringReturned =
+                "The amount of damage this character can take before it dies";
+        }
+        else if (elementName == "XP")
+        {
+            stringReturned =
+                "The amount of XP points required to level up. When a character levels up, they gain 1 "
+                + ReturnColoredText("Talent Point", yellow) + " and 1 "
+                + ReturnColoredText("Ability Point", yellow);
+        }        
+        else if (elementName == "Ability Points")
+        {
+            stringReturned =
+                "Used to purchase abilities and passives from a talent tree";
+        }
+        else if (elementName == "Talent Points")
+        {
+            stringReturned =
+                "Used to increase talent pool levels. Placing 1 point in a talent pool unlocks it's talent tree. Additional points placed " +
+                " unlock higher tiers within that talent tree";
+        }
+
+        return stringReturned;
     }
 
 }

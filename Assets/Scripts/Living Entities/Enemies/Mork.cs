@@ -16,7 +16,8 @@ public class Mork : Enemy
         mySpellBook.EnemyLearnAbility("Smash");
         mySpellBook.EnemyLearnAbility("Whirlwind");
 
-        myPassiveManager.ModifyGrowing(1);
+        myPassiveManager.ModifyGrowing(2);
+        myPassiveManager.ModifyUnstoppable(1);
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Battle Axe");
     }
 
@@ -25,7 +26,7 @@ public class Mork : Enemy
         Ability strike = mySpellBook.GetAbilityByName("Strike");
         Ability move = mySpellBook.GetAbilityByName("Move");
         Ability smash = mySpellBook.GetAbilityByName("Smash");
-        Ability whirlwind = mySpellBook.GetAbilityByName("Smash");
+        Ability whirlwind = mySpellBook.GetAbilityByName("Whirlwind");
 
 
         ActionStart:

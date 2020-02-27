@@ -24,6 +24,12 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public TextMeshProUGUI descriptionText;
     public TextMeshProUGUI nameText;
 
+    [Header("Type Button References")]
+    public GameObject meleeAttackIcon; 
+    public GameObject rangedAttackIcon;
+    public GameObject skillIcon;
+    public GameObject powerIcon;
+
     [Header("Properties")]
     public string abilityName;
     public string abilityDescription;
@@ -87,7 +93,28 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
             apCostText.text = abilityEnergyCost.ToString();
             nameText.text = abilityName.ToString();
             descriptionText.text = abilityDescription.ToString();
-            //TextLogic.SetAbilityDescriptionText(this);
+
+            meleeAttackIcon.SetActive(false);
+            rangedAttackIcon.SetActive(false);
+            skillIcon.SetActive(false);
+            powerIcon.SetActive(false);
+
+            if (abilityFromLibrary.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+            {
+                meleeAttackIcon.SetActive(true);
+            }
+            else if (abilityFromLibrary.abilityType == AbilityDataSO.AbilityType.RangedAttack)
+            {
+                rangedAttackIcon.SetActive(true);
+            }
+            else if (abilityFromLibrary.abilityType == AbilityDataSO.AbilityType.Skill)
+            {
+                skillIcon.SetActive(true);
+            }
+            else if (abilityFromLibrary.abilityType == AbilityDataSO.AbilityType.Power)
+            {
+                powerIcon.SetActive(true);
+            }
         }
     }
    
