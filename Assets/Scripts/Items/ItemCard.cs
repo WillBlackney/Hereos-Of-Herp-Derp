@@ -81,9 +81,11 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (!inInventory)
         {
             Debug.Log("Mouse Enter detected...");
-            StartCoroutine(Expand(1));
+            StartCoroutine(Expand(1));            
         }
-        
+
+        ItemCardPanelHover.Instance.OnItemCardMousedOver(myItemDataSO);
+
     }
     public void OnPointerExit(PointerEventData eventData)
     {
@@ -92,8 +94,8 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             Debug.Log("Mouse Exit detected...");
             StartCoroutine(Shrink(1));
         }
-            
 
+        ItemCardPanelHover.Instance.OnItemCardMousedExit(myItemDataSO);
     }
     #endregion
 
