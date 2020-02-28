@@ -45,6 +45,7 @@ public class ItemCardPanelHover : MonoBehaviour
     }
     public void OnItemCardMousedOver(ItemDataSO item)
     {
+        Debug.Log("ItemCardPanelHover.OnItemCardMousedOver() called on " + item.Name);
         EnableAllViews();
 
         // Weapon Info Tab
@@ -81,12 +82,15 @@ public class ItemCardPanelHover : MonoBehaviour
     }
     public void OnItemCardMouseExit(ItemDataSO item)
     {
+        Debug.Log("ItemCardPanelHover.OnItemCardMouseExit() called");
         DisableAllViews();
     }
     public void BuildWeaponTabElements(ItemDataSO item)
     {
+        Debug.Log("ItemCardPanelHover.BuildWeaponTabElements() called...");
+
         // Set sprite first
-        if(item.weaponDamageType == ItemDataSO.WeaponDamageType.Physical)
+        if (item.weaponDamageType == ItemDataSO.WeaponDamageType.Physical)
         {
             weaponInfoTab.image.sprite = physicalSprite;
         }
@@ -123,6 +127,8 @@ public class ItemCardPanelHover : MonoBehaviour
     }
     public void BuildInfoPanelTabElements(ItemCardInfoTab tab, string passiveName, int stacks)
     {
+        Debug.Log("ItemCardPanelHover.BuildInfoPanelTabElements() called for " + passiveName);
+
         if(passiveName == "BonusStrength")
         {            
             StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Bonus Strength");
@@ -312,6 +318,8 @@ public class ItemCardPanelHover : MonoBehaviour
     }
     public void DisableAllViews()
     {
+        Debug.Log("ItemCardPanelHover.DisableAllViews() called");
+
         locationParent.SetActive(false);
         weaponInfoTab.DisableView();
         passiveTabOne.DisableView();
@@ -320,10 +328,14 @@ public class ItemCardPanelHover : MonoBehaviour
     }
     public void EnableAllViews()
     {
+        Debug.Log("ItemCardPanelHover.EnableAllViews() called");
+
         locationParent.SetActive(true);
     }
     public void RefreshAllLayoutGroups()
     {
+        Debug.Log("ItemCardPanelHover.RefreshAllLayoutGroups() called");
+
         // rebuild master vertical content fitter
         LayoutRebuilder.ForceRebuildLayoutImmediate(verticalFitterRect);
 

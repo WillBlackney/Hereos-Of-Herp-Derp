@@ -57,6 +57,8 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     #region
     public void OnItemCardClicked()
     {
+        Debug.Log("ItemCard.OnItemCardClicked() called...");
+
         if (inInventory)
         {
             return;
@@ -78,6 +80,8 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("ItemCard.OnPointerEnter() called...");
+
         if (!inInventory)
         {
             Debug.Log("Mouse Enter detected...");
@@ -89,6 +93,8 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
     public void OnPointerExit(PointerEventData eventData)
     {
+        Debug.Log("ItemCard.OnPointerEnter() called...");
+
         if (!inInventory)
         {
             Debug.Log("Mouse Exit detected...");
