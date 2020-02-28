@@ -2303,5 +2303,22 @@ public static class TextLogic
 
         return stringReturned;
     }
+    public static string GetItemCardEffectDescriptionString(string elementName)
+    {
+        string stringReturned = "";
+
+        if(elementName == "BonusStrength")
+        {
+
+        }
+        else if (elementName == "BonusStrength")
+        {
+
+        }
+
+
+
+        return stringReturned;
+    }
 
 }

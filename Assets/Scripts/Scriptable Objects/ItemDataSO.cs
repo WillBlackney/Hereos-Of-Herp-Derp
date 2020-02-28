@@ -39,10 +39,5 @@ public class ItemDataSO : ScriptableObject
     public WeaponDamageType weaponDamageType;
     public int baseDamage;
 
-    //[Header("Color Properties")]
-    // to do in future: color properties should not be here. they should be in ItemManager or something else
-    //public Color commonColour = Color.white;
-    //public Color rareColour = Color.blue;
-    //public Color epicColour = Color.red;
 
 }

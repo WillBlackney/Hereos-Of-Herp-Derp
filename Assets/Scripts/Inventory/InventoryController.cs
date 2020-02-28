@@ -35,6 +35,26 @@ public class InventoryController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+    }
+    private void Start()
+    {
+        // remove later (for testing)
+        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
+        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
+        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
+        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
+        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
+
+        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
+        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
+        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
+        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
+        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
+        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
+        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
+        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
+        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
     }
     #endregion
 

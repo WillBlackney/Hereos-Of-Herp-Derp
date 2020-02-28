@@ -95,7 +95,7 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             StartCoroutine(Shrink(1));
         }
 
-        ItemCardPanelHover.Instance.OnItemCardMousedExit(myItemDataSO);
+        ItemCardPanelHover.Instance.OnItemCardMouseExit(myItemDataSO);
     }
     #endregion
 
