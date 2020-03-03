@@ -65,8 +65,6 @@ public class LevelManager : MonoBehaviour
 
         // Move camera to focus on the centre tile
         FindObjectOfType<CameraMovement>().cinemachineCamera.transform.position = new Vector3(GetWorldCentreTile().WorldPosition.x, GetWorldCentreTile().WorldPosition.y + 0.5f, -10);
-        // Set camera zoom positions
-        FindObjectOfType<CameraMovement>().cinemachineCamera.m_Lens.OrthographicSize = 4;
 
     }
     public void CreateLevelBackground()

@@ -48,6 +48,9 @@ public class EventManager : MonoBehaviour
         // Create a new level
         LevelManager.Instance.CreateLevel();
 
+        // Reset Camera
+        CameraManager.Instance.ResetCameraOnCombatStart();
+
         // Set up activation window holders
         ActivationManager.Instance.CreateSlotAndWindowHolders();
 
@@ -99,6 +102,9 @@ public class EventManager : MonoBehaviour
 
         // Create a new level
         LevelManager.Instance.CreateLevel();
+
+        // Reset Camera
+        CameraManager.Instance.ResetCameraOnCombatStart();
 
         // Set up activation window holders
         ActivationManager.Instance.CreateSlotAndWindowHolders();
@@ -153,6 +159,9 @@ public class EventManager : MonoBehaviour
 
         // Create a new level
         LevelManager.Instance.CreateLevel();
+
+        // Reset Camera
+        CameraManager.Instance.ResetCameraOnCombatStart();
 
         // Set up activation window holders
         ActivationManager.Instance.CreateSlotAndWindowHolders();

@@ -29,7 +29,7 @@ public class CameraMovement : MonoBehaviour
         offset = new Vector3(0, 0, -10);
         cinemachineCamera.transform.position = new Vector3(0, 0, -10);
         mainCamera = Camera.main;
-        SetPreferedOrthographicSize(4);
+        SetPreferedOrthographicSize(5);
     }
     void Update()
     {
@@ -38,7 +38,6 @@ public class CameraMovement : MonoBehaviour
     void LateUpdate()
     {
         LookAtTarget();
-        //MoveTowardsZoomPosition();
         MoveTowardsLeftRightUpDown();
 
     }

@@ -56,6 +56,7 @@ public class AttributeTab : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         infoPanelParent.SetActive(true);
         infoPanelParent.SetActive(false);
         infoPanelParent.SetActive(true);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(infoPanelParent.GetComponent<RectTransform>());
     }
     public void DisableInfoPanelView()
     {

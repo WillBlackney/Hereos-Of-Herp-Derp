@@ -6,8 +6,8 @@ using Cinemachine;
 public class CameraManager : MonoBehaviour
 {
     [Header("Component References")]
-    public Camera unityCamera;
     public CinemachineVirtualCamera cinemachineCamera;
+    public CameraMovement unityCamera;
 
     [Header("Properties")]
     public GameObject currentLookAtTarget;
@@ -25,5 +25,13 @@ public class CameraManager : MonoBehaviour
     public void ClearCameraLookAtTarget()
     {
         currentLookAtTarget = null;
+    }
+    public void ResetCameraOnCombatStart()
+    {
+        // Zoom out
+        unityCamera.SetPreferedOrthographicSize(5); 
+
+        // Focus on world centre tile
+        unityCamera.cinemachineCamera.transform.position = new Vector3(LevelManager.Instance.GetWorldCentreTile().WorldPosition.x, LevelManager.Instance.GetWorldCentreTile().WorldPosition.y + 0.5f, -10);
     }
 }

@@ -702,6 +702,29 @@ public class CharacterData : MonoBehaviour
             KnowsMove = true;
             KnowsStrike = true;
         }
+        else if (characterClass == "Alchemist")
+        {
+            myClass = "Warlock";
+
+            // Modify Attributes
+            ModifyCorruptionPoints(3);
+
+            // Assign preset weapons
+            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Staff"), mainHandSlot);
+
+            // Learn abilities + passive
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Blight"), false);            
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Chemical Reaction"), false);
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Drain"), false);
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Venomous"), false);
+
+            // Set up character view model
+            CharacterModelController.SetUpAsAlchemistPreset(myCharacterModel);
+
+            // Set up base abilities
+            KnowsMove = true;
+            KnowsStrike = true;
+        }
 
         // Set up health
         ModifyMaxHealth(100);
