@@ -18,9 +18,9 @@ public static class CharacterModelController
         {
             SetUpAsKnightPreset(model);
         }
-        else if (preset == "Mage")
+        else if (preset == "Arcanist")
         {
-            SetUpAsMagePreset(model);
+            SetUpAsArcanistPreset(model);
         }
         else if (preset == "Barbarian")
         {
@@ -46,6 +46,10 @@ public static class CharacterModelController
         {
             SetUpAsWarlockPreset(model);
         }
+        else if (preset == "Alchemist")
+        {
+            SetUpAsAlchemistPreset(model);
+        }
         else if (preset == "Marksman")
         {
             SetUpAsMarksmanPreset(model);
@@ -54,9 +58,9 @@ public static class CharacterModelController
         {
             SetUpAsWayfarerPreset(model);
         }
-        else if (preset == "Spell Blade")
+        else if (preset == "Battle Mage")
         {
-            SetUpAsSpellBladePreset(model);
+            SetUpAsBattleMagePreset(model);
         }
         else if (preset == "King")
         {
@@ -187,7 +191,7 @@ public static class CharacterModelController
         model.simpleShieldOH.SetActive(true);
         model.simpleSwordMH.SetActive(true);
     }
-    public static void SetUpAsMagePreset(UniversalCharacterModel model)
+    public static void SetUpAsArcanistPreset(UniversalCharacterModel model)
     {
         CompletelyDisableAllViews(model);
 
@@ -294,6 +298,21 @@ public static class CharacterModelController
 
         model.simpleStaffMH.SetActive(true);
     }
+    public static void SetUpAsAlchemistPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.alchemistLeftLeg.SetActive(true);
+        model.alchemistRightLeg.SetActive(true);
+        model.alchemistHead.SetActive(true);
+        model.alchemistRightHand.SetActive(true);
+        model.alchemistRightArm.SetActive(true);
+        model.alchemistLeftHand.SetActive(true);
+        model.alchemistLeftArm.SetActive(true);
+        model.alchemistChest.SetActive(true);
+
+        model.simpleStaffMH.SetActive(true);
+    }
     public static void SetUpAsMarksmanPreset(UniversalCharacterModel model)
     {
         CompletelyDisableAllViews(model);
@@ -324,7 +343,7 @@ public static class CharacterModelController
 
         model.simpleBowMH.SetActive(true);
     }
-    public static void SetUpAsSpellBladePreset(UniversalCharacterModel model)
+    public static void SetUpAsBattleMagePreset(UniversalCharacterModel model)
     {
         CompletelyDisableAllViews(model);
 
@@ -337,8 +356,7 @@ public static class CharacterModelController
         model.spellBladeLeftArm.SetActive(true);
         model.spellBladeChest.SetActive(true);
 
-        model.simpleShieldOH.SetActive(true);
-        model.simpleSwordMH.SetActive(true);
+        model.simpleBattleAxe.SetActive(true);
     }
     public static void SetUpAsRandomPreset(UniversalCharacterModel model)
     {

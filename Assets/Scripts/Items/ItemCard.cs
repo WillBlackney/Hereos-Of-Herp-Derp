@@ -20,7 +20,8 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public TextMeshProUGUI myBaseDamageText;
 
     [Header("Game Object References")]
-    public GameObject weaponDamageTypeParent;    
+    public GameObject weaponDamageTypeParent;
+    public GameObject mouseOverInfoPanelPos;
 
     [Header("Properties")]
     public ItemDataSO myItemDataSO;
@@ -42,14 +43,7 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void RunSetupFromItemData(ItemDataSO data)
     {
         ItemManager.Instance.SetUpItemCardFromData(this, data);
-    }
-    public void BuildInfoPanelsFromData(ItemDataSO data)
-    {
-        if(data.itemEffectOne != ItemDataSO.ItemEffect.None)
-        {
-
-        }
-    }
+    }    
     
     #endregion
 
@@ -87,8 +81,11 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             Debug.Log("Mouse Enter detected...");
             StartCoroutine(Expand(1));            
         }
-
-        ItemCardPanelHover.Instance.OnItemCardMousedOver(myItemDataSO);
+        else
+        {
+            ItemCardPanelHover.Instance.OnItemCardMousedOver(this);
+        }
+        
 
     }
     public void OnPointerExit(PointerEventData eventData)
@@ -120,7 +117,9 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             Vector3 targetScale = new Vector3(transform.localScale.x + (0.1f * speed), transform.localScale.y + (0.1f * speed));
             transform.localScale = targetScale;
             yield return new WaitForEndOfFrame();
-        }        
+        }
+
+        ItemCardPanelHover.Instance.OnItemCardMousedOver(this);
     }
     public IEnumerator Shrink(int speed)
     {

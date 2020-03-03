@@ -925,7 +925,7 @@ public static class EntityLogic
                (entity.myPassiveManager.camoflage || entity.myPassiveManager.stealth)
                )
                {
-                    criticalReturned += 20;
+                    criticalReturned += 50;
                     Debug.Log("Value after 'Predator' passive bonus: " + criticalReturned.ToString());
                 }
             }           

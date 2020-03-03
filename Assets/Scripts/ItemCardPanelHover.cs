@@ -37,54 +37,77 @@ public class ItemCardPanelHover : MonoBehaviour
 
     private void Update()
     {
-        FollowMouse();
+        //FollowMouse();
     }
     public void FollowMouse()
     {
         locationParent.transform.position = Input.mousePosition;
     }
-    public void OnItemCardMousedOver(ItemDataSO item)
+    public void MoveToItemCardPosition(ItemCard itemCard)
     {
-        Debug.Log("ItemCardPanelHover.OnItemCardMousedOver() called on " + item.Name);
-        EnableAllViews();
-
-        // Weapon Info Tab
-        if(item.itemType == ItemDataSO.ItemType.MeleeOneHand ||
-            item.itemType == ItemDataSO.ItemType.MeleeTwoHand ||
-            item.itemType == ItemDataSO.ItemType.RangedTwoHand)
-        {
-            weaponInfoTab.EnableView();
-            BuildWeaponTabElements(item);
-        }
-
-        // Passive effect one tab
-        if(item.itemEffectOne != ItemDataSO.ItemEffect.None)
-        {
-            passiveTabOne.EnableView();
-            BuildInfoPanelTabElements(passiveTabOne, item.itemEffectOne.ToString(), item.itemEffectOneValue);
-        }
-
-        // Passive effect two tab
-        if (item.itemEffectTwo != ItemDataSO.ItemEffect.None)
-        {
-            passiveTabTwo.EnableView();
-            BuildInfoPanelTabElements(passiveTabTwo, item.itemEffectTwo.ToString(), item.itemEffectTwoValue);
-        }
-
-        // Passive effect three tab
-        if (item.itemEffectThree != ItemDataSO.ItemEffect.None)
-        {
-            passiveTabThree.EnableView();
-            BuildInfoPanelTabElements(passiveTabThree, item.itemEffectThree.ToString(), item.itemEffectThreeValue);
-        }
-
-        RefreshAllLayoutGroups();
+        locationParent.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, itemCard.mouseOverInfoPanelPos.transform.position);
     }
+   
     public void OnItemCardMouseExit(ItemDataSO item)
     {
         Debug.Log("ItemCardPanelHover.OnItemCardMouseExit() called");
         DisableAllViews();
     }
+    public void OnItemCardMousedOver(ItemCard itemCard)
+    {
+        Debug.Log("ItemCardPanelHover.OnItemCardMousedOver() called on " + itemCard.myItemDataSO.Name);
+        EnableAllViews();
+
+        // Weapon Info Tab
+        if(itemCard.myItemDataSO.itemType == ItemDataSO.ItemType.MeleeOneHand ||
+            itemCard.myItemDataSO.itemType == ItemDataSO.ItemType.MeleeTwoHand ||
+            itemCard.myItemDataSO.itemType == ItemDataSO.ItemType.RangedTwoHand)
+        {
+            weaponInfoTab.EnableView();
+            BuildWeaponTabElements(itemCard.myItemDataSO);
+        }
+        else
+        {
+            weaponInfoTab.DisableView();
+        }
+
+        // Passive effect one tab
+        if(itemCard.myItemDataSO.itemEffectOne != ItemDataSO.ItemEffect.None)
+        {
+            passiveTabOne.EnableView();
+            BuildInfoPanelTabElements(passiveTabOne, itemCard.myItemDataSO.itemEffectOne.ToString(), itemCard.myItemDataSO.itemEffectOneValue);
+        }
+        else
+        {
+            passiveTabOne.DisableView();
+        }
+
+        // Passive effect two tab
+        if (itemCard.myItemDataSO.itemEffectTwo != ItemDataSO.ItemEffect.None)
+        {
+            passiveTabTwo.EnableView();
+            BuildInfoPanelTabElements(passiveTabTwo, itemCard.myItemDataSO.itemEffectTwo.ToString(), itemCard.myItemDataSO.itemEffectTwoValue);
+        }
+        else
+        {
+            passiveTabTwo.DisableView();
+        }
+
+        // Passive effect three tab
+        if (itemCard.myItemDataSO.itemEffectThree != ItemDataSO.ItemEffect.None)
+        {
+            passiveTabThree.EnableView();
+            BuildInfoPanelTabElements(passiveTabThree, itemCard.myItemDataSO.itemEffectThree.ToString(), itemCard.myItemDataSO.itemEffectThreeValue);
+        }
+        else
+        {
+            passiveTabThree.DisableView();
+        }
+
+        MoveToItemCardPosition(itemCard);
+        RefreshAllLayoutGroups();
+    }
+    
     public void BuildWeaponTabElements(ItemDataSO item)
     {
         Debug.Log("ItemCardPanelHover.BuildWeaponTabElements() called...");
@@ -174,24 +197,39 @@ public class ItemCardPanelHover : MonoBehaviour
         }
         else if (passiveName == "BonusCritical")
         {
-            // TO DO: make a status icon data SO object for critical
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Bonus Critical");
+            tab.nameText.text = iconData.statusName;
+            tab.image.sprite = iconData.statusSprite;
+            TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
         }
 
         else if (passiveName == "BonusDodge")
         {
-            // TO DO: make a status icon data SO object for critical
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Bonus Dodge");
+            tab.nameText.text = iconData.statusName;
+            tab.image.sprite = iconData.statusSprite;
+            TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
         }
         else if (passiveName == "BonusParry")
         {
-            // TO DO: make a status icon data SO object for critical
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Bonus Parry");
+            tab.nameText.text = iconData.statusName;
+            tab.image.sprite = iconData.statusSprite;
+            TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
         }
         else if (passiveName == "BonusMaxEnergy")
         {
-            // TO DO: make a status icon data SO object for critical
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Bonus Max Energy");
+            tab.nameText.text = iconData.statusName;
+            tab.image.sprite = iconData.statusSprite;
+            TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
         }
         else if (passiveName == "BonusMeleeRange")
         {
-            // TO DO: make a status icon data SO object for critical
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Bonus Melee Range");
+            tab.nameText.text = iconData.statusName;
+            tab.image.sprite = iconData.statusSprite;
+            TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
         }
         else if (passiveName == "BonusAuraSize")
         {
@@ -250,11 +288,17 @@ public class ItemCardPanelHover : MonoBehaviour
         }
         else if (passiveName == "BonusPowerLimit")
         {
-            //
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Bonus Power Limit");
+            tab.nameText.text = iconData.statusName;
+            tab.image.sprite = iconData.statusSprite;
+            TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
         }
         else if (passiveName == "BonusAllResistances")
         {
-            //
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Bonus All Resistances");
+            tab.nameText.text = iconData.statusName;
+            tab.image.sprite = iconData.statusSprite;
+            TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
         }
         else if (passiveName == "Stealth")
         {

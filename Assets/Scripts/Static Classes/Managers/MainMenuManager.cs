@@ -300,21 +300,21 @@ public class MainMenuManager : MonoBehaviour
 
         else if (character.myPresetName == "Barbarian")
         {
-            character.tabOne.SetUpAbilityTabAsAbility("Whirlwind");
+            character.tabOne.SetUpAbilityTabAsAbility("Devastating Blow");
             character.tabTwo.SetUpAbilityTabAsAbility("Blood Offering");
             character.tabThree.SetUpAbilityTabAsAbility("Charge");
             character.tabFour.SetUpAbilityTabAsPassive("Tenacious", 2);
         }
 
-        else if (character.myPresetName == "Spell Blade")
+        else if (character.myPresetName == "Battle Mage")
         {
-            character.tabOne.SetUpAbilityTabAsAbility("Phoenix Dive");
+            character.tabThree.SetUpAbilityTabAsAbility("Devastating Blow");            
             character.tabTwo.SetUpAbilityTabAsAbility("Whirlwind");
-            character.tabThree.SetUpAbilityTabAsAbility("Fire Nova");
+            character.tabOne.SetUpAbilityTabAsAbility("Phoenix Dive");
             character.tabFour.SetUpAbilityTabAsPassive("Fiery Aura", 3);
         }
 
-        else if (character.myPresetName == "Mage")
+        else if (character.myPresetName == "Arcanist")
         {
             character.tabOne.SetUpAbilityTabAsAbility("Fire Ball");
             character.tabTwo.SetUpAbilityTabAsAbility("Telekinesis");
@@ -327,7 +327,7 @@ public class MainMenuManager : MonoBehaviour
             character.tabOne.SetUpAbilityTabAsAbility("Shadow Step");
             character.tabTwo.SetUpAbilityTabAsAbility("Vanish");
             character.tabThree.SetUpAbilityTabAsAbility("Cheap Shot");
-            character.tabFour.SetUpAbilityTabAsPassive("Opportunist", 20);
+            character.tabFour.SetUpAbilityTabAsPassive("Opportunist", 50);
         }
         else if (character.myPresetName == "Rogue")
         {
@@ -362,15 +362,22 @@ public class MainMenuManager : MonoBehaviour
         else if (character.myPresetName == "Marksman")
         {
             character.tabOne.SetUpAbilityTabAsAbility("Vanish");
-            character.tabTwo.SetUpAbilityTabAsAbility("Snipe");
+            character.tabTwo.SetUpAbilityTabAsAbility("Impaling Bolt");
             character.tabThree.SetUpAbilityTabAsAbility("Head Shot");
             character.tabFour.SetUpAbilityTabAsPassive("Predator", 1);
         }
         else if (character.myPresetName == "Warlock")
         {
-            character.tabOne.SetUpAbilityTabAsAbility("Blight");
-            character.tabTwo.SetUpAbilityTabAsAbility("Noxious Fumes");
+            character.tabOne.SetUpAbilityTabAsAbility("Shadow Blast");
+            character.tabTwo.SetUpAbilityTabAsAbility("Nightmare");
             character.tabThree.SetUpAbilityTabAsAbility("Hex");
+            character.tabFour.SetUpAbilityTabAsPassive("Flux", 1);
+        }
+        else if (character.myPresetName == "Alchemist")
+        {
+            character.tabOne.SetUpAbilityTabAsAbility("Blight");
+            character.tabTwo.SetUpAbilityTabAsAbility("Chemical Reaction");
+            character.tabThree.SetUpAbilityTabAsAbility("Drain");
             character.tabFour.SetUpAbilityTabAsPassive("Venomous", 1);
         }
         else if (character.myPresetName == "Random")
@@ -419,7 +426,7 @@ public class MainMenuManager : MonoBehaviour
             character.attributeTwoText.gameObject.SetActive(true);
         }
 
-        else if (character.myPresetName == "Spell Blade")
+        else if (character.myPresetName == "Battle Mage")
         {
             character.attributeOneText.text = "Pyromania +2";
             character.attributeTwoText.text = "Brawler +1";
@@ -428,7 +435,7 @@ public class MainMenuManager : MonoBehaviour
             character.attributeTwoText.gameObject.SetActive(true);
         }
 
-        else if (character.myPresetName == "Mage")
+        else if (character.myPresetName == "Arcanist")
         {
             character.attributeOneText.text = "Pyromania +1";
             character.attributeTwoText.text = "Manipulation +1";
@@ -493,11 +500,18 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (character.myPresetName == "Warlock")
         {
-            character.attributeOneText.text = "Corruption +2";
-            character.attributeTwoText.text = "Shadowcraft +1";
+            character.attributeOneText.text = "Shadowcraft +2";
+            character.attributeTwoText.text = "Manipulation +1";
 
             character.attributeOneText.gameObject.SetActive(true);
             character.attributeTwoText.gameObject.SetActive(true);
+        }
+
+        else if (character.myPresetName == "Alchemist")
+        {
+            character.attributeOneText.text = "Corruption +3";
+
+            character.attributeOneText.gameObject.SetActive(true);
         }
     }
     public void BuildDescriptionText(MenuCharacter character)
@@ -525,16 +539,16 @@ public class MainMenuManager : MonoBehaviour
             character.presetDescriptionText.text = "The Barbarian lives for the thrill of battle. Capable of dealing huge damage to large groups of enemies in melee, they become stronger the longer the battle rages on.";
         }
 
-        else if (character.myPresetName == "Spell Blade")
+        else if (character.myPresetName == "Battle Mage")
         {
             character.presetDescriptionText.gameObject.SetActive(true);
-            character.presetDescriptionText.text = "The Spell Blade balances ranged magical attacks with brutal melee attacks. Able to adapt to a variety of tactical situations, Spell Blade's are always dangerous.";
+            character.presetDescriptionText.text = "The Battle Mage balances ranged magical attacks with brutal melee attacks. Able to adapt to a variety of tactical situations, Battle Mage's are always dangerous.";
         }
 
-        else if (character.myPresetName == "Mage")
+        else if (character.myPresetName == "Arcanist")
         {
             character.presetDescriptionText.gameObject.SetActive(true);
-            character.presetDescriptionText.text = "The Mage destroys its enemies from afar with the power of fire and frost. Mage's excel at keeping their distance from the fray with a variety of tricks.";
+            character.presetDescriptionText.text = "The Arcanist destroys its enemies from afar with the power of fire and frost. Arcanist's excel at keeping their distance from the fray with a variety of tricks.";
         }
 
         else if (character.myPresetName == "Shadow Blade")
@@ -574,6 +588,12 @@ public class MainMenuManager : MonoBehaviour
         {
             character.presetDescriptionText.gameObject.SetActive(true);
             character.presetDescriptionText.text = "The Warlock revels in death, capable of crippling enemies from afar with a variety of debuffs, poisons and spell attacks.";
+        }
+
+        else if (character.myPresetName == "Alchemist")
+        {
+            character.presetDescriptionText.gameObject.SetActive(true);
+            character.presetDescriptionText.text = "The Alchemist uses a variety of poisons and potions to bring slow, agaonizing death to it's foes";
         }
     }
     #endregion

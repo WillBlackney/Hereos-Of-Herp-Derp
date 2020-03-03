@@ -65,11 +65,14 @@ public class InventoryItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler,
         if(InventoryController.Instance.itemBeingDragged == null)
         {
             infoItemCardVisualParent.SetActive(true);
+            //
+            ItemCardPanelHover.Instance.OnItemCardMousedOver(myInfoItemCard);
         }
         
     }
     public void OnPointerExit(PointerEventData eventData)
     {
+        ItemCardPanelHover.Instance.OnItemCardMouseExit(myItemData);
         infoItemCardVisualParent.SetActive(false);
     }
     public void SetRayCastingState(bool onOrOff)

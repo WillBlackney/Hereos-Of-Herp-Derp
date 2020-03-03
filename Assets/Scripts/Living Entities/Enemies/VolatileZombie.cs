@@ -14,7 +14,7 @@ public class VolatileZombie : Enemy
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Strike");
 
-        myPassiveManager.ModifyVolatile(10);
+        myPassiveManager.ModifyVolatile(5);
 
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Sword");
     }

@@ -186,6 +186,7 @@ RectTransform:
   - {fileID: 1556810091810157428}
   - {fileID: 1010860190808449962}
   - {fileID: 5730193420584501780}
+  - {fileID: 3535747374321663029}
   m_Father: {fileID: 1905020282142363620}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -258,6 +259,7 @@ MonoBehaviour:
   myItemTypeText: {fileID: 1565025988157310480}
   myBaseDamageText: {fileID: 3725159881821003023}
   weaponDamageTypeParent: {fileID: 2566392221752133769}
+  mouseOverInfoPanelPos: {fileID: 1528595405670407643}
   myItemDataSO: {fileID: 0}
   inInventory: 0
   inShop: 0
@@ -266,6 +268,8 @@ MonoBehaviour:
   originalScale: 0
   expanding: 0
   shrinking: 0
+  panelOneParent: {fileID: 0}
+  panelOneActive: 0
 --- !u!61 &169336168378235243
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -313,6 +317,41 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 301
   m_TargetDisplay: 0
+--- !u!1 &1528595405670407643
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3535747374321663029}
+  m_Layer: 5
+  m_Name: Mouse Over Pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3535747374321663029
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528595405670407643}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4126544959122280317}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -80.499985, y: 91.1}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1905020280980854183
 GameObject:
   m_ObjectHideFlags: 0

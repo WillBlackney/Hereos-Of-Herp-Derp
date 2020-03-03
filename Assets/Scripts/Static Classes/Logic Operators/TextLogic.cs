@@ -93,6 +93,60 @@ public static class TextLogic
                 "Increases your activation order roll by " + ReturnColoredText(statusStacks.ToString(), yellow)
                 + ". Expires on activation end"; 
         }
+
+
+
+
+        else if (statusName == "Bonus Critical")
+        {
+            statusDescriptionText.text =
+                "Increases your chance to deal " + ReturnColoredText("50%", yellow) + " bonus damage with an attack by " +
+                ReturnColoredText(statusStacks.ToString() + "%", yellow);                
+        }
+        else if (statusName == "Bonus Dodge")
+        {
+            statusDescriptionText.text =
+                "Increases your chance to completely avoid a " + ReturnColoredText("Ranged Attack", yellow) + " ability by " +
+                ReturnColoredText(statusStacks.ToString() + "%", yellow);
+        }
+        else if (statusName == "Bonus Parry")
+        {
+            statusDescriptionText.text =
+                "Increases your chance to completely avoid a " + ReturnColoredText("Melee Attack", yellow) + " ability by " +
+                ReturnColoredText(statusStacks.ToString() + "%", yellow);
+        }
+        else if (statusName == "Bonus Max Energy")
+        {
+            statusDescriptionText.text =
+                "Increases the maximum amount of " + ReturnColoredText("Energy", yellow) + 
+                " you can have at any time by " +
+                ReturnColoredText(statusStacks.ToString(), yellow);
+        }
+        else if (statusName == "Bonus Melee Range")
+        {
+            statusDescriptionText.text =
+                "Increases the range of your " + ReturnColoredText("Melee Attack", yellow) +
+                " abilities by " +
+                ReturnColoredText(statusStacks.ToString(), yellow);
+        }
+        else if (statusName == "Bonus Power Limit")
+        {
+            statusDescriptionText.text =
+                "Increases the amount of  " + ReturnColoredText("Power", yellow) +
+                " abilities you can channel at a time by " +
+                ReturnColoredText(statusStacks.ToString(), yellow);
+        }
+        else if (statusName == "Bonus All Resistances")
+        {
+            statusDescriptionText.text =
+                "Reduces incoming damage from all damage types by" +
+                ReturnColoredText(statusStacks.ToString(), yellow);
+        }
+
+
+
+
+
         else if (statusName == "Bonus Stamina")
         {
             statusDescriptionText.text =
@@ -288,6 +342,7 @@ public static class TextLogic
         }
         else if (statusName == "Enrage")
         {
+            statusDescriptionText.text =
             statusDescriptionText.text =
                 "Whenever this character loses HP, it gains " + ReturnColoredText(statusStacks.ToString(), yellow)
                 + " Strength";
@@ -525,7 +580,7 @@ public static class TextLogic
         else if (statusName == "Predator")
         {
             statusDescriptionText.text =
-                "This character has " + ReturnColoredText("20", yellow) + " bonus Critical Chance while " + ReturnColoredText("Camoflaged", yellow);
+                "This character has " + ReturnColoredText("50", yellow) + " bonus Critical Chance while " + ReturnColoredText("Camoflaged", yellow);
         }
         else if (statusName == "Preparation")
         {
@@ -964,7 +1019,7 @@ public static class TextLogic
         else if (ability.abilityName == "Chemical Reaction")
         {
             ability.descriptionText.text =
-                "Double a targets current " + ReturnColoredText("Poisoned", yellow) +
+                "Double a targets current " + ReturnColoredText("Poisoned", poison) +
                 " amount";
         }
         else if (ability.abilityName == "Chilling Blow")
@@ -1043,9 +1098,9 @@ public static class TextLogic
         else if (ability.abilityName == "Drain")
         {
             ability.descriptionText.text =
-                "Remove all " + ReturnColoredText("Poisoned", yellow) +
+                "Remove all " + ReturnColoredText("Poisoned", poison) +
                 " from a target. Deal " + ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
-                " damage equal to amount removed";
+                " damage equal to the amount removed";
         }
         else if (ability.abilityName == "Evasion")
         {
@@ -1462,6 +1517,15 @@ public static class TextLogic
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage to a target";
         }
+        else if (ability.abilityName == "Shadow Blast")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target an apply " +
+                ReturnColoredText(ability.secondaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Knock Back", yellow);
+        }
         else if (ability.abilityName == "Lightning Bolt")
         {
             descriptionText.text =
@@ -1715,7 +1779,7 @@ public static class TextLogic
         else if (ability.abilityName == "Chemical Reaction")
         {
             descriptionText.text =
-                "Double a targets current " + ReturnColoredText("Poisoned", yellow) +
+                "Double a targets current " + ReturnColoredText("Poisoned", poison) +
                 " amount";
         }
         else if (ability.abilityName == "Chilling Blow")
@@ -1794,7 +1858,7 @@ public static class TextLogic
         else if (ability.abilityName == "Drain")
         {
             descriptionText.text =
-                "Remove all " + ReturnColoredText("Poisoned", yellow) +
+                "Remove all " + ReturnColoredText("Poisoned", poison) +
                 " from a target. Deal " + ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage equal to amount removed";
         }

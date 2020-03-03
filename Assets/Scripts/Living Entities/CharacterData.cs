@@ -469,7 +469,7 @@ public class CharacterData : MonoBehaviour
             InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Battle Axe"), mainHandSlot);
 
             // Learn abilities + passive
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Whirlwind"), false);
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Devastating Blow"), false);
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Blood Offering"), false);
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Charge"), false);
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Tenacious"), false);            
@@ -481,35 +481,34 @@ public class CharacterData : MonoBehaviour
             KnowsMove = true;
             KnowsStrike = true;
         }
-        else if (characterClass == "Spell Blade")
+        else if (characterClass == "Battle Mage")
         {
-            myClass = "Spell Blade";
+            myClass = "Battle Mage";
 
             // Modify Attributes
             ModifyBrawlerPoints(1);
             ModifyPyromaniaPoints(2);
 
             // Assign preset weapons
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Sword"), mainHandSlot);
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Shield"), offHandSlot);
+            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Battle Axe"), mainHandSlot);
 
             // Learn abilities + passive
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Devastating Blow"), false);
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Whirlwind"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Phoenix Dive"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Fire Nova"), false);
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Phoenix Dive"), false);            
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Fiery Aura"), false);           
 
             // Set up character view model
-            CharacterModelController.SetUpAsSpellBladePreset(myCharacterModel);
+            CharacterModelController.SetUpAsBattleMagePreset(myCharacterModel);
 
             // Set up base abilities
             KnowsMove = true;
             KnowsStrike = true;
             KnowsDefend = true;
         }
-        else if (characterClass == "Mage")
+        else if (characterClass == "Arcanist")
         {
-            myClass = "Mage";
+            myClass = "Arcanist";
 
             // Modify Attributes
             ModifyManipulationPoints(1);
@@ -526,7 +525,7 @@ public class CharacterData : MonoBehaviour
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Flux"), false);           
 
             // Set up character view model
-            CharacterModelController.SetUpAsMagePreset(myCharacterModel);
+            CharacterModelController.SetUpAsArcanistPreset(myCharacterModel);
 
             // Set up base abilities
             KnowsMove = true;

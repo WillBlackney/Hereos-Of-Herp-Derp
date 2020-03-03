@@ -25,6 +25,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanLeftLeg;
     public GameObject wayfarerLeftLeg;
     public GameObject spellBladeLeftLeg;
+    public GameObject alchemistLeftLeg;
     public GameObject volatileZombieLeftLeg;
     public GameObject skeletonArcherLeftLeg;
     public GameObject skeletonAssassinLeftLeg;
@@ -58,6 +59,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanRightLeg;
     public GameObject wayfarerRightLeg;
     public GameObject spellBladeRightLeg;
+    public GameObject alchemistRightLeg;
     public GameObject volatileZombieRightLeg;
     public GameObject skeletonArcherRightLeg;
     public GameObject skeletonAssassinRightLeg;
@@ -90,6 +92,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanHead;
     public GameObject wayfarerHead;
     public GameObject spellBladeHead;
+    public GameObject alchemistHead;
     public GameObject volatileZombieHead;
     public GameObject skeletonArcherHead;
     public GameObject skeletonAssassinHead;
@@ -122,6 +125,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanRightHand;
     public GameObject wayfarerRightHand;
     public GameObject spellBladeRightHand;
+    public GameObject alchemistRightHand;
     public GameObject volatileZombieRightHand;
     public GameObject skeletonArcherRightHand;
     public GameObject skeletonAssassinRightHand;
@@ -154,6 +158,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanRightArm;
     public GameObject wayfarerRightArm;
     public GameObject spellBladeRightArm;
+    public GameObject alchemistRightArm;
     public GameObject volatileZombieRightArm;
     public GameObject skeletonArcherRightArm;
     public GameObject skeletonAssassinRightArm;
@@ -186,6 +191,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanLeftHand;
     public GameObject wayfarerLeftHand;
     public GameObject spellBladeLeftHand;
+    public GameObject alchemistLeftHand;
     public GameObject volatileZombieLeftHand;
     public GameObject skeletonArcherLeftHand;
     public GameObject skeletonAssassinLeftHand;
@@ -218,6 +224,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanLeftArm;
     public GameObject wayfarerLeftArm;
     public GameObject spellBladeLeftArm;
+    public GameObject alchemistLeftArm;
     public GameObject volatileZombieLeftArm;
     public GameObject skeletonArcherLeftArm;
     public GameObject skeletonAssassinLeftArm;
@@ -250,6 +257,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject marksmanChest;
     public GameObject wayfarerChest;
     public GameObject spellBladeChest;
+    public GameObject alchemistChest;
     public GameObject volatileZombieChest;
     public GameObject skeletonArcherChest;
     public GameObject skeletonAssassinChest;
