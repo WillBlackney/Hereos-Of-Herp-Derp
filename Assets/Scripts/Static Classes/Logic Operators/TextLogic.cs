@@ -93,10 +93,6 @@ public static class TextLogic
                 "Increases your activation order roll by " + ReturnColoredText(statusStacks.ToString(), yellow)
                 + ". Expires on activation end"; 
         }
-
-
-
-
         else if (statusName == "Bonus Critical")
         {
             statusDescriptionText.text =
@@ -142,9 +138,6 @@ public static class TextLogic
                 "Reduces incoming damage from all damage types by" +
                 ReturnColoredText(statusStacks.ToString(), yellow);
         }
-
-
-
 
 
         else if (statusName == "Bonus Stamina")

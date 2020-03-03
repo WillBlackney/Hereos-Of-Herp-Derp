@@ -16,8 +16,8 @@ public class SkeletonMage : Enemy
         mySpellBook.EnemyLearnAbility("Fire Ball");        
         mySpellBook.EnemyLearnAbility("Frost Bolt");
 
-        myPassiveManager.ModifyUndead();
-        myPassiveManager.ModifyPhasing(1);
+       // myPassiveManager.ModifyUndead();
+        myPassiveManager.ModifyFlux(1);
 
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Staff");
     }

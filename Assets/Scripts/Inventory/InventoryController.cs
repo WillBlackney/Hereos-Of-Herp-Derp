@@ -37,25 +37,7 @@ public class InventoryController : MonoBehaviour
         Instance = this;
 
     }
-    private void Start()
-    {
-        // remove later (for testing)
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-
-        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
-        AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
-    }
+    
     #endregion
 
     // Conditional Checks

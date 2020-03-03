@@ -72,6 +72,10 @@ public class MainMenuManager : MonoBehaviour
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 4, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
     }
+    public void OnQuitGameButtonClicked()
+    {
+        Application.Quit();
+    }
     public void OnBackToMainMenuButtonCicked()
     {
         if(returnToMainMenuEventTriggered == false)
@@ -354,8 +358,8 @@ public class MainMenuManager : MonoBehaviour
 
         else if (character.myPresetName == "Wayfarer")
         {
-            character.tabOne.SetUpAbilityTabAsAbility("Haste");
-            character.tabTwo.SetUpAbilityTabAsAbility("Steady Hands");
+            character.tabOne.SetUpAbilityTabAsAbility("Head Shot");
+            character.tabTwo.SetUpAbilityTabAsAbility("Haste");
             character.tabThree.SetUpAbilityTabAsAbility("Telekinesis");
             character.tabFour.SetUpAbilityTabAsPassive("Flux", 1);
         }

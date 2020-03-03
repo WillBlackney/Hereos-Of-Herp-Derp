@@ -1196,6 +1196,7 @@ public class PassiveManager : MonoBehaviour
                 camoflage = true;
                 VisualEffectManager.Instance.
                 CreateStatusEffect(myLivingEntity.transform.position, "Camoflage");
+                StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
             }          
         }
 

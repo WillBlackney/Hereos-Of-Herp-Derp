@@ -12,6 +12,12 @@ public class AttributeTab : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public TextMeshProUGUI attributeNameText;
     public TextMeshProUGUI attributeStacksText;
 
+    [Header("Rect Transform Component References")]
+    public RectTransform panelBgRect;
+    public RectTransform frameRect;
+    public RectTransform statusNameRect;
+    public RectTransform descriptionRect;
+
     [Header("Info Panel Component References")]
     public GameObject infoPanelParent;
     public Image attributeInfoPanelImage;
@@ -54,9 +60,7 @@ public class AttributeTab : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void EnableInfoPanelView()
     {
         infoPanelParent.SetActive(true);
-        infoPanelParent.SetActive(false);
-        infoPanelParent.SetActive(true);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(infoPanelParent.GetComponent<RectTransform>());
+        RebuildAllLayourGroups();
     }
     public void DisableInfoPanelView()
     {
@@ -71,5 +75,13 @@ public class AttributeTab : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void OnPointerExit(PointerEventData eventData)
     {
         DisableInfoPanelView();
+    }
+
+    public void RebuildAllLayourGroups()
+    {
+        LayoutRebuilder.ForceRebuildLayoutImmediate(panelBgRect);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(frameRect);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(statusNameRect);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(descriptionRect);
     }
 }

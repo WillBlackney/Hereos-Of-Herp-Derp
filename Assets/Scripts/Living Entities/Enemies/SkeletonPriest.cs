@@ -15,7 +15,8 @@ public class SkeletonPriest : Enemy
         mySpellBook.EnemyLearnAbility("Strike");       
         mySpellBook.EnemyLearnAbility("Shadow Blast");
         mySpellBook.EnemyLearnAbility("Healing Light");
-        myPassiveManager.ModifyUndead();
+
+        //myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyEncouragingAura(10);
 
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Staff");

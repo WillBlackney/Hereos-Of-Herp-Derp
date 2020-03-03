@@ -16,7 +16,7 @@ public class SkeletonWarrior : Enemy
         mySpellBook.EnemyLearnAbility("Inspire");
         mySpellBook.EnemyLearnAbility("Sword And Board");
 
-        myPassiveManager.ModifyUndead();
+       // myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyThorns(3);
 
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Sword");

@@ -643,7 +643,7 @@ public class CharacterData : MonoBehaviour
 
             // Learn abilities + passive
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Haste"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Steady Hands"), false);
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Head Shot"), false);
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Telekinesis"), false);
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Flux"), false);           
 

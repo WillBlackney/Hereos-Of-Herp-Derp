@@ -17,7 +17,7 @@ public class SkeletonNecromancer : Enemy
         mySpellBook.EnemyLearnAbility("Summon Undead");
         mySpellBook.EnemyLearnAbility("Blight");
 
-        myPassiveManager.ModifyUndead();
+        //myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyToxicAura(2);
 
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Staff");

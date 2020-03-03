@@ -18,7 +18,7 @@ public class SkeletonArcher : Enemy
         mySpellBook.EnemyLearnAbility("Impaling Bolt");
         mySpellBook.EnemyLearnAbility("Snipe");
 
-        myPassiveManager.ModifyUndead();        
+        //myPassiveManager.ModifyUndead();        
         myPassiveManager.ModifyTrueSight(1);
         //myPassiveManager.ModifyFlux(1);
 

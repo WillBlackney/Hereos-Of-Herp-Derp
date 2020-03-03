@@ -129,12 +129,13 @@ public class CameraMovement : MonoBehaviour
         {
             size = 2;
         }
-        else if(size > 4)
+        else if(size > 5)
         {
-            size = 4;
+            size = 5;
         }
 
-        currentOrthoSize = size;        
+        // currentOrthoSize = size;        
+        cinemachineCamera.m_Lens.OrthographicSize = size;
     }
     #endregion
 
