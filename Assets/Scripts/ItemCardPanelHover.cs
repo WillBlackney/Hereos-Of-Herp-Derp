@@ -7,6 +7,7 @@ public class ItemCardPanelHover : MonoBehaviour
 {
     [Header("Component References")]
     public GameObject locationParent;
+    public GameObject arrowParent;
     public RectTransform verticalFitterRect;
 
     [Header("Tab Component References")]
@@ -48,7 +49,7 @@ public class ItemCardPanelHover : MonoBehaviour
         locationParent.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, itemCard.mouseOverInfoPanelPos.transform.position);
     }
    
-    public void OnItemCardMouseExit(ItemDataSO item)
+    public void OnItemCardMouseExit()
     {
         Debug.Log("ItemCardPanelHover.OnItemCardMouseExit() called");
         DisableAllViews();
@@ -64,6 +65,7 @@ public class ItemCardPanelHover : MonoBehaviour
             itemCard.myItemDataSO.itemType == ItemDataSO.ItemType.RangedTwoHand)
         {
             weaponInfoTab.EnableView();
+            arrowParent.SetActive(true);
             BuildWeaponTabElements(itemCard.myItemDataSO);
         }
         else
@@ -75,6 +77,7 @@ public class ItemCardPanelHover : MonoBehaviour
         if(itemCard.myItemDataSO.itemEffectOne != ItemDataSO.ItemEffect.None)
         {
             passiveTabOne.EnableView();
+            arrowParent.SetActive(true);
             BuildInfoPanelTabElements(passiveTabOne, itemCard.myItemDataSO.itemEffectOne.ToString(), itemCard.myItemDataSO.itemEffectOneValue);
         }
         else
@@ -86,6 +89,7 @@ public class ItemCardPanelHover : MonoBehaviour
         if (itemCard.myItemDataSO.itemEffectTwo != ItemDataSO.ItemEffect.None)
         {
             passiveTabTwo.EnableView();
+            arrowParent.SetActive(true);
             BuildInfoPanelTabElements(passiveTabTwo, itemCard.myItemDataSO.itemEffectTwo.ToString(), itemCard.myItemDataSO.itemEffectTwoValue);
         }
         else
@@ -97,6 +101,7 @@ public class ItemCardPanelHover : MonoBehaviour
         if (itemCard.myItemDataSO.itemEffectThree != ItemDataSO.ItemEffect.None)
         {
             passiveTabThree.EnableView();
+            arrowParent.SetActive(true);
             BuildInfoPanelTabElements(passiveTabThree, itemCard.myItemDataSO.itemEffectThree.ToString(), itemCard.myItemDataSO.itemEffectThreeValue);
         }
         else
@@ -365,6 +370,7 @@ public class ItemCardPanelHover : MonoBehaviour
         Debug.Log("ItemCardPanelHover.DisableAllViews() called");
 
         locationParent.SetActive(false);
+        arrowParent.SetActive(false);
         weaponInfoTab.DisableView();
         passiveTabOne.DisableView();
         passiveTabTwo.DisableView();
@@ -375,6 +381,7 @@ public class ItemCardPanelHover : MonoBehaviour
         Debug.Log("ItemCardPanelHover.EnableAllViews() called");
 
         locationParent.SetActive(true);
+        
     }
     public void RefreshAllLayoutGroups()
     {

@@ -72,7 +72,7 @@ public class InventoryItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler,
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        ItemCardPanelHover.Instance.OnItemCardMouseExit(myItemData);
+        ItemCardPanelHover.Instance.OnItemCardMouseExit();
         infoItemCardVisualParent.SetActive(false);
     }
     public void SetRayCastingState(bool onOrOff)

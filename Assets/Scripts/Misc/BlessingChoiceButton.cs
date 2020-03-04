@@ -15,6 +15,6 @@ public class BlessingChoiceButton : MonoBehaviour
     public void BuildButtonFromData(BlessingChoice data)
     {
         myData = data;
-        choiceNameText.text = myData.choiceName;
+        choiceNameText.text = TextLogic.GetKingsBlessingChoiceText(data.choiceName);
     }
 }

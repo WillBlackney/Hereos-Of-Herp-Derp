@@ -62,6 +62,7 @@ public class Defender : LivingEntity
     public bool awaitingBlessOrder;
     public bool awaitingSiphonLifeOrder;
     public bool awaitingChaosBoltOrder;
+    public bool awaitingShadowBlastOrder;
 
     public bool awaitingKickToTheBallsOrder;
     public bool awaitingDevastatingBlowOrder;
@@ -193,7 +194,7 @@ public class Defender : LivingEntity
         }
         if (myCharacterData.enrageStacks > 0)
         {
-            myPassiveManager.ModifyEnrage(myCharacterData.tenaciousStacks);
+            myPassiveManager.ModifyEnrage(myCharacterData.enrageStacks);
         }
         if (myCharacterData.masochistStacks > 0)
         {
@@ -620,6 +621,7 @@ public class Defender : LivingEntity
         awaitingProvokeOrder = false;
         awaitingDecapitateOrder = false;
         awaitingDisarmOrder = false;
+        awaitingShadowBlastOrder = false;
 
         TileHover.Instance.SetVisibility(false);
         LevelManager.Instance.UnhighlightAllTiles();
@@ -970,6 +972,10 @@ public class Defender : LivingEntity
         else if (abilityName == "Fire Ball")
         {
             OnFireBallButtonClicked();
+        }
+        else if (abilityName == "Shadow Blast")
+        {
+            OnShadowBlastButtonClicked();
         }
         else if (abilityName == "Thaw")
         {
@@ -1374,7 +1380,7 @@ public class Defender : LivingEntity
             Debug.Log("Charge button clicked, awaiting charge target");
             awaitingChargeTargetOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(charge.abilityPrimaryValue + EntityLogic.GetTotalMobility(this), LevelManager.Instance.Tiles[gridPosition], true, false));
-            PathRenderer.Instance.ActivatePathRenderer();
+            //PathRenderer.Instance.ActivatePathRenderer();
         }      
 
     }
@@ -1625,10 +1631,21 @@ public class Defender : LivingEntity
 
         if (EntityLogic.IsAbilityUseable(this, fireball))
         {
-            Debug.Log("Fire Ball button clicked, awaiting Frost Bolt target");
+            Debug.Log("Fire Ball button clicked, awaiting Shadow Blast target");
             awaitingFireBallOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalRangeOfRangedAttack(this, fireball), LevelManager.Instance.Tiles[gridPosition], true, false));
         }       
+    }
+    public void OnShadowBlastButtonClicked()
+    {
+        Ability fireball = mySpellBook.GetAbilityByName("Shadow Blast");
+
+        if (EntityLogic.IsAbilityUseable(this, fireball))
+        {
+            Debug.Log("Shadow Blast button clicked, awaiting Shadow Blast target");
+            awaitingShadowBlastOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalRangeOfRangedAttack(this, fireball), LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
     }
     public void OnBlightButtonClicked()
     {
@@ -3315,6 +3332,16 @@ public class Defender : LivingEntity
         {
             awaitingFireBallOrder = false;
             AbilityLogic.Instance.PerformFireBall(this, target);                       
+        }
+    }
+    public void StartShadowBlastProcess(LivingEntity target)
+    {
+        Ability shadowBlast = mySpellBook.GetAbilityByName("Shadow Blast");
+        Debug.Log("Defender.StartShadowBlastProcess() called");
+        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, shadowBlast)))
+        {
+            awaitingShadowBlastOrder = false;
+            AbilityLogic.Instance.PerformShadowBlast(this, target);
         }
     }
     public void StartLightningBoltProcess(LivingEntity target)

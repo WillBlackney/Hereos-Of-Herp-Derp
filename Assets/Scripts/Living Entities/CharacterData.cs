@@ -683,17 +683,17 @@ public class CharacterData : MonoBehaviour
             myClass = "Warlock";
 
             // Modify Attributes
-            ModifyShadowcraftPoints(1);
-            ModifyCorruptionPoints(2);
+            ModifyShadowcraftPoints(2);
+            ModifyManipulationPoints(1);
 
             // Assign preset weapons
             InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Staff"), mainHandSlot);
 
             // Learn abilities + passive
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Blight"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Noxious Fumes"), false);
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Shadow Blast"), false);
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Nightmare"), false);
             TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Hex"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Venomous"), false);            
+            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Flux"), false);            
 
             // Set up character view model
             CharacterModelController.SetUpAsWarlockPreset(myCharacterModel);
@@ -704,7 +704,7 @@ public class CharacterData : MonoBehaviour
         }
         else if (characterClass == "Alchemist")
         {
-            myClass = "Warlock";
+            myClass = "Alchemist";
 
             // Modify Attributes
             ModifyCorruptionPoints(3);

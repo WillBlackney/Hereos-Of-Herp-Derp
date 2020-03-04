@@ -71,6 +71,7 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         Destroy(RewardScreen.Instance.currentItemRewardButton);
         RewardScreen.Instance.currentItemRewardButton = null;        
         RewardScreen.Instance.DisableItemLootScreen();
+        ItemCardPanelHover.Instance.OnItemCardMouseExit();
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -98,7 +99,7 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             StartCoroutine(Shrink(1));
         }
 
-        ItemCardPanelHover.Instance.OnItemCardMouseExit(myItemDataSO);
+        ItemCardPanelHover.Instance.OnItemCardMouseExit();
     }
     #endregion
 

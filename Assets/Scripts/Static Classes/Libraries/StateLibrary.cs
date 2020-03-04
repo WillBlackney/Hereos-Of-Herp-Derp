@@ -54,7 +54,7 @@ public class StateLibrary : MonoBehaviour
         return stateReturned;
 
     }
-    public StateDataSO GetRandomAfflication()
+    public StateDataSO GetRandomAffliction()
     {
         Debug.Log("StateLibrary.GetRandomAfflication() called...");
 

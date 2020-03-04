@@ -109,6 +109,10 @@ public class EnemyManager : MonoBehaviour
         {
             selectedDefender.StartFireBallProcess(selectedEnemy);
         }
+        else if (selectedDefender != null && selectedDefender.awaitingShadowBlastOrder == true)
+        {
+            selectedDefender.StartShadowBlastProcess(selectedEnemy);
+        }
         else if (selectedDefender != null && selectedDefender.awaitingDimensionalBlastOrder == true)
         {
             selectedDefender.StartDimensionalBlastProcess(selectedEnemy);

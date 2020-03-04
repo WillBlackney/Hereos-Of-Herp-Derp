@@ -572,6 +572,7 @@ public class CombatLogic : MonoBehaviour
     }
     public IEnumerator HandleDeathCoroutine(LivingEntity entity, Action action)
     {
+        Debug.Log("CombatLogic.HandleDeathCoroutine() started for " + entity.myName);
         bool endCombatEventTriggered = false;
         entity.inDeathProcess = true;
 
@@ -627,8 +628,9 @@ public class CombatLogic : MonoBehaviour
         // check if the player has lost all characters and thus the game
         if (DefenderManager.Instance.allDefenders.Count == 0)
         {
-            Debug.Log("Destroying " + entity.myName + " game object");
-            Destroy(entity.gameObject);
+            Debug.Log("CombatLogic.HandleDeath() detected player has lost all defenders...");
+          //  Debug.Log("Destroying " + entity.myName + " game object");
+           // Destroy(entity.gameObject);
 
             EventManager.Instance.StartNewGameOverDefeatedEvent();
         }
@@ -637,8 +639,9 @@ public class CombatLogic : MonoBehaviour
         else if (EnemyManager.Instance.allEnemies.Count == 0 &&
             DefenderManager.Instance.allDefenders.Count >= 1)
         {
+            Debug.Log("CombatLogic.HandleDeath() detected that all enemies have been killed...");
             Debug.Log("Destroying " + entity.myName + " game object");
-            Destroy(entity.gameObject);
+           // Destroy(entity.gameObject);
 
             // End combat event, loot screen etc
             if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.EliteEnemy)
@@ -664,17 +667,22 @@ public class CombatLogic : MonoBehaviour
             EventManager.Instance.gameOverEventStarted == false &&
             endCombatEventTriggered == false)
         {
-            Debug.Log("Destroying " + entity.myName + " game object");
-            Destroy(entity.gameObject);
+            //Debug.Log("Destroying " + entity.myName + " game object");
+           // Destroy(entity.gameObject);
             ActivationManager.Instance.ActivateNextEntity();
         }
 
-        // Destroy the entity GO now that this is finished
-        else
+        // Check character killed during its OnActivationEnd routine (poison damage, burning etc)
+        else if(ActivationManager.Instance.entityActivated == null)
         {
-            Debug.Log("Destroying " + entity.myName + " game object");
-            Destroy(entity.gameObject);
+           // Debug.Log("Destroying " + entity.myName + " game object");
+            //Destroy(entity.gameObject);
+            ActivationManager.Instance.ActivateNextEntity();
         }
+
+        // Destroy character GO
+        Debug.Log("Destroying " + entity.myName + " game object");
+        Destroy(entity.gameObject);
 
         // Resolve
         action.actionResolved = true;

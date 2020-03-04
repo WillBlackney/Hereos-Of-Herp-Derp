@@ -761,6 +761,15 @@ public static class TextLogic
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage to a target";
         }
+        else if (ability.abilityName == "Shadow Blast")
+        {
+            ability.descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to a target and apply " +
+                ReturnColoredText(ability.myAbilityData.secondaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Knock Back", yellow);
+        }
         else if (ability.abilityName == "Lightning Bolt")
         {
             ability.descriptionText.text =
@@ -2374,6 +2383,46 @@ public static class TextLogic
         }
 
 
+
+        return stringReturned;
+    }
+    public static string GetKingsBlessingChoiceText(string choiceName)
+    {
+        string stringReturned = "";
+        if(choiceName == "Gain 10 Gold")
+        {
+            stringReturned = ReturnColoredText("Gain 10 Gold", yellow);
+        }
+        else if (choiceName == "Gain 3 Random Common Items")
+        {
+            stringReturned = ReturnColoredText("Gain 3 Random Common Items", yellow);
+        }
+        else if (choiceName == "Gain 2 Random Spell Books")
+        {
+            stringReturned = ReturnColoredText("Gain 2 Random Spell Books", yellow);
+        }
+        else if (choiceName == "Enemies In The Next Two Combats Have 50% Health")
+        {
+            stringReturned = ReturnColoredText("Enemies In The Next Two Combats Have 50% Health", yellow);
+        }
+        else if (choiceName == "Gain 2 Random Consumables")
+        {
+            stringReturned = ReturnColoredText("Gain 2 Random Consumables", yellow);
+        }
+        else if (choiceName == "All Characters Gain 80 XP")
+        {
+            stringReturned = ReturnColoredText("All Characters Gain 80 XP", yellow);
+        }
+        else if (choiceName == "Gain A Random State. Gain A Random Affliction")
+        {
+            stringReturned = ReturnColoredText("Gain A Random State. ", yellow) +
+                ReturnColoredText("Gain A Random Affliction.", fire);
+        }
+        else if (choiceName == "Gain 3 Random Rare Items. Gain A Random Affliction")
+        {
+            stringReturned = ReturnColoredText("Gain 3 Random Rare Items. ", yellow) +
+                ReturnColoredText("Gain A Random Affliction.", fire);
+        }
 
         return stringReturned;
     }

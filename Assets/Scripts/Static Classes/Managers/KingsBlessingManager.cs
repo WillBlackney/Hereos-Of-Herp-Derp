@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class BlessingChoice
 {
@@ -19,6 +20,8 @@ public class KingsBlessingManager : MonoBehaviour
     [Header("Component References")]
     public GameObject visualParent;
     public GameObject continueButton;
+    public CanvasGroup speechBubbleCG;
+    public TextMeshProUGUI speechBubbleText;
     public UniversalCharacterModel modelOne;
     public UniversalCharacterModel modelTwo;
     public UniversalCharacterModel modelThree;
@@ -60,7 +63,8 @@ public class KingsBlessingManager : MonoBehaviour
         CreateChoiceButtons();
         CharacterModelController.BuildModelFromPresetString(kingModel, "King");
         PlayIdleAnimOnAllModels();
-
+        SetSpeechBubbleText("Choose my blessing...");
+        FadeInSpeechBubble(1);
     }
     #endregion
 
@@ -78,6 +82,40 @@ public class KingsBlessingManager : MonoBehaviour
     public void DisableView()
     {
         visualParent.SetActive(false);
+    }
+    public void SetSpeechBubbleText(string text)
+    {
+        speechBubbleText.text = TextLogic.ReturnColoredText(text, TextLogic.yellow);
+    }
+    public void FadeInSpeechBubble(float speed)
+    {
+        StartCoroutine(FadeInSpeechBubbleCoroutine(speed));
+    }
+    public IEnumerator FadeInSpeechBubbleCoroutine(float speed)
+    {
+        speechBubbleCG.alpha = 0;
+        yield return new WaitForSeconds(1);
+
+        while(speechBubbleCG.alpha < 1)
+        {
+            speechBubbleCG.alpha += speed * Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+    }
+    public void FadeOutSpeechBubble(float speed)
+    {
+        StartCoroutine(FadeOutSpeechBubbleCoroutine(speed));
+    }
+    public IEnumerator FadeOutSpeechBubbleCoroutine(float speed)
+    {
+        speechBubbleCG.alpha = 1;
+        yield return new WaitForSeconds(2);
+
+        while (speechBubbleCG.alpha > 0)
+        {
+            speechBubbleCG.alpha -= speed * Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
     }
     public void EnableContinuteButtonView()
     {
@@ -115,6 +153,8 @@ public class KingsBlessingManager : MonoBehaviour
 
         DisableAllChoiceButtonViews();
         EnableContinuteButtonView();
+        SetSpeechBubbleText("A Wise Choice...");
+        FadeOutSpeechBubble(1);
 
         // re enable world map + get next viable enocunter hexagon tiles
         WorldManager.Instance.SetWorldMapReadyState();
@@ -158,23 +198,23 @@ public class KingsBlessingManager : MonoBehaviour
             ConsumableManager.Instance.StartGainConsumableProcess(ConsumableLibrary.Instance.GetRandomConsumable());
             ConsumableManager.Instance.StartGainConsumableProcess(ConsumableLibrary.Instance.GetRandomConsumable());
         }
-        else if (choiceName == "Gain A Random State. Gain A Random Afflication")
+        else if (choiceName == "Gain A Random State. Gain A Random Affliction")
         {
             StateManager.Instance.GainState(StateLibrary.Instance.GetRandomStateReward());
-            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomAfflication());
+            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomAffliction());
         }
-        else if (choiceName == "Gain A Random Epic Item. Gain A Random Afflication")
+        else if (choiceName == "Gain A Random Epic Item. Gain A Random Affliction")
         {
             // TO DO: GAIN EPIC ITEM
-            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomAfflication());
+            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomAffliction());
         }
-        else if (choiceName == "Gain 3 Random Rare Items. Gain A Random Afflication")
+        else if (choiceName == "Gain 3 Random Rare Items. Gain A Random Affliction")
         {
             InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
             InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
             InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
 
-            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomAfflication());
+            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomAffliction());
         }
 
     }
@@ -189,15 +229,13 @@ public class KingsBlessingManager : MonoBehaviour
         allChoiceData = new List<BlessingChoice>();
 
         allChoiceData.Add(new BlessingChoice("Gain 10 Gold"));
-        //allChoiceData.Add(new BlessingChoice("Choose A Rare Item"));
         allChoiceData.Add(new BlessingChoice("Gain 3 Random Common Items"));
         allChoiceData.Add(new BlessingChoice("Gain 2 Random Spell Books"));
         allChoiceData.Add(new BlessingChoice("Enemies In The Next Two Combats Have 50% Health"));
         allChoiceData.Add(new BlessingChoice("All Characters Gain 80 XP"));
         allChoiceData.Add(new BlessingChoice("Gain 2 Random Consumables"));
-        allChoiceData.Add(new BlessingChoice("Gain A Random State. Gain A Random Afflication"));
-        //allChoiceData.Add(new BlessingChoice("Gain A Random Epic Item. Gain A Random Afflication"));
-        allChoiceData.Add(new BlessingChoice("Gain 3 Random Rare Items. Gain A Random Afflication"));
+        allChoiceData.Add(new BlessingChoice("Gain A Random State. Gain A Random Affliction"));
+        allChoiceData.Add(new BlessingChoice("Gain 3 Random Rare Items. Gain A Random Affliction"));
     }   
     public void CreateChoiceButtons()
     {

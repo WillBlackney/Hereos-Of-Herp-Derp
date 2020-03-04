@@ -57,8 +57,9 @@ public static class AStar
                 for (int y = -1; y <= 1; y++)
                 {
                     Point neighbourPos = new Point(currentNode.GridPosition.X - x, currentNode.GridPosition.Y - y);
+                    Tile tile = LevelManager.Instance.GetTileFromPointReference(neighbourPos);
 
-                    if (LevelManager.Instance.InBounds(neighbourPos) && LevelManager.Instance.GetTileFromPointReference(neighbourPos).IsWalkable && LevelManager.Instance.GetTileFromPointReference(neighbourPos).IsEmpty && neighbourPos != currentNode.GridPosition)
+                    if (LevelManager.Instance.InBounds(neighbourPos) && tile.IsWalkable && tile.IsEmpty && neighbourPos != currentNode.GridPosition)
                     {
                         int gCost = 0;
                         if (Math.Abs(x - y) == 1)

@@ -499,9 +499,11 @@ public class PositionLogic : MonoBehaviour
 
         foreach (RaycastHit2D hit in hits)
         {
-            if (hit.transform.GetComponent<Tile>())
+            Tile tile = hit.transform.GetComponent<Tile>();
+
+            if (tile)
             {
-                if(hit.transform.GetComponent<Tile>().BlocksLoS == true)
+                if(tile.BlocksLoS == true)
                 {
                     hasLoS = false;
                     break;

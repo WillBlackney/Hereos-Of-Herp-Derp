@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.Linq;
 
 public class LevelManager : MonoBehaviour
 {
@@ -196,10 +197,17 @@ public class LevelManager : MonoBehaviour
     {
         List<Tile> listReturned = new List<Tile>();
 
+        for(int index = 0; index < Tiles.Count; index++)
+        {
+            listReturned.Add(Tiles.ElementAt(index).Value);
+        }
+
+        /*
         foreach (KeyValuePair<Point, Tile> kvp in Tiles)
         {
             listReturned.Add(kvp.Value);
         }
+        */
 
         Debug.Log("GetAllTilesFromCurrentLevelDictionary() found " + listReturned.Count.ToString() +
             " tiles");
@@ -283,29 +291,26 @@ public class LevelManager : MonoBehaviour
         // first, filter in all tiles with an X grid position within movement range
         foreach (Tile tile in allTiles)
         {
-            int myXPos = tile.GridPosition.X;
-
-            if (
-                (myXPos >= tileFrom.GridPosition.X && (myXPos <= tileFrom.GridPosition.X + range)) ||
-                (myXPos <= tileFrom.GridPosition.X && (myXPos >= tileFrom.GridPosition.X - range))
-                )
+            //only add tiles to the list if they are walkable and unoccupied
+            if (tile.IsEmpty == true && tile.IsWalkable == true)
             {
-                //only add tiles to the list if they are walkable and unoccupied
-                if(tile.IsEmpty == true && tile.IsWalkable == true)
+                if (
+                (tile.GridPosition.X >= tileFrom.GridPosition.X && (tile.GridPosition.X <= tileFrom.GridPosition.X + range)) ||
+                (tile.GridPosition.X <= tileFrom.GridPosition.X && (tile.GridPosition.X >= tileFrom.GridPosition.X - range))
+                )
                 {
                     allTilesWithinXPosRange.Add(tile);
-                }                
+                }                 
             }
+           
         }
 
         // second, filter out all tiles outside of Y range, then add the remainding tiles to the final list.
         foreach (Tile Xtile in allTilesWithinXPosRange)
         {
-            int myYPos = Xtile.GridPosition.Y;
-
             if (
-                (myYPos >= tileFrom.GridPosition.Y && myYPos <= tileFrom.GridPosition.Y + range) ||
-                (myYPos <= tileFrom.GridPosition.Y && (myYPos >= tileFrom.GridPosition.Y - range))
+                (Xtile.GridPosition.Y >= tileFrom.GridPosition.Y && Xtile.GridPosition.Y <= tileFrom.GridPosition.Y + range) ||
+                (Xtile.GridPosition.Y <= tileFrom.GridPosition.Y && (Xtile.GridPosition.Y >= tileFrom.GridPosition.Y - range))
                 )
             {
                 allTilesWithinRange.Add(Xtile);
@@ -320,8 +325,8 @@ public class LevelManager : MonoBehaviour
         {
             foreach (Tile tile in allTilesWithinRange)
             {
-                Stack<Node> path = AStar.GetPath(tileFrom.GridPosition, tile.GridPosition);
-                if (path.Count <= range)
+                //Stack<Node> path = AStar.GetPath(tileFrom.GridPosition, tile.GridPosition);
+                if (AStar.GetPath(tileFrom.GridPosition, tile.GridPosition).Count <= range)
                 {
                     allTilesWithinMobilityRange.Add(tile);
                 }
@@ -510,6 +515,17 @@ public class LevelManager : MonoBehaviour
     public Tile GetTileFromPointReference(Point point)
     {
         Tile tileReturned = null;
+
+        for(int index = 0; index < Tiles.Count; index++)
+        {
+            if(Tiles.ElementAt(index).Value.GridPosition == point)
+            {
+                tileReturned = Tiles.ElementAt(index).Value;
+                break;
+            }
+        }
+
+        /*
         foreach(Tile tile in GetAllTilesFromCurrentLevelDictionary())
         {
             if(tile.GridPosition == point)
@@ -518,6 +534,7 @@ public class LevelManager : MonoBehaviour
                 break;
             }
         }
+        */
         return tileReturned;
     }   
     public void SetTileAsOccupied(Tile tile)
