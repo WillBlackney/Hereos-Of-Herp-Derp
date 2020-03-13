@@ -59,6 +59,30 @@ public class StateManager : MonoBehaviour
 
         return boolReturned;
     }
+    public State GetActiveStateByName(string stateName)
+    {
+        Debug.Log("StateManager.GetActiveStateByName() called, searching for " + stateName);
+
+        State stateReturned = null;
+
+        foreach(State state in activeStates)
+        {
+            if(state.Name == stateName)
+            {
+                stateReturned = state;
+                break;
+            }
+        }
+
+        if(stateReturned == null)
+        {
+            Debug.Log("StateManager.GetActiveStateByName() could not find an active state with the name " + name +
+                ", returning null...");
+        }
+
+        return stateReturned;
+
+    }
     #endregion
 
     // Apply States to characters logic

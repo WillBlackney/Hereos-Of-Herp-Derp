@@ -979,15 +979,7 @@ public class CombatLogic : MonoBehaviour
                 victim.ModifyCurrentHealth(victim.currentMaxHealth / 2);
 
                 // Reduce blessing of undeath counter, check for removal
-                State blessingOfUndeathState = null;
-                foreach(State state in StateManager.Instance.activeStates)
-                {
-                    if(state.myStateData.stateName == "Blessing Of Undeath")
-                    {
-                        blessingOfUndeathState = state;
-                        break;
-                    }
-                }
+                State blessingOfUndeathState = StateManager.Instance.GetActiveStateByName("Blessing Of Undeath");
 
                 blessingOfUndeathState.ModifyCountdown(-1);                
                 yield return new WaitForSeconds(0.5f);

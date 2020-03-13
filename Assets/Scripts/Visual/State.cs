@@ -94,9 +94,11 @@ public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     #region
     public void ModifyCountdown(int timeGainedOrLost)
     {
+        Debug.Log("State.ModifyCountdown() called for " + Name);
+
         currentDuration += timeGainedOrLost;
         durationText.text = currentDuration.ToString();
-        if (duration <= 0)
+        if (currentDuration <= 0)
         {
             PlayExpireVfxAndDestroy();
         }
