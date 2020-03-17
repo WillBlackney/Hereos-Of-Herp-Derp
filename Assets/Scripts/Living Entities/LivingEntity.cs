@@ -98,7 +98,10 @@ public class LivingEntity : MonoBehaviour
     public bool mouseIsOverCharacter;
     public int currentInitiativeRoll;
     public int moveActionsTakenThisActivation;
-    public int timesAttackedThisTurnCycle;
+    public int meleeAbilityActionsTakenThisActivation;
+    public int skillAbilityActionsTakenThisActivation;
+    public int rangedAttackAbilityActionsTakenThisActivation;
+    public int timesMeleeAttackedThisTurnCycle;
     public bool inDeathProcess;
     public bool facingRight;
     public bool spriteImportedFacingRight;
@@ -853,7 +856,10 @@ public class LivingEntity : MonoBehaviour
     protected IEnumerator OnActivationStartCoroutine(Action action)
     {
         moveActionsTakenThisActivation = 0;
-        //timesAttackedThisTurnCycle = 0;
+        meleeAbilityActionsTakenThisActivation = 0;
+        skillAbilityActionsTakenThisActivation = 0;
+        rangedAttackAbilityActionsTakenThisActivation = 0;
+
         GainEnergyOnActivationStart();
         ReduceCooldownsOnActivationStart();
         ModifyBlockOnActivationStart();
@@ -868,6 +874,13 @@ public class LivingEntity : MonoBehaviour
         if (myPassiveManager.growing)
         {
             myPassiveManager.ModifyBonusStrength(myPassiveManager.growingStacks);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Fast Learner
+        if (myPassiveManager.fastLearner)
+        {
+            myPassiveManager.ModifyBonusWisdom(myPassiveManager.fastLearnerStacks);
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -1244,13 +1257,6 @@ public class LivingEntity : MonoBehaviour
                     Debug.Log("Character " + entity.name + " is within range of Sacred Aura, removing debuffs...");
                     StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(entity.transform.position));
                     
-                    // Remove Immobilized
-                    if (entity.myPassiveManager.immobilized)
-                    {
-                        entity.myPassiveManager.ModifyImmobilized(-entity.myPassiveManager.immobilizedStacks);
-                        yield return new WaitForSeconds(0.5f);
-                    }
-
                     // Remove Blind
                     if (entity.myPassiveManager.blind)
                     {
@@ -1272,12 +1278,20 @@ public class LivingEntity : MonoBehaviour
                         yield return new WaitForSeconds(0.5f);
                     }
 
-                    // Remove Terrified
-                    if (entity.myPassiveManager.terrified)
+                    // Remove Weakened
+                    if (entity.myPassiveManager.weakened)
                     {
-                        entity.myPassiveManager.ModifyTerrified(-entity.myPassiveManager.terrifiedStacks);
+                        entity.myPassiveManager.ModifyWeakened(-entity.myPassiveManager.weakenedStacks);
                         yield return new WaitForSeconds(0.5f);
                     }
+
+                    // Remove Vulnerable
+                    if (entity.myPassiveManager.vulnerable)
+                    {
+                        entity.myPassiveManager.ModifyVulnerable(-entity.myPassiveManager.vulnerableStacks);
+                        yield return new WaitForSeconds(0.5f);
+                    }
+
                 }
             }
 
@@ -1441,29 +1455,21 @@ public class LivingEntity : MonoBehaviour
             Debug.Log("OnActivationEndCoroutine() checking Temporary Bonus Mobility...");
             myPassiveManager.ModifyTemporaryMobility(-myPassiveManager.temporaryBonusMobilityStacks);
             yield return new WaitForSeconds(1f);
-        }
-
-        // Bonus Dodge
-        if (myPassiveManager.temporaryBonusDodge)
-        {
-            Debug.Log("OnActivationEndCoroutine() checking Temporary Bonus Dodge...");
-            myPassiveManager.ModifyTemporaryDodge(-myPassiveManager.temporaryBonusDodgeStacks);
-            yield return new WaitForSeconds(1f);
-        }
-
-        // Bonus Parry
-        if (myPassiveManager.temporaryBonusParry)
-        {
-            Debug.Log("OnActivationEndCoroutine() checking Temporary Bonus Parry...");
-            myPassiveManager.ModifyTemporaryParry(-myPassiveManager.temporaryBonusParryStacks);
-            yield return new WaitForSeconds(1f);
-        }
+        }       
 
         // Remove Terrified
         if (myPassiveManager.terrified)
         {
             Debug.Log("OnActivationEndCoroutine() checking Terrified...");
             myPassiveManager.ModifyTerrified(-myPassiveManager.terrifiedStacks);
+            yield return new WaitForSeconds(1f);
+        }
+
+        // Remove Marked
+        if (myPassiveManager.marked)
+        {
+            Debug.Log("OnActivationEndCoroutine() checking Marked...");
+            myPassiveManager.ModifyMarked(-myPassiveManager.terrifiedStacks);
             yield return new WaitForSeconds(1f);
         }
 
@@ -1483,6 +1489,14 @@ public class LivingEntity : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
+        // Remove Berserk
+        if (myPassiveManager.berserk)
+        {
+            Debug.Log("OnActivationEndCoroutine() checking Berserk...");
+            myPassiveManager.ModifyBerserk(-myPassiveManager.berserkStacks);
+            yield return new WaitForSeconds(1f);
+        }
+
         // Resolve
         Debug.Log("OnActivationEndCoroutine() finished and resolving...");
         yield return new WaitForSeconds(1f);
@@ -1498,13 +1512,22 @@ public class LivingEntity : MonoBehaviour
     }
     public IEnumerator OnNewTurnCycleStartedCoroutine(Action action)
     {
-        timesAttackedThisTurnCycle = 0;
+        timesMeleeAttackedThisTurnCycle = 0;
         hasActivatedThisTurn = false;
 
         // Remove Temporary Parry 
         if (myPassiveManager.temporaryBonusParry)
         {
-            myPassiveManager.ModifyTemporaryParry(myPassiveManager.temporaryBonusParryStacks);
+            Debug.Log("OnActivationEndCoroutine() removing Temporary Bonus Parry...");
+            myPassiveManager.ModifyTemporaryParry(-myPassiveManager.temporaryBonusParryStacks);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Bonus Dodge
+        if (myPassiveManager.temporaryBonusDodge)
+        {
+            Debug.Log("OnActivationEndCoroutine() removing Temporary Bonus Dodge...");
+            myPassiveManager.ModifyTemporaryDodge(-myPassiveManager.temporaryBonusDodgeStacks);
             yield return new WaitForSeconds(0.5f);
         }
 

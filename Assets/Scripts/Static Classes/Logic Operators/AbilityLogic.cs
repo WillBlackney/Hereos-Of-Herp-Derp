@@ -53,6 +53,24 @@ public class AbilityLogic : MonoBehaviour
             entity.moveActionsTakenThisActivation++;
         }
 
+        // increment melee actions taken if ability used is a melee ability
+        if (ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
+        {
+            entity.meleeAbilityActionsTakenThisActivation++;
+        }
+
+        // increment melee actions taken if ability used is a melee ability
+        if (ability.abilityType == AbilityDataSO.AbilityType.Skill)
+        {
+            entity.skillAbilityActionsTakenThisActivation++;
+        }
+
+        // increment melee actions taken if ability used is a melee ability
+        if (ability.abilityType == AbilityDataSO.AbilityType.RangedAttack)
+        {
+            entity.rangedAttackAbilityActionsTakenThisActivation++;
+        }
+
         // If ability is power, add to character power list
         if (ability.abilityType == AbilityDataSO.AbilityType.Power)
         {
@@ -170,7 +188,7 @@ public class AbilityLogic : MonoBehaviour
         // Check for 'Well Drilled' State
         if (entity.defender &&
            StateManager.Instance.DoesPlayerAlreadyHaveState("Well Drilled") &&
-           (ability.name == "Strike" || ability.name == "Move" || ability.name == "Defend" || ability.name == "Shoot")
+           (ability.name == "Strike" || ability.name == "Twin Strike" || ability.name == "Move" || ability.name == "Defend" || ability.name == "Shoot")
            )
         {
             if (finalApCost > 5)
@@ -183,6 +201,69 @@ public class AbilityLogic : MonoBehaviour
             {
                 finalApCost = 5;
             }
+        }
+
+        // Check for Savage
+        if (ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack &&
+            entity.myPassiveManager.savage)
+        {
+            finalApCost -= 5;
+            
+            // dont reduce ability cost below 5 energy
+            if(finalApCost < 5)
+            {
+                finalApCost = 5;
+            }
+        }
+
+        // Check for Knowledgeable
+        if (ability.abilityType == AbilityDataSO.AbilityType.Skill &&
+            entity.myPassiveManager.knowledgeable)
+        {
+            finalApCost -= 5;
+
+            // dont reduce ability cost below 5 energy
+            if (finalApCost < 5)
+            {
+                finalApCost = 5;
+            }
+        }
+
+        // Check for Pragmatic
+        if (ability.abilityType == AbilityDataSO.AbilityType.RangedAttack &&
+            entity.myPassiveManager.pragmatic)
+        {
+            finalApCost -= 5;
+
+            // dont reduce ability cost below 5 energy
+            if (finalApCost < 5)
+            {
+                finalApCost = 5;
+            }
+        }
+
+        // Check for Fury
+        if (ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack &&
+            entity.meleeAbilityActionsTakenThisActivation == 0 &&
+            entity.myPassiveManager.fury)
+        {
+            finalApCost = 0;
+        }
+
+        // Check for Grace
+        if (ability.abilityType == AbilityDataSO.AbilityType.Skill &&
+            entity.skillAbilityActionsTakenThisActivation == 0 &&
+            entity.myPassiveManager.grace)
+        {
+            finalApCost = 0;
+        }
+
+        // Check for Pragmatic
+        if (ability.abilityType == AbilityDataSO.AbilityType.RangedAttack &&
+            entity.rangedAttackAbilityActionsTakenThisActivation == 0 &&
+            entity.myPassiveManager.pragmatic)
+        {
+            finalApCost = 0;
         }
 
         // Check for Preparation
@@ -211,6 +292,7 @@ public class AbilityLogic : MonoBehaviour
 
         Debug.Log("AbilityLogic.CalculateAbilityEnergyCost() returning " + finalApCost.ToString() +
             " as the final energy cost of " + ability.abilityName + " used by " + entity.myName);
+
         return finalApCost;
     }
     public int CalculateAbilityRange(Ability ability, LivingEntity entity)
@@ -849,14 +931,6 @@ public class AbilityLogic : MonoBehaviour
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, smash);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-
-            // Knock back.
-            if(victim.inDeathProcess == false)
-            {
-                MovementLogic.Instance.KnockBackEntity(attacker, victim, smash.abilitySecondaryValue);
-                yield return new WaitForSeconds(0.5f);
-            }
-           
         }
 
         // remove camoflage, etc
@@ -962,6 +1036,33 @@ public class AbilityLogic : MonoBehaviour
 
     }
 
+    // Go Berserk
+    public Action PerformGoBerserk(LivingEntity caster, LivingEntity target)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformGoBerserkCoroutine(caster, target, action));
+        return action;
+    }
+    private IEnumerator PerformGoBerserkCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    {
+        // Set up properties
+        Ability goBerserk = caster.mySpellBook.GetAbilityByName("Go Berserk");
+
+        // Play animation
+        caster.PlaySkillAnimation();
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(goBerserk, caster);
+
+        // Apply berserk
+        target.myPassiveManager.ModifyBerserk(1);
+        yield return new WaitForSeconds(0.5f);
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(goBerserk, caster);
+        action.actionResolved = true;
+
+    }
     // Blade Flurry
     public Action PerformBladeFlurry(LivingEntity attacker)
     {
@@ -1256,8 +1357,8 @@ public class AbilityLogic : MonoBehaviour
         int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, decapitate, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
         bool instantKill = false;
 
-        // If target has 20% or less health, they are killed instantly
-        if((victim.currentMaxHealth * 0.2f) >= victim.currentHealth)
+        // If target has 30% or less health, they are killed instantly
+        if((victim.currentMaxHealth * 0.3f) >= victim.currentHealth)
         {
             instantKill = true;
         }
@@ -1364,6 +1465,63 @@ public class AbilityLogic : MonoBehaviour
 
     }
 
+    // Back Stab
+    public Action PerformBackStab(LivingEntity attacker, LivingEntity victim)
+    {
+        Debug.Log("AbilityLogic.PerformBackStab() called. Caster = " + attacker.name + ", Target = " + victim.name);
+        Action action = new Action(true);
+        StartCoroutine(PerformBackStabCoroutine(attacker, victim, action));
+        return action;
+    }
+    private IEnumerator PerformBackStabCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    {
+        // Set up properties
+        Ability backStab = attacker.mySpellBook.GetAbilityByName("Back Stab");
+        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, backStab);
+
+        // check for back strike, modify crit
+        if (PositionLogic.Instance.CanAttackerBackStrikeTarget(attacker, victim))
+        {
+            critical = true;
+        }
+
+        bool parry = CombatLogic.Instance.RollForParry(victim, attacker);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, backStab, attacker.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, backStab, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+
+        
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(backStab, attacker);
+
+        // Play attack animation
+        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+
+        // if the target successfully parried, dont do HandleDamage: do parry stuff instead
+        if (parry)
+        {
+            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+            yield return new WaitUntil(() => parryAction.ActionResolved() == true);
+        }
+
+        // if the target did not parry, handle damage event normally
+        else
+        {
+            if (critical)
+            {
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+            }
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, backStab);
+            yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+        }
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(backStab, attacker);
+        action.actionResolved = true;
+
+    }
+
+
     // Cheap Shot
     public Action PerformCheapShot(LivingEntity attacker, LivingEntity target)
     {
@@ -1406,7 +1564,7 @@ public class AbilityLogic : MonoBehaviour
             // Apply vulnerable if camoflaged
             if (attacker.myPassiveManager.camoflage || attacker.myPassiveManager.stealth)
             {
-                target.myPassiveManager.ModifyVulnerable(1);
+                target.myPassiveManager.ModifyStunned(1);
                 yield return new WaitForSeconds(0.5f);
             }
         }
@@ -1670,6 +1828,56 @@ public class AbilityLogic : MonoBehaviour
 
     }
 
+    // Chloroform Bomb
+    public Action PerformChloroformBomb(LivingEntity attacker, Tile location)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformChloroformBombCoroutine(attacker, location, action));
+        return action;
+    }
+    private IEnumerator PerformChloroformBombCoroutine(LivingEntity attacker, Tile location, Action action)
+    {
+        // Set up properties
+        Ability chloroformBomb = attacker.mySpellBook.GetAbilityByName("Chloroform Bomb");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, chloroformBomb);
+
+        // Calculate which characters are hit by the aoe
+        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
+
+        // Play animation
+        attacker.PlaySkillAnimation();
+
+        // Pay energy cost
+        OnAbilityUsedStart(chloroformBomb, attacker);
+
+        // Resolve hits against targets
+        foreach (LivingEntity entity in targetsInBlastRadius)
+        {
+            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, chloroformBomb);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, chloroformBomb, damageType, critical, chloroformBomb.abilityPrimaryValue);
+
+            if (critical)
+            {
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+            }
+
+            // Deal Damage
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, chloroformBomb);
+
+            // Apply Silenced
+            if (entity.inDeathProcess == false)
+            {
+                entity.myPassiveManager.ModifySilenced(1);
+            }
+        }
+
+        // Pay energy cost
+        OnAbilityUsedFinish(chloroformBomb, attacker);
+
+        yield return new WaitForSeconds(0.5f);
+        action.actionResolved = true;
+
+    }
     #endregion
 
     // Guardian Abilities
@@ -1698,6 +1906,83 @@ public class AbilityLogic : MonoBehaviour
         // Finish event
         OnAbilityUsedFinish(guard, caster);
         action.actionResolved = true;
+    }
+
+    // Fortify
+    public Action PerformFortify(LivingEntity caster, LivingEntity target)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformFortifyCoroutine(caster, target, action));
+        return action;
+    }
+    private IEnumerator PerformFortifyCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    {
+        // Setup
+        Ability fortify = caster.mySpellBook.GetAbilityByName("Fortify");
+        OnAbilityUsedStart(fortify, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
+
+        // Give target block
+        target.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(fortify.abilityPrimaryValue, caster));
+        yield return new WaitForSeconds(0.5f);
+
+        // Remove stunned
+        if (target.myPassiveManager.stunned)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Stunned Removed");
+            target.myPassiveManager.ModifyStunned(-target.myPassiveManager.stunnedStacks);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Remove immobilized
+        if (target.myPassiveManager.immobilized)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Immobilized Removed");
+            target.myPassiveManager.ModifyImmobilized(-target.myPassiveManager.immobilizedStacks);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Remove sleep
+        if (target.myPassiveManager.sleep)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Sleep Removed");
+            target.myPassiveManager.ModifySleep(-target.myPassiveManager.sleepStacks);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Finish event
+        OnAbilityUsedFinish(fortify, caster);
+        action.actionResolved = true;
+    }
+
+    // Stone Form
+    public Action PerformStoneForm(LivingEntity caster, LivingEntity target)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformStoneFormCoroutine(caster, target, action));
+        return action;
+    }
+    private IEnumerator PerformStoneFormCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    {
+        // Set up properties
+        Ability stoneForm = caster.mySpellBook.GetAbilityByName("Stone Form");
+
+        // Play animation
+        caster.PlaySkillAnimation();
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(stoneForm, caster);
+
+        // Apply bonus strength
+        target.myPassiveManager.ModifyBonusDexterity(stoneForm.abilityPrimaryValue);
+        yield return new WaitForSeconds(0.5f);
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(stoneForm, caster);
+        action.actionResolved = true;
+
     }
 
     // Provoke
@@ -1740,8 +2025,15 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability challengingShout = caster.mySpellBook.GetAbilityByName("Challenging Shout");
 
-        // Calculate which characters are hit by the aoe taunt
-        List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, caster.tile, 1, false, true);
+        // Calculate which characters are hit by the global taunt
+        List<LivingEntity> targetsInRange = new List<LivingEntity>();
+        foreach(LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if(CombatLogic.Instance.IsTargetFriendly(caster, entity) == false)
+            {
+                targetsInRange.Add(entity);
+            }
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -1819,12 +2111,16 @@ public class AbilityLogic : MonoBehaviour
     }
     private IEnumerator PerformGetDownCoroutine(LivingEntity caster, Tile destination, Action action)
     {
+    
         Ability getDown = caster.mySpellBook.GetAbilityByName("Get Down!");
         OnAbilityUsedStart(getDown, caster);
         Action moveAction = MovementLogic.Instance.MoveEntity(caster, destination, 4);
 
         // yield wait until movement complete
         yield return new WaitUntil(() => moveAction.ActionResolved() == true);
+
+        // Give yourself block
+        caster.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(getDown.abilitySecondaryValue, caster));
 
         // Give adjacent characters block
         List<Tile> adjacentTiles = LevelManager.Instance.GetTilesWithinRange(1, destination);
@@ -1857,10 +2153,12 @@ public class AbilityLogic : MonoBehaviour
         // Play animation
         caster.PlaySkillAnimation();
 
-        // Gain Testudo
-        caster.myPassiveManager.ModifyTestudo(1);
+        // Gain Block
+        OnAbilityUsedStart(testudo, caster);
+        caster.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(testudo.abilityPrimaryValue, caster));
         yield return new WaitForSeconds(0.5f);
 
+        // Resolve
         OnAbilityUsedFinish(testudo, caster);
         action.actionResolved = true;
     }
@@ -2300,10 +2598,11 @@ public class AbilityLogic : MonoBehaviour
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, chillingBlow);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
-            // Apply Chilled
-            if (target.inDeathProcess == false)
+            // Apply Immobilized if chilled
+            if (target.inDeathProcess == false && 
+                target.myPassiveManager.chilled)
             {
-                target.myPassiveManager.ModifyChilled(1);
+                target.myPassiveManager.ModifyImmobilized(1);
                 yield return new WaitForSeconds(0.5f);
             }
         }        
@@ -2697,11 +2996,90 @@ public class AbilityLogic : MonoBehaviour
         if (target.myPassiveManager.poisoned)
         {
             target.myPassiveManager.ModifyPoisoned(-target.myPassiveManager.poisonedStacks);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Remove burning
+        if (target.myPassiveManager.burning)
+        {
+            target.myPassiveManager.ModifyBurning(-target.myPassiveManager.burningStacks);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Remove shocked
+        if (target.myPassiveManager.shocked)
+        {
+            target.myPassiveManager.ModifyShocked(-target.myPassiveManager.shockedStacks);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Remove Chilled
+        if (target.myPassiveManager.chilled)
+        {
+            target.myPassiveManager.ModifyChilled(-target.myPassiveManager.chilledStacks);
+            yield return new WaitForSeconds(0.5f);
         }
 
         // Finish event
         OnAbilityUsedFinish(forestMedicine, caster);
         action.actionResolved = true;
+    }
+
+    // Pinning Shot
+    public Action PerformPinningShot(LivingEntity attacker, LivingEntity victim)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformShootCoroutine(attacker, victim, action));
+        return action;
+    }
+    private IEnumerator PerformPinningShotCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    {
+        // Set up properties
+        Ability pinningShot = attacker.mySpellBook.GetAbilityByName("Pinning Shot");
+        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, pinningShot);
+        bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, pinningShot, attacker.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, pinningShot, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(pinningShot, attacker);
+
+        // Ranged attack anim
+        attacker.PlayRangedAttackAnimation();
+        yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
+
+        // Play arrow shot VFX
+        Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
+        yield return new WaitUntil(() => shootAction.ActionResolved() == true);
+
+        // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
+        if (dodge)
+        {
+            Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+            yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
+        }
+
+        // if the target did not dodge, handle damage event normally
+        else
+        {
+            if (critical)
+            {
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+            }
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, pinningShot);
+            yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+
+            // Apply Immobilizaed
+            if (victim.inDeathProcess == false)
+            {
+                victim.myPassiveManager.ModifyImmobilized(1);
+            }
+        }
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(pinningShot, attacker);
+        action.actionResolved = true;
+
     }
 
     // Snipe
@@ -2771,14 +3149,41 @@ public class AbilityLogic : MonoBehaviour
         // Play animation
         caster.PlaySkillAnimation();
 
-        // Give target mobility and mobility
+        // Give target mobility 
         target.myPassiveManager.ModifyBonusMobility(haste.abilityPrimaryValue);
-        target.myPassiveManager.ModifyBonusInitiative(haste.abilityPrimaryValue);
         StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(target.transform.position));
         yield return new WaitForSeconds(0.5f);
 
         // Resolve Event
         OnAbilityUsedFinish(haste, caster);
+        action.actionResolved = true;
+
+    }
+
+    // Hex
+    public Action PerformMarkTarget(LivingEntity caster, LivingEntity target)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformMarkTargetCoroutine(caster, target, action));
+        return action;
+    }
+    private IEnumerator PerformMarkTargetCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    {
+        // Set up properties
+        Ability mark = caster.mySpellBook.GetAbilityByName("Mark Target");
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(mark, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
+
+        // Apply Weakened
+        target.myPassiveManager.ModifyMarked(1);
+        yield return new WaitForSeconds(0.5f);
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(mark, caster);
         action.actionResolved = true;
 
     }
@@ -3413,7 +3818,7 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;
     }
 
-    // Evasion
+    // Mirage
     public Action PerformMirage(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);

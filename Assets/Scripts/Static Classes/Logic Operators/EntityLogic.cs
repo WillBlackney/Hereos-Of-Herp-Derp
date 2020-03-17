@@ -330,9 +330,21 @@ public static class EntityLogic
 
         if (tilesWithinMyRange.Contains(targetsTile) && IsTargetVisible(caster, target))
         {
+            // Check for taunt
+            if (caster.myPassiveManager.taunted &&
+                caster.myTaunter != target)
+            {
+                Debug.Log("IsTargetInRange() determined that " + caster.myName +
+                    " is taunted, and its taunter is not " + target.myName +
+                    ", returning false...");
+
+                return false;
+            }
+
             Debug.Log("Target enemy is range");
             return true;
         }
+
         else
         {
             Debug.Log("Target enemy is NOT range");
@@ -779,7 +791,7 @@ public static class EntityLogic
           (entity.myPassiveManager.camoflage || entity.myPassiveManager.stealth)
           )
         {
-            staminaReturned += 10;
+            staminaReturned += 20;
             Debug.Log("Value after 'Patient Stalker' bonus added: " + staminaReturned.ToString());
         }
 
@@ -854,7 +866,7 @@ public static class EntityLogic
         // Add perfect reflexes
         if (entity.myPassiveManager.perfectReflexes)
         {
-            dodgeReturned += 20;
+            dodgeReturned += 30;
             Debug.Log("Value after 'Perfect Reflexes' passive bonus: " + dodgeReturned.ToString());
         }
 
@@ -887,7 +899,7 @@ public static class EntityLogic
         // Add perfect reflexes
         if (entity.myPassiveManager.perfectReflexes)
         {
-            parryReturned += 20;
+            parryReturned += 30;
             Debug.Log("Value after 'Perfect Reflexes' passive bonus: " + parryReturned.ToString());
         }
 
@@ -937,8 +949,21 @@ public static class EntityLogic
            ((entity.currentMaxHealth / 2) > entity.currentHealth)
            )
         {
-            criticalReturned += 20;
+            criticalReturned += 50;
             Debug.Log("Value after 'Masochist' passive bonus: " + criticalReturned.ToString());
+        }
+
+        // Check for Berserk
+        if (entity.myPassiveManager.berserk)
+        {
+            criticalReturned += 100;
+            Debug.Log("Value after 'Berserk' passive bonus: " + criticalReturned.ToString());
+        }
+
+        // Dont go over 100
+        if(criticalReturned > 100)
+        {
+            criticalReturned = 100;
         }
 
         // return final value
@@ -1069,7 +1094,7 @@ public static class EntityLogic
         // Check Demon passive
         if (entity.myPassiveManager.demon)
         {
-            fireResistanceReturned += 20;
+            fireResistanceReturned += 30;
             Debug.Log("Value after 'Demon' passive bonus: " + fireResistanceReturned.ToString());
         }
 
@@ -1087,7 +1112,7 @@ public static class EntityLogic
         // Check Shadow Form passive
         if (entity.myPassiveManager.shadowForm)
         {
-            shadowResistanceReturned += 20;
+            shadowResistanceReturned += 30;
             Debug.Log("Value after 'Shadow Form' passive bonus: " + shadowResistanceReturned.ToString());
         }
 
@@ -1105,7 +1130,7 @@ public static class EntityLogic
         // Check Frozen Heart passive
         if (entity.myPassiveManager.frozenHeart)
         {
-            frostResistanceReturned += 20;
+            frostResistanceReturned += 30;
             Debug.Log("Value after 'Frozen Heart' passive bonus: " + frostResistanceReturned.ToString());
         }
 
@@ -1123,7 +1148,7 @@ public static class EntityLogic
         // Check Toxicity passive
         if (entity.myPassiveManager.toxicity)
         {
-            poisonResistanceReturned += 20;
+            poisonResistanceReturned += 30;
             Debug.Log("Value after 'Toxicity' passive bonus: " + poisonResistanceReturned.ToString());
         }
 
@@ -1141,7 +1166,7 @@ public static class EntityLogic
         // Check Storm Lord passive
         if (entity.myPassiveManager.stormLord)
         {
-            airResistanceReturned += 20;
+            airResistanceReturned += 30;
             Debug.Log("Value after 'Storm Lord' passive bonus: " + airResistanceReturned.ToString());
         }
 

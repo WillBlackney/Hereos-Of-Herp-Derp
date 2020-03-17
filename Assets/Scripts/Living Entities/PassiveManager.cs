@@ -106,6 +106,9 @@ public class PassiveManager : MonoBehaviour
     public bool recklessness;
     public int recklessnessStacks;
 
+    public bool berserk;
+    public int berserkStacks;
+
     public bool testudo;
     public int testudoStacks;
 
@@ -156,13 +159,16 @@ public class PassiveManager : MonoBehaviour
     public bool sleep;
     public int sleepStacks;
 
+    public bool marked;
+    public int markedStacks;
+
     public bool taunted;
     public int tauntedStacks;
 
     public bool sharpenedBlade;
     public int sharpenedBladeStacks;
 
-    [Header("Non-Stacking Passives")]
+    [Header("Non-Stacking Passives")]   
     public bool unleashed;
     public int unleashedStacks;
 
@@ -190,8 +196,34 @@ public class PassiveManager : MonoBehaviour
     public bool predator;
     public int predatorStacks;
 
+    public bool coupDeGrace;
+    public int coupDeGraceStacks;
+
     public bool flux;
     public int fluxStacks;
+
+    public bool swordPlay;
+    public int swordPlayStacks;
+
+    public bool fury;
+    public int furyStacks;
+
+    public bool quickDraw;
+    public int quickDrawStacks;
+
+    public bool grace;
+    public int graceStacks;
+
+    public bool savage;
+    public int savageStacks;
+
+    public bool pragmatic;
+    public int pragmaticStacks;
+
+    public bool knowledgeable;
+    public int knowledgeableStacks;
+
+
 
     public bool lifeSteal;
     public int lifeStealStacks;
@@ -268,6 +300,9 @@ public class PassiveManager : MonoBehaviour
 
     public bool growing;
     public int growingStacks;
+
+    public bool fastLearner;
+    public int fastLearnerStacks;
 
     public bool enrage;
     public int enrageStacks;
@@ -369,8 +404,8 @@ public class PassiveManager : MonoBehaviour
     {
         Debug.Log(myLivingEntity.name +".PassiveManager.ModifyImmobilized() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Immobilized");
-
-        if (stacks > 0 && unleashed)
+        
+        if (stacks > 0 && (unleashed || unstoppable))
         {
             stacks = 0;
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Immobilized Immune");
@@ -879,6 +914,36 @@ public class PassiveManager : MonoBehaviour
                 burningStacks = 0;
                 burning = false;
                 myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Burning"), stacks);
+            }
+        }
+
+    }
+
+    public void ModifyMarked(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyMarked() called, stacks = " + stacks.ToString());
+
+        if (stacks > 0)
+        {
+            if (!CombatLogic.Instance.IsProtectedByRune(myLivingEntity))
+            {
+                markedStacks += stacks;
+                if (markedStacks > 0)
+                {
+                    marked = true;
+                    VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Marked!");
+                    myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Marked"), stacks);
+                }
+            }
+        }
+        else if (stacks < 0)
+        {
+            markedStacks += stacks;
+            if (markedStacks <= 0)
+            {
+                markedStacks = 0;
+                marked = false;
+                myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Marked"), stacks);
             }
         }
 
@@ -1986,6 +2051,35 @@ public class PassiveManager : MonoBehaviour
 
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
+    public void ModifyBerserk(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyBerserk() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Berserk");
+
+        if (stacks > 0)
+        {
+            berserkStacks += stacks;
+            if (berserkStacks > 0)
+            {
+                berserk = true;
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Berserk");
+                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            berserkStacks += stacks;
+            if (berserkStacks <= 0)
+            {
+                berserkStacks = 0;
+                berserk = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
     public void ModifyTestudo(int stacks)
     {
         Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyTestudo() called, stacks = " + stacks.ToString());
@@ -2149,6 +2243,15 @@ public class PassiveManager : MonoBehaviour
         growingStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
+    public void ModifyFastLearner(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyFastLearner() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Fast Learner");
+        fastLearner = true;
+        fastLearnerStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
     public void ModifyVolatile(int stacks)
     {
         Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyVolatile() called, stacks = " + stacks.ToString());
@@ -2174,6 +2277,79 @@ public class PassiveManager : MonoBehaviour
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Flux");
         flux = true;
         fluxStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyGrace(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyGrace() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Grace");
+        grace = true;
+        graceStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyFury(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyFury() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Fury");
+        fury = true;
+        furyStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyQuickDraw(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyQuickDraw() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Quick Draw");
+        quickDraw = true;
+        quickDrawStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyKnowledgeable(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyKnowledgeable() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Knowledgeable");
+        knowledgeable = true;
+        knowledgeableStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifySavage(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifySavage() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Savage");
+        savage = true;
+        savageStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyPragmatic(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPragmatic() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Pragmatic");
+        pragmatic = true;
+        pragmaticStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+
+    public void ModifySwordPlay(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifySwordPlay() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Sword Play");
+        swordPlay = true;
+        swordPlayStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyCoupDeGrace(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyCoupDeGrace() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Coup De Grace");
+        coupDeGrace = true;
+        coupDeGraceStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyEncouragingAura(int stacks)

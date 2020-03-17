@@ -186,7 +186,7 @@ public class CombatLogic : MonoBehaviour
             if (attacker.myPassiveManager.stormLord)
             {
                 Debug.Log("Damage has a type of 'Air', and attacker has 'Storm Lord' passive, increasing damage by 20%...");
-                damageModifier += 0.2f;
+                damageModifier += 0.3f;
             }
         }
 
@@ -196,7 +196,7 @@ public class CombatLogic : MonoBehaviour
             if (attacker.myPassiveManager.demon)
             {
                 Debug.Log("Damage has a type of 'Fire', and attacker has 'Demon' passive, increasing damage by 20%...");
-                damageModifier += 0.2f;
+                damageModifier += 0.3f;
             }
         }
 
@@ -206,7 +206,7 @@ public class CombatLogic : MonoBehaviour
             if (attacker.myPassiveManager.toxicity)
             {
                 Debug.Log("Damage has a type of 'Poison', and attacker has 'Toxicity' passive, increasing damage by 20%...");
-                damageModifier += 0.2f;
+                damageModifier += 0.3f;
             }
         }
 
@@ -216,7 +216,7 @@ public class CombatLogic : MonoBehaviour
             if (attacker.myPassiveManager.frozenHeart)
             {
                 Debug.Log("Damage has a type of 'Frost', and attacker has 'Frozen Heart' passive, increasing damage by 20%...");
-                damageModifier += 0.2f;
+                damageModifier += 0.3f;
             }
         }
 
@@ -226,7 +226,7 @@ public class CombatLogic : MonoBehaviour
             if (attacker.myPassiveManager.shadowForm)
             {
                 Debug.Log("Damage has a type of 'Shadow', and attacker has 'Shadow Form' passive, increasing damage by 20%...");
-                damageModifier += 0.2f;
+                damageModifier += 0.3f;
             }
         }
 
@@ -389,9 +389,8 @@ public class CombatLogic : MonoBehaviour
     private int CalculateCriticalStrikeChance(LivingEntity attacker, LivingEntity target, Ability ability)
     {
         Debug.Log("CombatLogic.CalculateCriticalChance() called...");
-        // TO DO: when more passive traits are added that effect crit chance (ambusher, predator, etc), update this method
-        int critChanceReturned = 0;
 
+        int critChanceReturned = 0;
         critChanceReturned += EntityLogic.GetTotalCriticalChance(attacker, ability);
 
         // Check for 'Shatter' passive
@@ -399,7 +398,7 @@ public class CombatLogic : MonoBehaviour
             target.myPassiveManager.chilled &&
             ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
         {
-            critChanceReturned += 20;
+            critChanceReturned += 50;
             Debug.Log("Crit chance after 'Shatter' passive bonus" + critChanceReturned.ToString());
         }
 
@@ -426,13 +425,39 @@ public class CombatLogic : MonoBehaviour
         int parryChanceReturned = 0;
 
         // Get total parry chance
+        bool swordPlay = false;
         parryChanceReturned += EntityLogic.GetTotalParry(target);
         Debug.Log(target.name + " total parry chance: " + parryChanceReturned.ToString() + "%");
+
+        // Check for sword play
+        if (target.myPassiveManager.swordPlay &&
+            target.timesMeleeAttackedThisTurnCycle == 0)
+        {
+            Debug.Log(target.myName + " has 'Sword Play' passive, increasing " + target.myName + " parry chance to 100...");
+            parryChanceReturned = 100;
+            swordPlay = true;
+        }
 
         // Check for recklessness
         if (attacker.myPassiveManager.recklessness)
         {
             Debug.Log(attacker.name + " has 'Recklessness' passive, reducing " + target.name + " parry chance to 0...");
+            parryChanceReturned = 0;
+        }
+
+        // Check for Marked
+        if (target.myPassiveManager.marked)
+        {
+            Debug.Log(target.myName + " has 'Marked' passive, reducing " + target.myName + " parry chance to 0...");
+            parryChanceReturned = 0;
+        }
+
+        // Check for masochist
+        if (attacker.myPassiveManager.masochist &&
+            (attacker.currentMaxHealth / 2) > attacker.currentHealth
+            )
+        {
+            Debug.Log(attacker.name + " has 'Masochist' passive and is below 50% health, reducing " + target.name + " parry chance to 0...");
             parryChanceReturned = 0;
         }
 
@@ -444,11 +469,12 @@ public class CombatLogic : MonoBehaviour
         }
 
         // Cap Parry Chance at 80%
-        if (parryChanceReturned > 80)
+        if (parryChanceReturned > 80 && swordPlay == false)
         {
             Debug.Log(target.name + " has exceeded the parry chance cap, reducing to 80%...");
             parryChanceReturned = 80;
         }
+
 
         Debug.Log("Final parry chance calculated for " + target.name +", being attacked by " + attacker.name + ": " + parryChanceReturned.ToString());
         return parryChanceReturned;
@@ -473,6 +499,13 @@ public class CombatLogic : MonoBehaviour
         if (attacker.myPassiveManager.concentration)
         {
             Debug.Log(attacker.name + " has 'Concentration' passive, reducing " + target.name + " dodge chance to 0...");
+            dodgeChanceReturned = 0;
+        }
+
+        // Check for Marked
+        if (target.myPassiveManager.marked)
+        {
+            Debug.Log(target.myName + " has 'Marked' passive, reducing " + target.myName + " dodge chance to 0...");
             dodgeChanceReturned = 0;
         }
 
@@ -921,7 +954,7 @@ public class CombatLogic : MonoBehaviour
 
         // Phasing
         if (victim.currentHealth > 0 &&
-            victim.timesAttackedThisTurnCycle == 0 &&
+            victim.timesMeleeAttackedThisTurnCycle == 0 &&
             victim.myPassiveManager.phasing &&
             abilityUsed != null &&
             abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
@@ -936,7 +969,7 @@ public class CombatLogic : MonoBehaviour
         if(abilityUsed != null &&
            abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
         {
-            victim.timesAttackedThisTurnCycle++;
+            victim.timesMeleeAttackedThisTurnCycle++;
         }
 
         // Check if the victim was killed by the damage
@@ -990,9 +1023,14 @@ public class CombatLogic : MonoBehaviour
             {
                 Debug.Log(victim.name + " has no means to prevent death, starting death process...");
 
+                // check for coup de grace passive on attacker
+                if (attacker.myPassiveManager.coupDeGrace)
+                {
+                    attacker.ModifyCurrentEnergy(attacker.currentMaxEnergy);
+                }
+
                 // the victim was killed, start death process
                 victim.inDeathProcess = true;
-                //victim.StopAllCoroutines();
                 HandleDeath(victim);
             }
             

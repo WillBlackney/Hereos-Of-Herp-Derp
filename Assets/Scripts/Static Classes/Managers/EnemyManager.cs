@@ -58,10 +58,17 @@ public class EnemyManager : MonoBehaviour
         {
             selectedDefender.StartChargeLocationSettingProcess();
         }
-
+        else if (selectedDefender != null && selectedDefender.awaitingBackStabOrder == true)
+        {
+            selectedDefender.StartBackStabProcess();
+        }
         else if (selectedDefender != null && selectedDefender.awaitingMeteorOrder == true)
         {
             selectedDefender.StartMeteorProcess(selectedEnemy.tile);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingChloroformBombOrder == true)
+        {
+            selectedDefender.StartChloroformBombProcess(selectedEnemy.tile);
         }
         else if (selectedDefender != null && selectedDefender.awaitingHeadShotOrder == true)
         {
@@ -120,6 +127,10 @@ public class EnemyManager : MonoBehaviour
         else if (selectedDefender != null && selectedDefender.awaitingShootOrder == true)
         {
             selectedDefender.StartShootProcess();
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingPinningShotOrder == true)
+        {
+            selectedDefender.StartPinningShotProcess();
         }
         else if (selectedDefender != null && selectedDefender.awaitingSnipeOrder == true)
         {
@@ -250,6 +261,10 @@ public class EnemyManager : MonoBehaviour
         else if (selectedDefender != null && selectedDefender.awaitingHexOrder == true)
         {
             selectedDefender.StartHexProcess(selectedEnemy);
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingMarkTargetOrder == true)
+        {
+            selectedDefender.StartMarkTargetProcess(selectedEnemy);
         }
         else if (selectedDefender != null && selectedDefender.awaitingJudgementOrder == true)
         {
