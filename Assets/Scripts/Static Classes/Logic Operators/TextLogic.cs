@@ -194,6 +194,11 @@ public static class TextLogic
             statusDescriptionText.text =
                 "On activation end, lose " + ReturnColoredText(statusStacks.ToString(), yellow) + " health";
         }
+        else if (statusName == "Barrier")
+        {
+            statusDescriptionText.text =
+                "The next " + ReturnColoredText(statusStacks.ToString(), yellow) + " time(s) this character loses health, ignore it";
+        }
         else if (statusName == "Camoflage")
         {
             statusDescriptionText.text =
@@ -458,6 +463,11 @@ public static class TextLogic
         {
             statusDescriptionText.text =
                 "This character is immune to all damage until the end of the current turn cycle";
+        }
+        else if (statusName == "Snow Stasis")
+        {
+            statusDescriptionText.text =
+                "Target yourself or an ally. The next time that character takes damage, ignore it.";
         }
         else if (statusName == "Immolation")
         {
@@ -872,8 +882,9 @@ public static class TextLogic
         else if (ability.abilityName == "Blaze")
         {
             ability.descriptionText.text =
-                "While channeled, your " + ReturnColoredText("Melee Attack", yellow) + " abilities deal " + ReturnColoredText("Fire", fire) +
-                " damage";
+                "Target ally converts all damage from " + ReturnColoredText("Melee Attack", yellow) +
+                " abilities into " + ReturnColoredText("Fire", fire) +
+                " damage during its next activation";
         }
         else if (ability.abilityName == "Testudo")
         {
@@ -885,20 +896,26 @@ public static class TextLogic
         else if (ability.abilityName == "Shadow Wreath")
         {
             ability.descriptionText.text =
-                "While channeled, your " + ReturnColoredText("Melee Attack", yellow) + " abilities deal " + ReturnColoredText("Shadow", shadow) +
-                " damage";
+                ability.descriptionText.text =
+                "Target ally converts all damage from " + ReturnColoredText("Melee Attack", yellow) +
+                " abilities into " + ReturnColoredText("Shadow", shadow) +
+                " damage during its next activation";
         }
         else if (ability.abilityName == "Creeping Frost")
         {
             ability.descriptionText.text =
-                "While channeled, your " + ReturnColoredText("Melee Attack", yellow) + " abilities deal " + ReturnColoredText("Frost", frost) +
-                " damage";
+                ability.descriptionText.text =
+                "Target ally converts all damage from " + ReturnColoredText("Melee Attack", yellow) +
+                " abilities into " + ReturnColoredText("Frost", frost) +
+                " damage during its next activation";
         }
         else if (ability.abilityName == "Overload")
         {
             ability.descriptionText.text =
-                "While channeled, your " + ReturnColoredText("Melee Attack", yellow) + " abilities deal " + ReturnColoredText("Air", air) +
-                " damage";
+                ability.descriptionText.text =
+                "Target ally converts all damage from " + ReturnColoredText("Melee Attack", yellow) +
+                " abilities into " + ReturnColoredText("Air", air) +
+                " damage during its next activation";
         }
         else if (ability.abilityName == "Infuse")
         {
@@ -1192,6 +1209,15 @@ public static class TextLogic
                 " damage to a random enemy in your melee range " + ReturnColoredText(ability.abilitySecondaryValue.ToString(), yellow) +
                 " times";
         }
+        else if (ability.abilityName == "Global Cooling")
+        {
+            ability.descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to all enemies and apply  " + ReturnColoredText("Chilled", frost) +
+                ". Characters that are already " + ReturnColoredText("Chilled", frost) + " are " +
+                ReturnColoredText("Immobilized", yellow) + " instead";
+        }
         else if (ability.abilityName == "Guard")
         {
             ability.descriptionText.text =
@@ -1442,7 +1468,7 @@ public static class TextLogic
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage. If the target is " + ReturnColoredText("Chilled", frost) +
-                ", refund the " + ReturnColoredText("Energy", yellow) + " spent";
+                ", gain 20 " + ReturnColoredText("Energy", yellow);
         }
         else if (ability.abilityName == "Time Warp")
         {
@@ -1665,8 +1691,9 @@ public static class TextLogic
         else if (ability.abilityName == "Blaze")
         {
             descriptionText.text =
-                "While channeled, your Melee Attack abilities deal " + ReturnColoredText("Fire", fire) +
-                " damage";
+                "Target ally converts all damage from " + ReturnColoredText("Melee Attack", yellow) +
+                " abilities into " + ReturnColoredText("Fire", fire) +
+                " damage during its next activation";
         }
         else if (ability.abilityName == "Testudo")
         {
@@ -1678,20 +1705,23 @@ public static class TextLogic
         else if (ability.abilityName == "Shadow Wreath")
         {
             descriptionText.text =
-                "While channeled, your Melee Attack abilities deal " + ReturnColoredText("Shadow", shadow) +
-                " damage";
+                "Target ally converts all damage from " + ReturnColoredText("Melee Attack", yellow) +
+                " abilities into " + ReturnColoredText("Shadow", shadow) +
+                " damage during its next activation";
         }
         else if (ability.abilityName == "Creeping Frost")
         {
             descriptionText.text =
-                "While channeled, your Melee Attack abilities deal " + ReturnColoredText("Frost", frost) +
-                " damage";
+                "Target ally converts all damage from " + ReturnColoredText("Melee Attack", yellow) +
+                " abilities into " + ReturnColoredText("Frost", frost) +
+                " damage during its next activation";
         }
         else if (ability.abilityName == "Overload")
         {
             descriptionText.text =
-                "While channeled, your Melee Attack abilities deal " + ReturnColoredText("Air", air) +
-                " damage";
+                "Target ally converts all damage from " + ReturnColoredText("Melee Attack", yellow) +
+                " abilities into " + ReturnColoredText("Air", air) +
+                " damage during its next activation";
         }
         else if (ability.abilityName == "Infuse")
         {
@@ -1988,6 +2018,15 @@ public static class TextLogic
                 " damage to a random enemy in your melee range " + ReturnColoredText(ability.secondaryValue.ToString(), yellow) +
                 " times";
         }
+        else if (ability.abilityName == "Global Cooling")
+        {
+            descriptionText.text =
+                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
+                " damage to all enemies and apply  " + ReturnColoredText("Chilled", frost) +
+                ". Characters that are already " + ReturnColoredText("Chilled", frost) + " are " +
+                ReturnColoredText("Immobilized", yellow) + " instead";
+        }
         else if (ability.abilityName == "Guard")
         {
             descriptionText.text =
@@ -2235,10 +2274,10 @@ public static class TextLogic
         else if (ability.abilityName == "Thaw")
         {
             descriptionText.text =
-                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+               "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage. If the target is " + ReturnColoredText("Chilled", frost) +
-                ", refund the " + ReturnColoredText("Energy", yellow) + " spent";
+                ", gain 20 " + ReturnColoredText("Energy", yellow);
         }
         else if (ability.abilityName == "Time Warp")
         {
@@ -2249,6 +2288,11 @@ public static class TextLogic
         {
             descriptionText.text =
                 "Target ally becomes immune to all damage until the end of the current turn cycle";
+        }
+        else if (ability.abilityName == "Snow Stasis")
+        {
+            descriptionText.text =
+                "Target yourself or an ally. The next time that character takes damage, ignore it.";
         }
         else if (ability.abilityName == "Tree Leap")
         {

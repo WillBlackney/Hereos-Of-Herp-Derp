@@ -336,12 +336,14 @@ public class AbilityLogic : MonoBehaviour
     {
         Debug.Log("AbilityLogic.AddPowerToEntity() called, adding " + power.abilityName + " to " + entity.name);
 
+        /*
         entity.activePowers.Insert(0,power);
         if(entity.activePowers.Count > entity.currentMaxPowersCount)
         {
             Debug.Log(entity.name + " has excedding its power limit, removing " + power.abilityName + " from active powers list...");
             RemovePowerFromEntity(entity, entity.activePowers.Last());
         }
+        */
 
     }
     public void RemovePowerFromEntity(LivingEntity entity, Ability power)
@@ -2394,13 +2396,13 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Blaze
-    public Action PerformBlaze(LivingEntity caster)
+    public Action PerformBlaze(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformBlazeCoroutine(caster, action));
+        StartCoroutine(PerformBlazeCoroutine(caster, target, action));
         return action;
     }
-    private IEnumerator PerformBlazeCoroutine(LivingEntity caster, Action action)
+    private IEnumerator PerformBlazeCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         // Setup 
         Ability blaze = caster.mySpellBook.GetAbilityByName("Blaze");
@@ -2409,8 +2411,8 @@ public class AbilityLogic : MonoBehaviour
         // Play animation
         caster.PlaySkillAnimation();
 
-        // Gain Fire imbuement
-        caster.myPassiveManager.ModifyFireImbuement(1);
+        // Apply Temp Fire imbuement
+        target.myPassiveManager.ModifyTemporaryFireImbuement(1);
         yield return new WaitForSeconds(0.5f);
 
         OnAbilityUsedFinish(blaze, caster);
@@ -2660,6 +2662,70 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;
     }
 
+    // Global Cooling
+    public Action PerformGlobalCooling(LivingEntity attacker)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformGlobalCoolingCoroutine(attacker, action));
+        return action;
+    }
+    private IEnumerator PerformGlobalCoolingCoroutine(LivingEntity attacker, Action action)
+    {
+        // Set up properties
+        Ability globalCooling = attacker.mySpellBook.GetAbilityByName("Global Cooling");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, globalCooling);
+        List<LivingEntity> entitiesHit = new List<LivingEntity>();
+
+        // Get all enemies hit by effect
+        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if(!CombatLogic.Instance.IsTargetFriendly(attacker, entity))
+            {
+                entitiesHit.Add(entity);
+            }
+        }
+
+        // Play animation
+        attacker.PlaySkillAnimation();
+
+        // Pay energy cost
+        OnAbilityUsedStart(globalCooling, attacker);
+
+        // Resolve damage against targets
+        foreach (LivingEntity entity in entitiesHit)
+        {
+            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, globalCooling);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, globalCooling, damageType, critical, globalCooling.abilityPrimaryValue);
+
+            if (critical)
+            {
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+            }
+
+            // Deal damage
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, globalCooling);
+
+            // Apply chilled. If already chilled, apply immobilized
+            if (entity.inDeathProcess == false)
+            {
+                if (entity.myPassiveManager.chilled)
+                {
+                    entity.myPassiveManager.ModifyImmobilized(1);
+                }
+                else
+                {
+                    entity.myPassiveManager.ModifyChilled(1);
+                }
+                
+            }
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(globalCooling, attacker);
+        action.actionResolved = true;
+    }
     // Icy Focus
     public Action PerformIcyFocus(LivingEntity caster, LivingEntity target)
     {
@@ -2822,27 +2888,57 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;
     }
 
-    // Creeping Frost
-    public Action PerformCreepingFrost(LivingEntity caster)
+    // Snow Stasis
+    public Action PerformSnowStasis(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformCreepingFrostCoroutine(caster, action));
+        StartCoroutine(PerformSnowStasisCoroutine(caster, target, action));
         return action;
     }
-    private IEnumerator PerformCreepingFrostCoroutine(LivingEntity caster, Action action)
+    private IEnumerator PerformSnowStasisCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
-        // Setup 
-        Ability creepingFrost = caster.mySpellBook.GetAbilityByName("Creeping Frost");
-        OnAbilityUsedStart(creepingFrost, caster);
+        // Set up properties
+        Ability snowStasis = caster.mySpellBook.GetAbilityByName("Snow Stasis");
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(snowStasis, caster);
 
         // Play animation
         caster.PlaySkillAnimation();
 
-        // Gain Frost imbuement
-        caster.myPassiveManager.ModifyFrostImbuement(1);
+        // Give bonus energy
+        target.myPassiveManager.ModifyBarrier(snowStasis.abilityPrimaryValue);
+        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(target.transform.position));
         yield return new WaitForSeconds(0.5f);
 
-        OnAbilityUsedFinish(creepingFrost, caster);
+        // remove camoflage, etc
+        OnAbilityUsedFinish(snowStasis, caster);
+        action.actionResolved = true;
+
+    }
+
+
+    // Creeping Frost
+    public Action PerformCreepingFrost(LivingEntity caster, LivingEntity target)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformCreepingFrostCoroutine(caster, target, action));
+        return action;
+    }
+    private IEnumerator PerformCreepingFrostCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    {
+        // Setup 
+        Ability cf = caster.mySpellBook.GetAbilityByName("Creeping Frost");
+        OnAbilityUsedStart(cf, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
+
+        // Apply Temp Frost imbuement
+        target.myPassiveManager.ModifyTemporaryFrostImbuement(1);
+        yield return new WaitForSeconds(0.5f);
+
+        OnAbilityUsedFinish(cf, caster);
         action.actionResolved = true;
     }
 
@@ -2959,7 +3055,7 @@ public class AbilityLogic : MonoBehaviour
             // Refund energy cost, if target is chilled
             if (victim.myPassiveManager.chilled)
             {
-                attacker.ModifyCurrentEnergy(thaw.abilityEnergyCost);
+                attacker.ModifyCurrentEnergy(20);
             }
         }
 
@@ -4666,26 +4762,26 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Shadow Wreath
-    public Action PerformShadowWreath(LivingEntity caster)
+    public Action PerformShadowWreath(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformShadowWreathCoroutine(caster, action));
+        StartCoroutine(PerformShadowWreathCoroutine(caster, target, action));
         return action;
     }
-    private IEnumerator PerformShadowWreathCoroutine(LivingEntity caster, Action action)
+    private IEnumerator PerformShadowWreathCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         // Setup 
-        Ability shadowWreath = caster.mySpellBook.GetAbilityByName("Shadow Wreath");
-        OnAbilityUsedStart(shadowWreath, caster);
+        Ability sw = caster.mySpellBook.GetAbilityByName("Shadow Wreath");
+        OnAbilityUsedStart(sw, caster);
 
         // Play animation
         caster.PlaySkillAnimation();
 
-        // Gain Air imbuement
-        caster.myPassiveManager.ModifyShadowImbuement(1);
+        // Apply Temp Shadow imbuement
+        target.myPassiveManager.ModifyTemporaryShadowImbuement(1);
         yield return new WaitForSeconds(0.5f);
 
-        OnAbilityUsedFinish(shadowWreath, caster);
+        OnAbilityUsedFinish(sw, caster);
         action.actionResolved = true;
     }
 
@@ -5172,14 +5268,14 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;
     }
 
-    // Over Load
-    public Action PerformOverload(LivingEntity caster)
+    // Overload
+    public Action PerformOverload(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformOverloadCoroutine(caster, action));
+        StartCoroutine(PerformOverloadCoroutine(caster, target, action));
         return action;
     }
-    private IEnumerator PerformOverloadCoroutine(LivingEntity caster, Action action)
+    private IEnumerator PerformOverloadCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         // Setup 
         Ability overload = caster.mySpellBook.GetAbilityByName("Overload");
@@ -5188,8 +5284,8 @@ public class AbilityLogic : MonoBehaviour
         // Play animation
         caster.PlaySkillAnimation();
 
-        // Gain Air imbuement
-        caster.myPassiveManager.ModifyAirImbuement(1);
+        // Apply Temp Air imbuement
+        target.myPassiveManager.ModifyTemporaryAirImbuement(1);
         yield return new WaitForSeconds(0.5f);
 
         OnAbilityUsedFinish(overload, caster);
@@ -5203,11 +5299,11 @@ public class AbilityLogic : MonoBehaviour
 
     // Old Abilities
     #region
-    
-   
 
 
-    
+
+
+
 
     //Rend
     public Action PerformRend(LivingEntity attacker, LivingEntity victim)

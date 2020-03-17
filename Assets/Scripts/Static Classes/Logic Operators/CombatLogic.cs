@@ -827,6 +827,7 @@ public class CombatLogic : MonoBehaviour
             else if (victim.myPassiveManager.barrier && healthAfter < victim.currentHealth)
             {
                 yield return new WaitForSeconds(0.5f);
+                VisualEffectManager.Instance.CreateStatusEffect(victim.transform.position, "Barrier!");
                 adjustedDamageValue = 0;
                 healthAfter = victim.currentHealth;
                 victim.myPassiveManager.ModifyBarrier(-1);               
