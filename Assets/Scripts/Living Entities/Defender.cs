@@ -126,6 +126,7 @@ public class Defender : LivingEntity
     public bool awaitingBlazeOrder;
     public bool awaitingCreepingFrostOrder;
     public bool awaitingShadowWreathOrder;
+    public bool awaitingDarkGiftOrder;
 
     [Header("Update Related Properties")]
     public bool energyBarPositionCurrentlyUpdating;
@@ -143,10 +144,6 @@ public class Defender : LivingEntity
 
         transform.SetParent(DefenderManager.Instance.defendersParent.transform);
         base.InitializeSetup(startingGridPosition, startingTile);
-
-        // REMOVE LATER
-        //ModifyCurrentHealth(-(currentHealth - 1));
-        //ModifyCurrentMobility(10);
     }
     public override void SetBaseProperties()
     {
@@ -413,6 +410,11 @@ public class Defender : LivingEntity
         else if (selectedDefender != null && selectedDefender.awaitingIcyFocusOrder)
         {
             selectedDefender.StartIcyFocusProcess(this);
+            return;
+        }
+        else if (selectedDefender != null && selectedDefender.awaitingDarkGiftOrder)
+        {
+            selectedDefender.StartDarkGiftProcess(this);
             return;
         }
         else if (selectedDefender != null && selectedDefender.awaitingStoneFormOrder)
@@ -685,6 +687,7 @@ public class Defender : LivingEntity
         awaitingBlazeOrder = false;
         awaitingCreepingFrostOrder = false;
         awaitingOverloadOrder = false;
+        awaitingDarkGiftOrder = false;
 
         TileHover.Instance.SetVisibility(false);
         LevelManager.Instance.UnhighlightAllTiles();
@@ -1016,6 +1019,10 @@ public class Defender : LivingEntity
         {
             OnStoneFormButtonClicked();
         }
+        else if (abilityName == "Dark Gift")
+        {
+            OnDarkGiftButtonClicked();
+        }
         else if (abilityName == "Guard")
         {
             OnGuardButtonClicked();
@@ -1083,6 +1090,18 @@ public class Defender : LivingEntity
         else if (abilityName == "Whirlwind")
         {
             OnWhirlwindButtonClicked();
+            enableTileHover = false;
+            awaitingAnOrder = false;
+        }
+        else if (abilityName == "Toxic Rain")
+        {
+            OnToxicRainButtonClicked();
+            enableTileHover = false;
+            awaitingAnOrder = false;
+        }
+        else if (abilityName == "Pure Hate")
+        {
+            OnPureHateButtonClicked();
             enableTileHover = false;
             awaitingAnOrder = false;
         }
@@ -1539,6 +1558,17 @@ public class Defender : LivingEntity
             Debug.Log("Icy Focus button clicked, awaiting Icy Focus order");
             awaitingIcyFocusOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(icyFocus.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
+    }
+    public void OnDarkGiftButtonClicked()
+    {
+        Ability darkGift = mySpellBook.GetAbilityByName("Dark Gift");
+
+        if (EntityLogic.IsAbilityUseable(this, darkGift))
+        {
+            Debug.Log("Dark Gift button clicked, awaiting Dark Gift order");
+            awaitingDarkGiftOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(darkGift.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }
     }
     public void OnStoneFormButtonClicked()
@@ -2226,6 +2256,28 @@ public class Defender : LivingEntity
         if (EntityLogic.IsAbilityUseable(this, whirlwind))
         {
             AbilityLogic.Instance.PerformWhirlwind(this);
+        }
+    }
+    public void OnToxicRainButtonClicked()
+    {
+        Debug.Log("Toxic Rain button clicked");
+
+        Ability toxicRain = mySpellBook.GetAbilityByName("Toxic Rain");
+
+        if (EntityLogic.IsAbilityUseable(this, toxicRain))
+        {
+            AbilityLogic.Instance.PerformToxicRain(this);
+        }
+    }
+    public void OnPureHateButtonClicked()
+    {
+        Debug.Log("Pure Hate button clicked");
+
+        Ability pureHate = mySpellBook.GetAbilityByName("Pure Hate");
+
+        if (EntityLogic.IsAbilityUseable(this, pureHate))
+        {
+            AbilityLogic.Instance.PerformPureHate(this);
         }
     }
     public void OnGlobalCoolingButtonClicked()
@@ -3320,6 +3372,17 @@ public class Defender : LivingEntity
         {
             awaitingIcyFocusOrder = false;
             AbilityLogic.Instance.PerformIcyFocus(this, target);
+        }
+    }
+    public void StartDarkGiftProcess(Defender target)
+    {
+        Debug.Log("Defender.StartDarkGiftProcess() called");
+        Ability icyFocus = mySpellBook.GetAbilityByName("Dark Gift");
+
+        if (EntityLogic.IsTargetInRange(this, target, icyFocus.abilityRange))
+        {
+            awaitingDarkGiftOrder = false;
+            AbilityLogic.Instance.PerformDarkGift(this, target);
         }
     }
     public void StartSpiritSurgeProcess(LivingEntity target)

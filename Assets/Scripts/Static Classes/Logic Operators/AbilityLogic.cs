@@ -2310,6 +2310,11 @@ public class AbilityLogic : MonoBehaviour
             }
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, fireball);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+
+            if (!victim.inDeathProcess)
+            {
+                victim.myPassiveManager.ModifyBurning(fireball.abilitySecondaryValue);
+            }
         }
 
         // remove camoflage, etc
@@ -2354,7 +2359,7 @@ public class AbilityLogic : MonoBehaviour
             // Apply burning
             if(entity.inDeathProcess == false)
             {
-                entity.myPassiveManager.ModifyBurning(1);
+                entity.myPassiveManager.ModifyBurning(fireNova.abilitySecondaryValue);
             }
         }
 
@@ -2458,7 +2463,7 @@ public class AbilityLogic : MonoBehaviour
             // Apply Burning
             if(entity.inDeathProcess == false)
             {
-                entity.myPassiveManager.ModifyBurning(1, attacker);
+                entity.myPassiveManager.ModifyBurning(meteor.abilitySecondaryValue, attacker);
             }
         }
 
@@ -2479,26 +2484,38 @@ public class AbilityLogic : MonoBehaviour
     }
     private IEnumerator PerformCombustionCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
     {
-        // Setup
+        // Set up properties
         Ability combustion = attacker.mySpellBook.GetAbilityByName("Combustion");
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, combustion);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, combustion, damageType, false, victim.myPassiveManager.burningStacks * combustion.abilityPrimaryValue);
-        OnAbilityUsedStart(combustion, attacker);
+
+        // Calculate which characters are hit by the aoe
+        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, victim.tile, 1, true, false);
 
         // Play animation
         attacker.PlaySkillAnimation();
 
-        // Deal Damage
-        Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, combustion);
-        yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+        // Pay energy cost
+        OnAbilityUsedStart(combustion, attacker);
 
-        // Remove targets burning
-        if (!victim.inDeathProcess)
+        // Resolve hits against targets
+        foreach (LivingEntity entity in targetsInBlastRadius)
         {
-            victim.myPassiveManager.ModifyBurning(-victim.myPassiveManager.burningStacks);
+            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, combustion);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, combustion, damageType, critical, combustion.abilityPrimaryValue);
+
+            if (critical)
+            {
+                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+            }
+
+            // Deal Damage
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, combustion);
         }
-        // Resolve
+
+        // Pay energy cost
         OnAbilityUsedFinish(combustion, attacker);
+
+        yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
     }
 
@@ -3685,7 +3702,6 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability noxiousFumes = attacker.mySpellBook.GetAbilityByName("Noxious Fumes");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, noxiousFumes);
         List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(attacker, noxiousFumes.abilitySecondaryValue);
 
         // Pay energy cost
@@ -3697,22 +3713,13 @@ public class AbilityLogic : MonoBehaviour
         // Resolve damage against targets
         foreach (LivingEntity entity in targetsInRange)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, noxiousFumes);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, noxiousFumes, damageType, critical, noxiousFumes.abilityPrimaryValue);
-
-            if (critical)
-            {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
-            }
-
-            // Deal damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, noxiousFumes);
-
             // Apply poisoned
-            if (entity.inDeathProcess == false)
-            {
-                entity.myPassiveManager.ModifyPoisoned(1, attacker);
-            }
+            entity.myPassiveManager.ModifyPoisoned(noxiousFumes.abilityPrimaryValue, attacker);
+            yield return new WaitForSeconds(0.5f);
+
+            // Apply Silenced
+            entity.myPassiveManager.ModifySilenced(1);
+            yield return new WaitForSeconds(0.5f);
         }
 
         yield return new WaitForSeconds(0.5f);
@@ -3770,6 +3777,48 @@ public class AbilityLogic : MonoBehaviour
 
     }
 
+    // Toxic Rain
+    public Action PerformToxicRain(LivingEntity attacker)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformToxicRainCoroutine(attacker, action));
+        return action;
+    }
+    private IEnumerator PerformToxicRainCoroutine(LivingEntity attacker, Action action)
+    {
+        // Set up properties
+        Ability toxicRain = attacker.mySpellBook.GetAbilityByName("Toxic Rain");
+        List<LivingEntity> entitiesHit = new List<LivingEntity>();
+
+        // Get all enemies hit by effect
+        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if (!CombatLogic.Instance.IsTargetFriendly(attacker, entity))
+            {
+                entitiesHit.Add(entity);
+            }
+        }
+
+        // Play animation
+        attacker.PlaySkillAnimation();
+
+        // Pay energy cost
+        OnAbilityUsedStart(toxicRain, attacker);
+
+        // Resolve damage against targets
+        foreach (LivingEntity entity in entitiesHit)
+        {
+            // Apply poisoned
+            entity.myPassiveManager.ModifyPoisoned(1, attacker);
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(toxicRain, attacker);
+        action.actionResolved = true;
+    }
+
     // Chemical Reaction
     public Action PerformChemicalReaction(LivingEntity caster, LivingEntity target)
     {
@@ -3810,7 +3859,7 @@ public class AbilityLogic : MonoBehaviour
         // Setup
         Ability drain = attacker.mySpellBook.GetAbilityByName("Drain");
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, drain);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, drain, damageType, false, victim.myPassiveManager.poisonedStacks * 2);        
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, drain, damageType, false, victim.myPassiveManager.poisonedStacks);        
         OnAbilityUsedStart(drain, attacker);
 
         // Play animation
@@ -4071,7 +4120,7 @@ public class AbilityLogic : MonoBehaviour
         // Play animation
         caster.PlaySkillAnimation();
 
-        // Gain Air imbuement
+        // Gain Infuse
         caster.myPassiveManager.ModifyInfuse(1);
         yield return new WaitForSeconds(0.5f);
 
@@ -4275,24 +4324,28 @@ public class AbilityLogic : MonoBehaviour
         // Pay energy cost, + etc
         OnAbilityUsedStart(bless, caster);
 
-        // Remove Weakened
-        if (target.myPassiveManager.weakened)
+        // Give target block
+        target.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(bless.abilityPrimaryValue, caster));
+        yield return new WaitForSeconds(0.5f);
+
+        // Remove Blind
+        if (target.myPassiveManager.blind)
         {
-            target.myPassiveManager.ModifyWeakened(-target.myPassiveManager.weakenedStacks);
+            target.myPassiveManager.ModifyBlind(-target.myPassiveManager.blindStacks);
             yield return new WaitForSeconds(0.5f);
         }
 
-        // Remove Vulnerable
-        if (target.myPassiveManager.vulnerable)
+        // Remove Disarmed
+        if (target.myPassiveManager.disarmed)
         {
-            target.myPassiveManager.ModifyVulnerable(-target.myPassiveManager.vulnerableStacks);
+            target.myPassiveManager.ModifyDisarmed(-target.myPassiveManager.disarmedStacks);
             yield return new WaitForSeconds(0.5f);
         }
 
-        // Remove Stunned
-        if (target.myPassiveManager.stunned)
+        // Remove Silenced
+        if (target.myPassiveManager.silenced)
         {
-            target.myPassiveManager.ModifyStunned(-target.myPassiveManager.stunnedStacks);
+            target.myPassiveManager.ModifySilenced(-target.myPassiveManager.silencedStacks);
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -4609,6 +4662,62 @@ public class AbilityLogic : MonoBehaviour
 
     }
 
+    // Dark Gift
+    public Action PerformDarkGift(LivingEntity caster, LivingEntity target)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformDarkGiftCoroutine(caster, target, action));
+        return action;
+    }
+    private IEnumerator PerformDarkGiftCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    {
+        // Set up properties
+        Ability darkGift = caster.mySpellBook.GetAbilityByName("Dark Gift");
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(darkGift, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
+
+        // Apply Dark Gift
+        target.myPassiveManager.ModifyDarkGift(1);
+        yield return new WaitForSeconds(0.5f);
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(darkGift, caster);
+        action.actionResolved = true;
+
+    }
+
+    // Pure Hate
+    public Action PerformPureHate(LivingEntity caster)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformPureHateCoroutine(caster, action));
+        return action;
+    }
+    private IEnumerator PerformPureHateCoroutine(LivingEntity caster,  Action action)
+    {
+        // Set up properties
+        Ability pureHate = caster.mySpellBook.GetAbilityByName("Pure Hate");
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(pureHate, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
+
+        // Apply Dark Gift
+        caster.myPassiveManager.ModifyPureHate(1);
+        yield return new WaitForSeconds(0.5f);
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(pureHate, caster);
+        action.actionResolved = true;
+
+    }
+
     // Chaos Bolt
     public Action PerformChaosBolt(LivingEntity attacker, LivingEntity victim)
     {
@@ -4651,7 +4760,7 @@ public class AbilityLogic : MonoBehaviour
 
             if (!victim.inDeathProcess)
             {
-                victim.myPassiveManager.ModifyVulnerable(1);
+                victim.myPassiveManager.ModifyStunned(1);
             }
         }
 
@@ -4700,13 +4809,13 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability unbridledChaos = attacker.mySpellBook.GetAbilityByName("Unbridled Chaos");
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, unbridledChaos);
-        List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, attacker.tile, 3, true, false);
+        List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, attacker.tile, attacker.currentAuraSize, true, false);
         List<LivingEntity> targetsHit = new List<LivingEntity>();
 
         // Play animation
         attacker.PlaySkillAnimation();
 
-        // get a random target 6 times
+        // get a random target 5 times
         for (int i = 0; i < unbridledChaos.abilitySecondaryValue; i++)
         {
             targetsHit.Add(targetsInRange[Random.Range(0, targetsInRange.Count)]);

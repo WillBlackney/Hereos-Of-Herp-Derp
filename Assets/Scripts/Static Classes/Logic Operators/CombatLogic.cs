@@ -178,14 +178,21 @@ public class CombatLogic : MonoBehaviour
             Debug.Log("Damage percentage modifier after 'Critical' bonus: " + damageModifier.ToString());
         }
 
+        // dark gift
+        if (attacker.myPassiveManager.darkGift)
+        {
+            damageModifier += 0.5f;
+            Debug.Log("Damage percentage modifier after 'Dark Gift' bonus: " + damageModifier.ToString());
+        }
+
         // TO DO: Damage modifiers related to increasing magical damage by percentage should be moved to a new method (make some like CalculateMagicDamageModifiers())
 
         // Air Damage bonuses
-        if(damageType == "Air")
+        if (damageType == "Air")
         {
             if (attacker.myPassiveManager.stormLord)
             {
-                Debug.Log("Damage has a type of 'Air', and attacker has 'Storm Lord' passive, increasing damage by 20%...");
+                Debug.Log("Damage has a type of 'Air', and attacker has 'Storm Lord' passive, increasing damage by 30%...");
                 damageModifier += 0.3f;
             }
         }
@@ -195,7 +202,7 @@ public class CombatLogic : MonoBehaviour
         {
             if (attacker.myPassiveManager.demon)
             {
-                Debug.Log("Damage has a type of 'Fire', and attacker has 'Demon' passive, increasing damage by 20%...");
+                Debug.Log("Damage has a type of 'Fire', and attacker has 'Demon' passive, increasing damage by 30%...");
                 damageModifier += 0.3f;
             }
         }
@@ -205,7 +212,7 @@ public class CombatLogic : MonoBehaviour
         {
             if (attacker.myPassiveManager.toxicity)
             {
-                Debug.Log("Damage has a type of 'Poison', and attacker has 'Toxicity' passive, increasing damage by 20%...");
+                Debug.Log("Damage has a type of 'Poison', and attacker has 'Toxicity' passive, increasing damage by 30%...");
                 damageModifier += 0.3f;
             }
         }
@@ -215,7 +222,7 @@ public class CombatLogic : MonoBehaviour
         {
             if (attacker.myPassiveManager.frozenHeart)
             {
-                Debug.Log("Damage has a type of 'Frost', and attacker has 'Frozen Heart' passive, increasing damage by 20%...");
+                Debug.Log("Damage has a type of 'Frost', and attacker has 'Frozen Heart' passive, increasing damage by 30%...");
                 damageModifier += 0.3f;
             }
         }
@@ -225,8 +232,14 @@ public class CombatLogic : MonoBehaviour
         {
             if (attacker.myPassiveManager.shadowForm)
             {
-                Debug.Log("Damage has a type of 'Shadow', and attacker has 'Shadow Form' passive, increasing damage by 20%...");
+                Debug.Log("Damage has a type of 'Shadow', and attacker has 'Shadow Form' passive, increasing damage by 30%...");
                 damageModifier += 0.3f;
+            }
+
+            if (attacker.myPassiveManager.pureHate)
+            {
+                Debug.Log("Damage has a type of 'Shadow', and attacker has 'Pure Hate' passive, increasing damage by 50%...");
+                damageModifier += 0.5f;
             }
         }
 

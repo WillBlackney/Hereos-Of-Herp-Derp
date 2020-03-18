@@ -417,89 +417,16 @@ public class LivingEntity : MonoBehaviour
     }
     public virtual void ModifyCurrentStrength(int strengthGainedOrLost)
     {
-        currentStrength += strengthGainedOrLost;
-        /*
-        if(strengthGainedOrLost == 0)
-        {
-            return;
-        }
-
-        int previousStrength = currentStrength;
-        currentStrength += strengthGainedOrLost;
-
-        if (currentStrength != 0 ||
-            (currentStrength == 0 && (previousStrength > 0 || previousStrength < 0))
-            )
-        {
-            myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Bonus Strength"), strengthGainedOrLost);
-        }
-        
-       
-        if (strengthGainedOrLost > 0)
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strength +" + strengthGainedOrLost, false));
-            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
-        }
-
-        if (strengthGainedOrLost < 0)
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strength " + strengthGainedOrLost, false));
-            StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
-        }
-        */
+        currentStrength += strengthGainedOrLost;  
 
     }
     public virtual void ModifyCurrentWisdom(int wisdomGainedOrLost)
     {
-        currentWisdom += wisdomGainedOrLost;
-        /*
-        int previousWisdom = currentWisdom;
-        currentWisdom += wisdomGainedOrLost;
-
-        if (currentWisdom != 0 ||
-            (currentWisdom == 0 && (previousWisdom > 0 || previousWisdom < 0))
-            )
-        {
-            myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Bonus Wisdom"), wisdomGainedOrLost);
-        }
-
-
-        if (wisdomGainedOrLost > 0)
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Wisdom +" + wisdomGainedOrLost, false));
-            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
-        }
-
-        if (wisdomGainedOrLost < 0)
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Wisdom " + wisdomGainedOrLost, false));
-            StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
-        }
-        */
-
+        currentWisdom += wisdomGainedOrLost;        
     }
     public virtual void ModifyCurrentDexterity(int dexterityGainedOrLost)
     {
         currentDexterity += dexterityGainedOrLost;
-        /*
-        if (currentDexterity != 0)
-        {
-            myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Dexterity"), dexterityGainedOrLost);
-        }
-
-        if (dexterityGainedOrLost > 0)
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dexterity +" + dexterityGainedOrLost, false, "Blue"));
-            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
-        }
-
-        if (dexterityGainedOrLost < 0)
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dexterity " + dexterityGainedOrLost, false));
-            StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
-        }
-        */
-
     }
     public virtual void ModifyCurrentInitiative(int initiativeGainedOrLost)
     {
@@ -508,21 +435,6 @@ public class LivingEntity : MonoBehaviour
     public virtual void ModifyCurrentStamina(int staminaGainedOrLost)
     {
         currentStamina += staminaGainedOrLost;
-
-        /*
-        if (energyGainedOrLost > 0)
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Energy +" + energyGainedOrLost, false, "Blue"));
-            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
-        }
-
-        if (energyGainedOrLost < 0)
-        {
-            StartCoroutine(VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Energy " + energyGainedOrLost, false));
-            StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
-        }
-        */
-
     }
     public virtual void ModifyCurrentCriticalChance(int criticalGainedOrLost)
     {
@@ -1465,19 +1377,27 @@ public class LivingEntity : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-        // Remove Marked
-        if (myPassiveManager.marked)
-        {
-            Debug.Log("OnActivationEndCoroutine() checking Marked...");
-            myPassiveManager.ModifyMarked(-myPassiveManager.terrifiedStacks);
-            yield return new WaitForSeconds(1f);
-        }
-
         // Remove Temporary True Sight
         if (myPassiveManager.temporaryTrueSight)
         {
             Debug.Log("OnActivationEndCoroutine() checking Temporary True Sight...");
             myPassiveManager.ModifyTemporaryTrueSight(-myPassiveManager.temporaryTrueSightStacks);
+            yield return new WaitForSeconds(1f);
+        }
+
+        // Remove Dark Gift
+        if (myPassiveManager.darkGift)
+        {
+            Debug.Log("OnActivationEndCoroutine() checking Dark Gift...");
+            myPassiveManager.ModifyDarkGift(-myPassiveManager.darkGiftStacks);
+            yield return new WaitForSeconds(1f);
+        }
+
+        // Remove Pure Hate
+        if (myPassiveManager.pureHate)
+        {
+            Debug.Log("OnActivationEndCoroutine() checking Pure Hate...");
+            myPassiveManager.ModifyPureHate(-myPassiveManager.pureHateStacks);
             yield return new WaitForSeconds(1f);
         }
 
@@ -1518,7 +1438,7 @@ public class LivingEntity : MonoBehaviour
         // Remove Temporary Parry 
         if (myPassiveManager.temporaryBonusParry)
         {
-            Debug.Log("OnActivationEndCoroutine() removing Temporary Bonus Parry...");
+            Debug.Log("OnNewTurnCycleStartedCoroutine() removing Temporary Bonus Parry...");
             myPassiveManager.ModifyTemporaryParry(-myPassiveManager.temporaryBonusParryStacks);
             yield return new WaitForSeconds(0.5f);
         }
@@ -1526,9 +1446,25 @@ public class LivingEntity : MonoBehaviour
         // Bonus Dodge
         if (myPassiveManager.temporaryBonusDodge)
         {
-            Debug.Log("OnActivationEndCoroutine() removing Temporary Bonus Dodge...");
+            Debug.Log("OnNewTurnCycleStartedCoroutine() removing Temporary Bonus Dodge...");
             myPassiveManager.ModifyTemporaryDodge(-myPassiveManager.temporaryBonusDodgeStacks);
             yield return new WaitForSeconds(0.5f);
+        }
+
+        // Remove Transcendence
+        if (myPassiveManager.transcendence)
+        {
+            Debug.Log("OnNewTurnCycleStartedCoroutine() removing Transcendence...");
+            myPassiveManager.ModifyTranscendence(-myPassiveManager.transcendenceStacks);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Remove Marked
+        if (myPassiveManager.marked)
+        {
+            Debug.Log("OnNewTurnCycleStartedCoroutine() checking Marked...");
+            myPassiveManager.ModifyMarked(-myPassiveManager.terrifiedStacks);
+            yield return new WaitForSeconds(1f);
         }
 
         action.actionResolved = true;

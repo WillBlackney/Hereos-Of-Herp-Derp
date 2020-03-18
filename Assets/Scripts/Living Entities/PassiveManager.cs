@@ -168,6 +168,12 @@ public class PassiveManager : MonoBehaviour
     public bool sharpenedBlade;
     public int sharpenedBladeStacks;
 
+    public bool darkGift;
+    public int darkGiftStacks;
+
+    public bool pureHate;
+    public int pureHateStacks;
+
     [Header("Non-Stacking Passives")]   
     public bool unleashed;
     public int unleashedStacks;
@@ -1237,6 +1243,65 @@ public class PassiveManager : MonoBehaviour
             if (sharpenedBladeStacks <= 0)
             {
                 sharpenedBlade = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+
+    public void ModifyDarkGift(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyDarkGift() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Dark Gift");
+        if (stacks > 0)
+        {
+            darkGiftStacks += stacks;
+            if (darkGiftStacks > 0)
+            {
+                darkGift = true;
+            }
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Dark Gift" + stacks.ToString());
+            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+
+        }
+
+
+        else if (stacks < 0)
+        {
+            darkGiftStacks += stacks;
+            if (darkGiftStacks <= 0)
+            {
+                darkGift = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyPureHate(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPureHate() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Pure Hate");
+        if (stacks > 0)
+        {
+            pureHateStacks += stacks;
+            if (pureHateStacks > 0)
+            {
+                pureHate = true;
+            }
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Pure Hate" + stacks.ToString());
+            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+
+        }
+
+
+        else if (stacks < 0)
+        {
+            pureHateStacks += stacks;
+            if (pureHateStacks <= 0)
+            {
+                pureHate = false;
             }
         }
 
