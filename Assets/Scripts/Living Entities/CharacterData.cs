@@ -403,340 +403,81 @@ public class CharacterData : MonoBehaviour
         // Learn Move
         HandleLearnAbility(AbilityLibrary.Instance.GetAbilityByName("Move"));
 
+        // Preset specific set up (weapons, abilities, passives, talents, etc)
         if (characterClass == "Knight")
         {
-            myClass = "Knight";
-
-            // Modify Attributes
-            ModifyGuardianPoints(2);
-            ModifyDuelistPoints(1);
-
-            // REMOVE IN FUTURE!! FOR TESTING HERE
-            ModifyShadowcraftPoints(1);
-            ModifyPyromaniaPoints(1);
-            ModifyCyromancyPoints(1);
-            ModifyCorruptionPoints(1);
-            ModifyBrawlerPoints(1);
-            ModifyAssassinationPoints(1);
-            ModifyNaturalismPoints(1);
-            ModifyDivinityPoints(1);
-            ModifyManipulationPoints(1);
-            ModifyRangerPoints(1);
-
-            // Assign preset weapons
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Sword"), mainHandSlot);
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Shield"), offHandSlot);
-
-            // Learn abilities + passive            
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Dash"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Provoke"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Guard"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Cautious"), false);    
-            
-            // Set up character view model
-            CharacterModelController.SetUpAsKnightPreset(myCharacterModel);
-
-            // Set up base abilities
-            KnowsMove = true;
-            KnowsStrike = true;
-            KnowsDefend = true;
-
+            SetUpAsKnightPreset();
         }
         else if (characterClass == "Paladin")
         {
-            myClass = "Paladin";
-
-            // Modify Attributes
-            ModifyGuardianPoints(1);
-            ModifyDivinityPoints(2);
-
-            // Assign preset weapons
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Sword"), mainHandSlot);
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Shield"), offHandSlot);
-
-            // Learn abilities + passive
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Guard"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Invigorate"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Inspire"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Encouraging Aura"), false);            
-
-            // Set up character view model
-            CharacterModelController.SetUpAsPaladinPreset(myCharacterModel);
-
-            // Set up base abilities
-            KnowsMove = true;
-            KnowsStrike = true;
-            KnowsDefend = true;
-
+            SetUpAsPaladinPreset();
         }
-        else if (characterClass == "Barbarian")
+        else if (characterClass == "Berserker")
         {
-            myClass = "Barbarian";
-
-            // Modify Attributes
-            ModifyCorruptionPoints(1);
-            ModifyBrawlerPoints(2);
-
-            // Assign preset weapons
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Battle Axe"), mainHandSlot);
-
-            // Learn abilities + passive
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Smash"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Blood Offering"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Charge"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Tenacious"), false);            
-
-            // Set up character view model
-            CharacterModelController.SetUpAsBarbarianPreset(myCharacterModel);
-
-            // Set up base abilities
-            KnowsMove = true;
-            KnowsStrike = true;
+            SetUpAsBerserkerPreset();
         }
         else if (characterClass == "Battle Mage")
         {
-            myClass = "Battle Mage";
-
-            // Modify Attributes
-            ModifyBrawlerPoints(1);
-            ModifyPyromaniaPoints(2);
-
-            // Assign preset weapons
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Battle Axe"), mainHandSlot);
-
-            // Learn abilities + passive
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Smash"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Whirlwind"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Phoenix Dive"), false);            
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Fiery Aura"), false);           
-
-            // Set up character view model
-            CharacterModelController.SetUpAsBattleMagePreset(myCharacterModel);
-
-            // Set up base abilities
-            KnowsMove = true;
-            KnowsStrike = true;
-            KnowsDefend = true;
+            SetUpAsBattleMagePreset();
         }
         else if (characterClass == "Arcanist")
         {
-            myClass = "Arcanist";
-
-            // Modify Attributes
-            ModifyManipulationPoints(1);
-            ModifyPyromaniaPoints(1);
-            ModifyCyromancyPoints(1);
-
-            // Assign preset weapons
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Staff"), mainHandSlot);
-
-            // Learn abilities + passive
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Telekinesis"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Fire Ball"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Icy Focus"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Flux"), false);           
-
-            // Set up character view model
-            CharacterModelController.SetUpAsArcanistPreset(myCharacterModel);
-
-            // Set up base abilities
-            KnowsMove = true;
-            KnowsStrike = true;
+            SetUpAsArcanistPreset();
         }
         else if (characterClass == "Shadow Blade")
         {
-            myClass = "Shadow Blade";
-
-            // Modify Attributes
-            ModifyAssassinationPoints(3);
-
-            // Assign preset weapons
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Dagger"), mainHandSlot);
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Dagger"), offHandSlot);
-
-            // Learn abilities + passive
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Shadow Step"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Vanish"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Cheap Shot"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Opportunist"), false);            
-
-            // Set up character view model
-            CharacterModelController.SetUpAsShadowBladePreset(myCharacterModel);
-
-            // Set up base abilities
-            KnowsMove = true;
-            KnowsStrike = true;
+            SetUpAsShadowBladePreset();
         }
         else if (characterClass == "Rogue")
         {
-            myClass = "Rogue";
-
-            // Modify Attributes
-            ModifyAssassinationPoints(1);
-            ModifyDuelistPoints(1);
-            ModifyCorruptionPoints(1);
-
-            // Assign preset weapons
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Sword"), mainHandSlot);
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Sword"), offHandSlot);
-
-            // Learn abilities + passive
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Blood Offering"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Dash"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Shank"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Poisonous"), false);           
-
-            // Set up character view model
-            CharacterModelController.SetUpAsRoguePreset(myCharacterModel);
-
-            // Set up base abilities
-            KnowsMove = true;
-            KnowsStrike = true;
+            SetUpAsRoguePreset();
         }
         else if (characterClass == "Priest")
         {
-            myClass = "Priest";
-
-            // Modify Attributes
-            ModifyShadowcraftPoints(1);
-            ModifyDivinityPoints(2);
-
-            // Assign preset weapons
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Staff"), mainHandSlot);
-
-            // Learn abilities + passive
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Holy Fire"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Invigorate"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Shroud"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Encouraging Aura"), false);           
-
-            // Set up character view model
-            CharacterModelController.SetUpAsPriestPreset(myCharacterModel);
-
-            // Set up base abilities
-            KnowsMove = true;
-            KnowsStrike = true;
+            SetUpAsPriestPreset();
         }
         else if (characterClass == "Monk")
         {
-            myClass = "Monk";
-
-            // Modify Attributes
-            ModifyBrawlerPoints(1);
-            ModifyDuelistPoints(1);
-            ModifyDivinityPoints(1);
-
-            // Assign preset weapons
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Staff"), mainHandSlot);
-
-            // Learn abilities + passive
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Consecrate"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Whirlwind"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Dash"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Encouraging Aura"), false);            
-
-            // Set up character view model
-            CharacterModelController.SetUpAsMonkPreset(myCharacterModel);
-
-            // Set up base abilities
-            KnowsMove = true;
-            KnowsStrike = true;
+            SetUpAsMonkPreset();
         }
         else if (characterClass == "Wayfarer")
         {
-            myClass = "Wayfarer";
-
-            // Modify Attributes
-            ModifyManipulationPoints(1);
-            ModifyRangerPoints(2);
-
-            // Assign preset weapons
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Bow"), mainHandSlot);
-
-            // Learn abilities + passive
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Haste"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Head Shot"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Telekinesis"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Flux"), false);           
-
-            // Set up character view model
-            CharacterModelController.SetUpAsWayfarerPreset(myCharacterModel);
-
-            // Set up base abilities
-            KnowsMove = true;
-            KnowsShoot = true;
+            SetUpAsWayfarerPreset();
         }
         else if (characterClass == "Marksman")
         {
-            myClass = "Marksman";
-
-            // Modify Attributes
-            ModifyAssassinationPoints(1);
-            ModifyRangerPoints(2);
-
-            // Assign preset weapons
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Bow"), mainHandSlot);
-
-            // Learn abilities + passive
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Vanish"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Snipe"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Head Shot"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Predator"), false);
-
-            // Set up character view model
-            CharacterModelController.SetUpAsMarksmanPreset(myCharacterModel);
-
-            // Set up base abilities
-            KnowsMove = true;
-            KnowsShoot = true;
+            SetUpAsMarksmanPreset();
         }
         else if (characterClass == "Warlock")
         {
-            myClass = "Warlock";
-
-            // Modify Attributes
-            ModifyShadowcraftPoints(2);
-            ModifyManipulationPoints(1);
-
-            // Assign preset weapons
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Staff"), mainHandSlot);
-
-            // Learn abilities + passive
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Shadow Blast"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Nightmare"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Hex"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Flux"), false);            
-
-            // Set up character view model
-            CharacterModelController.SetUpAsWarlockPreset(myCharacterModel);
-
-            // Set up base abilities
-            KnowsMove = true;
-            KnowsStrike = true;
+            SetUpAsWarlockPreset();
         }
         else if (characterClass == "Alchemist")
         {
-            myClass = "Alchemist";
-
-            // Modify Attributes
-            ModifyCorruptionPoints(3);
-
-            // Assign preset weapons
-            InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Staff"), mainHandSlot);
-
-            // Learn abilities + passive
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Blight"), false);            
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Chemical Reaction"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Drain"), false);
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Venomous"), false);
-
-            // Set up character view model
-            CharacterModelController.SetUpAsAlchemistPreset(myCharacterModel);
-
-            // Set up base abilities
-            KnowsMove = true;
-            KnowsStrike = true;
+            SetUpAsAlchemistPreset();            
         }
+        else if (characterClass == "Death Knight")
+        {
+            SetUpAsDeathKnightPreset();
+        }
+        else if (characterClass == "Illusionist")
+        {
+            SetUpAsIllusionistPreset();
+        }
+        else if (characterClass == "Shaman")
+        {
+            SetUpAsShamanPreset();
+        }
+        else if (characterClass == "Frost Knight")
+        {
+            SetUpAsFrostKnightPreset();
+        }
+        else if (characterClass == "Bulwark")
+        {
+            SetUpAsBulwarkPreset();
+        }
+
+
 
         // Set up health
         ModifyMaxHealth(100);
@@ -861,6 +602,460 @@ public class CharacterData : MonoBehaviour
             naturalismTreeParent.SetActive(true);
         }
 
+    }
+    #endregion
+
+    // Specific Preset set ups
+    #region
+    public void SetUpAsKnightPreset()
+    {
+        myClass = "Knight";
+
+        // Modify Attributes
+        ModifyGuardianPoints(2);
+        ModifyDuelistPoints(1);
+
+        // REMOVE IN FUTURE!! FOR TESTING HERE
+        ModifyShadowcraftPoints(1);
+        ModifyPyromaniaPoints(1);
+        ModifyCyromancyPoints(1);
+        ModifyCorruptionPoints(1);
+        ModifyBrawlerPoints(1);
+        ModifyAssassinationPoints(1);
+        ModifyNaturalismPoints(1);
+        ModifyDivinityPoints(1);
+        ModifyManipulationPoints(1);
+        ModifyRangerPoints(1);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Sword"), mainHandSlot);
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Shield"), offHandSlot);
+
+        // Learn abilities + passive            
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Shield Slam"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Testudo"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Dash"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Cautious"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsKnightPreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
+        KnowsDefend = true;
+    }
+    public void SetUpAsPaladinPreset()
+    {
+        myClass = "Paladin";
+
+        // Modify Attributes
+        ModifyGuardianPoints(1);
+        ModifyDivinityPoints(2);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Battle Axe"), mainHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Charge"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Invigorate"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Inspire"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Encouraging Aura"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsPaladinPreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
+        KnowsDefend = true;
+    }
+    public void SetUpAsBerserkerPreset()
+    {
+        myClass = "Berserker";
+
+        // Modify Attributes
+        ModifyCorruptionPoints(1);
+        ModifyBrawlerPoints(2);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Battle Axe"), mainHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Charge"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Smash"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Blood Offering"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Tenacious"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsBerserkerPreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
+    }
+    public void SetUpAsBattleMagePreset()
+    {
+        myClass = "Battle Mage";
+
+        // Modify Attributes
+        ModifyBrawlerPoints(1);
+        ModifyPyromaniaPoints(2);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Battle Axe"), mainHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Phoenix Dive"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Whirlwind"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Fire Nova"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Fiery Aura"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsBattleMagePreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
+        KnowsDefend = true;
+    }
+    public void SetUpAsArcanistPreset()
+    {
+        myClass = "Arcanist";
+
+        // Modify Attributes
+        ModifyManipulationPoints(1);
+        ModifyPyromaniaPoints(1);
+        ModifyCyromancyPoints(1);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Staff"), mainHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Telekinesis"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Fire Ball"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Icy Focus"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Flux"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsArcanistPreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
+    }
+    public void SetUpAsShadowBladePreset()
+    {
+        myClass = "Shadow Blade";
+
+        // Modify Attributes
+        ModifyAssassinationPoints(3);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Dagger"), mainHandSlot);
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Dagger"), offHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Shadow Step"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Vanish"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Cheap Shot"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Predator"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsShadowBladePreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
+    }
+    public void SetUpAsRoguePreset()
+    {
+        myClass = "Rogue";
+
+        // Modify Attributes
+        ModifyAssassinationPoints(1);
+        ModifyDuelistPoints(1);
+        ModifyCorruptionPoints(1);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Sword"), mainHandSlot);
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Sword"), offHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Blood Offering"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Dash"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Shank"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Poisonous"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsRoguePreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
+    }
+    public void SetUpAsPriestPreset()
+    {
+        myClass = "Priest";
+
+        // Modify Attributes
+        ModifyDivinityPoints(3);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Staff"), mainHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Holy Fire"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Invigorate"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Transcendence"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Encouraging Aura"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsPriestPreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
+    }
+    public void SetUpAsMonkPreset()
+    {
+        myClass = "Monk";
+
+        // Modify Attributes
+        ModifyBrawlerPoints(1);
+        ModifyDuelistPoints(1);
+        ModifyDivinityPoints(1);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Staff"), mainHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Consecrate"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Whirlwind"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Dash"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Riposte"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsMonkPreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
+    }
+    public void SetUpAsWayfarerPreset()
+    {
+        myClass = "Wayfarer";
+
+        // Modify Attributes
+        ModifyManipulationPoints(1);
+        ModifyRangerPoints(1);
+        ModifyNaturalismPoints(1);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Bow"), mainHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Haste"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Spirit Surge"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Telekinesis"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Quick Draw"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsWayfarerPreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsShoot = true;
+    }
+    public void SetUpAsMarksmanPreset()
+    {
+        myClass = "Marksman";
+
+        // Modify Attributes
+        ModifyAssassinationPoints(1);
+        ModifyRangerPoints(2);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Bow"), mainHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Vanish"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Impaling Bolt"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Head Shot"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Predator"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsMarksmanPreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsShoot = true;
+    }
+    public void SetUpAsWarlockPreset()
+    {
+        myClass = "Warlock";
+
+        // Modify Attributes
+        ModifyShadowcraftPoints(2);
+        ModifyManipulationPoints(1);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Staff"), mainHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Chaos Bolt"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Shadow Blast"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Hex"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Flux"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsWarlockPreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
+    }
+    public void SetUpAsAlchemistPreset()
+    {
+        myClass = "Alchemist";
+
+        // Modify Attributes
+        ModifyCorruptionPoints(3);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Staff"), mainHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Blight"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Chemical Reaction"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Drain"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Venomous"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsAlchemistPreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
+    }
+    public void SetUpAsIllusionistPreset()
+    {
+        myClass = "Illusionist";
+
+        // Modify Attributes
+        ModifyManipulationPoints(2);
+        ModifyShadowcraftPoints(1);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Staff"), mainHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Phase Shift"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Shadow Blast"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Dimensional Blast"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Flux"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsIllusionistPreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
+    }
+    public void SetUpAsFrostKnightPreset()
+    {
+        myClass = "Frost Knight";
+
+        // Modify Attributes
+        ModifyCyromancyPoints(3);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Battle Axe"), mainHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Frost Bolt"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Chilling Blow"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Frost Nova"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Shatter"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsFrostKnightPreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
+    }
+    public void SetUpAsShamanPreset()
+    {
+        myClass = "Shaman";
+
+        // Modify Attributes
+        ModifyNaturalismPoints(2);
+        ModifyManipulationPoints(1);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Battle Axe"), mainHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Chain Lightning"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Thunder Strike"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Spirit Surge"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Flux"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsShamanPreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
+    }
+    public void SetUpAsDeathKnightPreset()
+    {
+        myClass = "Death Knight";
+
+        // Modify Attributes
+        ModifyBrawlerPoints(2);
+        ModifyShadowcraftPoints(1);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Battle Axe"), mainHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Charge"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Smash"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Dark Gift"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Shadow Aura"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsDeathKnightPreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
+    }
+    public void SetUpAsBulwarkPreset()
+    {
+        myClass = "Bulwark";
+
+        // Modify Attributes
+        ModifyGuardianPoints(3);
+
+        // Assign preset weapons
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Sword"), mainHandSlot);
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Shield"), offHandSlot);
+
+        // Learn abilities + passive
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Provoke"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Get Down!"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Fortify"), false);
+        TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Guardian Aura"), false);
+
+        // Set up character view model
+        CharacterModelController.SetUpAsBulwarkPreset(myCharacterModel);
+
+        // Set up base abilities
+        KnowsMove = true;
+        KnowsStrike = true;
     }
     #endregion
 

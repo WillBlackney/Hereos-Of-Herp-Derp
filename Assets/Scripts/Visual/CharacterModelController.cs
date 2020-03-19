@@ -10,6 +10,7 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.BuildModelFromPresetString() called, preset string: " + preset);
 
+        // Starting playable presets
         if (preset == "Paladin")
         {
             SetUpAsPaladinPreset(model);
@@ -22,9 +23,9 @@ public static class CharacterModelController
         {
             SetUpAsArcanistPreset(model);
         }
-        else if (preset == "Barbarian")
+        else if (preset == "Berserker")
         {
-            SetUpAsBarbarianPreset(model);
+            SetUpAsBerserkerPreset(model);
         }
         else if (preset == "Shadow Blade")
         {
@@ -62,6 +63,28 @@ public static class CharacterModelController
         {
             SetUpAsBattleMagePreset(model);
         }
+        else if (preset == "Illusionist")
+        {
+            SetUpAsIllusionistPreset(model);
+        }
+        else if (preset == "Frost Knight")
+        {
+            SetUpAsFrostKnightPreset(model);
+        }
+        else if (preset == "Shaman")
+        {
+            SetUpAsShamanPreset(model);
+        }
+        else if (preset == "Death Knight")
+        {
+            SetUpAsDeathKnightPreset(model);
+        }
+        else if (preset == "Bulwark")
+        {
+            SetUpAsBulwarkPreset(model);
+        }
+
+        // Misc Presets
         else if (preset == "King")
         {
             SetUpAsKingPreset(model);
@@ -206,7 +229,7 @@ public static class CharacterModelController
 
         model.simpleStaffMH.SetActive(true);
     }
-    public static void SetUpAsBarbarianPreset(UniversalCharacterModel model)
+    public static void SetUpAsBerserkerPreset(UniversalCharacterModel model)
     {
         CompletelyDisableAllViews(model);
 
@@ -344,6 +367,81 @@ public static class CharacterModelController
         model.simpleBowMH.SetActive(true);
     }
     public static void SetUpAsBattleMagePreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.spellBladeLeftLeg.SetActive(true);
+        model.spellBladeRightLeg.SetActive(true);
+        model.spellBladeHead.SetActive(true);
+        model.spellBladeRightHand.SetActive(true);
+        model.spellBladeRightArm.SetActive(true);
+        model.spellBladeLeftHand.SetActive(true);
+        model.spellBladeLeftArm.SetActive(true);
+        model.spellBladeChest.SetActive(true);
+
+        model.simpleBattleAxe.SetActive(true);
+    }
+    public static void SetUpAsIllusionistPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.spellBladeLeftLeg.SetActive(true);
+        model.spellBladeRightLeg.SetActive(true);
+        model.spellBladeHead.SetActive(true);
+        model.spellBladeRightHand.SetActive(true);
+        model.spellBladeRightArm.SetActive(true);
+        model.spellBladeLeftHand.SetActive(true);
+        model.spellBladeLeftArm.SetActive(true);
+        model.spellBladeChest.SetActive(true);
+
+        model.simpleBattleAxe.SetActive(true);
+    }
+    public static void SetUpAsFrostKnightPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.spellBladeLeftLeg.SetActive(true);
+        model.spellBladeRightLeg.SetActive(true);
+        model.spellBladeHead.SetActive(true);
+        model.spellBladeRightHand.SetActive(true);
+        model.spellBladeRightArm.SetActive(true);
+        model.spellBladeLeftHand.SetActive(true);
+        model.spellBladeLeftArm.SetActive(true);
+        model.spellBladeChest.SetActive(true);
+
+        model.simpleBattleAxe.SetActive(true);
+    }
+    public static void SetUpAsShamanPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.spellBladeLeftLeg.SetActive(true);
+        model.spellBladeRightLeg.SetActive(true);
+        model.spellBladeHead.SetActive(true);
+        model.spellBladeRightHand.SetActive(true);
+        model.spellBladeRightArm.SetActive(true);
+        model.spellBladeLeftHand.SetActive(true);
+        model.spellBladeLeftArm.SetActive(true);
+        model.spellBladeChest.SetActive(true);
+
+        model.simpleBattleAxe.SetActive(true);
+    }
+    public static void SetUpAsDeathKnightPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.spellBladeLeftLeg.SetActive(true);
+        model.spellBladeRightLeg.SetActive(true);
+        model.spellBladeHead.SetActive(true);
+        model.spellBladeRightHand.SetActive(true);
+        model.spellBladeRightArm.SetActive(true);
+        model.spellBladeLeftHand.SetActive(true);
+        model.spellBladeLeftArm.SetActive(true);
+        model.spellBladeChest.SetActive(true);
+
+        model.simpleBattleAxe.SetActive(true);
+    }
+    public static void SetUpAsBulwarkPreset(UniversalCharacterModel model)
     {
         CompletelyDisableAllViews(model);
 

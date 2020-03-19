@@ -1040,6 +1040,9 @@ public class CombatLogic : MonoBehaviour
                 // check for coup de grace passive on attacker
                 if (attacker.myPassiveManager.coupDeGrace)
                 {
+                    Debug.Log(attacker.myName + " killed " + victim.myName + 
+                        " and has 'Coup De Grace passive, gaining max energy...");
+
                     attacker.ModifyCurrentEnergy(attacker.currentMaxEnergy);
                 }
 

@@ -288,7 +288,7 @@ public class MainMenuManager : MonoBehaviour
 
         if (character.myPresetName == "Paladin")
         {
-            character.tabOne.SetUpAbilityTabAsAbility("Guard");
+            character.tabOne.SetUpAbilityTabAsAbility("Charge");
             character.tabTwo.SetUpAbilityTabAsAbility("Invigorate");
             character.tabThree.SetUpAbilityTabAsAbility("Inspire");
             character.tabFour.SetUpAbilityTabAsPassive("Encouraging Aura", 10);
@@ -297,12 +297,12 @@ public class MainMenuManager : MonoBehaviour
         else if (character.myPresetName == "Knight")
         {
             character.tabOne.SetUpAbilityTabAsAbility("Dash");
-            character.tabTwo.SetUpAbilityTabAsAbility("Provoke");
-            character.tabThree.SetUpAbilityTabAsAbility("Guard");
-            character.tabFour.SetUpAbilityTabAsPassive("Cautious", 5);
+            character.tabTwo.SetUpAbilityTabAsAbility("Shield Slam");
+            character.tabThree.SetUpAbilityTabAsAbility("Testudo");
+            character.tabFour.SetUpAbilityTabAsPassive("Cautious", 4);
         }
 
-        else if (character.myPresetName == "Barbarian")
+        else if (character.myPresetName == "Berserker")
         {
             character.tabOne.SetUpAbilityTabAsAbility("Smash");
             character.tabTwo.SetUpAbilityTabAsAbility("Blood Offering");
@@ -312,8 +312,8 @@ public class MainMenuManager : MonoBehaviour
 
         else if (character.myPresetName == "Battle Mage")
         {
-            character.tabThree.SetUpAbilityTabAsAbility("Smash");            
-            character.tabTwo.SetUpAbilityTabAsAbility("Whirlwind");
+            character.tabThree.SetUpAbilityTabAsAbility("Whirlwind");            
+            character.tabTwo.SetUpAbilityTabAsAbility("Fire Nova");
             character.tabOne.SetUpAbilityTabAsAbility("Phoenix Dive");
             character.tabFour.SetUpAbilityTabAsPassive("Fiery Aura", 3);
         }
@@ -331,7 +331,7 @@ public class MainMenuManager : MonoBehaviour
             character.tabOne.SetUpAbilityTabAsAbility("Shadow Step");
             character.tabTwo.SetUpAbilityTabAsAbility("Vanish");
             character.tabThree.SetUpAbilityTabAsAbility("Cheap Shot");
-            character.tabFour.SetUpAbilityTabAsPassive("Opportunist", 50);
+            character.tabFour.SetUpAbilityTabAsPassive("Predator", 1);
         }
         else if (character.myPresetName == "Rogue")
         {
@@ -345,7 +345,7 @@ public class MainMenuManager : MonoBehaviour
         {
             character.tabOne.SetUpAbilityTabAsAbility("Holy Fire");
             character.tabTwo.SetUpAbilityTabAsAbility("Invigorate");
-            character.tabThree.SetUpAbilityTabAsAbility("Shroud");
+            character.tabThree.SetUpAbilityTabAsAbility("Transcendence");
             character.tabFour.SetUpAbilityTabAsPassive("Encouraging Aura", 10);
         }
         else if (character.myPresetName == "Monk")
@@ -353,15 +353,15 @@ public class MainMenuManager : MonoBehaviour
             character.tabOne.SetUpAbilityTabAsAbility("Consecrate");
             character.tabTwo.SetUpAbilityTabAsAbility("Whirlwind");
             character.tabThree.SetUpAbilityTabAsAbility("Dash");
-            character.tabFour.SetUpAbilityTabAsPassive("Encouraging Aura", 10);
+            character.tabFour.SetUpAbilityTabAsPassive("Riposte", 1);
         }
 
         else if (character.myPresetName == "Wayfarer")
         {
-            character.tabOne.SetUpAbilityTabAsAbility("Head Shot");
+            character.tabOne.SetUpAbilityTabAsAbility("Spirit Surge");
             character.tabTwo.SetUpAbilityTabAsAbility("Haste");
             character.tabThree.SetUpAbilityTabAsAbility("Telekinesis");
-            character.tabFour.SetUpAbilityTabAsPassive("Flux", 1);
+            character.tabFour.SetUpAbilityTabAsPassive("Quick Draw", 1);
         }
         else if (character.myPresetName == "Marksman")
         {
@@ -373,7 +373,7 @@ public class MainMenuManager : MonoBehaviour
         else if (character.myPresetName == "Warlock")
         {
             character.tabOne.SetUpAbilityTabAsAbility("Shadow Blast");
-            character.tabTwo.SetUpAbilityTabAsAbility("Nightmare");
+            character.tabTwo.SetUpAbilityTabAsAbility("Chaos Bolt");
             character.tabThree.SetUpAbilityTabAsAbility("Hex");
             character.tabFour.SetUpAbilityTabAsPassive("Flux", 1);
         }
@@ -383,6 +383,41 @@ public class MainMenuManager : MonoBehaviour
             character.tabTwo.SetUpAbilityTabAsAbility("Chemical Reaction");
             character.tabThree.SetUpAbilityTabAsAbility("Drain");
             character.tabFour.SetUpAbilityTabAsPassive("Venomous", 1);
+        }
+        else if (character.myPresetName == "Illusionist")
+        {
+            character.tabOne.SetUpAbilityTabAsAbility("Phase Shift");
+            character.tabTwo.SetUpAbilityTabAsAbility("Shadow Blast");
+            character.tabThree.SetUpAbilityTabAsAbility("Dimensional Blast");
+            character.tabFour.SetUpAbilityTabAsPassive("Flux", 1);
+        }
+        else if (character.myPresetName == "Frost Knight")
+        {
+            character.tabOne.SetUpAbilityTabAsAbility("Frost Bolt");
+            character.tabTwo.SetUpAbilityTabAsAbility("Chilling Blow");
+            character.tabThree.SetUpAbilityTabAsAbility("Frost Nova");
+            character.tabFour.SetUpAbilityTabAsPassive("Shatter", 1);
+        }
+        else if (character.myPresetName == "Shaman")
+        {
+            character.tabOne.SetUpAbilityTabAsAbility("Chain Lightning");
+            character.tabTwo.SetUpAbilityTabAsAbility("Thunder Strike");
+            character.tabThree.SetUpAbilityTabAsAbility("Spirit Surge");
+            character.tabFour.SetUpAbilityTabAsPassive("Flux", 1);
+        }
+        else if (character.myPresetName == "Death Knight")
+        {
+            character.tabOne.SetUpAbilityTabAsAbility("Charge");
+            character.tabTwo.SetUpAbilityTabAsAbility("Smash");
+            character.tabThree.SetUpAbilityTabAsAbility("Dark Gift");
+            character.tabFour.SetUpAbilityTabAsPassive("Shadow Aura", 1);
+        }
+        else if (character.myPresetName == "Bulwark")
+        {
+            character.tabOne.SetUpAbilityTabAsAbility("Provoke");
+            character.tabTwo.SetUpAbilityTabAsAbility("Get Down!");
+            character.tabThree.SetUpAbilityTabAsAbility("Fortify");
+            character.tabFour.SetUpAbilityTabAsPassive("Guardian Aura", 1);
         }
         else if (character.myPresetName == "Random")
         {
