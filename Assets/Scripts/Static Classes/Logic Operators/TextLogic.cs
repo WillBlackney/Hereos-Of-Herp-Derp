@@ -1446,12 +1446,10 @@ public static class TextLogic
         else if (ability.abilityName == "Super Conductor")
         {
             ability.descriptionText.text =
-                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) +
+                "Spend all your Energy. For each 10 Energy spent, deal " +
+                ReturnColoredText(damageValue.ToString(), yellow) +
                 " " + ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
-                " damage to all enemies within " + ReturnColoredText(entity.currentMeleeRange.ToString(), yellow) +
-                " and apply " + ReturnColoredText("Shocked", air) +
-                ". If any enemies are already " + ReturnColoredText("Shocked", air) +
-                " apply " + ReturnColoredText("Stunned", yellow) + " instead";
+                " damage to a target ";
         }
         else if (ability.abilityName == "Sword And Board")
         {

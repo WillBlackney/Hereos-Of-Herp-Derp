@@ -304,7 +304,7 @@ public class MainMenuManager : MonoBehaviour
 
         else if (character.myPresetName == "Barbarian")
         {
-            character.tabOne.SetUpAbilityTabAsAbility("Devastating Blow");
+            character.tabOne.SetUpAbilityTabAsAbility("Smash");
             character.tabTwo.SetUpAbilityTabAsAbility("Blood Offering");
             character.tabThree.SetUpAbilityTabAsAbility("Charge");
             character.tabFour.SetUpAbilityTabAsPassive("Tenacious", 2);
@@ -312,7 +312,7 @@ public class MainMenuManager : MonoBehaviour
 
         else if (character.myPresetName == "Battle Mage")
         {
-            character.tabThree.SetUpAbilityTabAsAbility("Devastating Blow");            
+            character.tabThree.SetUpAbilityTabAsAbility("Smash");            
             character.tabTwo.SetUpAbilityTabAsAbility("Whirlwind");
             character.tabOne.SetUpAbilityTabAsAbility("Phoenix Dive");
             character.tabFour.SetUpAbilityTabAsPassive("Fiery Aura", 3);
