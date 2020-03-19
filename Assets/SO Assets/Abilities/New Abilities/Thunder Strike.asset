@@ -19,8 +19,8 @@ MonoBehaviour:
   tier: 1
   sprite: {fileID: 21300000, guid: b8abbd5f38a5255428fdedbeac7ce5a8, type: 3}
   abilityName: Thunder Strike
-  description: Deal 140% weapon damage and apply 'Shocked'.
-  baseCooldownTime: 1
+  description: Deal 200% weapon damage. if the target is Shocked, apply Stunned
+  baseCooldownTime: 2
   energyCost: 20
   range: 0
   primaryValue: 1
@@ -28,4 +28,4 @@ MonoBehaviour:
   requiresMeleeWeapon: 1
   requiresRangedWeapon: 0
   requiresShield: 0
-  weaponDamagePercentage: 1.4
+  weaponDamagePercentage: 2

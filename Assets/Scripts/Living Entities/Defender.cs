@@ -99,7 +99,6 @@ public class Defender : LivingEntity
     public bool awaitingToxicSlashOrder;
     public bool awaitingToxicEruptionOrder;
     public bool awaitingDrainOrder;
-    public bool awaitingSpiritSurgeOrder;
     public bool awaitingLightningBoltOrder;
     public bool awaitingThunderStrikeOrder;
     public bool awaitingSpiritVisionOrder;
@@ -127,6 +126,7 @@ public class Defender : LivingEntity
     public bool awaitingCreepingFrostOrder;
     public bool awaitingShadowWreathOrder;
     public bool awaitingDarkGiftOrder;
+    public bool awaitingSuperConductorOrder;
 
     [Header("Update Related Properties")]
     public bool energyBarPositionCurrentlyUpdating;
@@ -426,12 +426,7 @@ public class Defender : LivingEntity
         {
             selectedDefender.StartTranscendenceProcess(this);
             return;
-        }
-        else if (selectedDefender != null && selectedDefender.awaitingSpiritSurgeOrder)
-        {
-            selectedDefender.StartSpiritSurgeProcess(this);
-            return;
-        }
+        }        
         else if (selectedDefender != null && selectedDefender.awaitingTimeWarpOrder)
         {
             selectedDefender.StartTimeWarpProcess(this);
@@ -659,7 +654,6 @@ public class Defender : LivingEntity
         awaitingToxicSlashOrder = false;
         awaitingToxicEruptionOrder = false;
         awaitingDrainOrder = false;
-        awaitingSpiritSurgeOrder = false;
         awaitingLightningBoltOrder = false;
         awaitingThunderStrikeOrder = false;
         awaitingSpiritVisionOrder = false;
@@ -688,6 +682,7 @@ public class Defender : LivingEntity
         awaitingCreepingFrostOrder = false;
         awaitingOverloadOrder = false;
         awaitingDarkGiftOrder = false;
+        awaitingSuperConductorOrder = false;
 
         TileHover.Instance.SetVisibility(false);
         LevelManager.Instance.UnhighlightAllTiles();
@@ -964,10 +959,7 @@ public class Defender : LivingEntity
         {
             OnDrainButtonClicked();
         }
-        else if (abilityName == "Spirit Surge")
-        {
-            OnSpiritSurgeButtonClicked();
-        }
+        
         else if (abilityName == "Lightning Bolt")
         {
             OnLightningBoltButtonClicked();
@@ -994,8 +986,6 @@ public class Defender : LivingEntity
         }
         else if (abilityName == "Super Conductor")
         {
-            enableTileHover = false;
-            awaitingAnOrder = false;
             OnSuperConductorButtonClicked();
         }       
        
@@ -1090,6 +1080,12 @@ public class Defender : LivingEntity
         else if (abilityName == "Whirlwind")
         {
             OnWhirlwindButtonClicked();
+            enableTileHover = false;
+            awaitingAnOrder = false;
+        }
+        else if (abilityName == "Spirit Surge")
+        {
+            OnSpritSurgeButtonClicked();
             enableTileHover = false;
             awaitingAnOrder = false;
         }
@@ -1482,18 +1478,7 @@ public class Defender : LivingEntity
             awaitingGoBerserkOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(goBerserk.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
         }
-    }
-    public void OnSpiritSurgeButtonClicked()
-    {
-        Ability spiritSurge = mySpellBook.GetAbilityByName("Spirit Surge");
-
-        if (EntityLogic.IsAbilityUseable(this, spiritSurge))
-        {
-            Debug.Log("Spirit Surge button clicked, awaiting Spirit Surge order");
-            awaitingSpiritSurgeOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(spiritSurge.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
-        }
-    }
+    }   
     public void OnSpiritVisionButtonClicked()
     {
         Ability spiritVision = mySpellBook.GetAbilityByName("Spirit Vision");
@@ -1764,6 +1749,17 @@ public class Defender : LivingEntity
             Debug.Log("Lightning Bolt clicked, awaiting Lightning Bolt target");
             awaitingLightningBoltOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalRangeOfRangedAttack(this, lightningBolt), LevelManager.Instance.Tiles[gridPosition], false, false));
+        }
+    }
+    public void OnSuperConductorButtonClicked()
+    {
+        Ability superConductor = mySpellBook.GetAbilityByName("Super Conductor");
+
+        if (EntityLogic.IsAbilityUseable(this, superConductor))
+        {
+            Debug.Log("Super Conductor clicked, awaiting Super Conductor target");
+            awaitingSuperConductorOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalRangeOfRangedAttack(this, superConductor), LevelManager.Instance.Tiles[gridPosition], false, false));
         }
     }
     public void OnRainOfChaosButtonClicked()
@@ -2258,6 +2254,17 @@ public class Defender : LivingEntity
             AbilityLogic.Instance.PerformWhirlwind(this);
         }
     }
+    public void OnSpritSurgeButtonClicked()
+    {
+        Debug.Log("Spirit Surge button clicked");
+
+        Ability spiritSurge = mySpellBook.GetAbilityByName("Spirit Surge");
+
+        if (EntityLogic.IsAbilityUseable(this, spiritSurge))
+        {
+            AbilityLogic.Instance.PerformSpiritSurge(this);
+        }
+    }
     public void OnToxicRainButtonClicked()
     {
         Debug.Log("Toxic Rain button clicked");
@@ -2363,24 +2370,14 @@ public class Defender : LivingEntity
     {
         Debug.Log("Concentration button clicked");
 
-        Ability creepingFrost = mySpellBook.GetAbilityByName("Concentration");
+        Ability concentration = mySpellBook.GetAbilityByName("Concentration");
 
-        if (EntityLogic.IsAbilityUseable(this, creepingFrost))
+        if (EntityLogic.IsAbilityUseable(this, concentration))
         {
             AbilityLogic.Instance.PerformConcentration(this);
         }
     }    
-    public void OnSuperConductorButtonClicked()
-    {
-        Debug.Log("Super Conductor button clicked");
-
-        Ability superConductor = mySpellBook.GetAbilityByName("Super Conductor");
-
-        if (EntityLogic.IsAbilityUseable(this, superConductor))
-        {
-            AbilityLogic.Instance.PerformSuperConductor(this);
-        }
-    }
+    
     public void OnNoxiousFumesButtonClicked()
     {
         Debug.Log("Noxious Fumes button clicked");
@@ -3384,18 +3381,7 @@ public class Defender : LivingEntity
             awaitingDarkGiftOrder = false;
             AbilityLogic.Instance.PerformDarkGift(this, target);
         }
-    }
-    public void StartSpiritSurgeProcess(LivingEntity target)
-    {
-        Debug.Log("Defender.StartSpiritSurgeProcess() called");
-        Ability spiritSurge = mySpellBook.GetAbilityByName("Spirit Surge");
-
-        if (EntityLogic.IsTargetInRange(this, target, spiritSurge.abilityRange))
-        {
-            awaitingSpiritSurgeOrder = false;
-            AbilityLogic.Instance.PerformSpiritSurge(this, target);
-        }
-    }
+    }    
     public void StartTimeWarpProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartTimeWarpProcess() called");
@@ -3742,6 +3728,19 @@ public class Defender : LivingEntity
         {
             awaitingRapidFireOrder = false;
             AbilityLogic.Instance.PerformRapidFire(this, target);
+        }
+    }
+    public void StartSuperConductorProcess(LivingEntity target)
+    {
+        Ability superConductor = mySpellBook.GetAbilityByName("Super Conductor");
+        Debug.Log("Defender.SuperConductorProcess() called");
+
+        // if target is in range and shooter has enough energy to make at least 1 shot
+        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, superConductor)) &&
+            currentEnergy >= 10)
+        {
+            awaitingSuperConductorOrder = false;
+            AbilityLogic.Instance.PerformSuperConductor(this, target);
         }
     }
     public void StartDimensionalHexProcess(LivingEntity target)

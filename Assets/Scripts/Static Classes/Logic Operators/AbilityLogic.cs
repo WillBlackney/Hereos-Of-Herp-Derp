@@ -31,16 +31,16 @@ public class AbilityLogic : MonoBehaviour
 
         // temp variables
         int finalCD = ability.abilityBaseCooldownTime;
-        int finalEnergyCost = CalculateAbilityEnergyCost(ability, entity);         
+        int finalEnergyCost = CalculateAbilityEnergyCost(ability, entity);
 
         // Modify AP
         entity.ModifyCurrentEnergy(-finalEnergyCost);
 
         // Modify Cooldown
-        ability.ModifyCurrentCooldown(finalCD);        
+        ability.ModifyCurrentCooldown(finalCD);
 
         // if character has a free move available from flux
-        if (entity.moveActionsTakenThisActivation == 0 && 
+        if (entity.moveActionsTakenThisActivation == 0 &&
             entity.myPassiveManager.flux &&
             ability.abilityName == "Move")
         {
@@ -77,7 +77,7 @@ public class AbilityLogic : MonoBehaviour
             AddPowerToEntity(entity, ability);
         }
 
-        
+
     }
     public void OnAbilityUsedFinish(Ability ability, LivingEntity entity)
     {
@@ -90,7 +90,7 @@ public class AbilityLogic : MonoBehaviour
                 ability.abilityName != "Vanish" &&
                 ability.abilityName != "Shroud" &&
                 ability.abilityName != "Concealing Clouds" &&
-                ability.abilityName != "Shadow Step") 
+                ability.abilityName != "Shadow Step")
             {
                 entity.myPassiveManager.ModifyCamoflage(-1);
             }
@@ -108,28 +108,28 @@ public class AbilityLogic : MonoBehaviour
 
         bool boolReturned = false;
 
-        if(ability.requiresMeleeWeapon == false &&
+        if (ability.requiresMeleeWeapon == false &&
            ability.requiresRangedWeapon == false &&
            ability.requiresShield == false)
         {
             Debug.Log(ability.abilityName + " does not require a melee weapon, ranged weapon or shield...");
             boolReturned = true;
         }
-        else if(ability.requiresMeleeWeapon == true &&
-            (entity.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand || 
+        else if (ability.requiresMeleeWeapon == true &&
+            (entity.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand ||
             entity.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeTwoHand)
             )
         {
             Debug.Log(ability.abilityName + " requires a melee weapon, and " + entity.name + " has one...");
             boolReturned = true;
         }
-        else if(ability.requiresRangedWeapon &&
+        else if (ability.requiresRangedWeapon &&
             entity.myMainHandWeapon.itemType == ItemDataSO.ItemType.RangedTwoHand)
         {
             Debug.Log(ability.abilityName + " requires a ranged weapon, and " + entity.name + " has one...");
             boolReturned = true;
         }
-        else if(ability.requiresShield &&
+        else if (ability.requiresShield &&
             entity.myOffHandWeapon.itemType == ItemDataSO.ItemType.Shield)
         {
             Debug.Log(ability.abilityName + " requires a shield, and " + entity.name + " has one...");
@@ -137,15 +137,15 @@ public class AbilityLogic : MonoBehaviour
         }
         else
         {
-            Debug.Log(entity.name +" does not meet the weapon requirments of " + ability.abilityName);
+            Debug.Log(entity.name + " does not meet the weapon requirments of " + ability.abilityName);
             boolReturned = false;
-        }        
+        }
 
         return boolReturned;
     }
     public string GetDamageTypeFromAbility(Ability ability)
     {
-        Debug.Log("GetDamageTypeFromAbility() called on ability " + ability.abilityName +"...");
+        Debug.Log("GetDamageTypeFromAbility() called on ability " + ability.abilityName + "...");
 
         string damageTypeStringReturned = "None";
 
@@ -208,9 +208,9 @@ public class AbilityLogic : MonoBehaviour
             entity.myPassiveManager.savage)
         {
             finalApCost -= 5;
-            
+
             // dont reduce ability cost below 5 energy
-            if(finalApCost < 5)
+            if (finalApCost < 5)
             {
                 finalApCost = 5;
             }
@@ -269,6 +269,7 @@ public class AbilityLogic : MonoBehaviour
         // Check for Preparation
         if (entity.myPassiveManager.preparation && ability.abilityName != "Preparation" &&
             ability.abilityName != "Slice And Dice" &&
+            ability.abilityName != "Super Conductor" &&
             ability.abilityName != "Rapid Fire")
         {
             entity.myPassiveManager.ModifyPreparation(-entity.myPassiveManager.preparationStacks);
@@ -285,7 +286,9 @@ public class AbilityLogic : MonoBehaviour
             }
         }
 
-        else if (ability.abilityName == "Slice And Dice" || ability.abilityName == "Rapid Fire")
+        else if (ability.abilityName == "Slice And Dice" ||
+            ability.abilityName == "Rapid Fire" ||
+             ability.abilityName == "Super Conductor")
         {
             finalApCost = entity.currentEnergy;
         }
@@ -4993,10 +4996,10 @@ public class AbilityLogic : MonoBehaviour
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, thunderStrike);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
-            // Apply Shocked
-            if (target.inDeathProcess == false)
+            // Apply Stunned if Shocked
+            if (target.inDeathProcess == false && target.myPassiveManager.shocked)
             {
-                target.myPassiveManager.ModifyShocked(1);
+                target.myPassiveManager.ModifyStunned(1);
                 yield return new WaitForSeconds(0.5f);
             }
         }
@@ -5059,13 +5062,13 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Spirit Surge
-    public Action PerformSpiritSurge(LivingEntity caster, LivingEntity target)
+    public Action PerformSpiritSurge(LivingEntity caster)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformSpiritSurgeCoroutine(caster, target, action));
+        StartCoroutine(PerformSpiritSurgeCoroutine(caster, action));
         return action;
     }
-    private IEnumerator PerformSpiritSurgeCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    private IEnumerator PerformSpiritSurgeCoroutine(LivingEntity caster, Action action)
     {
         // Set up properties
         Ability spiritSurge = caster.mySpellBook.GetAbilityByName("Spirit Surge");
@@ -5076,17 +5079,18 @@ public class AbilityLogic : MonoBehaviour
         // Start
         OnAbilityUsedStart(spiritSurge, caster);
 
-        // Apply bonus strength
-        target.myPassiveManager.ModifyBonusStrength(spiritSurge.abilityPrimaryValue);
-        yield return new WaitForSeconds(0.3f);
+        List<Tile> tilesInSurgeRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(caster), caster.tile);
+        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if (tilesInSurgeRange.Contains(entity.tile) &&
+                CombatLogic.Instance.IsTargetFriendly(caster, entity))
+            {
+                StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(entity.transform.position));
+                entity.ModifyCurrentEnergy(spiritSurge.abilityPrimaryValue);
+            }
+        }
 
-        // Apply bonus wisdom
-        target.myPassiveManager.ModifyBonusWisdom(spiritSurge.abilityPrimaryValue);
-        yield return new WaitForSeconds(0.3f);
-
-        // Apply bonus dexterity
-        target.myPassiveManager.ModifyBonusDexterity(spiritSurge.abilityPrimaryValue);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(1f);
 
         // Resolve
         OnAbilityUsedFinish(spiritSurge, caster);
@@ -5104,20 +5108,24 @@ public class AbilityLogic : MonoBehaviour
     private IEnumerator PerformSpiritVisionCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         // Set up properties
-        Ability spiritSurge = caster.mySpellBook.GetAbilityByName("Spirit Vision");
+        Ability spiritVision = caster.mySpellBook.GetAbilityByName("Spirit Vision");
 
         // Play animation
         caster.PlaySkillAnimation();
 
         // Start
-        OnAbilityUsedStart(spiritSurge, caster);
+        OnAbilityUsedStart(spiritVision, caster);
+
+        // Give target block
+        target.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(spiritVision.abilityPrimaryValue, caster));
+        yield return new WaitForSeconds(0.5f);
 
         // Apply temporary True Sight
         target.myPassiveManager.ModifyTemporaryTrueSight(1);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
 
         // Resolve
-        OnAbilityUsedFinish(spiritSurge, caster);
+        OnAbilityUsedFinish(spiritVision, caster);
         action.actionResolved = true;
 
     }
@@ -5317,64 +5325,67 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Super Conductor
-    public Action PerformSuperConductor(LivingEntity attacker)
+    public Action PerformSuperConductor(LivingEntity attacker, LivingEntity target)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformSuperConductorCoroutine(attacker, action));
+        StartCoroutine(PerformSuperConductorCoroutine(attacker, target, action));
         return action;
     }
-    private IEnumerator PerformSuperConductorCoroutine(LivingEntity attacker, Action action)
+    private IEnumerator PerformSuperConductorCoroutine(LivingEntity attacker, LivingEntity target, Action action)
     {
         // Set up properties
         Ability superConductor = attacker.mySpellBook.GetAbilityByName("Super Conductor");
+        int shotsToFire = attacker.currentEnergy / 10;
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, superConductor);
 
-        // Play animation
+        // Ranged attack anim
         attacker.PlaySkillAnimation();
 
-        // Calculate which characters are hit by the aoe
-        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, attacker.tile, 1, true, true);
-
-        // Pay energy cost
+        // Pay energy cost, + etc
         OnAbilityUsedStart(superConductor, attacker);
 
-        // Resolve hits against targets
-        foreach (LivingEntity entity in targetsInBlastRadius)
+        for (int shotsTaken = 0; shotsTaken < shotsToFire; shotsTaken++)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, superConductor);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, superConductor, damageType, critical, superConductor.abilityPrimaryValue);
-
-            if (critical)
+            if (target.inDeathProcess == false)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
-            }
+                // Set up shot values
+                bool critical = CombatLogic.Instance.RollForCritical(attacker, target, superConductor);
+                bool dodge = CombatLogic.Instance.RollForDodge(target, attacker);
+                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, target, superConductor, damageType, critical, superConductor.abilityPrimaryValue);
 
-            // Deal Damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, superConductor);
+                // TO DO: create lightning bolt VFX and replace fire ball here
+                // Create fireball from prefab and play animation
+                Action fireballHit = VisualEffectManager.Instance.ShootFireball(attacker.tile.WorldPosition, target.tile.WorldPosition);
 
-            // Apply Shocked or Stun
-            if (entity.inDeathProcess == false)
-            {
-                // Apply Stun
-                if (entity.myPassiveManager.shocked)
+                // wait until fireball has hit the target
+                yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
+
+
+                // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
+                if (dodge)
                 {
-                    entity.myPassiveManager.ModifyStunned(1);
+                    Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, target);
+                    yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
                 }
 
-                // Apply Shocked
+                // if the target did not dodge, handle damage event normally
                 else
                 {
-                    entity.myPassiveManager.ModifyShocked(1);
+                    if (critical)
+                    {
+                        VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                    }
+                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, superConductor);
+                    yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
                 }
-                
             }
+
         }
 
-        yield return new WaitForSeconds(0.5f);
-
-        // Resolve
+        // remove camoflage, etc
         OnAbilityUsedFinish(superConductor, attacker);
         action.actionResolved = true;
+
     }
 
     // Overload

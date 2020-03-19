@@ -1410,7 +1410,10 @@ public static class TextLogic
         else if (ability.abilityName == "Spirit Vision")
         {
             ability.descriptionText.text =
-                "Give an ally " + ReturnColoredText("Temporary True Sight", yellow);
+                "Give an ally " +
+                ReturnColoredText(CombatLogic.Instance.CalculateBlockGainedByEffect(ability.abilityPrimaryValue, entity).ToString(), yellow) +
+                " " + ReturnColoredText("Block", yellow) + " and " +
+                ReturnColoredText("True Sight", yellow) + " during their next activation";
         }
         else if (ability.abilityName == "Smash")
         {
@@ -1430,10 +1433,9 @@ public static class TextLogic
         else if (ability.abilityName == "Spirit Surge")
         {
             ability.descriptionText.text =
-                "Give an ally " +  ReturnColoredText(ability.abilitySecondaryValue.ToString(), yellow) +
-                " " + ReturnColoredText("Strength", yellow) + ", " +
-                ReturnColoredText("Wisdom", yellow) + " and " +
-                ReturnColoredText("Dexterity", yellow);
+                "Give " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) +
+                " " + ReturnColoredText("Energy", yellow) + 
+                " to all allies within your " + ReturnColoredText("Aura", yellow);
         }
         else if (ability.abilityName == "Steady Hands")
         {
@@ -2230,7 +2232,10 @@ public static class TextLogic
         else if (ability.abilityName == "Spirit Vision")
         {
             descriptionText.text =
-                "Give an ally " + ReturnColoredText("Temporary True Sight", yellow);
+                "Give an ally " +
+                ReturnColoredText(ability.primaryValue.ToString(), yellow) + 
+                " " + ReturnColoredText("Block", yellow) + " and " +
+                ReturnColoredText("True Sight", yellow) + " during their next activation";
         }
         else if (ability.abilityName == "Smash")
         {
@@ -2250,10 +2255,9 @@ public static class TextLogic
         else if (ability.abilityName == "Spirit Surge")
         {
             descriptionText.text =
-                "Give an ally " + ReturnColoredText(ability.secondaryValue.ToString(), yellow) +
-                " " + ReturnColoredText("Strength", yellow) + ", " +
-                ReturnColoredText("Wisdom", yellow) + " and " +
-                ReturnColoredText("Dexterity", yellow);
+                "Give " + ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                " " + ReturnColoredText("Energy", yellow) +
+                " to all allies within your " + ReturnColoredText("Aura", yellow);
         }
         else if (ability.abilityName == "Steady Hands")
         {
