@@ -40,16 +40,13 @@ public class AirGolem : Enemy
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
         // Thunder Strike
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, thunderStrike))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Thunder Strike");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformThunderStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -61,9 +58,6 @@ public class AirGolem : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, lightningBolt.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, lightningBolt))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Lightning Bolt");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformLightningBolt(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -75,9 +69,6 @@ public class AirGolem : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, strike))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -95,9 +86,6 @@ public class AirGolem : Enemy
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
@@ -110,7 +98,7 @@ public class AirGolem : Enemy
         // Can't do anything more, end activation
         else
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
         
     }

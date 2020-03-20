@@ -123,7 +123,7 @@ public class LivingEntity : MonoBehaviour
         {
             myAnimator = GetComponent<Animator>();
         }
-        myAnimator.SetTrigger("Idle");
+        PlayIdleAnimation();
         
         defender = GetComponent<Defender>();
         enemy = GetComponent<Enemy>();
@@ -539,132 +539,43 @@ public class LivingEntity : MonoBehaviour
     {
         currentPhysicalResistance += physicalResistanceGainedOrLost;
     }
-   
+
     #endregion
 
-    // Damage + Death related events and VFX
+    // Trigger Animations
     #region
-    public IEnumerator HandleDeath()
+    public void PlayIdleAnimation()
     {
-        LevelManager.Instance.SetTileAsUnoccupied(tile);
-        LivingEntityManager.Instance.allLivingEntities.Remove(this);
-
-        Defender defender = GetComponent<Defender>();
-        Enemy enemy = GetComponent<Enemy>();
-
-        bool endCombatEventTriggered = false;
-
-       // PlayDeathAnimation();
-
-        if (myPassiveManager.Volatile)
-        {
-            // Notification
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Volatile");
-
-            // Calculate which characters are hit by the aoe
-            List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(this, tile, 1, true, true);
-
-            // Damage all targets hit
-            foreach (LivingEntity entity in targetsInRange)
-            {
-                if(entity.inDeathProcess == false)
-                {
-                    int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(this, entity, null, "Physical", false, myPassiveManager.volatileStacks);
-                    Action volatileExplosion = CombatLogic.Instance.HandleDamage(finalDamageValue, this, entity, "Physical");
-                    yield return new WaitUntil(() => volatileExplosion.ActionResolved() == true);
-                }               
-            }
-
-            yield return new WaitForSeconds(1);
-        }
-
-        // check for soul link and damage allies if they have it
-        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
-        {
-            if (entity.myPassiveManager.soulLink && CombatLogic.Instance.IsTargetFriendly(this, entity))
-            {
-                //Action soulLinkDamage = CombatLogic.Instance.HandleDamage(10, this, entity);
-            }
-        }
-
-
-        // Check if the player has lost all characters and thus the game
-        if (defender)
-        {
-            DefenderManager.Instance.allDefenders.Remove(defender);
-            if (DefenderManager.Instance.allDefenders.Count == 0)
-            {
-                //LivingEntityManager.Instance.StopAllEntityCoroutines();
-                EventManager.Instance.gameOverEventStarted = true;
-
-            }
-        }
-
-        // Check all enemies are dead, end combat event
-        if (enemy)
-        {
-            enemy.currentlyActivated = false;
-            EnemyManager.Instance.allEnemies.Remove(enemy);
-            // check if this was the last enemy in the encounter
-            if (EnemyManager.Instance.allEnemies.Count == 0 &&
-                DefenderManager.Instance.allDefenders.Count >= 1)
-            {
-                // End combat event, loot screen etc
-                if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.EliteEnemy)
-                {
-                    endCombatEventTriggered = true;
-                    EventManager.Instance.StartNewEndEliteEncounterEvent();
-                }
-                else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.BasicEnemy)
-                {
-                    endCombatEventTriggered = true;
-                    EventManager.Instance.StartNewEndBasicEncounterEvent();
-                }
-                else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.Boss)
-                {
-                    endCombatEventTriggered = true;
-                    EventManager.Instance.StartNewEndBossEncounterEvent();
-                }
-
-            }
-
-        }
-
-        DisableWorldSpaceCanvas();
-        if(endCombatEventTriggered == false)
-        {
-            Action destroyWindowAction = myActivationWindow.FadeOutWindow();
-        }
-        
-        PlayDeathAnimation();
-        yield return new WaitUntil(() => MyDeathAnimationFinished() == true);
-        Debug.Log("Destroying " + myName + " game object");
-        Destroy(gameObject, 0.2f);
-        Debug.Log("LivingEntity.HandleDeath() finished waiting for death anim to finish");
-        //myAnimator.enabled = false;
-        //yield return new WaitUntil(() => destroyWindowAction.ActionResolved() == true);
-       // Debug.Log("LivingEntity.HandleDeath() finished waiting for activation window to be destroyed");          
-
-        // end turn and activation triggers just incase        
-        myOnActivationEndEffectsFinished = true;
-
-        if (EventManager.Instance.gameOverEventStarted)
-        {
-            EventManager.Instance.StartNewGameOverDefeatedEvent();
-        }        
-
-        if (ActivationManager.Instance.entityActivated == this &&
-            EventManager.Instance.gameOverEventStarted == false &&
-            endCombatEventTriggered == false)
-        {
-            ActivationManager.Instance.ActivateNextEntity();
-        }
-        ActivationManager.Instance.activationOrder.Remove(this);
+        myAnimator.SetTrigger("Idle");
+    }
+    public void PlayRangedAttackAnimation()
+    {
+        myAnimator.SetTrigger("Shoot Bow");
+    }
+    public void PlaySkillAnimation()
+    {
+        myAnimator.SetTrigger("Skill One");
+    }
+    public void TriggerMeleeAttackAnimation()
+    {
+        myAnimator.SetTrigger("Melee Attack");
+    }
+    public void PlayMoveAnimation()
+    {
+        myAnimator.SetTrigger("Move");
+    }
+    public void PlayHurtAnimation()
+    {
+        myAnimator.SetTrigger("Hurt");
     }
     public void PlayDeathAnimation()
     {
-        myAnimator.SetTrigger("Die");
+        myAnimator.SetTrigger("Hurt");
     }
+    #endregion
+
+    // Damage + Death related events and VFX
+    #region        
     public bool myDeathAnimationFinished = false;
     public bool MyDeathAnimationFinished()
     {
@@ -698,14 +609,7 @@ public class LivingEntity : MonoBehaviour
         Debug.Log("LivingEntity.StartDeathFadeOut() called...");
         StartCoroutine(FadeOutModel());
     }
-    public void PlayRangedAttackAnimation()
-    {
-        myAnimator.SetTrigger("Shoot Bow");
-    }
-    public void PlaySkillAnimation()
-    {
-        myAnimator.SetTrigger("Skill One");
-    }
+   
     public void SetRangedAttackAnimAsFinished()
     {
         myRangedAttackFinished = true;
@@ -728,7 +632,8 @@ public class LivingEntity : MonoBehaviour
         bool hasCompletedMovement = false;
         bool hasReachedTarget = false;
 
-        myAnimator.SetTrigger("Melee Attack");
+        TriggerMeleeAttackAnimation();
+
         while (hasCompletedMovement == false)   
         {
             if(hasReachedTarget == false)

@@ -44,7 +44,7 @@ public class Vampire : Enemy
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
         // Siphon Life
@@ -55,8 +55,8 @@ public class Vampire : Enemy
             //SetTargetDefender(GetClosestDefender());
            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Siphon Life");
             yield return new WaitForSeconds(0.5f);
-            Action slAction = AbilityLogic.Instance.PerformSiphonLife(this, myCurrentTarget);
-            yield return new WaitUntil(() => slAction.ActionResolved() == true);
+            //Action slAction = AbilityLogic.Instance.PerformSiphonLife(this, myCurrentTarget);
+           // yield return new WaitUntil(() => slAction.ActionResolved() == true);
             // brief delay between actions
             yield return new WaitForSeconds(1f);
             goto ActionStart;
@@ -70,9 +70,6 @@ public class Vampire : Enemy
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Siphon Life");
             yield return new WaitForSeconds(0.5f);
-            Action slAction = AbilityLogic.Instance.PerformSiphonLife(this, myCurrentTarget);
-            yield return new WaitUntil(() => slAction.ActionResolved() == true);
-            // brief delay between actions
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
@@ -148,7 +145,7 @@ public class Vampire : Enemy
         // Can't do anything more, end activation
         else
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
     }
 

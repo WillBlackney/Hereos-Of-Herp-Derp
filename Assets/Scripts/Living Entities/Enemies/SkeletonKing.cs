@@ -34,14 +34,12 @@ public class SkeletonKing : Enemy
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
         // Doom
         else if (EntityLogic.IsAbilityUseable(this, doom))
         {            
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Doom");
-            yield return new WaitForSeconds(0.5f);
             Action doomAction = AbilityLogic.Instance.PerformDoom(this);
             yield return new WaitUntil(() => doomAction.ActionResolved() == true);
             // brief delay between actions
@@ -54,9 +52,6 @@ public class SkeletonKing : Enemy
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), currentMeleeRange) &&
            EntityLogic.IsAbilityUseable(this, crushingBlow))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Crushing Blow");
-            yield return new WaitForSeconds(0.6f);
-
             Action cbAction = AbilityLogic.Instance.PerformCrushingBlow(this, EntityLogic.GetClosestValidEnemy(this));
             yield return new WaitUntil(() => cbAction.ActionResolved() == true);
             // brief delay between actions
@@ -73,10 +68,7 @@ public class SkeletonKing : Enemy
             EntityLogic.IsAbilityUseable(this, whirlwind) &&
             EntityLogic.IsAbleToMove(this)
             )
-        {   
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-            
+        { 
             Action movementAction = AbilityLogic.Instance.PerformMove(this, GetClosestValidTileThatHasTwoAdjacentDefenders());
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 
@@ -89,9 +81,7 @@ public class SkeletonKing : Enemy
         // Whirlwind
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, whirlwind))
-        {            
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Whirlwind");
-            yield return new WaitForSeconds(1f);
+        { 
             Action whirlwindAction = AbilityLogic.Instance.PerformWhirlwind(this);
             yield return new WaitUntil(() => whirlwindAction.ActionResolved() == true);
 
@@ -104,9 +94,6 @@ public class SkeletonKing : Enemy
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, strike))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
-            yield return new WaitForSeconds(0.5f);
-
             Action strikeAction = AbilityLogic.Instance.PerformStrike(this, EntityLogic.GetClosestValidEnemy(this));
             yield return new WaitUntil(() => strikeAction.ActionResolved() == true);
             // brief delay between actions
@@ -122,9 +109,7 @@ public class SkeletonKing : Enemy
             )
         {
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-
+            
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
@@ -134,7 +119,7 @@ public class SkeletonKing : Enemy
             goto ActionStart;
         }
 
-        EndMyActivation();
+        LivingEntityManager.Instance.EndEntityActivation(this);
     }
 
     public bool IsAdjacentToTwoOrMoreDefenders()

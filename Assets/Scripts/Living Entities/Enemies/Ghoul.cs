@@ -37,7 +37,7 @@ public class Ghoul : Enemy
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
 
         }
 
@@ -45,12 +45,6 @@ public class Ghoul : Enemy
         else if (EntityLogic.IsAbilityUseable(this, acidSpit) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, acidSpit.abilityRange))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Acid Spit");
-            yield return new WaitForSeconds(0.5f);
-
-            Action action = AbilityLogic.Instance.PerformAcidSpit(this, myCurrentTarget);
-            yield return new WaitUntil(() => action.ActionResolved() == true);
-
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
@@ -59,8 +53,6 @@ public class Ghoul : Enemy
         else if (GetBestBarrierTargetInRange(guard.abilityRange) != null &&
             EntityLogic.IsAbilityUseable(this, guard))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Guard");
-            yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformGuard(this, GetBestBarrierTargetInRange(guard.abilityRange));
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -72,9 +64,6 @@ public class Ghoul : Enemy
         else if (EntityLogic.IsAbilityUseable(this, strike) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -93,9 +82,6 @@ public class Ghoul : Enemy
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));           
 
-           VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 
@@ -107,7 +93,7 @@ public class Ghoul : Enemy
         // Can't do anything more, end activation
         else
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
     }
     public Enemy GetBestBarrierTargetInRange(int range)

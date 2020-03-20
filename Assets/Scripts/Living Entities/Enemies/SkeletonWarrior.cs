@@ -41,15 +41,13 @@ public class SkeletonWarrior : Enemy
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
         // Inspire best target if they are in range
         else if(EntityLogic.IsTargetInRange(this, GetBestInspireTarget(),inspire.abilityRange) &&
             EntityLogic.IsAbilityUseable(this,inspire))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Inspire");
-            yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformInspire(this, GetBestInspireTarget());
             yield return new WaitUntil(() => action.ActionResolved() == true);
             yield return new WaitForSeconds(1f);
@@ -60,9 +58,6 @@ public class SkeletonWarrior : Enemy
         else if (GetBestInspireTargetInRange(inspire.abilityRange) != null &&
             EntityLogic.IsAbilityUseable(this,inspire))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Inspire");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformInspire(this, GetBestInspireTargetInRange(inspire.abilityRange));
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -70,28 +65,10 @@ public class SkeletonWarrior : Enemy
             goto ActionStart;
         }
 
-        // Guard an ally if they are injured and in range
-        /*
-        else if(GetBestBarrierTargetInRange(guard.abilityRange) != null &&
-            EntityLogic.IsAbilityUseable(this, guard))
-        {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Guard");
-            yield return new WaitForSeconds(0.5f);
-            Action action = AbilityLogic.Instance.PerformGuard(this, GetBestBarrierTargetInRange(guard.abilityRange));
-            yield return new WaitUntil(() => action.ActionResolved() == true);
-
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
-        */
-
         // Sword and Board against closest target
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, swordAndBoard))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Sword And Board");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformSwordAndBoard(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -103,9 +80,6 @@ public class SkeletonWarrior : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, strike))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -120,9 +94,6 @@ public class SkeletonWarrior : Enemy
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
@@ -135,7 +106,7 @@ public class SkeletonWarrior : Enemy
         // Can't do anything more, end activation
         else
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
     }

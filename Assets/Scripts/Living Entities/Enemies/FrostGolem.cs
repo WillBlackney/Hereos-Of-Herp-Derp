@@ -40,16 +40,13 @@ public class FrostGolem : Enemy
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
         // Frost Nova
         else if (EntityLogic.GetAllEnemiesWithinRange(this, 1).Count > 1 &&
             EntityLogic.IsAbilityUseable(this, frostNova))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Frost Nova");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformFrostNova(this);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -62,9 +59,6 @@ public class FrostGolem : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, chillingBlow))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Chilling Blow");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformChillingBlow(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -76,9 +70,6 @@ public class FrostGolem : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, strike))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -95,9 +86,6 @@ public class FrostGolem : Enemy
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
@@ -110,7 +98,7 @@ public class FrostGolem : Enemy
         // Can't do anything more, end activation
         else
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
     }
 }

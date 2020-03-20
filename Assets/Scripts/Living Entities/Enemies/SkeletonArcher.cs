@@ -17,10 +17,8 @@ public class SkeletonArcher : Enemy
         mySpellBook.EnemyLearnAbility("Shoot");
         mySpellBook.EnemyLearnAbility("Impaling Bolt");
         mySpellBook.EnemyLearnAbility("Snipe");
-
-        //myPassiveManager.ModifyUndead();        
+       
         myPassiveManager.ModifyTrueSight(1);
-        //myPassiveManager.ModifyFlux(1);
 
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Bow");
     }       
@@ -43,7 +41,7 @@ public class SkeletonArcher : Enemy
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
         // Impaling Bolt        
@@ -54,11 +52,7 @@ public class SkeletonArcher : Enemy
             Debug.Log("Skeleton Archer using Impaling Bolt against " + myCurrentTarget.myName);
             
             SetTargetDefender(EntityLogic.GetBestTarget(this, true));
-
-            // VFX notification
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Impaling Bolt");
-            yield return new WaitForSeconds(0.5f);
-
+            
             Action action = AbilityLogic.Instance.PerformImpalingBolt(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
             yield return new WaitForSeconds(1f);
@@ -71,9 +65,6 @@ public class SkeletonArcher : Enemy
             EntityLogic.IsAbilityUseable(this, snipe))
         {
             Debug.Log("Skeleton Archer using snipe against most vulnerable target: " + myCurrentTarget.myName);
-
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Snipe");
-            yield return new WaitForSeconds(0.5f);
 
             Action action = AbilityLogic.Instance.PerformSnipe(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -88,9 +79,6 @@ public class SkeletonArcher : Enemy
             EntityLogic.IsAbilityUseable(this, shoot))
         {
             Debug.Log("Skeleton Archer using shoot against most vulnerable target: " + myCurrentTarget.myName);
-
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot");
-            yield return new WaitForSeconds(0.5f);
 
             Action action = AbilityLogic.Instance.PerformShoot(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -108,9 +96,6 @@ public class SkeletonArcher : Enemy
             SetTargetDefender(EntityLogic.GetBestTarget(this, false, true));
             Debug.Log("Skeleton Archer using shoot against most lowest HP target: " + myCurrentTarget.myName);
 
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformShoot(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -125,9 +110,6 @@ public class SkeletonArcher : Enemy
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, true));
             Debug.Log("Skeleton Archer using shoot against closest target: " + myCurrentTarget.myName);
-
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot");
-            yield return new WaitForSeconds(0.5f);
 
             Action action = AbilityLogic.Instance.PerformShoot(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -152,9 +134,6 @@ public class SkeletonArcher : Enemy
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 
@@ -166,7 +145,7 @@ public class SkeletonArcher : Enemy
         // Can't do anything more, end activation
         else
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
     }
     

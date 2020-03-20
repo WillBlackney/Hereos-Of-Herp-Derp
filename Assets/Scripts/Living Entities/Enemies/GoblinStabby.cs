@@ -36,7 +36,7 @@ public class GoblinStabby : Enemy
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
 
         }
 
@@ -45,9 +45,6 @@ public class GoblinStabby : Enemy
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             myCurrentTarget.myPassiveManager.weakened == false)
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Tendon Slash");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformTendonSlash(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -59,9 +56,6 @@ public class GoblinStabby : Enemy
         else if (EntityLogic.IsAbilityUseable(this, strike) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -73,13 +67,9 @@ public class GoblinStabby : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
-            //EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, strike, this) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
@@ -92,7 +82,7 @@ public class GoblinStabby : Enemy
         // Can't do anything more, end activation
         else
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
     }
 }

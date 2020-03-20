@@ -206,6 +206,7 @@ public class CharacterData : MonoBehaviour
     public int predatorStacks;
     public int hawkEyeStacks;
     public int fluxStacks;
+    public int coupDeGraceStacks;
     public int phasingStacks;
     public int etherealBeingStacks;
     public int encouragingAuraStacks;
@@ -222,6 +223,7 @@ public class CharacterData : MonoBehaviour
     public int thornsStacks;
     public int enrageStacks;
     public int powerLimitStacks;
+    public int quickDrawStacks;
 
     
 
@@ -252,7 +254,6 @@ public class CharacterData : MonoBehaviour
 
     [Header("Legacy Components")]
     public GameObject inventoryItemParent;
-    //public Image myImageComponent;
     public Defender myDefenderGO;
     public string myClass;
     public CampSiteCharacter myCampSiteCharacter;
@@ -2044,6 +2045,18 @@ public class CharacterData : MonoBehaviour
         Debug.Log("CharacterData.ModifyFlux() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         fluxStacks += stacks;
         StartAddAttributeTabProcess("Flux", stacks);
+    }
+    public void ModifyCoupDeGrace(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyCoupDeGrace() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        coupDeGraceStacks += stacks;
+        StartAddAttributeTabProcess("Coup De Grace", stacks);
+    }
+    public void ModifyQuickDraw(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyQuickDraw() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        quickDrawStacks += stacks;
+        StartAddAttributeTabProcess("Quick Draw", stacks);
     }
     public void ModifyPhasing(int stacks)
     {

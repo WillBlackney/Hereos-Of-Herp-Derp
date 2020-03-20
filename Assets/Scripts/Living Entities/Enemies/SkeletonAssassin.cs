@@ -41,16 +41,13 @@ public class SkeletonAssassin : Enemy
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
         // Shank best target
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, shank))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shank");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformShank(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -61,10 +58,7 @@ public class SkeletonAssassin : Enemy
         // Twin Strike best target
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, twinStrike)) 
-        {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike");
-            yield return new WaitForSeconds(0.5f);
-            
+        {            
             Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -77,9 +71,7 @@ public class SkeletonAssassin : Enemy
             EntityLogic.IsAbilityUseable(this, shank))
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, true));
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shank");
-            yield return new WaitForSeconds(0.5f);
-
+            
             Action action = AbilityLogic.Instance.PerformShank(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -92,9 +84,7 @@ public class SkeletonAssassin : Enemy
             EntityLogic.IsAbilityUseable(this, twinStrike))
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, true));
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike");
-            yield return new WaitForSeconds(0.5f);
-
+            
             Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -113,9 +103,6 @@ public class SkeletonAssassin : Enemy
             )
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, false, true));
-
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Dash");
-            yield return new WaitForSeconds(0.5f);
 
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, dash.abilityPrimaryValue + EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformDash(this, destination);
@@ -136,9 +123,6 @@ public class SkeletonAssassin : Enemy
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, false, true));
             
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
@@ -155,9 +139,7 @@ public class SkeletonAssassin : Enemy
             EntityLogic.IsAbilityUseable(this, shank))
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, true));
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shank");
-            yield return new WaitForSeconds(0.5f);
-
+           
             Action action = AbilityLogic.Instance.PerformShank(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -170,9 +152,7 @@ public class SkeletonAssassin : Enemy
             EntityLogic.IsAbilityUseable(this, twinStrike))
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, true));
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Twin Strike");
-            yield return new WaitForSeconds(0.5f);
-
+            
             Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -183,7 +163,7 @@ public class SkeletonAssassin : Enemy
         // Can't do anything more, end activation
         else
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
     }

@@ -48,7 +48,7 @@ public class SkeletonBarbarian : Enemy
         // End activation if stunned, out of energy, etc
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
         // Try Charge
@@ -61,9 +61,6 @@ public class SkeletonBarbarian : Enemy
         {            
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, charge.abilityRange + EntityLogic.GetTotalMobility(this));
             
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Charge");
-            yield return new WaitForSeconds(0.5f);
-
             Action chargeAction = AbilityLogic.Instance.PerformCharge(this, myCurrentTarget, destination);
             yield return new WaitUntil(() => chargeAction.ActionResolved() == true);
 
@@ -76,10 +73,7 @@ public class SkeletonBarbarian : Enemy
         // Whirlwind
         else if (EntityLogic.GetAllEnemiesWithinRange(this, currentMeleeRange).Count > 1 &&
             EntityLogic.IsAbilityUseable(this, whirlwind))
-        {            
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Whirlwind");
-            yield return new WaitForSeconds(0.5f);
-
+        {  
             Action action = AbilityLogic.Instance.PerformWhirlwind(this);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -92,9 +86,6 @@ public class SkeletonBarbarian : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, strike))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -110,10 +101,7 @@ public class SkeletonBarbarian : Enemy
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, strike, this) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
-        {            
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-
+        {  
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
@@ -126,7 +114,7 @@ public class SkeletonBarbarian : Enemy
         // Can't do anything more, end activation
         else
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
     }
 

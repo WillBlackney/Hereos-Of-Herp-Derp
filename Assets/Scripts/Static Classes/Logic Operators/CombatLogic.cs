@@ -638,7 +638,7 @@ public class CombatLogic : MonoBehaviour
         if (entity.myPassiveManager.Volatile)
         {
             // Notification
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Volatile");
+            VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Volatile");
 
             // Calculate which characters are hit by the aoe
             List<LivingEntity> targetsInRange = GetAllLivingEntitiesWithinAoeEffect(entity, entity.tile, 1, true, true);
@@ -869,7 +869,7 @@ public class CombatLogic : MonoBehaviour
                 // Play hurt animation
                 if (victim.currentHealth > 0 && totalLifeLost > 0)
                 {
-                    victim.myAnimator.SetTrigger("Hurt");
+                    victim.PlayHurtAnimation();
                 }
             }
         }

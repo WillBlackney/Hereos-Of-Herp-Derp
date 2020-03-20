@@ -298,6 +298,10 @@ public class Defender : LivingEntity
         {
             myPassiveManager.ModifyFlux(myCharacterData.fluxStacks);
         }
+        if (myCharacterData.quickDrawStacks > 0)
+        {
+            myPassiveManager.ModifyQuickDraw(myCharacterData.quickDrawStacks);
+        }
         if (myCharacterData.phasingStacks > 0)
         {
             myPassiveManager.ModifyPhasing(myCharacterData.phasingStacks);
@@ -522,12 +526,7 @@ public class Defender : LivingEntity
             selectedDefender.StartSnowStasisProcess(this);
             return;
         }
-        else if (selectedDefender != null && selectedDefender.awaitingLightningShieldOrder)
-        {
-            selectedDefender.awaitingLightningShieldOrder = false;
-            selectedDefender.StartLightningShieldProcess(this);
-            return;
-        }
+        
         else if (selectedDefender != null && selectedDefender.awaitingHolyFireOrder)
         {
             selectedDefender.StartHolyFireProcess(this);
@@ -542,12 +541,7 @@ public class Defender : LivingEntity
         {
             selectedDefender.StartPhaseShiftProcess(this);
             return;
-        }
-        else if (selectedDefender != null && selectedDefender.awaitingSanctityOrder)
-        {
-            selectedDefender.StartSanctityProcess(this);
-            return;
-        }
+        }        
         else if (selectedDefender != null && selectedDefender.awaitingBlessOrder)
         {
             selectedDefender.StartBlessProcess(this);
@@ -3803,19 +3797,7 @@ public class Defender : LivingEntity
             AbilityLogic.Instance.PerformSliceAndDice(this, target);
         }
     }
-    public void StartPoisonDartProcess(Enemy target)
-    {
-        Ability poisonDart = mySpellBook.GetAbilityByName("Poison Dart");
-        Debug.Log("Defender.StartPoisonDartProcess() called");
-        Enemy enemyTarget = target;
-        if (EntityLogic.IsTargetInRange(this, enemyTarget, EntityLogic.GetTotalRangeOfRangedAttack(this, poisonDart)))
-        {
-            awaitingPoisonDartOrder = false;
-            AbilityLogic.Instance.PerformPoisonDart(this, target);
-            //StartCoroutine(PerformPoisonDart(enemyTarget));
-
-        }
-    }
+   
     public void StartChemicalReactionProcess(LivingEntity target)
     {
         Debug.Log("Defender.ChemicalReactionProcess() called");
@@ -3904,16 +3886,7 @@ public class Defender : LivingEntity
             AbilityLogic.Instance.PerformSnowStasis(this, target);
         }
     }
-    public void StartLightningShieldProcess(Defender target)
-    {
-        Ability lightningShield = mySpellBook.GetAbilityByName("Lightning Shield");
-        if (EntityLogic.IsTargetInRange(this, target, lightningShield.abilityRange))
-        {
-            awaitingLightningShieldOrder = false;
-            AbilityLogic.Instance.PerformLightningShield(this, target);
-        }       
-            
-    }
+   
     public void StartHolyFireProcess(LivingEntity target)
     {   
         Ability holyFire = mySpellBook.GetAbilityByName("Holy Fire");
@@ -3945,18 +3918,7 @@ public class Defender : LivingEntity
         }       
           
     }
-    public void StartSiphonLifeProcess(LivingEntity target)
-    {
-        Ability siphonLife = mySpellBook.GetAbilityByName("Siphon Life");
-
-        if (EntityLogic.IsTargetInRange(this, target, siphonLife.abilityRange) == false)
-        {
-            return;
-        }
-
-        awaitingSiphonLifeOrder = false;
-        AbilityLogic.Instance.PerformSiphonLife(this, target);
-    }
+ 
     public void StartChaosBoltProcess(LivingEntity target)
     {
         Ability chaosBolt = mySpellBook.GetAbilityByName("Chaos Bolt");
@@ -3967,18 +3929,7 @@ public class Defender : LivingEntity
             AbilityLogic.Instance.PerformChaosBolt(this, target);
         }
     }
-    public void StartSanctityProcess(LivingEntity target)
-    {
-        Ability sanctity = mySpellBook.GetAbilityByName("Sanctity");
-
-        if (EntityLogic.IsTargetInRange(this, target, sanctity.abilityRange) == false)
-        {
-            return;
-        }
-
-        awaitingSanctityOrder = false;
-        AbilityLogic.Instance.PerformSanctity(this, target);        
-    }
+    
     public void StartBlessProcess(LivingEntity target)
     {
         Ability bless = mySpellBook.GetAbilityByName("Bless");
@@ -3989,16 +3940,7 @@ public class Defender : LivingEntity
             AbilityLogic.Instance.PerformBless(this, target);
         }
     }
-    public void StartVoidBombProcess(LivingEntity target)
-    {
-        Ability voidBomb = mySpellBook.GetAbilityByName("Void Bomb");
-
-        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, voidBomb)))
-        {
-            awaitingVoidBombOrder = false;
-            AbilityLogic.Instance.PerformVoidBomb(this, target);
-        }             
-    }
+    
     public void StartNightmareProcess(LivingEntity target)
     {
         Ability nightmare = mySpellBook.GetAbilityByName("Nightmare");

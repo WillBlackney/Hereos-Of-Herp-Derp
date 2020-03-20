@@ -25,7 +25,7 @@ public class StoneGolem : Enemy
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
         // Rock Toss
@@ -35,11 +35,6 @@ public class StoneGolem : Enemy
         {
             
             SetTargetDefender(EntityLogic.GetClosestEnemy(this));
-            // VFX notification
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Rock Toss");
-            yield return new WaitForSeconds(0.5f);
-            Action action = AbilityLogic.Instance.PerformRockToss(this, myCurrentTarget);
-            yield return new WaitUntil(() => action.ActionResolved() == true);
             yield return new WaitForSeconds(1f);
             goto ActionStart;
 
@@ -48,7 +43,7 @@ public class StoneGolem : Enemy
         // Can't do anything more, end activation
         else
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
     }
 }

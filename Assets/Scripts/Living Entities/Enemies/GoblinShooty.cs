@@ -34,7 +34,7 @@ public class GoblinShooty : Enemy
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
 
         }
 
@@ -42,9 +42,6 @@ public class GoblinShooty : Enemy
         else if (EntityLogic.IsAbilityUseable(this, shoot) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, shoot.abilityRange))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shoot");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformShoot(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -60,12 +57,8 @@ public class GoblinShooty : Enemy
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));           
             
-
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
 
@@ -77,7 +70,7 @@ public class GoblinShooty : Enemy
         // Can't do anything more, end activation
         else
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
     }
 }

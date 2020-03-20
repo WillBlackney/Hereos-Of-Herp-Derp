@@ -42,7 +42,7 @@ public class SkeletonNecromancer : Enemy
         // if unable to do anything, just end activation
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
         // try move to grass/better position if there is one in range of mobility
@@ -52,8 +52,6 @@ public class SkeletonNecromancer : Enemy
             EntityLogic.IsAbilityUseable(this,move)
             )
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
 
             Action movementAction = AbilityLogic.Instance.PerformMove(this, EntityLogic.GetValidGrassTileWithinRange(this, EntityLogic.GetTotalMobility(this)));
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
@@ -65,9 +63,6 @@ public class SkeletonNecromancer : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, blight.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, blight))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Blight");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformBlight(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -79,8 +74,6 @@ public class SkeletonNecromancer : Enemy
         // Summon skeletons
         else if (EntityLogic.IsAbilityUseable(this, summonUndead))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Summon Undead");
-            yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformSummonUndead(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
             yield return new WaitForSeconds(0.5f);
@@ -91,9 +84,6 @@ public class SkeletonNecromancer : Enemy
         else if (EntityLogic.IsAbilityUseable(this, strike) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -109,9 +99,6 @@ public class SkeletonNecromancer : Enemy
             EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, blight, this)
             )
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
@@ -124,7 +111,7 @@ public class SkeletonNecromancer : Enemy
         // Can't do anything more, end activation
         else
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
     }   
 

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class AbilityLogic : MonoBehaviour
 {
@@ -403,32 +402,39 @@ public class AbilityLogic : MonoBehaviour
     #region
 
     // Strike
-    public Action PerformStrike(LivingEntity attacker, LivingEntity victim)
+    public Action PerformStrike(LivingEntity caster, LivingEntity victim)
     {
-        Debug.Log("AbilityLogic.PerformStrike() called. Caster = " + attacker.name + ", Target = " + victim.name);
+        Debug.Log("AbilityLogic.PerformStrike() called. Caster = " + caster.name + ", Target = " + victim.name);
         Action action = new Action(true);
-        StartCoroutine(PerformStrikeCoroutine(attacker, victim, action));
+        StartCoroutine(PerformStrikeCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformStrikeCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformStrikeCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability strike = attacker.mySpellBook.GetAbilityByName("Strike");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, strike);
-        bool parry = CombatLogic.Instance.RollForParry(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, strike, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, strike, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability strike = caster.mySpellBook.GetAbilityByName("Strike");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, strike);
+        bool parry = CombatLogic.Instance.RollForParry(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, strike, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, strike, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+        
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Strike");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(strike, attacker);
+        OnAbilityUsedStart(strike, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, victim);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -437,45 +443,52 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, strike);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, strike);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(strike, attacker);
+        OnAbilityUsedFinish(strike, caster);
         action.actionResolved = true;
 
     }
 
     // Twin Strike
-    public Action PerformTwinStrike(LivingEntity attacker, LivingEntity victim)
+    public Action PerformTwinStrike(LivingEntity caster, LivingEntity victim)
     {
-        Debug.Log("AbilityLogic.PerformStrike() called. Caster = " + attacker.name + ", Target = " + victim.name);
+        Debug.Log("AbilityLogic.PerformStrike() called. Caster = " + caster.name + ", Target = " + victim.name);
         Action action = new Action(true);
-        StartCoroutine(PerformTwinStrikeCoroutine(attacker, victim, action));
+        StartCoroutine(PerformTwinStrikeCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformTwinStrikeCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformTwinStrikeCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability twinStrike = attacker.mySpellBook.GetAbilityByName("Twin Strike");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, twinStrike);
-        bool parry = CombatLogic.Instance.RollForParry(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, twinStrike, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, twinStrike, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability twinStrike = caster.mySpellBook.GetAbilityByName("Twin Strike");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, twinStrike);
+        bool parry = CombatLogic.Instance.RollForParry(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, twinStrike, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, twinStrike, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Twin Strike");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(twinStrike, attacker);
+        OnAbilityUsedStart(twinStrike, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, victim);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -484,27 +497,27 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, twinStrike);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, twinStrike);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         }
 
         // SECOND ATTACK
         if(victim.inDeathProcess == false)
         {
-            bool critical2 = CombatLogic.Instance.RollForCritical(attacker, victim, twinStrike);
-            bool parry2 = CombatLogic.Instance.RollForParry(victim, attacker);
-            string damageType2 = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, twinStrike, attacker.myOffHandWeapon);
-            int finalDamageValue2 = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, twinStrike, damageType2, critical2, attacker.myOffHandWeapon.baseDamage, attacker.myOffHandWeapon);
+            bool critical2 = CombatLogic.Instance.RollForCritical(caster, victim, twinStrike);
+            bool parry2 = CombatLogic.Instance.RollForParry(victim, caster);
+            string damageType2 = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, twinStrike, caster.myOffHandWeapon);
+            int finalDamageValue2 = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, twinStrike, damageType2, critical2, caster.myOffHandWeapon.baseDamage, caster.myOffHandWeapon);
 
             // Play attack animation
-            attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+            caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
             // if the target successfully parried, dont do HandleDamage: do parry stuff instead
             if (parry2)
             {
-                Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+                Action parryAction = CombatLogic.Instance.HandleParry(caster, victim);
                 yield return new WaitUntil(() => parryAction.ActionResolved() == true);
             }
 
@@ -513,15 +526,15 @@ public class AbilityLogic : MonoBehaviour
             {
                 if (critical2)
                 {
-                    VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                    VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
                 }
-                Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue2, attacker, victim, damageType2, twinStrike);
+                Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue2, caster, victim, damageType2, twinStrike);
                 yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
             }
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(twinStrike, attacker);
+        OnAbilityUsedFinish(twinStrike, caster);
         action.actionResolved = true;
 
     }
@@ -537,6 +550,14 @@ public class AbilityLogic : MonoBehaviour
     private IEnumerator PerformDefendCoroutine(LivingEntity caster, Action action)
     {
         Ability block = caster.mySpellBook.GetAbilityByName("Defend");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Strike");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         caster.PlaySkillAnimation();
         OnAbilityUsedStart(block, caster);
         caster.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(block.abilityPrimaryValue, caster));
@@ -546,55 +567,70 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Move
-    public Action PerformMove(LivingEntity characterMoved, Tile destination)
+    public Action PerformMove(LivingEntity caster, Tile destination)
     {
-        Debug.Log("AbilityLogic.PerformMove() called. Caster = " + characterMoved.name + 
+        Debug.Log("AbilityLogic.PerformMove() called. Caster = " + caster.name + 
             ", Target Tile = " + destination.GridPosition.X.ToString() + ", " + destination.GridPosition.Y.ToString());
         Action action = new Action(true);
-        StartCoroutine(PerformMoveCoroutine(characterMoved, destination, action));
+        StartCoroutine(PerformMoveCoroutine(caster, destination, action));
         return action;
     }
-    private IEnumerator PerformMoveCoroutine(LivingEntity characterMoved, Tile destination, Action action)
+    private IEnumerator PerformMoveCoroutine(LivingEntity caster, Tile destination, Action action)
     {
-        Ability move = characterMoved.mySpellBook.GetAbilityByName("Move");
-        OnAbilityUsedStart(move, characterMoved);
-        Action movementAction = MovementLogic.Instance.MoveEntity(characterMoved, destination);
+        Ability move = caster.mySpellBook.GetAbilityByName("Move");
+        OnAbilityUsedStart(move, caster);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Move");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        Action movementAction = MovementLogic.Instance.MoveEntity(caster, destination);
         yield return new WaitUntil(() => movementAction.ActionResolved() == true);
         action.actionResolved = true;
-        characterMoved.myAnimator.SetTrigger("Idle");
+        caster.PlayIdleAnimation();
     }
 
     // Shoot
-    public Action PerformShoot(LivingEntity attacker, LivingEntity victim)
+    public Action PerformShoot(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformShootCoroutine(attacker, victim, action));
+        StartCoroutine(PerformShootCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformShootCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformShootCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability shoot = attacker.mySpellBook.GetAbilityByName("Shoot");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, shoot);
-        bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, shoot, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, shoot, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability shoot = caster.mySpellBook.GetAbilityByName("Shoot");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, shoot);
+        bool dodge = CombatLogic.Instance.RollForDodge(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, shoot, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, shoot, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Shoot");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(shoot, attacker);
+        OnAbilityUsedStart(shoot, caster);
 
         // Ranged attack anim
-        attacker.PlayRangedAttackAnimation();        
-        yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
+        caster.PlayRangedAttackAnimation();        
+        yield return new WaitUntil(() => caster.myRangedAttackFinished == true);
 
         // Play arrow shot VFX
-        Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
+        Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
         yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
         if (dodge)
         {
-            Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+            Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
             yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
         }
 
@@ -603,36 +639,36 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, shoot);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, shoot);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(shoot, attacker);
+        OnAbilityUsedFinish(shoot, caster);
         action.actionResolved = true;
 
     }
 
     // Free Strike
-    public Action PerformFreeStrike(LivingEntity attacker, LivingEntity victim)
+    public Action PerformFreeStrike(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformFreeStrikeCoroutine(attacker, victim, action));
+        StartCoroutine(PerformFreeStrikeCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformFreeStrikeCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformFreeStrikeCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Make sure character actually knows strike, has a melee weapon, and the target is not in death process
-        if((attacker.mySpellBook.GetAbilityByName("Strike") != null || attacker.mySpellBook.GetAbilityByName("Twin Strike") != null) &&
+        if((caster.mySpellBook.GetAbilityByName("Strike") != null || caster.mySpellBook.GetAbilityByName("Twin Strike") != null) &&
            victim.inDeathProcess == false &&
-           (attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand || attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeTwoHand)
+           (caster.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand || caster.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeTwoHand)
             )
         {
             // Set up properties
-            Ability strike = attacker.mySpellBook.GetAbilityByName("Strike");
-            Ability twinStrike = attacker.mySpellBook.GetAbilityByName("Strike");
+            Ability strike = caster.mySpellBook.GetAbilityByName("Strike");
+            Ability twinStrike = caster.mySpellBook.GetAbilityByName("Strike");
             Ability abilityUsed = null;
             if (strike)
             {
@@ -644,28 +680,28 @@ public class AbilityLogic : MonoBehaviour
             }
 
             
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, abilityUsed);
+            bool critical = CombatLogic.Instance.RollForCritical(caster, victim, abilityUsed);
             //bool parry = CombatLogic.Instance.RollForParry(victim);
-            string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, abilityUsed, attacker.myMainHandWeapon);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, abilityUsed, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+            string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, abilityUsed, caster.myMainHandWeapon);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, abilityUsed, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
 
             // Play attack animation
-            attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+            caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
             // Check critical
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
             // Deal damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, abilityUsed);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, abilityUsed);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Remove camo
-            if (attacker.myPassiveManager.camoflage)
+            if (caster.myPassiveManager.camoflage)
             {
-                attacker.myPassiveManager.ModifyCamoflage(-1);
+                caster.myPassiveManager.ModifyCamoflage(-1);
             }
 
         }
@@ -676,14 +712,14 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Parry Attack
-    public Action PerformRiposteAttack(LivingEntity attacker, LivingEntity victim)
+    public Action PerformRiposteAttack(LivingEntity caster, LivingEntity victim)
     {
         Debug.Log("AbilityLogic.PerformRiposteAttack() called...");
         Action action = new Action(true);
-        StartCoroutine(PerformRiposteAttackCoroutine(attacker, victim, action));
+        StartCoroutine(PerformRiposteAttackCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformRiposteAttackCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformRiposteAttackCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Make sure character actually knows strike, has a melee weapon, and the target is not in death process
         if (true
@@ -692,35 +728,35 @@ public class AbilityLogic : MonoBehaviour
            //(attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand || attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeTwoHand)
             )
         {
-            Debug.Log(attacker.name + " meets the requirments of a riposte attack, starting riposte process...");
+            Debug.Log(caster.name + " meets the requirments of a riposte attack, starting riposte process...");
             // Set up properties
-            Ability strike = attacker.mySpellBook.GetAbilityByName("Strike");
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, strike);
-            string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, strike, attacker.myMainHandWeapon);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, strike, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+            Ability strike = caster.mySpellBook.GetAbilityByName("Strike");
+            bool critical = CombatLogic.Instance.RollForCritical(caster, victim, strike);
+            string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, strike, caster.myMainHandWeapon);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, strike, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
 
             // Play attack animation
-            attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+            caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
             // Check critical
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
             // Deal damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, strike);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, strike);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Remove camo
-            if (attacker.myPassiveManager.camoflage)
+            if (caster.myPassiveManager.camoflage)
             {
-                attacker.myPassiveManager.ModifyCamoflage(-1);
+                caster.myPassiveManager.ModifyCamoflage(-1);
             }
             // Remove Sharpened Blade
-            if (attacker.myPassiveManager.sharpenedBlade)
+            if (caster.myPassiveManager.sharpenedBlade)
             {
-                attacker.myPassiveManager.ModifySharpenedBlade(-attacker.myPassiveManager.sharpenedBladeStacks);
+                caster.myPassiveManager.ModifySharpenedBlade(-caster.myPassiveManager.sharpenedBladeStacks);
             }
 
         }
@@ -731,42 +767,42 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Over Watch Shot
-    public Action PerformOverwatchShot(LivingEntity attacker, LivingEntity victim)
+    public Action PerformOverwatchShot(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformOverwatchShotCoroutine(attacker, victim, action));
+        StartCoroutine(PerformOverwatchShotCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformOverwatchShotCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformOverwatchShotCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Make sure character actually knows shoot, has a ranged weapon, and the target is not in death process
-        if (attacker.mySpellBook.GetAbilityByName("Shoot") != null &&
+        if (caster.mySpellBook.GetAbilityByName("Shoot") != null &&
             victim.inDeathProcess == false &&
-            attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.RangedTwoHand
+            caster.myMainHandWeapon.itemType == ItemDataSO.ItemType.RangedTwoHand
             )
         {
             // Set up properties
-            Ability shoot = attacker.mySpellBook.GetAbilityByName("Shoot");
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, shoot);
-            bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
-            string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, shoot, attacker.myMainHandWeapon);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, shoot, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+            Ability shoot = caster.mySpellBook.GetAbilityByName("Shoot");
+            bool critical = CombatLogic.Instance.RollForCritical(caster, victim, shoot);
+            bool dodge = CombatLogic.Instance.RollForDodge(victim, caster);
+            string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, shoot, caster.myMainHandWeapon);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, shoot, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
 
             // Remove Overwatch
-            attacker.myPassiveManager.ModifyOverwatch(-attacker.myPassiveManager.overwatchStacks);
+            caster.myPassiveManager.ModifyOverwatch(-caster.myPassiveManager.overwatchStacks);
 
             // Ranged attack anim
-            attacker.PlayRangedAttackAnimation();
-            yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
+            caster.PlayRangedAttackAnimation();
+            yield return new WaitUntil(() => caster.myRangedAttackFinished == true);
 
             // Play arrow shot VFX
-            Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
+            Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
             yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
             // if the target successfully parried, dont do HandleDamage: do parry stuff instead
             if (dodge)
             {
-                Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+                Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
                 yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
             }
 
@@ -775,16 +811,16 @@ public class AbilityLogic : MonoBehaviour
             {
                 if (critical)
                 {
-                    VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                    VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
                 }
-                Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, shoot);
+                Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, shoot);
                 yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
             }
 
             // Remove camo
-            if (attacker.myPassiveManager.camoflage)
+            if (caster.myPassiveManager.camoflage)
             {
-                attacker.myPassiveManager.ModifyCamoflage(-1);
+                caster.myPassiveManager.ModifyCamoflage(-1);
             }
 
         }
@@ -799,39 +835,46 @@ public class AbilityLogic : MonoBehaviour
     #region
 
     // Whirlwind
-    public Action PerformWhirlwind(LivingEntity attacker)
+    public Action PerformWhirlwind(LivingEntity caster)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformWhirlwindCoroutine(attacker, action));
+        StartCoroutine(PerformWhirlwindCoroutine(caster, action));
         return action;
     }
-    private IEnumerator PerformWhirlwindCoroutine(LivingEntity attacker, Action action)
+    private IEnumerator PerformWhirlwindCoroutine(LivingEntity caster, Action action)
     {
         // Set up properties
-        Ability whirlwind = attacker.mySpellBook.GetAbilityByName("Whirlwind");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, whirlwind, attacker.myMainHandWeapon);
+        Ability whirlwind = caster.mySpellBook.GetAbilityByName("Whirlwind");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, whirlwind, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Whirlwind");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Calculate which characters are hit by the aoe
-        List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, attacker.tile, attacker.currentMeleeRange, false, true);
+        List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, caster.tile, caster.currentMeleeRange, false, true);
 
         // Pay energy cost
-        OnAbilityUsedStart(whirlwind, attacker);
+        OnAbilityUsedStart(whirlwind, caster);
 
         // Create whirlwind VFX
-        StartCoroutine(VisualEffectManager.Instance.CreateAoeMeleeAttackEffect(attacker.transform.position));
-        attacker.myAnimator.SetTrigger("Melee Attack");
+        StartCoroutine(VisualEffectManager.Instance.CreateAoeMeleeAttackEffect(caster.transform.position));
+        caster.TriggerMeleeAttackAnimation();
 
         // Resolve hits against targets
         foreach(LivingEntity entity in targetsInRange)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, whirlwind);
-            bool parry = CombatLogic.Instance.RollForParry(entity, attacker);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, whirlwind, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+            bool critical = CombatLogic.Instance.RollForCritical(caster, entity, whirlwind);
+            bool parry = CombatLogic.Instance.RollForParry(entity, caster);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, whirlwind, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
 
             // if the target successfully parried, dont do HandleDamage: do parry stuff instead
             if (parry)
             {
-                Action parryAction = CombatLogic.Instance.HandleParry(attacker, entity);
+                Action parryAction = CombatLogic.Instance.HandleParry(caster, entity);
             }
 
             // if the target did not parry, handle damage event normally
@@ -839,10 +882,10 @@ public class AbilityLogic : MonoBehaviour
             {
                 if (critical)
                 {
-                    VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                    VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
                 }
 
-                Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, whirlwind);
+                Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, whirlwind);
                 //yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
             }
 
@@ -854,31 +897,38 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Devastating Blow
-    public Action PerformDevastatingBlow(LivingEntity attacker, LivingEntity target)
+    public Action PerformDevastatingBlow(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformDevastatingBlowCoroutine(attacker, target, action));
+        StartCoroutine(PerformDevastatingBlowCoroutine(caster, target, action));
         return action;
     }
-    private IEnumerator PerformDevastatingBlowCoroutine(LivingEntity attacker, LivingEntity target, Action action)
+    private IEnumerator PerformDevastatingBlowCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         // Set up properties
-        Ability devastatingBlow = attacker.mySpellBook.GetAbilityByName("Devastating Blow");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, target, devastatingBlow);
-        bool parry = CombatLogic.Instance.RollForParry(target, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, devastatingBlow, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, target, devastatingBlow, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability devastatingBlow = caster.mySpellBook.GetAbilityByName("Devastating Blow");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, target, devastatingBlow);
+        bool parry = CombatLogic.Instance.RollForParry(target, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, devastatingBlow, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, target, devastatingBlow, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Devastating Blow");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(devastatingBlow, attacker);
+        OnAbilityUsedStart(devastatingBlow, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(target));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(target));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, target);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, target);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -887,43 +937,50 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, devastatingBlow);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, target, damageType, devastatingBlow);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(devastatingBlow, attacker);
+        OnAbilityUsedFinish(devastatingBlow, caster);
         action.actionResolved = true;
     }
 
     // Smash
-    public Action PerformSmash(LivingEntity attacker, LivingEntity victim)
+    public Action PerformSmash(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformSmashCoroutine(attacker, victim, action));
+        StartCoroutine(PerformSmashCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformSmashCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformSmashCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability smash = attacker.mySpellBook.GetAbilityByName("Smash");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, smash);
-        bool parry = CombatLogic.Instance.RollForParry(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, smash, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, smash, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability smash = caster.mySpellBook.GetAbilityByName("Smash");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, smash);
+        bool parry = CombatLogic.Instance.RollForParry(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, smash, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, smash, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+        
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Smash");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(smash, attacker);
+        OnAbilityUsedStart(smash, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, victim);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -932,14 +989,14 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, smash);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, smash);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(smash, attacker);
+        OnAbilityUsedFinish(smash, caster);
         action.actionResolved = true;
 
     }
@@ -951,28 +1008,35 @@ public class AbilityLogic : MonoBehaviour
         StartCoroutine(PerformChargeCoroutine(caster, target, destination, action));
         return action;
     }
-    private IEnumerator PerformChargeCoroutine(LivingEntity attacker, LivingEntity victim, Tile destination, Action action)
+    private IEnumerator PerformChargeCoroutine(LivingEntity caster, LivingEntity victim, Tile destination, Action action)
     {        
         // Set up properties
-        Ability charge = attacker.mySpellBook.GetAbilityByName("Charge");
+        Ability charge = caster.mySpellBook.GetAbilityByName("Charge");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Charge");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(charge, attacker);
+        OnAbilityUsedStart(charge, caster);
 
         // Charge movement
-        Action moveAction = MovementLogic.Instance.MoveEntity(attacker, destination, 6);
+        Action moveAction = MovementLogic.Instance.MoveEntity(caster, destination, 6);
         yield return new WaitUntil(() => moveAction.ActionResolved() == true);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
         // Apply vulnerable
         victim.myPassiveManager.ModifyVulnerable(1);
-        attacker.myAnimator.SetTrigger("Idle");
+        caster.PlayIdleAnimation();
         action.actionResolved = true;
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(charge, attacker);
+        OnAbilityUsedFinish(charge, caster);
         action.actionResolved = true;        
 
     }
@@ -990,6 +1054,13 @@ public class AbilityLogic : MonoBehaviour
         Ability recklessness = caster.mySpellBook.GetAbilityByName("Recklessness");
         OnAbilityUsedStart(recklessness, caster);
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Charge");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Play animation
         caster.PlaySkillAnimation();
 
@@ -1003,28 +1074,35 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Kick To The Balls
-    public Action PerformKickToTheBalls(LivingEntity attacker, LivingEntity victim)
+    public Action PerformKickToTheBalls(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformKickToTheBallsCoroutine(attacker, victim, action));
+        StartCoroutine(PerformKickToTheBallsCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformKickToTheBallsCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformKickToTheBallsCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability kickToTheBalls = attacker.mySpellBook.GetAbilityByName("Kick To The Balls");
-        bool parry = CombatLogic.Instance.RollForParry(victim, attacker);
+        Ability kickToTheBalls = caster.mySpellBook.GetAbilityByName("Kick To The Balls");
+        bool parry = CombatLogic.Instance.RollForParry(victim, caster);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Kick To The Balls");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(kickToTheBalls, attacker);
+        OnAbilityUsedStart(kickToTheBalls, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, victim);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -1036,7 +1114,7 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(kickToTheBalls, attacker);
+        OnAbilityUsedFinish(kickToTheBalls, caster);
         action.actionResolved = true;
 
     }
@@ -1053,6 +1131,13 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability goBerserk = caster.mySpellBook.GetAbilityByName("Go Berserk");
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Go Berserk");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Play animation
         caster.PlaySkillAnimation();
 
@@ -1068,19 +1153,20 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;
 
     }
+
     // Blade Flurry
-    public Action PerformBladeFlurry(LivingEntity attacker)
+    public Action PerformBladeFlurry(LivingEntity caster)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformBladeFlurryCoroutine(attacker, action));
+        StartCoroutine(PerformBladeFlurryCoroutine(caster, action));
         return action;
     }
-    private IEnumerator PerformBladeFlurryCoroutine(LivingEntity attacker, Action action)
+    private IEnumerator PerformBladeFlurryCoroutine(LivingEntity caster, Action action)
     {
         // Set up properties
-        Ability bladeFlurry = attacker.mySpellBook.GetAbilityByName("Blade Flurry");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, bladeFlurry, attacker.myMainHandWeapon);
-        List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(attacker, attacker.currentMeleeRange);
+        Ability bladeFlurry = caster.mySpellBook.GetAbilityByName("Blade Flurry");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, bladeFlurry, caster.myMainHandWeapon);
+        List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(caster, caster.currentMeleeRange);
         List<LivingEntity> targetsHit = new List<LivingEntity>();
 
         // get a random target 3 times
@@ -1089,25 +1175,33 @@ public class AbilityLogic : MonoBehaviour
             targetsHit.Add(targetsInRange[Random.Range(0, targetsInRange.Count)]);
         }
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Blade Flurry");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+
         // Pay energy cost
-        OnAbilityUsedStart(bladeFlurry, attacker);
+        OnAbilityUsedStart(bladeFlurry, caster);
 
         // Resolve hits against targets
         foreach (LivingEntity entity in targetsHit)
         {
             if(entity.inDeathProcess == false)
             {
-                bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, bladeFlurry);
-                bool parry = CombatLogic.Instance.RollForParry(entity, attacker);
-                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, bladeFlurry, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+                bool critical = CombatLogic.Instance.RollForCritical(caster, entity, bladeFlurry);
+                bool parry = CombatLogic.Instance.RollForParry(entity, caster);
+                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, bladeFlurry, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
 
                 // Play attack animation
-                attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(entity));
+                caster.StartCoroutine(caster.PlayMeleeAttackAnimation(entity));
 
                 // if the target successfully parried, dont do HandleDamage: do parry stuff instead
                 if (parry)
                 {
-                    Action parryAction = CombatLogic.Instance.HandleParry(attacker, entity);
+                    Action parryAction = CombatLogic.Instance.HandleParry(caster, entity);
                     yield return new WaitUntil(() => parryAction.ActionResolved() == true);
                 }
 
@@ -1116,9 +1210,9 @@ public class AbilityLogic : MonoBehaviour
                 {
                     if (critical)
                     {
-                        VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                        VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
                     }
-                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, bladeFlurry);
+                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, bladeFlurry);
                     yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
                 }
 
@@ -1127,7 +1221,7 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // Remove camo + etc
-        OnAbilityUsedFinish(bladeFlurry, attacker);
+        OnAbilityUsedFinish(bladeFlurry, caster);
 
         // Resolve/Complete event
         action.actionResolved = true;
@@ -1140,53 +1234,68 @@ public class AbilityLogic : MonoBehaviour
     #region
 
     // Dash
-    public Action PerformDash(LivingEntity characterMoved, Tile destination)
+    public Action PerformDash(LivingEntity caster, Tile destination)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformDashCoroutine(characterMoved, destination, action));
+        StartCoroutine(PerformDashCoroutine(caster, destination, action));
         return action;
     }
-    private IEnumerator PerformDashCoroutine(LivingEntity characterMoved, Tile destination, Action action)
+    private IEnumerator PerformDashCoroutine(LivingEntity caster, Tile destination, Action action)
     {
-        Ability dash = characterMoved.mySpellBook.GetAbilityByName("Dash");
+        Ability dash = caster.mySpellBook.GetAbilityByName("Dash");
 
-        OnAbilityUsedStart(dash, characterMoved);
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Dash");
+            yield return new WaitForSeconds(0.5f);
+        }
 
-        Action dashAction = MovementLogic.Instance.MoveEntity(characterMoved, destination, 6);
+        OnAbilityUsedStart(dash, caster);
+
+        Action dashAction = MovementLogic.Instance.MoveEntity(caster, destination, 6);
 
         yield return new WaitUntil(() => dashAction.ActionResolved() == true);
 
-        characterMoved.myAnimator.SetTrigger("Idle");
+        caster.PlayIdleAnimation();
         action.actionResolved = true;
 
     }
 
     // Tendon Slash
-    public Action PerformTendonSlash(LivingEntity attacker, LivingEntity victim)
+    public Action PerformTendonSlash(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformTendonSlashCoroutine(attacker, victim, action));
+        StartCoroutine(PerformTendonSlashCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformTendonSlashCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformTendonSlashCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability tendonSlash = attacker.mySpellBook.GetAbilityByName("Tendon Slash");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, tendonSlash);
-        bool parry = CombatLogic.Instance.RollForParry(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, tendonSlash, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, tendonSlash, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability tendonSlash = caster.mySpellBook.GetAbilityByName("Tendon Slash");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, tendonSlash);
+        bool parry = CombatLogic.Instance.RollForParry(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, tendonSlash, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, tendonSlash, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Tendon Slash");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(tendonSlash, attacker);
+        OnAbilityUsedStart(tendonSlash, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, victim);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -1195,9 +1304,9 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, tendonSlash);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, tendonSlash);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Apply Weakened
@@ -1209,37 +1318,44 @@ public class AbilityLogic : MonoBehaviour
         }               
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(tendonSlash, attacker);
+        OnAbilityUsedFinish(tendonSlash, caster);
         action.actionResolved = true;
         
     }
 
     // Disarm
-    public Action PerformDisarm(LivingEntity attacker, LivingEntity victim)
+    public Action PerformDisarm(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformDisarmCoroutine(attacker, victim, action));
+        StartCoroutine(PerformDisarmCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformDisarmCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformDisarmCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability disarm = attacker.mySpellBook.GetAbilityByName("Disarm");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, disarm);
-        bool parry = CombatLogic.Instance.RollForParry(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, disarm, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, disarm, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability disarm = caster.mySpellBook.GetAbilityByName("Disarm");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, disarm);
+        bool parry = CombatLogic.Instance.RollForParry(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, disarm, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, disarm, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Disarm");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(disarm, attacker);
+        OnAbilityUsedStart(disarm, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, victim);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -1248,9 +1364,9 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, disarm);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, disarm);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Disarm target
@@ -1262,37 +1378,44 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(disarm, attacker);
+        OnAbilityUsedFinish(disarm, caster);
         action.actionResolved = true;
 
     }
 
     // Shield Shatter
-    public Action PerformShieldShatter(LivingEntity attacker, LivingEntity victim)
+    public Action PerformShieldShatter(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformShieldShatterCoroutine(attacker, victim, action));
+        StartCoroutine(PerformShieldShatterCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformShieldShatterCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformShieldShatterCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability shieldShatter = attacker.mySpellBook.GetAbilityByName("Shield Shatter");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, shieldShatter);
-        bool parry = CombatLogic.Instance.RollForParry(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, shieldShatter, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, shieldShatter, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability shieldShatter = caster.mySpellBook.GetAbilityByName("Shield Shatter");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, shieldShatter);
+        bool parry = CombatLogic.Instance.RollForParry(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, shieldShatter, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, shieldShatter, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Shield Shatter");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(shieldShatter, attacker);
+        OnAbilityUsedStart(shieldShatter, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, victim);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -1304,14 +1427,14 @@ public class AbilityLogic : MonoBehaviour
 
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, shieldShatter);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, shieldShatter);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(shieldShatter, attacker);
+        OnAbilityUsedFinish(shieldShatter, caster);
         action.actionResolved = true;
 
     }
@@ -1327,6 +1450,13 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability evasion = caster.mySpellBook.GetAbilityByName("Evasion");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Evasion");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
         OnAbilityUsedStart(evasion, caster);
@@ -1346,38 +1476,45 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Decapitate
-    public Action PerformDecapitate(LivingEntity attacker, LivingEntity victim)
+    public Action PerformDecapitate(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformDecapitateCoroutine(attacker, victim, action));
+        StartCoroutine(PerformDecapitateCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformDecapitateCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformDecapitateCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability decapitate = attacker.mySpellBook.GetAbilityByName("Decapitate");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, decapitate);
-        bool parry = CombatLogic.Instance.RollForParry(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, decapitate, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, decapitate, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability decapitate = caster.mySpellBook.GetAbilityByName("Decapitate");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, decapitate);
+        bool parry = CombatLogic.Instance.RollForParry(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, decapitate, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, decapitate, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
         bool instantKill = false;
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Decapitate");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // If target has 30% or less health, they are killed instantly
-        if((victim.currentMaxHealth * 0.3f) >= victim.currentHealth)
+        if ((victim.currentMaxHealth * 0.3f) >= victim.currentHealth)
         {
             instantKill = true;
         }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(decapitate, attacker);
+        OnAbilityUsedStart(decapitate, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, victim);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -1386,9 +1523,9 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, decapitate);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, decapitate);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             if(!victim.inDeathProcess && instantKill)
@@ -1402,7 +1539,7 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(decapitate, attacker);
+        OnAbilityUsedFinish(decapitate, caster);
         action.actionResolved = true;
 
     }
@@ -1419,6 +1556,13 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability vanish = caster.mySpellBook.GetAbilityByName("Second Wind");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Second Wind");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
         OnAbilityUsedStart(vanish, caster);
@@ -1454,6 +1598,13 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability vanish = caster.mySpellBook.GetAbilityByName("Vanish");
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Vanish");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(vanish, caster);
 
@@ -1471,41 +1622,48 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Back Stab
-    public Action PerformBackStab(LivingEntity attacker, LivingEntity victim)
+    public Action PerformBackStab(LivingEntity caster, LivingEntity victim)
     {
-        Debug.Log("AbilityLogic.PerformBackStab() called. Caster = " + attacker.name + ", Target = " + victim.name);
+        Debug.Log("AbilityLogic.PerformBackStab() called. Caster = " + caster.name + ", Target = " + victim.name);
         Action action = new Action(true);
-        StartCoroutine(PerformBackStabCoroutine(attacker, victim, action));
+        StartCoroutine(PerformBackStabCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformBackStabCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformBackStabCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability backStab = attacker.mySpellBook.GetAbilityByName("Back Stab");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, backStab);
+        Ability backStab = caster.mySpellBook.GetAbilityByName("Back Stab");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, backStab);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Back Stab");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // check for back strike, modify crit
-        if (PositionLogic.Instance.CanAttackerBackStrikeTarget(attacker, victim))
+        if (PositionLogic.Instance.CanAttackerBackStrikeTarget(caster, victim))
         {
             critical = true;
         }
 
-        bool parry = CombatLogic.Instance.RollForParry(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, backStab, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, backStab, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        bool parry = CombatLogic.Instance.RollForParry(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, backStab, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, backStab, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
 
         
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(backStab, attacker);
+        OnAbilityUsedStart(backStab, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, victim);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -1514,45 +1672,52 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, backStab);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, backStab);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(backStab, attacker);
+        OnAbilityUsedFinish(backStab, caster);
         action.actionResolved = true;
 
     }
 
 
     // Cheap Shot
-    public Action PerformCheapShot(LivingEntity attacker, LivingEntity target)
+    public Action PerformCheapShot(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformCheapShotCoroutine(attacker, target, action));
+        StartCoroutine(PerformCheapShotCoroutine(caster, target, action));
         return action;
     }
-    private IEnumerator PerformCheapShotCoroutine(LivingEntity attacker, LivingEntity target, Action action)
+    private IEnumerator PerformCheapShotCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         // Set up properties
-        Ability cheapShot = attacker.mySpellBook.GetAbilityByName("Cheap Shot");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, target, cheapShot);
-        bool parry = CombatLogic.Instance.RollForParry(target, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, cheapShot, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, target, cheapShot, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability cheapShot = caster.mySpellBook.GetAbilityByName("Cheap Shot");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, target, cheapShot);
+        bool parry = CombatLogic.Instance.RollForParry(target, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, cheapShot, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, target, cheapShot, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Cheap Shot");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(cheapShot, attacker);
+        OnAbilityUsedStart(cheapShot, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(target));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(target));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, target);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, target);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -1561,13 +1726,13 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, cheapShot);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, target, damageType, cheapShot);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Apply vulnerable if camoflaged
-            if (attacker.myPassiveManager.camoflage || attacker.myPassiveManager.stealth)
+            if (caster.myPassiveManager.camoflage || caster.myPassiveManager.stealth)
             {
                 target.myPassiveManager.ModifyStunned(1);
                 yield return new WaitForSeconds(0.5f);
@@ -1575,36 +1740,43 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(cheapShot, attacker);
+        OnAbilityUsedFinish(cheapShot, caster);
         action.actionResolved = true;
     }
 
     // Shank
-    public Action PerformShank(LivingEntity attacker, LivingEntity target)
+    public Action PerformShank(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformShankCoroutine(attacker, target, action));
+        StartCoroutine(PerformShankCoroutine(caster, target, action));
         return action;
     }
-    private IEnumerator PerformShankCoroutine(LivingEntity attacker, LivingEntity target, Action action)
+    private IEnumerator PerformShankCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         // Set up properties
-        Ability shank = attacker.mySpellBook.GetAbilityByName("Shank");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, target, shank);
-        bool parry = CombatLogic.Instance.RollForParry(target, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, shank, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, target, shank, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability shank = caster.mySpellBook.GetAbilityByName("Shank");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, target, shank);
+        bool parry = CombatLogic.Instance.RollForParry(target, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, shank, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, target, shank, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Shank");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(shank, attacker);
+        OnAbilityUsedStart(shank, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(target));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(target));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, target);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, target);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -1613,14 +1785,14 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, shank);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, target, damageType, shank);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(shank, attacker);
+        OnAbilityUsedFinish(shank, caster);
         action.actionResolved = true;
     }
 
@@ -1636,6 +1808,13 @@ public class AbilityLogic : MonoBehaviour
         // Setup 
         Ability rapidCloaking = caster.mySpellBook.GetAbilityByName("Rapid Cloaking");
         OnAbilityUsedStart(rapidCloaking, caster);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Rapid Cloaking");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -1661,6 +1840,13 @@ public class AbilityLogic : MonoBehaviour
         Ability blink = caster.mySpellBook.GetAbilityByName("Shadow Step");
         OnAbilityUsedStart(blink, caster);
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Shadow Step");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // teleport
         Action teleportAction = MovementLogic.Instance.TeleportEntity(caster, destination);
         yield return new WaitUntil(() => teleportAction.ActionResolved() == true);
@@ -1671,31 +1857,39 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Ambush
-    public Action PerformAmbush(LivingEntity attacker, LivingEntity target)
+    public Action PerformAmbush(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformAmbushCoroutine(attacker, target, action));
+        StartCoroutine(PerformAmbushCoroutine(caster, target, action));
         return action;
     }
-    private IEnumerator PerformAmbushCoroutine(LivingEntity attacker, LivingEntity target, Action action)
+    private IEnumerator PerformAmbushCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         // Set up properties
-        Ability ambush = attacker.mySpellBook.GetAbilityByName("Ambush");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, target, ambush);
-        bool parry = CombatLogic.Instance.RollForParry(target, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, ambush, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, target, ambush, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability ambush = caster.mySpellBook.GetAbilityByName("Ambush");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, target, ambush);
+        bool parry = CombatLogic.Instance.RollForParry(target, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, ambush, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, target, ambush, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Ambush");
+            yield return new WaitForSeconds(0.5f);
+        }
+
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(ambush, attacker);
+        OnAbilityUsedStart(ambush, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(target));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(target));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, target);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, target);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -1704,21 +1898,21 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, ambush);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, target, damageType, ambush);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Gain +20 energy if backstabbing
-            if (PositionLogic.Instance.CanAttackerBackStrikeTarget(attacker, target))
+            if (PositionLogic.Instance.CanAttackerBackStrikeTarget(caster, target))
             {
-                attacker.ModifyCurrentEnergy(ambush.abilitySecondaryValue);
+                caster.ModifyCurrentEnergy(ambush.abilitySecondaryValue);
                 yield return new WaitForSeconds(0.5f);
             }
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(ambush, attacker);
+        OnAbilityUsedFinish(ambush, caster);
         action.actionResolved = true;
     }
 
@@ -1734,6 +1928,14 @@ public class AbilityLogic : MonoBehaviour
         // Set up
         Ability preparation = caster.mySpellBook.GetAbilityByName("Preparation");
         OnAbilityUsedStart(preparation, caster);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Preparation");
+            yield return new WaitForSeconds(0.5f);
+        }
+
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -1760,6 +1962,13 @@ public class AbilityLogic : MonoBehaviour
         Ability preparation = caster.mySpellBook.GetAbilityByName("Sharpen Blade");
         OnAbilityUsedStart(preparation, caster);
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Sharpen Blade");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Play animation
         caster.PlaySkillAnimation();
 
@@ -1773,43 +1982,50 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Slice And Dice
-    public Action PerformSliceAndDice(LivingEntity attacker, LivingEntity victim)
+    public Action PerformSliceAndDice(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformSliceAndDiceCoroutine(attacker, victim, action));
+        StartCoroutine(PerformSliceAndDiceCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformSliceAndDiceCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformSliceAndDiceCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability sliceAndDice = attacker.mySpellBook.GetAbilityByName("Slice And Dice");
-        int attacksToMake = attacker.currentEnergy / 10;
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, sliceAndDice, attacker.myMainHandWeapon);
+        Ability sliceAndDice = caster.mySpellBook.GetAbilityByName("Slice And Dice");
+        int attacksToMake = caster.currentEnergy / 10;
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, sliceAndDice, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Slice And Dice");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(sliceAndDice, attacker);
+        OnAbilityUsedStart(sliceAndDice, caster);
 
         for (int attacksAlreadyMade = 0; attacksAlreadyMade < attacksToMake; attacksAlreadyMade++)
         {
             // Play attack animation
-            attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+            caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
             if (victim.inDeathProcess == false)
             {
                 // Set up shot values
-                bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, sliceAndDice);
-                bool parry = CombatLogic.Instance.RollForParry(victim, attacker);
-                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, sliceAndDice, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+                bool critical = CombatLogic.Instance.RollForCritical(caster, victim, sliceAndDice);
+                bool parry = CombatLogic.Instance.RollForParry(victim, caster);
+                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, sliceAndDice, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
 
                 
                 // Play arrow shot VFX
-                Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
+                Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
                 yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
                 // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
                 if (parry)
                 {
-                    Action dodgeAction = CombatLogic.Instance.HandleParry(attacker, victim);
+                    Action dodgeAction = CombatLogic.Instance.HandleParry(caster, victim);
                     yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
                 }
 
@@ -1818,9 +2034,9 @@ public class AbilityLogic : MonoBehaviour
                 {
                     if (critical)
                     {
-                        VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                        VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
                     }
-                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, sliceAndDice);
+                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, sliceAndDice);
                     yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
                 }
             }
@@ -1828,46 +2044,53 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(sliceAndDice, attacker);
+        OnAbilityUsedFinish(sliceAndDice, caster);
         action.actionResolved = true;
 
     }
 
     // Chloroform Bomb
-    public Action PerformChloroformBomb(LivingEntity attacker, Tile location)
+    public Action PerformChloroformBomb(LivingEntity caster, Tile location)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformChloroformBombCoroutine(attacker, location, action));
+        StartCoroutine(PerformChloroformBombCoroutine(caster, location, action));
         return action;
     }
-    private IEnumerator PerformChloroformBombCoroutine(LivingEntity attacker, Tile location, Action action)
+    private IEnumerator PerformChloroformBombCoroutine(LivingEntity caster, Tile location, Action action)
     {
         // Set up properties
-        Ability chloroformBomb = attacker.mySpellBook.GetAbilityByName("Chloroform Bomb");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, chloroformBomb);
+        Ability chloroformBomb = caster.mySpellBook.GetAbilityByName("Chloroform Bomb");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, chloroformBomb);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Chloroform Bomb");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Calculate which characters are hit by the aoe
-        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
+        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, location, 1, true, false);
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Pay energy cost
-        OnAbilityUsedStart(chloroformBomb, attacker);
+        OnAbilityUsedStart(chloroformBomb, caster);
 
         // Resolve hits against targets
         foreach (LivingEntity entity in targetsInBlastRadius)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, chloroformBomb);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, chloroformBomb, damageType, critical, chloroformBomb.abilityPrimaryValue);
+            bool critical = CombatLogic.Instance.RollForCritical(caster, entity, chloroformBomb);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, chloroformBomb, damageType, critical, chloroformBomb.abilityPrimaryValue);
 
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, chloroformBomb);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, chloroformBomb);
 
             // Apply Silenced
             if (entity.inDeathProcess == false)
@@ -1877,7 +2100,7 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // Pay energy cost
-        OnAbilityUsedFinish(chloroformBomb, attacker);
+        OnAbilityUsedFinish(chloroformBomb, caster);
 
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
@@ -1900,6 +2123,13 @@ public class AbilityLogic : MonoBehaviour
         // Setup
         Ability guard = caster.mySpellBook.GetAbilityByName("Guard");
         OnAbilityUsedStart(guard, caster);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Guard");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -1925,6 +2155,13 @@ public class AbilityLogic : MonoBehaviour
         // Setup
         Ability fortify = caster.mySpellBook.GetAbilityByName("Fortify");
         OnAbilityUsedStart(fortify, caster);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Fortify");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -1974,6 +2211,13 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability stoneForm = caster.mySpellBook.GetAbilityByName("Stone Form");
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Stone Form");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Play animation
         caster.PlaySkillAnimation();
 
@@ -2002,6 +2246,13 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability provoke = caster.mySpellBook.GetAbilityByName("Provoke");
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Provoke");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(provoke, caster);
 
@@ -2019,16 +2270,23 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Challenging Shout
-    public Action PerformChallengingShout(LivingEntity attacker)
+    public Action PerformChallengingShout(LivingEntity caster)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformChallengingShoutCoroutine(attacker, action));
+        StartCoroutine(PerformChallengingShoutCoroutine(caster, action));
         return action;
     }
     private IEnumerator PerformChallengingShoutCoroutine(LivingEntity caster, Action action)
     {
         // Set up properties
         Ability challengingShout = caster.mySpellBook.GetAbilityByName("Challenging Shout");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Challengin Shout");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Calculate which characters are hit by the global taunt
         List<LivingEntity> targetsInRange = new List<LivingEntity>();
@@ -2059,34 +2317,41 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Sword And Board
-    public Action PerformSwordAndBoard(LivingEntity attacker, LivingEntity victim)
+    public Action PerformSwordAndBoard(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformSwordAndBoardCoroutine(attacker, victim, action));
+        StartCoroutine(PerformSwordAndBoardCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformSwordAndBoardCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformSwordAndBoardCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability swordAndBoard = attacker.mySpellBook.GetAbilityByName("Sword And Board");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, swordAndBoard);
-        bool parry = CombatLogic.Instance.RollForParry(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, swordAndBoard, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, swordAndBoard, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability swordAndBoard = caster.mySpellBook.GetAbilityByName("Sword And Board");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, swordAndBoard);
+        bool parry = CombatLogic.Instance.RollForParry(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, swordAndBoard, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, swordAndBoard, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Sword And Board");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(swordAndBoard, attacker);
+        OnAbilityUsedStart(swordAndBoard, caster);
 
         // Gain Block
-        attacker.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(swordAndBoard.abilityPrimaryValue, attacker));
+        caster.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(swordAndBoard.abilityPrimaryValue, caster));
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, victim);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -2095,14 +2360,14 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, swordAndBoard);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, swordAndBoard);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(swordAndBoard, attacker);
+        OnAbilityUsedFinish(swordAndBoard, caster);
         action.actionResolved = true;
 
     }
@@ -2118,6 +2383,15 @@ public class AbilityLogic : MonoBehaviour
     {
     
         Ability getDown = caster.mySpellBook.GetAbilityByName("Get Down!");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Get Down!");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+
         OnAbilityUsedStart(getDown, caster);
         Action moveAction = MovementLogic.Instance.MoveEntity(caster, destination, 4);
 
@@ -2138,7 +2412,7 @@ public class AbilityLogic : MonoBehaviour
                 livingEntity.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(getDown.abilitySecondaryValue, caster));
             }
         }
-        caster.myAnimator.SetTrigger("Idle");
+        caster.PlayIdleAnimation();
         action.actionResolved = true;
     }
 
@@ -2153,6 +2427,15 @@ public class AbilityLogic : MonoBehaviour
     {
         // Setup 
         Ability testudo = caster.mySpellBook.GetAbilityByName("Testudo");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Testudo");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+
         OnAbilityUsedStart(testudo, caster);
 
         // Play animation
@@ -2169,31 +2452,38 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Shield Slam
-    public Action PerformShieldSlam(LivingEntity attacker, LivingEntity victim)
+    public Action PerformShieldSlam(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformShieldSlamCoroutine(attacker, victim, action));
+        StartCoroutine(PerformShieldSlamCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformShieldSlamCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformShieldSlamCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability shieldSlam = attacker.mySpellBook.GetAbilityByName("Shield Slam");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, shieldSlam);
-        bool parry = CombatLogic.Instance.RollForParry(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, shieldSlam, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, shieldSlam, damageType, critical, attacker.currentBlock);
+        Ability shieldSlam = caster.mySpellBook.GetAbilityByName("Shield Slam");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, shieldSlam);
+        bool parry = CombatLogic.Instance.RollForParry(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, shieldSlam, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, shieldSlam, damageType, critical, caster.currentBlock);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Shield Slam");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(shieldSlam, attacker);
+        OnAbilityUsedStart(shieldSlam, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, victim);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, victim);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -2202,67 +2492,74 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, shieldSlam);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, shieldSlam);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Knock back.
             if (victim.inDeathProcess == false)
             {
-                MovementLogic.Instance.KnockBackEntity(attacker, victim, shieldSlam.abilityPrimaryValue);
+                MovementLogic.Instance.KnockBackEntity(caster, victim, shieldSlam.abilityPrimaryValue);
                 yield return new WaitForSeconds(0.5f);
             }
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(shieldSlam, attacker);
+        OnAbilityUsedFinish(shieldSlam, caster);
         action.actionResolved = true;
 
     }
 
     // Reactive Armour
-    public Action PerformReactiveArmour(LivingEntity attacker)
+    public Action PerformReactiveArmour(LivingEntity caster)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformReactiveArmourCoroutine(attacker, action));
+        StartCoroutine(PerformReactiveArmourCoroutine(caster, action));
         return action;
     }
-    private IEnumerator PerformReactiveArmourCoroutine(LivingEntity attacker, Action action)
+    private IEnumerator PerformReactiveArmourCoroutine(LivingEntity caster, Action action)
     {
         // Set up properties
-        Ability reactiveArmour = attacker.mySpellBook.GetAbilityByName("Reactive Armour");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, reactiveArmour, attacker.myMainHandWeapon);
-        List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(attacker, attacker.currentMeleeRange);
-        int baseDamage = attacker.currentBlock;
+        Ability reactiveArmour = caster.mySpellBook.GetAbilityByName("Reactive Armour");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, reactiveArmour, caster.myMainHandWeapon);
+        List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(caster, caster.currentMeleeRange);
+        int baseDamage = caster.currentBlock;
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Reactive Armour");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Pay energy cost
-        OnAbilityUsedStart(reactiveArmour, attacker);
+        OnAbilityUsedStart(reactiveArmour, caster);
 
         // Remove block
-        attacker.ModifyCurrentBlock(-attacker.currentBlock);
+        caster.ModifyCurrentBlock(-caster.currentBlock);
 
         // Resolve hits against targets
         foreach (LivingEntity entity in targetsInRange)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, reactiveArmour);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, reactiveArmour, damageType, critical, baseDamage);
+            bool critical = CombatLogic.Instance.RollForCritical(caster, entity, reactiveArmour);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, reactiveArmour, damageType, critical, baseDamage);
 
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, reactiveArmour);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, reactiveArmour);
         }        
 
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(reactiveArmour, attacker);
+        OnAbilityUsedFinish(reactiveArmour, caster);
         action.actionResolved = true;
     }
 
@@ -2273,26 +2570,33 @@ public class AbilityLogic : MonoBehaviour
     #region
 
     // Fire Ball
-    public Action PerformFireBall(LivingEntity attacker, LivingEntity victim)
+    public Action PerformFireBall(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformFireBallCoroutine(attacker, victim, action));
+        StartCoroutine(PerformFireBallCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformFireBallCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformFireBallCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
-        Ability fireball = attacker.mySpellBook.GetAbilityByName("Fire Ball");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, fireball);
-        bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, fireball);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, fireball, damageType, critical, fireball.abilityPrimaryValue);
+        Ability fireball = caster.mySpellBook.GetAbilityByName("Fire Ball");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, fireball);
+        bool dodge = CombatLogic.Instance.RollForDodge(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, fireball);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, fireball, damageType, critical, fireball.abilityPrimaryValue);
 
-        OnAbilityUsedStart(fireball, attacker);
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Fire Ball");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        OnAbilityUsedStart(fireball, caster);
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
         yield return new WaitForSeconds(0.15f);
 
         // Create fireball from prefab and play animation
-        Action fireballHit = VisualEffectManager.Instance.ShootFireball(attacker.tile.WorldPosition, victim.tile.WorldPosition);
+        Action fireballHit = VisualEffectManager.Instance.ShootFireball(caster.tile.WorldPosition, victim.tile.WorldPosition);
 
         // wait until fireball has hit the target
         yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
@@ -2300,7 +2604,7 @@ public class AbilityLogic : MonoBehaviour
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
         if (dodge)
         {
-            Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+            Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
             yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
         }
 
@@ -2309,9 +2613,9 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, fireball);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, fireball);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             if (!victim.inDeathProcess)
@@ -2321,25 +2625,33 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(fireball, attacker);
+        OnAbilityUsedFinish(fireball, caster);
         action.actionResolved = true;
     }
 
     // Melt
-    public Action PerformMelt(LivingEntity attacker, LivingEntity victim)
+    public Action PerformMelt(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformMeltCoroutine(attacker, victim, action));
+        StartCoroutine(PerformMeltCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformMeltCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformMeltCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up
-        Ability melt = attacker.mySpellBook.GetAbilityByName("Melt");
-        OnAbilityUsedStart(melt, attacker);
+        Ability melt = caster.mySpellBook.GetAbilityByName("Melt");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Melt");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        OnAbilityUsedStart(melt, caster);
 
         // Play Animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
         yield return new WaitForSeconds(0.15f);
 
         // Create fire explosion from prefab and play animation
@@ -2349,46 +2661,53 @@ public class AbilityLogic : MonoBehaviour
         victim.ModifyCurrentBlock(-victim.currentBlock);
 
         // Apply burning
-        victim.myPassiveManager.ModifyBurning(melt.abilityPrimaryValue, attacker);
+        victim.myPassiveManager.ModifyBurning(melt.abilityPrimaryValue, caster);
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(melt, attacker);
+        OnAbilityUsedFinish(melt, caster);
         action.actionResolved = true;
     }
 
     // Fire Nova
-    public Action PerformFireNova(LivingEntity attacker)
+    public Action PerformFireNova(LivingEntity caster)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformFireNovaCoroutine(attacker, action));
+        StartCoroutine(PerformFireNovaCoroutine(caster, action));
         return action;
     }
-    private IEnumerator PerformFireNovaCoroutine(LivingEntity attacker, Action action)
+    private IEnumerator PerformFireNovaCoroutine(LivingEntity caster, Action action)
     {
         // Set up properties
-        Ability fireNova = attacker.mySpellBook.GetAbilityByName("Fire Nova");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, fireNova);
-        List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(attacker, fireNova.abilitySecondaryValue);
+        Ability fireNova = caster.mySpellBook.GetAbilityByName("Fire Nova");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, fireNova);
+        List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(caster, fireNova.abilitySecondaryValue);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Fire Nova");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Pay energy cost
-        OnAbilityUsedStart(fireNova, attacker);
+        OnAbilityUsedStart(fireNova, caster);
 
         // Resolve damage against targets
         foreach (LivingEntity entity in targetsInRange)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, fireNova);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, fireNova, damageType, critical, fireNova.abilityPrimaryValue);
+            bool critical = CombatLogic.Instance.RollForCritical(caster, entity, fireNova);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, fireNova, damageType, critical, fireNova.abilityPrimaryValue);
 
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
             
             // Deal damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, fireNova);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, fireNova);
 
             // Apply burning
             if(entity.inDeathProcess == false)
@@ -2400,7 +2719,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(fireNova, attacker);
+        OnAbilityUsedFinish(fireNova, caster);
         action.actionResolved = true;
     }
 
@@ -2415,6 +2734,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Setup
         Ability phoenixDive = caster.mySpellBook.GetAbilityByName("Phoenix Dive");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Phoenix Dive");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(phoenixDive, caster);
 
         // Teleport to destination
@@ -2445,6 +2772,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Setup 
         Ability blaze = caster.mySpellBook.GetAbilityByName("Blaze");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Blaze");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(blaze, caster);
 
         // Play animation
@@ -2459,50 +2794,57 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Meteor
-    public Action PerformMeteor(LivingEntity attacker, Tile location)
+    public Action PerformMeteor(LivingEntity caster, Tile location)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformMeteorCoroutine(attacker, location, action));
+        StartCoroutine(PerformMeteorCoroutine(caster, location, action));
         return action;
     }
-    private IEnumerator PerformMeteorCoroutine(LivingEntity attacker, Tile location, Action action)
+    private IEnumerator PerformMeteorCoroutine(LivingEntity caster, Tile location, Action action)
     {
         // Set up properties
-        Ability meteor = attacker.mySpellBook.GetAbilityByName("Meteor");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, meteor);
+        Ability meteor = caster.mySpellBook.GetAbilityByName("Meteor");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, meteor);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Meteor");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Calculate which characters are hit by the aoe
-        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
+        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, location, 1, true, false);
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Pay energy cost
-        OnAbilityUsedStart(meteor, attacker);
+        OnAbilityUsedStart(meteor, caster);
 
         // Resolve hits against targets
         foreach (LivingEntity entity in targetsInBlastRadius)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, meteor);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, meteor, damageType, critical, meteor.abilityPrimaryValue);
+            bool critical = CombatLogic.Instance.RollForCritical(caster, entity, meteor);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, meteor, damageType, critical, meteor.abilityPrimaryValue);
 
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, meteor);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, meteor);
             
             // Apply Burning
             if(entity.inDeathProcess == false)
             {
-                entity.myPassiveManager.ModifyBurning(meteor.abilitySecondaryValue, attacker);
+                entity.myPassiveManager.ModifyBurning(meteor.abilitySecondaryValue, caster);
             }
         }
 
         // Pay energy cost
-        OnAbilityUsedFinish(meteor, attacker);
+        OnAbilityUsedFinish(meteor, caster);
 
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
@@ -2510,66 +2852,80 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Combustion
-    public Action PerformCombustion(LivingEntity attacker, LivingEntity victim)
+    public Action PerformCombustion(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformCombustionCoroutine(attacker, victim, action));
+        StartCoroutine(PerformCombustionCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformCombustionCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformCombustionCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability combustion = attacker.mySpellBook.GetAbilityByName("Combustion");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, combustion);
+        Ability combustion = caster.mySpellBook.GetAbilityByName("Combustion");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, combustion);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Combustion");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Calculate which characters are hit by the aoe
-        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, victim.tile, 1, true, false);
+        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, victim.tile, 1, true, false);
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Pay energy cost
-        OnAbilityUsedStart(combustion, attacker);
+        OnAbilityUsedStart(combustion, caster);
 
         // Resolve hits against targets
         foreach (LivingEntity entity in targetsInBlastRadius)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, combustion);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, combustion, damageType, critical, combustion.abilityPrimaryValue);
+            bool critical = CombatLogic.Instance.RollForCritical(caster, entity, combustion);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, combustion, damageType, critical, combustion.abilityPrimaryValue);
 
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, combustion);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, combustion);
         }
 
         // Pay energy cost
-        OnAbilityUsedFinish(combustion, attacker);
+        OnAbilityUsedFinish(combustion, caster);
 
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
     }
 
     // Dragon Breath
-    public Action PerformDragonBreath(LivingEntity attacker, Tile location)
+    public Action PerformDragonBreath(LivingEntity caster, Tile location)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformDragonBreathCoroutine(attacker, location, action));
+        StartCoroutine(PerformDragonBreathCoroutine(caster, location, action));
         return action;
     }
-    private IEnumerator PerformDragonBreathCoroutine(LivingEntity attacker, Tile location, Action action)
+    private IEnumerator PerformDragonBreathCoroutine(LivingEntity caster, Tile location, Action action)
     {
         // Set up properties
-        Ability dragonBreath = attacker.mySpellBook.GetAbilityByName("Dragon Breath");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, dragonBreath);
-        List<Tile> tilesInBreathPath = LevelManager.Instance.GetAllTilesInALine(attacker.tile, location, dragonBreath.abilitySecondaryValue, true);
+        Ability dragonBreath = caster.mySpellBook.GetAbilityByName("Dragon Breath");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, dragonBreath);
+        List<Tile> tilesInBreathPath = LevelManager.Instance.GetAllTilesInALine(caster.tile, location, dragonBreath.abilitySecondaryValue, true);
         List<LivingEntity> entitiesInBreathPath = new List<LivingEntity>();
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Dragon Breath");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Calculate which characters are hit by the breath
         foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
@@ -2581,27 +2937,27 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // Pay energy cost
-        OnAbilityUsedStart(dragonBreath, attacker);
+        OnAbilityUsedStart(dragonBreath, caster);
 
         // Resolve hits against targets
         foreach (LivingEntity entity in entitiesInBreathPath)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, dragonBreath);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, dragonBreath, damageType, critical, dragonBreath.abilityPrimaryValue);
+            bool critical = CombatLogic.Instance.RollForCritical(caster, entity, dragonBreath);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, dragonBreath, damageType, critical, dragonBreath.abilityPrimaryValue);
 
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, dragonBreath);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, dragonBreath);
             
         }
         yield return new WaitForSeconds(0.5f);
 
         // Resolve
-        OnAbilityUsedFinish(dragonBreath, attacker);        
+        OnAbilityUsedFinish(dragonBreath, caster);        
         action.actionResolved = true;
 
     }
@@ -2613,31 +2969,38 @@ public class AbilityLogic : MonoBehaviour
     #region
 
     // Chilling Blow
-    public Action PerformChillingBlow(LivingEntity attacker, LivingEntity target)
+    public Action PerformChillingBlow(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformChillingBlowCoroutine(attacker, target, action));
+        StartCoroutine(PerformChillingBlowCoroutine(caster, target, action));
         return action;
     }
-    private IEnumerator PerformChillingBlowCoroutine(LivingEntity attacker, LivingEntity target, Action action)
+    private IEnumerator PerformChillingBlowCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         // Set up properties
-        Ability chillingBlow = attacker.mySpellBook.GetAbilityByName("Chilling Blow");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, target, chillingBlow);
-        bool parry = CombatLogic.Instance.RollForParry(target, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, chillingBlow, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, target, chillingBlow, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability chillingBlow = caster.mySpellBook.GetAbilityByName("Chilling Blow");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, target, chillingBlow);
+        bool parry = CombatLogic.Instance.RollForParry(target, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, chillingBlow, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, target, chillingBlow, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Chilling Blow");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(chillingBlow, attacker);
+        OnAbilityUsedStart(chillingBlow, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(target));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(target));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, target);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, target);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -2646,9 +3009,9 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, chillingBlow);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, target, damageType, chillingBlow);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Apply Immobilized if chilled
@@ -2661,43 +3024,50 @@ public class AbilityLogic : MonoBehaviour
         }        
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(chillingBlow, attacker);
+        OnAbilityUsedFinish(chillingBlow, caster);
         action.actionResolved = true;
     }
 
     // Frost Nova
-    public Action PerformFrostNova(LivingEntity attacker)
+    public Action PerformFrostNova(LivingEntity caster)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformFrostNovaCoroutine(attacker, action));
+        StartCoroutine(PerformFrostNovaCoroutine(caster, action));
         return action;
     }
-    private IEnumerator PerformFrostNovaCoroutine(LivingEntity attacker, Action action)
+    private IEnumerator PerformFrostNovaCoroutine(LivingEntity caster, Action action)
     {
         // Set up properties
-        Ability frostNova = attacker.mySpellBook.GetAbilityByName("Frost Nova");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, frostNova);
-        List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(attacker, frostNova.abilitySecondaryValue);
+        Ability frostNova = caster.mySpellBook.GetAbilityByName("Frost Nova");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, frostNova);
+        List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(caster, frostNova.abilitySecondaryValue);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Frost Nova");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Pay energy cost
-        OnAbilityUsedStart(frostNova, attacker);
+        OnAbilityUsedStart(frostNova, caster);
 
         // Resolve damage against targets
         foreach (LivingEntity entity in targetsInRange)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, frostNova);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, frostNova, damageType, critical, frostNova.abilityPrimaryValue);
+            bool critical = CombatLogic.Instance.RollForCritical(caster, entity, frostNova);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, frostNova, damageType, critical, frostNova.abilityPrimaryValue);
 
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
             // Deal damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, frostNova);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, frostNova);
 
             // Apply burning
             if (entity.inDeathProcess == false)
@@ -2709,52 +3079,59 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(frostNova, attacker);
+        OnAbilityUsedFinish(frostNova, caster);
         action.actionResolved = true;
     }
 
     // Global Cooling
-    public Action PerformGlobalCooling(LivingEntity attacker)
+    public Action PerformGlobalCooling(LivingEntity caster)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformGlobalCoolingCoroutine(attacker, action));
+        StartCoroutine(PerformGlobalCoolingCoroutine(caster, action));
         return action;
     }
-    private IEnumerator PerformGlobalCoolingCoroutine(LivingEntity attacker, Action action)
+    private IEnumerator PerformGlobalCoolingCoroutine(LivingEntity caster, Action action)
     {
         // Set up properties
-        Ability globalCooling = attacker.mySpellBook.GetAbilityByName("Global Cooling");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, globalCooling);
+        Ability globalCooling = caster.mySpellBook.GetAbilityByName("Global Cooling");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, globalCooling);
         List<LivingEntity> entitiesHit = new List<LivingEntity>();
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Global Cooling");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Get all enemies hit by effect
         foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
         {
-            if(!CombatLogic.Instance.IsTargetFriendly(attacker, entity))
+            if(!CombatLogic.Instance.IsTargetFriendly(caster, entity))
             {
                 entitiesHit.Add(entity);
             }
         }
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Pay energy cost
-        OnAbilityUsedStart(globalCooling, attacker);
+        OnAbilityUsedStart(globalCooling, caster);
 
         // Resolve damage against targets
         foreach (LivingEntity entity in entitiesHit)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, globalCooling);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, globalCooling, damageType, critical, globalCooling.abilityPrimaryValue);
+            bool critical = CombatLogic.Instance.RollForCritical(caster, entity, globalCooling);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, globalCooling, damageType, critical, globalCooling.abilityPrimaryValue);
 
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
             // Deal damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, globalCooling);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, globalCooling);
 
             // Apply chilled. If already chilled, apply immobilized
             if (entity.inDeathProcess == false)
@@ -2774,9 +3151,10 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(globalCooling, attacker);
+        OnAbilityUsedFinish(globalCooling, caster);
         action.actionResolved = true;
     }
+
     // Icy Focus
     public Action PerformIcyFocus(LivingEntity caster, LivingEntity target)
     {
@@ -2788,6 +3166,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up
         Ability icyFocus = caster.mySpellBook.GetAbilityByName("Icy Focus");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Icy Focus");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(icyFocus, caster);
 
         // Play animation
@@ -2810,26 +3196,33 @@ public class AbilityLogic : MonoBehaviour
         StartCoroutine(PerformFrostBoltCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformFrostBoltCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformFrostBoltCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
-        Ability frostBolt = attacker.mySpellBook.GetAbilityByName("Frost Bolt");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, frostBolt);
-        bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, frostBolt);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, frostBolt, damageType, critical, frostBolt.abilityPrimaryValue);
+        Ability frostBolt = caster.mySpellBook.GetAbilityByName("Frost Bolt");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, frostBolt);
+        bool dodge = CombatLogic.Instance.RollForDodge(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, frostBolt);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, frostBolt, damageType, critical, frostBolt.abilityPrimaryValue);
 
-        OnAbilityUsedStart(frostBolt, attacker);
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Frost Bolt");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        OnAbilityUsedStart(frostBolt, caster);
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
         yield return new WaitForSeconds(0.15f);
 
         // Create frost bolt VFX
-        Action frostBoltAction = VisualEffectManager.Instance.ShootFrostBolt(attacker.tile.WorldPosition, victim.tile.WorldPosition);
+        Action frostBoltAction = VisualEffectManager.Instance.ShootFrostBolt(caster.tile.WorldPosition, victim.tile.WorldPosition);
         yield return new WaitUntil(() => frostBoltAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
         if (dodge)
         {
-            Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+            Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
             yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
         }
 
@@ -2838,11 +3231,11 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
             // Deal Damage event
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, frostBolt);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, frostBolt);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Apply Immobilizaed
@@ -2855,46 +3248,53 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(frostBolt, attacker);
+        OnAbilityUsedFinish(frostBolt, caster);
         action.actionResolved = true;
         
     }
 
     // Blizzard
-    public Action PerformBlizzard(LivingEntity attacker, Tile location)
+    public Action PerformBlizzard(LivingEntity caster, Tile location)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformBlizzardCoroutine(attacker, location, action));
+        StartCoroutine(PerformBlizzardCoroutine(caster, location, action));
         return action;
     }
-    private IEnumerator PerformBlizzardCoroutine(LivingEntity attacker, Tile location, Action action)
+    private IEnumerator PerformBlizzardCoroutine(LivingEntity caster, Tile location, Action action)
     {
         // Set up properties
-        Ability blizzard = attacker.mySpellBook.GetAbilityByName("Blizzard");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, blizzard);
+        Ability blizzard = caster.mySpellBook.GetAbilityByName("Blizzard");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, blizzard);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Blizzard");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Calculate which characters are hit by the aoe
-        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
+        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, location, 1, true, false);
 
         // Pay energy cost
-        OnAbilityUsedStart(blizzard, attacker);
+        OnAbilityUsedStart(blizzard, caster);
 
         // Resolve hits against targets
         foreach (LivingEntity entity in targetsInBlastRadius)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, blizzard);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, blizzard, damageType, critical, blizzard.abilityPrimaryValue);
+            bool critical = CombatLogic.Instance.RollForCritical(caster, entity, blizzard);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, blizzard, damageType, critical, blizzard.abilityPrimaryValue);
 
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, blizzard);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, blizzard);
 
             // Apply Chilled
             if (entity.inDeathProcess == false)
@@ -2920,6 +3320,13 @@ public class AbilityLogic : MonoBehaviour
         // Setup
         Ability frostArmour = caster.mySpellBook.GetAbilityByName("Frost Armour");
         OnAbilityUsedStart(frostArmour, caster);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Frost Armour");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -2951,6 +3358,13 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability snowStasis = caster.mySpellBook.GetAbilityByName("Snow Stasis");
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Snow Stasis");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(snowStasis, caster);
 
@@ -2980,6 +3394,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Setup 
         Ability cf = caster.mySpellBook.GetAbilityByName("Creeping Frost");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Creeping Frost");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(cf, caster);
 
         // Play animation
@@ -2995,22 +3417,29 @@ public class AbilityLogic : MonoBehaviour
 
 
     // Glacial Burst
-    public Action PerformGlacialBurst(LivingEntity attacker)
+    public Action PerformGlacialBurst(LivingEntity caster)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformGlacialBurstCoroutine(attacker, action));
+        StartCoroutine(PerformGlacialBurstCoroutine(caster, action));
         return action;
     }
-    private IEnumerator PerformGlacialBurstCoroutine(LivingEntity attacker, Action action)
+    private IEnumerator PerformGlacialBurstCoroutine(LivingEntity caster, Action action)
     {
         // Set up properties
-        Ability glacialBurst = attacker.mySpellBook.GetAbilityByName("Glacial Burst");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, glacialBurst);
-        List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(attacker, attacker.currentMeleeRange);
+        Ability glacialBurst = caster.mySpellBook.GetAbilityByName("Glacial Burst");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, glacialBurst);
+        List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(caster, caster.currentMeleeRange);
         List<LivingEntity> targetsHit = new List<LivingEntity>();
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Glacial Burst");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // get a random target 3 times
         for (int i = 0; i < glacialBurst.abilitySecondaryValue; i++)
@@ -3019,28 +3448,28 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // Pay energy cost
-        OnAbilityUsedStart(glacialBurst, attacker);
+        OnAbilityUsedStart(glacialBurst, caster);
 
         // Resolve hits against targets
         foreach (LivingEntity entity in targetsHit)
         {
             if (entity.inDeathProcess == false)
             {
-                bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, glacialBurst);
-                bool dodge = CombatLogic.Instance.RollForDodge(entity, attacker);
-                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, glacialBurst, damageType, critical, glacialBurst.abilityPrimaryValue);
+                bool critical = CombatLogic.Instance.RollForCritical(caster, entity, glacialBurst);
+                bool dodge = CombatLogic.Instance.RollForDodge(entity, caster);
+                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, glacialBurst, damageType, critical, glacialBurst.abilityPrimaryValue);
 
                 // Play attack animation
-                attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(entity));
+                caster.StartCoroutine(caster.PlayMeleeAttackAnimation(entity));
 
                 // Create frost bolt VFX
-                Action frostBoltAction = VisualEffectManager.Instance.ShootFrostBolt(attacker.tile.WorldPosition, entity.tile.WorldPosition);
+                Action frostBoltAction = VisualEffectManager.Instance.ShootFrostBolt(caster.tile.WorldPosition, entity.tile.WorldPosition);
                 yield return new WaitUntil(() => frostBoltAction.ActionResolved() == true);
 
                 // if the target successfully dodged, dont do HandleDamage: do dodge stuff instead
                 if (dodge)
                 {
-                    Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, entity);
+                    Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, entity);
                     yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
                 }
 
@@ -3049,9 +3478,9 @@ public class AbilityLogic : MonoBehaviour
                 {
                     if (critical)
                     {
-                        VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                        VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
                     }
-                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, glacialBurst);
+                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, glacialBurst);
                     yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
                 }
 
@@ -3060,7 +3489,7 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // Remove camo + etc
-        OnAbilityUsedFinish(glacialBurst, attacker);
+        OnAbilityUsedFinish(glacialBurst, caster);
 
         // Resolve/Complete event
         action.actionResolved = true;
@@ -3068,28 +3497,35 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Thaw
-    public Action PerformThaw(LivingEntity attacker, LivingEntity victim)
+    public Action PerformThaw(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformThawCoroutine(attacker, victim, action));
+        StartCoroutine(PerformThawCoroutine(caster, victim, action));
         return action;
     }
-    public IEnumerator PerformThawCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    public IEnumerator PerformThawCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
-        Ability thaw = attacker.mySpellBook.GetAbilityByName("Thaw");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, thaw);
-        bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, thaw);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, thaw, damageType, critical, thaw.abilityPrimaryValue);
+        Ability thaw = caster.mySpellBook.GetAbilityByName("Thaw");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, thaw);
+        bool dodge = CombatLogic.Instance.RollForDodge(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, thaw);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, thaw, damageType, critical, thaw.abilityPrimaryValue);
 
-        OnAbilityUsedStart(thaw, attacker);
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Thaw");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        OnAbilityUsedStart(thaw, caster);
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
         yield return new WaitForSeconds(0.15f);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
         if (dodge)
         {
-            Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+            Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
             yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
         }
 
@@ -3098,20 +3534,20 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, thaw);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, thaw);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Refund energy cost, if target is chilled
             if (victim.myPassiveManager.chilled)
             {
-                attacker.ModifyCurrentEnergy(20);
+                caster.ModifyCurrentEnergy(20);
             }
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(thaw, attacker);
+        OnAbilityUsedFinish(thaw, caster);
         action.actionResolved = true;
     }
     #endregion
@@ -3130,6 +3566,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Setup
         Ability forestMedicine = caster.mySpellBook.GetAbilityByName("Forest Medicine");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Forest Medicine");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(forestMedicine, caster);
 
         // Play animation
@@ -3173,36 +3617,43 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Pinning Shot
-    public Action PerformPinningShot(LivingEntity attacker, LivingEntity victim)
+    public Action PerformPinningShot(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformShootCoroutine(attacker, victim, action));
+        StartCoroutine(PerformPinningShotCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformPinningShotCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformPinningShotCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability pinningShot = attacker.mySpellBook.GetAbilityByName("Pinning Shot");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, pinningShot);
-        bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, pinningShot, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, pinningShot, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability pinningShot = caster.mySpellBook.GetAbilityByName("Pinning Shot");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, pinningShot);
+        bool dodge = CombatLogic.Instance.RollForDodge(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, pinningShot, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, pinningShot, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Pinning Shot");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(pinningShot, attacker);
+        OnAbilityUsedStart(pinningShot, caster);
 
         // Ranged attack anim
-        attacker.PlayRangedAttackAnimation();
-        yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
+        caster.PlayRangedAttackAnimation();
+        yield return new WaitUntil(() => caster.myRangedAttackFinished == true);
 
         // Play arrow shot VFX
-        Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
+        Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
         yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
         if (dodge)
         {
-            Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+            Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
             yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
         }
 
@@ -3211,9 +3662,9 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, pinningShot);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, pinningShot);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Apply Immobilizaed
@@ -3224,42 +3675,49 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(pinningShot, attacker);
+        OnAbilityUsedFinish(pinningShot, caster);
         action.actionResolved = true;
 
     }
 
     // Snipe
-    public Action PerformSnipe(LivingEntity attacker, LivingEntity victim)
+    public Action PerformSnipe(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformSnipeCoroutine(attacker, victim, action));
+        StartCoroutine(PerformSnipeCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformSnipeCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformSnipeCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability snipe = attacker.mySpellBook.GetAbilityByName("Snipe");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, snipe);
-        bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, snipe, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, snipe, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability snipe = caster.mySpellBook.GetAbilityByName("Snipe");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, snipe);
+        bool dodge = CombatLogic.Instance.RollForDodge(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, snipe, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, snipe, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Snipe");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(snipe, attacker);
+        OnAbilityUsedStart(snipe, caster);
 
         // Ranged attack anim
-        attacker.PlayRangedAttackAnimation();
-        yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
+        caster.PlayRangedAttackAnimation();
+        yield return new WaitUntil(() => caster.myRangedAttackFinished == true);
 
         // Play arrow shot VFX
-        Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
+        Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
         yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
         if (dodge)
         {
-            Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+            Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
             yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
         }
 
@@ -3268,14 +3726,14 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, snipe);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, snipe);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(snipe, attacker);
+        OnAbilityUsedFinish(snipe, caster);
         action.actionResolved = true;
 
     }
@@ -3291,6 +3749,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up
         Ability haste = caster.mySpellBook.GetAbilityByName("Haste");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Haste");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(haste, caster);
 
         // Play animation
@@ -3319,6 +3785,13 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability mark = caster.mySpellBook.GetAbilityByName("Mark Target");
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Hex");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(mark, caster);
 
@@ -3346,6 +3819,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up
         Ability steadyHands = caster.mySpellBook.GetAbilityByName("Steady Hands");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Steady Hands");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(steadyHands, caster);
 
         // Play animation
@@ -3369,30 +3850,37 @@ public class AbilityLogic : MonoBehaviour
         StartCoroutine(PerformImpalingBoltCoroutine(caster, victim, action));
         return action;
     }
-    public IEnumerator PerformImpalingBoltCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    public IEnumerator PerformImpalingBoltCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability impalingBolt = attacker.mySpellBook.GetAbilityByName("Impaling Bolt");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, impalingBolt);
-        bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, impalingBolt, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, impalingBolt, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability impalingBolt = caster.mySpellBook.GetAbilityByName("Impaling Bolt");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, impalingBolt);
+        bool dodge = CombatLogic.Instance.RollForDodge(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, impalingBolt, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, impalingBolt, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Impaling Bolt");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(impalingBolt, attacker);
+        OnAbilityUsedStart(impalingBolt, caster);
 
         // Ranged attack anim
-        attacker.PlayRangedAttackAnimation();
-        yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
+        caster.PlayRangedAttackAnimation();
+        yield return new WaitUntil(() => caster.myRangedAttackFinished == true);
 
         // Play arrow shot VFX
-        Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
+        Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
         yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
         if (dodge)
         {
-            Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+            Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
             yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
         }
 
@@ -3401,54 +3889,61 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
             // Knockback
-            Action knockBackAction = MovementLogic.Instance.KnockBackEntity(attacker, victim, impalingBolt.abilitySecondaryValue);
+            Action knockBackAction = MovementLogic.Instance.KnockBackEntity(caster, victim, impalingBolt.abilitySecondaryValue);
             yield return new WaitUntil(() => knockBackAction.ActionResolved() == true);
 
             // Damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, impalingBolt);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, impalingBolt);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(impalingBolt, attacker);
+        OnAbilityUsedFinish(impalingBolt, caster);
         action.actionResolved = true;
     }    
 
     // Head Shot
-    public Action PerformHeadShot(LivingEntity attacker, LivingEntity victim)
+    public Action PerformHeadShot(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformHeadShotCoroutine(attacker, victim, action));
+        StartCoroutine(PerformHeadShotCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformHeadShotCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformHeadShotCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability headShot = attacker.mySpellBook.GetAbilityByName("Head Shot");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, headShot);
-        bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, headShot, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, headShot, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability headShot = caster.mySpellBook.GetAbilityByName("Head Shot");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, headShot);
+        bool dodge = CombatLogic.Instance.RollForDodge(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, headShot, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, headShot, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Head Shot");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(headShot, attacker);
+        OnAbilityUsedStart(headShot, caster);
 
         // Ranged attack anim
-        attacker.PlayRangedAttackAnimation();
-        yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
+        caster.PlayRangedAttackAnimation();
+        yield return new WaitUntil(() => caster.myRangedAttackFinished == true);
 
         // Play arrow shot VFX
-        Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
+        Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
         yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
         if (dodge)
         {
-            Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+            Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
             yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
         }
 
@@ -3457,14 +3952,14 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, headShot);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, headShot);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(headShot, attacker);
+        OnAbilityUsedFinish(headShot, caster);
         action.actionResolved = true;
 
     }
@@ -3480,6 +3975,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Setup 
         Ability concentration = caster.mySpellBook.GetAbilityByName("Concentration");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Concentration");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(concentration, caster);
 
         // Play animation
@@ -3504,6 +4007,13 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability overwatch = caster.mySpellBook.GetAbilityByName("Overwatch");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Overwatch");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -3532,6 +4042,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Setup
         Ability treeLeap = caster.mySpellBook.GetAbilityByName("Tree Leap");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Tree Leap");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(treeLeap, caster);
 
         // Teleport
@@ -3544,47 +4062,54 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Rapid Fire
-    public Action PerformRapidFire(LivingEntity attacker, LivingEntity victim)
+    public Action PerformRapidFire(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformRapidFireCoroutine(attacker, victim, action));
+        StartCoroutine(PerformRapidFireCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformRapidFireCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformRapidFireCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Set up properties
-        Ability rapidFire = attacker.mySpellBook.GetAbilityByName("Rapid Fire");
-        int shotsToFire = attacker.currentEnergy / 10;
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, rapidFire, attacker.myMainHandWeapon);
+        Ability rapidFire = caster.mySpellBook.GetAbilityByName("Rapid Fire");
+        int shotsToFire = caster.currentEnergy / 10;
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, rapidFire, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Rapid Fire");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Ranged attack anim
-        attacker.PlayRangedAttackAnimation();
-        yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
+        caster.PlayRangedAttackAnimation();
+        yield return new WaitUntil(() => caster.myRangedAttackFinished == true);
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(rapidFire, attacker);
+        OnAbilityUsedStart(rapidFire, caster);
 
         for (int shotsTaken = 0; shotsTaken < shotsToFire; shotsTaken++)
         {
             if (victim.inDeathProcess == false)
             {
                 // Set up shot values
-                bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, rapidFire);
-                bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
-                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, rapidFire, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+                bool critical = CombatLogic.Instance.RollForCritical(caster, victim, rapidFire);
+                bool dodge = CombatLogic.Instance.RollForDodge(victim, caster);
+                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, rapidFire, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
 
                 // Ranged attack anim
                 //attacker.PlayRangedAttackAnimation();
                 //yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
 
                 // Play arrow shot VFX
-                Action shootAction = VisualEffectManager.Instance.ShootArrow(attacker.tile.WorldPosition, victim.tile.WorldPosition, 9);
+                Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
                 yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
                 // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
                 if (dodge)
                 {
-                    Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+                    Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
                     yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
                 }
 
@@ -3593,9 +4118,9 @@ public class AbilityLogic : MonoBehaviour
                 {
                     if (critical)
                     {
-                        VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                        VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
                     }
-                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, rapidFire);
+                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, rapidFire);
                     yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
                 }
             }
@@ -3603,7 +4128,7 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(rapidFire, attacker);
+        OnAbilityUsedFinish(rapidFire, caster);
         action.actionResolved = true;
 
     }
@@ -3624,6 +4149,13 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability blight = caster.mySpellBook.GetAbilityByName("Blight");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Blight");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -3653,6 +4185,13 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability bloodOffering = caster.mySpellBook.GetAbilityByName("Blood Offering");
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Blood Offering");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(bloodOffering, caster);
 
@@ -3674,31 +4213,38 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Toxic Slash
-    public Action PerformToxicSlash(LivingEntity attacker, LivingEntity target)
+    public Action PerformToxicSlash(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformToxicSlashCoroutine(attacker, target, action));
+        StartCoroutine(PerformToxicSlashCoroutine(caster, target, action));
         return action;
     }
-    private IEnumerator PerformToxicSlashCoroutine(LivingEntity attacker, LivingEntity target, Action action)
+    private IEnumerator PerformToxicSlashCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         // Set up properties
-        Ability toxicSlash = attacker.mySpellBook.GetAbilityByName("Toxic Slash");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, target, toxicSlash);
-        bool parry = CombatLogic.Instance.RollForParry(target, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, toxicSlash, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, target, toxicSlash, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability toxicSlash = caster.mySpellBook.GetAbilityByName("Toxic Slash");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, target, toxicSlash);
+        bool parry = CombatLogic.Instance.RollForParry(target, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, toxicSlash, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, target, toxicSlash, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Toxic Slash");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(toxicSlash, attacker);
+        OnAbilityUsedStart(toxicSlash, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(target));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(target));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, target);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, target);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -3707,48 +4253,55 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, toxicSlash);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, target, damageType, toxicSlash);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Apply poisoned
             if (target.inDeathProcess == false)
             {
-                target.myPassiveManager.ModifyPoisoned(toxicSlash.abilityPrimaryValue, attacker);
+                target.myPassiveManager.ModifyPoisoned(toxicSlash.abilityPrimaryValue, caster);
                 yield return new WaitForSeconds(0.5f);
             }
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(toxicSlash, attacker);
+        OnAbilityUsedFinish(toxicSlash, caster);
         action.actionResolved = true;
     }
 
     // Noxious Fumes
-    public Action PerformNoxiousFumes(LivingEntity attacker)
+    public Action PerformNoxiousFumes(LivingEntity caster)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformNoxiousFumesCoroutine(attacker, action));
+        StartCoroutine(PerformNoxiousFumesCoroutine(caster, action));
         return action;
     }
-    private IEnumerator PerformNoxiousFumesCoroutine(LivingEntity attacker, Action action)
+    private IEnumerator PerformNoxiousFumesCoroutine(LivingEntity caster, Action action)
     {
         // Set up properties
-        Ability noxiousFumes = attacker.mySpellBook.GetAbilityByName("Noxious Fumes");
-        List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(attacker, noxiousFumes.abilitySecondaryValue);
+        Ability noxiousFumes = caster.mySpellBook.GetAbilityByName("Noxious Fumes");
+        List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(caster, noxiousFumes.abilitySecondaryValue);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Noxious Fumes");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost
-        OnAbilityUsedStart(noxiousFumes, attacker);
+        OnAbilityUsedStart(noxiousFumes, caster);
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Resolve damage against targets
         foreach (LivingEntity entity in targetsInRange)
         {
             // Apply poisoned
-            entity.myPassiveManager.ModifyPoisoned(noxiousFumes.abilityPrimaryValue, attacker);
+            entity.myPassiveManager.ModifyPoisoned(noxiousFumes.abilityPrimaryValue, caster);
             yield return new WaitForSeconds(0.5f);
 
             // Apply Silenced
@@ -3759,50 +4312,57 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(noxiousFumes, attacker);
+        OnAbilityUsedFinish(noxiousFumes, caster);
         action.actionResolved = true;
     }
 
     // Toxic Eruption
-    public Action PerformToxicEruption(LivingEntity attacker, Tile location)
+    public Action PerformToxicEruption(LivingEntity caster, Tile location)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformToxicEruptionCoroutine(attacker, location, action));
+        StartCoroutine(PerformToxicEruptionCoroutine(caster, location, action));
         return action;
     }
-    private IEnumerator PerformToxicEruptionCoroutine(LivingEntity attacker, Tile location, Action action)
+    private IEnumerator PerformToxicEruptionCoroutine(LivingEntity caster, Tile location, Action action)
     {
         // Set up properties
-        Ability toxicEruption = attacker.mySpellBook.GetAbilityByName("Toxic Eruption");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, toxicEruption);
+        Ability toxicEruption = caster.mySpellBook.GetAbilityByName("Toxic Eruption");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, toxicEruption);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Toxic Eruption");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Calculate which characters are hit by the aoe
-        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
+        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, location, 1, true, false);
 
         // Pay energy cost
-        OnAbilityUsedStart(toxicEruption, attacker);
+        OnAbilityUsedStart(toxicEruption, caster);
 
         // Resolve hits against targets
         foreach (LivingEntity entity in targetsInBlastRadius)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, toxicEruption);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, toxicEruption, damageType, critical, toxicEruption.abilityPrimaryValue);
+            bool critical = CombatLogic.Instance.RollForCritical(caster, entity, toxicEruption);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, toxicEruption, damageType, critical, toxicEruption.abilityPrimaryValue);
 
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, toxicEruption);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, toxicEruption);
 
             // Apply Poisoned
             if (entity.inDeathProcess == false)
             {
-                entity.myPassiveManager.ModifyPoisoned(1, attacker);
+                entity.myPassiveManager.ModifyPoisoned(1, caster);
             }
         }
 
@@ -3812,44 +4372,51 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Toxic Rain
-    public Action PerformToxicRain(LivingEntity attacker)
+    public Action PerformToxicRain(LivingEntity caster)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformToxicRainCoroutine(attacker, action));
+        StartCoroutine(PerformToxicRainCoroutine(caster, action));
         return action;
     }
-    private IEnumerator PerformToxicRainCoroutine(LivingEntity attacker, Action action)
+    private IEnumerator PerformToxicRainCoroutine(LivingEntity caster, Action action)
     {
         // Set up properties
-        Ability toxicRain = attacker.mySpellBook.GetAbilityByName("Toxic Rain");
+        Ability toxicRain = caster.mySpellBook.GetAbilityByName("Toxic Rain");
         List<LivingEntity> entitiesHit = new List<LivingEntity>();
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Toxic Rain");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Get all enemies hit by effect
         foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
         {
-            if (!CombatLogic.Instance.IsTargetFriendly(attacker, entity))
+            if (!CombatLogic.Instance.IsTargetFriendly(caster, entity))
             {
                 entitiesHit.Add(entity);
             }
         }
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Pay energy cost
-        OnAbilityUsedStart(toxicRain, attacker);
+        OnAbilityUsedStart(toxicRain, caster);
 
         // Resolve damage against targets
         foreach (LivingEntity entity in entitiesHit)
         {
             // Apply poisoned
-            entity.myPassiveManager.ModifyPoisoned(1, attacker);
+            entity.myPassiveManager.ModifyPoisoned(1, caster);
         }
 
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(toxicRain, attacker);
+        OnAbilityUsedFinish(toxicRain, caster);
         action.actionResolved = true;
     }
 
@@ -3864,6 +4431,13 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability blight = caster.mySpellBook.GetAbilityByName("Chemical Reaction");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Chemical Reaction");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -3882,25 +4456,33 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Drain
-    public Action PerformDrain(LivingEntity attacker, LivingEntity victim)
+    public Action PerformDrain(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformDrainCoroutine(attacker, victim, action));
+        StartCoroutine(PerformDrainCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformDrainCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformDrainCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Setup
-        Ability drain = attacker.mySpellBook.GetAbilityByName("Drain");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, drain);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, drain, damageType, false, victim.myPassiveManager.poisonedStacks);        
-        OnAbilityUsedStart(drain, attacker);
+        Ability drain = caster.mySpellBook.GetAbilityByName("Drain");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, drain);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, drain, damageType, false, victim.myPassiveManager.poisonedStacks);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Drain");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        OnAbilityUsedStart(drain, caster);
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Deal Damage
-        Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, drain);
+        Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, drain);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
         // Remove targets poison
@@ -3909,7 +4491,7 @@ public class AbilityLogic : MonoBehaviour
             victim.myPassiveManager.ModifyPoisoned(-victim.myPassiveManager.poisonedStacks);
         }
         // Resolve
-        OnAbilityUsedFinish(drain, attacker);
+        OnAbilityUsedFinish(drain, caster);
         action.actionResolved = true;
     }
 
@@ -3948,28 +4530,35 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Dimensional Blast
-    public Action PerformDimensionalBlast(LivingEntity attacker, LivingEntity victim)
+    public Action PerformDimensionalBlast(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformDimensionalBlastCoroutine(attacker, victim, action));
+        StartCoroutine(PerformDimensionalBlastCoroutine(caster, victim, action));
         return action;
     }
-    public IEnumerator PerformDimensionalBlastCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    public IEnumerator PerformDimensionalBlastCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
-        Ability dimensionalBlast = attacker.mySpellBook.GetAbilityByName("Dimensional Blast");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, dimensionalBlast);
-        bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
+        Ability dimensionalBlast = caster.mySpellBook.GetAbilityByName("Dimensional Blast");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, dimensionalBlast);
+        bool dodge = CombatLogic.Instance.RollForDodge(victim, caster);
         string damageType = CombatLogic.Instance.GetRandomDamageType();
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, dimensionalBlast, damageType, critical, dimensionalBlast.abilityPrimaryValue);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, dimensionalBlast, damageType, critical, dimensionalBlast.abilityPrimaryValue);
 
-        OnAbilityUsedStart(dimensionalBlast, attacker);
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Dimensional Blast");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        OnAbilityUsedStart(dimensionalBlast, caster);
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
         yield return new WaitForSeconds(0.15f);
 
         // TO DO: should create a project relevant to the damage type generated randomly (e.g., fire creates a fireball, shadow creates a shadow bal, etc)
 
         // Create fireball from prefab and play animation
-        Action fireballHit = VisualEffectManager.Instance.ShootFireball(attacker.tile.WorldPosition, victim.tile.WorldPosition);
+        Action fireballHit = VisualEffectManager.Instance.ShootFireball(caster.tile.WorldPosition, victim.tile.WorldPosition);
 
         // wait until fireball has hit the target
         yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
@@ -3977,7 +4566,7 @@ public class AbilityLogic : MonoBehaviour
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
         if (dodge)
         {
-            Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+            Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
             yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
         }
 
@@ -3986,14 +4575,14 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, dimensionalBlast);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, dimensionalBlast);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(dimensionalBlast, attacker);
+        OnAbilityUsedFinish(dimensionalBlast, caster);
         action.actionResolved = true;
     }
 
@@ -4008,6 +4597,13 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability mirage = caster.mySpellBook.GetAbilityByName("Mirage");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Mirage");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -4040,6 +4636,13 @@ public class AbilityLogic : MonoBehaviour
         Tile casterDestination = target.tile;
         Tile targetDestination = caster.tile;
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Phase Shift");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Start
         OnAbilityUsedStart(phaseShift, caster);
 
@@ -4067,6 +4670,13 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability burstOfKnowledge = caster.mySpellBook.GetAbilityByName("Burst Of Knowledge");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Burst Of Knowledge");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -4096,6 +4706,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Setup
         Ability blink = caster.mySpellBook.GetAbilityByName("Blink");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Blink");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(blink, caster);
 
         // teleport
@@ -4118,6 +4736,13 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability dimensionalHex = caster.mySpellBook.GetAbilityByName("Dimensional Hex");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Dimensional Hex");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -4149,6 +4774,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Setup 
         Ability infuse = caster.mySpellBook.GetAbilityByName("Infuse");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Infuse");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(infuse, caster);
 
         // Play animation
@@ -4173,6 +4806,13 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability timeWarp = caster.mySpellBook.GetAbilityByName("Time Warp");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Time Warp");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -4208,6 +4848,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Setup
         Ability holyFire = caster.mySpellBook.GetAbilityByName("Holy Fire");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Holy Fire");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(holyFire, caster);
 
         // Play animation
@@ -4259,40 +4907,47 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Blinding Light
-    public Action PerformBlindingLight(LivingEntity attacker, Tile location)
+    public Action PerformBlindingLight(LivingEntity caster, Tile location)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformBlindingLightCoroutine(attacker, location, action));
+        StartCoroutine(PerformBlindingLightCoroutine(caster, location, action));
         return action;
     }
-    private IEnumerator PerformBlindingLightCoroutine(LivingEntity attacker, Tile location, Action action)
+    private IEnumerator PerformBlindingLightCoroutine(LivingEntity caster, Tile location, Action action)
     {
         // Set up properties
-        Ability blindingLight = attacker.mySpellBook.GetAbilityByName("Blinding Light");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, blindingLight);
+        Ability blindingLight = caster.mySpellBook.GetAbilityByName("Blinding Light");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, blindingLight);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Blinding Light");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Calculate which characters are hit by the aoe
-        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
+        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, location, 1, true, false);
 
         // Pay energy cost
-        OnAbilityUsedStart(blindingLight, attacker);
+        OnAbilityUsedStart(blindingLight, caster);
 
         // Resolve damage against targets hit
         foreach (LivingEntity entity in targetsInBlastRadius)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, blindingLight);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, blindingLight, damageType, critical, blindingLight.abilityPrimaryValue);
+            bool critical = CombatLogic.Instance.RollForCritical(caster, entity, blindingLight);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, blindingLight, damageType, critical, blindingLight.abilityPrimaryValue);
 
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, blindingLight);            
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, blindingLight);            
         }
 
         // Brief delay between damage VFX and Blind VFX
@@ -4324,6 +4979,13 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability inspire = caster.mySpellBook.GetAbilityByName("Inspire");
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Inspire");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Play animation
         caster.PlaySkillAnimation();
 
@@ -4351,6 +5013,13 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability bless = caster.mySpellBook.GetAbilityByName("Bless");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Bless");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -4401,6 +5070,13 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability transcendence = caster.mySpellBook.GetAbilityByName("Transcendence");
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Transcendence");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Play animation
         caster.PlaySkillAnimation();
 
@@ -4418,10 +5094,10 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Consecrate
-    public Action PerformConsecrate(LivingEntity attacker)
+    public Action PerformConsecrate(LivingEntity caster)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformConsecrateCoroutine(attacker, action));
+        StartCoroutine(PerformConsecrateCoroutine(caster, action));
         return action;
     }
     private IEnumerator PerformConsecrateCoroutine(LivingEntity caster, Action action)
@@ -4430,6 +5106,13 @@ public class AbilityLogic : MonoBehaviour
         Ability consecrate = caster.mySpellBook.GetAbilityByName("Consecrate");
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, consecrate);
         List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, caster.tile, caster.currentAuraSize, true, true);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Consecrate");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -4493,6 +5176,13 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability invigorate = caster.mySpellBook.GetAbilityByName("Invigorate");
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Invigorate");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(invigorate, caster);
 
@@ -4511,31 +5201,38 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Judgement
-    public Action PerformJudgement(LivingEntity attacker, LivingEntity target)
+    public Action PerformJudgement(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformJudgementCoroutine(attacker, target, action));
+        StartCoroutine(PerformJudgementCoroutine(caster, target, action));
         return action;
     }
-    private IEnumerator PerformJudgementCoroutine(LivingEntity attacker, LivingEntity target, Action action)
+    private IEnumerator PerformJudgementCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         // Set up properties
-        Ability judgement = attacker.mySpellBook.GetAbilityByName("Judgement");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, target, judgement);
-        bool parry = CombatLogic.Instance.RollForParry(target, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, judgement, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, target, judgement, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability judgement = caster.mySpellBook.GetAbilityByName("Judgement");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, target, judgement);
+        bool parry = CombatLogic.Instance.RollForParry(target, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, judgement, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, target, judgement, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Judgement");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(judgement, attacker);
+        OnAbilityUsedStart(judgement, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(target));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(target));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, target);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, target);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -4544,9 +5241,9 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, judgement);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, target, damageType, judgement);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Apply Weakened and Vulnerable
@@ -4560,7 +5257,7 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(judgement, attacker);
+        OnAbilityUsedFinish(judgement, caster);
         action.actionResolved = true;
     }
 
@@ -4575,6 +5272,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Setup 
         Ability purity = caster.mySpellBook.GetAbilityByName("Purity");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Purity");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(purity, caster);
 
         // Play animation
@@ -4594,40 +5299,47 @@ public class AbilityLogic : MonoBehaviour
     #region
 
     // Rain Of Chaos
-    public Action PerformRainOfChaos(LivingEntity attacker, Tile location)
+    public Action PerformRainOfChaos(LivingEntity caster, Tile location)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformRainOfChaosCoroutine(attacker, location, action));
+        StartCoroutine(PerformRainOfChaosCoroutine(caster, location, action));
         return action;
     }
-    private IEnumerator PerformRainOfChaosCoroutine(LivingEntity attacker, Tile location, Action action)
+    private IEnumerator PerformRainOfChaosCoroutine(LivingEntity caster, Tile location, Action action)
     {
         // Set up properties
-        Ability rainOfChaos = attacker.mySpellBook.GetAbilityByName("Rain Of Chaos");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, rainOfChaos);
+        Ability rainOfChaos = caster.mySpellBook.GetAbilityByName("Rain Of Chaos");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, rainOfChaos);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Rain Of Chaos");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Calculate which characters are hit by the aoe
-        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
+        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, location, 1, true, false);
 
         // Pay energy cost
-        OnAbilityUsedStart(rainOfChaos, attacker);
+        OnAbilityUsedStart(rainOfChaos, caster);
 
         // Resolve hits against targets
         foreach (LivingEntity entity in targetsInBlastRadius)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, rainOfChaos);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, rainOfChaos, damageType, critical, rainOfChaos.abilityPrimaryValue);
+            bool critical = CombatLogic.Instance.RollForCritical(caster, entity, rainOfChaos);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, rainOfChaos, damageType, critical, rainOfChaos.abilityPrimaryValue);
 
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, rainOfChaos);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, rainOfChaos);
 
             // Apply Weakened
             if (entity.inDeathProcess == false)
@@ -4653,6 +5365,13 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability shroud = caster.mySpellBook.GetAbilityByName("Shroud");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Shroud");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -4682,6 +5401,13 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability hex = caster.mySpellBook.GetAbilityByName("Hex");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Hex");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
         OnAbilityUsedStart(hex, caster);
@@ -4715,6 +5441,13 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability darkGift = caster.mySpellBook.GetAbilityByName("Dark Gift");
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Dark Gift");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(darkGift, caster);
 
@@ -4743,6 +5476,13 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability pureHate = caster.mySpellBook.GetAbilityByName("Pure Hate");
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Pure Hate");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Pay energy cost, + etc
         OnAbilityUsedStart(pureHate, caster);
 
@@ -4760,32 +5500,39 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Chaos Bolt
-    public Action PerformChaosBolt(LivingEntity attacker, LivingEntity victim)
+    public Action PerformChaosBolt(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformChaosBoltCoroutine(attacker, victim, action));
+        StartCoroutine(PerformChaosBoltCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformChaosBoltCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformChaosBoltCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
-        Ability chaosBolt = attacker.mySpellBook.GetAbilityByName("Chaos Bolt");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, chaosBolt);
-        bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, chaosBolt);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, chaosBolt, damageType, critical, chaosBolt.abilityPrimaryValue);
+        Ability chaosBolt = caster.mySpellBook.GetAbilityByName("Chaos Bolt");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, chaosBolt);
+        bool dodge = CombatLogic.Instance.RollForDodge(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, chaosBolt);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, chaosBolt, damageType, critical, chaosBolt.abilityPrimaryValue);
 
-        OnAbilityUsedStart(chaosBolt, attacker);
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Chaos Bolt");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        OnAbilityUsedStart(chaosBolt, caster);
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
         yield return new WaitForSeconds(0.15f);
 
         // Shoot shadow ball
-        Action shootAction = VisualEffectManager.Instance.ShootShadowBall(attacker.tile.WorldPosition, victim.tile.WorldPosition);
+        Action shootAction = VisualEffectManager.Instance.ShootShadowBall(caster.tile.WorldPosition, victim.tile.WorldPosition);
         yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
         if (dodge)
         {
-            Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+            Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
             yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
         }
 
@@ -4794,9 +5541,9 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, chaosBolt);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, chaosBolt);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             if (!victim.inDeathProcess)
@@ -4806,7 +5553,7 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(chaosBolt, attacker);
+        OnAbilityUsedFinish(chaosBolt, caster);
         action.actionResolved = true;
     }
 
@@ -4821,6 +5568,13 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability nightmare = caster.mySpellBook.GetAbilityByName("Nightmare");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Nightmare");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
         OnAbilityUsedStart(nightmare, caster);
@@ -4839,22 +5593,29 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Unbridled Chaos
-    public Action PerformUnbridledChaos(LivingEntity attacker)
+    public Action PerformUnbridledChaos(LivingEntity caster)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformUnbridledChaosCoroutine(attacker, action));
+        StartCoroutine(PerformUnbridledChaosCoroutine(caster, action));
         return action;
     }
-    private IEnumerator PerformUnbridledChaosCoroutine(LivingEntity attacker, Action action)
+    private IEnumerator PerformUnbridledChaosCoroutine(LivingEntity caster, Action action)
     {
         // Set up properties
-        Ability unbridledChaos = attacker.mySpellBook.GetAbilityByName("Unbridled Chaos");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, unbridledChaos);
-        List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, attacker.tile, attacker.currentAuraSize, true, false);
+        Ability unbridledChaos = caster.mySpellBook.GetAbilityByName("Unbridled Chaos");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, unbridledChaos);
+        List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, caster.tile, caster.currentAuraSize, true, false);
         List<LivingEntity> targetsHit = new List<LivingEntity>();
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Unbridled Chaos");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // get a random target 5 times
         for (int i = 0; i < unbridledChaos.abilitySecondaryValue; i++)
@@ -4863,28 +5624,28 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // Pay energy cost
-        OnAbilityUsedStart(unbridledChaos, attacker);
+        OnAbilityUsedStart(unbridledChaos, caster);
 
         // Resolve hits against targets
         foreach (LivingEntity entity in targetsHit)
         {
             if (entity.inDeathProcess == false)
             {
-                bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, unbridledChaos);
-                bool dodge = CombatLogic.Instance.RollForDodge(entity, attacker);
-                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, unbridledChaos, damageType, critical, unbridledChaos.abilityPrimaryValue);
+                bool critical = CombatLogic.Instance.RollForCritical(caster, entity, unbridledChaos);
+                bool dodge = CombatLogic.Instance.RollForDodge(entity, caster);
+                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, unbridledChaos, damageType, critical, unbridledChaos.abilityPrimaryValue);
 
                 // Play attack animation
-                attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(entity));
+                caster.StartCoroutine(caster.PlayMeleeAttackAnimation(entity));
 
                 // Shoot shadow ball
-                Action shootAction = VisualEffectManager.Instance.ShootShadowBall(attacker.tile.WorldPosition, entity.tile.WorldPosition);
+                Action shootAction = VisualEffectManager.Instance.ShootShadowBall(caster.tile.WorldPosition, entity.tile.WorldPosition);
                 yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
                 // if the target successfully dodged, dont do HandleDamage: do dodge stuff instead
                 if (dodge)
                 {
-                    Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, entity);
+                    Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, entity);
                     yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
                 }
 
@@ -4893,9 +5654,9 @@ public class AbilityLogic : MonoBehaviour
                 {
                     if (critical)
                     {
-                        VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                        VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
                     }
-                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, unbridledChaos);
+                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, unbridledChaos);
                     yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
                 }
 
@@ -4904,7 +5665,7 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // Remove camo + etc
-        OnAbilityUsedFinish(unbridledChaos, attacker);
+        OnAbilityUsedFinish(unbridledChaos, caster);
 
         // Resolve/Complete event
         action.actionResolved = true;
@@ -4922,6 +5683,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Setup 
         Ability sw = caster.mySpellBook.GetAbilityByName("Shadow Wreath");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Shadow Wreath");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(sw, caster);
 
         // Play animation
@@ -4936,32 +5705,39 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Shadow Blast
-    public Action PerformShadowBlast(LivingEntity attacker, LivingEntity victim)
+    public Action PerformShadowBlast(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformShadowBlastCoroutine(attacker, victim, action));
+        StartCoroutine(PerformShadowBlastCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformShadowBlastCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformShadowBlastCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
-        Ability shadowBlast = attacker.mySpellBook.GetAbilityByName("Shadow Blast");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, shadowBlast);
-        bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, shadowBlast);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, shadowBlast, damageType, critical, shadowBlast.abilityPrimaryValue);
+        Ability shadowBlast = caster.mySpellBook.GetAbilityByName("Shadow Blast");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, shadowBlast);
+        bool dodge = CombatLogic.Instance.RollForDodge(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, shadowBlast);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, shadowBlast, damageType, critical, shadowBlast.abilityPrimaryValue);
 
-        OnAbilityUsedStart(shadowBlast, attacker);
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Shadow Blast");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        OnAbilityUsedStart(shadowBlast, caster);
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
         yield return new WaitForSeconds(0.15f);
 
         // Shoot shadow ball
-        Action shootAction = VisualEffectManager.Instance.ShootShadowBall(attacker.tile.WorldPosition, victim.tile.WorldPosition);
+        Action shootAction = VisualEffectManager.Instance.ShootShadowBall(caster.tile.WorldPosition, victim.tile.WorldPosition);
         yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
         if (dodge)
         {
-            Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+            Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
             yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
         }
 
@@ -4970,21 +5746,21 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, shadowBlast);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, shadowBlast);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Knock back.
             if (victim.inDeathProcess == false)
             {
-                MovementLogic.Instance.KnockBackEntity(attacker, victim, shadowBlast.abilitySecondaryValue);
+                MovementLogic.Instance.KnockBackEntity(caster, victim, shadowBlast.abilitySecondaryValue);
                 yield return new WaitForSeconds(0.5f);
             }
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(shadowBlast, attacker);
+        OnAbilityUsedFinish(shadowBlast, caster);
         action.actionResolved = true;
     }
 
@@ -4996,31 +5772,38 @@ public class AbilityLogic : MonoBehaviour
     #region
 
     // Thunder Strike
-    public Action PerformThunderStrike(LivingEntity attacker, LivingEntity target)
+    public Action PerformThunderStrike(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformThunderStrikeCoroutine(attacker, target, action));
+        StartCoroutine(PerformThunderStrikeCoroutine(caster, target, action));
         return action;
     }
-    private IEnumerator PerformThunderStrikeCoroutine(LivingEntity attacker, LivingEntity target, Action action)
+    private IEnumerator PerformThunderStrikeCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         // Set up properties
-        Ability thunderStrike = attacker.mySpellBook.GetAbilityByName("Thunder Strike");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, target, thunderStrike);
-        bool parry = CombatLogic.Instance.RollForParry(target, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, thunderStrike, attacker.myMainHandWeapon);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, target, thunderStrike, damageType, critical, attacker.myMainHandWeapon.baseDamage, attacker.myMainHandWeapon);
+        Ability thunderStrike = caster.mySpellBook.GetAbilityByName("Thunder Strike");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, target, thunderStrike);
+        bool parry = CombatLogic.Instance.RollForParry(target, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, thunderStrike, caster.myMainHandWeapon);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, target, thunderStrike, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Thunder Strike");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(thunderStrike, attacker);
+        OnAbilityUsedStart(thunderStrike, caster);
 
         // Play attack animation
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(target));
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(target));
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
         {
-            Action parryAction = CombatLogic.Instance.HandleParry(attacker, target);
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, target);
             yield return new WaitUntil(() => parryAction.ActionResolved() == true);
         }
 
@@ -5029,9 +5812,9 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, thunderStrike);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, target, damageType, thunderStrike);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Apply Stunned if Shocked
@@ -5043,37 +5826,44 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(thunderStrike, attacker);
+        OnAbilityUsedFinish(thunderStrike, caster);
         action.actionResolved = true;
     }
 
     // Lightning Bolt
-    public Action PerformLightningBolt(LivingEntity attacker, LivingEntity victim)
+    public Action PerformLightningBolt(LivingEntity caster, LivingEntity victim)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformLightningBoltCoroutine(attacker, victim, action));
+        StartCoroutine(PerformLightningBoltCoroutine(caster, victim, action));
         return action;
     }
-    private IEnumerator PerformLightningBoltCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformLightningBoltCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
-        Ability lightningBolt = attacker.mySpellBook.GetAbilityByName("Lightning Bolt");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, lightningBolt);
-        bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, lightningBolt);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, lightningBolt, damageType, critical, lightningBolt.abilityPrimaryValue);
+        Ability lightningBolt = caster.mySpellBook.GetAbilityByName("Lightning Bolt");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, lightningBolt);
+        bool dodge = CombatLogic.Instance.RollForDodge(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, lightningBolt);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, lightningBolt, damageType, critical, lightningBolt.abilityPrimaryValue);
 
-        OnAbilityUsedStart(lightningBolt, attacker);
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Lightning Bolt");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        OnAbilityUsedStart(lightningBolt, caster);
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
         yield return new WaitForSeconds(0.15f);
 
         // Create fireball from prefab and play animation
-        Action fireballHit = VisualEffectManager.Instance.ShootFireball(attacker.tile.WorldPosition, victim.tile.WorldPosition);
+        Action fireballHit = VisualEffectManager.Instance.ShootFireball(caster.tile.WorldPosition, victim.tile.WorldPosition);
         yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
         if (dodge)
         {
-            Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+            Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
             yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
         }
 
@@ -5082,9 +5872,9 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, lightningBolt);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, lightningBolt);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Apply Shocked
@@ -5095,7 +5885,7 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(lightningBolt, attacker);
+        OnAbilityUsedFinish(lightningBolt, caster);
         action.actionResolved = true;
     }
 
@@ -5110,6 +5900,13 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability spiritSurge = caster.mySpellBook.GetAbilityByName("Spirit Surge");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Spirit Surge");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -5148,6 +5945,13 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability spiritVision = caster.mySpellBook.GetAbilityByName("Spirit Vision");
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Spirit Vision");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         // Play animation
         caster.PlaySkillAnimation();
 
@@ -5169,32 +5973,39 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Chain Lightning
-    public Action PerformChainLightning(LivingEntity attacker, LivingEntity target)
+    public Action PerformChainLightning(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformChainLightningCoroutine(attacker, target, action));
+        StartCoroutine(PerformChainLightningCoroutine(caster, target, action));
         return action;
     }
-    private IEnumerator PerformChainLightningCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    private IEnumerator PerformChainLightningCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Setup
-        Ability chainLightning = attacker.mySpellBook.GetAbilityByName("Chain Lightning");
-        bool critical = CombatLogic.Instance.RollForCritical(attacker, victim, chainLightning);
-        bool dodge = CombatLogic.Instance.RollForDodge(victim, attacker);
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, chainLightning);
-        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, victim, chainLightning, damageType, critical, chainLightning.abilityPrimaryValue);
+        Ability chainLightning = caster.mySpellBook.GetAbilityByName("Chain Lightning");
+        bool critical = CombatLogic.Instance.RollForCritical(caster, victim, chainLightning);
+        bool dodge = CombatLogic.Instance.RollForDodge(victim, caster);
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, chainLightning);
+        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, chainLightning, damageType, critical, chainLightning.abilityPrimaryValue);
         LivingEntity currentTarget = victim;
         LivingEntity previousTarget = victim;
 
-        // Play animation
-        attacker.PlaySkillAnimation();
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Chain Lightning");
+            yield return new WaitForSeconds(0.5f);
+        }
 
-        OnAbilityUsedStart(chainLightning, attacker);
+        // Play animation
+        caster.PlaySkillAnimation();
+
+        OnAbilityUsedStart(chainLightning, caster);
 
         // Resolve attack against the first target
         if (dodge)
         {
-            Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, victim);
+            Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
             yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
         }
 
@@ -5203,10 +6014,10 @@ public class AbilityLogic : MonoBehaviour
         {
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, victim, damageType, chainLightning);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, chainLightning);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             for (int lightningJumps = 0; lightningJumps < chainLightning.abilitySecondaryValue; lightningJumps++)
@@ -5215,7 +6026,7 @@ public class AbilityLogic : MonoBehaviour
 
                 foreach (LivingEntity enemy in LivingEntityManager.Instance.allLivingEntities)
                 {
-                    if (adjacentTiles.Contains(enemy.tile) && CombatLogic.Instance.IsTargetFriendly(attacker, enemy) == false)
+                    if (adjacentTiles.Contains(enemy.tile) && CombatLogic.Instance.IsTargetFriendly(caster, enemy) == false)
                     {
                         previousTarget = currentTarget;
                         currentTarget = enemy;
@@ -5224,15 +6035,15 @@ public class AbilityLogic : MonoBehaviour
 
                 if (previousTarget != currentTarget)
                 {
-                    bool critical2 = CombatLogic.Instance.RollForCritical(attacker, victim, chainLightning);
-                    int finalDamageValue2 = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, currentTarget, chainLightning, damageType, critical2, chainLightning.abilityPrimaryValue);
+                    bool critical2 = CombatLogic.Instance.RollForCritical(caster, victim, chainLightning);
+                    int finalDamageValue2 = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, currentTarget, chainLightning, damageType, critical2, chainLightning.abilityPrimaryValue);
 
                     if (critical2)
                     {
-                        VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                        VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
                     }
 
-                    Action abilityAction2 = CombatLogic.Instance.HandleDamage(finalDamageValue2, attacker, currentTarget, damageType, chainLightning);
+                    Action abilityAction2 = CombatLogic.Instance.HandleDamage(finalDamageValue2, caster, currentTarget, damageType, chainLightning);
                     yield return new WaitUntil(() => abilityAction2.ActionResolved() == true);
                     yield return new WaitForSeconds(0.2f);
                 }
@@ -5242,46 +6053,53 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // Resolve
-        OnAbilityUsedFinish(chainLightning, attacker);
+        OnAbilityUsedFinish(chainLightning, caster);
         action.actionResolved = true;
 
     }
 
     // Thunder Storm
-    public Action PerformThunderStorm(LivingEntity attacker, Tile location)
+    public Action PerformThunderStorm(LivingEntity caster, Tile location)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformThunderStormCoroutine(attacker, location, action));
+        StartCoroutine(PerformThunderStormCoroutine(caster, location, action));
         return action;
     }
-    private IEnumerator PerformThunderStormCoroutine(LivingEntity attacker, Tile location, Action action)
+    private IEnumerator PerformThunderStormCoroutine(LivingEntity caster, Tile location, Action action)
     {
         // Set up properties
-        Ability thunderStorm = attacker.mySpellBook.GetAbilityByName("Thunder Storm");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, thunderStorm);
+        Ability thunderStorm = caster.mySpellBook.GetAbilityByName("Thunder Storm");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, thunderStorm);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Thunder Storm");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Calculate which characters are hit by the aoe
-        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
+        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, location, 1, true, false);
 
         // Pay energy cost
-        OnAbilityUsedStart(thunderStorm, attacker);
+        OnAbilityUsedStart(thunderStorm, caster);
 
         // Resolve hits against targets
         foreach (LivingEntity entity in targetsInBlastRadius)
         {
-            bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, thunderStorm);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, thunderStorm, damageType, critical, thunderStorm.abilityPrimaryValue);
+            bool critical = CombatLogic.Instance.RollForCritical(caster, entity, thunderStorm);
+            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, thunderStorm, damageType, critical, thunderStorm.abilityPrimaryValue);
 
             if (critical)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
 
             // Deal Damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, thunderStorm);
+            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, thunderStorm);
 
             // Apply Poisoned
             if (entity.inDeathProcess == false)
@@ -5293,7 +6111,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // Resolve
-        OnAbilityUsedFinish(thunderStorm, attacker);
+        OnAbilityUsedFinish(thunderStorm, caster);
         action.actionResolved = true;
 
     }
@@ -5309,6 +6127,13 @@ public class AbilityLogic : MonoBehaviour
     {
         // Set up properties
         Ability primalRage = caster.mySpellBook.GetAbilityByName("Primal Rage");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Primal Rage");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -5328,25 +6153,32 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Concealing Clouds
-    public Action PerformConcealingClouds(LivingEntity attacker, Tile location)
+    public Action PerformConcealingClouds(LivingEntity caster, Tile location)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformConcealingCloudsCoroutine(attacker, location, action));
+        StartCoroutine(PerformConcealingCloudsCoroutine(caster, location, action));
         return action;
     }
-    private IEnumerator PerformConcealingCloudsCoroutine(LivingEntity attacker, Tile location, Action action)
+    private IEnumerator PerformConcealingCloudsCoroutine(LivingEntity caster, Tile location, Action action)
     {
         // Set up properties
-        Ability concealingClouds = attacker.mySpellBook.GetAbilityByName("Concealing Clouds");
+        Ability concealingClouds = caster.mySpellBook.GetAbilityByName("Concealing Clouds");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Concealing Clouds");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Calculate which characters are hit by the aoe
-        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, location, 1, true, false);
+        List<LivingEntity> targetsInBlastRadius = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, location, 1, true, false);
 
         // Pay energy cost
-        OnAbilityUsedStart(concealingClouds, attacker);
+        OnAbilityUsedStart(concealingClouds, caster);
 
         // Resolve hits against targets
         foreach (LivingEntity entity in targetsInBlastRadius)
@@ -5358,42 +6190,49 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // Resolve
-        OnAbilityUsedFinish(concealingClouds, attacker);
+        OnAbilityUsedFinish(concealingClouds, caster);
         action.actionResolved = true;
     }
 
     // Super Conductor
-    public Action PerformSuperConductor(LivingEntity attacker, LivingEntity target)
+    public Action PerformSuperConductor(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformSuperConductorCoroutine(attacker, target, action));
+        StartCoroutine(PerformSuperConductorCoroutine(caster, target, action));
         return action;
     }
-    private IEnumerator PerformSuperConductorCoroutine(LivingEntity attacker, LivingEntity target, Action action)
+    private IEnumerator PerformSuperConductorCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         // Set up properties
-        Ability superConductor = attacker.mySpellBook.GetAbilityByName("Super Conductor");
-        int shotsToFire = attacker.currentEnergy / 10;
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, superConductor);
+        Ability superConductor = caster.mySpellBook.GetAbilityByName("Super Conductor");
+        int shotsToFire = caster.currentEnergy / 10;
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, superConductor);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Super Conductor");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Ranged attack anim
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(superConductor, attacker);
+        OnAbilityUsedStart(superConductor, caster);
 
         for (int shotsTaken = 0; shotsTaken < shotsToFire; shotsTaken++)
         {
             if (target.inDeathProcess == false)
             {
                 // Set up shot values
-                bool critical = CombatLogic.Instance.RollForCritical(attacker, target, superConductor);
-                bool dodge = CombatLogic.Instance.RollForDodge(target, attacker);
-                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, target, superConductor, damageType, critical, superConductor.abilityPrimaryValue);
+                bool critical = CombatLogic.Instance.RollForCritical(caster, target, superConductor);
+                bool dodge = CombatLogic.Instance.RollForDodge(target, caster);
+                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, target, superConductor, damageType, critical, superConductor.abilityPrimaryValue);
 
                 // TO DO: create lightning bolt VFX and replace fire ball here
                 // Create fireball from prefab and play animation
-                Action fireballHit = VisualEffectManager.Instance.ShootFireball(attacker.tile.WorldPosition, target.tile.WorldPosition);
+                Action fireballHit = VisualEffectManager.Instance.ShootFireball(caster.tile.WorldPosition, target.tile.WorldPosition);
 
                 // wait until fireball has hit the target
                 yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
@@ -5402,7 +6241,7 @@ public class AbilityLogic : MonoBehaviour
                 // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
                 if (dodge)
                 {
-                    Action dodgeAction = CombatLogic.Instance.HandleDodge(attacker, target);
+                    Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, target);
                     yield return new WaitUntil(() => dodgeAction.ActionResolved() == true);
                 }
 
@@ -5411,9 +6250,9 @@ public class AbilityLogic : MonoBehaviour
                 {
                     if (critical)
                     {
-                        VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                        VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
                     }
-                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, target, damageType, superConductor);
+                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, target, damageType, superConductor);
                     yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
                 }
             }
@@ -5421,7 +6260,7 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // remove camoflage, etc
-        OnAbilityUsedFinish(superConductor, attacker);
+        OnAbilityUsedFinish(superConductor, caster);
         action.actionResolved = true;
 
     }
@@ -5437,6 +6276,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Setup 
         Ability overload = caster.mySpellBook.GetAbilityByName("Overload");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Overload");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(overload, caster);
 
         // Play animation
@@ -5457,275 +6304,10 @@ public class AbilityLogic : MonoBehaviour
 
     // Old Abilities
     #region
-
-
-
-
-
-
-    //Rend
-    public Action PerformRend(LivingEntity attacker, LivingEntity victim)
-    {
-        Action action = new Action(true);
-        StartCoroutine(PerformRendCoroutine(attacker, victim, action));
-        return action;
-    }
-    public IEnumerator PerformRendCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
-    {
-        Ability rend = attacker.mySpellBook.GetAbilityByName("Rend");
-        OnAbilityUsedStart(rend, attacker);
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
-        //Action abilityAction = CombatLogic.Instance.HandleDamage(rend.abilityPrimaryValue, attacker, victim, false, rend.abilityAttackType, rend.abilityDamageType);
-       // yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-        victim.myPassiveManager.ModifyWeakened(rend.abilitySecondaryValue);
-        yield return new WaitForSeconds(0.5f);
-        action.actionResolved = true;
-
-    }
-
-   
-    
-    // Mork Smash
-    public Action PerformMorkSmash(LivingEntity attacker, LivingEntity victim)
-    {
-        Action action = new Action(true);
-        StartCoroutine(PerformMorkSmashCoroutine(attacker, victim, action));
-        return action;
-    }
-    public IEnumerator PerformMorkSmashCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
-    {
-        Ability morkSmash = attacker.mySpellBook.GetAbilityByName("Mork Smash!");
-        OnAbilityUsedStart(morkSmash, attacker);
-        StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
-        //Action abilityAction = CombatLogic.Instance.HandleDamage(morkSmash.abilityPrimaryValue, attacker, victim, false, morkSmash.abilityAttackType, morkSmash.abilityDamageType);
-        //yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-
-        // Knock back.
-        Action knockBackAction = MovementLogic.Instance.KnockBackEntity(attacker, victim, morkSmash.abilitySecondaryValue);
-        yield return new WaitUntil(() => knockBackAction.ActionResolved() == true);        
-        action.actionResolved = true;
-    }
-   
-    
-
-  
-
-    
-
-    
-
-   
-
-
-
-    
-
-    
-
-
-   
-
-    
-
-    
-
-    
-
-    // Poison Dart
-    public Action PerformPoisonDart(LivingEntity caster, LivingEntity victim)
-    {
-        Action action = new Action(true);
-        StartCoroutine(PerformPoisonDartCoroutine(caster, victim, action));
-        return action;
-    }
-    public IEnumerator PerformPoisonDartCoroutine(LivingEntity caster, LivingEntity victim, Action action)
-    {
-        Ability poisonDart = caster.mySpellBook.GetAbilityByName("Poison Dart");
-        OnAbilityUsedStart(poisonDart, caster);
-        StartCoroutine(caster.PlayMeleeAttackAnimation(victim));        
-        victim.myPassiveManager.ModifyPoisoned(poisonDart.abilitySecondaryValue, caster);
-        yield return new WaitForSeconds(0.5f);
-        action.actionResolved = true;
         
-    }
-
-    
-
-    // Acid Spit
-    public Action PerformAcidSpit(LivingEntity caster, LivingEntity victim)
-    {
-        Action action = new Action(true);
-        StartCoroutine(PerformAcidSpitCoroutine(caster, victim, action));
-        return action;
-    }
-    public IEnumerator PerformAcidSpitCoroutine(LivingEntity caster, LivingEntity victim, Action action)
-    {
-        Ability acidSpit = caster.mySpellBook.GetAbilityByName("Acid Spit");
-        OnAbilityUsedStart(acidSpit, caster);
-        StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
-        //Action abilityAction = CombatLogic.Instance.HandleDamage(acidSpit.abilityPrimaryValue, caster, victim, false, acidSpit.abilityAttackType, acidSpit.abilityDamageType, acidSpit);        
-        //yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-        victim.myPassiveManager.ModifyPoisoned(acidSpit.abilitySecondaryValue, caster);
-        yield return new WaitForSeconds(0.5f);
-        action.actionResolved = true;
-
-    }
-
-    
     
 
     
-
-    // Rock Toss
-    public Action PerformRockToss(LivingEntity caster, LivingEntity victim)
-    {
-        Action action = new Action(true);
-        StartCoroutine(PerformRockTossCoroutine(caster, victim, action));
-        return action;
-    }
-    public IEnumerator PerformRockTossCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
-    {
-        Ability rockToss = attacker.mySpellBook.GetAbilityByName("Rock Toss");
-        OnAbilityUsedStart(rockToss, attacker);
-
-        // Attack
-        StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
-        //Action abilityAction = CombatLogic.Instance.HandleDamage(rockToss.abilityPrimaryValue, attacker, victim, false, rockToss.abilityAttackType, rockToss.abilityDamageType);
-        //yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-        // Knockback
-        MovementLogic.Instance.KnockBackEntity(attacker, victim, rockToss.abilitySecondaryValue);
-        yield return new WaitForSeconds(0.5f);
-        action.actionResolved = true;
-        
-    }
-
-   
-
-    // Lightning Shield
-    public Action PerformLightningShield(LivingEntity caster, LivingEntity target)
-    {
-        Action action = new Action(true);
-        StartCoroutine(PerformLightningShieldCoroutine(caster, target, action));
-        return action;
-    }
-    public IEnumerator PerformLightningShieldCoroutine(LivingEntity caster, LivingEntity target, Action action)
-    {
-        Ability lightningShield = caster.mySpellBook.GetAbilityByName("Lightning Shield");
-        OnAbilityUsedStart(lightningShield, caster);
-        target.myPassiveManager.ModifyLightningShield(lightningShield.abilityPrimaryValue);
-        VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Lightning Shield");
-        yield return new WaitForSeconds(0.5f);
-        action.actionResolved = true;
-        
-    }
-
-    
-
-    
-
-    
-
-    // Siphon Life
-    public Action PerformSiphonLife(LivingEntity caster, LivingEntity target)
-    {
-        Action action = new Action(true);
-        StartCoroutine(PerformSiphonLifeCoroutine(caster, target, action));
-        return action;
-    }
-    public IEnumerator PerformSiphonLifeCoroutine(LivingEntity caster, LivingEntity target, Action action)
-    {
-        Ability siphonLife = caster.mySpellBook.GetAbilityByName("Siphon Life");
-        OnAbilityUsedStart(siphonLife, caster);
-        target.ModifyCurrentStrength(-siphonLife.abilityPrimaryValue);
-        caster.ModifyCurrentStrength(siphonLife.abilityPrimaryValue);
-        yield return new WaitForSeconds(0.5f);
-        action.actionResolved = true;
-        
-    }
-
-    // Sanctity
-    public Action PerformSanctity(LivingEntity caster, LivingEntity target)
-    {
-        Action action = new Action(true);
-        StartCoroutine(PerformSanctityCoroutine(caster, target, action));
-        return action;
-    }
-    public IEnumerator PerformSanctityCoroutine(LivingEntity caster, LivingEntity target, Action action)
-    {
-        Ability sanctity = caster.mySpellBook.GetAbilityByName("Sanctity");
-        OnAbilityUsedStart(sanctity, caster);
-
-        if (target.myPassiveManager.stunned)
-        {
-            VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Stun Removed");
-            yield return new WaitForSeconds(0.2f);
-            target.myPassiveManager.ModifyStunned(-target.myPassiveManager.stunnedStacks);
-        }
-        if (target.myPassiveManager.immobilized)
-        {
-            VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Immobilized Removed");
-            yield return new WaitForSeconds(0.2f);
-            target.myPassiveManager.ModifyImmobilized(-target.myPassiveManager.immobilizedStacks);
-        }
-        if (target.myPassiveManager.poisoned)
-        {
-            VisualEffectManager.Instance.CreateStatusEffect(target.transform.position, "Poison Removed");
-            yield return new WaitForSeconds(0.2f);
-            target.myPassiveManager.ModifyPoisoned(-target.myPassiveManager.poisonedStacks);
-        }
-        // remove vulnerable
-        // remove weakened
-
-        action.actionResolved = true;
-        
-    }
-
-
-    // Void Bomb
-    public Action PerformVoidBomb(LivingEntity caster, LivingEntity target)
-    {
-        Action action = new Action(true);
-        StartCoroutine(PerformVoidBombCoroutine(caster, target, action));
-        return action;
-    }
-    public IEnumerator PerformVoidBombCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
-    {
-        Ability voidBomb = attacker.mySpellBook.GetAbilityByName("Void Bomb");
-        OnAbilityUsedStart(voidBomb, attacker);
-        //Action abilityAction = CombatLogic.Instance.HandleDamage(voidBomb.abilityPrimaryValue, attacker, victim, false, voidBomb.abilityAttackType, voidBomb.abilityDamageType);
-       // yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-        victim.myPassiveManager.ModifyStunned(1);
-        yield return new WaitForSeconds(0.5f);
-        action.actionResolved = true;
-        
-
-    }
-
-     
-
-    
-
-   
-
-    // Teleport
-    public Action PerformTeleport(LivingEntity caster, Tile destination)
-    {
-        Action action = new Action(true);
-        StartCoroutine(PerformTeleportCoroutine(caster, destination, action));
-        return action;
-    }
-    public IEnumerator PerformTeleportCoroutine(LivingEntity caster, Tile destination, Action action)
-    {
-        Ability teleport = caster.mySpellBook.GetAbilityByName("Teleport");
-        OnAbilityUsedStart(teleport, caster);
-
-        MovementLogic.Instance.TeleportEntity(caster, destination);
-
-        action.actionResolved = true;
-        
-
-        yield return null;
-    }
 
     // Doom
     public Action PerformDoom(LivingEntity caster)
@@ -5737,7 +6319,16 @@ public class AbilityLogic : MonoBehaviour
     public IEnumerator PerformDoomCoroutine(LivingEntity caster, Action action)
     {
         Ability doom = caster.mySpellBook.GetAbilityByName("Doom");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Doom");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(doom, caster);
+
         foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
         {
             if(CombatLogic.Instance.IsTargetFriendly(caster, entity) == false)
@@ -5745,6 +6336,8 @@ public class AbilityLogic : MonoBehaviour
                 entity.ModifyCurrentStamina(-1);
             }
         }
+
+        OnAbilityUsedFinish(doom, caster);
         yield return new WaitForSeconds(1f);
         action.actionResolved = true;
     }
@@ -5759,6 +6352,14 @@ public class AbilityLogic : MonoBehaviour
     public IEnumerator PerformEmpowerBindingCoroutine(LivingEntity caster, Action action)
     {
         Ability empowerBinding = caster.mySpellBook.GetAbilityByName("Empower Binding");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Empower Binding");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(empowerBinding, caster);
         foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
         {
@@ -5768,6 +6369,8 @@ public class AbilityLogic : MonoBehaviour
                 entity.ModifyCurrentStrength(1);
             }
         }
+
+        OnAbilityUsedFinish(empowerBinding, caster);
         yield return new WaitForSeconds(1f);
         action.actionResolved = true;
     }
@@ -5779,16 +6382,22 @@ public class AbilityLogic : MonoBehaviour
         StartCoroutine(PerformCrushingBlowCoroutine(caster, target, action));
         return action;
     }
-    public IEnumerator PerformCrushingBlowCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    public IEnumerator PerformCrushingBlowCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
-        Ability crushingBlow = attacker.mySpellBook.GetAbilityByName("Crushing Blow");
-        OnAbilityUsedStart(crushingBlow, attacker);
-        attacker.StartCoroutine(attacker.PlayMeleeAttackAnimation(victim));
+        Ability crushingBlow = caster.mySpellBook.GetAbilityByName("Crushing Blow");
 
-       // Action abilityAction = CombatLogic.Instance.HandleDamage(crushingBlow.abilityPrimaryValue, attacker, victim, false, crushingBlow.abilityAttackType, crushingBlow.abilityDamageType);
-        //yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Crushing Blow");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        OnAbilityUsedStart(crushingBlow, caster);
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
 
         victim.myPassiveManager.ModifyStunned(1);
+        OnAbilityUsedFinish(crushingBlow, caster);
         yield return null;
 
         action.actionResolved = true;
@@ -5805,6 +6414,14 @@ public class AbilityLogic : MonoBehaviour
     private IEnumerator PerformSummonUndeadCoroutine(LivingEntity caster, LivingEntity target, Action action)
     {
         Ability summonUndead = caster.mySpellBook.GetAbilityByName("Summon Undead");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Summon Undead");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(summonUndead, caster);
         List<Tile> allPossibleSpawnLocations = LevelManager.Instance.GetValidMoveableTilesWithinRange(summonUndead.abilityRange, caster.tile);
         List<Tile> finalList = new List<Tile>();
@@ -5844,12 +6461,13 @@ public class AbilityLogic : MonoBehaviour
             newSkeleton.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
         }
 
+        OnAbilityUsedFinish(summonUndead, caster);
         yield return new WaitForSeconds(1f);
         action.actionResolved = true;
 
     }
 
-    // Summon Undead
+    // Summon Skeleton
     public Action PerformSummonSkeleton(LivingEntity caster, LivingEntity target)
     {
         Action action = new Action(true);
@@ -5857,11 +6475,26 @@ public class AbilityLogic : MonoBehaviour
         return action;
     }
     public IEnumerator PerformSummonSkeletonCoroutine(LivingEntity caster, LivingEntity target, Action action)
-    {
+    {        
         Ability summonUndead = caster.mySpellBook.GetAbilityByName("Summon Skeleton");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Summon Skeleton");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(summonUndead, caster);
         List<Tile> allPossibleSpawnLocations = LevelManager.Instance.GetValidMoveableTilesWithinRange(summonUndead.abilityRange, caster.tile);
         List<Tile> finalList = new List<Tile>();
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Summon Skeleton");
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // if target is to the left
         if (target.gridPosition.X <= caster.gridPosition.X)
@@ -5900,6 +6533,7 @@ public class AbilityLogic : MonoBehaviour
             newSkeleton.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
         }
 
+        OnAbilityUsedFinish(summonUndead, caster);
         yield return new WaitForSeconds(1f);
         action.actionResolved = true;
 
@@ -5916,6 +6550,14 @@ public class AbilityLogic : MonoBehaviour
     {
         // Setup
         Ability healingLight = caster.mySpellBook.GetAbilityByName("Healing Light");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Healing Light");
+            yield return new WaitForSeconds(0.5f);
+        }
+
         OnAbilityUsedStart(healingLight, caster);
 
         // Give target health

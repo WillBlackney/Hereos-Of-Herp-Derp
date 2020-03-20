@@ -148,12 +148,7 @@ public class EnemyManager : MonoBehaviour
         else if (selectedDefender != null && selectedDefender.awaitingHolyFireOrder == true)
         {
             selectedDefender.StartHolyFireProcess(selectedEnemy);
-        }
-
-        else if (selectedDefender != null && selectedDefender.awaitingVoidBombOrder == true)
-        {
-            selectedDefender.StartVoidBombProcess(selectedEnemy);
-        }
+        }        
 
         else if (selectedDefender != null && selectedDefender.awaitingNightmareOrder == true)
         {
@@ -169,11 +164,7 @@ public class EnemyManager : MonoBehaviour
         {
             selectedDefender.StartSliceAndDiceProcess(selectedEnemy);
         }
-
-        else if (selectedDefender != null && selectedDefender.awaitingPoisonDartOrder == true)
-        {
-            selectedDefender.StartPoisonDartProcess(selectedEnemy);
-        }        
+      
         else if (selectedDefender != null && selectedDefender.awaitingSmashOrder == true)
         {
             selectedDefender.StartSmashProcess(selectedEnemy);
@@ -225,11 +216,7 @@ public class EnemyManager : MonoBehaviour
         else if (selectedDefender != null && selectedDefender.awaitingCombustionOrder == true)
         {
             selectedDefender.StartCombustionProcess(selectedEnemy);
-        }
-        else if (selectedDefender != null && selectedDefender.awaitingSiphonLifeOrder == true)
-        {
-            selectedDefender.StartSiphonLifeProcess(selectedEnemy);
-        }
+        }        
         else if (selectedDefender != null && selectedDefender.awaitingChaosBoltOrder == true)
         {
             selectedDefender.StartChaosBoltProcess(selectedEnemy);

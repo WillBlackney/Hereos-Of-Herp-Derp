@@ -26,7 +26,6 @@ public class SkeletonPriest : Enemy
     {
         Ability strike = mySpellBook.GetAbilityByName("Strike");
         Ability move = mySpellBook.GetAbilityByName("Move");
-        // invigorate = mySpellBook.GetAbilityByName("Invigorate");
         Ability healingLight = mySpellBook.GetAbilityByName("Healing Light");
         Ability shadowBlast = mySpellBook.GetAbilityByName("Shadow Blast");
 
@@ -41,7 +40,7 @@ public class SkeletonPriest : Enemy
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
         
         // Healing Light
@@ -49,9 +48,6 @@ public class SkeletonPriest : Enemy
             GetBestHealingLightTarget().currentHealth < GetBestHealingLightTarget().currentMaxHealth &&
             EntityLogic.IsAbilityUseable(this, healingLight))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Healing Light");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformHealingLight(this, GetBestHealingLightTarget());
             yield return new WaitUntil(() => action.ActionResolved() == true);
             yield return new WaitForSeconds(1f);
@@ -62,9 +58,6 @@ public class SkeletonPriest : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, shadowBlast.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, shadowBlast))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shadow Blast");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformShadowBlast(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -72,32 +65,10 @@ public class SkeletonPriest : Enemy
             goto ActionStart;
         }
 
-        // Move towards an ally to give Encouraging presence bonus
-        /*
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestAlly(this, false), currentAuraSize) == false &&
-            EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.IsAbilityUseable(this,move) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestAlly(this, false), 1, EntityLogic.GetTotalMobility(this)) != null
-            )
-        {            
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-            Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, EntityLogic.GetClosestAlly(this, false), 1, EntityLogic.GetTotalMobility(this));
-            Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);            
-
-            // small delay here in order to seperate the two actions a bit.
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
-        */
-
         // Strike
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, strike))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -113,9 +84,6 @@ public class SkeletonPriest : Enemy
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
@@ -128,7 +96,7 @@ public class SkeletonPriest : Enemy
         // Can't do anything more, end activation
         else
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
     }

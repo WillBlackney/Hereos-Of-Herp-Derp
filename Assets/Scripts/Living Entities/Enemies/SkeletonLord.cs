@@ -12,9 +12,7 @@ public class SkeletonLord : Enemy
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Summon Skeleton");
         mySpellBook.EnemyLearnAbility("Empower Binding");
-        myPassiveManager.ModifySoulLink();
-        //myPassiveManager.ModifyPhysicalImmunity(1);
-        //myPassiveManager.ModifyMagicImmunity(1);       
+        myPassiveManager.ModifySoulLink();    
 
     }
     public override IEnumerator StartMyActivationCoroutine()
@@ -34,14 +32,13 @@ public class SkeletonLord : Enemy
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
         // Summon skeleton
         else if (EntityLogic.IsAbilityUseable(this, summonSkeleton))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Summon Skeleton");
-            yield return new WaitForSeconds(0.5f);
+            
             Action action = AbilityLogic.Instance.PerformSummonSkeleton(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
             yield return new WaitForSeconds(0.5f);
@@ -51,15 +48,13 @@ public class SkeletonLord : Enemy
         // Empower Binding
         else if (EntityLogic.IsAbilityUseable(this, empowerBinding))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Empower Binding");
-            yield return new WaitForSeconds(0.5f);
             Action action = AbilityLogic.Instance.PerformEmpowerBinding(this);
             yield return new WaitUntil(() => action.ActionResolved() == true);
             yield return new WaitForSeconds(0.5f);
             goto ActionStart;
         }
 
-        EndMyActivation();
+        LivingEntityManager.Instance.EndEntityActivation(this);
         yield return null;
 
     }

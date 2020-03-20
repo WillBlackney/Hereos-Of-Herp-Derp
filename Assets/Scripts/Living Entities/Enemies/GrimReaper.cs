@@ -27,12 +27,12 @@ public class GrimReaper : Enemy
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
         yield return null;
 
-        EndMyActivation();
+        LivingEntityManager.Instance.EndEntityActivation(this);
     }
 
     public bool IsAdjacentToTwoOrMoreDefenders()

@@ -190,11 +190,9 @@ public class ActivationManager : MonoBehaviour
     {
         Debug.Log("OnEndTurnButtonClickedCoroutine() started...");
 
-        UIManager.Instance.DisableEndTurnButtonInteractions();             
-        // endplayer turn will trigger all player end turn effects, BEFORE switching to enemy turn
-        Action endTurnEvent = EndEntityActivation(entityActivated);
-        yield return new WaitUntil(() => endTurnEvent.ActionResolved() == true);        
-        ActivateNextEntity();
+        UIManager.Instance.DisableEndTurnButtonInteractions();
+        Action endTurnEvent = LivingEntityManager.Instance.EndEntityActivation(entityActivated);
+        yield return new WaitUntil(() => endTurnEvent.ActionResolved() == true); 
 
     }
     public IEnumerator PlayRandomNumberAnim(ActivationWindow window)
@@ -308,7 +306,7 @@ public class ActivationManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             entity.enemy.StartMyActivation();
             yield return new WaitForSeconds(0.5f);
-            yield return new WaitUntil(() => entity.enemy.ActivationFinished() == true);
+            //yield return new WaitUntil(() => entity.enemy.ActivationFinished() == true);
         }
 
         action.actionResolved = true;        

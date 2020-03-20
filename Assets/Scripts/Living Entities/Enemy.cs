@@ -39,21 +39,7 @@ public class Enemy : LivingEntity
     {
         yield return null;
     }
-    public Action EndMyActivation()
-    {
-        Action action = new Action();
-        StartCoroutine(EndMyActivationCoroutine(action));
-        return action;
-
-    }
-    public IEnumerator EndMyActivationCoroutine(Action action)
-    {
-        Action endActivation = ActivationManager.Instance.EndEntityActivation(this);
-        yield return new WaitUntil(() => endActivation.ActionResolved() == true);        
-        ActivationManager.Instance.ActivateNextEntity();
-        action.actionResolved = true;
-    }
-
+    
     public bool currentlyActivated = false;
     public bool ActivationFinished()
     {

@@ -70,7 +70,7 @@ public class MovementLogic : MonoBehaviour
         SetPath(characterMoved, GeneratePath(characterMoved.gridPosition, destination.GridPosition));
 
         // Play movement animation
-        characterMoved.myAnimator.SetTrigger("Move");
+        characterMoved.PlayMoveAnimation();
 
         // flip the sprite's x axis depending on the direction of movement
         PositionLogic.Instance.CalculateWhichDirectionToFace(characterMoved, destination);  
@@ -137,7 +137,7 @@ public class MovementLogic : MonoBehaviour
                     //Action moveToNewLocation = OnLocationMovedTo(characterMoved, characterMoved.tile, previousTile, freeStrikeImmune);
                     //yield return new WaitUntil(() => moveToNewLocation.ActionResolved() == true);
                     Debug.Log("Final point reached, movement finished");
-                    characterMoved.myAnimator.SetTrigger("Idle");
+                    characterMoved.PlayIdleAnimation();
                     freeStrikesOnThisTileResolved = false;
                     hasCompletedMovement = true;
                     action.actionResolved = true;
@@ -750,12 +750,12 @@ public class MovementLogic : MonoBehaviour
             {
                 Debug.Log("ResolveFreeStrikesCoroutine() detected that " + characterMoved.name + " triggered a free strike from " + entity.name);
                 movementPaused = true;
-                characterMoved.myAnimator.SetTrigger("Idle");
+                characterMoved.PlayIdleAnimation();
                 Action freeStrikeAction = AbilityLogic.Instance.PerformFreeStrike(entity, characterMoved);
                 yield return new WaitUntil(() => freeStrikeAction.ActionResolved() == true);
 
                 // Resume movement
-                characterMoved.myAnimator.SetTrigger("Move");
+                characterMoved.PlayMoveAnimation();
                 movementPaused = false;
             }
         }
@@ -795,12 +795,12 @@ public class MovementLogic : MonoBehaviour
             {
                 Debug.Log("ResolveOverwatchCoroutine() detected that " + characterMoved.name + " triggered an overwatch shot from " + entity.name);
                 movementPaused = true;
-                characterMoved.myAnimator.SetTrigger("Idle");
+                characterMoved.PlayIdleAnimation();
                 Action overwatchShotAction = AbilityLogic.Instance.PerformOverwatchShot(entity, characterMoved);
                 yield return new WaitUntil(() => overwatchShotAction.ActionResolved() == true);
 
                 // Resume movement
-                characterMoved.myAnimator.SetTrigger("Move");
+                characterMoved.PlayMoveAnimation();
                 movementPaused = false;
             }
         }

@@ -39,7 +39,7 @@ public class SkeletonMage : Enemy
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
         // Frost Bolt
@@ -48,10 +48,6 @@ public class SkeletonMage : Enemy
             myCurrentTarget.myPassiveManager.immobilized == false
             )
         { 
-            // VFX notification
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Frost Bolt");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformFrostBolt(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -67,9 +63,6 @@ public class SkeletonMage : Enemy
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, false, false, true));
 
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -84,9 +77,6 @@ public class SkeletonMage : Enemy
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, false, true));
 
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -98,9 +88,6 @@ public class SkeletonMage : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, fireBall.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, fireBall))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Ball");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -117,9 +104,6 @@ public class SkeletonMage : Enemy
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
@@ -132,7 +116,7 @@ public class SkeletonMage : Enemy
         // Can't do anything more, end activation
         else
         {
-            EndMyActivation();
+            LivingEntityManager.Instance.EndEntityActivation(this);
         }
     }
 }
