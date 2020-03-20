@@ -17,7 +17,6 @@ public class SkeletonAssassin : Enemy
         mySpellBook.EnemyLearnAbility("Shank");
         mySpellBook.EnemyLearnAbility("Dash");
 
-        //myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyStealth(1);
 
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Dagger");

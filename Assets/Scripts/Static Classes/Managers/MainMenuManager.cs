@@ -127,7 +127,16 @@ public class MainMenuManager : MonoBehaviour
             // randomize presets for characters marked as random
             if(character.myPresetName == "Random")
             {
+                // Get random class
                 character.myPresetName = GetRandomClassString();
+
+                // re roll class if player has it already, prevent duplicate character when randomizing team
+                while (chosenClasses.Contains(character.myPresetName))
+                {
+                    Debug.Log("MainMenuManager detected that player already has " + character.myPresetName +
+                        " in their team, rerolling for random character again...");
+                    character.myPresetName = GetRandomClassString();
+                }
             }
             chosenClasses.Add(character.myPresetName);
         }
@@ -456,7 +465,7 @@ public class MainMenuManager : MonoBehaviour
             character.attributeTwoText.gameObject.SetActive(true);
         }
 
-        else if (character.myPresetName == "Barbarian")
+        else if (character.myPresetName == "Berserker")
         {
             character.attributeOneText.text = "Brawler +2";
             character.attributeTwoText.text = "Corruption +1";
@@ -523,11 +532,13 @@ public class MainMenuManager : MonoBehaviour
 
         else if (character.myPresetName == "Wayfarer")
         {
-            character.attributeOneText.text = "Ranger +2";
+            character.attributeOneText.text = "Ranger +1";
             character.attributeTwoText.text = "Manipulation +1";
+            character.attributeThreeText.text = "Naturalism +1";
 
             character.attributeOneText.gameObject.SetActive(true);
             character.attributeTwoText.gameObject.SetActive(true);
+            character.attributeThreeText.gameObject.SetActive(true);
         }
         else if (character.myPresetName == "Marksman")
         {
@@ -544,6 +555,42 @@ public class MainMenuManager : MonoBehaviour
 
             character.attributeOneText.gameObject.SetActive(true);
             character.attributeTwoText.gameObject.SetActive(true);
+        }
+        else if (character.myPresetName == "Illusionist")
+        {
+            character.attributeOneText.text = "Manipulation +2";
+            character.attributeTwoText.text = "Shadowcraft +1";
+
+            character.attributeOneText.gameObject.SetActive(true);
+            character.attributeTwoText.gameObject.SetActive(true);
+        }
+        else if (character.myPresetName == "Shaman")
+        {
+            character.attributeOneText.text = "Naturalism +2";
+            character.attributeTwoText.text = "Manipulation +1";
+
+            character.attributeOneText.gameObject.SetActive(true);
+            character.attributeTwoText.gameObject.SetActive(true);
+        }
+        else if (character.myPresetName == "Frost Knight")
+        {
+            character.attributeOneText.text = "Cyromancy +3";
+
+            character.attributeOneText.gameObject.SetActive(true);
+        }
+        else if (character.myPresetName == "Death Knight")
+        {
+            character.attributeOneText.text = "Brawler +2";
+            character.attributeTwoText.text = "Shadowcraft +1";
+
+            character.attributeOneText.gameObject.SetActive(true);
+            character.attributeTwoText.gameObject.SetActive(true);
+        }
+        else if (character.myPresetName == "Bulwark")
+        {
+            character.attributeOneText.text = "Guardian +3";
+
+            character.attributeOneText.gameObject.SetActive(true);
         }
 
         else if (character.myPresetName == "Alchemist")
@@ -563,53 +610,53 @@ public class MainMenuManager : MonoBehaviour
         if (character.myPresetName == "Paladin")
         {
             character.presetDescriptionText.gameObject.SetActive(true);
-            character.presetDescriptionText.text = "The Paladin excels at supporting and protect allies, as well as absorbing large amounts of damage. ";
+            character.presetDescriptionText.text = "The Paladin excels at supporting allies in the melee, as well as dealing large amounts of damage with two handed weapons. ";
         }
 
         else if (character.myPresetName == "Knight")
         {
             character.presetDescriptionText.gameObject.SetActive(true);
-            character.presetDescriptionText.text = "Equipted with a sword and shield, the Knight excels at melee combat, protecting allies and absorbing immense amounts of damage. ";
+            character.presetDescriptionText.text = "Equipted with a sword and shield, the Knight excels at absorbing damage and generating large amounts of Block. Knight's are capable of inflicting massive damage with their shield based attacks.";
         }
 
-        else if (character.myPresetName == "Barbarian")
+        else if (character.myPresetName == "Berserker")
         {
             character.presetDescriptionText.gameObject.SetActive(true);
-            character.presetDescriptionText.text = "The Barbarian lives for the thrill of battle. Capable of dealing huge damage to large groups of enemies in melee, they become stronger the longer the battle rages on.";
+            character.presetDescriptionText.text = "The Berserker lives for the thrill of battle. Capable of dealing huge damage to large groups of enemies in melee, Berserker's become stronger the more they take damage.";
         }
 
         else if (character.myPresetName == "Battle Mage")
         {
             character.presetDescriptionText.gameObject.SetActive(true);
-            character.presetDescriptionText.text = "The Battle Mage balances ranged magical attacks with brutal melee attacks. Able to adapt to a variety of tactical situations, Battle Mage's are always dangerous.";
+            character.presetDescriptionText.text = "The Battle Mage balances ranged magical attacks with brutal melee attacks. Able to adapt to a variety of tactical situations, Battle Mage's are always a valueable asset.";
         }
 
         else if (character.myPresetName == "Arcanist")
         {
             character.presetDescriptionText.gameObject.SetActive(true);
-            character.presetDescriptionText.text = "The Arcanist destroys its enemies from afar with the power of fire and frost. Arcanist's excel at keeping their distance from the fray with a variety of tricks.";
+            character.presetDescriptionText.text = "The Arcanist destroys its enemies from afar with the power of fire and frost magic. Arcanist's excel at keeping their distance from the fray with a variety of tricks.";
         }
 
         else if (character.myPresetName == "Shadow Blade")
         {
             character.presetDescriptionText.gameObject.SetActive(true);
-            character.presetDescriptionText.text = "Striking from the shadows, the Shadow Blade is capable of dealing massive damage to a single target in melee combat, before quickly retreating to safety.";
+            character.presetDescriptionText.text = "Striking from the shadows, the Shadow Blade is capable of dealing massive damage to a single target in melee combat, before quickly retreating to the safety of the shadows.";
         }
         else if (character.myPresetName == "Rogue")
         {
             character.presetDescriptionText.gameObject.SetActive(true);
-            character.presetDescriptionText.text = "Rogue's love a good scrap. Capable of killing even the mightest foes with a mix of poisons, melee attacks and trickery, Rogue's excel at taking down enemy melee fighters. ";
+            character.presetDescriptionText.text = "Rogue's love a good scrap. Capable of killing even the mightest foes with a mix of poisons, melee attacks and trickery, Rogue's excel at taking down the biggest bullies on the battlefield. ";
         }
 
         else if (character.myPresetName == "Priest")
         {
             character.presetDescriptionText.gameObject.SetActive(true);
-            character.presetDescriptionText.text = "The Priest balances the power of darkness and light to support its allies and defeat its foes. Capable in almost any role, the Priest is an asset to any party. ";
+            character.presetDescriptionText.text = "The Priest uses holy magic to support and protect allies from harm, before melting foes with divine vengeance";
         }
         else if (character.myPresetName == "Monk")
         {
             character.presetDescriptionText.gameObject.SetActive(true);
-            character.presetDescriptionText.text = "Monk's can always be found in the thick of battle, supporting allies and cutting down enemies with a variety of melee attacks and fire spells. ";
+            character.presetDescriptionText.text = "Monk's can always be found in the thick of battle, supporting allies and cutting down enemies with a variety of melee attacks and fire magic. ";
         }
 
         else if (character.myPresetName == "Wayfarer")
@@ -620,19 +667,48 @@ public class MainMenuManager : MonoBehaviour
         else if (character.myPresetName == "Marksman")
         {
             character.presetDescriptionText.gameObject.SetActive(true);
-            character.presetDescriptionText.text = "The Marksman tracks it foes and waits patiently for the right moment to devastate enemies with a variety of ranged attacks.";
+            character.presetDescriptionText.text = "The Marksman tracks it foes and waits patiently for the right moment to devastate enemies with a variety of ranged attacks and disabling abilities.";
 
         }
         else if (character.myPresetName == "Warlock")
         {
             character.presetDescriptionText.gameObject.SetActive(true);
-            character.presetDescriptionText.text = "The Warlock revels in death, capable of crippling enemies from afar with a variety of debuffs, poisons and spell attacks.";
+            character.presetDescriptionText.text = "The Warlock revels in death, capable of crippling enemies from afar with a debuffs, poisons and shadow magic.";
         }
 
         else if (character.myPresetName == "Alchemist")
         {
             character.presetDescriptionText.gameObject.SetActive(true);
             character.presetDescriptionText.text = "The Alchemist uses a variety of poisons and potions to bring slow, agaonizing death to it's foes";
+        }
+
+        else if (character.myPresetName == "Death Knight")
+        {
+            character.presetDescriptionText.gameObject.SetActive(true);
+            character.presetDescriptionText.text = "Death Knight's use dark magic to bolster themselves and allies, before devastating foes with melee and magic attacks";
+        }
+        else if (character.myPresetName == "Frost Knight")
+        {
+            character.presetDescriptionText.gameObject.SetActive(true);
+            character.presetDescriptionText.text = "Frost Knight's excel at empowering themselves with a variety of frost magic spells. After withering foes down with the cold, Frost Knight crush their enemies in melee";
+        }
+
+        else if (character.myPresetName == "Shaman")
+        {
+            character.presetDescriptionText.gameObject.SetActive(true);
+            character.presetDescriptionText.text = "Mysterious and spiritualistic, Shaman's call upon the elements of wind and lightning to invigorate their allies and devastate enemies with electrical attacks.";
+        }
+
+        else if (character.myPresetName == "Illusionist")
+        {
+            character.presetDescriptionText.gameObject.SetActive(true);
+            character.presetDescriptionText.text = "Masters of trickery, Illusionist's excel at manipulating the battlefield, controlling enemies and creating chaos.";
+        }
+
+        else if (character.myPresetName == "Bulwark")
+        {
+            character.presetDescriptionText.gameObject.SetActive(true);
+            character.presetDescriptionText.text = "Noble and fearless, Bulwark's go to great lengths to protect their allies by throwing themselves into the fray, and goading foes to attack them. ";
         }
     }
     #endregion

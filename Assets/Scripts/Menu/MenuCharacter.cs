@@ -7,6 +7,8 @@ using Spriter2UnityDX;
 
 public class MenuCharacter : MonoBehaviour
 {
+    // Variables + Properties
+    #region
     [Header("Object References")]
     public GameObject infoPanelParent;
     public UniversalCharacterModel myModel;
@@ -28,14 +30,37 @@ public class MenuCharacter : MonoBehaviour
     public MenuAbilityTab tabThree;
     public MenuAbilityTab tabFour;
 
+    #endregion
+
+    // Initialization + Set up
+    #region
     private void Start()
     {
         // set default view state as random character
         BuildMyViewsFromPresetString("Random");
         myModel.SetIdleAnim();
     }
+    public void BuildMyViewsFromPresetString(string presetName)
+    {
+        // modify text meshs
+        SetPresetName(presetName);
+
+        // modify character model
+        CharacterModelController.BuildModelFromPresetString(myModel, presetName);
+
+        // modify abilities/passives on panel
+        MainMenuManager.Instance.BuildCharacterAbilityTabs(this);
+
+        // modify attribute texts
+        MainMenuManager.Instance.BuildAttributeTexts(this);
+
+        // Set Description text
+        MainMenuManager.Instance.BuildDescriptionText(this);
+    }
+    #endregion
 
     // Mouse + Button Click Events
+    #region
     public void OnMouseEnter()
     {
         Debug.Log("MenuCharacter.OnMouseEnter() called...");
@@ -68,8 +93,10 @@ public class MenuCharacter : MonoBehaviour
     {
         BuildMyViewsFromPresetString(MainMenuManager.Instance.GetNextPresetString(myPresetName));
     }
+    #endregion
 
-
+    // View Logic
+    #region
     public void EnableInfoPanel()
     {
         infoPanelParent.SetActive(true);
@@ -78,29 +105,14 @@ public class MenuCharacter : MonoBehaviour
     {
         infoPanelParent.SetActive(false);
     }
+    #endregion
 
-
-
-    public void BuildMyViewsFromPresetString(string presetName)
-    {       
-        // modify text meshs
-        SetPresetName(presetName);
-
-        // modify character model
-        CharacterModelController.BuildModelFromPresetString(myModel, presetName);
-
-        // modify abilities/passives on panel
-        MainMenuManager.Instance.BuildCharacterAbilityTabs(this);
-
-        // modify attribute texts
-        MainMenuManager.Instance.BuildAttributeTexts(this);
-
-        // Set Description text
-        MainMenuManager.Instance.BuildDescriptionText(this);
-    }
+    // Misc Logic
+    #region
     public void SetPresetName(string newName)
     {
         myPresetName = newName;
         presetNameText.text = newName;
     }
+    #endregion
 }

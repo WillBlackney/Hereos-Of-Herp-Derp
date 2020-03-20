@@ -179,10 +179,11 @@ public class KingsBlessingManager : MonoBehaviour
             InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
             InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
         }
-        else if (choiceName == "Gain 2 Random Spell Books")
+        else if (choiceName == "Gain 3 Random Tier 1 Spell Books")
         {
-            InventoryController.Instance.AddAbilityTomeToInventory(AbilityLibrary.Instance.GetRandomValidAbilityTomeAbility());
-            InventoryController.Instance.AddAbilityTomeToInventory(AbilityLibrary.Instance.GetRandomValidAbilityTomeAbility());
+            InventoryController.Instance.AddAbilityTomeToInventory(AbilityLibrary.Instance.GetRandomValidTierOneAbilityTomeAbility());
+            InventoryController.Instance.AddAbilityTomeToInventory(AbilityLibrary.Instance.GetRandomValidTierOneAbilityTomeAbility());
+            InventoryController.Instance.AddAbilityTomeToInventory(AbilityLibrary.Instance.GetRandomValidTierOneAbilityTomeAbility());
 
         }
         else if (choiceName == "Enemies In The Next Two Combats Have 50% Health")
@@ -230,7 +231,7 @@ public class KingsBlessingManager : MonoBehaviour
 
         allChoiceData.Add(new BlessingChoice("Gain 10 Gold"));
         allChoiceData.Add(new BlessingChoice("Gain 3 Random Common Items"));
-        allChoiceData.Add(new BlessingChoice("Gain 2 Random Spell Books"));
+        allChoiceData.Add(new BlessingChoice("Gain 3 Random Tier 1 Spell Books"));
         allChoiceData.Add(new BlessingChoice("Enemies In The Next Two Combats Have 50% Health"));
         allChoiceData.Add(new BlessingChoice("All Characters Gain 80 XP"));
         allChoiceData.Add(new BlessingChoice("Gain 2 Random Consumables"));

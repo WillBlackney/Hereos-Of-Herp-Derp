@@ -2325,6 +2325,37 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;
     }
 
+    // Melt
+    public Action PerformMelt(LivingEntity attacker, LivingEntity victim)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformMeltCoroutine(attacker, victim, action));
+        return action;
+    }
+    private IEnumerator PerformMeltCoroutine(LivingEntity attacker, LivingEntity victim, Action action)
+    {
+        // Set up
+        Ability melt = attacker.mySpellBook.GetAbilityByName("Melt");
+        OnAbilityUsedStart(melt, attacker);
+
+        // Play Animation
+        attacker.PlaySkillAnimation();
+        yield return new WaitForSeconds(0.15f);
+
+        // Create fire explosion from prefab and play animation
+        VisualEffectManager.Instance.ShootFireball(victim.tile.WorldPosition, victim.tile.WorldPosition);
+
+        // Remove all the targets block
+        victim.ModifyCurrentBlock(-victim.currentBlock);
+
+        // Apply burning
+        victim.myPassiveManager.ModifyBurning(melt.abilityPrimaryValue, attacker);
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(melt, attacker);
+        action.actionResolved = true;
+    }
+
     // Fire Nova
     public Action PerformFireNova(LivingEntity attacker)
     {
@@ -4393,53 +4424,60 @@ public class AbilityLogic : MonoBehaviour
         StartCoroutine(PerformConsecrateCoroutine(attacker, action));
         return action;
     }
-    private IEnumerator PerformConsecrateCoroutine(LivingEntity attacker, Action action)
+    private IEnumerator PerformConsecrateCoroutine(LivingEntity caster, Action action)
     {
         // Set up properties
-        Ability consecrate = attacker.mySpellBook.GetAbilityByName("Consecrate");
-        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(attacker, consecrate);
-        List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(attacker, attacker.tile, attacker.currentMeleeRange, true, true);
+        Ability consecrate = caster.mySpellBook.GetAbilityByName("Consecrate");
+        string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, consecrate);
+        List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, caster.tile, caster.currentAuraSize, true, true);
 
         // Play animation
-        attacker.PlaySkillAnimation();
+        caster.PlaySkillAnimation();
 
         // Pay energy cost
-        OnAbilityUsedStart(consecrate, attacker);
+        OnAbilityUsedStart(consecrate, caster);
 
-        // Resolve effects against all entities in range
+        // Give block to allies        
         foreach (LivingEntity entity in targetsInRange)
         {
-            // Create holy fire from prefab and play animation
-            Action holyFireHit = VisualEffectManager.Instance.ShootHolyFire(entity.tile.WorldPosition);
-
-            // Give energy to allies
-            if (CombatLogic.Instance.IsTargetFriendly(attacker, entity))
+            if (CombatLogic.Instance.IsTargetFriendly(caster, entity))
             {
-                entity.ModifyCurrentEnergy(consecrate.abilitySecondaryValue);
+                // Create holy fire from prefab and play animation
+                Action holyFireHit = VisualEffectManager.Instance.ShootHolyFire(entity.tile.WorldPosition);
+
+                // Give target block
+                entity.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(consecrate.abilitySecondaryValue, caster));
             }
+        }
 
+        // Deal damage to enemies
+        foreach (LivingEntity entity in targetsInRange)
+        {                       
             // Damage enemies
-            else if (!CombatLogic.Instance.IsTargetFriendly(attacker, entity))
+            if (!CombatLogic.Instance.IsTargetFriendly(caster, entity))
             {
-                bool critical = CombatLogic.Instance.RollForCritical(attacker, entity, consecrate);
-                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(attacker, entity, consecrate, damageType, critical, consecrate.abilityPrimaryValue);
+                // Set up
+                bool critical = CombatLogic.Instance.RollForCritical(caster, entity, consecrate);
+                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, consecrate, damageType, critical, consecrate.abilityPrimaryValue);
+
+                // Create holy fire from prefab and play animation
+                Action holyFireHit = VisualEffectManager.Instance.ShootHolyFire(entity.tile.WorldPosition);
 
                 if (critical)
                 {
-                    VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "CRITICAL!");
+                    VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
                 }
 
                 // Deal damage
-                Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, attacker, entity, damageType, consecrate);
+                Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, consecrate);
 
             }
-
         }
 
         yield return new WaitForSeconds(0.5f);
 
-        // remove camoflage, etc
-        OnAbilityUsedFinish(consecrate, attacker);
+        // Resolve
+        OnAbilityUsedFinish(consecrate, caster);
         action.actionResolved = true;
     }
 

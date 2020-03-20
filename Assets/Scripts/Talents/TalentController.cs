@@ -17,7 +17,7 @@ public class TalentController : MonoBehaviour
     #region
     public bool IsTalentPurchaseable(CharacterData character, Talent talent)
     {
-        Debug.Log("TalentController.IsTalentPurchaseable() called...");
+        Debug.Log("TalentController.IsTalentPurchaseable() called, checking talent: " + talent.talentName);
 
         if (!character.HasEnoughAbilityPoints(1))
         {

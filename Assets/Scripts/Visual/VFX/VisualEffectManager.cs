@@ -184,6 +184,14 @@ public class VisualEffectManager : MonoBehaviour
         GameObject fireBall = Instantiate(FireBallPrefab, startPosition, FireBallPrefab.transform.rotation);
         ExplodeOnHit myExplodeOnHit = fireBall.gameObject.GetComponent<ExplodeOnHit>();
 
+        // make fireball explode instantly if instantiated on the destination 
+        if (fireBall.transform.position == endPosition)
+        {
+            myExplodeOnHit.Explode();
+            action.actionResolved = true;
+        }
+
+        // else, travel towards destination, explode on arrival
         while (fireBall.transform.position != endPosition)
         {
             fireBall.transform.position = Vector2.MoveTowards(fireBall.transform.position, endPosition, speed * Time.deltaTime);

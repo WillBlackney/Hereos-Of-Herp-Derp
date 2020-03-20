@@ -947,7 +947,7 @@ public class CharacterData : MonoBehaviour
         ModifyShadowcraftPoints(1);
 
         // Assign preset weapons
-        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Staff"), mainHandSlot);
+        InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Bow"), mainHandSlot);
 
         // Learn abilities + passive
         TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, "Phase Shift"), false);

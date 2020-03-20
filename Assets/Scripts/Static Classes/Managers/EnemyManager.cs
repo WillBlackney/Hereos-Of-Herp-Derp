@@ -116,6 +116,10 @@ public class EnemyManager : MonoBehaviour
         {
             selectedDefender.StartFireBallProcess(selectedEnemy);
         }
+        else if (selectedDefender != null && selectedDefender.awaitingMeltOrder == true)
+        {
+            selectedDefender.StartMeltProcess(selectedEnemy);
+        }
         else if (selectedDefender != null && selectedDefender.awaitingShadowBlastOrder == true)
         {
             selectedDefender.StartShadowBlastProcess(selectedEnemy);

@@ -63,6 +63,7 @@ public class Defender : LivingEntity
     public bool awaitingSiphonLifeOrder;
     public bool awaitingChaosBoltOrder;
     public bool awaitingShadowBlastOrder;
+    public bool awaitingMeltOrder;
 
     public bool awaitingKickToTheBallsOrder;
     public bool awaitingDevastatingBlowOrder;
@@ -683,6 +684,8 @@ public class Defender : LivingEntity
         awaitingOverloadOrder = false;
         awaitingDarkGiftOrder = false;
         awaitingSuperConductorOrder = false;
+        awaitingMeltOrder = false;
+        awaitingMeltOrder = false;
 
         TileHover.Instance.SetVisibility(false);
         LevelManager.Instance.UnhighlightAllTiles();
@@ -1056,6 +1059,10 @@ public class Defender : LivingEntity
         else if (abilityName == "Fire Ball")
         {
             OnFireBallButtonClicked();
+        }
+        else if (abilityName == "Melt")
+        {
+            OnMeltButtonClicked();
         }
         else if (abilityName == "Shadow Blast")
         {
@@ -1865,6 +1872,17 @@ public class Defender : LivingEntity
             awaitingFireBallOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalRangeOfRangedAttack(this, fireball), LevelManager.Instance.Tiles[gridPosition], true, false));
         }       
+    }
+    public void OnMeltButtonClicked()
+    {
+        Ability melt = mySpellBook.GetAbilityByName("Melt");
+
+        if (EntityLogic.IsAbilityUseable(this, melt))
+        {
+            Debug.Log("Melt button clicked, awaiting Melt target");
+            awaitingMeltOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalRangeOfRangedAttack(this, melt), LevelManager.Instance.Tiles[gridPosition], true, false));
+        }
     }
     public void OnShadowBlastButtonClicked()
     {
@@ -3639,6 +3657,16 @@ public class Defender : LivingEntity
         {
             awaitingFireBallOrder = false;
             AbilityLogic.Instance.PerformFireBall(this, target);                       
+        }
+    }
+    public void StartMeltProcess(LivingEntity target)
+    {
+        Ability melt = mySpellBook.GetAbilityByName("Melt");
+        Debug.Log("Defender.StartMeltProcess() called");
+        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, melt)))
+        {
+            awaitingMeltOrder = false;
+            AbilityLogic.Instance.PerformMelt(this, target);
         }
     }
     public void StartShadowBlastProcess(LivingEntity target)

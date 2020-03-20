@@ -61,6 +61,26 @@ public class AbilityLibrary : MonoBehaviour
         Debug.Log("AbilityLibrary.GetRandomValidAbilityTomeAbility() returning " + dataReturned.abilityName);
         return dataReturned;
     }
+    public AbilityDataSO GetRandomValidTierOneAbilityTomeAbility()
+    {
+        Debug.Log("AbilityLibrary.GetRandomValidTierOneAbilityTomeAbility() called...");
+
+        List<AbilityDataSO> validAbilities = new List<AbilityDataSO>();
+        AbilityDataSO dataReturned = null;
+
+        foreach (AbilityDataSO data in AllAbilities)
+        {
+            if (data.abilitySchool != AbilityDataSO.AbilitySchool.None &&
+                data.tier == 1)
+            {
+                validAbilities.Add(data);
+            }
+        }
+
+        dataReturned = validAbilities[Random.Range(0, validAbilities.Count)];
+        Debug.Log("AbilityLibrary.GetRandomValidAbilityTomeAbility() returning " + dataReturned.abilityName);
+        return dataReturned;
+    }
     #endregion
 
 }
