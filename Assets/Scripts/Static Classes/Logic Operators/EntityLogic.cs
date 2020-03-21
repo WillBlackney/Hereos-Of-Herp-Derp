@@ -24,8 +24,7 @@ public static class EntityLogic
             if(!CombatLogic.Instance.IsTargetFriendly(entity, entityy))
             {
                 potentialEnemies.Add(entityy);
-            }
-            
+            }            
         }
 
         // Iterate throught the temp list to find the closest enemy to this character
