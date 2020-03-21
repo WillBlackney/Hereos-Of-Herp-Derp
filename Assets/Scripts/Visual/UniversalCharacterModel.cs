@@ -41,6 +41,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerLeftLeg;
     public GameObject goblinStabbyLeftLeg;
     public GameObject goblinShootyLeftLeg;
+    public GameObject goblinWarChiefLeftLeg;
     public GameObject morkLeftLeg;
     public GameObject fireGolemLeftLeg;
     public GameObject frostGolemLeftLeg;
@@ -80,6 +81,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerRightLeg;
     public GameObject goblinStabbyRightLeg;
     public GameObject goblinShootRightLeg;
+    public GameObject goblinWarChiefRightLeg;
     public GameObject morkRightLeg;
     public GameObject fireGolemRightLeg;
     public GameObject frostGolemRightLeg;
@@ -118,6 +120,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerHead;
     public GameObject goblinStabbyHead;
     public GameObject goblinShootyHead;
+    public GameObject goblinWarChiefHead;
     public GameObject morkHead;
     public GameObject fireGolemHead;
     public GameObject frostGolemHead;
@@ -156,6 +159,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerRightHand;
     public GameObject goblinStabbyRightHand;
     public GameObject goblinShootyRightHand;
+    public GameObject goblinWarChiefRightHand;
     public GameObject morkRightHand;
     public GameObject fireGolemRightHand;
     public GameObject frostGolemRightHand;
@@ -194,6 +198,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerRightArm;
     public GameObject goblinStabbyRightArm;
     public GameObject goblinShootyRightArm;
+    public GameObject goblinWarChiefRightArm;
     public GameObject morkRightArm;
     public GameObject fireGolemRightArm;
     public GameObject frostGolemRightArm;
@@ -232,6 +237,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerLeftHand;
     public GameObject goblinStabbyLeftHand;
     public GameObject goblinShootyLeftHand;
+    public GameObject goblinWarChiefLeftHand;
     public GameObject morkLeftHand;
     public GameObject fireGolemLeftHand;
     public GameObject frostGolemLeftHand;
@@ -270,6 +276,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerLeftArm;
     public GameObject goblinStabbyLeftArm;
     public GameObject goblinShootyLeftArm;
+    public GameObject goblinWarChiefLeftArm;
     public GameObject morkLeftArm;
     public GameObject fireGolemLeftArm;
     public GameObject frostGolemLeftArm;
@@ -308,6 +315,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerChest;
     public GameObject goblinStabbyChest;
     public GameObject goblinShootyChest;
+    public GameObject goblinWarChiefChest;
     public GameObject morkChest;
     public GameObject fireGolemChest;
     public GameObject frostGolemChest;

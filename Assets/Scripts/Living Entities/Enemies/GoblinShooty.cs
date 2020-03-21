@@ -13,15 +13,19 @@ public class GoblinShooty : Enemy
 
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Shoot");
+        mySpellBook.EnemyLearnAbility("Pinning Shot");
 
         myPassiveManager.ModifyNimble(1);
+        myPassiveManager.ModifyQuickDraw(1);
+
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Bow");
     }
 
     public override IEnumerator StartMyActivationCoroutine()
     {
         Ability move = mySpellBook.GetAbilityByName("Move");
-        Ability shoot = mySpellBook.GetAbilityByName("Shoot");        
+        Ability shoot = mySpellBook.GetAbilityByName("Shoot");
+        Ability pinningShot = mySpellBook.GetAbilityByName("Pinning Shot");
 
         ActionStart:
 
@@ -35,7 +39,18 @@ public class GoblinShooty : Enemy
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             LivingEntityManager.Instance.EndEntityActivation(this);
+        }
 
+        // Pinning Shot
+        else if (EntityLogic.IsAbilityUseable(this, pinningShot) &&
+            EntityLogic.IsTargetInRange(this, myCurrentTarget, pinningShot.abilityRange) &&
+            myCurrentTarget.myPassiveManager.immobilized)
+        {
+            Action action = AbilityLogic.Instance.PerformPinningShot(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
         }
 
         // Shoot

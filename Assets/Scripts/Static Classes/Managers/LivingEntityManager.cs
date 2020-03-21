@@ -148,7 +148,7 @@ public class LivingEntityManager : MonoBehaviour
             if (entity.myPassiveManager.cautious && entity.currentBlock == 0)
             {
                 Debug.Log("OnActivationEndCoroutine() checking Cautious...");
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Cautious");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Cautious");
                 yield return new WaitForSeconds(0.5f);
                 entity.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(entity.myPassiveManager.cautiousStacks, entity));
                 yield return new WaitForSeconds(1f);
@@ -158,7 +158,7 @@ public class LivingEntityManager : MonoBehaviour
             if (entity.myPassiveManager.encouragingAura)
             {
                 Debug.Log("OnActivationEndCoroutine() checking Encouraging Aura..");
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Encouraging Aura");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Encouraging Aura");
                 yield return new WaitForSeconds(0.5f);
 
                 List<Tile> tilesInEncouragingPresenceRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
@@ -181,7 +181,7 @@ public class LivingEntityManager : MonoBehaviour
             {
                 Debug.Log("OnActivationEndCoroutine() checking Soul Drain Aura...");
 
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Soul Drain Aura");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Soul Drain Aura");
                 yield return new WaitForSeconds(0.5f);
 
                 List<Tile> tilesInSoulDrainAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
@@ -204,7 +204,7 @@ public class LivingEntityManager : MonoBehaviour
             {
                 Debug.Log("OnActivationEndCoroutine() checking Hateful Aura...");
 
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Hateful Aura");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Hateful Aura");
                 yield return new WaitForSeconds(0.5f);
 
                 List<Tile> tilesInHatefulPresenceRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
@@ -225,7 +225,7 @@ public class LivingEntityManager : MonoBehaviour
             if (entity.myPassiveManager.fieryAura)
             {
                 Debug.Log("OnActivationEndCoroutine() checking Fiery Aura...");
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fiery Aura");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Fiery Aura");
                 yield return new WaitForSeconds(0.5f);
 
                 List<Tile> tilesInFieryAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
@@ -249,12 +249,12 @@ public class LivingEntityManager : MonoBehaviour
             if (entity.myPassiveManager.shadowAura)
             {
                 Debug.Log("OnActivationEndCoroutine() checking Shadow Aura...");
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Shadow Aura");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Shadow Aura");
                 yield return new WaitForSeconds(0.5f);
 
                 List<Tile> tilesInShadowAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
 
-                foreach (LivingEntity entityy in LivingEntityManager.Instance.allLivingEntities)
+                foreach (LivingEntity entityy in allLivingEntities)
                 {
                     if (tilesInShadowAuraRange.Contains(entityy.tile) &&
                         CombatLogic.Instance.IsTargetFriendly(entity, entityy) == false)
@@ -271,7 +271,7 @@ public class LivingEntityManager : MonoBehaviour
             {
                 Debug.Log("OnActivationEndCoroutine() checking Storm Aura...");
 
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Storm Aura");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Storm Aura");
                 yield return new WaitForSeconds(0.5f);
 
                 List<LivingEntity> stormAuraRange = EntityLogic.GetAllEnemiesWithinRange(entity, EntityLogic.GetTotalAuraSize(entity));
@@ -308,12 +308,12 @@ public class LivingEntityManager : MonoBehaviour
             {
                 Debug.Log("OnActivationEndCoroutine() checking Guardian Aura...");
 
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Guardian Aura");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Guardian Aura");
                 yield return new WaitForSeconds(0.5f);
 
                 List<Tile> tilesInGuardianAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
 
-                foreach (LivingEntity entityy in LivingEntityManager.Instance.allLivingEntities)
+                foreach (LivingEntity entityy in allLivingEntities)
                 {
                     if (tilesInGuardianAuraRange.Contains(entityy.tile) &&
                         CombatLogic.Instance.IsTargetFriendly(entity, entityy))
@@ -330,7 +330,7 @@ public class LivingEntityManager : MonoBehaviour
             {
                 Debug.Log("OnActivationEndCoroutine() checking Toxic Aura...");
 
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Toxic Aura");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Toxic Aura");
                 yield return new WaitForSeconds(0.5f);
 
                 List<Tile> tilesInToxicAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
@@ -351,7 +351,7 @@ public class LivingEntityManager : MonoBehaviour
             if (entity.myPassiveManager.sacredAura)
             {
                 Debug.Log("OnActivationEndCoroutine() checking Sacred Aura...");
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Sacred Aura");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Sacred Aura");
                 yield return new WaitForSeconds(0.5f);
 
                 List<Tile> tilesInEncouragingPresenceRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
@@ -409,7 +409,7 @@ public class LivingEntityManager : MonoBehaviour
             {
                 Debug.Log("OnActivationEndCoroutine() checking Regeneration...");
 
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Regeneration");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Regeneration");
                 entity.ModifyCurrentHealth(entity.myPassiveManager.regenerationStacks);
                 yield return new WaitForSeconds(0.5f);
             }
@@ -418,7 +418,7 @@ public class LivingEntityManager : MonoBehaviour
             if (entity.myPassiveManager.poisoned)
             {
                 Debug.Log("OnActivationEndCoroutine() checking Poisoned...");
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Poisoned");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Poisoned");
                 yield return new WaitForSeconds(0.5f);
                 Action poisonDamage = CombatLogic.Instance.HandleDamage(entity.myPassiveManager.poisonedStacks, null, entity, "Poison", null);
                 yield return new WaitUntil(() => poisonDamage.ActionResolved() == true);
@@ -430,7 +430,7 @@ public class LivingEntityManager : MonoBehaviour
             {
                 Debug.Log("OnActivationEndCoroutine() checking Burning...");
 
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Burning");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Burning");
                 yield return new WaitForSeconds(0.5f);
                 Action burningDamage = CombatLogic.Instance.HandleDamage(entity.myPassiveManager.burningStacks, null, entity, "Fire", null);
                 yield return new WaitUntil(() => burningDamage.ActionResolved() == true);
@@ -442,7 +442,7 @@ public class LivingEntityManager : MonoBehaviour
             {
                 Debug.Log("OnActivationEndCoroutine() checking Fading...");
 
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fading");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Fading");
                 yield return new WaitForSeconds(0.5f);
                 Action fadingDamage = CombatLogic.Instance.HandleDamage(entity.myPassiveManager.fadingStacks, entity, entity, "None", null, true);
                 yield return new WaitUntil(() => fadingDamage.ActionResolved() == true);
@@ -456,7 +456,7 @@ public class LivingEntityManager : MonoBehaviour
             {
                 Debug.Log("OnActivationEndCoroutine() checking Temporary Air Imbuement...");
                 entity.myPassiveManager.ModifyTemporaryAirImbuement(-entity.myPassiveManager.temporaryAirImbuementStacks);
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Air Imbuement Removed");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Air Imbuement Removed");
                 yield return new WaitForSeconds(1f);
             }
 
@@ -465,7 +465,7 @@ public class LivingEntityManager : MonoBehaviour
             {
                 Debug.Log("OnActivationEndCoroutine() checking Temporary Fire Imbuement...");
                 entity.myPassiveManager.ModifyTemporaryFireImbuement(-entity.myPassiveManager.temporaryFireImbuementStacks);
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Fire Imbuement Removed");
+                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Fire Imbuement Removed");
                 yield return new WaitForSeconds(1f);
             }
 

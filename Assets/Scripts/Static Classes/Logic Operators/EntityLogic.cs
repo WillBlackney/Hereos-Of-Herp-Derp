@@ -1174,4 +1174,28 @@ public static class EntityLogic
     }
 
     #endregion
+
+    // Uniqie Enemy AI Ability + Targetting Logic
+    public static LivingEntity GetBestInvigorateTarget(LivingEntity caster)
+    {
+        LivingEntity bestTarget = null;
+
+        foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
+        {
+            if (enemy.currentEnergy < enemy.currentMaxEnergy &&
+                enemy != caster)
+            {
+                bestTarget = enemy;
+            }
+        }
+
+        if (bestTarget == null)
+        {
+            Debug.Log("GetBestInvigorateTarget() is null, returning caster as best target");
+            bestTarget = caster;
+        }
+
+        Debug.Log("GetBestInvigorateTarget() return character: " + bestTarget.name);
+        return bestTarget;
+    }
 }

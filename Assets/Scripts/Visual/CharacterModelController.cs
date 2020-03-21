@@ -603,6 +603,19 @@ public static class CharacterModelController
         model.goblinStabbyLeftArm.SetActive(true);
         model.goblinStabbyChest.SetActive(true);
     }
+    public static void SetUpAsGoblinWarChiefPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.goblinWarChiefLeftLeg.SetActive(true);
+        model.goblinWarChiefRightLeg.SetActive(true);
+        model.goblinWarChiefHead.SetActive(true);
+        model.goblinWarChiefRightHand.SetActive(true);
+        model.goblinWarChiefRightArm.SetActive(true);
+        model.goblinWarChiefLeftHand.SetActive(true);
+        model.goblinWarChiefLeftArm.SetActive(true);
+        model.goblinWarChiefChest.SetActive(true);
+    }
     public static void SetUpAsGoblinShootyPreset(UniversalCharacterModel model)
     {
         CompletelyDisableAllViews(model);

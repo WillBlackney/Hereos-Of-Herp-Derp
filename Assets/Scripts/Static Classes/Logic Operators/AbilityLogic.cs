@@ -6375,6 +6375,39 @@ public class AbilityLogic : MonoBehaviour
         action.actionResolved = true;
     }
 
+    // Goblin War Cry
+    public Action PerformGoblinWarCry(LivingEntity caster)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformGoblinWarCryCoroutine(caster, action));
+        return action;
+    }
+    public IEnumerator PerformGoblinWarCryCoroutine(LivingEntity caster, Action action)
+    {
+        Ability gwc = caster.mySpellBook.GetAbilityByName("Goblin War Cry");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Goblin War Cry");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        OnAbilityUsedStart(gwc, caster);
+
+        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if (CombatLogic.Instance.IsTargetFriendly(caster, entity))
+                //&& entity.myPassiveManager.undead)
+            {
+                entity.myPassiveManager.ModifyBonusStrength(1);
+            }
+        }
+
+        OnAbilityUsedFinish(gwc, caster);
+        yield return new WaitForSeconds(1f);
+        action.actionResolved = true;
+    }
     // Crushing Blow
     public Action PerformCrushingBlow(LivingEntity caster, LivingEntity target)
     {

@@ -16,6 +16,8 @@ public class GoblinStabby : Enemy
         mySpellBook.EnemyLearnAbility("Tendon Slash");
 
         myPassiveManager.ModifyNimble(1);
+        myPassiveManager.ModifyPoisonous(1);
+
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Sword");
     }
 
@@ -37,7 +39,6 @@ public class GoblinStabby : Enemy
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             LivingEntityManager.Instance.EndEntityActivation(this);
-
         }
 
         // Tendon Slash

@@ -418,7 +418,6 @@ public class LivingEntity : MonoBehaviour
     public virtual void ModifyCurrentStrength(int strengthGainedOrLost)
     {
         currentStrength += strengthGainedOrLost;  
-
     }
     public virtual void ModifyCurrentWisdom(int wisdomGainedOrLost)
     {

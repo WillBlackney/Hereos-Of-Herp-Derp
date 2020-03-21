@@ -908,6 +908,12 @@ public static class TextLogic
                 "Give an ally " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) +
                 " Energy";
         }
+        else if (ability.abilityName == "Goblin War Cry")
+        {
+            ability.descriptionText.text =
+                "Give all friendly goblins " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), yellow) +
+                " " + ReturnColoredText("Strength", yellow);
+        }
         else if (ability.abilityName == "Chaos Bolt")
         {
             ability.descriptionText.text =
@@ -1778,6 +1784,12 @@ public static class TextLogic
             descriptionText.text =
                 "Give an ally " + ReturnColoredText(ability.primaryValue.ToString(), yellow) +
                 " Energy";
+        }
+        else if (ability.abilityName == "Goblin War Cry")
+        {
+            descriptionText.text =
+                "Give all friendly goblins " + ReturnColoredText(ability.primaryValue.ToString(), yellow) +
+                " " + ReturnColoredText("Strength", yellow);
         }
         else if (ability.abilityName == "Chaos Bolt")
         {
