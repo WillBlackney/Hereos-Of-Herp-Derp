@@ -208,7 +208,7 @@ public static class TextLogic
         else if (statusName == "Cautious")
         {
             statusDescriptionText.text =
-                "On activation end, if this character has no Block, it gains " + ReturnColoredText(statusStacks.ToString(), yellow)
+                "On activation end, this character gains " + ReturnColoredText(statusStacks.ToString(), yellow)
                 + " Block";
         }
         else if (statusName == "Chilled")
@@ -722,9 +722,15 @@ public static class TextLogic
         {
             statusDescriptionText.text =
                 "On death, this character explodes, dealing " + ReturnColoredText(statusStacks.ToString(), yellow) + " " +
-                ReturnColoredText("Physical", physical) + " damage to ALL adjacent characters";
+                ReturnColoredText("Physical", physical) + " damage to ALL characters within " + ReturnColoredText("1", yellow);
         }
-        
+        else if (statusName == "Unstable")
+        {
+            statusDescriptionText.text =
+                "On death, this character explodes, applying " + ReturnColoredText(statusStacks.ToString(), yellow) + " " +
+                ReturnColoredText("Poisoned", poison) + " to all characters within " + ReturnColoredText("1", yellow);
+        }
+
         else if (statusName == "Growing")
         {
             statusDescriptionText.text =
@@ -1115,7 +1121,8 @@ public static class TextLogic
             ability.descriptionText.text =
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
-                " damage to a target. Jumps to a random adjacent enemy 2 times";
+                " damage to a target and apply " + ReturnColoredText("Shocked", air)+ 
+                ". Jumps to a random adjacent enemy up to 2 times";
         }
         else if (ability.abilityName == "Challenging Shout")
         {
@@ -1990,7 +1997,8 @@ public static class TextLogic
             descriptionText.text =
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
-                " damage to a target. Jumps to a random adjacent enemy 2 times";
+                " damage to a target and apply " + ReturnColoredText("Shocked", air) +
+                ". Jumps to a random adjacent enemy up to 2 times";
         }
         else if (ability.abilityName == "Challenging Shout")
         {

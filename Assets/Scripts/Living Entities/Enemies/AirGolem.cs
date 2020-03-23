@@ -16,6 +16,7 @@ public class AirGolem : Enemy
         mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Lightning Bolt");
         mySpellBook.EnemyLearnAbility("Thunder Strike");
+        mySpellBook.EnemyLearnAbility("Chain Lightning");
 
         myPassiveManager.ModifyStormAura(3);
 
@@ -28,8 +29,9 @@ public class AirGolem : Enemy
         Ability move = mySpellBook.GetAbilityByName("Move");
         Ability strike = mySpellBook.GetAbilityByName("Strike");
         Ability lightningBolt = mySpellBook.GetAbilityByName("Lightning Bolt");
+        Ability chainLightning = mySpellBook.GetAbilityByName("Chain Lightning");
 
-        ActionStart:
+    ActionStart:
 
         SetTargetDefender(EntityLogic.GetBestTarget(this, true));
 
@@ -44,10 +46,23 @@ public class AirGolem : Enemy
         }
 
         // Thunder Strike
-        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
+        else if (myCurrentTarget.myPassiveManager.shocked &&
+            EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, thunderStrike))
         {
             Action action = AbilityLogic.Instance.PerformThunderStrike(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
+        // Chain Lightning
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, chainLightning.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, chainLightning) &&
+            EntityLogic.GetAllEnemiesWithinRange(myCurrentTarget, 1).Count > 0)
+        {
+            Action action = AbilityLogic.Instance.PerformChainLightning(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);

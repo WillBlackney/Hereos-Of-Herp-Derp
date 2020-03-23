@@ -304,6 +304,9 @@ public class PassiveManager : MonoBehaviour
     public bool Volatile;
     public int volatileStacks;
 
+    public bool Unstable;
+    public int unstableStacks;
+
     public bool growing;
     public int growingStacks;
 
@@ -2324,6 +2327,15 @@ public class PassiveManager : MonoBehaviour
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Volatile");
         Volatile = true;
         volatileStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyUnstable(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyUnstable() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Unstable");
+        Unstable = true;
+        unstableStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyCautious(int stacks)

@@ -15,6 +15,7 @@ public class FrostGolem : Enemy
         mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Frost Nova");
         mySpellBook.EnemyLearnAbility("Chilling Blow");
+        mySpellBook.EnemyLearnAbility("Shaw");
 
         myPassiveManager.ModifyShatter(1);
 
@@ -27,9 +28,10 @@ public class FrostGolem : Enemy
         Ability move = mySpellBook.GetAbilityByName("Move");
         Ability strike = mySpellBook.GetAbilityByName("Strike");
         Ability frostNova = mySpellBook.GetAbilityByName("Frost Nova");
+        Ability thaw = mySpellBook.GetAbilityByName("Thaw");
 
 
-        ActionStart:
+    ActionStart:
 
         SetTargetDefender(EntityLogic.GetBestTarget(this, true));
 
@@ -44,7 +46,7 @@ public class FrostGolem : Enemy
         }
 
         // Frost Nova
-        else if (EntityLogic.GetAllEnemiesWithinRange(this, 1).Count > 1 &&
+        else if (EntityLogic.GetAllEnemiesWithinRange(this, 1).Count > 0 &&
             EntityLogic.IsAbilityUseable(this, frostNova))
         {
             Action action = AbilityLogic.Instance.PerformFrostNova(this);
@@ -55,8 +57,21 @@ public class FrostGolem : Enemy
             goto ActionStart;
         }
 
+        // Thaw
+        else if (myCurrentTarget.myPassiveManager.chilled &&
+            EntityLogic.IsTargetInRange(this, myCurrentTarget, thaw.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, thaw))
+        {
+            Action action = AbilityLogic.Instance.PerformChillingBlow(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
         // Chilling Blow 
-        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
+        else if (myCurrentTarget.myPassiveManager.chilled &&
+            EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             EntityLogic.IsAbilityUseable(this, chillingBlow))
         {
             Action action = AbilityLogic.Instance.PerformChillingBlow(this, myCurrentTarget);

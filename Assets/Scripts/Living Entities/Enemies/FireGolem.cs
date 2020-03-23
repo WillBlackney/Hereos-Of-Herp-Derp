@@ -14,7 +14,8 @@ public class FireGolem : Enemy
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Fire Ball");
-        mySpellBook.EnemyLearnAbility("Fire Nova");
+        mySpellBook.EnemyLearnAbility("Melt");
+        mySpellBook.EnemyLearnAbility("Combustion");
 
         myPassiveManager.ModifyFieryAura(3);
 
@@ -23,10 +24,11 @@ public class FireGolem : Enemy
 
     public override IEnumerator StartMyActivationCoroutine()
     {
-        Ability fireBall = mySpellBook.GetAbilityByName("Fire Ball");
         Ability move = mySpellBook.GetAbilityByName("Move");
         Ability strike = mySpellBook.GetAbilityByName("Strike");
-        Ability fireNova = mySpellBook.GetAbilityByName("Fire Nova");
+        Ability fireBall = mySpellBook.GetAbilityByName("Fire Ball");        
+        Ability melt = mySpellBook.GetAbilityByName("Melt");
+        Ability combustion = mySpellBook.GetAbilityByName("Combustion");
 
 
         ActionStart:
@@ -43,19 +45,60 @@ public class FireGolem : Enemy
             LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
-        // Fire Nova
-        else if (EntityLogic.GetAllEnemiesWithinRange(this, 1).Count > 1 &&
-            EntityLogic.IsAbilityUseable(this, fireNova))
+        // Melt best target
+        else if (EntityLogic.GetBestMeltTarget(this) != null &&
+            EntityLogic.IsTargetInRange(this, EntityLogic.GetBestMeltTarget(this), melt.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, melt))
         {
-            Action action = AbilityLogic.Instance.PerformFireNova(this);
+            Action action = AbilityLogic.Instance.PerformMelt(this, EntityLogic.GetBestMeltTarget(this));
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
-            // brief delay between actions
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
 
-        // Fireball 
+        // Else, Melt current target if in range, and if it has block
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, melt.abilityRange) &&
+            myCurrentTarget.currentBlock > 0 &&
+            EntityLogic.IsAbilityUseable(this, melt))
+        {
+            Action action = AbilityLogic.Instance.PerformMelt(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
+        // Combustion best target
+        else if (EntityLogic.GetBestCombustionTarget(this) != null &&
+            EntityLogic.IsTargetInRange(this, EntityLogic.GetBestCombustionTarget(this), melt.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, melt) &&
+            EntityLogic.GetBestCombustionTarget(this).myPassiveManager.burningStacks > 5 &&
+            EntityLogic.GetAllEnemiesWithinRange(EntityLogic.GetBestCombustionTarget(this), 1).Count > 1
+            )
+        {
+            Action action = AbilityLogic.Instance.PerformCombustion(this, EntityLogic.GetBestMeltTarget(this));
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
+        // Combustion current target if burning enough
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, melt.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, melt) &&
+            myCurrentTarget.myPassiveManager.burningStacks > 5 &&
+            EntityLogic.GetAllEnemiesWithinRange(myCurrentTarget, 1).Count > 1
+            )
+        {
+            Action action = AbilityLogic.Instance.PerformCombustion(this, EntityLogic.GetBestMeltTarget(this));
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
+        // Fire ball 
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, fireBall.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, fireBall))
         {

@@ -593,8 +593,8 @@ MonoBehaviour:
   timesMeleeAttackedThisTurnCycle: 0
   inDeathProcess: 0
   facingRight: 0
-  spriteImportedFacingRight: 0
-  normalColour: {r: 1, g: 1, b: 1, a: 1}
+  spriteImportedFacingRight: 1
+  normalColour: {r: 0.85882354, g: 0.85882354, b: 0.85882354, a: 1}
   highlightColour: {r: 1, g: 1, b: 1, a: 1}
   myRangedAttackFinished: 0
   hasActivatedThisTurn: 0
@@ -694,7 +694,7 @@ PrefabInstance:
         type: 3}
       propertyPath: myEntity
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1997968808613397828}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9, type: 3}
 --- !u!4 &7443872645829689858 stripped
@@ -1026,6 +1026,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2301840373771375188, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3340377047826902652, guid: b6d0a0a634ea79d43b0b51bbd7497198,
         type: 3}
@@ -1722,7 +1727,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 7508845170001920656}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c50e43fdc33685943813eddf15b63229, type: 3}
   m_Name: 

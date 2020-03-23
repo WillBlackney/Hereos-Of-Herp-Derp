@@ -6,110 +6,80 @@ public class SkeletonKing : Enemy
 {
     public override void SetBaseProperties()
     {
+        myName = "Skeleton King";
         base.SetBaseProperties();
+
+        CharacterModelController.SetUpAsSkeletonKingPreset(myModel);
 
         mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Move");
-        mySpellBook.EnemyLearnAbility("Doom");
-        mySpellBook.EnemyLearnAbility("Whirlwind");
-        mySpellBook.EnemyLearnAbility("Crushing Blow");
+        mySpellBook.EnemyLearnAbility("Summon Skeleton");
+        mySpellBook.EnemyLearnAbility("Empower Binding");
 
-        myPassiveManager.ModifyUndead();
-        myPassiveManager.ModifySoulDrainAura(1);
+        myPassiveManager.ModifyFading(5);
+
+        myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Sword");
+
     }
-
     public override IEnumerator StartMyActivationCoroutine()
     {
         Ability strike = mySpellBook.GetAbilityByName("Strike");
         Ability move = mySpellBook.GetAbilityByName("Move");
-        Ability doom = mySpellBook.GetAbilityByName("Doom");
-        Ability whirlwind = mySpellBook.GetAbilityByName("Whirlwind");
-        Ability crushingBlow = mySpellBook.GetAbilityByName("Crushing Blow");
+        Ability summonSkeleton = mySpellBook.GetAbilityByName("Summon Skeleton");
+        Ability empowerBinding = mySpellBook.GetAbilityByName("Empower Binding");
 
         ActionStart:
+
         while (EventManager.Instance.gameOverEventStarted)
         {
             yield return null;
         }
+
+        SetTargetDefender(EntityLogic.GetClosestEnemy(this));
 
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
-        // Doom
-        else if (EntityLogic.IsAbilityUseable(this, doom))
+
+        // Summon skeleton
+                else if (EntityLogic.IsAbilityUseable(this, summonSkeleton) &&
+                EntityLogic.GetBestSummonEnemyLocation(this, myCurrentTarget, summonSkeleton.abilityRange) != null)
         {            
-            Action doomAction = AbilityLogic.Instance.PerformDoom(this);
-            yield return new WaitUntil(() => doomAction.ActionResolved() == true);
-            // brief delay between actions
-            yield return new WaitForSeconds(1f);
+            Action action = AbilityLogic.Instance.PerformSummonSkeleton(this, EntityLogic.GetBestSummonEnemyLocation(this, myCurrentTarget, summonSkeleton.abilityRange));
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+            yield return new WaitForSeconds(0.5f);
             goto ActionStart;
-
         }
 
-        // Crushing Blow
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), currentMeleeRange) &&
-           EntityLogic.IsAbilityUseable(this, crushingBlow))
+        // Empower Binding
+        else if (EntityLogic.IsAbilityUseable(this, empowerBinding))
         {
-            Action cbAction = AbilityLogic.Instance.PerformCrushingBlow(this, EntityLogic.GetClosestValidEnemy(this));
-            yield return new WaitUntil(() => cbAction.ActionResolved() == true);
-            // brief delay between actions
-            yield return new WaitForSeconds(1f);
+            Action action = AbilityLogic.Instance.PerformEmpowerBinding(this);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+            yield return new WaitForSeconds(0.5f);
             goto ActionStart;
         }
 
-        
-        // try to move to a position that we can hit two or more enemies with a whirlwind from
-        else if (
-            IsAdjacentToTwoOrMoreDefenders() == false && 
-            GetClosestValidTileThatHasTwoAdjacentDefenders() != null &&             
-            LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalMobility(this), tile).Contains(GetClosestValidTileThatHasTwoAdjacentDefenders()) &&
-            EntityLogic.IsAbilityUseable(this, whirlwind) &&
-            EntityLogic.IsAbleToMove(this)
-            )
-        { 
-            Action movementAction = AbilityLogic.Instance.PerformMove(this, GetClosestValidTileThatHasTwoAdjacentDefenders());
-            yield return new WaitUntil(() => movementAction.ActionResolved() == true);
-
-            // small delay here in order to seperate the two actions a bit.
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }      
-        
-
-        // Whirlwind
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, whirlwind))
-        { 
-            Action whirlwindAction = AbilityLogic.Instance.PerformWhirlwind(this);
-            yield return new WaitUntil(() => whirlwindAction.ActionResolved() == true);
-
-            // brief delay between actions
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
-
-        // Strike
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestValidEnemy(this), currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, strike))
+        //  Strike
+        else if (EntityLogic.IsAbilityUseable(this, strike) &&
+            EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
-            Action strikeAction = AbilityLogic.Instance.PerformStrike(this, EntityLogic.GetClosestValidEnemy(this));
-            yield return new WaitUntil(() => strikeAction.ActionResolved() == true);
-            // brief delay between actions
+            Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
 
         // Move
-        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetClosestEnemy(this), currentMeleeRange) == false &&
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
-            SetTargetDefender(EntityLogic.GetClosestEnemy(this));
-            
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
@@ -118,72 +88,8 @@ public class SkeletonKing : Enemy
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
-
         LivingEntityManager.Instance.EndEntityActivation(this);
-    }
-
-    public bool IsAdjacentToTwoOrMoreDefenders()
-    {
-        Debug.Log("IsAdjacentToTwoOrMoreDefenders() called...");
-
-        int adjacentDefenders = 0;
-        List<Tile> adjacentTiles = LevelManager.Instance.GetTilesWithinRange(1, tile);
-
-        foreach (Defender defender in DefenderManager.Instance.allDefenders)
-        {
-            if (adjacentTiles.Contains(defender.tile))
-            {
-                adjacentDefenders++;
-            }
-        }
-
-        Debug.Log("Skeleton King is adjacent to " + adjacentDefenders.ToString() + " defenders");
-
-        if (adjacentDefenders >= 2)
-        {
-            Debug.Log("IsAdjacentToTwoOrMoreDefenders() returned true...");
-            return true;
-        }
-        else
-        {
-            Debug.Log("IsAdjacentToTwoOrMoreDefenders() returned false...");
-            return false;
-        }
+        yield return null;
 
     }
-    public Tile GetClosestValidTileThatHasTwoAdjacentDefenders()
-    {
-        Debug.Log("GetClosestTileThatHasTwoAdjacentDefenders() called...");
-        Tile tileReturned = null;
-        List<Tile> tilesWithTwoAdjacentDefenders = new List<Tile>();
-
-        foreach (Tile tile in LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary())
-        {
-            int numberOfAdjacentEnemies = 0;
-            List<Tile> adjacentTiles = LevelManager.Instance.GetTilesWithinRange(1, tile);
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                if (adjacentTiles.Contains(defender.tile))
-                {
-                    numberOfAdjacentEnemies++;
-                }
-            }
-
-            if (numberOfAdjacentEnemies >= 2)
-            {                
-                tilesWithTwoAdjacentDefenders.Add(tile);
-            }
-        }
-        Debug.Log("Tiles found that have atleast 2 adjacent defenders: " + tilesWithTwoAdjacentDefenders.Count.ToString());
-
-        tileReturned = LevelManager.Instance.GetClosestValidTile(tilesWithTwoAdjacentDefenders, tile);
-        if(tileReturned == null)
-        {
-            Debug.Log("GetClosestTileThatHasTwoAdjacentDefenders() could not find a valid tile with 2 adjacent defenders, returning null...");
-        }
-        return tileReturned;
-    }
-   
-
-    
 }

@@ -424,6 +424,9 @@ public static class EntityLogic
             return false;
         }
     }
+
+
+    // IsAbilityUseable should also check against the target for things like taunt
     public static bool IsAbilityUseable(LivingEntity entity, Ability ability)
     {
         Debug.Log("EntityLogic.IsAbilityUseable() called for " + entity.name  + " using ability " + ability.abilityName);
@@ -487,6 +490,13 @@ public static class EntityLogic
         {
             return false;
         }
+    }
+    public static bool IsTargetOfAbilityValid(LivingEntity caster, LivingEntity target, Ability abilityUsed)
+    {
+        // method checks the validity of an ability being used against a certain target
+        // used for checking if a character is taunted by another
+
+        return true;
     }
     #endregion
 
@@ -1194,8 +1204,195 @@ public static class EntityLogic
             Debug.Log("GetBestInvigorateTarget() is null, returning caster as best target");
             bestTarget = caster;
         }
+        else if (bestTarget)
+        {
+            Debug.Log("GetBestInvigorateTarget() return character: " + bestTarget.name);
+        }
+        
+        return bestTarget;
+    }
+    public static LivingEntity GetBestFortifyTarget(LivingEntity caster)
+    {
+        LivingEntity bestTarget = null;
+        int score = 0;
 
-        Debug.Log("GetBestInvigorateTarget() return character: " + bestTarget.name);
+        foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
+        {
+            if (enemy.myPassiveManager.stunned &&
+                score < 3 &&
+                enemy != caster)
+            {
+                bestTarget = enemy;
+                score = 3;
+            }
+            else if (enemy.myPassiveManager.sleep &&
+                score < 2 &&
+                enemy != caster)
+            {
+                bestTarget = enemy;
+                score = 1;
+            }
+            else if (enemy.myPassiveManager.immobilized &&
+                score < 1 &&
+                enemy != caster)
+            {
+                bestTarget = enemy;
+                score = 1;
+            }
+        }
+
+        if (bestTarget != null)
+        {
+            Debug.Log("GetBestFortifyTarget() returned character: " + bestTarget.name);
+        }
+
+        return bestTarget;
+    }
+    public static LivingEntity GetBestChemicalReactionTarget(LivingEntity caster)
+    {
+        LivingEntity bestTarget = null;
+        int highestPoisonStack = 0;
+
+        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if (CombatLogic.Instance.IsTargetFriendly(caster, entity) == false &&
+                entity.myPassiveManager.poisoned &&
+                entity.myPassiveManager.poisonedStacks > highestPoisonStack &&
+                entity.myPassiveManager.poisonedStacks > 5)
+            {
+                highestPoisonStack = entity.myPassiveManager.poisonedStacks;
+                bestTarget = entity;
+            }
+        }
+
+        if (bestTarget)
+        {
+            Debug.Log("EntityLogic.GetBestChemicalReactionTarget() returned character: " + bestTarget.myName);
+        }
+       
+        return bestTarget;
+    }
+    public static LivingEntity GetBestDrainTarget(LivingEntity caster)
+    {
+        LivingEntity bestTarget = null;
+        int highestPoisonStack = 0;
+
+        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if (CombatLogic.Instance.IsTargetFriendly(caster, entity) == false &&
+                entity.myPassiveManager.poisoned &&
+                entity.myPassiveManager.poisonedStacks > highestPoisonStack &&
+                entity.myPassiveManager.poisonedStacks > 12)
+            {
+                highestPoisonStack = entity.myPassiveManager.poisonedStacks;
+                bestTarget = entity;
+            }
+        }
+
+        if (bestTarget)
+        {
+            Debug.Log("EntityLogic.GetBestDrainTarget() return character: " + bestTarget.name);
+        }
+       
+        return bestTarget;
+    }
+    public static Tile GetBestSummonEnemyLocation(LivingEntity caster, LivingEntity target, int range)
+    {
+        Debug.Log("EntityLogic.GetBestSummonEnemyLocation() called, comparing caster " + caster.myName +
+            " to target " + target.myName + " with a range of: " + range.ToString());
+
+        // Set up
+        Tile tileReturned = null;
+        List<Tile> allPossibleSpawnLocations = LevelManager.Instance.GetValidMoveableTilesWithinRange(range, caster.tile);
+        List<Tile> finalList = new List<Tile>();
+
+        // if target is to the left
+        if (target.gridPosition.X <= caster.gridPosition.X)
+        {
+            foreach (Tile tile in allPossibleSpawnLocations)
+            {
+                // filter to only tiles in between caster and target
+                if (tile.GridPosition.X >= target.gridPosition.X && tile.GridPosition.X <= caster.gridPosition.X)
+                {
+                    finalList.Add(tile);
+                }
+            }
+        }
+
+        // if target is to the right
+        else if (target.gridPosition.X > caster.gridPosition.X)
+        {
+            foreach (Tile tile in allPossibleSpawnLocations)
+            {
+                // filter to only tiles in between caster and target
+                if (tile.GridPosition.X <= target.gridPosition.X && tile.GridPosition.X >= caster.gridPosition.X)
+                {
+                    finalList.Add(tile);
+                }
+            }
+        }        
+
+        // print ideal tiles count
+        Debug.Log("EntityLogic.GetBestSummonEnemyLocation() found " + finalList.Count.ToString() + " ideal spawn locations");
+
+        // Get closest valid spawn location to target
+        tileReturned = LevelManager.Instance.GetClosestValidTile(finalList, target.tile);
+
+        // print tile info
+        if(tileReturned != null)
+        {
+            Debug.Log("EntityLogic.GetBestSummonEnemyLocation() return tile " + tileReturned.GridPosition.X.ToString() + ", "
+                + tileReturned.GridPosition.Y.ToString());
+        }
+
+        // return
+        return tileReturned;
+    }
+    public static LivingEntity GetBestMeltTarget(LivingEntity caster)
+    {
+        LivingEntity bestTarget = null;
+        int highestBlockValue = 0;
+
+        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if (CombatLogic.Instance.IsTargetFriendly(caster, entity) == false &&
+                entity.currentBlock > 0 &&
+                entity.currentBlock > highestBlockValue)
+            {
+                highestBlockValue = entity.currentBlock;
+                bestTarget = entity;
+            }
+        }
+
+        if (bestTarget)
+        {
+            Debug.Log("EntityLogic.GetBestMeltTarget() returned character: " + bestTarget.myName);
+        }
+
+        return bestTarget;
+    }
+    public static LivingEntity GetBestCombustionTarget(LivingEntity caster)
+    {
+        LivingEntity bestTarget = null;
+        int highestBurningValue = 0;
+
+        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if (CombatLogic.Instance.IsTargetFriendly(caster, entity) == false &&
+                entity.myPassiveManager.burningStacks > 0 &&
+                entity.myPassiveManager.burningStacks > highestBurningValue)
+            {
+                highestBurningValue = entity.myPassiveManager.burningStacks;
+                bestTarget = entity;
+            }
+        }
+
+        if (bestTarget)
+        {
+            Debug.Log("EntityLogic.GetBestMeltTarget() returned character: " + bestTarget.myName);
+        }
+
         return bestTarget;
     }
 }
+

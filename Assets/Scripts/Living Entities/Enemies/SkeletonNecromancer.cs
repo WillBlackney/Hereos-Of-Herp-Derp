@@ -14,10 +14,11 @@ public class SkeletonNecromancer : Enemy
 
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Strike");
-        mySpellBook.EnemyLearnAbility("Summon Undead");
-        mySpellBook.EnemyLearnAbility("Blight");
+        mySpellBook.EnemyLearnAbility("Summon Toxic Zombie");
+        mySpellBook.EnemyLearnAbility("Toxic Rain");
+        mySpellBook.EnemyLearnAbility("Chemical Reaction");
+        mySpellBook.EnemyLearnAbility("Drain");
 
-        //myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyToxicAura(2);
 
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Staff");
@@ -26,9 +27,12 @@ public class SkeletonNecromancer : Enemy
     public override IEnumerator StartMyActivationCoroutine()
     {
         Ability move = mySpellBook.GetAbilityByName("Move");
-        Ability summonUndead = mySpellBook.GetAbilityByName("Summon Undead");        
-        Ability blight = mySpellBook.GetAbilityByName("Blight");
         Ability strike = mySpellBook.GetAbilityByName("Strike");
+        Ability toxicRain = mySpellBook.GetAbilityByName("Toxic Rain");
+        Ability summonToxicZombie = mySpellBook.GetAbilityByName("Summon Toxic Zombie");        
+        Ability chemicalReaction = mySpellBook.GetAbilityByName("Chemical Reaction");
+        Ability drain = mySpellBook.GetAbilityByName("Drain");
+        
 
         ActionStart:
 
@@ -49,35 +53,61 @@ public class SkeletonNecromancer : Enemy
         else if (EntityLogic.IsAbleToMove(this) &&
             EntityLogic.GetValidGrassTileWithinRange(this, EntityLogic.GetTotalMobility(this)) != null &&
             tile.myTileType != Tile.TileType.Grass &&
-            EntityLogic.IsAbilityUseable(this,move)
+            EntityLogic.IsAbilityUseable(this, move)
             )
         {
-
             Action movementAction = AbilityLogic.Instance.PerformMove(this, EntityLogic.GetValidGrassTileWithinRange(this, EntityLogic.GetTotalMobility(this)));
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
 
-        // Blight
-        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, blight.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, blight))
+        // Toxic Rain
+        else if (EntityLogic.IsAbilityUseable(this, toxicRain))
         {
-            Action action = AbilityLogic.Instance.PerformBlight(this, myCurrentTarget);
-            yield return new WaitUntil(() => action.ActionResolved() == true);
-
-            // brief delay between actions
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-        }
-
-        // Summon skeletons
-        else if (EntityLogic.IsAbilityUseable(this, summonUndead))
-        {
-            Action action = AbilityLogic.Instance.PerformSummonUndead(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformToxicRain(this);
             yield return new WaitUntil(() => action.ActionResolved() == true);
             yield return new WaitForSeconds(0.5f);
             goto ActionStart;
+        }
+
+        // Summon toxic zombies
+        else if (EntityLogic.IsAbilityUseable(this, summonToxicZombie))
+        {
+            Action action = AbilityLogic.Instance.PerformSummonToxicZombie(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+            yield return new WaitForSeconds(0.5f);
+            goto ActionStart;
+        }
+
+        // Chemical Reaction       
+        else if (EntityLogic.GetBestChemicalReactionTarget(this) != null &&
+                 EntityLogic.IsTargetInRange(this, EntityLogic.GetBestChemicalReactionTarget(this), chemicalReaction.abilityRange) &&
+                 EntityLogic.IsAbilityUseable(this, chemicalReaction)
+            )
+        {
+            SetTargetDefender(EntityLogic.GetBestChemicalReactionTarget(this));
+
+            Action action = AbilityLogic.Instance.PerformChemicalReaction(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+
+        }
+
+        // Drain       
+        else if (EntityLogic.GetBestDrainTarget(this) != null &&
+                 EntityLogic.IsTargetInRange(this, EntityLogic.GetBestDrainTarget(this), chemicalReaction.abilityRange) &&
+                 EntityLogic.IsAbilityUseable(this, chemicalReaction)
+            )
+        {
+            SetTargetDefender(EntityLogic.GetBestDrainTarget(this));
+
+            Action action = AbilityLogic.Instance.PerformChemicalReaction(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+
         }
 
         // Strike
@@ -91,12 +121,11 @@ public class SkeletonNecromancer : Enemy
             goto ActionStart;
         }
 
-        // Move in range for Blight
-        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, blight.abilityRange) == false &&
+        // Move
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
-            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null &&
-            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, blight, this)
+            EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
@@ -107,7 +136,6 @@ public class SkeletonNecromancer : Enemy
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
-
         // Can't do anything more, end activation
         else
         {

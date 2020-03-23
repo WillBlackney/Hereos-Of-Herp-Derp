@@ -32,6 +32,8 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject deathKnightLeftLeg;
     public GameObject bulwarkLeftLeg;
     public GameObject volatileZombieLeftLeg;
+    public GameObject skeletonKingLeftLeg;
+    public GameObject skeletonSoldierLeftLeg;
     public GameObject skeletonArcherLeftLeg;
     public GameObject skeletonAssassinLeftLeg;
     public GameObject skeletonBarbarianLeftLeg;
@@ -41,13 +43,18 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerLeftLeg;
     public GameObject goblinStabbyLeftLeg;
     public GameObject goblinShootyLeftLeg;
-    public GameObject goblinWarChiefLeftLeg;
+    public GameObject goblinShieldBearerLeftLeg;
+    public GameObject goblinWarChiefLeftLeg;    
     public GameObject morkLeftLeg;
     public GameObject fireGolemLeftLeg;
     public GameObject frostGolemLeftLeg;
     public GameObject poisonGolemLeftLeg;
     public GameObject airGolemLeftLeg;
     public GameObject kingLeftLeg;
+    public GameObject demonBerserkerLeftLeg;
+    public GameObject demonBladeMasterLeftLeg;
+    public GameObject demonHellGuardLeftLeg;
+
 
 
     [Header("Right Leg References")]
@@ -72,6 +79,8 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject deathKnightRightLeg;
     public GameObject bulwarkRightLeg;
     public GameObject volatileZombieRightLeg;
+    public GameObject skeletonSoldierRightLeg;
+    public GameObject skeletonKingRightLeg;    
     public GameObject skeletonArcherRightLeg;
     public GameObject skeletonAssassinRightLeg;
     public GameObject skeletonBarbarianRightLeg;
@@ -81,6 +90,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerRightLeg;
     public GameObject goblinStabbyRightLeg;
     public GameObject goblinShootRightLeg;
+    public GameObject goblinShieldBearerRightLeg;
     public GameObject goblinWarChiefRightLeg;
     public GameObject morkRightLeg;
     public GameObject fireGolemRightLeg;
@@ -88,6 +98,9 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject poisonGolemRightLeg;
     public GameObject airGolemRightLeg;
     public GameObject kingRightLeg;
+    public GameObject demonBerserkerRightLeg;
+    public GameObject demonBladeMasterRightLeg;
+    public GameObject demonHellGuardRightLeg;
 
     [Header("Head References")]
     public List<GameObject> allHeads;
@@ -111,6 +124,8 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject deathKnightHead;
     public GameObject bulwarkHead;
     public GameObject volatileZombieHead;
+    public GameObject skeletonKingHead;
+    public GameObject skeletonSoldierHead;
     public GameObject skeletonArcherHead;
     public GameObject skeletonAssassinHead;
     public GameObject skeletonBarbarianHead;
@@ -120,6 +135,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerHead;
     public GameObject goblinStabbyHead;
     public GameObject goblinShootyHead;
+    public GameObject goblinShieldBearerHead;
     public GameObject goblinWarChiefHead;
     public GameObject morkHead;
     public GameObject fireGolemHead;
@@ -127,6 +143,9 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject poisonGolemHead;
     public GameObject airGolemHead;
     public GameObject kingHead;
+    public GameObject demonBerserkerHead;
+    public GameObject demonBladeMasterHead;
+    public GameObject demonHellGuardHead;
 
     [Header("Right Hand References")]
     public List<GameObject> allRightHands;
@@ -150,6 +169,8 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject deathKnightRightHand;
     public GameObject bulwarkRightHand;
     public GameObject volatileZombieRightHand;
+    public GameObject skeletonSoldierRightHand;
+    public GameObject skeletonKingRightHand;
     public GameObject skeletonArcherRightHand;
     public GameObject skeletonAssassinRightHand;
     public GameObject skeletonBarbarianRightHand;
@@ -159,6 +180,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerRightHand;
     public GameObject goblinStabbyRightHand;
     public GameObject goblinShootyRightHand;
+    public GameObject goblinShieldBearerRightHand;
     public GameObject goblinWarChiefRightHand;
     public GameObject morkRightHand;
     public GameObject fireGolemRightHand;
@@ -166,6 +188,9 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject poisonGolemRightHand;
     public GameObject airGolemRightHand;
     public GameObject kingRightHand;
+    public GameObject demonBerserkerRightHand;
+    public GameObject demonBladeMasterRightHand;
+    public GameObject demonHellGuardRightHand;
 
     [Header("Right Arm References")]
     public List<GameObject> allRightArms;
@@ -189,6 +214,8 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject deathKnightRightArm;
     public GameObject bulwarkRightArm;
     public GameObject volatileZombieRightArm;
+    public GameObject skeletonSoldierRightArm;
+    public GameObject skeletonKingRightArm;
     public GameObject skeletonArcherRightArm;
     public GameObject skeletonAssassinRightArm;
     public GameObject skeletonBarbarianRightArm;
@@ -198,6 +225,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerRightArm;
     public GameObject goblinStabbyRightArm;
     public GameObject goblinShootyRightArm;
+    public GameObject goblinShieldBearerRightArm;
     public GameObject goblinWarChiefRightArm;
     public GameObject morkRightArm;
     public GameObject fireGolemRightArm;
@@ -205,6 +233,9 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject poisonGolemRightArm;
     public GameObject airGolemRightArm;
     public GameObject kingRightArm;
+    public GameObject demonBerserkerRightArm;
+    public GameObject demonBladeMasterRightArm;
+    public GameObject demonHellGuardRightArm;
 
     [Header("Left Hand References")]
     public List<GameObject> allLeftHands;
@@ -228,6 +259,8 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject deathKnightLeftHand;
     public GameObject bulwarkLeftHand;
     public GameObject volatileZombieLeftHand;
+    public GameObject skeletonSoldierLeftHand;
+    public GameObject skeletonKingLeftHand;
     public GameObject skeletonArcherLeftHand;
     public GameObject skeletonAssassinLeftHand;
     public GameObject skeletonBarbarianLeftHand;
@@ -237,6 +270,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerLeftHand;
     public GameObject goblinStabbyLeftHand;
     public GameObject goblinShootyLeftHand;
+    public GameObject goblinShieldBearerLeftHand;
     public GameObject goblinWarChiefLeftHand;
     public GameObject morkLeftHand;
     public GameObject fireGolemLeftHand;
@@ -244,6 +278,9 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject poisonGolemLeftHand;
     public GameObject airGolemLeftHand;
     public GameObject kingLeftHand;
+    public GameObject demonBerserkerLeftHand;
+    public GameObject demonBladeMasterLeftHand;
+    public GameObject demonHellGuardLeftHand;
 
     [Header("Left Arm References")]
     public List<GameObject> allLeftArms;
@@ -267,6 +304,8 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject deathKnightLeftArm;
     public GameObject bulwarkLeftArm;
     public GameObject volatileZombieLeftArm;
+    public GameObject skeletonSoldierLeftArm;
+    public GameObject skeletonKingLeftArm;
     public GameObject skeletonArcherLeftArm;
     public GameObject skeletonAssassinLeftArm;
     public GameObject skeletonBarbarianLeftArm;
@@ -276,6 +315,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerLeftArm;
     public GameObject goblinStabbyLeftArm;
     public GameObject goblinShootyLeftArm;
+    public GameObject goblinShieldBearerLeftArm;
     public GameObject goblinWarChiefLeftArm;
     public GameObject morkLeftArm;
     public GameObject fireGolemLeftArm;
@@ -283,6 +323,9 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject poisonGolemLeftArm;
     public GameObject airGolemLeftArm;
     public GameObject kingLeftArm;
+    public GameObject demonBerserkerLeftArm;
+    public GameObject demonBladeMasterLeftArm;
+    public GameObject demonHellGuardLeftArm;
 
     [Header("Chest References")]
     public List<GameObject> allChests;
@@ -306,6 +349,8 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject deathKnightChest;
     public GameObject bulwarkChest;
     public GameObject volatileZombieChest;
+    public GameObject skeletonSoldierChest;
+    public GameObject skeletonKingChest;
     public GameObject skeletonArcherChest;
     public GameObject skeletonAssassinChest;
     public GameObject skeletonBarbarianChest;
@@ -315,6 +360,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject skeletonNecromancerChest;
     public GameObject goblinStabbyChest;
     public GameObject goblinShootyChest;
+    public GameObject goblinShieldBearerChest;
     public GameObject goblinWarChiefChest;
     public GameObject morkChest;
     public GameObject fireGolemChest;
@@ -322,6 +368,9 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject poisonGolemChest;
     public GameObject airGolemChest;
     public GameObject kingChest;
+    public GameObject demonBerserkerChest;
+    public GameObject demonBladeMasterChest;
+    public GameObject demonHellGuardChest;
 
     [Header("Main Hand Weapon References")]
     public List<GameObject> allMainHandWeapons;

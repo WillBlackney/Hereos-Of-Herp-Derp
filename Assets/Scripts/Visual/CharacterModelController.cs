@@ -96,6 +96,8 @@ public static class CharacterModelController
 
 
         // Enemy Presets
+
+        // Skeletons
         else if (preset == "Skeleton Mage")
         {
             SetUpAsSkeletonMagePreset(model);
@@ -124,6 +126,22 @@ public static class CharacterModelController
         {
             SetUpAsSkeletonNecromancerPreset(model);
         }
+
+        // Demons
+        else if (preset == "Demon Berserker")
+        {
+            SetUpAsDemonBerserkerPreset(model);
+        }
+        else if (preset == "Demon Hell Guard")
+        {
+            SetUpAsDemonHellGuardPreset(model);
+        }
+        else if (preset == "Demon Blade Master")
+        {
+            SetUpAsDemonBladeMasterPreset(model);
+        }
+
+        // Goblins
         else if (preset == "Goblin Stabby")
         {
             SetUpAsGoblinStabbyPreset(model);
@@ -132,6 +150,16 @@ public static class CharacterModelController
         {
             SetUpAsGoblinShootyPreset(model);
         }
+        else if (preset == "Goblin War Chief")
+        {
+            SetUpAsGoblinWarChiefPreset(model);
+        }
+        else if (preset == "Goblin Shield Bearer")
+        {
+            SetUpAsGoblinShieldBearerPreset(model);
+        }
+
+        // Elemental Golems
         else if (preset == "Fire Golem")
         {
             SetUpAsFireGolemPreset(model);
@@ -148,6 +176,8 @@ public static class CharacterModelController
         {
             SetUpAsPoisonGolemPreset(model);
         }
+
+        // Misc
         else if (preset == "Volatile Zombie")
         {
             SetUpAsVolatileZombiePreset(model);
@@ -590,6 +620,32 @@ public static class CharacterModelController
         model.skeletonNecromancerLeftArm.SetActive(true);
         model.skeletonNecromancerChest.SetActive(true);
     }
+    public static void SetUpAsSkeletonKingPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.skeletonKingLeftLeg.SetActive(true);
+        model.skeletonKingRightLeg.SetActive(true);
+        model.skeletonKingHead.SetActive(true);
+        model.skeletonKingRightHand.SetActive(true);
+        model.skeletonKingRightArm.SetActive(true);
+        model.skeletonKingLeftHand.SetActive(true);
+        model.skeletonKingLeftArm.SetActive(true);
+        model.skeletonKingChest.SetActive(true);
+    }
+    public static void SetUpAsSkeletonSoldierPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.skeletonSoldierLeftLeg.SetActive(true);
+        model.skeletonSoldierRightLeg.SetActive(true);
+        model.skeletonSoldierHead.SetActive(true);
+        model.skeletonSoldierRightHand.SetActive(true);
+        model.skeletonSoldierRightArm.SetActive(true);
+        model.skeletonSoldierLeftHand.SetActive(true);
+        model.skeletonSoldierLeftArm.SetActive(true);
+        model.skeletonSoldierChest.SetActive(true);
+    }
     public static void SetUpAsGoblinStabbyPreset(UniversalCharacterModel model)
     {
         CompletelyDisableAllViews(model);
@@ -628,6 +684,19 @@ public static class CharacterModelController
         model.goblinShootyLeftHand.SetActive(true);
         model.goblinShootyLeftArm.SetActive(true);
         model.goblinShootyChest.SetActive(true);
+    }
+    public static void SetUpAsGoblinShieldBearerPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.goblinShieldBearerLeftLeg.SetActive(true);
+        model.goblinShieldBearerRightLeg.SetActive(true);
+        model.goblinShieldBearerHead.SetActive(true);
+        model.goblinShieldBearerRightHand.SetActive(true);
+        model.goblinShieldBearerRightArm.SetActive(true);
+        model.goblinShieldBearerLeftHand.SetActive(true);
+        model.goblinShieldBearerLeftArm.SetActive(true);
+        model.goblinShieldBearerChest.SetActive(true);
     }
     public static void SetUpAsMorkPreset(UniversalCharacterModel model)
     {
@@ -693,6 +762,45 @@ public static class CharacterModelController
         model.frostGolemLeftHand.SetActive(true);
         model.frostGolemLeftArm.SetActive(true);
         model.frostGolemChest.SetActive(true);
+    }
+    public static void SetUpAsDemonBerserkerPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.demonBerserkerLeftLeg.SetActive(true);
+        model.demonBerserkerRightLeg.SetActive(true);
+        model.demonBerserkerHead.SetActive(true);
+        model.demonBerserkerRightHand.SetActive(true);
+        model.demonBerserkerRightArm.SetActive(true);
+        model.demonBerserkerLeftHand.SetActive(true);
+        model.demonBerserkerLeftArm.SetActive(true);
+        model.demonBerserkerChest.SetActive(true);
+    }
+    public static void SetUpAsDemonBladeMasterPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.demonBladeMasterLeftLeg.SetActive(true);
+        model.demonBladeMasterRightLeg.SetActive(true);
+        model.demonBladeMasterHead.SetActive(true);
+        model.demonBladeMasterRightHand.SetActive(true);
+        model.demonBladeMasterRightArm.SetActive(true);
+        model.demonBladeMasterLeftHand.SetActive(true);
+        model.demonBladeMasterLeftArm.SetActive(true);
+        model.demonBladeMasterChest.SetActive(true);
+    }
+    public static void SetUpAsDemonHellGuardPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.demonHellGuardLeftLeg.SetActive(true);
+        model.demonHellGuardRightLeg.SetActive(true);
+        model.demonHellGuardHead.SetActive(true);
+        model.demonHellGuardRightHand.SetActive(true);
+        model.demonHellGuardRightArm.SetActive(true);
+        model.demonHellGuardLeftHand.SetActive(true);
+        model.demonHellGuardLeftArm.SetActive(true);
+        model.demonHellGuardChest.SetActive(true);
     }
     #endregion
 

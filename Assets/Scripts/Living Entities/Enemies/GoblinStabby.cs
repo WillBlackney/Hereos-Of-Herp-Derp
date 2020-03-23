@@ -12,18 +12,19 @@ public class GoblinStabby : Enemy
         CharacterModelController.SetUpAsGoblinStabbyPreset(myModel);
 
         mySpellBook.EnemyLearnAbility("Move");
-        mySpellBook.EnemyLearnAbility("Strike");
+        mySpellBook.EnemyLearnAbility("Twin Strike");
         mySpellBook.EnemyLearnAbility("Tendon Slash");
 
         myPassiveManager.ModifyNimble(1);
         myPassiveManager.ModifyPoisonous(1);
 
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Sword");
+        myOffHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Sword");
     }
 
     public override IEnumerator StartMyActivationCoroutine()
     {
-        Ability strike = mySpellBook.GetAbilityByName("Strike");
+        Ability twinStrike = mySpellBook.GetAbilityByName("Twin Strike");
         Ability tendonSlash = mySpellBook.GetAbilityByName("Tendon Slash");
         Ability move = mySpellBook.GetAbilityByName("Move");
 
@@ -53,11 +54,11 @@ public class GoblinStabby : Enemy
             goto ActionStart;
         }
 
-        // Strike
-        else if (EntityLogic.IsAbilityUseable(this, strike) &&
+        // Twin Strike
+        else if (EntityLogic.IsAbilityUseable(this, twinStrike) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
-            Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);

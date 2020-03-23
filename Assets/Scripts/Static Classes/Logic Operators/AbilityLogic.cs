@@ -6020,6 +6020,11 @@ public class AbilityLogic : MonoBehaviour
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, chainLightning);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
+            if (!victim.inDeathProcess)
+            {
+                victim.myPassiveManager.ModifyShocked(1);
+            }
+
             for (int lightningJumps = 0; lightningJumps < chainLightning.abilitySecondaryValue; lightningJumps++)
             {
                 List<Tile> adjacentTiles = LevelManager.Instance.GetTilesWithinRange(1, currentTarget.tile);
@@ -6045,7 +6050,11 @@ public class AbilityLogic : MonoBehaviour
 
                     Action abilityAction2 = CombatLogic.Instance.HandleDamage(finalDamageValue2, caster, currentTarget, damageType, chainLightning);
                     yield return new WaitUntil(() => abilityAction2.ActionResolved() == true);
-                    yield return new WaitForSeconds(0.2f);
+
+                    if (!currentTarget.inDeathProcess)
+                    {
+                        currentTarget.myPassiveManager.ModifyShocked(1);
+                    }
                 }
 
             }
@@ -6349,7 +6358,7 @@ public class AbilityLogic : MonoBehaviour
         StartCoroutine(PerformEmpowerBindingCoroutine(caster, action));
         return action;
     }
-    public IEnumerator PerformEmpowerBindingCoroutine(LivingEntity caster, Action action)
+    private IEnumerator PerformEmpowerBindingCoroutine(LivingEntity caster, Action action)
     {
         Ability empowerBinding = caster.mySpellBook.GetAbilityByName("Empower Binding");
 
@@ -6361,12 +6370,13 @@ public class AbilityLogic : MonoBehaviour
         }
 
         OnAbilityUsedStart(empowerBinding, caster);
+
         foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
         {
             if (CombatLogic.Instance.IsTargetFriendly(caster, entity) &&
                 entity.myPassiveManager.undead)
             {
-                entity.ModifyCurrentStrength(1);
+                entity.myPassiveManager.ModifyBonusStrength(empowerBinding.abilityPrimaryValue);
             }
         }
 
@@ -6398,7 +6408,6 @@ public class AbilityLogic : MonoBehaviour
         foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
         {
             if (CombatLogic.Instance.IsTargetFriendly(caster, entity))
-                //&& entity.myPassiveManager.undead)
             {
                 entity.myPassiveManager.ModifyBonusStrength(1);
             }
@@ -6408,6 +6417,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(1f);
         action.actionResolved = true;
     }
+
     // Crushing Blow
     public Action PerformCrushingBlow(LivingEntity caster, LivingEntity target)
     {
@@ -6501,13 +6511,13 @@ public class AbilityLogic : MonoBehaviour
     }
 
     // Summon Skeleton
-    public Action PerformSummonSkeleton(LivingEntity caster, LivingEntity target)
+    public Action PerformSummonSkeleton(LivingEntity caster, Tile spawnLocation)
     {
         Action action = new Action(true);
-        StartCoroutine(PerformSummonSkeletonCoroutine(caster, target, action));
+        StartCoroutine(PerformSummonSkeletonCoroutine(caster, spawnLocation, action));
         return action;
     }
-    public IEnumerator PerformSummonSkeletonCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    private IEnumerator PerformSummonSkeletonCoroutine(LivingEntity caster, Tile spawnLocation, Action action)
     {        
         Ability summonUndead = caster.mySpellBook.GetAbilityByName("Summon Skeleton");
 
@@ -6519,15 +6529,40 @@ public class AbilityLogic : MonoBehaviour
         }
 
         OnAbilityUsedStart(summonUndead, caster);
-        List<Tile> allPossibleSpawnLocations = LevelManager.Instance.GetValidMoveableTilesWithinRange(summonUndead.abilityRange, caster.tile);
-        List<Tile> finalList = new List<Tile>();
+
+        // summon skeleton
+        GameObject newSkeletonGO = Instantiate(PrefabHolder.Instance.skeletonSoldierPrefab);
+        Enemy newSkeleton = newSkeletonGO.GetComponent<Enemy>();
+        newSkeleton.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
+        
+        // Resolve
+        OnAbilityUsedFinish(summonUndead, caster);
+        yield return new WaitForSeconds(1f);
+        action.actionResolved = true;
+
+    }
+
+    // Summon Toxic Zombie
+    public Action PerformSummonToxicZombie(LivingEntity caster, LivingEntity target)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformSummonToxicZombieCoroutine(caster, target, action));
+        return action;
+    }
+    public IEnumerator PerformSummonToxicZombieCoroutine(LivingEntity caster, LivingEntity target, Action action)
+    {
+        Ability summonUndead = caster.mySpellBook.GetAbilityByName("Summon Toxic Zombie");
 
         // Status VFX notification for enemies
         if (caster.enemy)
         {
-            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Summon Skeleton");
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Summon Toxic Zombie");
             yield return new WaitForSeconds(0.5f);
         }
+
+        OnAbilityUsedStart(summonUndead, caster);
+        List<Tile> allPossibleSpawnLocations = LevelManager.Instance.GetValidMoveableTilesWithinRange(summonUndead.abilityRange, caster.tile);
+        List<Tile> finalList = new List<Tile>();
 
         // if target is to the left
         if (target.gridPosition.X <= caster.gridPosition.X)
@@ -6558,12 +6593,15 @@ public class AbilityLogic : MonoBehaviour
         {
             Tile spawnLocation = LevelManager.Instance.GetClosestValidTile(finalList, target.tile);
 
-            // GameObject newSkeletonGO = Instantiate(PrefabHolder.Instance.skeletonPrefabs[Random.Range(0,PrefabHolder.Instance.skeletonPrefabs.Count)]);
-            GameObject newSkeletonGO = Instantiate(PrefabHolder.Instance.SkeletonPeasantPrefab);
- 
-            Enemy newSkeleton = newSkeletonGO.GetComponent<Enemy>();
+            if (spawnLocation != null)
+            {
+                GameObject newSkeletonGO = Instantiate(PrefabHolder.Instance.toxicZombiePrefab);
 
-            newSkeleton.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
+                Enemy newSkeleton = newSkeletonGO.GetComponent<Enemy>();
+
+                newSkeleton.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
+            }
+
         }
 
         OnAbilityUsedFinish(summonUndead, caster);

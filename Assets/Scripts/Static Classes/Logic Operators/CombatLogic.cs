@@ -90,7 +90,7 @@ public class CombatLogic : MonoBehaviour
             Debug.Log("Weapon not used, base damage from ability/effect is: " + baseDamageValueReturned.ToString());
         }        
 
-        // Add flat damage bonus from modifiers (strenght, etc)
+        // Add flat damage bonus from modifiers (strength, etc)
         if(abilityUsed != null &&
            abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
         {
@@ -634,7 +634,7 @@ public class CombatLogic : MonoBehaviour
         yield return new WaitUntil(() => entity.MyDeathAnimationFinished() == true);        
 
 
-        // Check death effects
+        // Check volatile
         if (entity.myPassiveManager.Volatile)
         {
             // Notification
@@ -651,6 +651,27 @@ public class CombatLogic : MonoBehaviour
                     int finalDamageValue = GetFinalDamageValueAfterAllCalculations(entity, targetInBlast, null, "Physical", false, entity.myPassiveManager.volatileStacks);
                     Action volatileExplosion = HandleDamage(finalDamageValue, null, targetInBlast, "Physical");
                     yield return new WaitUntil(() => volatileExplosion.ActionResolved() == true);
+                }
+            }
+
+            yield return new WaitForSeconds(1);
+        }
+
+        // Check unstable
+        if (entity.myPassiveManager.Unstable)
+        {
+            // Notification
+            VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Unstable");
+
+            // Calculate which characters are hit by the aoe
+            List<LivingEntity> targetsInRange = GetAllLivingEntitiesWithinAoeEffect(entity, entity.tile, 1, true, true);
+
+            // Poison all targets hit
+            foreach (LivingEntity targetInBlast in targetsInRange)
+            {
+                if (targetInBlast.inDeathProcess == false)
+                {
+                    targetInBlast.myPassiveManager.ModifyPoisoned(entity.myPassiveManager.unstableStacks);
                 }
             }
 

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +15,7 @@ public class PoisonGolem : Enemy
         mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Noxious Fumes");
         mySpellBook.EnemyLearnAbility("Toxic Slash");
+        mySpellBook.EnemyLearnAbility("Chemical Reaction");
 
         myPassiveManager.ModifyToxicAura(2);
 
@@ -23,13 +24,14 @@ public class PoisonGolem : Enemy
 
     public override IEnumerator StartMyActivationCoroutine()
     {
-        Ability toxicSlash = mySpellBook.GetAbilityByName("Toxic Slash");
         Ability move = mySpellBook.GetAbilityByName("Move");
         Ability strike = mySpellBook.GetAbilityByName("Strike");
-        Ability noxiousFumes = mySpellBook.GetAbilityByName("Noxious Fumes");
+        Ability toxicSlash = mySpellBook.GetAbilityByName("Toxic Slash");       
+        Ability chemicalReaction = mySpellBook.GetAbilityByName("Chemical Reaction");
+        Ability noxiousFumes = mySpellBook.GetAbilityByName("Noxius Fumes");
 
 
-        ActionStart:
+    ActionStart:
 
         SetTargetDefender(EntityLogic.GetBestTarget(this, true));
 
@@ -44,7 +46,7 @@ public class PoisonGolem : Enemy
         }
 
         // Noxious Fumes
-        else if (EntityLogic.GetAllEnemiesWithinRange(this, 1).Count > 1 &&
+        else if (EntityLogic.GetAllEnemiesWithinRange(this, 1).Count > 0 &&
             EntityLogic.IsAbilityUseable(this, noxiousFumes))
         {
             Action action = AbilityLogic.Instance.PerformNoxiousFumes(this);
@@ -64,6 +66,21 @@ public class PoisonGolem : Enemy
 
             yield return new WaitForSeconds(1f);
             goto ActionStart;
+        }
+
+        // Chemical Reaction       
+        else if (EntityLogic.GetBestChemicalReactionTarget(this) != null &&
+                 EntityLogic.IsTargetInRange(this, EntityLogic.GetBestChemicalReactionTarget(this), chemicalReaction.abilityRange) &&
+                 EntityLogic.IsAbilityUseable(this, chemicalReaction)
+            )
+        {
+            SetTargetDefender(EntityLogic.GetBestChemicalReactionTarget(this));
+
+            Action action = AbilityLogic.Instance.PerformChemicalReaction(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+
         }
 
         // Strike

@@ -42,7 +42,8 @@ public class PrefabHolder : MonoBehaviour
 
     [Header("Enemy Related")]
     public GameObject ZombiePrefab;
-    public GameObject SkeletonPeasantPrefab;
+    public GameObject skeletonSoldierPrefab;
+    public GameObject toxicZombiePrefab;
     public List<GameObject> skeletonPrefabs;
 
 
