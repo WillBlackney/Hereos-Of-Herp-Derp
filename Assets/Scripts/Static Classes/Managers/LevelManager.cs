@@ -348,7 +348,7 @@ public class LevelManager : MonoBehaviour
         foreach (Tile tile in allTiles)
         {
             if (
-                (tile.GridPosition.X == 12) 
+                (tile.GridPosition.X == 10) 
                 && (tile.GridPosition.Y == 0 || tile.GridPosition.Y == 1 || tile.GridPosition.Y == 2 || tile.GridPosition.Y == 3 || tile.GridPosition.Y == 4 || tile.GridPosition.Y == 5 || tile.GridPosition.Y == 6)
                 )
             {

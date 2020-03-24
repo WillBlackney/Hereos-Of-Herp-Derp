@@ -189,7 +189,10 @@ MonoBehaviour:
   mouseIsOverCharacter: 0
   currentInitiativeRoll: 0
   moveActionsTakenThisActivation: 0
-  timesAttackedThisTurnCycle: 0
+  meleeAbilityActionsTakenThisActivation: 0
+  skillAbilityActionsTakenThisActivation: 0
+  rangedAttackAbilityActionsTakenThisActivation: 0
+  timesMeleeAttackedThisTurnCycle: 0
   inDeathProcess: 0
   facingRight: 0
   spriteImportedFacingRight: 1
@@ -419,6 +422,8 @@ MonoBehaviour:
   purityStacks: 0
   recklessness: 0
   recklessnessStacks: 0
+  berserk: 0
+  berserkStacks: 0
   testudo: 0
   testudoStacks: 0
   rapidCloaking: 0
@@ -451,10 +456,16 @@ MonoBehaviour:
   shockedStacks: 0
   sleep: 0
   sleepStacks: 0
+  marked: 0
+  markedStacks: 0
   taunted: 0
   tauntedStacks: 0
   sharpenedBlade: 0
   sharpenedBladeStacks: 0
+  darkGift: 0
+  darkGiftStacks: 0
+  pureHate: 0
+  pureHateStacks: 0
   unleashed: 0
   unleashedStacks: 0
   unstoppable: 0
@@ -473,8 +484,24 @@ MonoBehaviour:
   patientStalkerStacks: 0
   predator: 0
   predatorStacks: 0
+  coupDeGrace: 0
+  coupDeGraceStacks: 0
   flux: 0
   fluxStacks: 0
+  swordPlay: 0
+  swordPlayStacks: 0
+  fury: 0
+  furyStacks: 0
+  quickDraw: 0
+  quickDrawStacks: 0
+  grace: 0
+  graceStacks: 0
+  savage: 0
+  savageStacks: 0
+  pragmatic: 0
+  pragmaticStacks: 0
+  knowledgeable: 0
+  knowledgeableStacks: 0
   lifeSteal: 0
   lifeStealStacks: 0
   undead: 0
@@ -523,8 +550,12 @@ MonoBehaviour:
   cautiousStacks: 0
   Volatile: 0
   volatileStacks: 0
+  unstable: 0
+  unstableStacks: 0
   growing: 0
   growingStacks: 0
+  fastLearner: 0
+  fastLearnerStacks: 0
   enrage: 0
   enrageStacks: 0
   regeneration: 0
@@ -1321,7 +1352,7 @@ PrefabInstance:
     - target: {fileID: 6765210319058281865, guid: b6d0a0a634ea79d43b0b51bbd7497198,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6866020318102566529, guid: b6d0a0a634ea79d43b0b51bbd7497198,
         type: 3}

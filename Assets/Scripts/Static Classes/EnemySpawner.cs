@@ -5,13 +5,15 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Enemy Encounter Lists")]
-    public List<EnemyWaveSO> basicEnemyWaves;
+    public List<EnemyWaveSO> basicEnemyWavesActOneHalfOne;
+    public List<EnemyWaveSO> basicEnemyWavesActOneHalfTwo;
     public List<EnemyWaveSO> eliteEnemyWaves;
     public List<EnemyWaveSO> bossEnemyWaves;
     public List<EnemyWaveSO> storyEventEnemyWaves;
 
     [Header("Current Viable Encounters Lists")]
-    public List<EnemyWaveSO> viableBasicEnemyWaves;
+    public List<EnemyWaveSO> viableBasicEnemyActOneHalfOneWaves;
+    public List<EnemyWaveSO> viableBasicEnemyActOneHalfTwoWaves;
     public List<EnemyWaveSO> viableEliteEnemyWaves;
 
     [Header("Properties")]
@@ -26,7 +28,8 @@ public class EnemySpawner : MonoBehaviour
     }
     private void Start()
     {
-        PopulateWaveList(viableBasicEnemyWaves, basicEnemyWaves);
+        PopulateWaveList(viableBasicEnemyActOneHalfOneWaves, basicEnemyWavesActOneHalfOne);
+        PopulateWaveList(viableBasicEnemyActOneHalfTwoWaves, basicEnemyWavesActOneHalfTwo);
         PopulateWaveList(viableEliteEnemyWaves, eliteEnemyWaves);
     }
     public void PopulateEnemySpawnLocations()
@@ -48,14 +51,25 @@ public class EnemySpawner : MonoBehaviour
         if(enemyWaveSO == null)
         {
             // select a random enemyWaveSO
-            if (enemyType == "Basic")
+            if (enemyType == "Basic" &&
+                WorldManager.Instance.playerColumnPosition <= 5)
             {
-                if (viableBasicEnemyWaves.Count == 0)
+                if (viableBasicEnemyActOneHalfOneWaves.Count == 0)
                 {
-                    PopulateWaveList(viableBasicEnemyWaves, basicEnemyWaves);
+                    PopulateWaveList(viableBasicEnemyActOneHalfOneWaves, basicEnemyWavesActOneHalfOne);
                 }
 
-                enemyWaveSO = GetRandomWaveSO(viableBasicEnemyWaves, true);
+                enemyWaveSO = GetRandomWaveSO(viableBasicEnemyActOneHalfOneWaves, true);
+            }
+            else if (enemyType == "Basic" &&
+                WorldManager.Instance.playerColumnPosition > 5)
+            {
+                if (viableBasicEnemyActOneHalfTwoWaves.Count == 0)
+                {
+                    PopulateWaveList(viableBasicEnemyActOneHalfTwoWaves, basicEnemyWavesActOneHalfTwo);
+                }
+
+                enemyWaveSO = GetRandomWaveSO(viableBasicEnemyActOneHalfTwoWaves, true);
             }
 
             else if (enemyType == "Elite")
@@ -105,7 +119,7 @@ public class EnemySpawner : MonoBehaviour
         List<EnemyWaveSO> allWaves = new List<EnemyWaveSO>();
         EnemyWaveSO waveReturned = null;
 
-        allWaves.AddRange(basicEnemyWaves);
+        allWaves.AddRange(basicEnemyWavesActOneHalfOne);
         allWaves.AddRange(eliteEnemyWaves);
         allWaves.AddRange(bossEnemyWaves);
         allWaves.AddRange(storyEventEnemyWaves);
