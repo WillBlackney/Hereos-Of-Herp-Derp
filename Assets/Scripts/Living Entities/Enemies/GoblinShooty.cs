@@ -42,7 +42,7 @@ public class GoblinShooty : Enemy
         }
 
         // Pinning Shot
-        else if (EntityLogic.IsAbilityUseable(this, pinningShot) &&
+        else if (EntityLogic.IsAbilityUseable(this, pinningShot, myCurrentTarget) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, pinningShot.abilityRange) &&
             myCurrentTarget.myPassiveManager.immobilized)
         {
@@ -54,7 +54,7 @@ public class GoblinShooty : Enemy
         }
 
         // Shoot
-        else if (EntityLogic.IsAbilityUseable(this, shoot) &&
+        else if (EntityLogic.IsAbilityUseable(this, shoot, myCurrentTarget) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, shoot.abilityRange))
         {
             Action action = AbilityLogic.Instance.PerformShoot(this, myCurrentTarget);

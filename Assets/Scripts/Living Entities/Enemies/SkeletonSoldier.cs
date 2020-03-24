@@ -39,7 +39,7 @@ public class SkeletonSoldier : Enemy
         }
 
         // Strike
-        else if (EntityLogic.IsAbilityUseable(this, strike) &&
+        else if (EntityLogic.IsAbilityUseable(this, strike, myCurrentTarget) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);

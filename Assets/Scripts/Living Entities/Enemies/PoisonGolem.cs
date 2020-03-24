@@ -47,7 +47,7 @@ public class PoisonGolem : Enemy
 
         // Noxious Fumes
         else if (EntityLogic.GetAllEnemiesWithinRange(this, 1).Count > 0 &&
-            EntityLogic.IsAbilityUseable(this, noxiousFumes))
+            EntityLogic.IsAbilityUseable(this, noxiousFumes, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformNoxiousFumes(this);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -59,7 +59,7 @@ public class PoisonGolem : Enemy
 
         // Toxic Slash
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, toxicSlash))
+            EntityLogic.IsAbilityUseable(this, toxicSlash, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformToxicSlash(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -71,7 +71,7 @@ public class PoisonGolem : Enemy
         // Chemical Reaction       
         else if (EntityLogic.GetBestChemicalReactionTarget(this) != null &&
                  EntityLogic.IsTargetInRange(this, EntityLogic.GetBestChemicalReactionTarget(this), chemicalReaction.abilityRange) &&
-                 EntityLogic.IsAbilityUseable(this, chemicalReaction)
+                 EntityLogic.IsAbilityUseable(this, chemicalReaction, EntityLogic.GetBestChemicalReactionTarget(this))
             )
         {
             SetTargetDefender(EntityLogic.GetBestChemicalReactionTarget(this));
@@ -85,7 +85,7 @@ public class PoisonGolem : Enemy
 
         // Strike
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, strike))
+            EntityLogic.IsAbilityUseable(this, strike, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);

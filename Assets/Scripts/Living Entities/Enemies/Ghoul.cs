@@ -42,7 +42,7 @@ public class Ghoul : Enemy
         }
 
         // Acid Spit
-        else if (EntityLogic.IsAbilityUseable(this, acidSpit) &&
+        else if (EntityLogic.IsAbilityUseable(this, acidSpit, myCurrentTarget) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, acidSpit.abilityRange))
         {
             yield return new WaitForSeconds(1f);

@@ -304,7 +304,7 @@ public class PassiveManager : MonoBehaviour
     public bool Volatile;
     public int volatileStacks;
 
-    public bool Unstable;
+    public bool unstable;
     public int unstableStacks;
 
     public bool growing;
@@ -1008,14 +1008,14 @@ public class PassiveManager : MonoBehaviour
 
         }
 
-        else if (stacks < 0)
+        else if (stacks <= 0)
         {
             tauntedStacks += stacks;
             if (tauntedStacks <= 0)
             {
                 tauntedStacks = 0;
                 taunted = false;
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Taunted Removed");
+                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Taunt Removed");
             }
             myLivingEntity.myTaunter = null;
         }
@@ -2334,7 +2334,7 @@ public class PassiveManager : MonoBehaviour
         Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyUnstable() called, stacks = " + stacks.ToString());
 
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Unstable");
-        Unstable = true;
+        unstable = true;
         unstableStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }

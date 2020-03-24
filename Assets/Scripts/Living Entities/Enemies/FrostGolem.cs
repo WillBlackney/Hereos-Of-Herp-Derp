@@ -60,7 +60,7 @@ public class FrostGolem : Enemy
         // Thaw
         else if (myCurrentTarget.myPassiveManager.chilled &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, thaw.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, thaw))
+            EntityLogic.IsAbilityUseable(this, thaw, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformChillingBlow(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -72,7 +72,7 @@ public class FrostGolem : Enemy
         // Chilling Blow 
         else if (myCurrentTarget.myPassiveManager.chilled &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, chillingBlow))
+            EntityLogic.IsAbilityUseable(this, chillingBlow, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformChillingBlow(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -83,7 +83,7 @@ public class FrostGolem : Enemy
 
         // Strike
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, strike))
+            EntityLogic.IsAbilityUseable(this, strike, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);

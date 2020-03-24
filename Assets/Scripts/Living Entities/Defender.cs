@@ -2983,7 +2983,10 @@ public class Defender : LivingEntity
     {
         Debug.Log("Defender.StartStrikeProcess() called");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (EntityLogic.IsTargetInRange(this, enemyTarget, currentMeleeRange))
+        Ability strike = mySpellBook.GetAbilityByName("Strike");
+
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, currentMeleeRange) 
+            && EntityLogic.IsAbilityUseable(this, strike, enemyTarget))
         {
             awaitingStrikeOrder = false;
             AbilityLogic.Instance.PerformStrike(this, enemyTarget);
@@ -2993,7 +2996,10 @@ public class Defender : LivingEntity
     {
         Debug.Log("Defender.StartBackStabProcess() called");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (EntityLogic.IsTargetInRange(this, enemyTarget, currentMeleeRange))
+        Ability backstab = mySpellBook.GetAbilityByName("Back Stab");
+
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, backstab, enemyTarget))
         {
             awaitingBackStabOrder = false;
             AbilityLogic.Instance.PerformBackStab(this, enemyTarget);
@@ -3003,7 +3009,10 @@ public class Defender : LivingEntity
     {
         Debug.Log("Defender.StartDisarmProcess() called");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (EntityLogic.IsTargetInRange(this, enemyTarget, currentMeleeRange))
+        Ability disarm = mySpellBook.GetAbilityByName("Disarm");
+
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, disarm, enemyTarget))
         {
             awaitingDisarmOrder = false;
             AbilityLogic.Instance.PerformDisarm(this, enemyTarget);
@@ -3011,8 +3020,10 @@ public class Defender : LivingEntity
     }
     public void StartSmashProcess(LivingEntity target)
     {
-        Debug.Log("Defender.StartSmashProcess() called");       
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        Debug.Log("Defender.StartSmashProcess() called");
+        Ability smash = mySpellBook.GetAbilityByName("Smash");
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, smash, target))
         {
             awaitingSmashOrder = false;            
             AbilityLogic.Instance.PerformSmash(this, target);
@@ -3021,7 +3032,10 @@ public class Defender : LivingEntity
     public void StartShankProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartShankProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        Ability shank = mySpellBook.GetAbilityByName("Shank");
+
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, shank, target))
         {
             awaitingShankOrder = false;
             AbilityLogic.Instance.PerformShank(this, target);
@@ -3030,7 +3044,10 @@ public class Defender : LivingEntity
     public void StartAmbushProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartAmbushProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        Ability ambush = mySpellBook.GetAbilityByName("Ambush");
+
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, ambush, target))
         {
             awaitingAmbushOrder = false;
             AbilityLogic.Instance.PerformAmbush(this, target);
@@ -3039,7 +3056,10 @@ public class Defender : LivingEntity
     public void StartCheapShotProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartCheapShotProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        Ability cheapShot = mySpellBook.GetAbilityByName("Cheap Shot");
+
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+             && EntityLogic.IsAbilityUseable(this, cheapShot, target))
         {
             awaitingCheapShotOrder = false;
             AbilityLogic.Instance.PerformCheapShot(this, target);
@@ -3048,7 +3068,10 @@ public class Defender : LivingEntity
     public void StartDecapitateProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartDecapitateProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        Ability decapitate = mySpellBook.GetAbilityByName("Decapitate");
+
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, decapitate, target))
         {
             awaitingDecapitateOrder = false;
             AbilityLogic.Instance.PerformDecapitate(this, target);
@@ -3062,6 +3085,7 @@ public class Defender : LivingEntity
         Ability shadowStep = mySpellBook.GetAbilityByName("Shadow Step");
    
         if (EntityLogic.IsTargetInRange(this, target, shadowStep.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, shadowStep, target) &&
             targetsBackTile.IsEmpty &&
             targetsBackTile.IsWalkable)
         {
@@ -3072,7 +3096,10 @@ public class Defender : LivingEntity
     public void StartKickToTheBallsProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartKickToTheBallsProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        Ability kttb = mySpellBook.GetAbilityByName("Kick To The Balls");
+
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, kttb, target))
         {
             awaitingKickToTheBallsOrder = false;
             AbilityLogic.Instance.PerformKickToTheBalls(this, target);
@@ -3082,7 +3109,10 @@ public class Defender : LivingEntity
     public void StartDevastatingBlowProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartDevastatingBlowProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        Ability db = mySpellBook.GetAbilityByName("Devastating Blow");
+
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, db, target))
         {
             awaitingDevastatingBlowOrder = false;
             AbilityLogic.Instance.PerformDevastatingBlow(this, target);
@@ -3091,7 +3121,10 @@ public class Defender : LivingEntity
     public void StartToxicSlashProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartToxicSlashProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        Ability toxicSlash = mySpellBook.GetAbilityByName("Toxic Slash");
+
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, toxicSlash, target))
         {
             awaitingToxicSlashOrder = false;
             AbilityLogic.Instance.PerformToxicSlash(this, target);
@@ -3100,7 +3133,10 @@ public class Defender : LivingEntity
     public void StartThunderStrikeProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartThunderStrikeProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        Ability thunderStrike = mySpellBook.GetAbilityByName("Thunder Strike");
+
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+             && EntityLogic.IsAbilityUseable(this, thunderStrike, target))
         {
             awaitingThunderStrikeOrder = false;
             AbilityLogic.Instance.PerformThunderStrike(this, target);
@@ -3109,7 +3145,10 @@ public class Defender : LivingEntity
     public void StartJudgementProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartDevastatingBlowProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        Ability judgement = mySpellBook.GetAbilityByName("Judgement");
+
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, judgement, target))
         {
             awaitingJudgementOrder = false;
             AbilityLogic.Instance.PerformJudgement(this, target);
@@ -3119,7 +3158,10 @@ public class Defender : LivingEntity
     public void StartShieldSlamProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartShieldSlamProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        Ability shieldSlam = mySpellBook.GetAbilityByName("Shield Slam");
+
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, shieldSlam, target))
         {
             awaitingShieldSlamOrder = false;
             AbilityLogic.Instance.PerformShieldSlam(this, target);
@@ -3129,7 +3171,10 @@ public class Defender : LivingEntity
     public void StartShieldShatterProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartShieldShatterProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        Ability shieldShatter = mySpellBook.GetAbilityByName("Shield Slam");
+
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, shieldShatter, target))
         {
             awaitingShieldShatterOrder = false;
             AbilityLogic.Instance.PerformShieldShatter(this, target);
@@ -3139,7 +3184,10 @@ public class Defender : LivingEntity
     public void StartTendonSlashProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartTendonSlashProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        Ability tendonSlash = mySpellBook.GetAbilityByName("Shield Slam");
+
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, tendonSlash, target))
         {
             awaitingTendonSlashOrder = false;
             AbilityLogic.Instance.PerformTendonSlash(this, target);
@@ -3149,7 +3197,10 @@ public class Defender : LivingEntity
     public void StartChillingBlowProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartChillingBlowProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        Ability chillingBlow = mySpellBook.GetAbilityByName("Shield Slam");
+
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, chillingBlow, target))
         {
             awaitingChillingBlowOrder = false;
             AbilityLogic.Instance.PerformChillingBlow(this, target);
@@ -3159,7 +3210,10 @@ public class Defender : LivingEntity
     public void StartSwordAndBoardProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartSwordAndBoardProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        Ability swordAndBoard = mySpellBook.GetAbilityByName("Shield Slam");
+
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+             && EntityLogic.IsAbilityUseable(this, swordAndBoard, target))
         {
             awaitingSwordAndBoardOrder = false;
             AbilityLogic.Instance.PerformSwordAndBoard(this, target);
@@ -3172,7 +3226,8 @@ public class Defender : LivingEntity
 
         Ability chainLightning = mySpellBook.GetAbilityByName("Chain Lightning");
         
-        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, chainLightning)))
+        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, chainLightning))
+            && EntityLogic.IsAbilityUseable(this, chainLightning, target))
         {
             awaitingChainLightningOrder = false;      
             AbilityLogic.Instance.PerformChainLightning(this, target);
@@ -3278,7 +3333,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartInspireProcess() called");
         Ability inspire = mySpellBook.GetAbilityByName("Inspire");
 
-        if (EntityLogic.IsTargetInRange(this, target, inspire.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, inspire.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, inspire, target))
         {
             awaitingInspireOrder = false;
             AbilityLogic.Instance.PerformInspire(this, target);
@@ -3289,7 +3345,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartStoneFormProcess() called");
         Ability stoneForm = mySpellBook.GetAbilityByName("Stone Form");
 
-        if (EntityLogic.IsTargetInRange(this, target, stoneForm.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, stoneForm.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, stoneForm, target))
         {
             awaitingStoneFormOrder = false;
             AbilityLogic.Instance.PerformStoneForm(this, target);
@@ -3300,7 +3357,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartGoBerserkProcess() called");
         Ability inspire = mySpellBook.GetAbilityByName("Go Berserk");
 
-        if (EntityLogic.IsTargetInRange(this, target, inspire.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, inspire.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, inspire, target))
         {
             awaitingGoBerserkOrder = false;
             AbilityLogic.Instance.PerformGoBerserk(this, target);
@@ -3311,7 +3369,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartTranscendenceProcess() called");
         Ability transcendence = mySpellBook.GetAbilityByName("Transcendence");
 
-        if (EntityLogic.IsTargetInRange(this, target, transcendence.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, transcendence.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, transcendence, target))
         {
             awaitingTranscendenceOrder = false;
             AbilityLogic.Instance.PerformTranscendence(this, target);
@@ -3322,7 +3381,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartProvokeProcess() called");
         Ability provoke = mySpellBook.GetAbilityByName("Provoke");
 
-        if (EntityLogic.IsTargetInRange(this, target, provoke.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, provoke.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, provoke, target))
         {
             awaitingProvokeOrder = false;
             AbilityLogic.Instance.PerformProvoke(this, target);
@@ -3333,7 +3393,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartHexProcess() called");
         Ability hex = mySpellBook.GetAbilityByName("Hex");
 
-        if (EntityLogic.IsTargetInRange(this, target, hex.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, hex.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, hex, target))
         {
             awaitingHexOrder = false;
             AbilityLogic.Instance.PerformHex(this, target);
@@ -3344,7 +3405,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartMarkTargetProcess() called");
         Ability mt = mySpellBook.GetAbilityByName("Mark Target");
 
-        if (EntityLogic.IsTargetInRange(this, target, mt.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, mt.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, mt, target))
         {
             awaitingMarkTargetOrder = false;
             AbilityLogic.Instance.PerformMarkTarget(this, target);
@@ -3355,7 +3417,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartBlightProcess() called");
         Ability blight = mySpellBook.GetAbilityByName("Blight");
 
-        if (EntityLogic.IsTargetInRange(this, target, blight.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, blight.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, blight, target))
         {
             awaitingBlightOrder = false;
             AbilityLogic.Instance.PerformBlight(this, target);
@@ -3366,7 +3429,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartShroudProcess() called");
         Ability shroud = mySpellBook.GetAbilityByName("Shroud");
 
-        if (EntityLogic.IsTargetInRange(this, target, shroud.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, shroud.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, shroud, target))
         {
             awaitingShroudOrder = false;
             AbilityLogic.Instance.PerformShroud(this, target);
@@ -3377,7 +3441,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartIcyFocusProcess() called");
         Ability icyFocus = mySpellBook.GetAbilityByName("Icy Focus");
 
-        if (EntityLogic.IsTargetInRange(this, target, icyFocus.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, icyFocus.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, icyFocus, target))
         {
             awaitingIcyFocusOrder = false;
             AbilityLogic.Instance.PerformIcyFocus(this, target);
@@ -3388,7 +3453,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartDarkGiftProcess() called");
         Ability icyFocus = mySpellBook.GetAbilityByName("Dark Gift");
 
-        if (EntityLogic.IsTargetInRange(this, target, icyFocus.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, icyFocus.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, icyFocus, target))
         {
             awaitingDarkGiftOrder = false;
             AbilityLogic.Instance.PerformDarkGift(this, target);
@@ -3399,7 +3465,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartTimeWarpProcess() called");
         Ability timeWarp = mySpellBook.GetAbilityByName("Time Warp");
 
-        if (EntityLogic.IsTargetInRange(this, target, timeWarp.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, timeWarp.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, timeWarp, target))
         {
             awaitingTimeWarpOrder = false;
             AbilityLogic.Instance.PerformTimeWarp(this, target);
@@ -3408,9 +3475,10 @@ public class Defender : LivingEntity
     public void StartSpiritVisionProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartSpiritVisionProcess() called");
-        Ability spiritSurge = mySpellBook.GetAbilityByName("Spirit Vision");
+        Ability spiritVision = mySpellBook.GetAbilityByName("Spirit Vision");
 
-        if (EntityLogic.IsTargetInRange(this, target, spiritSurge.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, spiritVision.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, spiritVision, target))
         {
             awaitingSpiritVisionOrder = false;
             AbilityLogic.Instance.PerformSpiritVision(this, target);
@@ -3421,7 +3489,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartHasteProcess() called");
         Ability haste = mySpellBook.GetAbilityByName("Haste");
 
-        if (EntityLogic.IsTargetInRange(this, target, haste.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, haste.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, haste, target))
         {
             awaitingHasteOrder = false;
             AbilityLogic.Instance.PerformHaste(this, target);
@@ -3432,7 +3501,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartSteadyHandsProcess() called");
         Ability steadyHands = mySpellBook.GetAbilityByName("Steady Hands");
 
-        if (EntityLogic.IsTargetInRange(this, target, steadyHands.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, steadyHands.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, steadyHands, target))
         {
             awaitingSteadyHandsOrder = false;
             AbilityLogic.Instance.PerformSteadyHands(this, target);
@@ -3443,7 +3513,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartEvasionProcess() called");
         Ability evasion = mySpellBook.GetAbilityByName("Evasion");
 
-        if (EntityLogic.IsTargetInRange(this, target, evasion.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, evasion.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, evasion, target))
         {
             awaitingEvasionOrder = false;
             AbilityLogic.Instance.PerformEvasion(this, target);
@@ -3454,7 +3525,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartBurstOfKnowledgeProcess() called");
         Ability burstOfKnowledge = mySpellBook.GetAbilityByName("Burst Of Knowledge");
 
-        if (EntityLogic.IsTargetInRange(this, target, burstOfKnowledge.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, burstOfKnowledge.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, burstOfKnowledge, target))
         {
             awaitingBurstOfKnowledgeOrder = false;
             AbilityLogic.Instance.PerformBurstOfKnowledge(this, target);
@@ -3465,7 +3537,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartMirageProcess() called");
         Ability mirage = mySpellBook.GetAbilityByName("Mirage");
 
-        if (EntityLogic.IsTargetInRange(this, targetOfEvasion, mirage.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, targetOfEvasion, mirage.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, mirage, targetOfEvasion))
         {
             awaitingMirageOrder = false;
             AbilityLogic.Instance.PerformMirage(this, targetOfEvasion);
@@ -3477,7 +3550,8 @@ public class Defender : LivingEntity
 
         Debug.Log("Defender.StartChargeLocationSettingProcess() called");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (EntityLogic.IsTargetInRange(this, enemyTarget, charge.abilityPrimaryValue + EntityLogic.GetTotalMobility(this)))
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, charge.abilityPrimaryValue + EntityLogic.GetTotalMobility(this))
+            && EntityLogic.IsAbilityUseable(this, charge, enemyTarget))
         {
             awaitingChargeLocationOrder = true;
             awaitingChargeTargetOrder = false;
@@ -3528,7 +3602,8 @@ public class Defender : LivingEntity
     {
         Ability guard = mySpellBook.GetAbilityByName("Guard");
 
-        if (EntityLogic.IsTargetInRange(this, targetOfGuard, guard.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, targetOfGuard, guard.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, guard, targetOfGuard))
         {
             awaitingGuardOrder = false;
             AbilityLogic.Instance.PerformGuard(this, targetOfGuard);
@@ -3538,7 +3613,8 @@ public class Defender : LivingEntity
     {
         Ability fortify = mySpellBook.GetAbilityByName("Fortify");
 
-        if (EntityLogic.IsTargetInRange(this, targetOfGuard, fortify.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, targetOfGuard, fortify.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, fortify, targetOfGuard))
         {
             awaitingFortifyOrder = false;
             AbilityLogic.Instance.PerformFortify(this, targetOfGuard);
@@ -3548,7 +3624,8 @@ public class Defender : LivingEntity
     {
         Ability frostArmour = mySpellBook.GetAbilityByName("Frost Armour");
 
-        if (EntityLogic.IsTargetInRange(this, target, frostArmour.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, frostArmour.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, frostArmour, target))
         {
             awaitingFrostArmourOrder = false;
             AbilityLogic.Instance.PerformFrostArmour(this, target);
@@ -3558,7 +3635,8 @@ public class Defender : LivingEntity
     {
         Ability forestMedicine = mySpellBook.GetAbilityByName("Forest Medicine");
 
-        if (EntityLogic.IsTargetInRange(this, target, forestMedicine.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, forestMedicine.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, forestMedicine, target))
         {
             awaitingForestMedicineOrder = false;
             AbilityLogic.Instance.PerformForestMedicine(this, target);
@@ -3609,7 +3687,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartTelekinesisLocationSettingProcess() called");
         //Enemy target = EnemyManager.Instance.selectedEnemy;
         LivingEntity target = targetBeingTeleported;
-        if (EntityLogic.IsTargetInRange(this, target, telekinesis.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, telekinesis.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, telekinesis, target))
         {
             awaitingTelekinesisTargetOrder = false;
             awaitingTelekinesisLocationOrder = true;
@@ -3626,7 +3705,8 @@ public class Defender : LivingEntity
         Ability frostbolt = mySpellBook.GetAbilityByName("Frost Bolt");
         Debug.Log("Defender.StartFrostBoltProcess() called");
 
-        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, frostbolt)))
+        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, frostbolt))
+            && EntityLogic.IsAbilityUseable(this, frostbolt, target))
         {                      
             awaitingFrostBoltOrder = false;            
             AbilityLogic.Instance.PerformFrostBolt(this, target);
@@ -3637,7 +3717,8 @@ public class Defender : LivingEntity
         Ability thaw = mySpellBook.GetAbilityByName("Thaw");
         Debug.Log("Defender.StartThawProcess() called");
 
-        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this,thaw)))
+        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this,thaw))
+            && EntityLogic.IsAbilityUseable(this, thaw, target))
         {
             awaitingThawOrder = false;
             AbilityLogic.Instance.PerformThaw(this, target);
@@ -3647,7 +3728,8 @@ public class Defender : LivingEntity
     {
         Ability fireball = mySpellBook.GetAbilityByName("Fire Ball");
         Debug.Log("Defender.StartFireBallProcess() called");        
-        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, fireball)))
+        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, fireball))
+            && EntityLogic.IsAbilityUseable(this, fireball, target))
         {
             awaitingFireBallOrder = false;
             AbilityLogic.Instance.PerformFireBall(this, target);                       
@@ -3657,7 +3739,8 @@ public class Defender : LivingEntity
     {
         Ability melt = mySpellBook.GetAbilityByName("Melt");
         Debug.Log("Defender.StartMeltProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, melt)))
+        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, melt))
+            && EntityLogic.IsAbilityUseable(this, melt, target))
         {
             awaitingMeltOrder = false;
             AbilityLogic.Instance.PerformMelt(this, target);
@@ -3667,7 +3750,8 @@ public class Defender : LivingEntity
     {
         Ability shadowBlast = mySpellBook.GetAbilityByName("Shadow Blast");
         Debug.Log("Defender.StartShadowBlastProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, shadowBlast)))
+        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, shadowBlast))
+            && EntityLogic.IsAbilityUseable(this, shadowBlast, target))
         {
             awaitingShadowBlastOrder = false;
             AbilityLogic.Instance.PerformShadowBlast(this, target);
@@ -3678,7 +3762,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.StartLightningBoltProcess() called");
         Ability lightningBolt = mySpellBook.GetAbilityByName("Lightning Bolt");
         
-        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, lightningBolt)))
+        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, lightningBolt))
+            && EntityLogic.IsAbilityUseable(this, lightningBolt, target))
         {
             awaitingLightningBoltOrder = false;
             AbilityLogic.Instance.PerformLightningBolt(this, target);
@@ -3689,7 +3774,8 @@ public class Defender : LivingEntity
         Debug.Log("Defender.DimesionalBlastProcess() called");
 
         Ability dimensionalBlast = mySpellBook.GetAbilityByName("Dimensional Blast");        
-        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, dimensionalBlast)))
+        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, dimensionalBlast))
+            && EntityLogic.IsAbilityUseable(this, dimensionalBlast, target))
         {
             awaitingDimensionalBlastOrder = false;
             AbilityLogic.Instance.PerformDimensionalBlast(this, target);
@@ -3697,22 +3783,27 @@ public class Defender : LivingEntity
     }
     public void StartShootProcess()
     {
-        Ability shoot = mySpellBook.GetAbilityByName("Shoot");
         Debug.Log("Defender.StartShootProcess() called");
+
+        Ability shoot = mySpellBook.GetAbilityByName("Shoot");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (EntityLogic.IsTargetInRange(this, enemyTarget, EntityLogic.GetTotalRangeOfRangedAttack(this, shoot)))
+
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, EntityLogic.GetTotalRangeOfRangedAttack(this, shoot))
+            && EntityLogic.IsAbilityUseable(this, shoot, enemyTarget))
         {
-            //PerformShoot(enemyTarget, CalculateDamage(shoot.abilityPrimaryValue, enemyTarget, this));
             awaitingShootOrder = false;
             AbilityLogic.Instance.PerformShoot(this, enemyTarget);
         }
     }
     public void StartPinningShotProcess()
-    {
-        Ability ps = mySpellBook.GetAbilityByName("Pinning Shot");
+    {        
         Debug.Log("Defender.StartPinningShotProcess() called");
+
+        Ability ps = mySpellBook.GetAbilityByName("Pinning Shot");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (EntityLogic.IsTargetInRange(this, enemyTarget, EntityLogic.GetTotalRangeOfRangedAttack(this, ps)))
+
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, EntityLogic.GetTotalRangeOfRangedAttack(this, ps))
+            && EntityLogic.IsAbilityUseable(this, ps, enemyTarget))
         {
             awaitingPinningShotOrder = false;
             AbilityLogic.Instance.PerformPinningShot(this, enemyTarget);
@@ -3723,7 +3814,8 @@ public class Defender : LivingEntity
         Ability snipe = mySpellBook.GetAbilityByName("Snipe");
         Debug.Log("Defender.StartSnipeProcess() called");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (EntityLogic.IsTargetInRange(this, enemyTarget, EntityLogic.GetTotalRangeOfRangedAttack(this, snipe)))
+        if (EntityLogic.IsTargetInRange(this, enemyTarget, EntityLogic.GetTotalRangeOfRangedAttack(this, snipe))
+            && EntityLogic.IsAbilityUseable(this, snipe, enemyTarget))
         {
             awaitingSnipeOrder = false;
             AbilityLogic.Instance.PerformSnipe(this, enemyTarget);
@@ -3733,7 +3825,8 @@ public class Defender : LivingEntity
     {
         Ability headShot = mySpellBook.GetAbilityByName("Head Shot");
         Debug.Log("Defender.HeadShotProcess() called");
-        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, headShot)))
+        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, headShot))
+            && EntityLogic.IsAbilityUseable(this, headShot, target))
         {
             awaitingHeadShotOrder = false;
             AbilityLogic.Instance.PerformHeadShot(this, target);
@@ -3746,7 +3839,8 @@ public class Defender : LivingEntity
 
         // if target is in range and shooter has enough energy to make at least 1 shot
         if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, rapidFire)) &&
-            currentEnergy >= 10)
+            currentEnergy >= 10
+            && EntityLogic.IsAbilityUseable(this, rapidFire, target))
         {
             awaitingRapidFireOrder = false;
             AbilityLogic.Instance.PerformRapidFire(this, target);
@@ -3759,7 +3853,8 @@ public class Defender : LivingEntity
 
         // if target is in range and shooter has enough energy to make at least 1 shot
         if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, superConductor)) &&
-            currentEnergy >= 10)
+            currentEnergy >= 10
+            && EntityLogic.IsAbilityUseable(this, superConductor, target))
         {
             awaitingSuperConductorOrder = false;
             AbilityLogic.Instance.PerformSuperConductor(this, target);
@@ -3770,7 +3865,8 @@ public class Defender : LivingEntity
         Ability dimensionalHex = mySpellBook.GetAbilityByName("Dimensional Hex");
         Debug.Log("Defender.DimensionalHexProcess() called");
 
-        if (EntityLogic.IsTargetInRange(this, target, dimensionalHex.abilityRange)) 
+        if (EntityLogic.IsTargetInRange(this, target, dimensionalHex.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, dimensionalHex, target)) 
         {
             awaitingDimensionalHexOrder = false;
             AbilityLogic.Instance.PerformDimensionalHex(this, target);
@@ -3781,7 +3877,8 @@ public class Defender : LivingEntity
         Ability combustion = mySpellBook.GetAbilityByName("Combustion");
         Debug.Log("Defender.CombustionProcess() called");
 
-        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, combustion)))
+        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, combustion))
+            && EntityLogic.IsAbilityUseable(this, combustion, target))
         {
             awaitingCombustionOrder = false;
             AbilityLogic.Instance.PerformCombustion(this, target);
@@ -3790,8 +3887,10 @@ public class Defender : LivingEntity
     public void StartSliceAndDiceProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartSliceAndDiceProcess() called");
+        Ability sliceAndDice = mySpellBook.GetAbilityByName("Slice And Dice");
 
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, sliceAndDice, target))
         {
             awaitingSliceAndDiceOrder = false;
             AbilityLogic.Instance.PerformSliceAndDice(this, target);
@@ -3804,7 +3903,8 @@ public class Defender : LivingEntity
 
         Ability chemicalReaction = mySpellBook.GetAbilityByName("Chemical Reaction");   
 
-        if (EntityLogic.IsTargetInRange(this, target, chemicalReaction.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, chemicalReaction.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, chemicalReaction, target))
         {
             awaitingChemicalReactionOrder = false;
             AbilityLogic.Instance.PerformChemicalReaction(this, target);
@@ -3816,7 +3916,8 @@ public class Defender : LivingEntity
 
         Ability drain = mySpellBook.GetAbilityByName("Drain");
 
-        if (EntityLogic.IsTargetInRange(this, target, drain.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, drain.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, drain, target))
         {
             awaitingDrainOrder = false;
             AbilityLogic.Instance.PerformDrain(this, target);
@@ -3826,7 +3927,8 @@ public class Defender : LivingEntity
     {
         Ability impalingBolt = mySpellBook.GetAbilityByName("Impaling Bolt");
 
-        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, impalingBolt)))
+        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, impalingBolt))
+            && EntityLogic.IsAbilityUseable(this, impalingBolt, target))
         {
             awaitingImpalingBoltOrder = false;            
             AbilityLogic.Instance.PerformImpalingBolt(this, target);
@@ -3835,7 +3937,8 @@ public class Defender : LivingEntity
     public void StartInvigorateProcess(LivingEntity target)
     {
         Ability invigorate = mySpellBook.GetAbilityByName("Invigorate");
-        if (EntityLogic.IsTargetInRange(this, target, invigorate.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, invigorate.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, invigorate, target))
         {
             awaitingInvigorateOrder = false;
             AbilityLogic.Instance.PerformInvigorate(this, target);
@@ -3844,7 +3947,8 @@ public class Defender : LivingEntity
     public void StartCreepingFrostProcess(LivingEntity target)
     {
         Ability creepingFrost = mySpellBook.GetAbilityByName("Creeping Frost");
-        if (EntityLogic.IsTargetInRange(this, target, creepingFrost.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, creepingFrost.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, creepingFrost, target))
         {
             awaitingCreepingFrostOrder = false;
             AbilityLogic.Instance.PerformCreepingFrost(this, target);
@@ -3853,7 +3957,8 @@ public class Defender : LivingEntity
     public void StartBlazeProcess(LivingEntity target)
     {
         Ability blaze = mySpellBook.GetAbilityByName("Blaze");
-        if (EntityLogic.IsTargetInRange(this, target, blaze.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, blaze.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, blaze, target))
         {
             awaitingBlazeOrder = false;
             AbilityLogic.Instance.PerformBlaze(this, target);
@@ -3862,7 +3967,8 @@ public class Defender : LivingEntity
     public void StartOverloadProcess(LivingEntity target)
     {
         Ability overload = mySpellBook.GetAbilityByName("Overload");
-        if (EntityLogic.IsTargetInRange(this, target, overload.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, overload.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, overload, target))
         {
             awaitingOverloadOrder = false;
             AbilityLogic.Instance.PerformOverload(this, target);
@@ -3871,7 +3977,8 @@ public class Defender : LivingEntity
     public void StartShadowWreathProcess(LivingEntity target)
     {
         Ability shadowWreath = mySpellBook.GetAbilityByName("Shadow Wreath");
-        if (EntityLogic.IsTargetInRange(this, target, shadowWreath.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, shadowWreath.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, shadowWreath, target))
         {
             awaitingShadowWreathOrder = false;
             AbilityLogic.Instance.PerformShadowWreath(this, target);
@@ -3880,7 +3987,8 @@ public class Defender : LivingEntity
     public void StartSnowStasisProcess(LivingEntity target)
     {
         Ability st = mySpellBook.GetAbilityByName("Snow Stasis");
-        if (EntityLogic.IsTargetInRange(this, target, st.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, st.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, st, target))
         {
             awaitingSnowStasisOrder = false;
             AbilityLogic.Instance.PerformSnowStasis(this, target);
@@ -3891,7 +3999,8 @@ public class Defender : LivingEntity
     {   
         Ability holyFire = mySpellBook.GetAbilityByName("Holy Fire");
 
-        if (EntityLogic.IsTargetInRange(this, target, holyFire.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, holyFire.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, holyFire, target))
         {
             awaitingHolyFireOrder = false;
             AbilityLogic.Instance.PerformHolyFire(this, target);
@@ -3901,7 +4010,8 @@ public class Defender : LivingEntity
     {        
         Ability primalRage = mySpellBook.GetAbilityByName("Primal Rage");
 
-        if (EntityLogic.IsTargetInRange(this, target, primalRage.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, primalRage.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, primalRage, target))
         {
             awaitingPrimalRageOrder = false;
             AbilityLogic.Instance.PerformPrimalRage(this, target);
@@ -3911,7 +4021,8 @@ public class Defender : LivingEntity
     {
         Ability phaseShift = mySpellBook.GetAbilityByName("Phase Shift");
 
-        if (EntityLogic.IsTargetInRange(this, target, phaseShift.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, phaseShift.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, phaseShift, target))
         {
             awaitingPhaseShiftOrder = false;
             AbilityLogic.Instance.PerformPhaseShift(this, target);
@@ -3923,7 +4034,8 @@ public class Defender : LivingEntity
     {
         Ability chaosBolt = mySpellBook.GetAbilityByName("Chaos Bolt");
 
-        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, chaosBolt)))
+        if (EntityLogic.IsTargetInRange(this, target, EntityLogic.GetTotalRangeOfRangedAttack(this, chaosBolt))
+            && EntityLogic.IsAbilityUseable(this, chaosBolt, target))
         {
             awaitingChaosBoltOrder = false;
             AbilityLogic.Instance.PerformChaosBolt(this, target);
@@ -3934,7 +4046,8 @@ public class Defender : LivingEntity
     {
         Ability bless = mySpellBook.GetAbilityByName("Bless");
 
-        if (EntityLogic.IsTargetInRange(this, target, bless.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, bless.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, bless, target))
         {
             awaitingBlessOrder = false;
             AbilityLogic.Instance.PerformBless(this, target);
@@ -3944,7 +4057,8 @@ public class Defender : LivingEntity
     public void StartNightmareProcess(LivingEntity target)
     {
         Ability nightmare = mySpellBook.GetAbilityByName("Nightmare");
-        if (EntityLogic.IsTargetInRange(this, target, nightmare.abilityRange))
+        if (EntityLogic.IsTargetInRange(this, target, nightmare.abilityRange)
+            && EntityLogic.IsAbilityUseable(this, nightmare, target))
         {
             awaitingNightmareOrder = false;
             AbilityLogic.Instance.PerformNightmare(this, target);
@@ -3954,8 +4068,11 @@ public class Defender : LivingEntity
     public void StartTwinStrikeProcess(LivingEntity target)
     {        
         Debug.Log("Defender.StartTwinStrikeProcess() called");
+        Ability twinStrike = mySpellBook.GetAbilityByName("Twin Strike");
+
         //Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
-        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange))
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, twinStrike, target))
         {
             awaitingTwinStrikeOrder = false;
             AbilityLogic.Instance.PerformTwinStrike(this, target);

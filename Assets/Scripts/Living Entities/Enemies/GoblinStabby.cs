@@ -43,7 +43,7 @@ public class GoblinStabby : Enemy
         }
 
         // Tendon Slash
-        else if (EntityLogic.IsAbilityUseable(this, tendonSlash) &&
+        else if (EntityLogic.IsAbilityUseable(this, tendonSlash, myCurrentTarget) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             myCurrentTarget.myPassiveManager.weakened == false)
         {
@@ -55,7 +55,7 @@ public class GoblinStabby : Enemy
         }
 
         // Twin Strike
-        else if (EntityLogic.IsAbilityUseable(this, twinStrike) &&
+        else if (EntityLogic.IsAbilityUseable(this, twinStrike, myCurrentTarget) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
             Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);

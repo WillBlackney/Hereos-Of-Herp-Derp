@@ -57,7 +57,7 @@ public class SkeletonAssassin : Enemy
 
         // Twin Strike best target
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, twinStrike)) 
+            EntityLogic.IsAbilityUseable(this, twinStrike, myCurrentTarget)) 
         {            
             Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -68,7 +68,7 @@ public class SkeletonAssassin : Enemy
 
         // Shank closest target
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, true), currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, shank))
+            EntityLogic.IsAbilityUseable(this, shank, EntityLogic.GetBestTarget(this, true)))
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, true));
             
@@ -81,7 +81,7 @@ public class SkeletonAssassin : Enemy
 
         // Strike closest target
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, true), currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, twinStrike))
+            EntityLogic.IsAbilityUseable(this, twinStrike, EntityLogic.GetBestTarget(this, true)))
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, true));
             
@@ -136,7 +136,7 @@ public class SkeletonAssassin : Enemy
 
         // Shank closest target
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, true), currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, shank))
+            EntityLogic.IsAbilityUseable(this, shank, EntityLogic.GetBestTarget(this, true)))
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, true));
            
@@ -149,7 +149,7 @@ public class SkeletonAssassin : Enemy
 
         // Twin Strike
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, true), currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, twinStrike))
+            EntityLogic.IsAbilityUseable(this, twinStrike, EntityLogic.GetBestTarget(this, true)))
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, true));
             

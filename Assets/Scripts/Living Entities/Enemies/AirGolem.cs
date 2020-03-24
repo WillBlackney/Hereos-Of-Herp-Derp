@@ -48,7 +48,7 @@ public class AirGolem : Enemy
         // Thunder Strike
         else if (myCurrentTarget.myPassiveManager.shocked &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, thunderStrike))
+            EntityLogic.IsAbilityUseable(this, thunderStrike, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformThunderStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -59,7 +59,7 @@ public class AirGolem : Enemy
 
         // Chain Lightning
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, chainLightning.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, chainLightning) &&
+            EntityLogic.IsAbilityUseable(this, chainLightning, myCurrentTarget) &&
             EntityLogic.GetAllEnemiesWithinRange(myCurrentTarget, 1).Count > 0)
         {
             Action action = AbilityLogic.Instance.PerformChainLightning(this, myCurrentTarget);
@@ -71,7 +71,7 @@ public class AirGolem : Enemy
 
         // Lightning Bolt 
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, lightningBolt.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, lightningBolt))
+            EntityLogic.IsAbilityUseable(this, lightningBolt, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformLightningBolt(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -82,7 +82,7 @@ public class AirGolem : Enemy
 
         // Strike
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, strike))
+            EntityLogic.IsAbilityUseable(this, strike, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);

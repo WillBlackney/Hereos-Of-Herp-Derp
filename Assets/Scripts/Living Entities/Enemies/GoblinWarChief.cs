@@ -54,7 +54,7 @@ public class GoblinWarChief : Enemy
         }
 
         // Strike
-        else if (EntityLogic.IsAbilityUseable(this, strike) &&
+        else if (EntityLogic.IsAbilityUseable(this, strike, myCurrentTarget) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
@@ -66,7 +66,7 @@ public class GoblinWarChief : Enemy
 
         // Invigorate 
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestInvigorateTarget(this), invigorate.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, invigorate))
+            EntityLogic.IsAbilityUseable(this, invigorate, EntityLogic.GetBestInvigorateTarget(this)))
         {
             Action action = AbilityLogic.Instance.PerformInvigorate(this, EntityLogic.GetBestInvigorateTarget(this));
             yield return new WaitUntil(() => action.ActionResolved() == true);

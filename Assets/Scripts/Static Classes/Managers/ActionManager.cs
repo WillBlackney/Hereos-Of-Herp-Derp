@@ -24,6 +24,8 @@ public class ActionManager : MonoBehaviour
     }
     #endregion
 
+    // Modify Queue + Check queue status
+    #region
     public void AddActionToQueue(Action action)
     {
         actionQueue.Add(action);
@@ -53,4 +55,5 @@ public class ActionManager : MonoBehaviour
 
         return boolReturned;
     }
+    #endregion
 }

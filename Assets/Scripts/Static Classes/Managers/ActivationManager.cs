@@ -306,7 +306,6 @@ public class ActivationManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             entity.enemy.StartMyActivation();
             yield return new WaitForSeconds(0.5f);
-            //yield return new WaitUntil(() => entity.enemy.ActivationFinished() == true);
         }
 
         action.actionResolved = true;        
@@ -325,6 +324,16 @@ public class ActivationManager : MonoBehaviour
     }
     public void ActivateNextEntity()
     {
+        Debug.Log("ActivationManager.ActivateNextEntity() called...");
+
+        // dont activate next entity if either all defenders or all enemies are dead
+        if (EventManager.Instance.currentCombatEndEventTriggered)
+        {
+            Debug.Log("ActivationManager.ActivateNextEntity() detected that an end combat event has been triggered, " +
+                "cancelling next entity activation...");
+            return;
+        }
+
         LivingEntity nextEntityToActivate = null;
         if (AllEntitiesHaveActivatedThisTurn())
         {

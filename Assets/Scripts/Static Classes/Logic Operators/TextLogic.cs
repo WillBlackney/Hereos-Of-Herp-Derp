@@ -20,6 +20,8 @@ public static class TextLogic
     public static string purple = "<color=#CF01BC>";
     public static string darkRed = "<color=#AB0500>";
 
+    // Set ability + passive texts
+    #region
     public static void SetStatusIconDescriptionText(string statusName, TextMeshProUGUI statusDescriptionText, int statusStacks)
     {
         if (statusName == "Bonus Strength")
@@ -280,7 +282,7 @@ public static class TextLogic
         else if (statusName == "Taunted")
         {
             statusDescriptionText.text =
-                "This character can only target its taunter with abilities";
+                "This character cannot use targetable abilities against characters that are not its taunter";
         }
         else if (statusName == "Sleep")
         {
@@ -2506,6 +2508,10 @@ public static class TextLogic
               "Immediately gain " + ReturnColoredText("Camoflage", yellow);
         }
     }
+    #endregion
+
+    // Get strings, colours and text
+    #region
     public static string ReturnColoredText(string text, string color)
     {
         return (color + text + white);
@@ -2735,5 +2741,6 @@ public static class TextLogic
 
         return stringReturned;
     }
+    #endregion
 
 }

@@ -44,7 +44,7 @@ public class SkeletonMage : Enemy
 
         // Frost Bolt
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, frostBolt.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, frostBolt) &&
+            EntityLogic.IsAbilityUseable(this, frostBolt, myCurrentTarget) &&
             myCurrentTarget.myPassiveManager.immobilized == false
             )
         { 
@@ -59,7 +59,7 @@ public class SkeletonMage : Enemy
 
         // Fireball the most vulnerable target
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, false, false, true), fireBall.abilityRange) &&            
-            EntityLogic.IsAbilityUseable(this, fireBall))
+            EntityLogic.IsAbilityUseable(this, fireBall, EntityLogic.GetBestTarget(this, false, false, true)))
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, false, false, true));
 
@@ -73,7 +73,7 @@ public class SkeletonMage : Enemy
 
         // Fireball the target with lowest current HP
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, false, true), fireBall.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, fireBall))
+            EntityLogic.IsAbilityUseable(this, fireBall, EntityLogic.GetBestTarget(this, false, true)))
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, false, true));
 
@@ -86,7 +86,7 @@ public class SkeletonMage : Enemy
 
         // Fireball the closest target if the most vulnerable and the weakest cant be targetted
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, fireBall.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, fireBall))
+            EntityLogic.IsAbilityUseable(this, fireBall, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);

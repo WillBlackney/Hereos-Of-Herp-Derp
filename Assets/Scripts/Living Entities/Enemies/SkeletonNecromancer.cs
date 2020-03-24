@@ -83,7 +83,7 @@ public class SkeletonNecromancer : Enemy
         // Chemical Reaction       
         else if (EntityLogic.GetBestChemicalReactionTarget(this) != null &&
                  EntityLogic.IsTargetInRange(this, EntityLogic.GetBestChemicalReactionTarget(this), chemicalReaction.abilityRange) &&
-                 EntityLogic.IsAbilityUseable(this, chemicalReaction)
+                 EntityLogic.IsAbilityUseable(this, chemicalReaction, EntityLogic.GetBestChemicalReactionTarget(this))
             )
         {
             SetTargetDefender(EntityLogic.GetBestChemicalReactionTarget(this));
@@ -98,7 +98,7 @@ public class SkeletonNecromancer : Enemy
         // Drain       
         else if (EntityLogic.GetBestDrainTarget(this) != null &&
                  EntityLogic.IsTargetInRange(this, EntityLogic.GetBestDrainTarget(this), chemicalReaction.abilityRange) &&
-                 EntityLogic.IsAbilityUseable(this, chemicalReaction)
+                 EntityLogic.IsAbilityUseable(this, chemicalReaction, EntityLogic.GetBestDrainTarget(this))
             )
         {
             SetTargetDefender(EntityLogic.GetBestDrainTarget(this));
@@ -111,7 +111,7 @@ public class SkeletonNecromancer : Enemy
         }
 
         // Strike
-        else if (EntityLogic.IsAbilityUseable(this, strike) &&
+        else if (EntityLogic.IsAbilityUseable(this, strike, myCurrentTarget) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);

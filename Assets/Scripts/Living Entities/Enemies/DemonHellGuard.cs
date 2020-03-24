@@ -53,7 +53,7 @@ public class DemonHellGuard : Enemy
         }
 
         // Fortify
-        else if (EntityLogic.IsAbilityUseable(this, fortify) &&
+        else if (EntityLogic.IsAbilityUseable(this, fortify, EntityLogic.GetBestFortifyTarget(this)) &&
             EntityLogic.GetBestFortifyTarget(this) != null)
         {
             Action action = AbilityLogic.Instance.PerformFortify(this, EntityLogic.GetBestFortifyTarget(this));
@@ -74,7 +74,7 @@ public class DemonHellGuard : Enemy
         }
 
         // Shield Slam
-        else if (EntityLogic.IsAbilityUseable(this, testudo) &&
+        else if (EntityLogic.IsAbilityUseable(this, testudo, myCurrentTarget) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             currentBlock >= 10)
         {
@@ -86,7 +86,7 @@ public class DemonHellGuard : Enemy
         }
 
         // Provoke
-        else if (EntityLogic.IsAbilityUseable(this, provoke) &&
+        else if (EntityLogic.IsAbilityUseable(this, provoke, myCurrentTarget) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
             Action action = AbilityLogic.Instance.PerformProvoke(this, myCurrentTarget);
@@ -98,7 +98,7 @@ public class DemonHellGuard : Enemy
 
         // Strike
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, strike))
+            EntityLogic.IsAbilityUseable(this, strike, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);

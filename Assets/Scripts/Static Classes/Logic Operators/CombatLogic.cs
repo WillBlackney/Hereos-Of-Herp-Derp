@@ -619,13 +619,12 @@ public class CombatLogic : MonoBehaviour
     public IEnumerator HandleDeathCoroutine(LivingEntity entity, Action action)
     {
         Debug.Log("CombatLogic.HandleDeathCoroutine() started for " + entity.myName);
-        bool endCombatEventTriggered = false;
         entity.inDeathProcess = true;
 
         LevelManager.Instance.SetTileAsUnoccupied(entity.tile);
         LivingEntityManager.Instance.allLivingEntities.Remove(entity);
         entity.DisableWorldSpaceCanvas();
-        entity.myOnActivationEndEffectsFinished = true;
+        //entity.myOnActivationEndEffectsFinished = true;
         ActivationManager.Instance.activationOrder.Remove(entity);
 
         entity.PlayDeathAnimation();
@@ -658,7 +657,7 @@ public class CombatLogic : MonoBehaviour
         }
 
         // Check unstable
-        if (entity.myPassiveManager.Unstable)
+        if (entity.myPassiveManager.unstable)
         {
             // Notification
             VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Unstable");
@@ -693,58 +692,38 @@ public class CombatLogic : MonoBehaviour
         // Depending on the state of the combat, decide which ending or continuation occurs
 
         // check if the player has lost all characters and thus the game
-        if (DefenderManager.Instance.allDefenders.Count == 0)
+        if (DefenderManager.Instance.allDefenders.Count == 0 &&
+            EventManager.Instance.currentCombatEndEventTriggered == false)
         {
             Debug.Log("CombatLogic.HandleDeath() detected player has lost all defenders...");
-          //  Debug.Log("Destroying " + entity.myName + " game object");
-           // Destroy(entity.gameObject);
-
+            EventManager.Instance.currentCombatEndEventTriggered = true;
             EventManager.Instance.StartNewGameOverDefeatedEvent();
         }
 
         // check if this was the last enemy in the encounter
         else if (EnemyManager.Instance.allEnemies.Count == 0 &&
-            DefenderManager.Instance.allDefenders.Count >= 1)
+            DefenderManager.Instance.allDefenders.Count >= 1 &&
+            EventManager.Instance.currentCombatEndEventTriggered == false)
         {
             Debug.Log("CombatLogic.HandleDeath() detected that all enemies have been killed...");
-            Debug.Log("Destroying " + entity.myName + " game object");
-           // Destroy(entity.gameObject);
 
-            // End combat event, loot screen etc
+            // Trigger combat victory event depending on current encounter type
             if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.EliteEnemy)
             {
-                endCombatEventTriggered = true;
+                EventManager.Instance.currentCombatEndEventTriggered = true;
                 EventManager.Instance.StartNewEndEliteEncounterEvent();
             }
             else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.BasicEnemy)
             {
-                endCombatEventTriggered = true;
+                EventManager.Instance.currentCombatEndEventTriggered = true;
                 EventManager.Instance.StartNewEndBasicEncounterEvent();
             }
             else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.Boss)
             {
-                endCombatEventTriggered = true;
+                EventManager.Instance.currentCombatEndEventTriggered = true;
                 EventManager.Instance.StartNewEndBossEncounterEvent();
             }
 
-        }
-
-        // Combat has not ended from deaths, check if the character
-        else if (ActivationManager.Instance.entityActivated == this &&
-            EventManager.Instance.gameOverEventStarted == false &&
-            endCombatEventTriggered == false)
-        {
-            //Debug.Log("Destroying " + entity.myName + " game object");
-           // Destroy(entity.gameObject);
-            ActivationManager.Instance.ActivateNextEntity();
-        }
-
-        // Check character killed during its OnActivationEnd routine (poison damage, burning etc)
-        else if(ActivationManager.Instance.entityActivated == null)
-        {
-           // Debug.Log("Destroying " + entity.myName + " game object");
-            //Destroy(entity.gameObject);
-            ActivationManager.Instance.ActivateNextEntity();
         }
 
         // Destroy character GO
@@ -1059,7 +1038,8 @@ public class CombatLogic : MonoBehaviour
                 Debug.Log(victim.name + " has no means to prevent death, starting death process...");
 
                 // check for coup de grace passive on attacker
-                if (attacker.myPassiveManager.coupDeGrace)
+                if (attacker != null &&
+                    attacker.myPassiveManager.coupDeGrace)
                 {
                     Debug.Log(attacker.myName + " killed " + victim.myName + 
                         " and has 'Coup De Grace passive, gaining max energy...");
@@ -1068,8 +1048,8 @@ public class CombatLogic : MonoBehaviour
                 }
 
                 // the victim was killed, start death process
-                victim.inDeathProcess = true;
-                HandleDeath(victim);
+                Action deathAction = HandleDeath(victim);
+                yield return new WaitUntil(() => deathAction.ActionResolved() == true);
             }
             
         }       

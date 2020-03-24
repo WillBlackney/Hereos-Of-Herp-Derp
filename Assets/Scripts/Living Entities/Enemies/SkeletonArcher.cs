@@ -46,7 +46,7 @@ public class SkeletonArcher : Enemy
 
         // Impaling Bolt        
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, true), impalingBolt.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, impalingBolt)
+            EntityLogic.IsAbilityUseable(this, impalingBolt, EntityLogic.GetBestTarget(this, true))
             )
         {
             Debug.Log("Skeleton Archer using Impaling Bolt against " + myCurrentTarget.myName);
@@ -62,7 +62,7 @@ public class SkeletonArcher : Enemy
 
         // Snipe most vulnerable target
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, snipe.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, snipe))
+            EntityLogic.IsAbilityUseable(this, snipe, myCurrentTarget))
         {
             Debug.Log("Skeleton Archer using snipe against most vulnerable target: " + myCurrentTarget.myName);
 
@@ -76,7 +76,7 @@ public class SkeletonArcher : Enemy
 
         // Shoot most vulnerable target
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, shoot.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, shoot))
+            EntityLogic.IsAbilityUseable(this, shoot, myCurrentTarget))
         {
             Debug.Log("Skeleton Archer using shoot against most vulnerable target: " + myCurrentTarget.myName);
 
@@ -90,7 +90,7 @@ public class SkeletonArcher : Enemy
 
         // Shoot the target with lowest current HP
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, false, true), shoot.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, shoot))
+            EntityLogic.IsAbilityUseable(this, shoot, EntityLogic.GetBestTarget(this, false, true)))
         {
             
             SetTargetDefender(EntityLogic.GetBestTarget(this, false, true));
@@ -106,7 +106,7 @@ public class SkeletonArcher : Enemy
 
         // Shoot the closest target if the most vulnerable and lowest HP target cant be targetted
         else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestTarget(this, true), shoot.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, shoot))
+            EntityLogic.IsAbilityUseable(this, shoot, EntityLogic.GetBestTarget(this, true)))
         {
             SetTargetDefender(EntityLogic.GetBestTarget(this, true));
             Debug.Log("Skeleton Archer using shoot against closest target: " + myCurrentTarget.myName);

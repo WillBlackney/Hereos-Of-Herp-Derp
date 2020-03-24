@@ -427,45 +427,65 @@ public static class EntityLogic
 
 
     // IsAbilityUseable should also check against the target for things like taunt
-    public static bool IsAbilityUseable(LivingEntity entity, Ability ability)
+    public static bool IsAbilityUseable(LivingEntity caster, Ability ability, LivingEntity target = null)
     {
-        Debug.Log("EntityLogic.IsAbilityUseable() called for " + entity.name  + " using ability " + ability.abilityName);
+        Debug.Log("EntityLogic.IsAbilityUseable() called for " + caster.myName + " using ability " + ability.abilityName);
 
-        if(!HasEnoughEnergy(entity, ability))
+        // Check energy
+        if(!HasEnoughEnergy(caster, ability))
         {
-            Debug.Log(ability.abilityName + " use is invalid. REASON: " + entity.name + " does not have enough Energy");
+            Debug.Log(ability.abilityName + " use is invalid. REASON: " + caster.myName + " does not have enough Energy");
             return false;
         }
 
+        // Check cooldown
         if (!IsAbilityOffCooldown(ability))
         {
             Debug.Log(ability.abilityName + " use is invalid. REASON: " + ability.abilityName + " is on cooldown");
             return false;
         }
 
-        if(!AbilityLogic.Instance.DoesAbilityMeetWeaponRequirements(entity, ability))
+        // Check weapon requirments met
+        if (!AbilityLogic.Instance.DoesAbilityMeetWeaponRequirements(caster, ability))
         {
-            Debug.Log(ability.abilityName + " use is invalid. REASON: " + entity.myName + " does not meet weapon requirments" +
+            Debug.Log(ability.abilityName + " use is invalid. REASON: " + caster.myName + " does not meet weapon requirments" +
                 "of ability");
             return false;
         }
-        if (ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack && entity.myPassiveManager.disarmed)
+
+        // Check disarmed
+        if (ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack && caster.myPassiveManager.disarmed)
         {
-            Debug.Log(ability.abilityName + " use is invalid. REASON: " + entity.name + " is disarmed");
-            return false;
-        }
-        if (ability.abilityType == AbilityDataSO.AbilityType.RangedAttack && entity.myPassiveManager.blind)
-        {
-            Debug.Log(ability.abilityName + " use is invalid. REASON: " + entity.name + " is blind");
-            return false;
-        }
-        if (ability.abilityType == AbilityDataSO.AbilityType.Skill && entity.myPassiveManager.silenced)
-        {
-            Debug.Log(ability.abilityName + " use is invalid. REASON: " + entity.name + " is silenced");
+            Debug.Log(ability.abilityName + " use is invalid. REASON: " + caster.myName + " is disarmed");
             return false;
         }
 
-        Debug.Log(ability.abilityName + " use by " + entity.name + " is valid");
+        // Check blind
+        if (ability.abilityType == AbilityDataSO.AbilityType.RangedAttack && caster.myPassiveManager.blind)
+        {
+            Debug.Log(ability.abilityName + " use is invalid. REASON: " + caster.myName + " is blind");
+            return false;
+        }
+
+        // Check silenced
+        if (ability.abilityType == AbilityDataSO.AbilityType.Skill && caster.myPassiveManager.silenced)
+        {
+            Debug.Log(ability.abilityName + " use is invalid. REASON: " + caster.myName + " is silenced");
+            return false;
+        }
+
+        // Check taunted
+        if (target != null &&
+            caster.myPassiveManager.taunted &&
+            caster.myTaunter != target)
+        {
+            Debug.Log(ability.abilityName + " use is invalid. REASON: " + caster.myName + " is taunted, and " +
+               target.myName + " is not it's taunter");
+            return false;
+        }
+
+        // Resolve
+        Debug.Log(ability.abilityName + " use by " + caster.name + " is valid");
         return true;
 
     }

@@ -569,7 +569,7 @@ public class LivingEntity : MonoBehaviour
     }
     public void PlayDeathAnimation()
     {
-        myAnimator.SetTrigger("Hurt");
+        myAnimator.SetTrigger("Die");
     }
     #endregion
 

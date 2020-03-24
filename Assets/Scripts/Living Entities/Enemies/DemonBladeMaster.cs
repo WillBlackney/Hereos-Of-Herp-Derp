@@ -54,7 +54,7 @@ public class DemonBladeMaster : Enemy
 
         // Evasion
         else if (EntityLogic.GetAllEnemiesWithinRange(this, currentMeleeRange).Count > 1 &&
-            EntityLogic.IsAbilityUseable(this, evasion))
+            EntityLogic.IsAbilityUseable(this, evasion, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformEvasion(this, this);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -66,7 +66,7 @@ public class DemonBladeMaster : Enemy
 
         // Disarm
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, disarm))
+            EntityLogic.IsAbilityUseable(this, disarm, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformDisarm(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -78,7 +78,7 @@ public class DemonBladeMaster : Enemy
 
         // Tendon Slash
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, tendonSlash))
+            EntityLogic.IsAbilityUseable(this, tendonSlash, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformTendonSlash(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -90,7 +90,7 @@ public class DemonBladeMaster : Enemy
         
         // Twin Strike
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, twinSTrike))
+            EntityLogic.IsAbilityUseable(this, twinSTrike, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformTwinStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);

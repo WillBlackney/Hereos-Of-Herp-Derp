@@ -46,7 +46,7 @@ public class SkeletonPriest : Enemy
         // Healing Light
         else if (EntityLogic.IsTargetInRange(this, GetBestHealingLightTarget(), healingLight.abilityRange) &&
             GetBestHealingLightTarget().currentHealth < GetBestHealingLightTarget().currentMaxHealth &&
-            EntityLogic.IsAbilityUseable(this, healingLight))
+            EntityLogic.IsAbilityUseable(this, healingLight, GetBestHealingLightTarget()))
         {
             Action action = AbilityLogic.Instance.PerformHealingLight(this, GetBestHealingLightTarget());
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -56,7 +56,7 @@ public class SkeletonPriest : Enemy
 
         // Shadow Blast the closest enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, shadowBlast.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, shadowBlast))
+            EntityLogic.IsAbilityUseable(this, shadowBlast, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformShadowBlast(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -67,7 +67,7 @@ public class SkeletonPriest : Enemy
 
         // Strike
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, strike))
+            EntityLogic.IsAbilityUseable(this, strike, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);

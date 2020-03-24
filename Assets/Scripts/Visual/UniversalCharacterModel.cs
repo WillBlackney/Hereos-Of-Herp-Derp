@@ -54,6 +54,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject demonBerserkerLeftLeg;
     public GameObject demonBladeMasterLeftLeg;
     public GameObject demonHellGuardLeftLeg;
+    public GameObject darkElfRangerLeftLeg;
 
 
 
@@ -101,6 +102,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject demonBerserkerRightLeg;
     public GameObject demonBladeMasterRightLeg;
     public GameObject demonHellGuardRightLeg;
+    public GameObject darkElfRangerRightLeg;
 
     [Header("Head References")]
     public List<GameObject> allHeads;
@@ -146,6 +148,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject demonBerserkerHead;
     public GameObject demonBladeMasterHead;
     public GameObject demonHellGuardHead;
+    public GameObject darkElfRangerHead;
 
     [Header("Right Hand References")]
     public List<GameObject> allRightHands;
@@ -191,6 +194,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject demonBerserkerRightHand;
     public GameObject demonBladeMasterRightHand;
     public GameObject demonHellGuardRightHand;
+    public GameObject darkElfRangerRightHand;
 
     [Header("Right Arm References")]
     public List<GameObject> allRightArms;
@@ -236,6 +240,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject demonBerserkerRightArm;
     public GameObject demonBladeMasterRightArm;
     public GameObject demonHellGuardRightArm;
+    public GameObject darkElfRangerRightArm;
 
     [Header("Left Hand References")]
     public List<GameObject> allLeftHands;
@@ -281,6 +286,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject demonBerserkerLeftHand;
     public GameObject demonBladeMasterLeftHand;
     public GameObject demonHellGuardLeftHand;
+    public GameObject darkElfRangerLeftHand;
 
     [Header("Left Arm References")]
     public List<GameObject> allLeftArms;
@@ -326,6 +332,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject demonBerserkerLeftArm;
     public GameObject demonBladeMasterLeftArm;
     public GameObject demonHellGuardLeftArm;
+    public GameObject darkElfRangerLeftArm;
 
     [Header("Chest References")]
     public List<GameObject> allChests;
@@ -371,6 +378,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject demonBerserkerChest;
     public GameObject demonBladeMasterChest;
     public GameObject demonHellGuardChest;
+    public GameObject darkElfRangerChest;
 
     [Header("Main Hand Weapon References")]
     public List<GameObject> allMainHandWeapons;

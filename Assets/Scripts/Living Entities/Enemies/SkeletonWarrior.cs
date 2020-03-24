@@ -46,7 +46,7 @@ public class SkeletonWarrior : Enemy
 
         // Inspire best target if they are in range
         else if(EntityLogic.IsTargetInRange(this, GetBestInspireTarget(),inspire.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this,inspire))
+            EntityLogic.IsAbilityUseable(this, inspire, GetBestInspireTarget()))
         {
             Action action = AbilityLogic.Instance.PerformInspire(this, GetBestInspireTarget());
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -56,7 +56,7 @@ public class SkeletonWarrior : Enemy
 
         // Inspire something else if the best target is not in range
         else if (GetBestInspireTargetInRange(inspire.abilityRange) != null &&
-            EntityLogic.IsAbilityUseable(this,inspire))
+            EntityLogic.IsAbilityUseable(this, inspire, GetBestInspireTargetInRange(inspire.abilityRange)))
         {
             Action action = AbilityLogic.Instance.PerformInspire(this, GetBestInspireTargetInRange(inspire.abilityRange));
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -67,7 +67,7 @@ public class SkeletonWarrior : Enemy
 
         // Sword and Board against closest target
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, swordAndBoard))
+            EntityLogic.IsAbilityUseable(this, swordAndBoard, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformSwordAndBoard(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -78,7 +78,7 @@ public class SkeletonWarrior : Enemy
 
         // Strike closest target
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, strike))
+            EntityLogic.IsAbilityUseable(this, strike, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);

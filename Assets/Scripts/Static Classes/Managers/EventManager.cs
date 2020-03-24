@@ -11,6 +11,7 @@ public class EventManager : MonoBehaviour
     public WorldEncounter.EncounterType currentEncounterType;
     public bool damageTakenThisEncounter;
     public bool gameOverEventStarted;
+    public bool currentCombatEndEventTriggered;
 
     #endregion
 
@@ -703,6 +704,7 @@ public class EventManager : MonoBehaviour
     public void ResetEncounterProperties()
     {
         damageTakenThisEncounter = false;
+        currentCombatEndEventTriggered = false;
     }
     #endregion
 

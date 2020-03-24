@@ -53,7 +53,7 @@ public class DemonBerserker : Enemy
 
         // Charge
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, charge.abilityRange + EntityLogic.GetTotalMobility(this)) &&
-            EntityLogic.IsAbilityUseable(this, charge) &&
+            EntityLogic.IsAbilityUseable(this, charge, myCurrentTarget) &&
             EntityLogic.GetAllEnemiesWithinRange(this, currentMeleeRange).Contains(myCurrentTarget) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, charge.abilityRange + EntityLogic.GetTotalMobility(this)) != null
@@ -72,7 +72,7 @@ public class DemonBerserker : Enemy
 
         // Kick To The Balls
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, kttb))
+            EntityLogic.IsAbilityUseable(this, kttb, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformKickToTheBalls(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -96,7 +96,7 @@ public class DemonBerserker : Enemy
 
         // Smash
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, smash))
+            EntityLogic.IsAbilityUseable(this, smash, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformSmash(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -108,7 +108,7 @@ public class DemonBerserker : Enemy
 
         // Strike
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, strike))
+            EntityLogic.IsAbilityUseable(this, strike, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);

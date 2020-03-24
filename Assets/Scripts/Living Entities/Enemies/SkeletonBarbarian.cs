@@ -53,7 +53,7 @@ public class SkeletonBarbarian : Enemy
 
         // Try Charge
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, charge.abilityRange + EntityLogic.GetTotalMobility(this)) &&
-            EntityLogic.IsAbilityUseable(this, charge) &&
+            EntityLogic.IsAbilityUseable(this, charge, myCurrentTarget) &&
             tilesInMyMeleeRange.Contains(myCurrentTarget.tile) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, charge.abilityRange + EntityLogic.GetTotalMobility(this)) != null
@@ -84,7 +84,7 @@ public class SkeletonBarbarian : Enemy
 
         // Strike
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, strike))
+            EntityLogic.IsAbilityUseable(this, strike, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);

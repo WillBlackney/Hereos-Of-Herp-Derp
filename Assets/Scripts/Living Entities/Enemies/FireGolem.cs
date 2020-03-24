@@ -48,7 +48,7 @@ public class FireGolem : Enemy
         // Melt best target
         else if (EntityLogic.GetBestMeltTarget(this) != null &&
             EntityLogic.IsTargetInRange(this, EntityLogic.GetBestMeltTarget(this), melt.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, melt))
+            EntityLogic.IsAbilityUseable(this, melt, EntityLogic.GetBestMeltTarget(this)))
         {
             Action action = AbilityLogic.Instance.PerformMelt(this, EntityLogic.GetBestMeltTarget(this));
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -60,7 +60,7 @@ public class FireGolem : Enemy
         // Else, Melt current target if in range, and if it has block
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, melt.abilityRange) &&
             myCurrentTarget.currentBlock > 0 &&
-            EntityLogic.IsAbilityUseable(this, melt))
+            EntityLogic.IsAbilityUseable(this, melt, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformMelt(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
@@ -72,7 +72,7 @@ public class FireGolem : Enemy
         // Combustion best target
         else if (EntityLogic.GetBestCombustionTarget(this) != null &&
             EntityLogic.IsTargetInRange(this, EntityLogic.GetBestCombustionTarget(this), melt.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, melt) &&
+            EntityLogic.IsAbilityUseable(this, melt, EntityLogic.GetBestCombustionTarget(this)) &&
             EntityLogic.GetBestCombustionTarget(this).myPassiveManager.burningStacks > 5 &&
             EntityLogic.GetAllEnemiesWithinRange(EntityLogic.GetBestCombustionTarget(this), 1).Count > 1
             )
@@ -86,7 +86,7 @@ public class FireGolem : Enemy
 
         // Combustion current target if burning enough
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, melt.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, melt) &&
+            EntityLogic.IsAbilityUseable(this, melt, myCurrentTarget) &&
             myCurrentTarget.myPassiveManager.burningStacks > 5 &&
             EntityLogic.GetAllEnemiesWithinRange(myCurrentTarget, 1).Count > 1
             )
@@ -100,7 +100,7 @@ public class FireGolem : Enemy
 
         // Fire ball 
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, fireBall.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, fireBall))
+            EntityLogic.IsAbilityUseable(this, fireBall, myCurrentTarget))
         {
             Action action = AbilityLogic.Instance.PerformFireBall(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);

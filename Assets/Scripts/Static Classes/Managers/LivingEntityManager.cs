@@ -32,7 +32,6 @@ public class LivingEntityManager : MonoBehaviour
         Action action = new Action();
         StartCoroutine(EndEntityActivationCoroutine(enemy, action));
         return action;
-
     }
     private IEnumerator EndEntityActivationCoroutine(LivingEntity enemy, Action action)
     {

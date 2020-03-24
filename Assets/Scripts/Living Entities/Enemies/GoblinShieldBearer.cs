@@ -45,7 +45,7 @@ public class GoblinShieldBearer : Enemy
         }
 
         // Provoke
-        else if (EntityLogic.IsAbilityUseable(this, provoke) &&
+        else if (EntityLogic.IsAbilityUseable(this, provoke, myCurrentTarget) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
             Action action = AbilityLogic.Instance.PerformProvoke(this, myCurrentTarget);
@@ -56,7 +56,7 @@ public class GoblinShieldBearer : Enemy
         }
 
         // Strike
-        else if (EntityLogic.IsAbilityUseable(this, strike) &&
+        else if (EntityLogic.IsAbilityUseable(this, strike, myCurrentTarget) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
@@ -70,7 +70,7 @@ public class GoblinShieldBearer : Enemy
         else if (EntityLogic.IsAbilityUseable(this, strike) &&
             EntityLogic.GetAllEnemiesWithinRange(this, currentMeleeRange).Count > 0)
         {
-            Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformTestudo(this);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);

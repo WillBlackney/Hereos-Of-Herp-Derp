@@ -182,6 +182,10 @@ public static class CharacterModelController
         {
             SetUpAsVolatileZombiePreset(model);
         }
+        else if (preset == "Dark Elf Ranger")
+        {
+            SetUpAsDarkElfRangerPreset(model);
+        }
     }
     public static void DisableAllViewsInList(List<GameObject> listOfViews)
     {
@@ -528,6 +532,19 @@ public static class CharacterModelController
         model.volatileZombieLeftHand.SetActive(true);
         model.volatileZombieLeftArm.SetActive(true);
         model.volatileZombieChest.SetActive(true);
+    }
+    public static void SetUpAsDarkElfRangerPreset(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+
+        model.darkElfRangerLeftLeg.SetActive(true);
+        model.darkElfRangerRightLeg.SetActive(true);
+        model.darkElfRangerHead.SetActive(true);
+        model.darkElfRangerRightHand.SetActive(true);
+        model.darkElfRangerRightArm.SetActive(true);
+        model.darkElfRangerLeftHand.SetActive(true);
+        model.darkElfRangerLeftArm.SetActive(true);
+        model.darkElfRangerChest.SetActive(true);
     }
     public static void SetUpAsSkeletonArcherPreset(UniversalCharacterModel model)
     {
