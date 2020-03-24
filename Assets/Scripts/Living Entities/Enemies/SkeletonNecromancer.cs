@@ -71,6 +71,7 @@ public class SkeletonNecromancer : Enemy
             goto ActionStart;
         }
 
+        /*
         // Summon toxic zombies
         else if (EntityLogic.IsAbilityUseable(this, summonToxicZombie))
         {
@@ -79,6 +80,7 @@ public class SkeletonNecromancer : Enemy
             yield return new WaitForSeconds(0.5f);
             goto ActionStart;
         }
+        */
 
         // Chemical Reaction       
         else if (EntityLogic.GetBestChemicalReactionTarget(this) != null &&
@@ -125,6 +127,7 @@ public class SkeletonNecromancer : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, strike, this) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {

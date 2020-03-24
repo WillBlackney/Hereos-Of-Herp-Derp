@@ -86,6 +86,7 @@ public class LevelManager : MonoBehaviour
     private string[] ReadMapTextAssetData()
     {
         TextAsset bindData = mapTextFiles[UnityEngine.Random.Range(0, mapTextFiles.Count)];
+        Debug.Log("LevelManager.ReadMapTextAssetData() loading map: " + bindData.name);
         string data = bindData.text.Replace(Environment.NewLine, string.Empty);
         return data.Split('-');
     }
@@ -201,13 +202,6 @@ public class LevelManager : MonoBehaviour
         {
             listReturned.Add(Tiles.ElementAt(index).Value);
         }
-
-        /*
-        foreach (KeyValuePair<Point, Tile> kvp in Tiles)
-        {
-            listReturned.Add(kvp.Value);
-        }
-        */
 
         Debug.Log("GetAllTilesFromCurrentLevelDictionary() found " + listReturned.Count.ToString() +
             " tiles");
