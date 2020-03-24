@@ -68,6 +68,7 @@ public class MainMenuManager : MonoBehaviour
         goToTeamBuilderScreenEventTriggered = false;
         HeroSelectionScreen.SetActive(true);
         arrowParent.SetActive(true);
+        PlayIdleAnimOnAllMenuCharacters();
 
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 4, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
@@ -75,6 +76,13 @@ public class MainMenuManager : MonoBehaviour
     public void OnQuitGameButtonClicked()
     {
         Application.Quit();
+    }
+    public void PlayIdleAnimOnAllMenuCharacters()
+    {
+        characterOne.myModel.SetIdleAnim();
+        characterTwo.myModel.SetIdleAnim();
+        characterThree.myModel.SetIdleAnim();
+        characterFour.myModel.SetIdleAnim();
     }
     public void OnBackToMainMenuButtonCicked()
     {

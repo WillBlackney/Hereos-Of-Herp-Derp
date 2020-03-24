@@ -329,17 +329,6 @@ public static class EntityLogic
 
         if (tilesWithinMyRange.Contains(targetsTile) && IsTargetVisible(caster, target))
         {
-            // Check for taunt
-            if (caster.myPassiveManager.taunted &&
-                caster.myTaunter != target)
-            {
-                Debug.Log("IsTargetInRange() determined that " + caster.myName +
-                    " is taunted, and its taunter is not " + target.myName +
-                    ", returning false...");
-
-                return false;
-            }
-
             Debug.Log("Target enemy is range");
             return true;
         }

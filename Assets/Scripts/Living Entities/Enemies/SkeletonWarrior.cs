@@ -14,9 +14,10 @@ public class SkeletonWarrior : Enemy
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Strike");   
         mySpellBook.EnemyLearnAbility("Inspire");
-        mySpellBook.EnemyLearnAbility("Sword And Board");
+        mySpellBook.EnemyLearnAbility("Provoke");
+        mySpellBook.EnemyLearnAbility("Fortify");
 
-       // myPassiveManager.ModifyUndead();
+        // myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyThorns(3);
 
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Sword");
@@ -28,9 +29,10 @@ public class SkeletonWarrior : Enemy
         Ability strike = mySpellBook.GetAbilityByName("Strike");
         Ability move = mySpellBook.GetAbilityByName("Move");
         Ability inspire = mySpellBook.GetAbilityByName("Inspire");
-        Ability swordAndBoard = mySpellBook.GetAbilityByName("Sword And Board");
+        Ability fortify = mySpellBook.GetAbilityByName("Fortify");
+        Ability provoke = mySpellBook.GetAbilityByName("Provoke");
 
-        ActionStart:
+    ActionStart:
 
         SetTargetDefender(EntityLogic.GetBestTarget(this, true));
 
@@ -42,6 +44,17 @@ public class SkeletonWarrior : Enemy
         if (EntityLogic.IsAbleToTakeActions(this) == false)
         {
             LivingEntityManager.Instance.EndEntityActivation(this);
+        }
+
+        // Fortify
+        else if (EntityLogic.IsAbilityUseable(this, fortify, EntityLogic.GetBestFortifyTarget(this)) &&
+            EntityLogic.GetBestFortifyTarget(this) != null)
+        {
+            Action action = AbilityLogic.Instance.PerformFortify(this, EntityLogic.GetBestFortifyTarget(this));
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
         }
 
         // Inspire best target if they are in range
@@ -65,11 +78,11 @@ public class SkeletonWarrior : Enemy
             goto ActionStart;
         }
 
-        // Sword and Board against closest target
-        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, swordAndBoard, myCurrentTarget))
+        // Provoke
+        else if (EntityLogic.IsAbilityUseable(this, provoke, myCurrentTarget) &&
+            EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange))
         {
-            Action action = AbilityLogic.Instance.PerformSwordAndBoard(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformProvoke(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);

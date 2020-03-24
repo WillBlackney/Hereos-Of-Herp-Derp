@@ -15,8 +15,9 @@ public class SkeletonMage : Enemy
         mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Fire Ball");        
         mySpellBook.EnemyLearnAbility("Frost Bolt");
+        mySpellBook.EnemyLearnAbility("Icy Focus");
 
-       // myPassiveManager.ModifyUndead();
+        // myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyFlux(1);
 
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Staff");
@@ -24,11 +25,13 @@ public class SkeletonMage : Enemy
 
     public override IEnumerator StartMyActivationCoroutine()
     {
-        Ability fireBall = mySpellBook.GetAbilityByName("Fire Ball");
         Ability move = mySpellBook.GetAbilityByName("Move");
+        Ability strike = mySpellBook.GetAbilityByName("Strike");
+        Ability fireBall = mySpellBook.GetAbilityByName("Fire Ball");        
         Ability frostBolt = mySpellBook.GetAbilityByName("Frost Bolt");
+        Ability icyFocus = mySpellBook.GetAbilityByName("Icy Focus");
 
-        ActionStart:
+    ActionStart:
 
         SetTargetDefender(EntityLogic.GetBestTarget(this, true));
 
@@ -42,6 +45,19 @@ public class SkeletonMage : Enemy
             LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
+
+        // Icy Focus
+        else if (EntityLogic.IsTargetInRange(this, this, icyFocus.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, icyFocus, myCurrentTarget)
+            )
+        {
+            Action action = AbilityLogic.Instance.PerformIcyFocus(this, this);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
         // Frost Bolt
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, frostBolt.abilityRange) &&
             EntityLogic.IsAbilityUseable(this, frostBolt, myCurrentTarget) &&
@@ -53,7 +69,6 @@ public class SkeletonMage : Enemy
 
             yield return new WaitForSeconds(1f);
             goto ActionStart;
-
         }
 
 
@@ -94,7 +109,19 @@ public class SkeletonMage : Enemy
             yield return new WaitForSeconds(1f);
             goto ActionStart;
         }
-        
+
+        // Strike
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, strike, myCurrentTarget))
+        {
+            Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            // brief delay between actions
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
         // Move
         else if (
             EntityLogic.IsTargetInRange(this, myCurrentTarget, fireBall.abilityRange) == false &&

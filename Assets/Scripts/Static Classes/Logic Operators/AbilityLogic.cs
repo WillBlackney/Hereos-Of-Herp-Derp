@@ -325,7 +325,7 @@ public class AbilityLogic : MonoBehaviour
             rangeReturned = 0;
         }
 
-        Debug.Log("AbilityLogic.CalculateAbilityRange() final range of " + ability.name +
+        Debug.Log("AbilityLogic.CalculateAbilityRange() final range of " + ability.abilityName +
             " used by " + entity.myName + " is: " + rangeReturned.ToString());
 
         return rangeReturned;
@@ -722,44 +722,61 @@ public class AbilityLogic : MonoBehaviour
     private IEnumerator PerformRiposteAttackCoroutine(LivingEntity caster, LivingEntity victim, Action action)
     {
         // Make sure character actually knows strike, has a melee weapon, and the target is not in death process
-        if (true
-           // attacker.mySpellBook.GetAbilityByName("Strike") != null &&
-          // victim.inDeathProcess == false &&
-           //(attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand || attacker.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeTwoHand)
+        if ((caster.mySpellBook.GetAbilityByName("Strike") != null || caster.mySpellBook.GetAbilityByName("Twin Strike") != null) &&
+            victim.inDeathProcess == false &&
+            (caster.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand || caster.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeTwoHand) &&
+            caster.myPassiveManager.disarmed == false
             )
         {
             Debug.Log(caster.name + " meets the requirments of a riposte attack, starting riposte process...");
-            // Set up properties
+           
+            // Get correct attack ability, based on weapon
+            Ability attackAbility = null;
             Ability strike = caster.mySpellBook.GetAbilityByName("Strike");
-            bool critical = CombatLogic.Instance.RollForCritical(caster, victim, strike);
-            string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, strike, caster.myMainHandWeapon);
-            int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, strike, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+            Ability twinStrike = caster.mySpellBook.GetAbilityByName("Twin Strike");
 
-            // Play attack animation
-            caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
-
-            // Check critical
-            if (critical)
+            if (strike)
             {
-                VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
+                attackAbility = strike;
+            }
+            else if (twinStrike)
+            {
+                attackAbility = twinStrike;
             }
 
-            // Deal damage
-            Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, strike);
-            yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
-
-            // Remove camo
-            if (caster.myPassiveManager.camoflage)
+            if(attackAbility != null)
             {
-                caster.myPassiveManager.ModifyCamoflage(-1);
-            }
-            // Remove Sharpened Blade
-            if (caster.myPassiveManager.sharpenedBlade)
-            {
-                caster.myPassiveManager.ModifySharpenedBlade(-caster.myPassiveManager.sharpenedBladeStacks);
-            }
+                // Start
+                bool critical = CombatLogic.Instance.RollForCritical(caster, victim, attackAbility);
+                string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, attackAbility, caster.myMainHandWeapon);
+                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, victim, attackAbility, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
 
-        }
+                // Play attack animation
+                caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
+
+                // Check critical
+                if (critical)
+                {
+                    VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
+                }
+
+                // Deal damage
+                Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, attackAbility);
+                yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+
+                // Remove camo
+                if (caster.myPassiveManager.camoflage)
+                {
+                    caster.myPassiveManager.ModifyCamoflage(-1);
+                }
+                // Remove Sharpened Blade
+                if (caster.myPassiveManager.sharpenedBlade)
+                {
+                    caster.myPassiveManager.ModifySharpenedBlade(-caster.myPassiveManager.sharpenedBladeStacks);
+                }
+
+            }
+        }            
 
         // Resolve
         action.actionResolved = true;

@@ -74,7 +74,7 @@ public class DemonHellGuard : Enemy
         }
 
         // Shield Slam
-        else if (EntityLogic.IsAbilityUseable(this, testudo, myCurrentTarget) &&
+        else if (EntityLogic.IsAbilityUseable(this, shieldSlam, myCurrentTarget) &&
             EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
             currentBlock >= 10)
         {

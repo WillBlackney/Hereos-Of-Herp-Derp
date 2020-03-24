@@ -133,7 +133,10 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public Action FadeIn()
     {
         Action action = new Action();
-        StartCoroutine(FadeInCoroutine(action));
+        if (gameObject.activeSelf)
+        {
+            StartCoroutine(FadeInCoroutine(action));
+        }        
         return action;
     }
     public IEnumerator FadeInCoroutine(Action action)

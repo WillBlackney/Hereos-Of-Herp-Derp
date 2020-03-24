@@ -1065,7 +1065,9 @@ public class CombatLogic : MonoBehaviour
         return action;
     }
     private IEnumerator HandleParryCoroutine(LivingEntity attacker, LivingEntity target, Action action)
-    {                
+    {
+        target.timesMeleeAttackedThisTurnCycle++;
+
         if (target.myPassiveManager.riposte)
         {
             Debug.Log(target.name + " parried an attack against " + attacker.name + " AND has riposte, performing riposte attack...");

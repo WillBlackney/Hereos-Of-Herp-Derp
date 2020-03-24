@@ -13,8 +13,9 @@ public class SkeletonPriest : Enemy
 
         mySpellBook.EnemyLearnAbility("Move");
         mySpellBook.EnemyLearnAbility("Strike");       
-        mySpellBook.EnemyLearnAbility("Shadow Blast");
+        mySpellBook.EnemyLearnAbility("Chaos Bolt");
         mySpellBook.EnemyLearnAbility("Healing Light");
+        mySpellBook.EnemyLearnAbility("Invigorate");
 
         //myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyEncouragingAura(10);
@@ -27,9 +28,10 @@ public class SkeletonPriest : Enemy
         Ability strike = mySpellBook.GetAbilityByName("Strike");
         Ability move = mySpellBook.GetAbilityByName("Move");
         Ability healingLight = mySpellBook.GetAbilityByName("Healing Light");
-        Ability shadowBlast = mySpellBook.GetAbilityByName("Shadow Blast");
+        Ability chaosBolt = mySpellBook.GetAbilityByName("Chaos Bolt");
+        Ability invigorate = mySpellBook.GetAbilityByName("Invigorate");
 
-        ActionStart:
+         ActionStart:
 
         SetTargetDefender(EntityLogic.GetBestTarget(this, true));
 
@@ -54,11 +56,22 @@ public class SkeletonPriest : Enemy
             goto ActionStart;
         }
 
-        // Shadow Blast the closest enemy
-        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, shadowBlast.abilityRange) &&
-            EntityLogic.IsAbilityUseable(this, shadowBlast, myCurrentTarget))
+        // Invigorate 
+        else if (EntityLogic.IsTargetInRange(this, EntityLogic.GetBestInvigorateTarget(this), invigorate.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, invigorate, EntityLogic.GetBestInvigorateTarget(this)))
         {
-            Action action = AbilityLogic.Instance.PerformShadowBlast(this, myCurrentTarget);
+            Action action = AbilityLogic.Instance.PerformInvigorate(this, EntityLogic.GetBestInvigorateTarget(this));
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
+        // Chaos Bolt 
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, chaosBolt.abilityRange) &&
+            EntityLogic.IsAbilityUseable(this, chaosBolt, myCurrentTarget))
+        {
+            Action action = AbilityLogic.Instance.PerformChaosBolt(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
             yield return new WaitForSeconds(1f);
@@ -77,9 +90,9 @@ public class SkeletonPriest : Enemy
         }
 
         // Move
-        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, shadowBlast.abilityRange) == false &&
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, chaosBolt.abilityRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
-            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, shadowBlast, this) &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, chaosBolt, this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
@@ -100,30 +113,7 @@ public class SkeletonPriest : Enemy
         }
 
     }
-
-    public Enemy GetBestInvigorateTarget(int range)
-    {
-        Enemy bestTarget = null;
-
-        foreach(Enemy enemy in EnemyManager.Instance.allEnemies)
-        {
-            if(enemy.currentEnergy < enemy.currentMaxEnergy &&
-                EntityLogic.IsTargetInRange(this, enemy, range) &&
-                enemy != this)
-            {
-                bestTarget = enemy;
-            }
-        }
-
-        if(bestTarget == null)
-        {
-            Debug.Log("GetBestInvigorateTarget() is null, returning caster as best target");
-            bestTarget = this;
-        }
-        Debug.Log("GetBestInvigorateTarget() return character: " + bestTarget.name);
-        return bestTarget;
-    }       
-
+    
     public Enemy GetBestHealingLightTarget()
     {
         Enemy bestTarget = null;

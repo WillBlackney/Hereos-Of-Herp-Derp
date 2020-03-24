@@ -15063,18 +15063,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72ab7d3845f51140802bb51ec0b3500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicEnemyWaves: []
-  eliteEnemyWaves: []
+  basicEnemyWaves:
+  - {fileID: 11400000, guid: 9c7a79d32d54c1f4a8e0c24b37645675, type: 2}
+  eliteEnemyWaves:
+  - {fileID: 11400000, guid: 20071468144ce6f47af115dea0c0357b, type: 2}
+  - {fileID: 11400000, guid: 2a8f2071b7e0b19429dfc0293b338e55, type: 2}
   bossEnemyWaves:
   - {fileID: 11400000, guid: dacd581ebac89b245b622803d3ad0205, type: 2}
   - {fileID: 11400000, guid: 6b5e474f97bfa1f48ac35d1510c4bb06, type: 2}
+  - {fileID: 11400000, guid: 2a8f2071b7e0b19429dfc0293b338e55, type: 2}
   storyEventEnemyWaves:
   - {fileID: 11400000, guid: 27253031a909cbf4da8b90f4297a7004, type: 2}
-  viableBasicEnemyWaves:
-  - {fileID: 11400000, guid: a925a91cb3c75e64cadf1f518e9a621e, type: 2}
-  viableEliteEnemyWaves:
-  - {fileID: 11400000, guid: 2a8f2071b7e0b19429dfc0293b338e55, type: 2}
-  - {fileID: 11400000, guid: 20071468144ce6f47af115dea0c0357b, type: 2}
+  viableBasicEnemyWaves: []
+  viableEliteEnemyWaves: []
   spawnLocations: []
 --- !u!4 &1979019400
 Transform:

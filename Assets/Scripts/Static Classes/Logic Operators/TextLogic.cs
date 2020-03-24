@@ -455,6 +455,12 @@ public static class TextLogic
                 "This character coverts all damage with " + ReturnColoredText("Melee Attack", yellow) + " abilities into " +
                 ReturnColoredText("Air", air) + " damage. Expires on activation end";
         }
+        else if (statusName == "Sword Play")
+        {
+            statusDescriptionText.text =
+                "This character is guaranteed to " + ReturnColoredText("Parry", yellow) +
+                " the first attack made against it each turn cycle";
+        }
         else if (statusName == "Flux")
         {
             statusDescriptionText.text =
@@ -1480,7 +1486,7 @@ public static class TextLogic
         else if (ability.abilityName == "Shield Slam")
         {
             ability.descriptionText.text =
-                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
+                "Deal " + ReturnColoredText(entity.currentBlock.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage to a target, then apply 1 " + ReturnColoredText("Knock Back", yellow);
         }
