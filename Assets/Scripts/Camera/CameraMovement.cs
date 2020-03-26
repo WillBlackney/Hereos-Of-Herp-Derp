@@ -148,8 +148,7 @@ public class CameraMovement : MonoBehaviour
     public void LookAtTarget()
     {
         if (CameraManager.Instance.currentLookAtTarget != null)
-        {
-            
+        {            
             bool movingSouth = false;
             bool movingNorth = false;
             bool movingEast = false;

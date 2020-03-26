@@ -31,7 +31,7 @@ public class ArtifactManager : MonoBehaviour
         // individual artifact 'On pickup' logic
         if(artifactObtained.Name == "Comfy Pillow")
         {
-            CampSiteManager.Instance.restButtonDescriptionText.text = "Choose a character heal to max HP";
+            //CampSiteManager.Instance.restButtonDescriptionText.text = "Choose a character heal to max HP";
         }
         else if(artifactObtained.Name == "Kettle Bell")
         {

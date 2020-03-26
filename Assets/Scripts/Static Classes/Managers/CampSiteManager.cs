@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class CampSiteManager : MonoBehaviour
 {
@@ -9,17 +10,21 @@ public class CampSiteManager : MonoBehaviour
     #region
     [Header("Component References")]
     public GameObject visualParent;
-    public GameObject continueButton;
     public TextMeshProUGUI actionPointsText;
-
-    public TextMeshProUGUI restButtonDescriptionText;
     public TextMeshProUGUI trainButtonDescriptionText;
 
     [Header("Button Script References")]
     public CampSiteButton triageButton;
     public CampSiteButton trainButton;
     public CampSiteButton prayButton;
-    public CampSiteButton batheButton;
+    public CampSiteButton batheButton;    
+
+    [Header("Cancel Button References")]
+    public CanvasGroup cancelButtonCG;
+    public GameObject cancelButtonVisualParent;
+    public Button cancelButtonScript;
+    public bool fadingIn;
+    public bool fadingOut;
 
     [Header("Properties")]
     public List<CampSiteCharacter> allCharacterSlots;
@@ -97,7 +102,9 @@ public class CampSiteManager : MonoBehaviour
 
         if (HasEnoughCampSitePoints(triagePointCost))
         {
+            FadeInCancelButton();
             triageButton.EnableGlowAnimation();
+            SetCharacterArrowViewStates(true);
             awaitingTriageChoice = true;
         }
 
@@ -109,7 +116,9 @@ public class CampSiteManager : MonoBehaviour
         ClearAllOrders();
         if (HasEnoughCampSitePoints(trainPointCost))
         {
+            FadeInCancelButton();
             trainButton.EnableGlowAnimation();
+            SetCharacterArrowViewStates(true);
             awaitingTrainChoice = true;
         }           
     }
@@ -126,12 +135,13 @@ public class CampSiteManager : MonoBehaviour
                 if (character.currentHealth == 0)
                 {
                     atLeastOneCharacterIsDead = true;
-                    character.myCampSiteCharacter.SetGlowOutilineViewState(true);
+                    character.myCampSiteCharacter.SetArrowAnimState(true);
                 }
             }
 
             if (atLeastOneCharacterIsDead)
             {
+                FadeInCancelButton();
                 prayButton.SetGlowOutilineViewState(true);
                 awaitingPrayChoice = true;
             }
@@ -189,6 +199,11 @@ public class CampSiteManager : MonoBehaviour
         // re enable world map + get next viable enocunter hexagon tiles
         WorldManager.Instance.SetWorldMapReadyState();
     }
+    public void OnCancelButtonClicked()
+    {
+        ClearAllOrders();
+        FadeOutCancelButton();
+    }
     #endregion
 
     // Visibility / View logic
@@ -201,11 +216,11 @@ public class CampSiteManager : MonoBehaviour
     {
         visualParent.SetActive(false);
     }
-    public void SetCharacterPanelGlowOutlineViewStates(bool onOrOff)
+    public void SetCharacterArrowViewStates(bool onOrOff)
     {
         foreach(CampSiteCharacter character in allCharacterSlots)
         {
-            //character.SetGlowOutilineViewState(onOrOff);
+            character.SetArrowAnimState(onOrOff);
         }
     }
     public void DisableAllButtonGlows()
@@ -215,8 +230,43 @@ public class CampSiteManager : MonoBehaviour
         prayButton.DisableGlowAnimation();
         batheButton.DisableGlowAnimation();
     }
-    
-    
+    public void FadeInCancelButton()
+    {
+        cancelButtonVisualParent.SetActive(true);
+        cancelButtonScript.interactable = true;
+        StartCoroutine(FadeInCancelButtonCoroutine());
+    }
+    public IEnumerator FadeInCancelButtonCoroutine()
+    {
+        fadingOut = false;
+        fadingIn = true;
+
+        while (cancelButtonCG.alpha < 1 && fadingIn)
+        {
+            cancelButtonCG.alpha += 0.1f * 50 * Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+    }
+    public void FadeOutCancelButton()
+    {
+        StartCoroutine(FadeOutCancelButtonCoroutine());
+    }
+    public IEnumerator FadeOutCancelButtonCoroutine()
+    {
+        fadingIn = false;
+        fadingOut = true;
+
+        while (cancelButtonCG.alpha > 0 && fadingOut)
+        {
+            cancelButtonCG.alpha -= 0.1f * 50 * Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        cancelButtonVisualParent.SetActive(false);
+        cancelButtonScript.interactable = false;
+    }
+
+
     #endregion
 
     // Misc Logic
@@ -242,7 +292,8 @@ public class CampSiteManager : MonoBehaviour
         awaitingTriageChoice = false;
         awaitingPrayChoice = false;
         awaitingBatheChoice = false;
-        SetCharacterPanelGlowOutlineViewStates(false);
+        FadeOutCancelButton();
+        SetCharacterArrowViewStates(false);
         DisableAllButtonGlows();
 
     }
@@ -279,7 +330,7 @@ public class CampSiteManager : MonoBehaviour
         characterClicked.myCharacterData.ModifyCurrentHealth(characterClicked.myCharacterData.maxHealth / 2);
         ModifyCurrentCampSitePoints(-triagePointCost);
         awaitingTriageChoice = false;
-        SetCharacterPanelGlowOutlineViewStates(false);
+        SetCharacterArrowViewStates(false);
         ClearAllOrders();
     }
     public void PerformTrain(CampSiteCharacter characterClicked)
@@ -292,7 +343,7 @@ public class CampSiteManager : MonoBehaviour
         ModifyCurrentCampSitePoints(-trainPointCost);
         awaitingTrainChoice = false;
         trainButton.SetGlowOutilineViewState(false);
-        SetCharacterPanelGlowOutlineViewStates(false);
+        SetCharacterArrowViewStates(false);
         ClearAllOrders();
     }
     public void PerformPray(CampSiteCharacter characterClicked)
@@ -304,7 +355,7 @@ public class CampSiteManager : MonoBehaviour
         ModifyCurrentCampSitePoints(-prayPointCost);
         awaitingPrayChoice = false;
         prayButton.SetGlowOutilineViewState(false);
-        SetCharacterPanelGlowOutlineViewStates(false);
+        SetCharacterArrowViewStates(false);
         ClearAllOrders();
     }
     public void PerformFeast()
@@ -331,6 +382,9 @@ public class CampSiteManager : MonoBehaviour
         StateManager.Instance.SetAfflicationPanelViewState(false);
         StateManager.Instance.ClearAfflicationsPanel();
 
+        ModifyCurrentCampSitePoints(-bathePointCost);
+        awaitingBatheChoice = false;
+        SetCharacterArrowViewStates(false);
         ClearAllOrders();
     }
     #endregion

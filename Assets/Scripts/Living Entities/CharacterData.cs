@@ -1867,6 +1867,7 @@ public class CharacterData : MonoBehaviour
         if (myCampSiteCharacter != null)
         {
             myCampSiteCharacter.ModifyCurrentHealthText(currentHealth);
+            myCampSiteCharacter.UpdateHealthBarPosition(currentHealth, maxHealth);
         }
         if (myStoryWindowCharacter != null)
         {
@@ -2206,6 +2207,7 @@ public class CharacterData : MonoBehaviour
         if(myCampSiteCharacter != null)
         {
             myCampSiteCharacter.ModifyCurrentXPText(currentXP);
+            myCampSiteCharacter.UpdateXpBarPosition(currentXP, currentMaxXP);
         }
         if (myStoryWindowCharacter != null)
         {

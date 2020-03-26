@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using Spriter2UnityDX;
 
-public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
+public class CampSiteCharacter : MonoBehaviour
 {
     [Header("Health Bar Component References")]
     public Slider healthBar;
@@ -20,6 +20,10 @@ public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
     [Header("Model Component References")]
     public UniversalCharacterModel myModel;
     public EntityRenderer myEntityRenderer;
+
+    [Header("Arrow Indicator Component References")]
+    public GameObject arrowIndicatorParent;
+    public Animator myArrowAnimator;
 
     [Header("Colour Properties")]
     public Color normalColor;
@@ -84,30 +88,37 @@ public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
         {
             CampSiteManager.Instance.PerformPray(this);
         }
-    }
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (CampSiteManager.Instance.awaitingTriageChoice)
-        {
-            CampSiteManager.Instance.PerformTriage(this);
-        }
-        else if (CampSiteManager.Instance.awaitingTrainChoice)
-        {
-            CampSiteManager.Instance.PerformTrain(this);
-        }
-        else if (CampSiteManager.Instance.awaitingPrayChoice &&
-            myCharacterData.currentHealth == 0)
-        {
-            CampSiteManager.Instance.PerformPray(this);
-        }
-    }
+    }    
     #endregion
 
     // View + VFX logic
     #region
-    public void SetGlowOutilineViewState(bool onOrOff)
+    public void SetArrowAnimState(bool onOrOff)
     {
-        //myGlowOutline.gameObject.SetActive(onOrOff);       
+        if (onOrOff)
+        {
+            arrowIndicatorParent.SetActive(true);
+            myArrowAnimator.SetTrigger("Bounce");
+        }
+        else
+        {            
+            myArrowAnimator.SetTrigger("Bounce");
+            arrowIndicatorParent.SetActive(false);
+        }    
+
+    }
+    public void UpdateHealthBarPosition(int currentHealth, int maxHealth)
+    {
+        float currentHealthFloat = currentHealth;
+        float maxHealthFloat = maxHealth;
+        healthBar.value = currentHealthFloat / maxHealthFloat;
+
+    }
+    public void UpdateXpBarPosition(int currentXP, int maxXP)
+    {
+        float currentXPFloat = currentXP;
+        float maxXpFloat = maxXP;
+        xpBar.value = currentXPFloat / maxXpFloat;
 
     }
     #endregion

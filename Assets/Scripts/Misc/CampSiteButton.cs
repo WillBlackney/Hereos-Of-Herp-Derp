@@ -45,7 +45,6 @@ public class CampSiteButton : MonoBehaviour
     {
         Debug.Log("CampSiteButton.OnMouseDown() called");
         CampSiteManager.Instance.OnCampSiteButtonClicked(buttonName);
-       // EnableGlowAnimation();
     }
     #endregion
 
