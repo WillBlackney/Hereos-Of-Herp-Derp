@@ -19,6 +19,7 @@ public class CampSiteManager : MonoBehaviour
     public CampSiteButton triageButton;
     public CampSiteButton trainButton;
     public CampSiteButton prayButton;
+    public CampSiteButton batheButton;
 
     [Header("Properties")]
     public List<CampSiteCharacter> allCharacterSlots;
@@ -47,11 +48,11 @@ public class CampSiteManager : MonoBehaviour
         maxActionPoints = 3;
 
         triagePointCost = 1;
-        trainPointCost = 2;
+        trainPointCost = 1;
         feastPointCost = 1;
         restPointCost = 2;
-        prayPointCost = 3;
-        bathePointCost = 3;
+        prayPointCost = 2;
+        bathePointCost = 2;
     }
     public void SetupCampSiteCharacter(CampSiteCharacter characterSlot, CharacterData characterData)
     {
@@ -82,15 +83,7 @@ public class CampSiteManager : MonoBehaviour
         else if (buttonName == "Pray")
         {
             OnPrayButtonClicked();
-        }
-        else if (buttonName == "Feast")
-        {
-            OnFeastButtonClicked();
-        }
-        else if (buttonName == "Rest")
-        {
-            OnRestButtonClicked();
-        }
+        }        
         else if (buttonName == "Bathe")
         {
             OnBatheButtonClicked();
@@ -104,8 +97,7 @@ public class CampSiteManager : MonoBehaviour
 
         if (HasEnoughCampSitePoints(triagePointCost))
         {
-            triageButton.SetGlowOutilineViewState(true);
-            SetCharacterPanelGlowOutlineViewStates(true);
+            triageButton.EnableGlowAnimation();
             awaitingTriageChoice = true;
         }
 
@@ -117,8 +109,7 @@ public class CampSiteManager : MonoBehaviour
         ClearAllOrders();
         if (HasEnoughCampSitePoints(trainPointCost))
         {
-            trainButton.SetGlowOutilineViewState(true);
-            SetCharacterPanelGlowOutlineViewStates(true);
+            trainButton.EnableGlowAnimation();
             awaitingTrainChoice = true;
         }           
     }
@@ -205,7 +196,6 @@ public class CampSiteManager : MonoBehaviour
     public void EnableCampSiteView()
     {
         visualParent.SetActive(true);
-        //DisableContinueButtonView();
     }
     public void DisableCampSiteView()
     {
@@ -215,14 +205,15 @@ public class CampSiteManager : MonoBehaviour
     {
         foreach(CampSiteCharacter character in allCharacterSlots)
         {
-            character.SetGlowOutilineViewState(onOrOff);
+            //character.SetGlowOutilineViewState(onOrOff);
         }
     }
     public void DisableAllButtonGlows()
     {
-        triageButton.SetGlowOutilineViewState(false);
-        trainButton.SetGlowOutilineViewState(false);
-        prayButton.SetGlowOutilineViewState(false);
+        triageButton.DisableGlowAnimation();
+        trainButton.DisableGlowAnimation();
+        prayButton.DisableGlowAnimation();
+        batheButton.DisableGlowAnimation();
     }
     
     
@@ -288,7 +279,6 @@ public class CampSiteManager : MonoBehaviour
         characterClicked.myCharacterData.ModifyCurrentHealth(characterClicked.myCharacterData.maxHealth / 2);
         ModifyCurrentCampSitePoints(-triagePointCost);
         awaitingTriageChoice = false;
-        triageButton.SetGlowOutilineViewState(false);
         SetCharacterPanelGlowOutlineViewStates(false);
         ClearAllOrders();
     }

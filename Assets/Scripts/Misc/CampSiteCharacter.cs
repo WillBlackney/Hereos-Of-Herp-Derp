@@ -4,21 +4,33 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using Spriter2UnityDX;
 
 public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
 {
+    [Header("Health Bar Component References")]
+    public Slider healthBar;
+    public TextMeshProUGUI currentHealthText;
+    public TextMeshProUGUI maxHealthText;    
+
+    [Header("XP Bar Component References")]
+    public Slider xpBar;
+    public TextMeshProUGUI currentXPText;
+
+    [Header("Model Component References")]
+    public UniversalCharacterModel myModel;
+    public EntityRenderer myEntityRenderer;
+
+    [Header("Colour Properties")]
+    public Color normalColor;
+    public Color highlightColor;
+
     [Header("Properties")]
     public CharacterData myCharacterData;
 
-    [Header("Component References")]
-    public TextMeshProUGUI currentHealthText;
-    public TextMeshProUGUI maxHealthText;
-    public TextMeshProUGUI currentXPText;
-    public Image myImageComponent;
-    public Image myGlowOutline;
-    public CanvasGroup myGlowCG;
-    public UniversalCharacterModel myButtonModel;
 
+    // Set up + initialization
+    #region
     public void InitializeSetup(CharacterData data)
     {
         data.myCampSiteCharacter = this;
@@ -26,9 +38,10 @@ public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
         currentHealthText.text = data.currentHealth.ToString();
         maxHealthText.text = data.maxHealth.ToString();
         currentXPText.text = data.currentXP.ToString();
-        CharacterModelController.BuildModelFromPresetString(myButtonModel, myCharacterData.myName);
-        myButtonModel.SetBaseAnim();
+        CharacterModelController.BuildModelFromPresetString(myModel, myCharacterData.myName);
+        myModel.SetBaseAnim();
     }
+    #endregion
     public void ModifyCurrentHealthText(int newValue)
     {
         currentHealthText.text = newValue.ToString();
@@ -40,6 +53,19 @@ public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
     public void ModifyCurrentXPText(int newValue)
     {
         currentXPText.text = newValue.ToString();
+    }
+
+    // Mouse + Pointer events
+    #region
+    private void OnMouseEnter()
+    {
+        Debug.Log("CampSiteCharacter.OnMouseEnter() called...");
+        myEntityRenderer.Color = highlightColor;
+    }
+    private void OnMouseExit()
+    {
+        Debug.Log("CampSiteCharacter.OnMouseExit() called...");
+        myEntityRenderer.Color = normalColor;
     }
     public void OnMouseDown()
     {
@@ -75,9 +101,14 @@ public class CampSiteCharacter : MonoBehaviour, IPointerClickHandler
             CampSiteManager.Instance.PerformPray(this);
         }
     }
+    #endregion
+
+    // View + VFX logic
+    #region
     public void SetGlowOutilineViewState(bool onOrOff)
     {
-        myGlowOutline.gameObject.SetActive(onOrOff);       
+        //myGlowOutline.gameObject.SetActive(onOrOff);       
 
     }
+    #endregion
 }
