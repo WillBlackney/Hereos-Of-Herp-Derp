@@ -6,15 +6,10 @@ public class StateManager : MonoBehaviour
 {
     public static StateManager Instance;
     private void Awake()
-    {        Instance = this;
-        
+    {       
+        Instance = this;        
     }
-    private void Start()
-    {
-        // REMOVE IN FUTURE, FOR TESTING
-        GainState(StateLibrary.Instance.GetRandomAffliction());
-        GainState(StateLibrary.Instance.GetRandomAffliction());
-    }
+    
 
     // Properties + Component References
     #region

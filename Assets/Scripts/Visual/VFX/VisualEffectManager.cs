@@ -171,6 +171,23 @@ public class VisualEffectManager : MonoBehaviour
 
     #endregion
 
+    // Camp Site VFX
+    public void CreateTriageEffect(Vector3 location, int sortingLayer) 
+    {
+        StartCoroutine(CreateTriageEffectCoroutine(location, sortingLayer));
+    }
+    private IEnumerator CreateTriageEffectCoroutine(Vector3 location, int sortingLayer)
+    {
+        Debug.Log("VisualEffectManager.CreateTriageEffectCoroutine() started...");
+
+        Vector3 screenPos = Camera.main.ScreenToWorldPoint(location);
+
+        GameObject newHealVFX = Instantiate(HealEffectPrefab, screenPos, Quaternion.identity);
+        SetEffectScale(newHealVFX, 10);
+        newHealVFX.GetComponent<BuffEffect>().InitializeSetup(screenPos, sortingLayer);
+        yield return null;
+    }
+
     // Projectiles
     #region
     public Action ShootFireball(Vector3 startPos, Vector3 endPos)
@@ -288,6 +305,24 @@ public class VisualEffectManager : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         projectile.transform.rotation = Quaternion.Slerp(projectile.transform.rotation, rotation, 10000f);
+    }
+    public void SetEffectScale(GameObject scaleParent, int scale)
+    {
+        Debug.Log("VisualEffectManager.SetEffectScale() called, scaling " +
+            scaleParent.name + " to " + scale.ToString());
+
+        RectTransform rectTransform = scaleParent.GetComponent<RectTransform>();
+        Transform normalTransform = scaleParent.GetComponent<Transform>();
+        Vector3 newScale = new Vector3(scale, scale, scale);
+
+        if (rectTransform)
+        {
+            rectTransform.localScale = newScale;
+        }
+        else if (normalTransform)
+        {
+            normalTransform.localScale = newScale;
+        }
     }
     #endregion
 

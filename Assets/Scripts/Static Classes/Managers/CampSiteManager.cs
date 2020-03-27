@@ -142,7 +142,7 @@ public class CampSiteManager : MonoBehaviour
             if (atLeastOneCharacterIsDead)
             {
                 FadeInCancelButton();
-                prayButton.SetGlowOutilineViewState(true);
+                trainButton.EnableGlowAnimation();
                 awaitingPrayChoice = true;
             }
             
@@ -328,6 +328,11 @@ public class CampSiteManager : MonoBehaviour
 
         // heal 50%
         characterClicked.myCharacterData.ModifyCurrentHealth(characterClicked.myCharacterData.maxHealth / 2);
+
+        // VFX
+        VisualEffectManager.Instance.CreateTriageEffect(characterClicked.transform.position, 140);
+
+        // Modify properties and resolve
         ModifyCurrentCampSitePoints(-triagePointCost);
         awaitingTriageChoice = false;
         SetCharacterArrowViewStates(false);

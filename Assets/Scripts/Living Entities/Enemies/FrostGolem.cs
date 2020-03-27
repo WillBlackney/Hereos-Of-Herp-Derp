@@ -15,7 +15,7 @@ public class FrostGolem : Enemy
         mySpellBook.EnemyLearnAbility("Strike");
         mySpellBook.EnemyLearnAbility("Frost Nova");
         mySpellBook.EnemyLearnAbility("Chilling Blow");
-        mySpellBook.EnemyLearnAbility("Shaw");
+        mySpellBook.EnemyLearnAbility("Thaw");
 
         myPassiveManager.ModifyShatter(1);
 
