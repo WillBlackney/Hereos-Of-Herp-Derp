@@ -45,7 +45,27 @@ namespace Spriter2UnityDX {
 				if (applySpriterZOrder)
 					for (var i = 0; i < updaters.Length; i++)
 						updaters [i].SortingOrder = value;
-				else DoForAll (x => x.sortingOrder = value);
+				else DoForAll (x => x.sortingOrder = value + x.GetComponent<UniversalCharacterModelElement>().sortingOrderBonus);
+			}
+		}
+
+		[SerializeField, HideInInspector] private bool visibleWithinMask = false;
+		public bool VisibleWithinMask
+		{
+			get { return visibleWithinMask; }
+			set
+			{
+				visibleWithinMask = value;
+
+				if (visibleWithinMask)
+				{
+					DoForAll(x => x.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask);
+				}
+				else
+				{
+					DoForAll(x => x.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.None);
+				}
+				
 			}
 		}
 
