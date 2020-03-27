@@ -172,6 +172,7 @@ public class VisualEffectManager : MonoBehaviour
     #endregion
 
     // Camp Site VFX
+    #region
     public void CreateTriageEffect(Vector3 location, int sortingLayer) 
     {
         StartCoroutine(CreateTriageEffectCoroutine(location, sortingLayer));
@@ -180,13 +181,53 @@ public class VisualEffectManager : MonoBehaviour
     {
         Debug.Log("VisualEffectManager.CreateTriageEffectCoroutine() started...");
 
-        Vector3 screenPos = Camera.main.ScreenToWorldPoint(location);
+        float yOffSet = 0.25f;
+        Vector3 screenPos = new Vector3(location.x, location.y + yOffSet, location.z);        
 
         GameObject newHealVFX = Instantiate(HealEffectPrefab, screenPos, Quaternion.identity);
-        SetEffectScale(newHealVFX, 10);
+        SetEffectScale(newHealVFX, 10);;
+
         newHealVFX.GetComponent<BuffEffect>().InitializeSetup(screenPos, sortingLayer);
+
+        CreateStatusEffectOnCampSiteCharacter(location, "Triage!", sortingLayer);
         yield return null;
     }
+    public void CreateTrainEffect(Vector3 location, int sortingLayer)
+    {
+        StartCoroutine(CreateTrainEffectCoroutine(location, sortingLayer));
+    }
+    private IEnumerator CreateTrainEffectCoroutine(Vector3 location, int sortingLayer)
+    {
+        Debug.Log("VisualEffectManager.CreateTrainEffectCoroutine() started...");
+
+        float yOffSet = 0.25f;
+        Vector3 screenPos = new Vector3(location.x, location.y + yOffSet, location.z);
+
+        GameObject newHealVFX = Instantiate(BuffEffectPrefab, screenPos, Quaternion.identity);
+        SetEffectScale(newHealVFX, 10);
+
+        newHealVFX.GetComponent<BuffEffect>().InitializeSetup(screenPos, sortingLayer);
+
+        CreateStatusEffectOnCampSiteCharacter(location, "Train!", sortingLayer);
+
+        yield return null;
+    }
+    public void CreateStatusEffectOnCampSiteCharacter(Vector3 location, string statusText, int sortingLayer)
+    {
+        StartCoroutine(CreateStatusEffectOnCampSiteCharacterCorotuine(location, statusText, sortingLayer));
+    }
+    public IEnumerator CreateStatusEffectOnCampSiteCharacterCorotuine(Vector3 location, string statusText, int sortingLayer)
+    {
+        float yOffSet = 0.25f;
+        Vector3 screenPos = new Vector3(location.x, location.y + yOffSet, location.z);
+
+        GameObject statusVFX = Instantiate(StatusEffectPrefab, screenPos, Quaternion.identity);
+        SetEffectScale(statusVFX, 2);
+
+        statusVFX.GetComponent<StatusEffect>().InitializeSetup(statusText, Color.white, sortingLayer);
+        yield return null;
+    }
+    #endregion
 
     // Projectiles
     #region

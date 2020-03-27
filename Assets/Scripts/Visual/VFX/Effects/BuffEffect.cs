@@ -13,10 +13,10 @@ public class BuffEffect : MonoBehaviour
         transform.position = new Vector2(location.x, location.y);       
 
     }
-    public void InitializeSetup(Vector3 location, int sortingLayer)
+    public void InitializeSetup(Vector3 location, int sortingOrder)
     {
         transform.position = new Vector2(location.x, location.y);
-        myCanvas.sortingOrder = sortingLayer;
+        myCanvas.sortingOrder = sortingOrder;
 
     }
 

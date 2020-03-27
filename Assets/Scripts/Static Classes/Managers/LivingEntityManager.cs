@@ -500,6 +500,17 @@ public class LivingEntityManager : MonoBehaviour
                 yield return new WaitForSeconds(1f);
             }
 
+            // Camoflage from 'Thieves Guild Membership' state
+            if (entity.enemy &&
+                StateManager.Instance.DoesPlayerAlreadyHaveState("Thieves Guild Membership") &&
+                entity.myPassiveManager.camoflage == false &&
+                TurnManager.Instance.currentTurnCount == 1)
+            {
+                Debug.Log("OnActivationEndCoroutine() checking Rapid Cloaking...");
+                entity.myPassiveManager.ModifyCamoflage(1);
+                yield return new WaitForSeconds(1f);
+            }
+
             // Tile related events
             if (entity.tile.myTileType == Tile.TileType.Grass)
             {

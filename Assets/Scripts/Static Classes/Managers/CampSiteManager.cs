@@ -344,7 +344,11 @@ public class CampSiteManager : MonoBehaviour
 
         // Grant +50 XP
         characterClicked.myCharacterData.ModifyCurrentXP(50);
-        
+
+        // VFX
+        VisualEffectManager.Instance.CreateTrainEffect(characterClicked.transform.position, 140);
+
+        // Modify properties and resolve
         ModifyCurrentCampSitePoints(-trainPointCost);
         awaitingTrainChoice = false;
         trainButton.SetGlowOutilineViewState(false);

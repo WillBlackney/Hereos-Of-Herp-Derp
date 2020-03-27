@@ -35,7 +35,7 @@ public class PlayerDataManager : MonoBehaviour
         int goldGainFinalValue = 0;
         if(StateManager.Instance.DoesPlayerAlreadyHaveState("Pennywise") && goldGainedOrLost > 0)
         {
-            goldGainFinalValue = (int) (goldGainedOrLost * 1.5f);
+            goldGainFinalValue = (int) (goldGainedOrLost * 1.3f);
         }
         else
         {

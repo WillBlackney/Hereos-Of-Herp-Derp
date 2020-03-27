@@ -74,7 +74,7 @@ public class ActivationManager : MonoBehaviour
         StartCoroutine(StartNewTurnSequenceCoroutine(action));
         return action;
     }
-    public IEnumerator StartNewTurnSequenceCoroutine(Action action)
+    private IEnumerator StartNewTurnSequenceCoroutine(Action action)
     {
         TurnManager.Instance.currentTurnCount++;
 

@@ -70,7 +70,7 @@ public class EventManager : MonoBehaviour
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
 
         // Apply Relevant State Effects
-        Action stateApplications = StateManager.Instance.ApplyAllStateEffectsToCharacters();
+        Action stateApplications = StateManager.Instance.ApplyAllStateEffectsToLivingEntities();
         yield return new WaitUntil(() => stateApplications.ActionResolved() == true);
 
         // Check for expired states and remove them
@@ -114,18 +114,18 @@ public class EventManager : MonoBehaviour
         CharacterRoster.Instance.InstantiateDefenders();
 
         // Instantiate enemies
+        currentEncounterType = WorldEncounter.EncounterType.EliteEnemy;
         EnemySpawner.Instance.SpawnEnemyWave("Elite");
 
         // disable world map view
-        UIManager.Instance.DisableWorldMapView();
-        currentEncounterType = WorldEncounter.EncounterType.EliteEnemy;
+        UIManager.Instance.DisableWorldMapView();        
 
         // Fade scene back in, wait until completed
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
 
         // Apply Relevant State Effects
-        Action stateApplications = StateManager.Instance.ApplyAllStateEffectsToCharacters();
+        Action stateApplications = StateManager.Instance.ApplyAllStateEffectsToLivingEntities();
         yield return new WaitUntil(() => stateApplications.ActionResolved() == true);
 
         // Check for expired states and remove them
@@ -182,7 +182,7 @@ public class EventManager : MonoBehaviour
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
 
         // Apply Relevant State Effects
-        Action stateApplications = StateManager.Instance.ApplyAllStateEffectsToCharacters();
+        Action stateApplications = StateManager.Instance.ApplyAllStateEffectsToLivingEntities();
         yield return new WaitUntil(() => stateApplications.ActionResolved() == true);
 
         // Check for expired states and remove them
@@ -205,8 +205,6 @@ public class EventManager : MonoBehaviour
     }
     private IEnumerator StartNewCampSiteEncounterEventCoroutine()
     {
-        // Disable player's ability to click on encounter buttons and start new encounters
-        //WorldMap.Instance.canSelectNewEncounter = false;
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
@@ -223,6 +221,22 @@ public class EventManager : MonoBehaviour
         // Fade scene back in, wait until completed
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+
+        // Check relaxed state
+        if (StateManager.Instance.DoesPlayerAlreadyHaveState("Relaxed"))
+        {
+            // Reward xp
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyCurrentXP(30);
+            }
+
+            // Create status VFX
+            foreach(CampSiteCharacter character in CampSiteManager.Instance.allCharacterSlots)
+            {
+                VisualEffectManager.Instance.CreateStatusEffectOnCampSiteCharacter(character.transform.position, "Relaxed!", 140);
+            }
+        }
 
     }
     public Action StartShopEncounterEvent()
@@ -258,6 +272,15 @@ public class EventManager : MonoBehaviour
         // Fade scene back in, wait until completed
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+
+        // Check Local Heroes State
+        if(StateManager.Instance.DoesPlayerAlreadyHaveState("Local Heroes"))
+        {
+            foreach(CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyCurrentHealth(30);
+            }
+        }
 
         // Resolve
         action.actionResolved = true;
@@ -346,6 +369,12 @@ public class EventManager : MonoBehaviour
         int randomNumber = Random.Range(1, 101);
         Debug.Log("EventManager.StartNewMysteryEncounterEventCoroutine() rolled " +
             randomNumber.ToString() + " for mystery event roll");
+
+        // check 'Daring Explorer' state
+        if(StateManager.Instance.DoesPlayerAlreadyHaveState("Daring Explorers"))
+        {
+            PlayerDataManager.Instance.ModifyGold(5);
+        }
 
         // Story Event
         if (randomNumber >= 1 && randomNumber <= 60)
@@ -575,9 +604,9 @@ public class EventManager : MonoBehaviour
         Debug.Log("StartPreLootScreenVisualEvent() coroutine started...");
         preLootScreenEventFinished = false;
 
-        if (StateManager.Instance.DoesPlayerAlreadyHaveState("Genius"))
+        if (StateManager.Instance.DoesPlayerAlreadyHaveState("Fast Learners"))
         {
-            xpReward += (int)(xpReward * 0.5f);
+            xpReward += (int)(xpReward * 0.3f);
         }
 
         // disable activation panel view

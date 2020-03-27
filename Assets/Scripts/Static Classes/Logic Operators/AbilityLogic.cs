@@ -285,11 +285,28 @@ public class AbilityLogic : MonoBehaviour
             }
         }
 
-        else if (ability.abilityName == "Slice And Dice" ||
+        // Check 'spend X energy' abilities
+        if (ability.abilityName == "Slice And Dice" ||
             ability.abilityName == "Rapid Fire" ||
              ability.abilityName == "Super Conductor")
         {
             finalApCost = entity.currentEnergy;
+        }
+
+        // Check 'Expert Marksman' state and Shoot ability
+        if(entity.defender &&
+            ability.abilityName == "Shoot" &&
+            StateManager.Instance.DoesPlayerAlreadyHaveState("Expert Marksman"))
+        {
+            finalApCost = 10;
+        }
+
+        // Check 'Blood Lust' state and Strike/Twin Strike ability
+        if (entity.defender &&
+            (ability.abilityName == "Strike" || ability.abilityName == "Twin Strike") &&
+            StateManager.Instance.DoesPlayerAlreadyHaveState("Blood Lust"))
+        {
+            finalApCost = 10;
         }
 
         Debug.Log("AbilityLogic.CalculateAbilityEnergyCost() returning " + finalApCost.ToString() +

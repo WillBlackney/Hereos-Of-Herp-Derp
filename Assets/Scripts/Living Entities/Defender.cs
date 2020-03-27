@@ -354,6 +354,14 @@ public class Defender : LivingEntity
         {
             myPassiveManager.ModifyStormLord(myCharacterData.stormLordStacks);
         }
+        if (myCharacterData.fadingStacks > 0)
+        {
+            myPassiveManager.ModifyFading(myCharacterData.fadingStacks);
+        }
+        if (myCharacterData.lifeStealStacks > 0)
+        {
+            myPassiveManager.ModifyLifeSteal(myCharacterData.lifeStealStacks);
+        }
 
         // Set Weapons from character data
         ItemManager.Instance.SetUpDefenderWeaponsFromCharacterData(this);

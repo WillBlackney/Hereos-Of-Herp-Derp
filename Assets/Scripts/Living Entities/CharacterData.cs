@@ -224,8 +224,10 @@ public class CharacterData : MonoBehaviour
     public int enrageStacks;
     public int powerLimitStacks;
     public int quickDrawStacks;
+    public int fadingStacks;
+    public int lifeStealStacks;
 
-    
+
 
     [Header("Misc Properties")]
     public string myName;
@@ -2156,7 +2158,19 @@ public class CharacterData : MonoBehaviour
         Debug.Log("CharacterData.ModifyTrueSight() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         trueSightStacks += stacks;
         StartAddAttributeTabProcess("True Sight", stacks);
+    }
+    public void ModifyFading(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyFading() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        fadingStacks += stacks;
+        StartAddAttributeTabProcess("Fading", stacks);
 
+    }
+    public void ModifyLifeSteal(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyLifeSteal() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        lifeStealStacks += stacks;
+        StartAddAttributeTabProcess("Life Steal", stacks);
     }
 
 
@@ -2177,11 +2191,11 @@ public class CharacterData : MonoBehaviour
     public void ModifyCurrentXP(int xpGainedOrLost)
     {
         // Increase XP gain by 50% if player has 'Genius' state
-        if (StateManager.Instance.DoesPlayerAlreadyHaveState("Genius") &&
+        if (StateManager.Instance.DoesPlayerAlreadyHaveState("Fast Learners") &&
             xpGainedOrLost > 0)
         {
-            xpGainedOrLost += (int) (xpGainedOrLost * 0.5f);
-        }
+            xpGainedOrLost += (int) (xpGainedOrLost * 0.3f);
+        }        
 
         currentXP += xpGainedOrLost;
 

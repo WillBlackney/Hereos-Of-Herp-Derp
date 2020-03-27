@@ -9,7 +9,12 @@ public class StateManager : MonoBehaviour
     {       
         Instance = this;        
     }
-    
+
+    private void Start()
+    {
+        GainState(StateLibrary.Instance.GetStateByName("Vengeful"));
+    }
+
 
     // Properties + Component References
     #region
@@ -38,6 +43,9 @@ public class StateManager : MonoBehaviour
         // Get the script component and run the setip
         State stateScript = newState.GetComponent<State>();
         stateScript.InitializeSetup(stateGained);
+
+        // Gain state effects on pick up (where relevant)
+        ApplyStateEffectOnPickup(stateGained);
 
         // Add state to active state lists
         activeStates.Add(stateScript);
@@ -88,15 +96,118 @@ public class StateManager : MonoBehaviour
 
     // Apply States to characters logic
     #region
-    public Action ApplyAllStateEffectsToCharacters()
+    public Action ApplyStateEffectOnPickup(StateDataSO data)
+    {
+        Action action = new Action();
+        StartCoroutine(ApplyStateEffectOnPickupCoroutine(data, action));
+        return action;
+    }
+    private IEnumerator ApplyStateEffectOnPickupCoroutine(StateDataSO data, Action action)
+    {
+        if(data.stateName == "Vengeful")
+        {
+            foreach(CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyStrength(2);
+            }
+        }
+        else if (data.stateName == "Educated")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyWisdom(2);
+            }
+        }
+        else if (data.stateName == "Tough")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyDexterity(2);
+            }
+        }
+        else if (data.stateName == "Well Rounded")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyStrength(1);
+                character.ModifyWisdom(1);
+                character.ModifyDexterity(1);
+            }
+        }
+        else if (data.stateName == "Heroism")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyStrength(1);
+                character.ModifyWisdom(1);
+                character.ModifyDexterity(1);
+            }
+        }
+        else if (data.stateName == "Polished Armour")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyUnwavering(1);
+            }
+        }
+        else if (data.stateName == "Pumped Up")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyStamina(5);
+                character.ModifyMaxEnergy(5);
+            }
+        }
+        else if (data.stateName == "Vampirism")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyLifeSteal(1);
+            }
+        }
+        else if (data.stateName == "Resourceful")
+        {
+            CampSiteManager.Instance.maxActionPoints++;
+        }
+
+
+        // Afflictions
+        else if (data.stateName == "Curse Of The Blood God")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyFading(2);
+            }
+        }
+        else if (data.stateName == "Exhausted")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyStamina(-5);
+                character.ModifyMobility(-1);
+            }
+        }
+        else if (data.stateName == "Shame")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyStrength(-1);
+                character.ModifyWisdom(-1);
+                character.ModifyDexterity(-1);
+            }
+        }
+
+        yield return null;
+    }
+    public Action ApplyAllStateEffectsToLivingEntities()
     {
         Debug.Log("StateManager.ApplyAllStateEffectsToCharacters() called...");
         Action action = new Action();
-        StartCoroutine(ApplyAllStateEffectsToCharactersCoroutine(action));
+        StartCoroutine(ApplyAllStateEffectsToLivingEntitiesCoroutine(action));
         return action;
 
     }
-    private IEnumerator ApplyAllStateEffectsToCharactersCoroutine(Action action)
+    private IEnumerator ApplyAllStateEffectsToLivingEntitiesCoroutine(Action action)
     {        
         foreach(State state in activeStates)
         {
@@ -119,245 +230,34 @@ public class StateManager : MonoBehaviour
     private IEnumerator ApplyStateEffectCoroutine(State stateApplied, Action action)
     {
         Debug.Log("StateManager.ApplyStateEffectCoroutine() called, applying state: " + stateApplied.Name);
-
-        if(stateApplied.Name == "Well Fed")
+              
+        
+        if (stateApplied.Name == "Eager")
         {
-            Debug.Log("StateManager applying Well Fed...");
+            Debug.Log("StateManager applying Eager...");
 
-            // Bonus Strength
+            // Status VFX
             foreach (Defender defender in DefenderManager.Instance.allDefenders)
             {
-                defender.myPassiveManager.ModifyBonusStrength(2);                
+                VisualEffectManager.Instance.CreateStatusEffect(defender.transform.position, "Eager!");
             }
             yield return new WaitForSeconds(.5f);
-
-            // Bonus Dexterity
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusDexterity(2);
-            }
-            yield return new WaitForSeconds(.5f);
-
-            // Bonus Wisdom
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusWisdom(2);
-            }
-            yield return new WaitForSeconds(.5f);
-        }
-        else if (stateApplied.Name == "Well Rested")
-        {
-            Debug.Log("StateManager applying Well Rested...");
-
-            // Gain +10 Stamina
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusStamina(10);                
-            }
-            yield return new WaitForSeconds(.5f);
-
-            // Gain +10 Max energy
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.currentMaxEnergy += 10;
-                VisualEffectManager.Instance.CreateStatusEffect(defender.transform.position, "Max Energy + 10");
-                StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
-            }
-            yield return new WaitForSeconds(.5f);
-        }
-        else if (stateApplied.Name == "Heroism")
-        {
-            Debug.Log("StateManager applying Heroism...");
-
-            // Bonus Strength
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusStrength(1);
-            }
-            yield return new WaitForSeconds(.5f);
-
-            // Bonus Dexterity
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusDexterity(1);
-            }
-            yield return new WaitForSeconds(.5f);
-
-            // Bonus Wisdom
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusWisdom(1);
-            }
-            yield return new WaitForSeconds(.5f);
-        }
-        else if (stateApplied.Name == "Polished Armour")
-        {
-            Debug.Log("StateManager applying Polished Armour...");
-
-            // Grant +5 block
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(5, defender));
-            }
-
-            yield return new WaitForSeconds(.5f);
-        }
-        else if (stateApplied.Name == "Vampirism")
-        {
-            Debug.Log("StateManager applying Vampirism...");
-
-            // Grant Life Steal passive
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyLifeSteal(1);
-            }
-
-            yield return new WaitForSeconds(.5f);
-        }
-        else if (stateApplied.Name == "Pumped Up")
-        {
-            Debug.Log("StateManager applying Pumped Up...");
-
-            // Gain +10 Stamina
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusStamina(10);
-            }
-            yield return new WaitForSeconds(.5f);
-
-            // Gain +10 Max energy
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.currentMaxEnergy += 10;
-                VisualEffectManager.Instance.CreateStatusEffect(defender.transform.position, "Max Energy + 10");
-                StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
-            }
-            yield return new WaitForSeconds(.5f);
-        }
-        else if (stateApplied.Name == "Vengeful")
-        {
-            Debug.Log("StateManager applying Vengeful...");
-
-            // Bonus Strength
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusStrength(4);
-            }
-            yield return new WaitForSeconds(.5f);
-
-        }
-        else if (stateApplied.Name == "Alert")
-        {
-            Debug.Log("StateManager applying Alert...");
 
             // Bonus Mobility
             foreach (Defender defender in DefenderManager.Instance.allDefenders)
             {
-                defender.myPassiveManager.ModifyTemporaryMobility(2);
+                defender.myPassiveManager.ModifyTemporaryMobility(1);
             }
             yield return new WaitForSeconds(.5f);
 
             // Bonus Initiative
             foreach (Defender defender in DefenderManager.Instance.allDefenders)
             {
-                defender.myPassiveManager.ModifyTemporaryInitiative(2);
+                defender.myPassiveManager.ModifyTemporaryInitiative(1);
             }
             yield return new WaitForSeconds(.5f);
-        }
-        else if (stateApplied.Name == "Curiosity")
-        {
-            Debug.Log("StateManager applying Curiosity...");
-
-            // Bonus Strength
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusStrength(2);
-            }
-            yield return new WaitForSeconds(.5f);
-
-            // Bonus Dexterity
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusDexterity(2);
-            }
-            yield return new WaitForSeconds(.5f);
-
-            // Bonus Wisdom
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusWisdom(2);
-            }
-            yield return new WaitForSeconds(.5f);
-        }
-        else if (stateApplied.Name == "Curse Of The Blood God")
-        {
-            Debug.Log("StateManager applying Curse Of The Blood God...");
-
-            // Apply Fading
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyFading(2);
-            }
-            yield return new WaitForSeconds(.5f);
-
-        }
-        else if (stateApplied.Name == "Exhausted")
-        {
-            Debug.Log("StateManager applying Exhausted...");
-
-            // Lose 10 Stamina
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusStamina(-10);
-            }
-            yield return new WaitForSeconds(.5f);
-
-            // Lose 1 Mobility
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusMobility(-1);
-            }
-            yield return new WaitForSeconds(.5f);
-        }
-        else if (stateApplied.Name == "Shame")
-        {
-            Debug.Log("StateManager applying Shame...");
-
-            // Lose Strength
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusStrength(-1);
-            }
-            yield return new WaitForSeconds(.5f);
-
-            // Lose Dexterity
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusDexterity(-1);
-            }
-            yield return new WaitForSeconds(.5f);
-
-            // Lose Wisdom
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusWisdom(-1);
-            }
-            yield return new WaitForSeconds(.5f);
-
-            // Lose Mobility
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.ModifyCurrentMobility(-1);
-            }
-            yield return new WaitForSeconds(.5f);
-
-            // Lose Initiative
-            foreach (Defender defender in DefenderManager.Instance.allDefenders)
-            {
-                defender.myPassiveManager.ModifyBonusInitiative(-1);
-            }
-            yield return new WaitForSeconds(.5f);
-        }
+        }        
+       
         else if (stateApplied.Name == "King's Decree")
         {
             Debug.Log("StateManager applying King's Decree...");
@@ -369,7 +269,19 @@ public class StateManager : MonoBehaviour
                 enemy.ModifyCurrentHealth(-(enemy.currentMaxHealth / 2));
             }
             yield return new WaitForSeconds(.5f);
+        }
 
+        else if (stateApplied.Name == "Contract Killers")
+        {
+            Debug.Log("StateManager applying Contract Killers...");
+
+            // Lose 30% health
+            foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
+            {
+                VisualEffectManager.Instance.CreateStatusEffect(enemy.transform.position, "Contract Killers!");
+                enemy.ModifyCurrentHealth(-(int)(enemy.currentMaxHealth * 0.3f));
+            }
+            yield return new WaitForSeconds(.5f);
         }
 
         if (stateApplied.expirationCondition == StateDataSO.ExpirationCondition.Timer)

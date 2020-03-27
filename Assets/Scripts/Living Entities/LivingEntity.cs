@@ -167,8 +167,8 @@ public class LivingEntity : MonoBehaviour
     {
         // Set health
         currentMaxHealth = baseMaxHealth;    
-        currentHealth = baseStartingHealth;                    
-
+        currentHealth = baseStartingHealth;     
+        
         // Set up core stats
         ModifyCurrentStrength(baseStrength);
         ModifyCurrentWisdom(baseWisdom);
@@ -1210,6 +1210,8 @@ public class LivingEntity : MonoBehaviour
             myPassiveManager.ModifyCamoflage(1);
             yield return new WaitForSeconds(1f);
         }
+
+        
 
         // Tile related events
         if (tile.myTileType == Tile.TileType.Grass)
