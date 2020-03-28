@@ -31,6 +31,44 @@ public class StateLibrary : MonoBehaviour
 
         return stateReturned;
     }
+    public StateDataSO GetRandomCommonState()
+    {
+        Debug.Log("StateLibrary.GetRandomCommonState() called...");
+
+        StateDataSO stateReturned = null;
+        List<StateDataSO> commonStates = new List<StateDataSO>();
+
+        foreach (StateDataSO state in allStates)
+        {
+            if (state.rarity == StateDataSO.Rarity.Common)
+            {
+                commonStates.Add(state);
+            }
+        }
+
+        stateReturned = commonStates[Random.Range(0, commonStates.Count)];
+        Debug.Log("StateLibrary.GetRandomCommonState() returning " + stateReturned.stateName);
+        return stateReturned;
+    }
+    public StateDataSO GetRandomRareState()
+    {
+        Debug.Log("StateLibrary.GetRandomRareState() called...");
+
+        StateDataSO stateReturned = null;
+        List<StateDataSO> rareStates = new List<StateDataSO>();
+
+        foreach (StateDataSO state in allStates)
+        {
+            if (state.rarity == StateDataSO.Rarity.Rare)
+            {
+                rareStates.Add(state);
+            }
+        }
+
+        stateReturned = rareStates[Random.Range(0, rareStates.Count)];
+        Debug.Log("StateLibrary.GetRandomRareState() returning " + stateReturned.stateName);
+        return stateReturned;
+    }
     public StateDataSO GetRandomStateReward()
     {       
         Debug.Log("StateLibrary.GetRandomState() called...");

@@ -83,6 +83,10 @@ public class CampSiteCharacter : MonoBehaviour
         {
             CampSiteManager.Instance.PerformTrain(this);
         }
+        else if (CampSiteManager.Instance.awaitingReadChoice)
+        {
+            CampSiteManager.Instance.PerformRead(this);
+        }
         else if (CampSiteManager.Instance.awaitingPrayChoice &&
             myCharacterData.currentHealth == 0)
         {

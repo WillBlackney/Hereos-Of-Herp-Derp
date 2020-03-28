@@ -212,6 +212,26 @@ public class VisualEffectManager : MonoBehaviour
 
         yield return null;
     }
+    public void CreateReadEffect(Vector3 location, int sortingLayer)
+    {
+        StartCoroutine(CreateReadEffectCoroutine(location, sortingLayer));
+    }
+    private IEnumerator CreateReadEffectCoroutine(Vector3 location, int sortingLayer)
+    {
+        Debug.Log("VisualEffectManager.CreateReadEffectCoroutine() started...");
+
+        float yOffSet = 0.25f;
+        Vector3 screenPos = new Vector3(location.x, location.y + yOffSet, location.z);
+
+        GameObject newHealVFX = Instantiate(BuffEffectPrefab, screenPos, Quaternion.identity);
+        SetEffectScale(newHealVFX, 10);
+
+        newHealVFX.GetComponent<BuffEffect>().InitializeSetup(screenPos, sortingLayer);
+
+        CreateStatusEffectOnCampSiteCharacter(location, "Read!", sortingLayer);
+
+        yield return null;
+    }
     public void CreateStatusEffectOnCampSiteCharacter(Vector3 location, string statusText, int sortingLayer)
     {
         StartCoroutine(CreateStatusEffectOnCampSiteCharacterCorotuine(location, statusText, sortingLayer));

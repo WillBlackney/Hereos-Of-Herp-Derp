@@ -13,6 +13,9 @@ public class StateManager : MonoBehaviour
     private void Start()
     {
         GainState(StateLibrary.Instance.GetStateByName("Vengeful"));
+        GainState(StateLibrary.Instance.GetRandomAffliction());
+        GainState(StateLibrary.Instance.GetRandomAffliction());
+        GainState(StateLibrary.Instance.GetRandomAffliction());
     }
 
 
@@ -165,9 +168,19 @@ public class StateManager : MonoBehaviour
                 character.ModifyLifeSteal(1);
             }
         }
+
+        // Camp site related
         else if (data.stateName == "Resourceful")
         {
             CampSiteManager.Instance.maxActionPoints++;
+        }
+        else if (data.stateName == "Treasure Hunters")
+        {
+            CampSiteManager.Instance.EnableDigActionView();
+        }
+        else if (data.stateName == "Studious")
+        {
+            CampSiteManager.Instance.EnableReadActionView();
         }
 
 

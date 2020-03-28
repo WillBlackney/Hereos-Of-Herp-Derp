@@ -17,7 +17,9 @@ public class CampSiteManager : MonoBehaviour
     public CampSiteButton triageButton;
     public CampSiteButton trainButton;
     public CampSiteButton prayButton;
-    public CampSiteButton batheButton;    
+    public CampSiteButton batheButton;
+    public CampSiteButton digButton;
+    public CampSiteButton readButton;
 
     [Header("Cancel Button References")]
     public CanvasGroup cancelButtonCG;
@@ -32,13 +34,14 @@ public class CampSiteManager : MonoBehaviour
     public int currentActionPoints;
     public int triagePointCost;
     public int trainPointCost;
-    public int feastPointCost;
-    public int restPointCost;
     public int prayPointCost;
     public int bathePointCost;
+    public int readPointCost;
+    public int digPointCost;
     public bool playerHasMadeChoice;
     public bool awaitingTrainChoice;
     public bool awaitingTriageChoice;
+    public bool awaitingReadChoice;
     public bool awaitingPrayChoice;
     public bool awaitingBatheChoice;
     #endregion
@@ -54,10 +57,10 @@ public class CampSiteManager : MonoBehaviour
 
         triagePointCost = 1;
         trainPointCost = 1;
-        feastPointCost = 1;
-        restPointCost = 2;
         prayPointCost = 2;
         bathePointCost = 2;
+        readPointCost = 1;
+        digPointCost = 1;
     }
     public void SetupCampSiteCharacter(CampSiteCharacter characterSlot, CharacterData characterData)
     {
@@ -93,7 +96,15 @@ public class CampSiteManager : MonoBehaviour
         {
             OnBatheButtonClicked();
         }
-        
+        else if (buttonName == "Read")
+        {
+            OnReadButtonClicked();
+        }
+        else if (buttonName == "Dig")
+        {
+            OnDigButtonClicked();
+        }
+
     }
     public void OnTriageButtonClicked()
     {
@@ -122,6 +133,19 @@ public class CampSiteManager : MonoBehaviour
             awaitingTrainChoice = true;
         }           
     }
+    public void OnReadButtonClicked()
+    {
+        Debug.Log("CampSiteManager.OnReadButtonClicked() called...");
+
+        ClearAllOrders();
+        if (HasEnoughCampSitePoints(readPointCost))
+        {
+            FadeInCancelButton();
+            readButton.EnableGlowAnimation();
+            SetCharacterArrowViewStates(true);
+            awaitingReadChoice = true;
+        }
+    }
     public void OnPrayButtonClicked()
     {
         Debug.Log("CampSiteManager.OnPrayButtonClicked() called...");
@@ -149,27 +173,6 @@ public class CampSiteManager : MonoBehaviour
         }
 
     }
-    public void OnFeastButtonClicked()
-    {
-        Debug.Log("CampSiteManager.OnFeastButtonClicked() called...");
-
-        ClearAllOrders();
-        if (HasEnoughCampSitePoints(feastPointCost))
-        {
-            PerformFeast();
-        }
-    }
-    public void OnRestButtonClicked()
-    {
-        Debug.Log("CampSiteManager.OnRestButtonClicked() called...");
-
-        ClearAllOrders();
-        if (HasEnoughCampSitePoints(restPointCost))
-        {
-            PerformRest();
-        }
-
-    }
     public void OnBatheButtonClicked()
     {
         Debug.Log("CampSiteManager.OnBatheButtonClicked() called...");
@@ -188,6 +191,16 @@ public class CampSiteManager : MonoBehaviour
 
         }
 
+    }
+    public void OnDigButtonClicked()
+    {
+        Debug.Log("CampSiteManager.OnDigButtonClicked() called...");
+
+        ClearAllOrders();
+        if (HasEnoughCampSitePoints(digPointCost))
+        {
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
+        }
     }
     public void OnContinueButtonClicked()
     {
@@ -292,6 +305,7 @@ public class CampSiteManager : MonoBehaviour
         awaitingTriageChoice = false;
         awaitingPrayChoice = false;
         awaitingBatheChoice = false;
+        awaitingReadChoice = false;
         FadeOutCancelButton();
         SetCharacterArrowViewStates(false);
         DisableAllButtonGlows();
@@ -317,6 +331,14 @@ public class CampSiteManager : MonoBehaviour
 
         currentActionPoints += pointsGainedOrLost;
         actionPointsText.text = currentActionPoints.ToString();
+    }
+    public void EnableDigActionView()
+    {
+        digButton.gameObject.SetActive(true);
+    }
+    public void EnableReadActionView()
+    {
+        readButton.gameObject.SetActive(true);
     }
     #endregion
 
@@ -355,34 +377,37 @@ public class CampSiteManager : MonoBehaviour
         SetCharacterArrowViewStates(false);
         ClearAllOrders();
     }
+    public void PerformRead(CampSiteCharacter characterClicked)
+    {
+        Debug.Log("CampSiteManager.PerformRead() called...");
+
+        // Grant +1 Wisdom
+        characterClicked.myCharacterData.ModifyWisdom(1);
+
+        // VFX
+        VisualEffectManager.Instance.CreateReadEffect(characterClicked.transform.position, 140);
+
+        // Modify properties and resolve
+        ModifyCurrentCampSitePoints(-readPointCost);
+        awaitingReadChoice = false;
+        readButton.SetGlowOutilineViewState(false);
+        SetCharacterArrowViewStates(false);
+        ClearAllOrders();
+    }
     public void PerformPray(CampSiteCharacter characterClicked)
     {
         Debug.Log("CampSiteManager.PerformPray() called...");
 
         // heal 50%
         characterClicked.myCharacterData.ModifyCurrentHealth(characterClicked.myCharacterData.maxHealth / 2);
+
+
         ModifyCurrentCampSitePoints(-prayPointCost);
         awaitingPrayChoice = false;
         prayButton.SetGlowOutilineViewState(false);
         SetCharacterArrowViewStates(false);
         ClearAllOrders();
-    }
-    public void PerformFeast()
-    {
-        Debug.Log("CampSiteManager.PerformFeast() called...");        
-
-        StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Well Fed"));
-        ModifyCurrentCampSitePoints(-feastPointCost);
-        ClearAllOrders();
-    }
-    public void PerformRest()
-    {
-        Debug.Log("CampSiteManager.PerformRest() called...");
-
-        StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Well Rested"));
-        ModifyCurrentCampSitePoints(-restPointCost);
-        ClearAllOrders();
-    }
+    }   
     public void PerformBathe(AfflictionOnPanel chosenState)
     {
         Debug.Log("CampSiteManager.PerformBathe() called...");
