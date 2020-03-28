@@ -618,18 +618,6 @@ public class CharacterData : MonoBehaviour
         ModifyGuardianPoints(2);
         ModifyDuelistPoints(1);
 
-        // REMOVE IN FUTURE!! FOR TESTING HERE
-        ModifyShadowcraftPoints(1);
-        ModifyPyromaniaPoints(1);
-        ModifyCyromancyPoints(1);
-        ModifyCorruptionPoints(1);
-        ModifyBrawlerPoints(1);
-        ModifyAssassinationPoints(1);
-        ModifyNaturalismPoints(1);
-        ModifyDivinityPoints(1);
-        ModifyManipulationPoints(1);
-        ModifyRangerPoints(1);
-
         // Assign preset weapons
         InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Sword"), mainHandSlot);
         InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(ItemLibrary.Instance.GetItemByName("Simple Shield"), offHandSlot);

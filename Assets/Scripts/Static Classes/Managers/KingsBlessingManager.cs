@@ -194,14 +194,14 @@ public class KingsBlessingManager : MonoBehaviour
         {
             CharacterRoster.Instance.RewardAllCharactersXP(80);
         }
-        else if (choiceName == "Gain 2 Random Consumables")
+        else if (choiceName == "Gain 3 Random Consumables")
         {
             ConsumableManager.Instance.StartGainConsumableProcess(ConsumableLibrary.Instance.GetRandomConsumable());
             ConsumableManager.Instance.StartGainConsumableProcess(ConsumableLibrary.Instance.GetRandomConsumable());
         }
-        else if (choiceName == "Gain A Random State. Gain A Random Affliction")
+        else if (choiceName == "Gain A Random Rare State. Gain A Random Affliction")
         {
-            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomStateReward());
+            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomRareState());
             StateManager.Instance.GainState(StateLibrary.Instance.GetRandomAffliction());
         }
         else if (choiceName == "Gain A Random Epic Item. Gain A Random Affliction")
@@ -216,6 +216,23 @@ public class KingsBlessingManager : MonoBehaviour
             InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
 
             StateManager.Instance.GainState(StateLibrary.Instance.GetRandomAffliction());
+        }
+
+        else if (choiceName == "All Characters Gain 20 Max Health")
+        {
+            foreach(CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyMaxHealth(20);
+                character.ModifyCurrentHealth(20);
+            }
+        }
+        else if (choiceName == "Gain A Random Rare Weapon")
+        {
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareWeaponItem());
+        }
+        else if (choiceName == "Gain A Random Common State")
+        {
+            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomCommonState());
         }
 
     }
@@ -234,9 +251,13 @@ public class KingsBlessingManager : MonoBehaviour
         allChoiceData.Add(new BlessingChoice("Gain 3 Random Tier 1 Spell Books"));
         allChoiceData.Add(new BlessingChoice("Enemies In The Next Two Combats Have 50% Health"));
         allChoiceData.Add(new BlessingChoice("All Characters Gain 80 XP"));
-        allChoiceData.Add(new BlessingChoice("Gain 2 Random Consumables"));
-        allChoiceData.Add(new BlessingChoice("Gain A Random State. Gain A Random Affliction"));
+        allChoiceData.Add(new BlessingChoice("Gain 3 Random Consumables"));
+        allChoiceData.Add(new BlessingChoice("Gain A Random Rare State. Gain A Random Affliction"));
         allChoiceData.Add(new BlessingChoice("Gain 3 Random Rare Items. Gain A Random Affliction"));
+
+        allChoiceData.Add(new BlessingChoice("Gain A Random Rare Weapon"));
+        allChoiceData.Add(new BlessingChoice("All Characters Gain 20 Max Health"));
+        allChoiceData.Add(new BlessingChoice("Gain A Random Common State"));
     }   
     public void CreateChoiceButtons()
     {

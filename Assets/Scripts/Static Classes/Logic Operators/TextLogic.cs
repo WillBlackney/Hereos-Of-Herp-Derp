@@ -2428,12 +2428,11 @@ public static class TextLogic
         else if (ability.abilityName == "Super Conductor")
         {
             descriptionText.text =
-                "Deal " + ReturnColoredText(damageValue.ToString(), yellow) +
+               "Spend all your " + ReturnColoredText("Energy", yellow) + ". For each 10 " + ReturnColoredText("Energy", yellow) +
+                " spent, deal "
+                 + ReturnColoredText(damageValue.ToString(), yellow) +
                 " " + ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
-                " damage to all enemies within " + ReturnColoredText("1", yellow) +
-                " and apply " + ReturnColoredText("Shocked", yellow) +
-                ". If any enemies are already " + ReturnColoredText("Shocked", yellow) +
-                " apply " + ReturnColoredText("Stunned", yellow) + " instead";
+                " damage to a target";
         }
         else if (ability.abilityName == "Sword And Board")
         {
@@ -2726,23 +2725,35 @@ public static class TextLogic
         {
             stringReturned = ReturnColoredText("Enemies In The Next Two Combats Have 50% Health", yellow);
         }
-        else if (choiceName == "Gain 2 Random Consumables")
+        else if (choiceName == "Gain 3 Random Consumables")
         {
-            stringReturned = ReturnColoredText("Gain 2 Random Consumables", yellow);
+            stringReturned = ReturnColoredText("Gain 3 Random Consumables", yellow);
         }
         else if (choiceName == "All Characters Gain 80 XP")
         {
             stringReturned = ReturnColoredText("All Characters Gain 80 XP", yellow);
         }
-        else if (choiceName == "Gain A Random State. Gain A Random Affliction")
+        else if (choiceName == "Gain A Random Rare State. Gain A Random Affliction")
         {
-            stringReturned = ReturnColoredText("Gain A Random State. ", yellow) +
+            stringReturned = ReturnColoredText("Gain A Random Rare State. ", yellow) +
                 ReturnColoredText("Gain A Random Affliction.", fire);
         }
         else if (choiceName == "Gain 3 Random Rare Items. Gain A Random Affliction")
         {
             stringReturned = ReturnColoredText("Gain 3 Random Rare Items. ", yellow) +
                 ReturnColoredText("Gain A Random Affliction.", fire);
+        }
+        else if (choiceName == "Gain A Random Rare Weapon")
+        {
+            stringReturned = ReturnColoredText("Gain A Random Rare Weapon.", yellow);
+        }
+        else if (choiceName == "Gain A Random Common State")
+        {
+            stringReturned = ReturnColoredText("Gain A Random Common State.", yellow);
+        }
+        else if (choiceName == "All Characters Gain 20 Max Health")
+        {
+            stringReturned = ReturnColoredText("All Characters Gain 20 Max Health.", yellow);
         }
 
         return stringReturned;

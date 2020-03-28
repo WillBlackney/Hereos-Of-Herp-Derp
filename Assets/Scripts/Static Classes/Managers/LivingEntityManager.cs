@@ -501,7 +501,7 @@ public class LivingEntityManager : MonoBehaviour
             }
 
             // Camoflage from 'Thieves Guild Membership' state
-            if (entity.enemy &&
+            if (entity.defender &&
                 StateManager.Instance.DoesPlayerAlreadyHaveState("Thieves Guild Membership") &&
                 entity.myPassiveManager.camoflage == false &&
                 TurnManager.Instance.currentTurnCount == 1)

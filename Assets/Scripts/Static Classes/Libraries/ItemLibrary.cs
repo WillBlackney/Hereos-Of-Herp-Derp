@@ -83,6 +83,29 @@ public class ItemLibrary : MonoBehaviour
         Debug.Log("ItemLibrary.GetRandomRareItem() returning " + allRareItems[randomIndex].Name);
         return allRareItems[randomIndex];
     }
+    public ItemDataSO GetRandomRareWeaponItem()
+    {
+        Debug.Log("ItemLibrary.GetRandomRareItem() called...");
+
+        List<ItemDataSO> allRareWeapons = new List<ItemDataSO>();
+        int randomIndex;
+
+        foreach (ItemDataSO item in allItems)
+        {
+            if (item.itemRarity == ItemDataSO.ItemRarity.Rare &&
+                (item.itemType == ItemDataSO.ItemType.MeleeOneHand ||
+                item.itemType == ItemDataSO.ItemType.MeleeTwoHand ||
+                item.itemType == ItemDataSO.ItemType.RangedTwoHand))
+            {
+                allRareWeapons.Add(item);
+            }
+        }
+        Debug.Log("ItemLibrary.GetRandomRareItem() found " + allRareWeapons.Count.ToString() +
+           " rare items");
+        randomIndex = Random.Range(0, allRareWeapons.Count);
+        Debug.Log("ItemLibrary.GetRandomRareItem() returning " + allRareWeapons[randomIndex].Name);
+        return allRareWeapons[randomIndex];
+    }
     public ItemDataSO GetRandomEpicItem(bool includeStoryItems = false)
     {
         return GetRandomRareItem();

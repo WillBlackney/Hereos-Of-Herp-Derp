@@ -8758,6 +8758,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 47ebd845a7cac924eb53bb947838b6a8, type: 2}
   - {fileID: 11400000, guid: 7461df2187161c0498db3bb09cc89bb3, type: 2}
   - {fileID: 11400000, guid: f9a624f559eff8f44b12db1e543a2751, type: 2}
+  - {fileID: 11400000, guid: cfb3c032b28d94f419d293541c9fe9e1, type: 2}
   - {fileID: 11400000, guid: e3f720f930496264898844024ec2722b, type: 2}
   - {fileID: 11400000, guid: 9a44a634cffaf814086b2264eee8427e, type: 2}
   - {fileID: 11400000, guid: edc9fb057e1b6a049bd6b21a9bd6ba6b, type: 2}
@@ -8765,7 +8766,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7ee5db148a7497b4fa5ed5340b83147b, type: 2}
   - {fileID: 11400000, guid: bf2a8938fc3c57641b086308c4c7ebce, type: 2}
   - {fileID: 11400000, guid: 263949c9a756a8841bef1fac184630c7, type: 2}
-  - {fileID: 11400000, guid: cfb3c032b28d94f419d293541c9fe9e1, type: 2}
 --- !u!1 &1111130673
 GameObject:
   m_ObjectHideFlags: 0
@@ -15879,8 +15879,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2a8f2071b7e0b19429dfc0293b338e55, type: 2}
   - {fileID: 11400000, guid: ece3dcb22de27ee4988700ca8741334d, type: 2}
   eliteEnemyWaves:
-  - {fileID: 11400000, guid: 6b5e474f97bfa1f48ac35d1510c4bb06, type: 2}
   - {fileID: 11400000, guid: dacd581ebac89b245b622803d3ad0205, type: 2}
+  - {fileID: 11400000, guid: 6b5e474f97bfa1f48ac35d1510c4bb06, type: 2}
   - {fileID: 11400000, guid: f4837810f8c890643938e29350d63c5e, type: 2}
   bossEnemyWaves:
   - {fileID: 11400000, guid: 4e0ae28ee3b68504caf41eb946c16f13, type: 2}
@@ -16103,11 +16103,11 @@ MonoBehaviour:
   - {fileID: 1221582495502255042, guid: aebcdccabe29ac24a8cbc15ada886ed4, type: 3}
   worldMapParent: {fileID: 2126798329}
   onlySpawnBasics: 0
-  onlySpawnElites: 0
+  onlySpawnElites: 1
   onlySpawnMysterys: 0
   onlySpawnShops: 0
   onlySpawnTreasures: 0
-  onlySpawnCampSites: 1
+  onlySpawnCampSites: 0
   basicEncounterImage: {fileID: 21300000, guid: 47b5da88bd52fb34aa9f7cae65b45cba,
     type: 3}
   eliteEncounterImage: {fileID: 21300000, guid: 022057d0588adb643a7fadcf97f15af2,
