@@ -13,8 +13,8 @@ public class ItemDataSO : ScriptableObject
     { None, BonusStrength, BonusWisdom, BonusDexterity, BonusStamina, BonusInitiative, BonusMobility,
       BonusCritical, BonusDodge, BonusParry, BonusMaxEnergy, BonusMeleeRange, BonusAuraSize,
       BonusFireDamage, BonusFrostDamage, BonusPoisonDamage, BonusShadowDamage, BonusAirDamage,
-      Enrage, HawkEye, Thorns, Opportunist, BonusPowerLimit, BonusAllResistances,
-      Stealth, TrueSight, Slippery, Unstoppable, PerfectAim, Virtuoso, Riposte, ShadowForm      
+      Enrage, Poisonous, Immolation, HawkEye, Thorns, Cautious, Opportunist, BonusPowerLimit, BonusAllResistances, Growing, FastLearner,
+      Stealth, TrueSight, Slippery, Unstoppable, PerfectAim, Virtuoso, Riposte, Pierce, Flux, Unwavering, ShadowForm      
     };
 
     [Header("Primary Properties")]

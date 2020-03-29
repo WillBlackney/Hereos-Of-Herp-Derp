@@ -362,6 +362,18 @@ public class Defender : LivingEntity
         {
             myPassiveManager.ModifyLifeSteal(myCharacterData.lifeStealStacks);
         }
+        if (myCharacterData.growingStacks > 0)
+        {
+            myPassiveManager.ModifyGrowing(myCharacterData.growingStacks);
+        }
+        if (myCharacterData.fastLearnerStacks > 0)
+        {
+            myPassiveManager.ModifyFastLearner(myCharacterData.fastLearnerStacks);
+        }
+        if (myCharacterData.pierceStacks > 0)
+        {
+            myPassiveManager.ModifyPierce(myCharacterData.pierceStacks);
+        }
 
         // Set Weapons from character data
         ItemManager.Instance.SetUpDefenderWeaponsFromCharacterData(this);

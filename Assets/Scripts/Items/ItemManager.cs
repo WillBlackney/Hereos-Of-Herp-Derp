@@ -300,6 +300,36 @@ public class ItemManager : MonoBehaviour
             character.ModifyOpportunist(stacksApplied);
         }
 
+        // Growing
+        else if (itemEffect == ItemDataSO.ItemEffect.Growing)
+        {
+            character.ModifyGrowing(stacksApplied);
+        }
+
+        // Poisonous
+        else if (itemEffect == ItemDataSO.ItemEffect.Poisonous)
+        {
+            character.ModifyPoisonous(stacksApplied);
+        }
+
+        // Immolation
+        else if (itemEffect == ItemDataSO.ItemEffect.Immolation)
+        {
+            character.ModifyImmolation(stacksApplied);
+        }
+
+        // Cautious
+        else if (itemEffect == ItemDataSO.ItemEffect.Cautious)
+        {
+            character.ModifyCautious(stacksApplied);
+        }
+
+        // Fast Learner
+        else if (itemEffect == ItemDataSO.ItemEffect.FastLearner)
+        {
+            character.ModifyFastLearner(stacksApplied);
+        }
+
         // Bonus Power Limit
         else if (itemEffect == ItemDataSO.ItemEffect.BonusPowerLimit)
         {
@@ -317,10 +347,28 @@ public class ItemManager : MonoBehaviour
             character.ModifyShadowResistance(stacksApplied);
         }
 
+        // Pierce
+        else if (itemEffect == ItemDataSO.ItemEffect.Pierce)
+        {
+            character.ModifyPierce(stacksApplied);
+        }
+
         // Stealth
         else if (itemEffect == ItemDataSO.ItemEffect.Stealth)
         {
             character.ModifyStealth(stacksApplied);
+        }
+
+        // Unwavering
+        else if (itemEffect == ItemDataSO.ItemEffect.Unwavering)
+        {
+            character.ModifyUnwavering(stacksApplied);
+        }
+
+        // Flux
+        else if (itemEffect == ItemDataSO.ItemEffect.Flux)
+        {
+            character.ModifyFlux(stacksApplied);
         }
 
         // True Sight
@@ -419,18 +467,18 @@ public class ItemManager : MonoBehaviour
         // Set up ribbon + frame rarity sprites
         if (data.itemRarity == ItemDataSO.ItemRarity.Common)
         {
-            itemCard.itemImageFrame.sprite = commonFrameSprite;
-            itemCard.itemNameRibbonImage.sprite = commonRibbonSprite;
+            //itemCard.itemImageFrame.sprite = commonFrameSprite;
+            //itemCard.itemNameRibbonImage.sprite = commonRibbonSprite;
         }
         else if (data.itemRarity == ItemDataSO.ItemRarity.Rare)
         {
-            itemCard.itemImageFrame.sprite = rareFrameSprite;
-            itemCard.itemNameRibbonImage.sprite = rareRibbonSprite;
+            //itemCard.itemImageFrame.sprite = rareFrameSprite;
+           // itemCard.itemNameRibbonImage.sprite = rareRibbonSprite;
         }
         else if (data.itemRarity == ItemDataSO.ItemRarity.Epic)
         {
-            itemCard.itemImageFrame.sprite = epicFrameSprite;
-            itemCard.itemNameRibbonImage.sprite = epicRibbonSprite;
+            //itemCard.itemImageFrame.sprite = epicFrameSprite;
+            //itemCard.itemNameRibbonImage.sprite = epicRibbonSprite;
         }
     }
     public void SetUpInventoryItemCardFromData(InventoryItemCard itemCard, ItemDataSO data)

@@ -191,6 +191,7 @@ public class CharacterData : MonoBehaviour
     public int riposteStacks;
     public int trueSightStacks;
     public int perfectReflexesStacks;
+    public int pierceStacks;
     public int opportunistStacks;
     public int patientStalkerStacks;
     public int stealthStacks;
@@ -226,6 +227,8 @@ public class CharacterData : MonoBehaviour
     public int quickDrawStacks;
     public int fadingStacks;
     public int lifeStealStacks;
+    public int growingStacks;
+    public int fastLearnerStacks;
 
 
 
@@ -1953,6 +1956,24 @@ public class CharacterData : MonoBehaviour
         Debug.Log("CharacterData.ModifyOpportunist() called for " + myName + " adding " + stacks.ToString() + " stacks...");
         opportunistStacks += stacks;
         StartAddAttributeTabProcess("Opportunist", stacks);
+    }
+    public void ModifyGrowing(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyGrowing() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        growingStacks += stacks;
+        StartAddAttributeTabProcess("Growing", stacks);
+    }
+    public void ModifyFastLearner(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyFasterLearner() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        fastLearnerStacks += stacks;
+        StartAddAttributeTabProcess("Fast Learner", stacks);
+    }
+    public void ModifyPierce(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyPierce() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        pierceStacks += stacks;
+        StartAddAttributeTabProcess("Pierce", stacks);
     }
     public void ModifyPowerLimit(int stacks)
     {

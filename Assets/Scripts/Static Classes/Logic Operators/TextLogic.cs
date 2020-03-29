@@ -356,8 +356,8 @@ public static class TextLogic
         else if (statusName == "Opportunist")
         {
             statusDescriptionText.text =
-                "This character deals " + ReturnColoredText(statusStacks.ToString(), yellow)
-                + "% extra damage with "+ ReturnColoredText("Melee Attack", yellow) + " abilities when back striking";
+                "This character deals " + ReturnColoredText("50%", yellow)
+                + " extra damage with "+ ReturnColoredText("Melee Attack", yellow) + " abilities when back striking";
         }
         else if (statusName == "Hawk Eye")
         {
@@ -467,6 +467,12 @@ public static class TextLogic
                 "This character's first " + ReturnColoredText("Move", yellow) +
                 " ability each activation costs " + ReturnColoredText("0", yellow) + " Energy";
         }
+        else if (statusName == "Pierce")
+        {
+            statusDescriptionText.text =
+                "This character ignores " + ReturnColoredText("Block", yellow) +
+                " when attacking";
+        }
         else if (statusName == "Quick Draw")
         {
             statusDescriptionText.text =
@@ -539,6 +545,12 @@ public static class TextLogic
             statusDescriptionText.text =
                 "On activation start, this character gains " + ReturnColoredText(statusStacks.ToString(), yellow)
                 + " Strength";
+        }
+        else if (statusName == "Fast Learner")
+        {
+            statusDescriptionText.text =
+                "On activation start, this character gains " + ReturnColoredText(statusStacks.ToString(), yellow)
+                + " Wisdom";
         }
         else if (statusName == "Incorruptable")
         {

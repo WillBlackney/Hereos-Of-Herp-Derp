@@ -9,8 +9,6 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     
     [Header("Image References")]    
     public Image itemImage;
-    public Image itemImageFrame;
-    public Image itemNameRibbonImage;
     public Image itemDamageTypeImage;
 
     [Header("Text References")]

@@ -208,6 +208,9 @@ public class PassiveManager : MonoBehaviour
     public bool flux;
     public int fluxStacks;
 
+    public bool pierce;
+    public int pierceStacks;
+
     public bool swordPlay;
     public int swordPlayStacks;
 
@@ -2354,6 +2357,15 @@ public class PassiveManager : MonoBehaviour
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Flux");
         flux = true;
         fluxStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyPierce(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyPierce() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Pierce");
+        pierce = true;
+        pierceStacks += stacks;
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     public void ModifyGrace(int stacks)
