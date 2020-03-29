@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class RewardScreen : MonoBehaviour
 {
+    [Header("Properties")]
+    public float screenFadeTime;
+
     [Header("Canvas Groups")]
     public CanvasGroup itemRewardCG;
     public CanvasGroup stateRewardCG;
@@ -14,8 +17,6 @@ public class RewardScreen : MonoBehaviour
     [Header("View Object References")]
     public GameObject RewardButtonParent;
     public GameObject SkipRewardsButton;
-    public GameObject Background;
-    public GameObject TitleImage;
     public GameObject ChooseItemScreenParent;
     public GameObject ChooseItemScreenContent;
     public GameObject ChooseStateScreenParent;
@@ -298,8 +299,6 @@ public class RewardScreen : MonoBehaviour
     {
         RewardButtonParent.SetActive(false);
         SkipRewardsButton.SetActive(false);
-        Background.SetActive(false);
-        TitleImage.SetActive(false);
         ChooseItemScreenParent.SetActive(true);
 
         itemRewardCG.alpha = 0;
@@ -307,8 +306,8 @@ public class RewardScreen : MonoBehaviour
 
         while (itemRewardCG.alpha < 1)
         {
-            itemRewardCG.alpha += 0.2f;
-            frontPageCG.alpha -= 0.2f;
+            itemRewardCG.alpha += 0.2f * Time.deltaTime * screenFadeTime;
+            frontPageCG.alpha -= 0.2f * Time.deltaTime * screenFadeTime;
             yield return new WaitForEndOfFrame();
         }
 
@@ -321,8 +320,6 @@ public class RewardScreen : MonoBehaviour
     {
         RewardButtonParent.SetActive(false);
         SkipRewardsButton.SetActive(false);
-        Background.SetActive(false);
-        TitleImage.SetActive(false);
         ChooseStateScreenParent.SetActive(true);
 
         stateRewardCG.alpha = 0;
@@ -330,8 +327,8 @@ public class RewardScreen : MonoBehaviour
 
         while (stateRewardCG.alpha < 1)
         {
-            stateRewardCG.alpha += 0.2f;
-            frontPageCG.alpha -= 0.2f;
+            stateRewardCG.alpha += 0.2f * Time.deltaTime * screenFadeTime;
+            frontPageCG.alpha -= 0.2f * Time.deltaTime * screenFadeTime;
             yield return new WaitForEndOfFrame();
         }
 
@@ -344,8 +341,6 @@ public class RewardScreen : MonoBehaviour
     {
         RewardButtonParent.SetActive(true);
         SkipRewardsButton.SetActive(true);
-        Background.SetActive(true);
-        TitleImage.SetActive(true);
         ChooseItemScreenParent.SetActive(false);
 
         itemRewardCG.alpha = 1;
@@ -353,8 +348,8 @@ public class RewardScreen : MonoBehaviour
 
         while (itemRewardCG.alpha > 0)
         {
-            itemRewardCG.alpha -= 0.2f;
-            frontPageCG.alpha += 0.2f;
+            itemRewardCG.alpha -= 0.2f * Time.deltaTime * screenFadeTime;
+            frontPageCG.alpha += 0.2f * Time.deltaTime * screenFadeTime;
             yield return new WaitForEndOfFrame();
         }
     }
@@ -366,8 +361,6 @@ public class RewardScreen : MonoBehaviour
     {
         RewardButtonParent.SetActive(true);
         SkipRewardsButton.SetActive(true);
-        Background.SetActive(true);
-        TitleImage.SetActive(true);
         ChooseStateScreenParent.SetActive(false);
 
         stateRewardCG.alpha = 1;
@@ -375,8 +368,8 @@ public class RewardScreen : MonoBehaviour
 
         while (stateRewardCG.alpha > 0)
         {
-            stateRewardCG.alpha -= 0.2f;
-            frontPageCG.alpha += 0.2f;
+            stateRewardCG.alpha -= 0.2f * Time.deltaTime * screenFadeTime;
+            frontPageCG.alpha += 0.2f * Time.deltaTime * screenFadeTime;
             yield return new WaitForEndOfFrame();
         }
     }
@@ -392,7 +385,7 @@ public class RewardScreen : MonoBehaviour
 
         while (masterCG.alpha < 1)
         {
-            masterCG.alpha += 0.2f;
+            masterCG.alpha += 0.2f * Time.deltaTime * 10;
             yield return new WaitForEndOfFrame();
         }
         
@@ -407,7 +400,7 @@ public class RewardScreen : MonoBehaviour
 
         while (masterCG.alpha > 0)
         {
-            masterCG.alpha -= 0.2f;
+            masterCG.alpha -= 0.2f * Time.deltaTime * 15;
             yield return new WaitForEndOfFrame();
         }
 

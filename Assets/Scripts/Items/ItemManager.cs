@@ -467,18 +467,15 @@ public class ItemManager : MonoBehaviour
         // Set up ribbon + frame rarity sprites
         if (data.itemRarity == ItemDataSO.ItemRarity.Common)
         {
-            //itemCard.itemImageFrame.sprite = commonFrameSprite;
-            //itemCard.itemNameRibbonImage.sprite = commonRibbonSprite;
+            itemCard.commonParent.SetActive(true);
         }
         else if (data.itemRarity == ItemDataSO.ItemRarity.Rare)
         {
-            //itemCard.itemImageFrame.sprite = rareFrameSprite;
-           // itemCard.itemNameRibbonImage.sprite = rareRibbonSprite;
+            itemCard.rareParent.SetActive(true);
         }
         else if (data.itemRarity == ItemDataSO.ItemRarity.Epic)
         {
-            //itemCard.itemImageFrame.sprite = epicFrameSprite;
-            //itemCard.itemNameRibbonImage.sprite = epicRibbonSprite;
+            itemCard.epicParent.SetActive(true);
         }
     }
     public void SetUpInventoryItemCardFromData(InventoryItemCard itemCard, ItemDataSO data)

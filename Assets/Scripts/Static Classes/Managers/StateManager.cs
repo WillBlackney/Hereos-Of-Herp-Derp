@@ -8,15 +8,7 @@ public class StateManager : MonoBehaviour
     private void Awake()
     {       
         Instance = this;        
-    }
-
-    private void Start()
-    {
-        GainState(StateLibrary.Instance.GetStateByName("Vengeful"));
-        GainState(StateLibrary.Instance.GetRandomAffliction());
-        GainState(StateLibrary.Instance.GetRandomAffliction());
-        GainState(StateLibrary.Instance.GetRandomAffliction());
-    }
+    }   
 
 
     // Properties + Component References

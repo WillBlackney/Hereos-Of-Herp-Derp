@@ -12,6 +12,12 @@ public class StateCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public TextMeshProUGUI descriptionText;
     public Image stateImage;
 
+    [Header("Rarity Parent References")]
+    public GameObject commonParent;
+    public GameObject rareParent;
+    public GameObject bossParent;
+    public GameObject afflictionParent;
+
     [Header("Properties")]
     public StateDataSO myStateData;
     public float originalScale;
@@ -30,6 +36,24 @@ public class StateCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         nameText.text = data.stateName;
         descriptionText.text = data.stateDescription;
         stateImage.sprite = data.stateSprite;
+
+        // set rarity gem / afflication gem
+        if (data.affliction)
+        {
+            afflictionParent.SetActive(true);
+        }
+        else if(data.rarity == StateDataSO.Rarity.Common)
+        {
+            commonParent.SetActive(true);
+        }
+        else if (data.rarity == StateDataSO.Rarity.Rare)
+        {
+            rareParent.SetActive(true);
+        }
+        else if (data.rarity == StateDataSO.Rarity.Boss)
+        {
+            bossParent.SetActive(true);
+        }
     }
 
     // Mouse + Click Events

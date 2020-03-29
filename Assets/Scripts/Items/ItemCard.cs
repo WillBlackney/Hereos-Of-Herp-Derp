@@ -21,6 +21,11 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public GameObject weaponDamageTypeParent;
     public GameObject mouseOverInfoPanelPos;
 
+    [Header("Rarity Parent References")]
+    public GameObject commonParent;
+    public GameObject rareParent;
+    public GameObject epicParent;
+
     [Header("Properties")]
     public ItemDataSO myItemDataSO;
     public bool inInventory;

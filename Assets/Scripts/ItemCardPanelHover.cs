@@ -270,6 +270,62 @@ public class ItemCardPanelHover : MonoBehaviour
             tab.image.sprite = iconData.statusSprite;
             TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
         }
+        else if (passiveName == "Poisonous")
+        {
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Poisonous");
+            tab.nameText.text = iconData.statusName;
+            tab.image.sprite = iconData.statusSprite;
+            TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
+        }
+        else if (passiveName == "Immolation")
+        {
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Immolation");
+            tab.nameText.text = iconData.statusName;
+            tab.image.sprite = iconData.statusSprite;
+            TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
+        }
+        else if (passiveName == "Cautious")
+        {
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Cautious");
+            tab.nameText.text = iconData.statusName;
+            tab.image.sprite = iconData.statusSprite;
+            TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
+        }
+        else if (passiveName == "Growing")
+        {
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Growing");
+            tab.nameText.text = iconData.statusName;
+            tab.image.sprite = iconData.statusSprite;
+            TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
+        }
+        else if (passiveName == "Fast Learner")
+        {
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Fast Learner");
+            tab.nameText.text = iconData.statusName;
+            tab.image.sprite = iconData.statusSprite;
+            TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
+        }
+        else if (passiveName == "Pierce")
+        {
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Pierce");
+            tab.nameText.text = iconData.statusName;
+            tab.image.sprite = iconData.statusSprite;
+            TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
+        }
+        else if (passiveName == "Unwavering")
+        {
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Unwavering");
+            tab.nameText.text = iconData.statusName;
+            tab.image.sprite = iconData.statusSprite;
+            TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
+        }
+        else if (passiveName == "Flux")
+        {
+            StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Flux");
+            tab.nameText.text = iconData.statusName;
+            tab.image.sprite = iconData.statusSprite;
+            TextLogic.SetStatusIconDescriptionText(iconData.statusName, tab.descriptionText, stacks);
+        }
         else if (passiveName == "HawkEye")
         {
             StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Hawk Eye");

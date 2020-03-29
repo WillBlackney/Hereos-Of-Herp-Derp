@@ -53,6 +53,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -383,6 +384,8 @@ MonoBehaviour:
   coupDeGraceStacks: 0
   flux: 0
   fluxStacks: 0
+  pierce: 0
+  pierceStacks: 0
   swordPlay: 0
   swordPlayStacks: 0
   fury: 0
@@ -531,7 +534,7 @@ MonoBehaviour:
   myActivationWindow: {fileID: 0}
   defender: {fileID: 0}
   enemy: {fileID: 0}
-  baseMobility: 2
+  baseMobility: 9
   baseMaxHealth: 8
   baseStartingHealth: 8
   baseStamina: 40
