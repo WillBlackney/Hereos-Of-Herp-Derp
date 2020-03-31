@@ -29,6 +29,7 @@ public class WorldManager : MonoBehaviour
     public Sprite shopEncounterImage;
     public Sprite treasureEncounterImage;
     public Sprite mysteryEncounterImage;
+    public Sprite bossEncounterImage;
 
     [Header("Encounter Type Shadow Images")]
     public Sprite basicEncounterShadowImage;
@@ -91,9 +92,17 @@ public class WorldManager : MonoBehaviour
         {
             foreach (WorldEncounter encounter in currentWorld.allEncounters)
             {
+                // check for viable column
                 if (encounter.column == playerEncounterPosition.column + 1)
                 {
-                    encountersReturned.Add(encounter);
+                    // check for viable position
+                    if(encounter.position == playerEncounterPosition.position ||
+                        encounter.position == playerEncounterPosition.position + 1 ||
+                        encounter.position == playerEncounterPosition.position - 1)
+                    {
+                        encountersReturned.Add(encounter);
+                    }
+                    
                 }
             }
         }
@@ -113,7 +122,7 @@ public class WorldManager : MonoBehaviour
         playerEncounterPosition = encounter;
         playerColumnPosition = encounter.column;
         encounter.encounterReached = true;
-        encounter.SetCircleBackgroundViewState(true);
+        encounter.SetRedXOverlayViewState(true);
     }
     public void SetWorldMapReadyState()
     {

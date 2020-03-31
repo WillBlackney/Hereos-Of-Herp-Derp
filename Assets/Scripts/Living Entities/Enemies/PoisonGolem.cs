@@ -28,7 +28,7 @@ public class PoisonGolem : Enemy
         Ability strike = mySpellBook.GetAbilityByName("Strike");
         Ability toxicSlash = mySpellBook.GetAbilityByName("Toxic Slash");       
         Ability chemicalReaction = mySpellBook.GetAbilityByName("Chemical Reaction");
-        Ability noxiousFumes = mySpellBook.GetAbilityByName("Noxius Fumes");
+        Ability noxiousFumes = mySpellBook.GetAbilityByName("Noxious Fumes");
 
 
     ActionStart:

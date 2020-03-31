@@ -109,6 +109,13 @@ public class CameraMovement : MonoBehaviour
     #region
     public void HandleZoomInput()
     {
+        // Prevent zooming in/out when battle scene is not the active view
+        if(UIManager.Instance.worldMap.activeSelf ||
+           UIManager.Instance.characterRoster.activeSelf)
+        {
+            return;
+        }
+
         if (Input.GetAxis("Mouse ScrollWheel") > 0 && cinemachineCamera.m_Lens.OrthographicSize > 1)
         {
             Debug.Log("HandleZoomInput() detected zoom IN input");

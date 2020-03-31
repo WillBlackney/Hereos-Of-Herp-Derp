@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     // Properties + Component References
     #region
@@ -13,13 +13,17 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [Header("Properties")]
     public List<WorldEncounter> connectingEncounters;
     public EncounterType myEncounterType;
-    public int column;    
+    public int column;
+    public int position;
     public bool encounterReached;    
 
     [Header("Component References")]
     public Image myEncounterTypeImage;
     public Image myEncounterTypeShadowImage;
-    public Image circleImage;    
+    public Image circleImage;
+    public Image glowOutline;
+    public GameObject redXOverlay;
+    public GameObject visualParent;
     public Animator myAnimator;
     #endregion
 
@@ -36,63 +40,66 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     #region
     public void PlayBreatheAnimation()
     {
-        myAnimator.SetTrigger("Breathe");
+        visualParent.GetComponent<RectTransform>().localScale = new Vector3(1, 1);
+        myAnimator.SetTrigger("Idle");
     }
     public void PlayIdleAnimation()
     {
-        myAnimator.SetTrigger("Idle");
+        myAnimator.SetTrigger("New Trigger");
     }
     public void SetShadowViewState(bool onOrOff)
     {
         myEncounterTypeShadowImage.gameObject.SetActive(onOrOff);
     }
-    public void SetCircleBackgroundViewState(bool onOrOff)
+    public void SetGlowOutlineViewState(bool onOrOff)
     {
-        circleImage.gameObject.SetActive(onOrOff);
+        glowOutline.gameObject.SetActive(onOrOff);
+    }
+    public void SetRedXOverlayViewState(bool onOrOff)
+    {
+        redXOverlay.SetActive(onOrOff);
     }    
     public void SetEncounterTypeSprite()
     {
         if (myEncounterType == EncounterType.BasicEnemy)
         {
             myEncounterTypeImage.sprite = WorldManager.Instance.basicEncounterImage;
-            myEncounterTypeShadowImage.sprite = WorldManager.Instance.basicEncounterShadowImage;
+            myEncounterTypeShadowImage.sprite = WorldManager.Instance.basicEncounterImage;
         }
 
         else if (myEncounterType == EncounterType.CampSite)
         {
             myEncounterTypeImage.sprite = WorldManager.Instance.campSiteEncounterImage;
-            myEncounterTypeShadowImage.sprite = WorldManager.Instance.campSiteEncounterShadowImage;
+            myEncounterTypeShadowImage.sprite = WorldManager.Instance.campSiteEncounterImage;
         }
 
         else if (myEncounterType == EncounterType.EliteEnemy)
         {
             myEncounterTypeImage.sprite = WorldManager.Instance.eliteEncounterImage;
-            myEncounterTypeShadowImage.sprite = WorldManager.Instance.eliteEncounterShadowImage;
+            myEncounterTypeShadowImage.sprite = WorldManager.Instance.eliteEncounterImage;
         }
 
         else if (myEncounterType == EncounterType.Shop)
         {
             myEncounterTypeImage.sprite = WorldManager.Instance.shopEncounterImage;
-            myEncounterTypeShadowImage.sprite = WorldManager.Instance.shopEncounterShadowImage;
+            myEncounterTypeShadowImage.sprite = WorldManager.Instance.shopEncounterImage;
         }
 
         else if (myEncounterType == EncounterType.Treasure)
         {
             myEncounterTypeImage.sprite = WorldManager.Instance.treasureEncounterImage;
-            myEncounterTypeShadowImage.sprite = WorldManager.Instance.treasureEncounterShadowImage;
+            myEncounterTypeShadowImage.sprite = WorldManager.Instance.treasureEncounterImage;
         }
 
         else if (myEncounterType == EncounterType.Mystery)
         {
             myEncounterTypeImage.sprite = WorldManager.Instance.mysteryEncounterImage;
-            myEncounterTypeShadowImage.sprite = WorldManager.Instance.mysteryEncounterShadowImage;
+            myEncounterTypeShadowImage.sprite = WorldManager.Instance.mysteryEncounterImage;
         }
         else if (myEncounterType == EncounterType.Boss)
         {
-            myEncounterTypeImage.sprite = WorldManager.Instance.eliteEncounterImage;
-            myEncounterTypeShadowImage.sprite = WorldManager.Instance.eliteEncounterShadowImage;
-            myEncounterTypeImage.color = Color.red;
-            myEncounterTypeShadowImage.color = Color.red;
+            myEncounterTypeImage.sprite = WorldManager.Instance.bossEncounterImage;
+            myEncounterTypeShadowImage.sprite = WorldManager.Instance.bossEncounterImage;
         }
     }
     public void SetEncounterType()
@@ -133,6 +140,8 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     #region
     public void OnEncounterButtonClicked()
     {
+        Debug.Log("WorldEncounter.OnEncounterButtonClicked() called...");
+
         List<WorldEncounter> viableEncounters = WorldManager.Instance.GetNextViableEncounters(WorldManager.Instance.playerEncounterPosition);
 
         // if were in the middle of an unfinished encounter already, or the encounter clicked on is not valid, return
@@ -196,11 +205,17 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        SetShadowViewState(true);
+        //SetShadowViewState(true);
+        SetGlowOutlineViewState(true);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        SetShadowViewState(false);
+        //SetShadowViewState(false);
+        SetGlowOutlineViewState(false);
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        OnEncounterButtonClicked();
     }
     #endregion
 
