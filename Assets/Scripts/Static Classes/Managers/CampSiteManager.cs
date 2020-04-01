@@ -352,7 +352,7 @@ public class CampSiteManager : MonoBehaviour
         characterClicked.myCharacterData.ModifyCurrentHealth(characterClicked.myCharacterData.maxHealth / 2);
 
         // VFX
-        VisualEffectManager.Instance.CreateTriageEffect(characterClicked.transform.position, 140);
+        VisualEffectManager.Instance.CreateTriageEffect(characterClicked.transform.position, VisualEffectManager.Instance.campsiteVfxSortingLayer);
 
         // Modify properties and resolve
         ModifyCurrentCampSitePoints(-triagePointCost);
@@ -368,7 +368,7 @@ public class CampSiteManager : MonoBehaviour
         characterClicked.myCharacterData.ModifyCurrentXP(50);
 
         // VFX
-        VisualEffectManager.Instance.CreateTrainEffect(characterClicked.transform.position, 140);
+        VisualEffectManager.Instance.CreateTrainEffect(characterClicked.transform.position, VisualEffectManager.Instance.campsiteVfxSortingLayer);
 
         // Modify properties and resolve
         ModifyCurrentCampSitePoints(-trainPointCost);
@@ -385,7 +385,7 @@ public class CampSiteManager : MonoBehaviour
         characterClicked.myCharacterData.ModifyWisdom(1);
 
         // VFX
-        VisualEffectManager.Instance.CreateReadEffect(characterClicked.transform.position, 140);
+        VisualEffectManager.Instance.CreateReadEffect(characterClicked.transform.position, VisualEffectManager.Instance.campsiteVfxSortingLayer);
 
         // Modify properties and resolve
         ModifyCurrentCampSitePoints(-readPointCost);

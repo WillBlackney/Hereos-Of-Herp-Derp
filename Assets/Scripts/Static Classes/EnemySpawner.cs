@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    [Header("Testing Properties")]
+    public bool runTestWaveOnly;
+    public EnemyWaveSO testingWave;
+
     [Header("Enemy Encounter Lists")]
     public List<EnemyWaveSO> basicEnemyWavesActOneHalfOne;
     public List<EnemyWaveSO> basicEnemyWavesActOneHalfTwo;
@@ -47,8 +51,14 @@ public class EnemySpawner : MonoBehaviour
         PopulateEnemySpawnLocations();
         EnemyWaveSO enemyWaveSO = enemyWave;
 
+        // for testing
+        if (runTestWaveOnly)
+        {
+            enemyWaveSO = testingWave;
+        }
+
         // If we have not given a specific enemy wave to spawn, get a random one
-        if(enemyWaveSO == null)
+        else if(enemyWaveSO == null)
         {
             // select a random enemyWaveSO
             if (enemyType == "Basic" &&

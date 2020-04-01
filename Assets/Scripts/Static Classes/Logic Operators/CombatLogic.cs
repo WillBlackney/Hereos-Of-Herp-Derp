@@ -776,9 +776,20 @@ public class CombatLogic : MonoBehaviour
         int blockAfter = victim.currentBlock;
         int healthAfter = victim.currentHealth;
 
+        // check for pierce
+        if (
+            attacker != null &&
+            abilityUsed != null &&
+            (abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack || abilityUsed.abilityType == AbilityDataSO.AbilityType.RangedAttack) &&
+            attacker.myPassiveManager.pierce
+            )
+        {
+            ignoreBlock = true;
+        }
+
         // play impact VFX
         if (abilityUsed != null &&
-            abilityUsed.abilityType != AbilityDataSO.AbilityType.None)
+        abilityUsed.abilityType != AbilityDataSO.AbilityType.None)
         {
             StartCoroutine(VisualEffectManager.Instance.CreateImpactEffect(victim.transform.position));
 
@@ -794,7 +805,7 @@ public class CombatLogic : MonoBehaviour
         {
             healthAfter = victim.currentHealth - adjustedDamageValue;
             blockAfter = 0;
-        }
+        }        
 
         // Check for block
         else if (victim.currentBlock > 0)

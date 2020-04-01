@@ -33,6 +33,10 @@ public class StoryEventManager : MonoBehaviour
     public bool awaitingAskForWisdomChoice;
     public bool awaitingAskForHealthChoice;
 
+    [Header("Testing Properties")]
+    public bool onlyRunTestStoryEvent;
+    public StoryEventDataSO testStory;
+
     public static StoryEventManager Instance;
     private void Awake()
     {
@@ -57,7 +61,14 @@ public class StoryEventManager : MonoBehaviour
     {
         if (storyEvent == null)
         {
-            storyEvent = GetRandomViableStoryEventData();
+            if (onlyRunTestStoryEvent)
+            {
+                storyEvent = testStory;
+            }
+            else
+            {
+                storyEvent = GetRandomViableStoryEventData();
+            }            
         }
 
         currentStoryEvent = storyEvent;

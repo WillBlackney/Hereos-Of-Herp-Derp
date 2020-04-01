@@ -232,7 +232,7 @@ public static class EntityLogic
         }
         else if (targetReturned != null)
         {
-            Debug.Log("EntityLogic.GetBestTarget() returned " + targetReturned.name + " as the best target for " + entity.name);
+            Debug.Log("EntityLogic.GetBestTarget() returned " + targetReturned.myName + " as the best target for " + entity.name);
         }
            
         return targetReturned;
@@ -418,6 +418,11 @@ public static class EntityLogic
     // IsAbilityUseable should also check against the target for things like taunt
     public static bool IsAbilityUseable(LivingEntity caster, Ability ability, LivingEntity target = null)
     {
+        if(ability == null)
+        {
+            Debug.Log("WARNING!: EntityLogic.IsAbilityUseable() was given a NULL ability from" + caster.myName); ;
+        }
+
         Debug.Log("EntityLogic.IsAbilityUseable() called for " + caster.myName + " using ability " + ability.abilityName);
 
         // Check energy
@@ -491,12 +496,14 @@ public static class EntityLogic
 
         if(currentAP - abilityOne.abilityEnergyCost >= abilityTwo.abilityEnergyCost)
         {
-            Debug.Log("CanPerformAbilityTwoAfterAbilityOne() calculated that " + entity.name + " has enougn AP to perform " + 
+            Debug.Log("CanPerformAbilityTwoAfterAbilityOne() calculated that " + entity.name + " has enough AP to perform " + 
                 abilityTwo.abilityName + " after " + abilityOne.abilityName);
             return true;
         }
         else
         {
+            Debug.Log("CanPerformAbilityTwoAfterAbilityOne() calculated that " + entity.name + " DOES NOT have enough AP to perform " +
+                abilityTwo.abilityName + " after " + abilityOne.abilityName);
             return false;
         }
     }

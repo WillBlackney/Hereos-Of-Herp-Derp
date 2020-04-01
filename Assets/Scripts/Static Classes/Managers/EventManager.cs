@@ -234,7 +234,7 @@ public class EventManager : MonoBehaviour
             // Create status VFX
             foreach(CampSiteCharacter character in CampSiteManager.Instance.allCharacterSlots)
             {
-                VisualEffectManager.Instance.CreateStatusEffectOnCampSiteCharacter(character.transform.position, "Relaxed!", 140);
+                VisualEffectManager.Instance.CreateStatusEffectOnCampSiteCharacter(character.transform.position, "Relaxed!", VisualEffectManager.Instance.campsiteVfxSortingLayer);
             }
         }
 

@@ -1201,8 +1201,9 @@ public static class TextLogic
             ability.descriptionText.text =
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
-                " damage to adjacent enemies. Give " + ReturnColoredText(ability.abilitySecondaryValue.ToString(), yellow) +
-                " Energy to adjacent allies";
+                " damage to adjacent enemies. Give " + ReturnColoredText(ability.abilitySecondaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Block", yellow) + 
+                " to adjacent allies";
         }       
         else if (ability.abilityName == "Decapitate")
         {
@@ -2077,8 +2078,9 @@ public static class TextLogic
             descriptionText.text =
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
-                " damage to adjacent enemies. Give " + ReturnColoredText(ability.secondaryValue.ToString(), yellow) +
-                " Energy to adjacent allies";
+                " damage to adjacent enemies. Give " + ReturnColoredText(ability.secondaryValue.ToString(), yellow) + " " +
+                ReturnColoredText("Block", yellow) +
+                " to adjacent allies";
         }
         else if (ability.abilityName == "Decapitate")
         {

@@ -644,7 +644,7 @@ public class CharacterData : MonoBehaviour
         myClass = "Paladin";
 
         // Modify Attributes
-        ModifyGuardianPoints(1);
+        ModifyBrawlerPoints(1);
         ModifyDivinityPoints(2);
 
         // Assign preset weapons

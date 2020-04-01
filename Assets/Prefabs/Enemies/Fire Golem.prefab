@@ -53,6 +53,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -317,6 +318,8 @@ MonoBehaviour:
   purityStacks: 0
   recklessness: 0
   recklessnessStacks: 0
+  berserk: 0
+  berserkStacks: 0
   testudo: 0
   testudoStacks: 0
   rapidCloaking: 0
@@ -349,10 +352,16 @@ MonoBehaviour:
   shockedStacks: 0
   sleep: 0
   sleepStacks: 0
+  marked: 0
+  markedStacks: 0
   taunted: 0
   tauntedStacks: 0
   sharpenedBlade: 0
   sharpenedBladeStacks: 0
+  darkGift: 0
+  darkGiftStacks: 0
+  pureHate: 0
+  pureHateStacks: 0
   unleashed: 0
   unleashedStacks: 0
   unstoppable: 0
@@ -371,8 +380,26 @@ MonoBehaviour:
   patientStalkerStacks: 0
   predator: 0
   predatorStacks: 0
+  coupDeGrace: 0
+  coupDeGraceStacks: 0
   flux: 0
   fluxStacks: 0
+  pierce: 0
+  pierceStacks: 0
+  swordPlay: 0
+  swordPlayStacks: 0
+  fury: 0
+  furyStacks: 0
+  quickDraw: 0
+  quickDrawStacks: 0
+  grace: 0
+  graceStacks: 0
+  savage: 0
+  savageStacks: 0
+  pragmatic: 0
+  pragmaticStacks: 0
+  knowledgeable: 0
+  knowledgeableStacks: 0
   lifeSteal: 0
   lifeStealStacks: 0
   undead: 0
@@ -421,8 +448,12 @@ MonoBehaviour:
   cautiousStacks: 0
   Volatile: 0
   volatileStacks: 0
+  unstable: 0
+  unstableStacks: 0
   growing: 0
   growingStacks: 0
+  fastLearner: 0
+  fastLearnerStacks: 0
   enrage: 0
   enrageStacks: 0
   regeneration: 0
@@ -561,7 +592,10 @@ MonoBehaviour:
   mouseIsOverCharacter: 0
   currentInitiativeRoll: 0
   moveActionsTakenThisActivation: 0
-  timesAttackedThisTurnCycle: 0
+  meleeAbilityActionsTakenThisActivation: 0
+  skillAbilityActionsTakenThisActivation: 0
+  rangedAttackAbilityActionsTakenThisActivation: 0
+  timesMeleeAttackedThisTurnCycle: 0
   inDeathProcess: 0
   facingRight: 0
   spriteImportedFacingRight: 1
@@ -613,6 +647,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2790720787585099687}
     m_Modifications:
+    - target: {fileID: 93058549193039293, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 255300444035901399, guid: b6d0a0a634ea79d43b0b51bbd7497198,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -690,6 +729,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 937035506399193613, guid: 87e99a81f1cbf00428f7e0adbc0d7cf5,
         type: 2}
+    - target: {fileID: 1650636718543367185, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 1650636718543367185, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 1650636718543367185, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_textAlignment
+      value: 65535
+      objectReference: {fileID: 0}
     - target: {fileID: 1661457088416891178, guid: b6d0a0a634ea79d43b0b51bbd7497198,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -752,6 +806,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 937035506399193613, guid: 87e99a81f1cbf00428f7e0adbc0d7cf5,
         type: 2}
+    - target: {fileID: 1791681299729444076, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791681299729444076, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791681299729444076, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791681299729444076, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_textAlignment
+      value: 65535
+      objectReference: {fileID: 0}
     - target: {fileID: 1940622544626232772, guid: b6d0a0a634ea79d43b0b51bbd7497198,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -944,6 +1018,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 937035506399193613, guid: 87e99a81f1cbf00428f7e0adbc0d7cf5,
         type: 2}
+    - target: {fileID: 4517354071720083542, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517354071720083542, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517354071720083542, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517354071720083542, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_textAlignment
+      value: 65535
+      objectReference: {fileID: 0}
     - target: {fileID: 4556232745103602397, guid: b6d0a0a634ea79d43b0b51bbd7497198,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -1316,6 +1410,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 937035506399193613, guid: 87e99a81f1cbf00428f7e0adbc0d7cf5,
         type: 2}
+    - target: {fileID: 8876109915687562411, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876109915687562411, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876109915687562411, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876109915687562411, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_textAlignment
+      value: 65535
+      objectReference: {fileID: 0}
     - target: {fileID: 8932305933730961040, guid: b6d0a0a634ea79d43b0b51bbd7497198,
         type: 3}
       propertyPath: m_AnchorMin.y

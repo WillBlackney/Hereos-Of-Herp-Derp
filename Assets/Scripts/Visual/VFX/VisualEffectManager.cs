@@ -29,6 +29,7 @@ public class VisualEffectManager : MonoBehaviour
 
     [Header("Properties")]
     public List<DamageEffect> vfxQueue = new List<DamageEffect>();
+    public int campsiteVfxSortingLayer;
     public float timeBetweenEffectsInSeconds;
     public int queueCount;
     public Color blue;
@@ -236,7 +237,7 @@ public class VisualEffectManager : MonoBehaviour
     {
         StartCoroutine(CreateStatusEffectOnCampSiteCharacterCorotuine(location, statusText, sortingLayer));
     }
-    public IEnumerator CreateStatusEffectOnCampSiteCharacterCorotuine(Vector3 location, string statusText, int sortingLayer)
+    private IEnumerator CreateStatusEffectOnCampSiteCharacterCorotuine(Vector3 location, string statusText, int sortingLayer)
     {
         float yOffSet = 0.25f;
         Vector3 screenPos = new Vector3(location.x, location.y + yOffSet, location.z);

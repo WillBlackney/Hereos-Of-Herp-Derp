@@ -17,7 +17,6 @@ public class SkeletonBarbarian : Enemy
         mySpellBook.EnemyLearnAbility("Charge");
         mySpellBook.EnemyLearnAbility("Whirlwind");
 
-        //myPassiveManager.ModifyUndead();
         myPassiveManager.ModifyEnrage(2);
 
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Battle Axe");

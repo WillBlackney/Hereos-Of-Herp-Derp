@@ -3217,7 +3217,7 @@ public class Defender : LivingEntity
     public void StartChillingBlowProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartChillingBlowProcess() called");
-        Ability chillingBlow = mySpellBook.GetAbilityByName("Shield Slam");
+        Ability chillingBlow = mySpellBook.GetAbilityByName("Chilling Blow");
 
         if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
             && EntityLogic.IsAbilityUseable(this, chillingBlow, target))
@@ -3230,7 +3230,7 @@ public class Defender : LivingEntity
     public void StartSwordAndBoardProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartSwordAndBoardProcess() called");
-        Ability swordAndBoard = mySpellBook.GetAbilityByName("Shield Slam");
+        Ability swordAndBoard = mySpellBook.GetAbilityByName("Sword And Board");
 
         if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
              && EntityLogic.IsAbilityUseable(this, swordAndBoard, target))

@@ -458,7 +458,7 @@ public class MainMenuManager : MonoBehaviour
         if (character.myPresetName == "Paladin")
         {
             character.attributeOneText.text = "Divinity +2";
-            character.attributeTwoText.text = "Guardian +1";
+            character.attributeTwoText.text = "Brawler +1";
 
             character.attributeOneText.gameObject.SetActive(true);
             character.attributeTwoText.gameObject.SetActive(true);

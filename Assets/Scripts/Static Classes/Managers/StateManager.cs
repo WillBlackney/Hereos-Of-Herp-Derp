@@ -307,12 +307,17 @@ public class StateManager : MonoBehaviour
     private IEnumerator CheckForStateExpirationsOnCombatStartCoroutine(Action action)
     {
         Debug.Log("CheckForStateExpirationsOnCombatStartCoroutine() called");
-        foreach (State state in activeStates)
+        
+        // reverse loop, to destroy/GC state without performing invalid operation
+        if(activeStates.Count > 0)
         {
-            if(state.expirationCondition == StateDataSO.ExpirationCondition.Timer &&
-                state.currentDuration <= 0)
+            for (int currentIndex = activeStates.Count - 1; currentIndex >= 0; currentIndex--)
             {
-                state.PlayExpireVfxAndDestroy();
+                if (activeStates[currentIndex].expirationCondition == StateDataSO.ExpirationCondition.Timer &&
+                    activeStates[currentIndex].currentDuration <= 0)
+                {
+                    activeStates[currentIndex].PlayExpireVfxAndDestroy();
+                }
             }
         }
 

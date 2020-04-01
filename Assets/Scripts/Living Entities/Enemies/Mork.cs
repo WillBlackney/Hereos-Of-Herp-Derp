@@ -16,7 +16,7 @@ public class Mork : Enemy
         mySpellBook.EnemyLearnAbility("Smash");
         mySpellBook.EnemyLearnAbility("Whirlwind");
 
-        myPassiveManager.ModifyGrowing(2);
+        myPassiveManager.ModifyGrowing(3);
         myPassiveManager.ModifyUnstoppable(1);
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Battle Axe");
     }
@@ -45,13 +45,22 @@ public class Mork : Enemy
             LivingEntityManager.Instance.EndEntityActivation(this);
         }
 
+        // Smash
+        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
+            EntityLogic.IsAbilityUseable(this, smash, myCurrentTarget)
+            )
+        {
+            Action action = AbilityLogic.Instance.PerformSmash(this, myCurrentTarget);
+            yield return new WaitUntil(() => action.ActionResolved() == true);
+            // brief delay between actions
+            yield return new WaitForSeconds(1f);
+            goto ActionStart;
+        }
+
         // Whirlwind
         else if (EntityLogic.GetAllEnemiesWithinRange(this, currentMeleeRange).Count > 1 &&
             EntityLogic.IsAbilityUseable(this, whirlwind))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Whirlwind");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformWhirlwind(this);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -60,29 +69,10 @@ public class Mork : Enemy
             goto ActionStart;
         }
 
-        // Smash
-        else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, smash)
-            )
-        {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Smash");
-            yield return new WaitForSeconds(0.5f);
-
-            Action action = AbilityLogic.Instance.PerformSmash(this, myCurrentTarget);
-            yield return new WaitUntil(() => action.ActionResolved() == true);
-            // brief delay between actions
-            yield return new WaitForSeconds(1f);
-            goto ActionStart;
-
-        }
-
         // Strike
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) &&
-            EntityLogic.IsAbilityUseable(this, strike))
+            EntityLogic.IsAbilityUseable(this, strike, myCurrentTarget))
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Strike");
-            yield return new WaitForSeconds(0.5f);
-
             Action action = AbilityLogic.Instance.PerformStrike(this, myCurrentTarget);
             yield return new WaitUntil(() => action.ActionResolved() == true);
 
@@ -95,12 +85,10 @@ public class Mork : Enemy
         else if (EntityLogic.IsTargetInRange(this, myCurrentTarget, currentMeleeRange) == false &&
             EntityLogic.IsAbleToMove(this) &&
             EntityLogic.IsAbilityUseable(this, move) &&
+            EntityLogic.CanPerformAbilityTwoAfterAbilityOne(move, strike, this) &&
             EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this)) != null
             )
         {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Move");
-            yield return new WaitForSeconds(0.5f);
-
             Tile destination = EntityLogic.GetBestValidMoveLocationBetweenMeAndTarget(this, myCurrentTarget, currentMeleeRange, EntityLogic.GetTotalMobility(this));
             Action movementAction = AbilityLogic.Instance.PerformMove(this, destination);
             yield return new WaitUntil(() => movementAction.ActionResolved() == true);

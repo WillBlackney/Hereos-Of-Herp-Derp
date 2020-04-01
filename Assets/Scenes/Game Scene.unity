@@ -13067,6 +13067,8 @@ MonoBehaviour:
   - {fileID: 4059583735741346010}
   awaitingAskForWisdomChoice: 0
   awaitingAskForHealthChoice: 0
+  onlyRunTestStoryEvent: 1
+  testStory: {fileID: 11400000, guid: 05ad1c793a6c4f142b1c44e5af879580, type: 2}
 --- !u!1 &1044023448
 GameObject:
   m_ObjectHideFlags: 0
@@ -19607,6 +19609,7 @@ MonoBehaviour:
   HolyFirePrefab: {fileID: 1272580456194116, guid: e09bcda0eecb91c4db7243542e071dd0,
     type: 3}
   vfxQueue: []
+  campsiteVfxSortingLayer: 2100
   timeBetweenEffectsInSeconds: 0.5
   queueCount: 0
   blue: {r: 0.18431373, g: 1, b: 0.9372549, a: 1}
@@ -23913,6 +23916,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72ab7d3845f51140802bb51ec0b3500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  runTestWaveOnly: 0
+  testingWave: {fileID: 11400000, guid: a925a91cb3c75e64cadf1f518e9a621e, type: 2}
   basicEnemyWavesActOneHalfOne:
   - {fileID: 11400000, guid: 9c7a79d32d54c1f4a8e0c24b37645675, type: 2}
   - {fileID: 11400000, guid: 241410e7a039fad46b9203d68bd47782, type: 2}
@@ -24320,7 +24325,7 @@ MonoBehaviour:
   worldMapParent: {fileID: 1650256303}
   onlySpawnBasics: 0
   onlySpawnElites: 0
-  onlySpawnMysterys: 0
+  onlySpawnMysterys: 1
   onlySpawnShops: 0
   onlySpawnTreasures: 0
   onlySpawnCampSites: 0
@@ -24894,7 +24899,7 @@ MonoBehaviour:
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &2039413340
@@ -59576,6 +59581,31 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4267022319044131984, guid: be477e22ad69edd4f9a20457c4b435b4,
+        type: 3}
+      propertyPath: expandSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4267022319075593036, guid: be477e22ad69edd4f9a20457c4b435b4,
+        type: 3}
+      propertyPath: expandSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4267022319505733992, guid: be477e22ad69edd4f9a20457c4b435b4,
+        type: 3}
+      propertyPath: expandSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4267022320031654006, guid: be477e22ad69edd4f9a20457c4b435b4,
+        type: 3}
+      propertyPath: expandSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4267022320744511877, guid: be477e22ad69edd4f9a20457c4b435b4,
+        type: 3}
+      propertyPath: expandSpeed
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 4268430744239866167, guid: be477e22ad69edd4f9a20457c4b435b4,
         type: 3}
       propertyPath: m_Enabled
@@ -59731,6 +59761,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4306071511702340418, guid: be477e22ad69edd4f9a20457c4b435b4,
+        type: 3}
+      propertyPath: digButton
+      value: 
+      objectReference: {fileID: 4306071511914257762}
+    - target: {fileID: 4306071511702340418, guid: be477e22ad69edd4f9a20457c4b435b4,
+        type: 3}
+      propertyPath: readButton
+      value: 
+      objectReference: {fileID: 4306071511914257761}
     - target: {fileID: 4317660696722101289, guid: be477e22ad69edd4f9a20457c4b435b4,
         type: 3}
       propertyPath: m_Enabled
@@ -64316,6 +64356,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9110321252495058814, guid: be477e22ad69edd4f9a20457c4b435b4,
+        type: 3}
+      propertyPath: expandSpeed
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 9113046531678921582, guid: be477e22ad69edd4f9a20457c4b435b4,
         type: 3}
       propertyPath: m_Enabled
@@ -64488,6 +64533,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be477e22ad69edd4f9a20457c4b435b4, type: 3}
+--- !u!114 &4306071511914257761 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4267022320031654006, guid: be477e22ad69edd4f9a20457c4b435b4,
+    type: 3}
+  m_PrefabInstance: {fileID: 4306071511914257760}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d91af9c5e0d515b4c9a6d442ed0cc0e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4306071511914257762 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4267022319044131984, guid: be477e22ad69edd4f9a20457c4b435b4,
+    type: 3}
+  m_PrefabInstance: {fileID: 4306071511914257760}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d91af9c5e0d515b4c9a6d442ed0cc0e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4354891777236962859
 PrefabInstance:
   m_ObjectHideFlags: 0
