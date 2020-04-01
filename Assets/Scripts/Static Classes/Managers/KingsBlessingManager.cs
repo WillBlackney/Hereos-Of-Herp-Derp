@@ -198,6 +198,7 @@ public class KingsBlessingManager : MonoBehaviour
         {
             ConsumableManager.Instance.StartGainConsumableProcess(ConsumableLibrary.Instance.GetRandomConsumable());
             ConsumableManager.Instance.StartGainConsumableProcess(ConsumableLibrary.Instance.GetRandomConsumable());
+            ConsumableManager.Instance.StartGainConsumableProcess(ConsumableLibrary.Instance.GetRandomConsumable());
         }
         else if (choiceName == "Gain A Random Rare State. Gain A Random Affliction")
         {

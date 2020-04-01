@@ -118,7 +118,7 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         while (transform.localScale.x < finalScale && expanding == true)
         {
-            Vector3 targetScale = new Vector3(transform.localScale.x + (0.1f * speed), transform.localScale.y + (0.1f * speed));
+            Vector3 targetScale = new Vector3(transform.localScale.x + (1 * speed * Time.deltaTime), transform.localScale.y + (1 * speed * Time.deltaTime));
             transform.localScale = targetScale;
             yield return new WaitForEndOfFrame();
         }
@@ -132,9 +132,9 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         RectTransform transform = GetComponent<RectTransform>();
 
-        while (transform.localScale.x != originalScale && shrinking == true)
+        while (transform.localScale.x > originalScale && shrinking == true)
         {
-            Vector3 targetScale = new Vector3(transform.localScale.x - (0.1f * speed), transform.localScale.y - (0.1f * speed));
+            Vector3 targetScale = new Vector3(transform.localScale.x - (1 * speed * Time.deltaTime), transform.localScale.y - (1 * speed * Time.deltaTime));
             transform.localScale = targetScale;
             yield return new WaitForEndOfFrame();
         }

@@ -163,7 +163,7 @@ public class MainMenuManager : MonoBehaviour
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
 
         // Ready, load the game scene
-        SceneController.Instance.LoadSceneAsync("Game Scene");
+        SceneController.Instance.LoadGameSceneAsync();
     }
     #endregion
 
