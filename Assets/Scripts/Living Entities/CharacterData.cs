@@ -262,7 +262,8 @@ public class CharacterData : MonoBehaviour
     public Defender myDefenderGO;
     public string myClass;
     public CampSiteCharacter myCampSiteCharacter;
-    public StoryWindowCharacterSlot myStoryWindowCharacter;    
+    public StoryWindowCharacterSlot myStoryWindowCharacter;
+    public VillageCharacter myVillageCharacter;
 
     [Header("Front Page Components")]     
     public TextMeshProUGUI classNameText;
@@ -1861,7 +1862,14 @@ public class CharacterData : MonoBehaviour
         {
             myCampSiteCharacter.ModifyCurrentHealthText(currentHealth);
             myCampSiteCharacter.UpdateHealthBarPosition(currentHealth, maxHealth);
+            
         }
+        if(myVillageCharacter != null)
+        {
+            myVillageCharacter.ModifyCurrentHealthText(currentHealth);
+            myVillageCharacter.UpdateHealthBarPosition(currentHealth, maxHealth);
+        }
+
         if (myStoryWindowCharacter != null)
         {
             myStoryWindowCharacter.ModifyCurrentHealthText(currentHealth);
@@ -1886,6 +1894,10 @@ public class CharacterData : MonoBehaviour
         if (myCampSiteCharacter != null)
         {
             myCampSiteCharacter.ModifyMaxHealthText(maxHealth);
+        }
+        if (myVillageCharacter != null)
+        {
+            myVillageCharacter.ModifyMaxHealthText(maxHealth);
         }
         if (myStoryWindowCharacter != null)
         {
@@ -2227,11 +2239,19 @@ public class CharacterData : MonoBehaviour
         }
 
         xpText.text = currentXP.ToString();
+
         if(myCampSiteCharacter != null)
         {
             myCampSiteCharacter.ModifyCurrentXPText(currentXP);
             myCampSiteCharacter.UpdateXpBarPosition(currentXP, currentMaxXP);
         }
+
+        if (myVillageCharacter != null)
+        {
+            myVillageCharacter.ModifyCurrentXPText(currentXP);
+            myVillageCharacter.UpdateXpBarPosition(currentXP, currentMaxXP);
+        }
+
         if (myStoryWindowCharacter != null)
         {
             myStoryWindowCharacter.ModifyCurrentXPText(currentXP);

@@ -9,6 +9,7 @@ public class AbilityTomeInventoryCard : MonoBehaviour, IBeginDragHandler, IDragH
 {
     [Header("General Properties + Components")]
     public Image bgColorImage;
+    public Image bookImage;
     public AbilityDataSO myData;
     public InventorySlot myInventorySlot;    
 
@@ -39,9 +40,7 @@ public class AbilityTomeInventoryCard : MonoBehaviour, IBeginDragHandler, IDragH
         cooldownText.text = data.baseCooldownTime.ToString();
         rangeText.text = data.range.ToString();
         energyCostText.text = data.energyCost.ToString();
-
-        SetBackgroundColor();
-
+        
         meleeAttackIcon.SetActive(false);
         rangedAttackIcon.SetActive(false);
         skillIcon.SetActive(false);
@@ -63,6 +62,9 @@ public class AbilityTomeInventoryCard : MonoBehaviour, IBeginDragHandler, IDragH
         {
             powerIcon.SetActive(true);
         }
+       
+        SetBookImage();
+        SetBackgroundColor();
     }
     public void SetBackgroundColor()
     {
@@ -117,6 +119,64 @@ public class AbilityTomeInventoryCard : MonoBehaviour, IBeginDragHandler, IDragH
         else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Naturalism)
         {
             bgColorImage.color = InventoryController.Instance.naturalismColor;
+        }
+
+        // set transperancy
+        bgColorImage.color = new Color(bgColorImage.color.r / 255, bgColorImage.color.g / 255, bgColorImage.color.g / 255, 0.30f);
+    }
+    public void SetBookImage()
+    {
+        if (myData.abilitySchool == AbilityDataSO.AbilitySchool.None)
+        {
+            bookImage.sprite = InventoryController.Instance.neutralBookImage;
+        }
+        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Brawler)
+        {
+            bookImage.sprite = InventoryController.Instance.brawlerBookImage;
+        }
+        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Duelist)
+        {
+            bookImage.sprite = InventoryController.Instance.duelistBookImage; 
+        }
+        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Assassination)
+        {
+            bookImage.sprite = InventoryController.Instance.assassinationBookImage;
+        }
+        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Guardian)
+        {
+            bookImage.sprite = InventoryController.Instance.guardianBookImage;
+        }
+        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Pyromania)
+        {
+            bookImage.sprite = InventoryController.Instance.pyromaniaBookImage;
+        }
+        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Cyromancy)
+        {
+            bookImage.sprite = InventoryController.Instance.cyromancyBookImage;
+        }
+        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Ranger)
+        {
+            bookImage.sprite = InventoryController.Instance.rangerBookImage;
+        }
+        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Manipulation)
+        {
+            bookImage.sprite = InventoryController.Instance.manipulationBookImage;
+        }
+        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Divinity)
+        {
+            bookImage.sprite = InventoryController.Instance.divinityBookImage;
+        }
+        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Shadowcraft)
+        {
+            bookImage.sprite = InventoryController.Instance.shadowcraftBookImage;
+        }
+        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Corruption)
+        {
+            bookImage.sprite = InventoryController.Instance.corruptionBookImage;
+        }
+        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Naturalism)
+        {
+            bookImage.sprite = InventoryController.Instance.naturalismBookImage;
         }
     }
     #endregion

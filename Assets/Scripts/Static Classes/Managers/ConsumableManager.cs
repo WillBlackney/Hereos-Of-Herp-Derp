@@ -25,7 +25,7 @@ public class ConsumableManager : MonoBehaviour
     public bool awaitingPotionOfMightTarget;
     public bool awaitingVanishPotionTarget;
     public bool awaitingDynamiteTarget;
-    public bool awaitingMolotovTarget;
+    public bool awaitingFireBombTarget;
     public bool awaitingBottledFrostTarget;
     public bool awaitingPoisonGrenadeTarget;
     public bool awaitingHandCannonTarget;
@@ -205,9 +205,9 @@ public class ConsumableManager : MonoBehaviour
             awaitingDynamiteTarget = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary());
         }
-        else if (consumable.myData.consumableName == "Molotov")
+        else if (consumable.myData.consumableName == "Fire Bomb")
         {
-            awaitingMolotovTarget = true;
+            awaitingFireBombTarget = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetAllTilesFromCurrentLevelDictionary());
         }
         else if (consumable.myData.consumableName == "Poison Grenade")
@@ -269,7 +269,7 @@ public class ConsumableManager : MonoBehaviour
         awaitingPotionOfMightTarget = false;
         awaitingVanishPotionTarget = false;
         awaitingDynamiteTarget = false;
-        awaitingMolotovTarget = false;
+        awaitingFireBombTarget = false;
         awaitingBottledFrostTarget = false;
         awaitingPoisonGrenadeTarget = false;
         awaitingHandCannonTarget = false;
@@ -362,14 +362,14 @@ public class ConsumableManager : MonoBehaviour
             ClearAllConsumableOrders();
             PerformDynamite(location);
         }
-        else if (awaitingMolotovTarget)
+        else if (awaitingFireBombTarget)
         {
-            Debug.Log("ConsumableManager.ApplyConsumableToTarget() using Molotov on tile " +
+            Debug.Log("ConsumableManager.ApplyConsumableToTarget() using Fire Bomb on tile " +
             location.GridPosition.X + ", " + location.GridPosition.Y);
 
-            RemoveConsumable(GetActiveConsumableByName("Molotov"));
+            RemoveConsumable(GetActiveConsumableByName("Fire Bomb"));
             ClearAllConsumableOrders();
-            PerformMolotov(location);
+            PerformFireBomb(location);
         }
         else if (awaitingBottledFrostTarget)
         {
@@ -445,15 +445,15 @@ public class ConsumableManager : MonoBehaviour
         action.actionResolved = true;
 
     }
-    public Action PerformMolotov(Tile location)
+    public Action PerformFireBomb(Tile location)
     {
         Debug.Log("ConsumableManager.PerformDynamite() called...");
         Action action = new Action();
-        StartCoroutine(PerformMolotovCoroutine(location, action));
+        StartCoroutine(PerformFireBombCoroutine(location, action));
         return action;
 
     }
-    private IEnumerator PerformMolotovCoroutine(Tile location, Action action)
+    private IEnumerator PerformFireBombCoroutine(Tile location, Action action)
     {
         // Calculate which characters are hit by the aoe
         List<Tile> tilesInBlastRadius = LevelManager.Instance.GetTilesWithinRange(1, location, false);

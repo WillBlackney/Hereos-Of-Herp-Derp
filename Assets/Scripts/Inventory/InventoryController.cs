@@ -14,7 +14,7 @@ public class InventoryController : MonoBehaviour
     public GameObject itemBeingDragged;
 
     [Header("Ability Tome Colours")]
-    public Color neutralColor;
+    public Color32 neutralColor;
     public Color brawlerColor;
     public Color duelistColor;
     public Color assassinationColor;
@@ -27,6 +27,21 @@ public class InventoryController : MonoBehaviour
     public Color shadowcraftColor;
     public Color corruptionColor;
     public Color naturalismColor;
+
+    [Header("Ability Tome Images")]
+    public Sprite neutralBookImage;
+    public Sprite brawlerBookImage;
+    public Sprite duelistBookImage;
+    public Sprite assassinationBookImage;
+    public Sprite guardianBookImage;
+    public Sprite pyromaniaBookImage;
+    public Sprite cyromancyBookImage;
+    public Sprite rangerBookImage;
+    public Sprite manipulationBookImage;
+    public Sprite divinityBookImage;
+    public Sprite shadowcraftBookImage;
+    public Sprite corruptionBookImage;
+    public Sprite naturalismBookImage;
     #endregion
 
     // Singleton Set up

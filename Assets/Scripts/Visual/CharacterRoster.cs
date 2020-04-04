@@ -58,6 +58,7 @@ public class CharacterRoster : MonoBehaviour
                 allCharacterDataObjects.Add(characterOne);
                 characterOne.SetMyName(characterData);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[0], characterOne);
+                ShopScreenManager.Instance.SetUpVillageCharacter(ShopScreenManager.Instance.characterOne, characterOne);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[0], characterOne);
                 CharacterModelController.BuildModelFromPresetString(characterOneButtonModel, characterData);
                 CharacterModelController.BuildModelFromPresetString(KingsBlessingManager.Instance.modelOne, characterData);
@@ -71,6 +72,7 @@ public class CharacterRoster : MonoBehaviour
                 allCharacterDataObjects.Add(characterTwo);
                 characterTwo.SetMyName(characterData);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[1], characterTwo);
+                ShopScreenManager.Instance.SetUpVillageCharacter(ShopScreenManager.Instance.characterTwo, characterTwo);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[1], characterTwo);
                 CharacterModelController.BuildModelFromPresetString(characterTwoButtonModel, characterData);
                 CharacterModelController.BuildModelFromPresetString(KingsBlessingManager.Instance.modelTwo, characterData);
@@ -84,6 +86,7 @@ public class CharacterRoster : MonoBehaviour
                 allCharacterDataObjects.Add(characterThree);
                 characterThree.SetMyName(characterData);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[2], characterThree);
+                ShopScreenManager.Instance.SetUpVillageCharacter(ShopScreenManager.Instance.characterThree, characterThree);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[2], characterThree);
                 CharacterModelController.BuildModelFromPresetString(characterThreeButtonModel, characterData);
                 CharacterModelController.BuildModelFromPresetString(KingsBlessingManager.Instance.modelThree, characterData);
@@ -97,6 +100,7 @@ public class CharacterRoster : MonoBehaviour
                 allCharacterDataObjects.Add(characterFour);
                 characterFour.SetMyName(characterData);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[3], characterFour);
+                ShopScreenManager.Instance.SetUpVillageCharacter(ShopScreenManager.Instance.characterFour, characterFour);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[3], characterFour);
                 CharacterModelController.BuildModelFromPresetString(characterFourButtonModel, characterData);
                 CharacterModelController.BuildModelFromPresetString(KingsBlessingManager.Instance.modelFour, characterData);

@@ -120,7 +120,7 @@ public class Tile : MonoBehaviour
         Defender selectedDefender = DefenderManager.Instance.selectedDefender;
 
         // check consumables first
-        if (ConsumableManager.Instance.awaitingMolotovTarget ||
+        if (ConsumableManager.Instance.awaitingFireBombTarget ||
             ConsumableManager.Instance.awaitingDynamiteTarget ||
             ConsumableManager.Instance.awaitingPoisonGrenadeTarget ||
             ConsumableManager.Instance.awaitingBottledFrostTarget)

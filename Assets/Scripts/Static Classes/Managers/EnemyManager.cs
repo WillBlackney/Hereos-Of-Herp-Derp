@@ -32,7 +32,7 @@ public class EnemyManager : MonoBehaviour
             ConsumableManager.Instance.ApplyConsumableToTarget(selectedEnemy);
         }
 
-        else if (ConsumableManager.Instance.awaitingMolotovTarget ||
+        else if (ConsumableManager.Instance.awaitingFireBombTarget ||
             ConsumableManager.Instance.awaitingDynamiteTarget ||
             ConsumableManager.Instance.awaitingPoisonGrenadeTarget ||
             ConsumableManager.Instance.awaitingBottledFrostTarget)

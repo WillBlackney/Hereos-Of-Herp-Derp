@@ -46,6 +46,9 @@ public class CampSiteCharacter : MonoBehaviour
         myModel.SetBaseAnim();
     }
     #endregion
+
+    // Modify Health + XP
+    #region
     public void ModifyCurrentHealthText(int newValue)
     {
         currentHealthText.text = newValue.ToString();
@@ -58,6 +61,7 @@ public class CampSiteCharacter : MonoBehaviour
     {
         currentXPText.text = newValue.ToString();
     }
+    #endregion
 
     // Mouse + Pointer events
     #region
@@ -125,5 +129,6 @@ public class CampSiteCharacter : MonoBehaviour
         xpBar.value = currentXPFloat / maxXpFloat;
 
     }
+
     #endregion
 }

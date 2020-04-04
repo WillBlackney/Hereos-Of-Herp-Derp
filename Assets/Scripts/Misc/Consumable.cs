@@ -10,12 +10,15 @@ public class Consumable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [Header("Component References")]
     public GameObject infoPanelParent;
     public Image myImage;
+    public Image frameImage;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI desccriptionText;
 
     [Header("Properties")]
     public ConsumableDataSO myData;
     public ConsumableTopPanelSlot mySlot;
+    public Color normalColor;
+    public Color highlightColor;
 
     // Set up + Initialization
     #region
@@ -37,10 +40,12 @@ public class Consumable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        frameImage.color = highlightColor;
         EnableInfoPanelView();
     }
     public void OnPointerExit(PointerEventData eventData)
     {
+        frameImage.color = normalColor;
         DisableInfoPanelView();
     }
     #endregion
