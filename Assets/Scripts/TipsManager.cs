@@ -136,6 +136,8 @@ public class TipsManager : MonoBehaviour
 
         allTips.Add("Today a Berserker, tomorrow a Battle Mage! A character's starting preset doesn't have to determine their playstyle for the whole game.");
 
+        allTips.Add("A character's weapons grant additional abilities. One melee weapon enables 'Strike', dual wielding enables 'Twin Strike', bows enable 'Shoot', and shields enable 'Defend'.");
+
 
     }
     public string GetRandomTip()
