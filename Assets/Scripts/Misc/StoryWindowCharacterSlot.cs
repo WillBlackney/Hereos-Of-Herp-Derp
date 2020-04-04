@@ -14,11 +14,13 @@ public class StoryWindowCharacterSlot : MonoBehaviour, IPointerClickHandler, IPo
     public TextMeshProUGUI currentHealthText;
     public TextMeshProUGUI maxHealthText;
     public TextMeshProUGUI currentXPText;
-    public Image myImageComponent;
     public Image myGlowOutline;
-    public CanvasGroup myGlowCG;
     public UniversalCharacterModel myModel;
+    public Slider healthBar;
+    public Slider xpBar;
 
+    // Initialization + Setip
+    #region
     public void InitializeSetup(CharacterData data)
     {
         data.myStoryWindowCharacter = this;
@@ -29,7 +31,10 @@ public class StoryWindowCharacterSlot : MonoBehaviour, IPointerClickHandler, IPo
         CharacterModelController.BuildModelFromPresetString(myModel, myCharacterData.myName);
         myModel.SetBaseAnim();
     }
+    #endregion
 
+    // Modify Texts + GUI
+    #region
     public void ModifyCurrentHealthText(int newValue)
     {
         currentHealthText.text = newValue.ToString();
@@ -38,10 +43,26 @@ public class StoryWindowCharacterSlot : MonoBehaviour, IPointerClickHandler, IPo
     {
         maxHealthText.text = newValue.ToString();
     }
+    public void UpdateHealthBarPosition(int currentHealth, int maxHealth)
+    {
+        float currentHealthFloat = currentHealth;
+        float maxHealthFloat = maxHealth;
+        healthBar.value = currentHealthFloat / maxHealthFloat;
+    }
     public void ModifyCurrentXPText(int newValue)
     {
         currentXPText.text = newValue.ToString();
     }
+    public void UpdateXpBarPosition(int currentXP, int maxXP)
+    {
+        float currentXPFloat = currentXP;
+        float maxXpFloat = maxXP;
+        xpBar.value = currentXPFloat / maxXpFloat;
+    }
+    #endregion
+
+    // Pointer + Mouse Events
+    #region
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("OnPointerClick() called...");
@@ -52,17 +73,19 @@ public class StoryWindowCharacterSlot : MonoBehaviour, IPointerClickHandler, IPo
         Debug.Log("OnPointerEnter() called...");
         myGlowOutline.gameObject.SetActive(true);
     }
-
     public void OnPointerExit(PointerEventData eventData)
     {
         Debug.Log("OnPointerExit() called...");
         myGlowOutline.gameObject.SetActive(false);
     }
+    #endregion
+
+    // View Logic
+    #region
     public void SetGlowOutilineViewState(bool onOrOff)
     {
         myGlowOutline.gameObject.SetActive(onOrOff);
-
     }
+    #endregion
 
-   
 }

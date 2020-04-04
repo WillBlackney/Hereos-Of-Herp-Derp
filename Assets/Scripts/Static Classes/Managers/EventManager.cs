@@ -303,18 +303,14 @@ public class EventManager : MonoBehaviour
         // Destroy the previous level and tiles + reset values/properties
         ClearPreviousEncounter();
 
-        // Create a new level
-        LevelManager.Instance.CreateLevel();
+        // Enable view
+        TreasureRoomManager.Instance.EnableTreasureRoomView();
 
-        // Set up activation window holders
-        ActivationManager.Instance.CreateSlotAndWindowHolders();
-        CharacterRoster.Instance.InstantiateDefenders();
+        // Instantiate treasure chest 
+        TreasureRoomManager.Instance.CreateNewTreasureChest();
 
         // disable world map view
-        UIManager.Instance.DisableWorldMapView();
-
-        // Instantiate treasure chest and populate it with loot
-        CreateNewTreasureChest();
+        UIManager.Instance.DisableWorldMapView();        
 
         // Fade scene back in, wait until completed
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
@@ -376,8 +372,14 @@ public class EventManager : MonoBehaviour
             PlayerDataManager.Instance.ModifyGold(5);
         }
 
+        // check testing mode
+        if (StoryEventManager.Instance.onlyRunTestStoryEvent)
+        {
+            StartNewStoryEvent();
+        }
+
         // Story Event
-        if (randomNumber >= 1 && randomNumber <= 60)
+        else if (randomNumber >= 1 && randomNumber <= 60)
         {
             if (StoryEventManager.Instance.viableStoryEvents.Count > 0)
             {
@@ -668,7 +670,7 @@ public class EventManager : MonoBehaviour
         {
             UIManager.Instance.EnableRewardScreenView();
             RewardScreen.Instance.CreateGoldRewardButton();
-            RewardScreen.Instance.CreateItemRewardButton();
+            RewardScreen.Instance.CreateCommonItemRewardButton();
             RewardScreen.Instance.PopulateItemScreen();
 
             // 50% chance to get a consumable from basic encounters
@@ -683,7 +685,8 @@ public class EventManager : MonoBehaviour
         {
             UIManager.Instance.EnableRewardScreenView();
             RewardScreen.Instance.CreateGoldRewardButton();
-            RewardScreen.Instance.CreateItemRewardButton();
+            RewardScreen.Instance.CreateCommonItemRewardButton();
+            RewardScreen.Instance.CreateRareItemRewardButton();
             RewardScreen.Instance.CreateConsumableRewardButton();
             RewardScreen.Instance.CreateStateRewardButton();
 
@@ -719,17 +722,9 @@ public class EventManager : MonoBehaviour
         ShopScreenManager.Instance.DisableShopScreenView();
         // Destroy active treasure chest if it exists
         StoryEventManager.Instance.ResetStoryEventWindow();
-        if (activeTreasureChest != null)
-        {
-            activeTreasureChest.DestroyChest();
-        }
-    }
-    public void CreateNewTreasureChest()
-    {
-        // create a treasure chest game object
-        GameObject newTreasureChest = Instantiate(PrefabHolder.Instance.TreasureChest);
-        newTreasureChest.GetComponent<TreasureChest>().InitializeSetup();
-    }
+        // Destroy treasure chest
+        TreasureRoomManager.Instance.DestroyActiveTreasureChest();
+    }   
     public void ResetEncounterProperties()
     {
         damageTakenThisEncounter = false;

@@ -31,6 +31,7 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public bool inInventory;
     public bool inShop;
     public ItemSlot myItemSlot;
+    public ItemDataSO myData;
     public string myName;    
     public float originalScale;
     public bool expanding;
@@ -46,6 +47,7 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void RunSetupFromItemData(ItemDataSO data)
     {
         ItemManager.Instance.SetUpItemCardFromData(this, data);
+        myData = data;
     }    
     
     #endregion
@@ -70,10 +72,28 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         Debug.Log("Adding Item to inventory: " + myName);
         // add item to inventory
         InventoryController.Instance.AddItemToInventory(myItemDataSO);
-        RewardScreen.Instance.DestroyAllItemCards();
-        Destroy(RewardScreen.Instance.currentItemRewardButton);
-        RewardScreen.Instance.currentItemRewardButton = null;        
-        RewardScreen.Instance.DisableItemLootScreen();
+        if(myData.itemRarity == ItemDataSO.ItemRarity.Common)
+        {
+            RewardScreen.Instance.DestroyAllCommonItemCards();
+            Destroy(RewardScreen.Instance.currentCommonItemRewardButton);
+            RewardScreen.Instance.currentCommonItemRewardButton = null;
+            RewardScreen.Instance.DisableCommonItemLootScreen();
+        }
+        else if (myData.itemRarity == ItemDataSO.ItemRarity.Rare)
+        {
+            RewardScreen.Instance.DestroyAllRareItemCards();
+            Destroy(RewardScreen.Instance.currentRareItemRewardButton);
+            RewardScreen.Instance.currentRareItemRewardButton = null;
+            RewardScreen.Instance.DisableRareItemLootScreen();
+        }
+        else if (myData.itemRarity == ItemDataSO.ItemRarity.Epic)
+        {
+            RewardScreen.Instance.DestroyAllRareItemCards();
+            Destroy(RewardScreen.Instance.currentEpicItemRewardButton);
+            RewardScreen.Instance.currentEpicItemRewardButton = null;
+            RewardScreen.Instance.DisableEpicItemLootScreen();
+        }               
+        
         ItemCardPanelHover.Instance.OnItemCardMouseExit();
     }
     public void OnPointerEnter(PointerEventData eventData)

@@ -8,7 +8,6 @@ using TMPro;
 public class AbilityTomeInventoryCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("General Properties + Components")]
-    public Image bgColorImage;
     public Image bookImage;
     public AbilityDataSO myData;
     public InventorySlot myInventorySlot;    
@@ -64,8 +63,9 @@ public class AbilityTomeInventoryCard : MonoBehaviour, IBeginDragHandler, IDragH
         }
        
         SetBookImage();
-        SetBackgroundColor();
+        //SetBackgroundColor();
     }
+    /*
     public void SetBackgroundColor()
     {
         if (myData.abilitySchool == AbilityDataSO.AbilitySchool.None)
@@ -124,6 +124,7 @@ public class AbilityTomeInventoryCard : MonoBehaviour, IBeginDragHandler, IDragH
         // set transperancy
         bgColorImage.color = new Color(bgColorImage.color.r / 255, bgColorImage.color.g / 255, bgColorImage.color.g / 255, 0.30f);
     }
+    */
     public void SetBookImage()
     {
         if (myData.abilitySchool == AbilityDataSO.AbilitySchool.None)
@@ -186,7 +187,7 @@ public class AbilityTomeInventoryCard : MonoBehaviour, IBeginDragHandler, IDragH
     public void SetRayCastingState(bool onOrOff)
     {
         Debug.Log("InventoryItemCard.SetRayCastingState() called...");
-        bgColorImage.raycastTarget = onOrOff;
+        bookImage.raycastTarget = onOrOff;
     }
     public void EnableInfoPanelView()
     {

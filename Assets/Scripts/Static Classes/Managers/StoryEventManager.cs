@@ -137,6 +137,28 @@ public class StoryEventManager : MonoBehaviour
             ResolveWarRefugeesAction(buttonPressed);
         }
 
+        // The Three Witches
+        else if (currentStoryEvent.eventName == "The Three Witches")
+        {
+            if(buttonPressed == 1)
+            {
+                awaitingAskForWisdomChoice = true;
+                EnableCharacterPanelPage();
+            }
+            else if (buttonPressed == 2)
+            {
+                awaitingAskForHealthChoice = true;
+                EnableCharacterPanelPage();
+            }
+            else if (buttonPressed == 3)
+            {
+                PlayerDataManager.Instance.ModifyGold(10);
+                HideAllActionButtons();
+                EnableContinueButton();
+                ClearAllAwaitingOrders();
+            }
+        }
+
     }
     public void ClearAllAwaitingOrders()
     {

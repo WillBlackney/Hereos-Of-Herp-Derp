@@ -17,22 +17,19 @@ public class TreasureChest : MonoBehaviour
     #region
     public void InitializeSetup()
     {
-        mySpriteRenderer = GetComponent<SpriteRenderer>();
-        EventManager.Instance.activeTreasureChest = this;
-        transform.position = LevelManager.Instance.GetWorldCentreTile().WorldPosition;
+        TreasureRoomManager.Instance.activeTreasureChest = this;
     }
     #endregion
 
     // Mouse + Click Events
-    #region   
-   
+    #region      
     public void OnMouseDown()
     {
         // prevent chest open event triggering twice
         if(alreadyOpened == false)
         {
             alreadyOpened = true;
-            Debug.Log("OnPointerClick() detected on treasure chest");
+            Debug.Log("OnMouseDown() detected on treasure chest");
             mySpriteRenderer.color = normalColor;
             EventManager.Instance.StartNewLootRewardEvent(WorldEncounter.EncounterType.Treasure);
         }
@@ -52,7 +49,7 @@ public class TreasureChest : MonoBehaviour
     #region
     public void DestroyChest()
     {
-        EventManager.Instance.activeTreasureChest = null;
+        TreasureRoomManager.Instance.activeTreasureChest = null;
         Destroy(gameObject);
         Destroy(this);
     }

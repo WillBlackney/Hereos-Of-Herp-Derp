@@ -264,6 +264,7 @@ public class CharacterData : MonoBehaviour
     public CampSiteCharacter myCampSiteCharacter;
     public StoryWindowCharacterSlot myStoryWindowCharacter;
     public VillageCharacter myVillageCharacter;
+    public TreasureRoomCharacter myTreasureRoomCharacter;
 
     [Header("Front Page Components")]     
     public TextMeshProUGUI classNameText;
@@ -1870,9 +1871,16 @@ public class CharacterData : MonoBehaviour
             myVillageCharacter.UpdateHealthBarPosition(currentHealth, maxHealth);
         }
 
+        if (myTreasureRoomCharacter != null)
+        {
+            myTreasureRoomCharacter.ModifyCurrentHealthText(currentHealth);
+            myTreasureRoomCharacter.UpdateHealthBarPosition(currentHealth, maxHealth);
+        }
+
         if (myStoryWindowCharacter != null)
         {
             myStoryWindowCharacter.ModifyCurrentHealthText(currentHealth);
+            myStoryWindowCharacter.UpdateHealthBarPosition(currentHealth, maxHealth);
         }
 
         // Calculate health bar pos
@@ -1894,14 +1902,22 @@ public class CharacterData : MonoBehaviour
         if (myCampSiteCharacter != null)
         {
             myCampSiteCharacter.ModifyMaxHealthText(maxHealth);
+            myCampSiteCharacter.UpdateHealthBarPosition(currentHealth, maxHealth);
         }
         if (myVillageCharacter != null)
         {
             myVillageCharacter.ModifyMaxHealthText(maxHealth);
+            myVillageCharacter.UpdateHealthBarPosition(currentHealth, maxHealth);
+        }
+        if (myTreasureRoomCharacter != null)
+        {
+            myTreasureRoomCharacter.ModifyMaxHealthText(maxHealth);
+            myTreasureRoomCharacter.UpdateHealthBarPosition(currentHealth, maxHealth);
         }
         if (myStoryWindowCharacter != null)
         {
             myStoryWindowCharacter.ModifyMaxHealthText(maxHealth);
+            myStoryWindowCharacter.UpdateHealthBarPosition(currentHealth, maxHealth);
         }
     }
 
@@ -2252,9 +2268,16 @@ public class CharacterData : MonoBehaviour
             myVillageCharacter.UpdateXpBarPosition(currentXP, currentMaxXP);
         }
 
+        if (myTreasureRoomCharacter != null)
+        {
+            myTreasureRoomCharacter.ModifyCurrentXPText(currentXP);
+            myTreasureRoomCharacter.UpdateXpBarPosition(currentXP, currentMaxXP);
+        }
+
         if (myStoryWindowCharacter != null)
         {
             myStoryWindowCharacter.ModifyCurrentXPText(currentXP);
+            myStoryWindowCharacter.UpdateXpBarPosition(currentXP, currentMaxXP);
         }
 
         // Calculate XP bar pos

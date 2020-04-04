@@ -251,7 +251,7 @@ public class CombatLogic : MonoBehaviour
             // Opportunist
             if (attacker.myPassiveManager.opportunist)
             {
-                damageModifier += (float) attacker.myPassiveManager.opportunistStacks / 100;
+                damageModifier += 0.5f;
                 Debug.Log("Damage percentage modifier after 'Opportunist' bonus: " + damageModifier.ToString());
             }
         }

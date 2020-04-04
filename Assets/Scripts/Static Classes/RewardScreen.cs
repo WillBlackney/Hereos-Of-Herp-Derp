@@ -8,7 +8,9 @@ public class RewardScreen : MonoBehaviour
     public float screenFadeTime;
 
     [Header("Canvas Groups")]
-    public CanvasGroup itemRewardCG;
+    public CanvasGroup commonItemRewardCG;
+    public CanvasGroup rareItemRewardCG;
+    public CanvasGroup epicItemRewardCG;
     public CanvasGroup stateRewardCG;
     public CanvasGroup frontPageCG;
     public CanvasGroup masterCG;    
@@ -17,8 +19,12 @@ public class RewardScreen : MonoBehaviour
     [Header("View Object References")]
     public GameObject RewardButtonParent;
     public GameObject SkipRewardsButton;
-    public GameObject ChooseItemScreenParent;
-    public GameObject ChooseItemScreenContent;
+    public GameObject ChooseCommonItemScreenParent;
+    public GameObject ChooseRareItemScreenParent;
+    public GameObject ChooseEpicItemScreenParent;
+    public GameObject ChooseCommonItemScreenContent;
+    public GameObject ChooseRareItemScreenContent;
+    public GameObject ChooseEpicItemScreenContent;
     public GameObject ChooseStateScreenParent;
     public GameObject ChooseStateScreenContent;
     public GameObject RewardScreenParent;
@@ -26,14 +32,26 @@ public class RewardScreen : MonoBehaviour
 
     [Header("Current Button References")]
     public GameObject currentGoldRewardButton;
-    public GameObject currentItemRewardButton;
+    public GameObject currentCommonItemRewardButton;
+    public GameObject currentRareItemRewardButton;
+    public GameObject currentEpicItemRewardButton;
     public GameObject currentStateRewardButton;
     public GameObject currentConsumableRewardButton;
 
     [Header("Current Item References")]
-    public GameObject currentItemOne;
-    public GameObject currentItemTwo;
-    public GameObject currentItemThree;
+    public GameObject currentCommonItemOne;
+    public GameObject currentCommonItemTwo;
+    public GameObject currentCommonItemThree;
+
+    [Header("Current Rare Item References")]
+    public GameObject currentRareItemOne;
+    public GameObject currentRareItemTwo;
+    public GameObject currentRareItemThree;
+
+    [Header("Current Epic Item References")]
+    public GameObject currentEpicItemOne;
+    public GameObject currentEpicItemTwo;
+    public GameObject currentEpicItemThree;
 
     [Header("Current State References")]
     public GameObject currentStateOne;
@@ -71,10 +89,23 @@ public class RewardScreen : MonoBehaviour
         Debug.Log("RewardScreen.CreateStateRewardButton() called...");
         currentStateRewardButton = Instantiate(PrefabHolder.Instance.stateRewardButton, RewardButtonParent.transform);       
     }
-    public void CreateItemRewardButton()
+    public void CreateCommonItemRewardButton()
     {
-        Debug.Log("RewardScreen.CreateItemRewardButton() called...");
-        currentItemRewardButton = Instantiate(PrefabHolder.Instance.ItemRewardButton, RewardButtonParent.transform);
+        Debug.Log("RewardScreen.CreateCommonItemRewardButton() called...");
+        currentCommonItemRewardButton = Instantiate(PrefabHolder.Instance.ItemRewardButton, RewardButtonParent.transform);
+        currentCommonItemRewardButton.GetComponent<ItemRewardButton>().InitializeSetup(ItemRewardButton.RarityReward.Common);
+    }
+    public void CreateRareItemRewardButton()
+    {
+        Debug.Log("RewardScreen.CreateRareItemRewardButton() called...");
+        currentRareItemRewardButton = Instantiate(PrefabHolder.Instance.ItemRewardButton, RewardButtonParent.transform);
+        currentRareItemRewardButton.GetComponent<ItemRewardButton>().InitializeSetup(ItemRewardButton.RarityReward.Rare);
+    }
+    public void CreateEpicItemRewardButton()
+    {
+        Debug.Log("RewardScreen.CreateEpicItemRewardButton() called...");
+        currentEpicItemRewardButton = Instantiate(PrefabHolder.Instance.ItemRewardButton, RewardButtonParent.transform);
+        currentEpicItemRewardButton.GetComponent<ItemRewardButton>().InitializeSetup(ItemRewardButton.RarityReward.Epic);
     }
     #endregion
 
@@ -87,9 +118,19 @@ public class RewardScreen : MonoBehaviour
             Destroy(currentGoldRewardButton);
         }
 
-        if (currentItemRewardButton != null)
+        if (currentCommonItemRewardButton != null)
         {
-            Destroy(currentItemRewardButton);
+            Destroy(currentCommonItemRewardButton);
+        }
+
+        if (currentRareItemRewardButton != null)
+        {
+            Destroy(currentCommonItemRewardButton);
+        }
+
+        if (currentEpicItemRewardButton != null)
+        {
+            Destroy(currentCommonItemRewardButton);
         }
 
         if (currentStateRewardButton != null)
@@ -101,7 +142,9 @@ public class RewardScreen : MonoBehaviour
             Destroy(currentStateRewardButton);
         }
 
-        DestroyAllItemCards();
+        DestroyAllCommonItemCards();
+        DestroyAllRareItemCards();
+        DestroyAllEpicItemCards();
         DestroyAllStateCards();
     }
     public void PopulateStateRewardScreen()
@@ -145,128 +188,163 @@ public class RewardScreen : MonoBehaviour
     {
         if(EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.BasicEnemy)
         {
-            // Generate random item for item reward 1
-            GameObject newItemOne = Instantiate(PrefabHolder.Instance.ItemCard, ChooseItemScreenContent.transform);
-            ItemCard itemOne = newItemOne.GetComponent<ItemCard>();
-            itemOne.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem());
-            currentItemOne = newItemOne;
-
-            // Generate random item for item reward 2
-            GameObject newItemTwo = Instantiate(PrefabHolder.Instance.ItemCard, ChooseItemScreenContent.transform);
-            ItemCard itemTwo = newItemTwo.GetComponent<ItemCard>();
-            itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem());
-            currentItemTwo = newItemTwo;
-
-            // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
-            while (itemTwo.myName == itemOne.myName)
-            {
-                Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item two");
-                itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem());
-                currentItemTwo = newItemTwo;
-            }
-
-            // Generate random item for item reward 3
-            GameObject newItemThree = Instantiate(PrefabHolder.Instance.ItemCard, ChooseItemScreenContent.transform);
-            ItemCard itemThree = newItemThree.GetComponent<ItemCard>();
-            itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem());
-            currentItemThree = newItemThree;
-
-            // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
-            while (itemThree.myName == itemOne.myName ||
-                itemThree.myName == itemTwo.myName)
-            {
-                Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item three");
-                itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem());
-                currentItemThree = newItemThree;
-            }
+            PopulateCommonItemScreen();
         }
 
         else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.EliteEnemy)
         {
-            // Generate random item for item reward 1
-            GameObject newItemOne = Instantiate(PrefabHolder.Instance.ItemCard, ChooseItemScreenContent.transform);
-            ItemCard itemOne = newItemOne.GetComponent<ItemCard>();
-            itemOne.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem());
-            currentItemOne = newItemOne;
-
-            // Generate random item for item reward 2
-            GameObject newItemTwo = Instantiate(PrefabHolder.Instance.ItemCard, ChooseItemScreenContent.transform);
-            ItemCard itemTwo = newItemTwo.GetComponent<ItemCard>();
-            itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem());
-            currentItemTwo = newItemTwo;
-
-            // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
-            while (itemTwo.myName == itemOne.myName)
-            {
-                Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item two");
-                itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem());
-                currentItemTwo = newItemTwo;
-            }
-
-            // Generate random item for item reward 3
-            GameObject newItemThree = Instantiate(PrefabHolder.Instance.ItemCard, ChooseItemScreenContent.transform);
-            ItemCard itemThree = newItemThree.GetComponent<ItemCard>();
-            itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem());
-            currentItemThree = newItemThree;
-
-            // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
-            while (itemThree.myName == itemOne.myName ||
-                itemThree.myName == itemTwo.myName)
-            {
-                Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item three");
-                itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem());
-                currentItemThree = newItemThree;
-            }
+            PopulateCommonItemScreen();
+            PopulateRareItemScreen();
         }
         else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.Boss)
         {
-            // Generate random item for item reward 1
-            GameObject newItemOne = Instantiate(PrefabHolder.Instance.ItemCard, ChooseItemScreenContent.transform);
-            ItemCard itemOne = newItemOne.GetComponent<ItemCard>();
-            itemOne.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem());
-            currentItemOne = newItemOne;
-
-            // Generate random item for item reward 2
-            GameObject newItemTwo = Instantiate(PrefabHolder.Instance.ItemCard, ChooseItemScreenContent.transform);
-            ItemCard itemTwo = newItemTwo.GetComponent<ItemCard>();
-            itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem());
-            currentItemTwo = newItemTwo;
-
-            // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
-            while (itemTwo.myName == itemOne.myName)
-            {
-                Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item two");
-                itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem());
-                currentItemTwo = newItemTwo;
-            }
-
-            // Generate random item for item reward 3
-            GameObject newItemThree = Instantiate(PrefabHolder.Instance.ItemCard, ChooseItemScreenContent.transform);
-            ItemCard itemThree = newItemThree.GetComponent<ItemCard>();
-            itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem());
-            currentItemThree = newItemThree;
-
-            // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
-            while (itemThree.myName == itemOne.myName ||
-                itemThree.myName == itemTwo.myName)
-            {
-                Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item three");
-                itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem());
-                currentItemThree = newItemThree;
-            }
+            PopulateEpicItemScreen();
         }
 
     }
-    public void DestroyAllItemCards()
+    public void PopulateCommonItemScreen()
     {
-        Destroy(currentItemOne);
-        currentItemOne = null;
+        // Generate random item for item reward 1
+        GameObject newItemOne = Instantiate(PrefabHolder.Instance.ItemCard, ChooseCommonItemScreenContent.transform);
+        ItemCard itemOne = newItemOne.GetComponent<ItemCard>();
+        itemOne.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem());
+        currentCommonItemOne = newItemOne;
 
-        Destroy(currentItemTwo);
-        currentItemTwo = null;
+        // Generate random item for item reward 2
+        GameObject newItemTwo = Instantiate(PrefabHolder.Instance.ItemCard, ChooseCommonItemScreenContent.transform);
+        ItemCard itemTwo = newItemTwo.GetComponent<ItemCard>();
+        itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem());
+        currentCommonItemTwo = newItemTwo;
 
-        Destroy(currentItemThree);
-        currentItemThree = null;
+        // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
+        while (itemTwo.myName == itemOne.myName)
+        {
+            Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item two");
+            itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem());
+            currentCommonItemTwo = newItemTwo;
+        }
+
+        // Generate random item for item reward 3
+        GameObject newItemThree = Instantiate(PrefabHolder.Instance.ItemCard, ChooseCommonItemScreenContent.transform);
+        ItemCard itemThree = newItemThree.GetComponent<ItemCard>();
+        itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem());
+        currentCommonItemThree = newItemThree;
+
+        // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
+        while (itemThree.myName == itemOne.myName ||
+            itemThree.myName == itemTwo.myName)
+        {
+            Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item three");
+            itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem());
+            currentCommonItemThree = newItemThree;
+        }
+    }
+    public void PopulateRareItemScreen()
+    {
+        // Generate random item for item reward 1
+        GameObject newItemOne = Instantiate(PrefabHolder.Instance.ItemCard, ChooseRareItemScreenContent.transform);
+        ItemCard itemOne = newItemOne.GetComponent<ItemCard>();
+        itemOne.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem());
+        currentRareItemOne = newItemOne;
+
+        // Generate random item for item reward 2
+        GameObject newItemTwo = Instantiate(PrefabHolder.Instance.ItemCard, ChooseRareItemScreenContent.transform);
+        ItemCard itemTwo = newItemTwo.GetComponent<ItemCard>();
+        itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem());
+        currentRareItemTwo = newItemTwo;
+
+        // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
+        while (itemTwo.myName == itemOne.myName)
+        {
+            Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item two");
+            itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem());
+            currentRareItemTwo = newItemTwo;
+        }
+
+        // Generate random item for item reward 3
+        GameObject newItemThree = Instantiate(PrefabHolder.Instance.ItemCard, ChooseRareItemScreenContent.transform);
+        ItemCard itemThree = newItemThree.GetComponent<ItemCard>();
+        itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem());
+        currentRareItemThree = newItemThree;
+
+        // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
+        while (itemThree.myName == itemOne.myName ||
+            itemThree.myName == itemTwo.myName)
+        {
+            Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item three");
+            itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem());
+            currentRareItemThree = newItemThree;
+        }
+    }
+    public void PopulateEpicItemScreen()
+    {
+        // Generate random item for item reward 1
+        GameObject newItemOne = Instantiate(PrefabHolder.Instance.ItemCard, ChooseEpicItemScreenContent.transform);
+        ItemCard itemOne = newItemOne.GetComponent<ItemCard>();
+        itemOne.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem());
+        currentEpicItemOne = newItemOne;
+
+        // Generate random item for item reward 2
+        GameObject newItemTwo = Instantiate(PrefabHolder.Instance.ItemCard, ChooseEpicItemScreenContent.transform);
+        ItemCard itemTwo = newItemTwo.GetComponent<ItemCard>();
+        itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem());
+        currentEpicItemTwo = newItemTwo;
+
+        // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
+        while (itemTwo.myName == itemOne.myName)
+        {
+            Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item two");
+            itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem());
+            currentEpicItemTwo = newItemTwo;
+        }
+
+        // Generate random item for item reward 3
+        GameObject newItemThree = Instantiate(PrefabHolder.Instance.ItemCard, ChooseEpicItemScreenContent.transform);
+        ItemCard itemThree = newItemThree.GetComponent<ItemCard>();
+        itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem());
+        currentEpicItemThree = newItemThree;
+
+        // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
+        while (itemThree.myName == itemOne.myName ||
+            itemThree.myName == itemTwo.myName)
+        {
+            Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item three");
+            itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem());
+            currentEpicItemThree = newItemThree;
+        }
+    }
+    public void DestroyAllCommonItemCards()
+    {
+        Destroy(currentCommonItemOne);
+        currentCommonItemOne = null;
+
+        Destroy(currentCommonItemTwo);
+        currentCommonItemTwo = null;
+
+        Destroy(currentCommonItemThree);
+        currentCommonItemThree = null;
+    }
+    public void DestroyAllRareItemCards()
+    {
+        Destroy(currentRareItemOne);
+        currentRareItemOne = null;
+
+        Destroy(currentRareItemTwo);
+        currentRareItemTwo = null;
+
+        Destroy(currentRareItemThree);
+        currentRareItemThree = null;
+    }
+    public void DestroyAllEpicItemCards()
+    {
+        Destroy(currentEpicItemOne);
+        currentEpicItemOne = null;
+
+        Destroy(currentEpicItemTwo);
+        currentEpicItemTwo = null;
+
+        Destroy(currentEpicItemThree);
+        currentEpicItemThree = null;
     }
     public void DestroyAllStateCards()
     {
@@ -291,26 +369,65 @@ public class RewardScreen : MonoBehaviour
 
     // Visibility + View Logic
     #region
-    public void EnableItemLootScreen()
+    public void EnableCommonItemLootScreen()
     {
-        StartCoroutine(EnableItemLootScreenCoroutine());
+        StartCoroutine(EnableCommonItemLootScreenCoroutine());
     }
-    public IEnumerator EnableItemLootScreenCoroutine()
+    private IEnumerator EnableCommonItemLootScreenCoroutine()
     {
         RewardButtonParent.SetActive(false);
         SkipRewardsButton.SetActive(false);
-        ChooseItemScreenParent.SetActive(true);
+        ChooseCommonItemScreenParent.SetActive(true);
 
-        itemRewardCG.alpha = 0;
+        commonItemRewardCG.alpha = 0;
         frontPageCG.alpha = 1;
 
-        while (itemRewardCG.alpha < 1)
+        while (commonItemRewardCG.alpha < 1)
         {
-            itemRewardCG.alpha += 0.2f * Time.deltaTime * screenFadeTime;
+            commonItemRewardCG.alpha += 0.2f * Time.deltaTime * screenFadeTime;
             frontPageCG.alpha -= 0.2f * Time.deltaTime * screenFadeTime;
             yield return new WaitForEndOfFrame();
         }
+    }
+    public void EnableRareItemLootScreen()
+    {
+        StartCoroutine(EnableRareItemLootScreenCoroutine());
+    }
+    private IEnumerator EnableRareItemLootScreenCoroutine()
+    {
+        RewardButtonParent.SetActive(false);
+        SkipRewardsButton.SetActive(false);
+        ChooseRareItemScreenParent.SetActive(true);
 
+        rareItemRewardCG.alpha = 0;
+        frontPageCG.alpha = 1;
+
+        while (rareItemRewardCG.alpha < 1)
+        {
+            rareItemRewardCG.alpha += 0.2f * Time.deltaTime * screenFadeTime;
+            frontPageCG.alpha -= 0.2f * Time.deltaTime * screenFadeTime;
+            yield return new WaitForEndOfFrame();
+        }
+    }
+    public void EnableEpicItemLootScreen()
+    {
+        StartCoroutine(EnableEpicItemLootScreenCoroutine());
+    }
+    private IEnumerator EnableEpicItemLootScreenCoroutine()
+    {
+        RewardButtonParent.SetActive(false);
+        SkipRewardsButton.SetActive(false);
+        ChooseEpicItemScreenParent.SetActive(true);
+
+        epicItemRewardCG.alpha = 0;
+        frontPageCG.alpha = 1;
+
+        while (epicItemRewardCG.alpha < 1)
+        {
+            epicItemRewardCG.alpha += 0.2f * Time.deltaTime * screenFadeTime;
+            frontPageCG.alpha -= 0.2f * Time.deltaTime * screenFadeTime;
+            yield return new WaitForEndOfFrame();
+        }
     }
     public void EnableChooseStateRewardScreen()
     {
@@ -333,22 +450,62 @@ public class RewardScreen : MonoBehaviour
         }
 
     }
-    public void DisableItemLootScreen()
+    public void DisableCommonItemLootScreen()
     {
-        StartCoroutine(DisableItemLootScreenCoroutine());
+        StartCoroutine(DisableCommonItemLootScreenCoroutine());
     }
-    public IEnumerator DisableItemLootScreenCoroutine()
+    public IEnumerator DisableCommonItemLootScreenCoroutine()
     {
         RewardButtonParent.SetActive(true);
         SkipRewardsButton.SetActive(true);
-        ChooseItemScreenParent.SetActive(false);
+        ChooseCommonItemScreenParent.SetActive(false);
 
-        itemRewardCG.alpha = 1;
+        commonItemRewardCG.alpha = 1;
         frontPageCG.alpha = 0;
 
-        while (itemRewardCG.alpha > 0)
+        while (commonItemRewardCG.alpha > 0)
         {
-            itemRewardCG.alpha -= 0.2f * Time.deltaTime * screenFadeTime;
+            commonItemRewardCG.alpha -= 0.2f * Time.deltaTime * screenFadeTime;
+            frontPageCG.alpha += 0.2f * Time.deltaTime * screenFadeTime;
+            yield return new WaitForEndOfFrame();
+        }
+    }
+    public void DisableRareItemLootScreen()
+    {
+        StartCoroutine(DisableRareItemLootScreenCoroutine());
+    }
+    public IEnumerator DisableRareItemLootScreenCoroutine()
+    {
+        RewardButtonParent.SetActive(true);
+        SkipRewardsButton.SetActive(true);
+        ChooseRareItemScreenParent.SetActive(false);
+
+        rareItemRewardCG.alpha = 1;
+        frontPageCG.alpha = 0;
+
+        while (rareItemRewardCG.alpha > 0)
+        {
+            rareItemRewardCG.alpha -= 0.2f * Time.deltaTime * screenFadeTime;
+            frontPageCG.alpha += 0.2f * Time.deltaTime * screenFadeTime;
+            yield return new WaitForEndOfFrame();
+        }
+    }
+    public void DisableEpicItemLootScreen()
+    {
+        StartCoroutine(DisableEpicItemLootScreenCoroutine());
+    }
+    public IEnumerator DisableEpicItemLootScreenCoroutine()
+    {
+        RewardButtonParent.SetActive(true);
+        SkipRewardsButton.SetActive(true);
+        ChooseEpicItemScreenParent.SetActive(false);
+
+        epicItemRewardCG.alpha = 1;
+        frontPageCG.alpha = 0;
+
+        while (epicItemRewardCG.alpha > 0)
+        {
+            epicItemRewardCG.alpha -= 0.2f * Time.deltaTime * screenFadeTime;
             frontPageCG.alpha += 0.2f * Time.deltaTime * screenFadeTime;
             yield return new WaitForEndOfFrame();
         }
