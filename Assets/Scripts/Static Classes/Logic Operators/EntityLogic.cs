@@ -249,11 +249,19 @@ public static class EntityLogic
         if (entity.myPassiveManager.immobilized)
         {
             Debug.Log(entity.name + " is not able to move due to being immobilized....");
+            if (entity.defender)
+            {
+                InvalidActionManager.Instance.ShowNewErrorMessage("This character is Immobilized");
+            }
             return false;
         }
         else if(GetTotalMobility(entity) <= 0)
         {
             Debug.Log(entity.name + " is not able to move due to having 0 mobility....");
+            if (entity.defender)
+            {
+                InvalidActionManager.Instance.ShowNewErrorMessage("This character has 0 Mobility");
+            }
             return false;
         }
         else
@@ -300,11 +308,19 @@ public static class EntityLogic
         if (entity.myPassiveManager.stunned)
         {
             Debug.Log(entity.name + " is unable to take actions. REASON: 'Stunned' passive");
+            if (entity.defender)
+            {
+                InvalidActionManager.Instance.ShowNewErrorMessage("This character is Stunned");
+            }
             return false;
         }
         else if (entity.myPassiveManager.sleep)
         {
             Debug.Log(entity.name + " is unable to take actions. REASON: 'Sleep' passive");
+            if (entity.defender)
+            {
+                InvalidActionManager.Instance.ShowNewErrorMessage("This character is Sleeping");
+            }
             return false;
         }
         else
@@ -327,15 +343,36 @@ public static class EntityLogic
 
         Tile targetsTile = target.tile;
 
-        if (tilesWithinMyRange.Contains(targetsTile) && IsTargetVisible(caster, target))
+
+        if (!tilesWithinMyRange.Contains(targetsTile))
         {
-            Debug.Log("Target enemy is range");
+            Debug.Log("Target is out of range");
+            if (caster.defender)
+            {
+                InvalidActionManager.Instance.ShowNewErrorMessage("Target is out of range");
+            }
+            return false;
+        }
+
+        else if(!IsTargetVisible(caster, target))
+        {
+            Debug.Log("Target is not visible");
+            return false;
+        }
+
+        else if (tilesWithinMyRange.Contains(targetsTile) && IsTargetVisible(caster, target))
+        {
+            Debug.Log("Target enemy is in range");
             return true;
         }
 
         else
         {
             Debug.Log("Target enemy is NOT range");
+            if (caster.defender)
+            {
+                InvalidActionManager.Instance.ShowNewErrorMessage("Target is out of range");
+            }
             return false;
         }
     }
@@ -362,6 +399,10 @@ public static class EntityLogic
             )
         {
             Debug.Log("IsTargetVisible() determined that " + target.myName + " CANNOT be seen by "+ caster.myName + "...");
+            if (caster.defender)
+            {
+                InvalidActionManager.Instance.ShowNewErrorMessage("Target is Camoflaged");
+            }
             passedStealthCheck = false;
         }
 
@@ -387,6 +428,10 @@ public static class EntityLogic
         else
         {
             Debug.Log("IsTargetVisible() determined that " + caster.myName + " DOES NOT have line of sight to " + target.myName + "...");
+            if (caster.defender)
+            {
+                InvalidActionManager.Instance.ShowNewErrorMessage("No line of sight to the target");
+            }
             passedLosCheck = false;
         }
 
@@ -429,6 +474,11 @@ public static class EntityLogic
         if(!HasEnoughEnergy(caster, ability))
         {
             Debug.Log(ability.abilityName + " use is invalid. REASON: " + caster.myName + " does not have enough Energy");
+            if (caster.defender)
+            {
+                InvalidActionManager.Instance.ShowNewErrorMessage("Not enough Energy");
+            }
+           
             return false;
         }
 
@@ -436,6 +486,10 @@ public static class EntityLogic
         if (!IsAbilityOffCooldown(ability))
         {
             Debug.Log(ability.abilityName + " use is invalid. REASON: " + ability.abilityName + " is on cooldown");
+            if (caster.defender)
+            {
+                InvalidActionManager.Instance.ShowNewErrorMessage("Ability is on cooldown");
+            }
             return false;
         }
 
@@ -444,6 +498,10 @@ public static class EntityLogic
         {
             Debug.Log(ability.abilityName + " use is invalid. REASON: " + caster.myName + " does not meet weapon requirments" +
                 "of ability");
+            if (caster.defender)
+            {
+                InvalidActionManager.Instance.ShowNewErrorMessage("Weapon requirments of ability not met");
+            }
             return false;
         }
 
@@ -451,6 +509,10 @@ public static class EntityLogic
         if (ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack && caster.myPassiveManager.disarmed)
         {
             Debug.Log(ability.abilityName + " use is invalid. REASON: " + caster.myName + " is disarmed");
+            if (caster.defender)
+            {
+                InvalidActionManager.Instance.ShowNewErrorMessage("This character is Disarmed");
+            }
             return false;
         }
 
@@ -458,6 +520,10 @@ public static class EntityLogic
         if (ability.abilityType == AbilityDataSO.AbilityType.RangedAttack && caster.myPassiveManager.blind)
         {
             Debug.Log(ability.abilityName + " use is invalid. REASON: " + caster.myName + " is blind");
+            if (caster.defender)
+            {
+                InvalidActionManager.Instance.ShowNewErrorMessage("This character is Blind");
+            }
             return false;
         }
 
@@ -465,6 +531,10 @@ public static class EntityLogic
         if (ability.abilityType == AbilityDataSO.AbilityType.Skill && caster.myPassiveManager.silenced)
         {
             Debug.Log(ability.abilityName + " use is invalid. REASON: " + caster.myName + " is silenced");
+            if (caster.defender)
+            {
+                InvalidActionManager.Instance.ShowNewErrorMessage("This character is Silenced");
+            }
             return false;
         }
 
@@ -475,6 +545,10 @@ public static class EntityLogic
         {
             Debug.Log(ability.abilityName + " use is invalid. REASON: " + caster.myName + " is taunted, and " +
                target.myName + " is not it's taunter");
+            if (caster.defender)
+            {
+                InvalidActionManager.Instance.ShowNewErrorMessage("This character is Taunted");
+            }
             return false;
         }
 

@@ -723,6 +723,7 @@ public class Defender : LivingEntity
         if(ActivationManager.Instance.IsEntityActivated(this) == false)
         {
             // to do in future: warning message to player here "Not this characters activation!"
+            InvalidActionManager.Instance.ShowNewErrorMessage("It is not this character's activation.");
             return;
         }
 
