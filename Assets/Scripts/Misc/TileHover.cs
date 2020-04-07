@@ -5,7 +5,8 @@ using UnityEngine;
 public class TileHover : MonoBehaviour
 {
     [Header("Component References")]
-    public GameObject myVisualParent;    
+    public GameObject myVisualParent;
+    public Animator myAnimator;
 
     [Header("Properties")]
     public bool isActive;
@@ -23,6 +24,7 @@ public class TileHover : MonoBehaviour
     public void SetVisibility(bool onOrOff)
     {
         myVisualParent.SetActive(onOrOff);
+        myAnimator.SetTrigger("New Trigger");
         isActive = onOrOff;
     }
 

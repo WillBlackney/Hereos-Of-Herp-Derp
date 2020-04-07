@@ -24,9 +24,11 @@ public class AbilityLogic : MonoBehaviour
         {
             entity.defender.awaitingAnOrder = false;
         }
+
         TileHover.Instance.SetVisibility(false);
         LevelManager.Instance.UnhighlightAllTiles();
         PathRenderer.Instance.DeactivatePathRenderer();
+        InstructionHover.Instance.DisableInstructionHover();
 
         // temp variables
         int finalCD = ability.abilityBaseCooldownTime;

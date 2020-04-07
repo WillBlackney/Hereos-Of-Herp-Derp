@@ -43,11 +43,18 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
     public TextMeshProUGUI passiveDescriptionText;
     public Image passiveImage;
 
+    [Header("Transform Properties")]
+    public RectTransform lerpParent;
+    public float originalScale;
+    public bool expanding;
+    public bool shrinking;
+
     // Initialization
     #region
     void Start()
     {
         TalentController.Instance.BuildTalentInfoPanelFromData(this);
+        originalScale = lerpParent.localScale.x;
     }
     #endregion
 
@@ -61,21 +68,14 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Talent.OnPointerEnter() triggered...");
-        myGlowOutline.SetActive(true);
-        if (isAbility)
-        {            
-            abilityInfoPanel.SetActive(true);
-        }
-        else
-        {
-            passiveInfoPanel.SetActive(true);
-        }
+        StartCoroutine(Expand(1));        
         
     }
     public void OnPointerExit(PointerEventData eventData)
     {
         Debug.Log("Talent.OnPointerExit() triggered...");
-        myGlowOutline.SetActive(false);
+
+        // Disable panel info
         if (isAbility)
         {
             abilityInfoPanel.SetActive(false);
@@ -84,8 +84,57 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
         {
             passiveInfoPanel.SetActive(false);
         }
+
+        // Start shrinking anim
+        StartCoroutine(Shrink(1));
     }
     #endregion
 
+    // Visibility + View Logic
+    #region
+    public IEnumerator Expand(int speed)
+    {
+        shrinking = false;
+        expanding = true;
+
+        float finalScale = originalScale * 1.2f;
+        RectTransform transform = lerpParent;
+
+        while (transform.localScale.x < finalScale && expanding == true)
+        {
+            Vector3 targetScale = new Vector3(transform.localScale.x + (1 * speed * Time.deltaTime), transform.localScale.y + (1 * speed * Time.deltaTime));
+            transform.localScale = targetScale;
+            yield return new WaitForEndOfFrame();
+
+            if(transform.localScale.x >= finalScale)
+            {
+                // Enable info panel views
+                if (isAbility)
+                {
+                    abilityInfoPanel.SetActive(true);
+                }
+                else
+                {
+                    passiveInfoPanel.SetActive(true);
+                }
+            }
+        }        
+    }
+    public IEnumerator Shrink(int speed)
+    {
+        expanding = false;
+        shrinking = true;        
+
+        RectTransform transform = lerpParent;
+
+        while (transform.localScale.x > originalScale && shrinking == true)
+        {
+            Vector3 targetScale = new Vector3(transform.localScale.x - (1 * speed * Time.deltaTime), transform.localScale.y - (1 * speed * Time.deltaTime));
+            transform.localScale = targetScale;
+            yield return new WaitForEndOfFrame();
+        }
+        
+    }
+    #endregion
 
 }

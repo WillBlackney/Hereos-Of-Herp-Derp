@@ -53,7 +53,7 @@ public class LivingEntityManager : MonoBehaviour
         bool eventCompleted = false;
 
         // Wrap events in a while statement to allow a stoppage if the character dies during their end activation events
-        while(eventCompleted == false && entity.inDeathProcess == false)
+        while(eventCompleted == false && entity.inDeathProcess == false && entity != null)
         {
             // Remove/apply relevant status effects and passives
             if (entity.myPassiveManager.vulnerable)

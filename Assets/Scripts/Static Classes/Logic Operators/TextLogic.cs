@@ -616,7 +616,7 @@ public static class TextLogic
         else if (statusName == "Masochist")
         {
             statusDescriptionText.text =
-                "While this character has 50% or less health, it has +" + ReturnColoredText("20", yellow) + " Critical Chance";
+                "While this character has 50% or less health, it has +" + ReturnColoredText("50", yellow) + " Critical Chance";
         }
         else if (statusName == "Nimble")
         {
