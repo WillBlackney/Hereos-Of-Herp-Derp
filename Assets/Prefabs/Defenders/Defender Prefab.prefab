@@ -53,6 +53,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -112,7 +113,7 @@ MonoBehaviour:
   myCurrentMaxHealthText: {fileID: 7793037636539068588}
   myAnimator: {fileID: 1761801173438563823}
   mySpriteRenderer: {fileID: 0}
-  myStatusManager: {fileID: 5551750143279054110}
+  myStatusManager: {fileID: 7295713433496637161}
   mySpellBook: {fileID: 0}
   myPassiveManager: {fileID: 0}
   myActivationWindow: {fileID: 0}
@@ -176,7 +177,10 @@ MonoBehaviour:
   mouseIsOverCharacter: 0
   currentInitiativeRoll: 0
   moveActionsTakenThisActivation: 0
-  timesAttackedThisTurnCycle: 0
+  meleeAbilityActionsTakenThisActivation: 0
+  skillAbilityActionsTakenThisActivation: 0
+  rangedAttackAbilityActionsTakenThisActivation: 0
+  timesMeleeAttackedThisTurnCycle: 0
   inDeathProcess: 0
   facingRight: 0
   spriteImportedFacingRight: 1
@@ -237,6 +241,8 @@ MonoBehaviour:
   awaitingBlessOrder: 0
   awaitingSiphonLifeOrder: 0
   awaitingChaosBoltOrder: 0
+  awaitingShadowBlastOrder: 0
+  awaitingMeltOrder: 0
   awaitingKickToTheBallsOrder: 0
   awaitingDevastatingBlowOrder: 0
   awaitingBladeFlurryOrder: 0
@@ -272,7 +278,6 @@ MonoBehaviour:
   awaitingToxicSlashOrder: 0
   awaitingToxicEruptionOrder: 0
   awaitingDrainOrder: 0
-  awaitingSpiritSurgeOrder: 0
   awaitingLightningBoltOrder: 0
   awaitingThunderStrikeOrder: 0
   awaitingSpiritVisionOrder: 0
@@ -287,6 +292,20 @@ MonoBehaviour:
   awaitingProvokeOrder: 0
   awaitingDecapitateOrder: 0
   awaitingDisarmOrder: 0
+  awaitingGoBerserkOrder: 0
+  awaitingFortifyOrder: 0
+  awaitingStoneFormOrder: 0
+  awaitingBackStabOrder: 0
+  awaitingChloroformBombOrder: 0
+  awaitingPinningShotOrder: 0
+  awaitingMarkTargetOrder: 0
+  awaitingSnowStasisOrder: 0
+  awaitingOverloadOrder: 0
+  awaitingBlazeOrder: 0
+  awaitingCreepingFrostOrder: 0
+  awaitingShadowWreathOrder: 0
+  awaitingDarkGiftOrder: 0
+  awaitingSuperConductorOrder: 0
   energyBarPositionCurrentlyUpdating: 0
   healthBarPositionCurrentlyUpdating: 0
 --- !u!65 &3890745071379925587
@@ -518,6 +537,8 @@ MonoBehaviour:
   purityStacks: 0
   recklessness: 0
   recklessnessStacks: 0
+  berserk: 0
+  berserkStacks: 0
   testudo: 0
   testudoStacks: 0
   rapidCloaking: 0
@@ -550,10 +571,16 @@ MonoBehaviour:
   shockedStacks: 0
   sleep: 0
   sleepStacks: 0
+  marked: 0
+  markedStacks: 0
   taunted: 0
   tauntedStacks: 0
   sharpenedBlade: 0
   sharpenedBladeStacks: 0
+  darkGift: 0
+  darkGiftStacks: 0
+  pureHate: 0
+  pureHateStacks: 0
   unleashed: 0
   unleashedStacks: 0
   unstoppable: 0
@@ -572,8 +599,26 @@ MonoBehaviour:
   patientStalkerStacks: 0
   predator: 0
   predatorStacks: 0
+  coupDeGrace: 0
+  coupDeGraceStacks: 0
   flux: 0
   fluxStacks: 0
+  pierce: 0
+  pierceStacks: 0
+  swordPlay: 0
+  swordPlayStacks: 0
+  fury: 0
+  furyStacks: 0
+  quickDraw: 0
+  quickDrawStacks: 0
+  grace: 0
+  graceStacks: 0
+  savage: 0
+  savageStacks: 0
+  pragmatic: 0
+  pragmaticStacks: 0
+  knowledgeable: 0
+  knowledgeableStacks: 0
   lifeSteal: 0
   lifeStealStacks: 0
   undead: 0
@@ -622,8 +667,12 @@ MonoBehaviour:
   cautiousStacks: 0
   Volatile: 0
   volatileStacks: 0
+  unstable: 0
+  unstableStacks: 0
   growing: 0
   growingStacks: 0
+  fastLearner: 0
+  fastLearnerStacks: 0
   enrage: 0
   enrageStacks: 0
   regeneration: 0
@@ -1590,6 +1639,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8046718978506716546, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.087
+      objectReference: {fileID: 0}
     - target: {fileID: 8445057990780687650, guid: b6d0a0a634ea79d43b0b51bbd7497198,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -1717,18 +1771,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5551750143279054110 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4018781512207458723, guid: b6d0a0a634ea79d43b0b51bbd7497198,
-    type: 3}
-  m_PrefabInstance: {fileID: 8849101755315084477}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c50e43fdc33685943813eddf15b63229, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6926583253924639096 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1940622544626232773, guid: b6d0a0a634ea79d43b0b51bbd7497198,
@@ -1763,5 +1805,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7295713433496637161 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2301840373771375188, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+    type: 3}
+  m_PrefabInstance: {fileID: 8849101755315084477}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c50e43fdc33685943813eddf15b63229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

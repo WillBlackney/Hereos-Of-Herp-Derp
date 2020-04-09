@@ -6,7 +6,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
-{    
+{
+    /*
     [Header("Ability Info Panel References")]
     public GameObject abilityInfoPanelParent;
     public TextMeshProUGUI abilityNameText;
@@ -14,6 +15,9 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public TextMeshProUGUI abilityRangeText;
     public TextMeshProUGUI abilityEnergyCostText;
     public TextMeshProUGUI abilityDescriptionText;
+    public Image abilityImage;
+    */
+    public AbilityInfoSheet abilityInfoSheet;
     public Image abilityImage;
 
     [Header("Passive Info Panel References")]
@@ -28,11 +32,6 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public RectTransform statusPanelDescriptionRect;
     public RectTransform statusPanelNameRect;
 
-    [Header("Type Button References")]
-    public GameObject meleeAttackIcon;
-    public GameObject rangedAttackIcon;
-    public GameObject skillIcon;
-    public GameObject powerIcon;
 
     [Header("Properties")]
     public bool isAbility;
@@ -48,7 +47,10 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (isAbility)
         {
-            abilityInfoPanelParent.SetActive(true);
+            AbilityInfoSheetController.Instance.EnableSheetView(abilityInfoSheet, true);
+            //AbilityInfoSheetController.Instance.BuildSheetFromData(abilityInfoSheet, abilityInfoSheet.myData, AbilityInfoSheet.PivotDirection.Upwards);
+            AbilityInfoSheetController.Instance.RefreshAllLayoutGroups(abilityInfoSheet);
+            //AbilityInfoSheetController.Instance.SetUpOrientationsAsMenuAbility(abilityInfoSheet, gameObject);
         }
         else if (isPassive)
         {
@@ -58,7 +60,7 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        abilityInfoPanelParent.SetActive(false);
+        AbilityInfoSheetController.Instance.DisableSheetView(abilityInfoSheet);
         passiveInfoPanelParent.SetActive(false);
     }
 
@@ -67,37 +69,9 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         isAbility = true;
         isPassive = false;
         AbilityDataSO data = AbilityLibrary.Instance.GetAbilityByName(abilityName);
-
-        // Set up text files
-        abilityNameText.text = data.abilityName;
-        abilityCooldownText.text = data.baseCooldownTime.ToString();
-        abilityRangeText.text = data.range.ToString();
-        abilityEnergyCostText.text = data.energyCost.ToString();
-        TextLogic.SetAbilityDescriptionText(data, abilityDescriptionText);
         abilityImage.sprite = data.sprite;
 
-        meleeAttackIcon.SetActive(false);
-        rangedAttackIcon.SetActive(false);
-        skillIcon.SetActive(false);
-        powerIcon.SetActive(false);
-
-        if (data.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
-        {
-            meleeAttackIcon.SetActive(true);
-        }
-        else if (data.abilityType == AbilityDataSO.AbilityType.RangedAttack)
-        {
-            rangedAttackIcon.SetActive(true);
-        }
-        else if (data.abilityType == AbilityDataSO.AbilityType.Skill)
-        {
-            skillIcon.SetActive(true);
-        }
-        else if (data.abilityType == AbilityDataSO.AbilityType.Power)
-        {
-            
-        }
-
+        AbilityInfoSheetController.Instance.BuildSheetFromData(abilityInfoSheet, data, AbilityInfoSheet.PivotDirection.Upwards);
 
     }
     public void SetUpAbilityTabAsPassive(string passiveName, int stacks)
