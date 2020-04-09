@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class AbilityInfoSheetController : MonoBehaviour
 {
+    // Properties
+    #region
+    public float baseFadeInSpeed;
+    #endregion
     // Singleton Pattern
     #region
     public static AbilityInfoSheetController Instance;
@@ -30,7 +34,7 @@ public class AbilityInfoSheetController : MonoBehaviour
         Debug.Log("AbilityInfoSheetController.BuildSheetFromData() called...");
 
         sheet.myData = data;
-       // SetPivotDirection(sheet, pivotDirection);
+        //SetPivotDirection(sheet, pivotDirection);
         BuildAllTextValueViewsFromData(sheet, data);
         BuildAbilityTypeIconViewsFromData(sheet, data);
         BuildAllRequirementPanelsFromData(sheet, data);
@@ -169,10 +173,10 @@ public class AbilityInfoSheetController : MonoBehaviour
         Debug.Log("AbilityInfoSheetController.SetDownwardsPivot() called...");
 
         // set pivot on all sheet elements
-        sheet.allElementsTransform.pivot = new Vector2(1, 1);
+        sheet.allElementsTransform.pivot = new Vector3(1, 1, 1);
 
         // set pivot on outer frame
-        sheet.allFramesParentTransform.pivot = new Vector2(1, 1);
+        sheet.allFramesParentTransform.pivot = new Vector3(1, 1, 1);
 
         // set VLG alignment
         sheet.framesVLG.childAlignment = TextAnchor.UpperCenter;
@@ -185,10 +189,10 @@ public class AbilityInfoSheetController : MonoBehaviour
         Debug.Log("AbilityInfoSheetController.SetUpwardsPivot() called...");
 
         // set pivot on all sheet elements
-        sheet.allElementsTransform.pivot = new Vector2(0, 0);
+        sheet.allElementsTransform.pivot = new Vector3(0, 0, 1);
 
         // set pivot on outer frame
-        sheet.allFramesParentTransform.pivot = new Vector2(0, 0);
+        sheet.allFramesParentTransform.pivot = new Vector3(0, 0, 1);
 
         // set VLG alignment
         sheet.framesVLG.childAlignment = TextAnchor.LowerCenter;
@@ -233,7 +237,7 @@ public class AbilityInfoSheetController : MonoBehaviour
 
     // Visbility
     #region
-    public void EnableSheetView(AbilityInfoSheet sheet, bool refreshLayout)
+    public void EnableSheetView(AbilityInfoSheet sheet, bool refreshLayout, bool fadeIn)
     {
         Debug.Log("AbilityInfoSheetController.EnableSheetView() called...");
 
@@ -242,12 +246,22 @@ public class AbilityInfoSheetController : MonoBehaviour
         {
             RefreshAllLayoutGroups(sheet);
         }
+
+        if (fadeIn)
+        {
+            sheet.FadeIn(sheet.fadeInSpeed);
+        }
+        else
+        {
+            sheet.cg.alpha = 1;
+        }
     }
     public void DisableSheetView(AbilityInfoSheet sheet)
     {
         Debug.Log("AbilityInfoSheetController.DisableSheetView() called...");
 
         sheet.visualParent.SetActive(false);
+        sheet.cg.alpha = 0;
     }
     #endregion
 
@@ -256,10 +270,11 @@ public class AbilityInfoSheetController : MonoBehaviour
     public void RefreshAllLayoutGroups(AbilityInfoSheet sheet)
     {
         Debug.Log("AbilityInfoSheetController.RefreshAllLayoutGroups() called...");
-
+        
         LayoutRebuilder.ForceRebuildLayoutImmediate(sheet.visualParent.GetComponent<RectTransform>());
         LayoutRebuilder.ForceRebuildLayoutImmediate(sheet.allElementsTransform);
         RefreshMiddleFrameSize(sheet);
+        RefreshShadowSize(sheet);
         LayoutRebuilder.ForceRebuildLayoutImmediate(sheet.middleFrameTransform);
     }
     private void RefreshMiddleFrameSize(AbilityInfoSheet sheet)
@@ -271,9 +286,23 @@ public class AbilityInfoSheetController : MonoBehaviour
         sheet.middleFrameTransform.sizeDelta = new Vector2(currentWidth, allElementsCurrentHeight - 40);
         sheet.allFramesParentTransform.position = sheet.allElementsTransform.position;
     }
+    private void RefreshShadowSize(AbilityInfoSheet sheet)
+    {
+        Debug.Log("AbilityInfoSheetController.RefreshShadowSize() called...");
+
+        float allElementsCurrentHeight = sheet.allElementsTransform.sizeDelta.y;
+        float currentWidth = sheet.middleFrameTransform.sizeDelta.x;
+        sheet.shadowTransform.sizeDelta = new Vector2(currentWidth + 30, allElementsCurrentHeight + 30);
+        sheet.shadowTransform.position = sheet.allFramesParentTransform.position;
+    }
     public void ResetCanvasProperties(AbilityInfoSheet sheet)
     {
         sheet.canvas.GetComponent<RectTransform>().position = new Vector3(0, 0, 0);
+    }
+    public void RecentreFrameAndElements(AbilityInfoSheet sheet)
+    {
+        sheet.allFramesParentTransform.position = new Vector3(0, 0, 0);
+        sheet.allElementsTransform.position = new Vector3(0, 0, 0);
     }
     #endregion
 }

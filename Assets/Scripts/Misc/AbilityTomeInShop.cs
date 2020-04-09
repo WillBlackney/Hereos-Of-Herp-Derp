@@ -8,25 +8,12 @@ using UnityEngine.EventSystems;
 public class AbilityTomeInShop : MonoBehaviour
 {
     [Header("Component References")]
+    public AbilityInfoSheet abilityInfoSheet;
     public GameObject visualParent;
     public TextMeshProUGUI goldCostText;
     public Image bgColorImage;
     public Image bookImage;
     public TextMeshProUGUI ribbonNameText;
-
-    [Header("Info Panel Component References")]
-    public GameObject infoPanelVisualParent;
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI descriptionText;
-    public TextMeshProUGUI cooldownText;
-    public TextMeshProUGUI rangeText;
-    public TextMeshProUGUI energyCostText;
-
-    [Header("Type Button References")]
-    public GameObject meleeAttackIcon;
-    public GameObject rangedAttackIcon;
-    public GameObject skillIcon;
-    public GameObject powerIcon;
 
     [Header("Properties")]
     public int goldCost;
@@ -50,37 +37,9 @@ public class AbilityTomeInShop : MonoBehaviour
         buttonScale = 1;
         ResetScale();
 
-        // Build text and images assets
-        nameText.text = data.abilityName;
-        TextLogic.SetAbilityDescriptionText(data, descriptionText);
-        cooldownText.text = data.baseCooldownTime.ToString();
-        rangeText.text = data.range.ToString();
-        energyCostText.text = data.energyCost.ToString();
-
-        meleeAttackIcon.SetActive(false);
-        rangedAttackIcon.SetActive(false);
-        skillIcon.SetActive(false);
-        powerIcon.SetActive(false);
-
-        // set ribbon text
         ribbonNameText.text = data.abilityName;
 
-        if (data.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
-        {
-            meleeAttackIcon.SetActive(true);
-        }
-        else if (data.abilityType == AbilityDataSO.AbilityType.RangedAttack)
-        {
-            rangedAttackIcon.SetActive(true);
-        }
-        else if (data.abilityType == AbilityDataSO.AbilityType.Skill)
-        {
-            skillIcon.SetActive(true);
-        }
-        else if (data.abilityType == AbilityDataSO.AbilityType.Power)
-        {
-            powerIcon.SetActive(true);
-        }
+        AbilityInfoSheetController.Instance.BuildSheetFromData(abilityInfoSheet, data, AbilityInfoSheet.PivotDirection.Downwards);
 
         // Randomize and set gold cost
         if (data.tier == 1)
@@ -96,13 +55,11 @@ public class AbilityTomeInShop : MonoBehaviour
             goldCost = Random.Range(10, 13);
         }
         goldCostText.text = goldCost.ToString();
-
-
+        
 
         // Enable Views
         EnableSlotView();        
         SetBookImage();
-       // SetBackgroundColor();
 
     }
     public void SetBackgroundColor()
@@ -227,11 +184,11 @@ public class AbilityTomeInShop : MonoBehaviour
     #region
     public void EnableInfoPanelView()
     {
-        infoPanelVisualParent.SetActive(true);
+        AbilityInfoSheetController.Instance.EnableSheetView(abilityInfoSheet, true, true);
     }
     public void DisableInfoPanelView()
     {
-        infoPanelVisualParent.SetActive(false);
+        AbilityInfoSheetController.Instance.DisableSheetView(abilityInfoSheet);
     }
     public void EnableSlotView()
     {
@@ -285,22 +242,7 @@ public class AbilityTomeInShop : MonoBehaviour
     #endregion
 
     // Mouse + Click Events
-    #region
-        /*
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        InventoryController.Instance.BuyAbilityTomeFromShop(this);
-
-    }
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        StartCoroutine(Expand(expandSpeed));       
-    }
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        StartCoroutine(Shrink(expandSpeed));
-    }
-    */
+    #region    
     public void OnMouseDown()
     {
         InventoryController.Instance.BuyAbilityTomeFromShop(this);

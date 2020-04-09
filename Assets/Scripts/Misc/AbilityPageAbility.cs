@@ -13,20 +13,7 @@ public class AbilityPageAbility : MonoBehaviour, IPointerClickHandler, IPointerE
     public AbilityDataSO myData;
     public AbilitySlot myCurrentSlot;
     public CharacterData myCharacter;
-
-    [Header("Info Panel Components")]
-    public GameObject infoPanelVisualParent;
-    public TextMeshProUGUI descriptionText;
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI cooldownText;
-    public TextMeshProUGUI energyCostText;
-    public TextMeshProUGUI rangeText;
-
-    [Header("Type Button References")]
-    public GameObject meleeAttackIcon;
-    public GameObject rangedAttackIcon;
-    public GameObject skillIcon;
-    public GameObject powerIcon;
+    public AbilityInfoSheet abilityInfoSheet;
 
     // Setup
     #region
@@ -39,33 +26,7 @@ public class AbilityPageAbility : MonoBehaviour, IPointerClickHandler, IPointerE
     public void BuildInfoPanelFromData(AbilityDataSO data)
     {
         // build text and images assets
-        nameText.text = data.abilityName;
-        TextLogic.SetAbilityDescriptionText(data, descriptionText);
-        cooldownText.text = data.baseCooldownTime.ToString();
-        rangeText.text = data.range.ToString();
-        energyCostText.text = data.energyCost.ToString();
-
-        meleeAttackIcon.SetActive(false);
-        rangedAttackIcon.SetActive(false);
-        skillIcon.SetActive(false);
-        powerIcon.SetActive(false);
-
-        if (data.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
-        {
-            meleeAttackIcon.SetActive(true);
-        }
-        else if (data.abilityType == AbilityDataSO.AbilityType.RangedAttack)
-        {
-            rangedAttackIcon.SetActive(true);
-        }
-        else if (data.abilityType == AbilityDataSO.AbilityType.Skill)
-        {
-            skillIcon.SetActive(true);
-        }
-        else if (data.abilityType == AbilityDataSO.AbilityType.Power)
-        {
-            powerIcon.SetActive(true);
-        }
+        AbilityInfoSheetController.Instance.BuildSheetFromData(abilityInfoSheet, data, AbilityInfoSheet.PivotDirection.Upwards);
     }
     #endregion
 
@@ -73,11 +34,11 @@ public class AbilityPageAbility : MonoBehaviour, IPointerClickHandler, IPointerE
     #region
     public void EnableInfoPanelView()
     {
-        infoPanelVisualParent.SetActive(true);
+        AbilityInfoSheetController.Instance.EnableSheetView(abilityInfoSheet, true, true);
     }
     public void DisableInfoPanelView()
     {
-        infoPanelVisualParent.SetActive(false);
+        AbilityInfoSheetController.Instance.DisableSheetView(abilityInfoSheet);
     }
     #endregion
 

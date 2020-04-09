@@ -13,22 +13,8 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public AbilityDataSO myAbilityData;
     public Sprite abilityImage;
     public CanvasGroup glowHighlightCG;
-    public CanvasGroup myInfoPanelCanvasGroup;
-    public GameObject myInfoPanel;
+    public AbilityInfoSheet abilityInfoSheet;
     public TextMeshProUGUI abilityNumberText;
-
-    [Header("Text References ")]
-    public TextMeshProUGUI cdText;
-    public TextMeshProUGUI rangeText;
-    public TextMeshProUGUI apCostText;
-    public TextMeshProUGUI descriptionText;
-    public TextMeshProUGUI nameText;
-
-    [Header("Type Button References")]
-    public GameObject meleeAttackIcon; 
-    public GameObject rangedAttackIcon;
-    public GameObject skillIcon;
-    public GameObject powerIcon;
 
     [Header("Properties")]
     public string abilityName;
@@ -88,33 +74,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         if (myLivingEntity != null &&
             myLivingEntity.GetComponent<Defender>())
         {
-            cdText.text = abilityBaseCooldownTime.ToString();
-            rangeText.text = abilityRange.ToString();
-            apCostText.text = abilityEnergyCost.ToString();
-            nameText.text = abilityName.ToString();
-            descriptionText.text = abilityDescription.ToString();
-
-            meleeAttackIcon.SetActive(false);
-            rangedAttackIcon.SetActive(false);
-            skillIcon.SetActive(false);
-            powerIcon.SetActive(false);
-
-            if (abilityFromLibrary.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
-            {
-                meleeAttackIcon.SetActive(true);
-            }
-            else if (abilityFromLibrary.abilityType == AbilityDataSO.AbilityType.RangedAttack)
-            {
-                rangedAttackIcon.SetActive(true);
-            }
-            else if (abilityFromLibrary.abilityType == AbilityDataSO.AbilityType.Skill)
-            {
-                skillIcon.SetActive(true);
-            }
-            else if (abilityFromLibrary.abilityType == AbilityDataSO.AbilityType.Power)
-            {
-                powerIcon.SetActive(true);
-            }
+            AbilityInfoSheetController.Instance.BuildSheetFromData(abilityInfoSheet, abilityFromLibrary, AbilityInfoSheet.PivotDirection.Upwards);
         }
     }
    
@@ -198,10 +158,9 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     }
     public void CalculateAndSetInfoPanelFields()
     {
-        cdText.text = abilityBaseCooldownTime.ToString();
-        rangeText.text = AbilityLogic.Instance.CalculateAbilityRange(this, myLivingEntity).ToString();
-        apCostText.text = AbilityLogic.Instance.CalculateAbilityEnergyCost(this, myLivingEntity).ToString();
-        nameText.text = abilityName.ToString();
+        abilityInfoSheet.cooldownText.text = abilityBaseCooldownTime.ToString();
+        abilityInfoSheet.rangeText.text = AbilityLogic.Instance.CalculateAbilityRange(this, myLivingEntity).ToString();
+        abilityInfoSheet.energyCostText.text = AbilityLogic.Instance.CalculateAbilityEnergyCost(this, myLivingEntity).ToString();        
         TextLogic.SetAbilityDescriptionText(this);
     }
     #endregion
@@ -239,31 +198,15 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     }     
     public void SetInfoPanelVisibility(bool onOrOff)
     {
-        myInfoPanel.SetActive(onOrOff);
-        if (onOrOff == true)
+        if (onOrOff)
         {
-            FadeInInfoPanel();
+            AbilityInfoSheetController.Instance.EnableSheetView(abilityInfoSheet, true, true);
         }
-        else
+        else if(onOrOff == false)
         {
-            fadingIn = false;
-            myInfoPanelCanvasGroup.alpha = 0;
+            AbilityInfoSheetController.Instance.DisableSheetView(abilityInfoSheet);
         }
-
-    }
-    public void FadeInInfoPanel()
-    {               
-        StartCoroutine(FadeInInfoPanelCoroutine());
-    }
-    public IEnumerator FadeInInfoPanelCoroutine()
-    {
-        fadingIn = true;
-        while (myInfoPanelCanvasGroup.alpha < 1 && fadingIn)
-        {
-            myInfoPanelCanvasGroup.alpha += 0.2f;
-            yield return new WaitForEndOfFrame();
-        }
-    }
+    }    
     public IEnumerator HighLight()
     {
         while (highlightButton)

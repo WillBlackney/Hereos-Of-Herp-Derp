@@ -7,16 +7,6 @@ using UnityEngine.UI;
 
 public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    /*
-    [Header("Ability Info Panel References")]
-    public GameObject abilityInfoPanelParent;
-    public TextMeshProUGUI abilityNameText;
-    public TextMeshProUGUI abilityCooldownText;
-    public TextMeshProUGUI abilityRangeText;
-    public TextMeshProUGUI abilityEnergyCostText;
-    public TextMeshProUGUI abilityDescriptionText;
-    public Image abilityImage;
-    */
     public AbilityInfoSheet abilityInfoSheet;
     public Image abilityImage;
 
@@ -47,10 +37,7 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (isAbility)
         {
-            AbilityInfoSheetController.Instance.EnableSheetView(abilityInfoSheet, true);
-            //AbilityInfoSheetController.Instance.BuildSheetFromData(abilityInfoSheet, abilityInfoSheet.myData, AbilityInfoSheet.PivotDirection.Upwards);
-            AbilityInfoSheetController.Instance.RefreshAllLayoutGroups(abilityInfoSheet);
-            //AbilityInfoSheetController.Instance.SetUpOrientationsAsMenuAbility(abilityInfoSheet, gameObject);
+            AbilityInfoSheetController.Instance.EnableSheetView(abilityInfoSheet, true, true);
         }
         else if (isPassive)
         {
@@ -70,7 +57,6 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         isPassive = false;
         AbilityDataSO data = AbilityLibrary.Instance.GetAbilityByName(abilityName);
         abilityImage.sprite = data.sprite;
-
         AbilityInfoSheetController.Instance.BuildSheetFromData(abilityInfoSheet, data, AbilityInfoSheet.PivotDirection.Upwards);
 
     }

@@ -410,11 +410,8 @@ public class TalentController : MonoBehaviour
         talent.talentImage.sprite = data.sprite;
 
         // build text and images assets
-        talent.abilityNameText.text = data.abilityName;
-        TextLogic.SetAbilityDescriptionText(data, talent.abilityDescriptionText);
-        talent.abilityCooldownText.text = data.baseCooldownTime.ToString();
-        talent.abilityRangeText.text = data.range.ToString();
-        talent.abilityEnergyText.text = data.energyCost.ToString();
+        AbilityInfoSheetController.Instance.BuildSheetFromData(talent.abilityInfoSheet, data, AbilityInfoSheet.PivotDirection.Upwards);
+        TextLogic.SetAbilityDescriptionText(data, talent.abilityInfoSheet.descriptionText);       
 
     }
     public void BuildTalentInfoPanelFromPassiveData(Talent talent)

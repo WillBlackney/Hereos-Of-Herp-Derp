@@ -15,6 +15,7 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
     public GameObject blackTintOverlay;
     public GameObject purchasedOverlay;
     public Image talentImage;
+    public AbilityInfoSheet abilityInfoSheet;
 
     [Header("Inspector Properties")]
     public string talentName;
@@ -28,14 +29,6 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
     public CharacterData myCharacterData;
     public AbilityDataSO myAbilityData;
     public bool purchased;
-
-    [Header("Ability Panel Components")]
-    public GameObject abilityInfoPanel;
-    public TextMeshProUGUI abilityNameText;
-    public TextMeshProUGUI abilityDescriptionText;   
-    public TextMeshProUGUI abilityEnergyText;
-    public TextMeshProUGUI abilityCooldownText;
-    public TextMeshProUGUI abilityRangeText;
 
     [Header("Passive Panel Components")]
     public GameObject passiveInfoPanel;
@@ -78,7 +71,7 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
         // Disable panel info
         if (isAbility)
         {
-            abilityInfoPanel.SetActive(false);
+            AbilityInfoSheetController.Instance.DisableSheetView(abilityInfoSheet);
         }
         else
         {
@@ -111,7 +104,7 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
                 // Enable info panel views
                 if (isAbility)
                 {
-                    abilityInfoPanel.SetActive(true);
+                    AbilityInfoSheetController.Instance.EnableSheetView(abilityInfoSheet, true, true);
                 }
                 else
                 {

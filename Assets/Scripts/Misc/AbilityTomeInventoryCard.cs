@@ -10,21 +10,8 @@ public class AbilityTomeInventoryCard : MonoBehaviour, IBeginDragHandler, IDragH
     [Header("General Properties + Components")]
     public Image bookImage;
     public AbilityDataSO myData;
-    public InventorySlot myInventorySlot;    
-
-    [Header("Info Panel Component References")]
-    public GameObject infoPanelVisualParent;
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI descriptionText;
-    public TextMeshProUGUI cooldownText;
-    public TextMeshProUGUI rangeText;
-    public TextMeshProUGUI energyCostText;
-
-    [Header("Type Button References")]
-    public GameObject meleeAttackIcon;
-    public GameObject rangedAttackIcon;
-    public GameObject skillIcon;
-    public GameObject powerIcon;
+    public InventorySlot myInventorySlot;
+    public AbilityInfoSheet abilityInfoSheet;
 
 
     // Initialization + Setup
@@ -33,98 +20,10 @@ public class AbilityTomeInventoryCard : MonoBehaviour, IBeginDragHandler, IDragH
     {
         myData = data;
 
-        // build text and images assets
-        nameText.text = data.abilityName;
-        TextLogic.SetAbilityDescriptionText(data, descriptionText);
-        cooldownText.text = data.baseCooldownTime.ToString();
-        rangeText.text = data.range.ToString();
-        energyCostText.text = data.energyCost.ToString();
-        
-        meleeAttackIcon.SetActive(false);
-        rangedAttackIcon.SetActive(false);
-        skillIcon.SetActive(false);
-        powerIcon.SetActive(false);
-
-        if (data.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
-        {
-            meleeAttackIcon.SetActive(true);
-        }
-        else if (data.abilityType == AbilityDataSO.AbilityType.RangedAttack)
-        {
-            rangedAttackIcon.SetActive(true);
-        }
-        else if (data.abilityType == AbilityDataSO.AbilityType.Skill)
-        {
-            skillIcon.SetActive(true);
-        }
-        else if (data.abilityType == AbilityDataSO.AbilityType.Power)
-        {
-            powerIcon.SetActive(true);
-        }
+        AbilityInfoSheetController.Instance.BuildSheetFromData(abilityInfoSheet, data, AbilityInfoSheet.PivotDirection.Downwards);
        
         SetBookImage();
-        //SetBackgroundColor();
-    }
-    /*
-    public void SetBackgroundColor()
-    {
-        if (myData.abilitySchool == AbilityDataSO.AbilitySchool.None)
-        {
-            bgColorImage.color = InventoryController.Instance.neutralColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Brawler)
-        {
-            bgColorImage.color = InventoryController.Instance.brawlerColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Duelist)
-        {
-            bgColorImage.color = InventoryController.Instance.duelistColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Assassination)
-        {
-            bgColorImage.color = InventoryController.Instance.assassinationColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Guardian)
-        {
-            bgColorImage.color = InventoryController.Instance.guardianColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Pyromania)
-        {
-            bgColorImage.color = InventoryController.Instance.pyromaniaColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Cyromancy)
-        {
-            bgColorImage.color = InventoryController.Instance.cyromancyColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Ranger)
-        {
-            bgColorImage.color = InventoryController.Instance.rangerColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Manipulation)
-        {
-            bgColorImage.color = InventoryController.Instance.manipulationColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Divinity)
-        {
-            bgColorImage.color = InventoryController.Instance.divinityColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Shadowcraft)
-        {
-            bgColorImage.color = InventoryController.Instance.shadowcraftColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Corruption)
-        {
-            bgColorImage.color = InventoryController.Instance.corruptionColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Naturalism)
-        {
-            bgColorImage.color = InventoryController.Instance.naturalismColor;
-        }
-
-        // set transperancy
-        bgColorImage.color = new Color(bgColorImage.color.r / 255, bgColorImage.color.g / 255, bgColorImage.color.g / 255, 0.30f);
-    }
-    */
+    }    
     public void SetBookImage()
     {
         if (myData.abilitySchool == AbilityDataSO.AbilitySchool.None)
@@ -191,11 +90,11 @@ public class AbilityTomeInventoryCard : MonoBehaviour, IBeginDragHandler, IDragH
     }
     public void EnableInfoPanelView()
     {
-        infoPanelVisualParent.SetActive(true);
+        AbilityInfoSheetController.Instance.EnableSheetView(abilityInfoSheet, true, true);
     }
     public void DisableInfoPanelView()
     {
-        infoPanelVisualParent.SetActive(false);
+        AbilityInfoSheetController.Instance.DisableSheetView(abilityInfoSheet);
     }
     #endregion
 
