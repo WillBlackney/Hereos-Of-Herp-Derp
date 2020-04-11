@@ -6,7 +6,8 @@ using TMPro;
 using UnityEngine.EventSystems;
 public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    
+    // Properties + Component References
+    #region
     [Header("Image References")]    
     public Image itemImage;
     public Image itemDamageTypeImage;
@@ -40,7 +41,7 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [Header("Info Panels + References")]
     public GameObject panelOneParent;
     public bool panelOneActive;
-
+    #endregion
 
     // Setup + Initialization
     #region

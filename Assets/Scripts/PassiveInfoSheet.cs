@@ -24,6 +24,7 @@ public class PassiveInfoSheet : MonoBehaviour
     public Canvas canvas;
 
     [Header("Rect Transform References")]
+    public RectTransform mainParentRectTransform;
     public RectTransform allElementsRectTransform;
     public RectTransform allElementsVerticalFitterTransform;
     public RectTransform mainFramesRectTransform;
