@@ -7,23 +7,19 @@ using TMPro;
 
 public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    // Properties + Component References
+    #region
     [Header("Properties")]
     public StatusIconDataSO myIconData;
     public string statusName;
-    public string statusDescription;
     public int statusStacks;
-    public Sprite statusSprite;
+    public Sprite statusSprite;    
 
-    [Header("Text Components")]
+    [Header("Component References")]
     public TextMeshProUGUI statusStacksText;
-    public TextMeshProUGUI statusNameText;
-    public TextMeshProUGUI statusDescriptionText;
-
-    [Header("Image Components")]
     public Image iconImage;
-    public Image infoPanelIconImage;
-    public GameObject infoPanelParent;
     public CanvasGroup panelCG;
+    #endregion
 
     // Initialization + Setup
     #region
@@ -34,20 +30,13 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         iconImage.sprite = statusSprite;
 
         statusName = iconData.statusName;        
-        statusDescription = iconData.statusDescription;
         if (iconData.showStackCount)
         {
             statusStacksText.gameObject.SetActive(true);
-
         }
+
         statusStacksText.text = statusStacks.ToString();
         
-        // info panel set up
-        statusNameText.text = TextLogic.ReturnColoredText(statusName, TextLogic.yellow);
-        statusDescriptionText.text = statusDescription;
-        infoPanelIconImage.sprite = statusSprite;
-
-        TextLogic.SetStatusIconDescriptionText(statusName, statusDescriptionText, statusStacks);
     }
     #endregion
 
@@ -61,9 +50,6 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             statusStacksText.gameObject.SetActive(false);
         }
-
-        // Make sure status info panel text is updated when stacks data changes
-        //TextLogic.SetStatusIconDescriptionText(this);
     }
     #endregion
 
@@ -72,12 +58,10 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Status Icon mouse over detected...");
-        TextLogic.SetStatusIconDescriptionText(statusName, statusDescriptionText, statusStacks);
         InfoPanelHover.Instance.HandleIconMousedEnter(this);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-       // SetInfoPanelVisibility(false);
         InfoPanelHover.Instance.HandleIconMouseExit(this);
     }
     #endregion

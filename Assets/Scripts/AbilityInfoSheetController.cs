@@ -9,6 +9,7 @@ public class AbilityInfoSheetController : MonoBehaviour
     #region
     public float baseFadeInSpeed;
     #endregion
+
     // Singleton Pattern
     #region
     public static AbilityInfoSheetController Instance;

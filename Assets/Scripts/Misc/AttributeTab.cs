@@ -7,42 +7,36 @@ using UnityEngine.EventSystems;
 
 public class AttributeTab : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    // Properties + Component References
+    #region
     [Header("Component References")]
     public Image attributeImage;
+    public PassiveInfoSheet passiveInfoSheet;
     public TextMeshProUGUI attributeNameText;
     public TextMeshProUGUI attributeStacksText;
-
-    [Header("Rect Transform Component References")]
-    public RectTransform panelBgRect;
-    public RectTransform frameRect;
-    public RectTransform statusNameRect;
-    public RectTransform descriptionRect;
-
-    [Header("Info Panel Component References")]
-    public GameObject infoPanelParent;
-    public Image attributeInfoPanelImage;
-    public TextMeshProUGUI attributeInfoPanelNameText;
-    public TextMeshProUGUI attributeInfoPanelDescriptionText;
 
     [Header("Properties")]
     public string attributeName;
     public int attributeStacks;
+    #endregion
 
+    // Initialization + Setup
+    #region
     public void InitializeSetup(string passiveName, int stacks)
     {
-        StatusIconDataSO data = StatusIconLibrary.Instance.GetStatusIconByName(passiveName);
+        // Get data
+        StatusIconDataSO data = StatusIconLibrary.Instance.GetStatusIconByName(passiveName);        
 
-        // build properties and components from status icon data
+        // Build main views and properties from status icon data
         attributeImage.sprite = data.statusSprite;
         attributeName = data.statusName;
         attributeNameText.text = data.statusName;
 
-        // build info panel
-        attributeInfoPanelImage.sprite = data.statusSprite;
-        attributeInfoPanelNameText.text = data.statusName;
+        // Build info panel pop up window
+        PassiveInfoSheetController.Instance.BuildSheetFromData(passiveInfoSheet, data, stacks, PassiveInfoSheet.PivotDirection.Upwards);
+        TextLogic.SetStatusIconDescriptionText(data.statusName, passiveInfoSheet.descriptionText, stacks);
 
-        TextLogic.SetStatusIconDescriptionText(data.statusName, attributeInfoPanelDescriptionText, stacks);
-
+        // Set stack count + components
         ModifyStacks(stacks);
         if(data.showStackCount == false)
         {
@@ -50,38 +44,40 @@ public class AttributeTab : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
 
     }
+    #endregion
+
+    // Modify Properties
+    #region
     public void ModifyStacks(int stacksGainedOrLost)
     {
         attributeStacks += stacksGainedOrLost;
         attributeStacksText.text = attributeStacks.ToString();
-        TextLogic.SetStatusIconDescriptionText(attributeName, attributeInfoPanelDescriptionText, stacksGainedOrLost);
+        TextLogic.SetStatusIconDescriptionText(attributeName, passiveInfoSheet.descriptionText, stacksGainedOrLost);
     }
+    #endregion
 
+    // View Logic
+    #region
     public void EnableInfoPanelView()
     {
-        infoPanelParent.SetActive(true);
-        RebuildAllLayourGroups();
+        PassiveInfoSheetController.Instance.EnableSheetView(passiveInfoSheet, true, true);
     }
     public void DisableInfoPanelView()
     {
-        infoPanelParent.SetActive(false);
+        PassiveInfoSheetController.Instance.DisableSheetView(passiveInfoSheet);
     }
+    #endregion
 
+    // Mouse + Input Events
+    #region
     public void OnPointerEnter(PointerEventData eventData)
     {
         EnableInfoPanelView();
     }
-
     public void OnPointerExit(PointerEventData eventData)
     {
         DisableInfoPanelView();
     }
+    #endregion
 
-    public void RebuildAllLayourGroups()
-    {
-        LayoutRebuilder.ForceRebuildLayoutImmediate(panelBgRect);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(frameRect);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(statusNameRect);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(descriptionRect);
-    }
 }

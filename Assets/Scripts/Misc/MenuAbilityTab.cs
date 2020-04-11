@@ -7,32 +7,18 @@ using UnityEngine.UI;
 
 public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    [Header("Sheet Component References")]
     public AbilityInfoSheet abilityInfoSheet;
+    public PassiveInfoSheet passiveInfoSheet;
+
+    [Header("Image Component References")]
     public Image abilityImage;
-
-    [Header("Passive Info Panel References")]
-    public GameObject passiveInfoPanelParent;
-    public TextMeshProUGUI passiveNameText;
-    public TextMeshProUGUI passiveDescriptionText;
     public Image passiveImage;
-    public Image passiveInfoPanelImage;
-
-    [Header("Rect Transform Panel Components")]
-    public RectTransform statusPanelParentRect;
-    public RectTransform statusPanelDescriptionRect;
-    public RectTransform statusPanelNameRect;
-
 
     [Header("Properties")]
     public bool isAbility;
     public bool isPassive;
 
-    void Start()
-    {
-        statusPanelParentRect = passiveInfoPanelParent.GetComponent<RectTransform>();
-        statusPanelDescriptionRect = passiveDescriptionText.GetComponent<RectTransform>();
-        statusPanelNameRect = passiveNameText.GetComponent<RectTransform>();
-    }
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (isAbility)
@@ -41,14 +27,13 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
         else if (isPassive)
         {
-            passiveInfoPanelParent.SetActive(true);
-            RefreshLayoutGroups();
+            PassiveInfoSheetController.Instance.EnableSheetView(passiveInfoSheet, true, true);
         }
     }
     public void OnPointerExit(PointerEventData eventData)
     {
         AbilityInfoSheetController.Instance.DisableSheetView(abilityInfoSheet);
-        passiveInfoPanelParent.SetActive(false);
+        PassiveInfoSheetController.Instance.DisableSheetView(passiveInfoSheet);
     }
 
     public void SetUpAbilityTabAsAbility(string abilityName)
@@ -66,19 +51,12 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         isAbility = false;
         StatusIconDataSO data = StatusIconLibrary.Instance.GetStatusIconByName(passiveName);
 
-        passiveNameText.text = data.statusName;
-        TextLogic.SetStatusIconDescriptionText(data.statusName, passiveDescriptionText, stacks);
         passiveImage.sprite = data.statusSprite;
-        passiveInfoPanelImage.sprite = data.statusSprite;
+        PassiveInfoSheetController.Instance.BuildSheetFromData(passiveInfoSheet, data, stacks, PassiveInfoSheet.PivotDirection.Upwards);
 
         // Refresh layout
-        RefreshLayoutGroups();
+        //RefreshLayoutGroups();
 
     }
-    public void RefreshLayoutGroups()
-    {        
-        LayoutRebuilder.ForceRebuildLayoutImmediate(statusPanelDescriptionRect);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(statusPanelNameRect);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(statusPanelParentRect);
-    }
+    
 }

@@ -397,7 +397,7 @@ public class TalentController : MonoBehaviour
         else
         {
             BuildTalentInfoPanelFromPassiveData(talent);
-            BuildTalentInfoPanelFromPassiveData(talent);
+            //BuildTalentInfoPanelFromPassiveData(talent);
         }
 
     }
@@ -416,14 +416,15 @@ public class TalentController : MonoBehaviour
     }
     public void BuildTalentInfoPanelFromPassiveData(Talent talent)
     {
-        TextLogic.SetStatusIconDescriptionText(talent.talentName, talent.passiveDescriptionText, talent.passiveStacks);
-
         // Set button image
         StatusIconDataSO data = StatusIconLibrary.Instance.GetStatusIconByName(talent.talentName);
         talent.talentImage.sprite = data.statusSprite;
 
-        talent.passiveNameText.text = talent.talentName;
-        talent.passiveImage.sprite = talent.talentImage.sprite;
+        PassiveInfoSheetController.Instance.BuildSheetFromData(talent.passiveInfoSheet, data, talent.passiveStacks, PassiveInfoSheet.PivotDirection.Upwards);
+        TextLogic.SetStatusIconDescriptionText(talent.talentName, talent.passiveInfoSheet.descriptionText, talent.passiveStacks);
+
+        //talent.passiveNameText.text = talent.talentName;
+        // talent.passiveImage.sprite = talent.talentImage.sprite;
     }
     #endregion
 

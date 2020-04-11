@@ -6,59 +6,58 @@ using UnityEngine.UI;
 
 public class InfoPanelHover : MonoBehaviour
 {
+    // Properties + Component References
+    #region
     [Header("Properties")]
-    public StatusIcon currentIconUnderMouse;    
+    public StatusIcon currentIconUnderMouse;
 
     [Header("Status Info Panel Components")]
+    public PassiveInfoSheet passiveInfoSheet;
     public GameObject statusPanelParent;
-    public TextMeshProUGUI statusPanelNameText;
-    public TextMeshProUGUI statusPanelDescriptionText;
-    public Image statusPanelImage;
 
-    [Header("Rect Transform Panel Components")]
-    public RectTransform statusPanelParentRect;
-    public RectTransform statusPanelFrameRect;
-    public RectTransform statusPanelDescriptionRect;
-    public RectTransform statusPanelNameRect;   
+    #endregion
 
+    // Singleton Pattern
+    #region
     public static InfoPanelHover Instance;
     private void Awake()
     {
         Instance = this;
     }
+    #endregion
+
+    // Initialization + Setup
+    #region
+    public void BuildViewFromIconData(StatusIcon data)
+    {
+        PassiveInfoSheetController.Instance.BuildSheetFromData(passiveInfoSheet, data.myIconData, data.statusStacks, PassiveInfoSheet.PivotDirection.Upwards);
+    }
+    #endregion
+
+    // Update + Positioning Logic
+    #region
     private void Update()
     {
         MoveToIconPosition();
     }
-    public void BuildViewFromIconData(StatusIcon data)
-    {
-        // Set text fields + image
-        statusPanelImage.sprite = data.statusSprite;
-        statusPanelNameText.text = data.statusName;
-        statusPanelDescriptionText.text = data.statusDescriptionText.text;
-    }
     public void MoveToIconPosition()
     {
         // set position
-        if(currentIconUnderMouse != null)
+        if (currentIconUnderMouse != null)
         {
             statusPanelParent.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, currentIconUnderMouse.gameObject.transform.position);
-        }        
-    }    
+        }
+    }
+    #endregion
+
+    // Mouse + Input Events
+    #region
     public void HandleIconMousedEnter(StatusIcon icon)
     {
-        currentIconUnderMouse = icon;
-        EnableView();
+        currentIconUnderMouse = icon;        
         BuildViewFromIconData(icon);
-        RefreshLayoutGroups();
-    }
-    public void RefreshLayoutGroups()
-    {
-        LayoutRebuilder.ForceRebuildLayoutImmediate(statusPanelParentRect);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(statusPanelFrameRect);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(statusPanelDescriptionRect);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(statusPanelNameRect);
-    }
+        EnableView();
+    }   
     public void HandleIconMouseExit(StatusIcon icon)
     {
         if(icon == currentIconUnderMouse)
@@ -67,12 +66,17 @@ public class InfoPanelHover : MonoBehaviour
             DisableView();
         }       
     }
+    #endregion
+
+    // View Logic
+    #region
     public void EnableView()
     {
-        statusPanelParent.SetActive(true);
+        PassiveInfoSheetController.Instance.EnableSheetView(passiveInfoSheet, true, true);
     }
     public void DisableView()
     {
-        statusPanelParent.SetActive(false);
+        PassiveInfoSheetController.Instance.DisableSheetView(passiveInfoSheet);
     }
+    #endregion
 }

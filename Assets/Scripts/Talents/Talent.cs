@@ -16,6 +16,7 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
     public GameObject purchasedOverlay;
     public Image talentImage;
     public AbilityInfoSheet abilityInfoSheet;
+    public PassiveInfoSheet passiveInfoSheet;
 
     [Header("Inspector Properties")]
     public string talentName;
@@ -29,12 +30,6 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
     public CharacterData myCharacterData;
     public AbilityDataSO myAbilityData;
     public bool purchased;
-
-    [Header("Passive Panel Components")]
-    public GameObject passiveInfoPanel;
-    public TextMeshProUGUI passiveNameText;
-    public TextMeshProUGUI passiveDescriptionText;
-    public Image passiveImage;
 
     [Header("Transform Properties")]
     public RectTransform lerpParent;
@@ -75,7 +70,7 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
         }
         else
         {
-            passiveInfoPanel.SetActive(false);
+            PassiveInfoSheetController.Instance.DisableSheetView(passiveInfoSheet);
         }
 
         // Start shrinking anim
@@ -108,7 +103,7 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
                 }
                 else
                 {
-                    passiveInfoPanel.SetActive(true);
+                    PassiveInfoSheetController.Instance.EnableSheetView(passiveInfoSheet, true, true);
                 }
             }
         }        
