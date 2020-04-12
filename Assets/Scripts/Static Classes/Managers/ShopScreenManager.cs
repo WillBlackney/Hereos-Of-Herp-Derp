@@ -73,6 +73,7 @@ public class ShopScreenManager : MonoBehaviour
     public List<ItemDataSO> itemsInShopData;
     public List<ItemSlot> allItemsSlots;
     public float windowFadeSpeed;
+    public int itemSlotSortingLayer;
     #endregion
 
     // Initialization + Setup

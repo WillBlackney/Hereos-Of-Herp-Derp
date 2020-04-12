@@ -59,8 +59,25 @@ public class InventoryItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler,
         }
         
     }
+
+    public void OnMouseEnter()
+    {
+        // dont display item cards of other items will an item is being dragged
+        if (InventoryController.Instance.itemBeingDragged == null)
+        {
+            infoItemCardVisualParent.SetActive(true);
+            //
+            ItemCardPanelHover.Instance.OnItemCardMousedOver(myInfoItemCard);
+        }
+    }
+    public void OnMouseExit()
+    {
+        ItemCardPanelHover.Instance.OnItemCardMouseExit();
+        infoItemCardVisualParent.SetActive(false);
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        /*
         // dont display item cards of other items will an item is being dragged
         if(InventoryController.Instance.itemBeingDragged == null)
         {
@@ -68,12 +85,15 @@ public class InventoryItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler,
             //
             ItemCardPanelHover.Instance.OnItemCardMousedOver(myInfoItemCard);
         }
+        */
         
     }
     public void OnPointerExit(PointerEventData eventData)
     {
+        /*
         ItemCardPanelHover.Instance.OnItemCardMouseExit();
         infoItemCardVisualParent.SetActive(false);
+        */
     }
     public void SetRayCastingState(bool onOrOff)
     {

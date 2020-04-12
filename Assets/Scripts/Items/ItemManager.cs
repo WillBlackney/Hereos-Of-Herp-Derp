@@ -434,7 +434,7 @@ public class ItemManager : MonoBehaviour
     }
 
     // Set up item cards + etc
-    public void SetUpItemCardFromData(ItemCard itemCard, ItemDataSO data)
+    public void SetUpItemCardFromData(ItemCard itemCard, ItemDataSO data, int sortingOrder)
     {
         Debug.Log("ItemManager.RunSetupFromItemData() called for: " + data.Name);
 
@@ -443,6 +443,9 @@ public class ItemManager : MonoBehaviour
 
         // Store data
         itemCard.myItemDataSO = data;
+
+        // Set canvas sorting order
+        itemCard.mainCanvas.sortingOrder = sortingOrder;
 
         // Set properties
         itemCard.myName = data.Name;
@@ -478,7 +481,7 @@ public class ItemManager : MonoBehaviour
             itemCard.epicParent.SetActive(true);
         }
     }
-    public void SetUpInventoryItemCardFromData(InventoryItemCard itemCard, ItemDataSO data)
+    public void SetUpInventoryItemCardFromData(InventoryItemCard itemCard, ItemDataSO data, int sortingOrder)
     {
         Debug.Log("InventoryController.AddItemToInventory() called for " + data.Name);
 
@@ -486,7 +489,9 @@ public class ItemManager : MonoBehaviour
 
         itemCard.itemImage.sprite = data.sprite;
 
-        itemCard.myInfoItemCard.RunSetupFromItemData(data);
+        itemCard.myInfoItemCard.RunSetupFromItemData(data, sortingOrder);
+
+        itemCard.myInfoItemCard.location = ItemCard.Location.Inventory;
     }
     
     

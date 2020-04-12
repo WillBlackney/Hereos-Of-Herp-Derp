@@ -4175,6 +4175,9 @@ GameObject:
   - component: {fileID: 8947415752155826165}
   - component: {fileID: 7353187844196382024}
   - component: {fileID: 5418308001814887853}
+  - component: {fileID: 3563428145267739554}
+  - component: {fileID: 2087917373389921217}
+  - component: {fileID: 6782976405790647399}
   m_Layer: 5
   m_Name: Item Card
   m_TagString: Untagged
@@ -4282,6 +4285,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemImage: {fileID: 8042174800258092889}
   itemDamageTypeImage: {fileID: 3167033392076469473}
+  mainCanvas: {fileID: 3563428145267739554}
+  cg: {fileID: 6782976405790647399}
   myNameText: {fileID: 1383959023266655943}
   myDescriptionText: {fileID: 4689432253159402378}
   myItemTypeText: {fileID: 8169058599439620808}
@@ -4295,6 +4300,7 @@ MonoBehaviour:
   inInventory: 0
   inShop: 0
   myItemSlot: {fileID: 0}
+  myData: {fileID: 0}
   myName: 
   originalScale: 0
   expanding: 0
@@ -4327,6 +4333,56 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 141.62527, y: 191.83295}
   m_EdgeRadius: 0
+--- !u!223 &3563428145267739554
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6102940201404517147}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &2087917373389921217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6102940201404517147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!225 &6782976405790647399
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6102940201404517147}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6184040319775331246
 GameObject:
   m_ObjectHideFlags: 0

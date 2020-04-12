@@ -6,6 +6,7 @@ public class RewardScreen : MonoBehaviour
 {
     [Header("Properties")]
     public float screenFadeTime;
+    public int itemCardSortingOrder;
 
     [Header("Canvas Groups")]
     public CanvasGroup commonItemRewardCG;
@@ -207,27 +208,27 @@ public class RewardScreen : MonoBehaviour
         // Generate random item for item reward 1
         GameObject newItemOne = Instantiate(PrefabHolder.Instance.ItemCard, ChooseCommonItemScreenContent.transform);
         ItemCard itemOne = newItemOne.GetComponent<ItemCard>();
-        itemOne.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem());
+        itemOne.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem(), itemCardSortingOrder);
         currentCommonItemOne = newItemOne;
 
         // Generate random item for item reward 2
         GameObject newItemTwo = Instantiate(PrefabHolder.Instance.ItemCard, ChooseCommonItemScreenContent.transform);
         ItemCard itemTwo = newItemTwo.GetComponent<ItemCard>();
-        itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem());
+        itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem(), itemCardSortingOrder);
         currentCommonItemTwo = newItemTwo;
 
         // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
         while (itemTwo.myName == itemOne.myName)
         {
             Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item two");
-            itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem());
+            itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem(), itemCardSortingOrder);
             currentCommonItemTwo = newItemTwo;
         }
 
         // Generate random item for item reward 3
         GameObject newItemThree = Instantiate(PrefabHolder.Instance.ItemCard, ChooseCommonItemScreenContent.transform);
         ItemCard itemThree = newItemThree.GetComponent<ItemCard>();
-        itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem());
+        itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem(), itemCardSortingOrder);
         currentCommonItemThree = newItemThree;
 
         // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
@@ -235,36 +236,40 @@ public class RewardScreen : MonoBehaviour
             itemThree.myName == itemTwo.myName)
         {
             Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item three");
-            itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem());
+            itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomCommonItem(), itemCardSortingOrder);
             currentCommonItemThree = newItemThree;
         }
+
+        itemOne.location = ItemCard.Location.LootScreen;
+        itemTwo.location = ItemCard.Location.LootScreen;
+        itemThree.location = ItemCard.Location.LootScreen;
     }
     public void PopulateRareItemScreen()
     {
         // Generate random item for item reward 1
         GameObject newItemOne = Instantiate(PrefabHolder.Instance.ItemCard, ChooseRareItemScreenContent.transform);
         ItemCard itemOne = newItemOne.GetComponent<ItemCard>();
-        itemOne.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem());
+        itemOne.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem(), itemCardSortingOrder);
         currentRareItemOne = newItemOne;
 
         // Generate random item for item reward 2
         GameObject newItemTwo = Instantiate(PrefabHolder.Instance.ItemCard, ChooseRareItemScreenContent.transform);
         ItemCard itemTwo = newItemTwo.GetComponent<ItemCard>();
-        itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem());
+        itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem(), itemCardSortingOrder);
         currentRareItemTwo = newItemTwo;
 
         // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
         while (itemTwo.myName == itemOne.myName)
         {
             Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item two");
-            itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem());
+            itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem(), itemCardSortingOrder);
             currentRareItemTwo = newItemTwo;
         }
 
         // Generate random item for item reward 3
         GameObject newItemThree = Instantiate(PrefabHolder.Instance.ItemCard, ChooseRareItemScreenContent.transform);
         ItemCard itemThree = newItemThree.GetComponent<ItemCard>();
-        itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem());
+        itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem(), itemCardSortingOrder);
         currentRareItemThree = newItemThree;
 
         // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
@@ -272,36 +277,40 @@ public class RewardScreen : MonoBehaviour
             itemThree.myName == itemTwo.myName)
         {
             Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item three");
-            itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem());
+            itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomRareItem(), itemCardSortingOrder);
             currentRareItemThree = newItemThree;
         }
+
+        itemOne.location = ItemCard.Location.LootScreen;
+        itemTwo.location = ItemCard.Location.LootScreen;
+        itemThree.location = ItemCard.Location.LootScreen;
     }
     public void PopulateEpicItemScreen()
     {
         // Generate random item for item reward 1
         GameObject newItemOne = Instantiate(PrefabHolder.Instance.ItemCard, ChooseEpicItemScreenContent.transform);
         ItemCard itemOne = newItemOne.GetComponent<ItemCard>();
-        itemOne.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem());
+        itemOne.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem(), itemCardSortingOrder);
         currentEpicItemOne = newItemOne;
 
         // Generate random item for item reward 2
         GameObject newItemTwo = Instantiate(PrefabHolder.Instance.ItemCard, ChooseEpicItemScreenContent.transform);
         ItemCard itemTwo = newItemTwo.GetComponent<ItemCard>();
-        itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem());
+        itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem(), itemCardSortingOrder);
         currentEpicItemTwo = newItemTwo;
 
         // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
         while (itemTwo.myName == itemOne.myName)
         {
             Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item two");
-            itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem());
+            itemTwo.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem(), itemCardSortingOrder);
             currentEpicItemTwo = newItemTwo;
         }
 
         // Generate random item for item reward 3
         GameObject newItemThree = Instantiate(PrefabHolder.Instance.ItemCard, ChooseEpicItemScreenContent.transform);
         ItemCard itemThree = newItemThree.GetComponent<ItemCard>();
-        itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem());
+        itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem(), itemCardSortingOrder);
         currentEpicItemThree = newItemThree;
 
         // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
@@ -309,9 +318,13 @@ public class RewardScreen : MonoBehaviour
             itemThree.myName == itemTwo.myName)
         {
             Debug.Log("RewardScreen.PopulateItemScreen() detected a duplicate item reward, rerolling item three");
-            itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem());
+            itemThree.RunSetupFromItemData(ItemLibrary.Instance.GetRandomEpicItem(), itemCardSortingOrder);
             currentEpicItemThree = newItemThree;
         }
+
+        itemOne.location = ItemCard.Location.LootScreen;
+        itemTwo.location = ItemCard.Location.LootScreen;
+        itemThree.location = ItemCard.Location.LootScreen;
     }
     public void DestroyAllCommonItemCards()
     {

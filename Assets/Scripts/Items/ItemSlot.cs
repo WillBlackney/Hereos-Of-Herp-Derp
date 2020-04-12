@@ -37,9 +37,9 @@ public class ItemSlot : MonoBehaviour
             randomGoldCost = Random.Range(11, 15);
         }
 
-        myItemCard.RunSetupFromItemData(itemData);
+        myItemCard.RunSetupFromItemData(itemData, ShopScreenManager.Instance.itemSlotSortingLayer);
         myItemCard.myItemSlot = this;
-        myItemCard.inShop = true;
+        myItemCard.location = ItemCard.Location.Shop;
         SetGoldCost(randomGoldCost);
     }
     #endregion

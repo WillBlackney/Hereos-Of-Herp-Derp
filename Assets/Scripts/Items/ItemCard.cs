@@ -8,9 +8,15 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     // Properties + Component References
     #region
-    [Header("Image References")]    
+
+    public enum Location { None, Shop, Inventory, LootScreen };
+    [Header("Image References")]
     public Image itemImage;
     public Image itemDamageTypeImage;
+
+    [Header("Canvas References")]
+    public Canvas mainCanvas;
+    public CanvasGroup cg;
 
     [Header("Text References")]
     public TextMeshProUGUI myNameText;
@@ -29,11 +35,10 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     [Header("Properties")]
     public ItemDataSO myItemDataSO;
-    public bool inInventory;
-    public bool inShop;
+    public Location location;
     public ItemSlot myItemSlot;
     public ItemDataSO myData;
-    public string myName;    
+    public string myName;
     public float originalScale;
     public bool expanding;
     public bool shrinking;
@@ -45,12 +50,12 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     // Setup + Initialization
     #region
-    public void RunSetupFromItemData(ItemDataSO data)
+    public void RunSetupFromItemData(ItemDataSO data, int sortingOrder)
     {
-        ItemManager.Instance.SetUpItemCardFromData(this, data);
+        ItemManager.Instance.SetUpItemCardFromData(this, data, sortingOrder);
         myData = data;
-    }    
-    
+    }
+
     #endregion
 
     // Mouse + Click Events
@@ -59,56 +64,65 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         Debug.Log("ItemCard.OnItemCardClicked() called...");
 
-        if (inInventory)
+        if (location == Location.Inventory)
         {
             return;
         }
 
-        else if (inShop)
+        else if (location == Location.Shop)
         {
             myItemSlot.BuyItem();
             return;
         }
 
-        Debug.Log("Adding Item to inventory: " + myName);
-        // add item to inventory
-        InventoryController.Instance.AddItemToInventory(myItemDataSO);
-        if(myData.itemRarity == ItemDataSO.ItemRarity.Common)
+        else if (location == Location.LootScreen)
         {
-            RewardScreen.Instance.DestroyAllCommonItemCards();
-            Destroy(RewardScreen.Instance.currentCommonItemRewardButton);
-            RewardScreen.Instance.currentCommonItemRewardButton = null;
-            RewardScreen.Instance.DisableCommonItemLootScreen();
+            if (myData.itemRarity == ItemDataSO.ItemRarity.Common)
+            {
+                RewardScreen.Instance.DestroyAllCommonItemCards();
+                Destroy(RewardScreen.Instance.currentCommonItemRewardButton);
+                RewardScreen.Instance.currentCommonItemRewardButton = null;
+                RewardScreen.Instance.DisableCommonItemLootScreen();
+            }
+            else if (myData.itemRarity == ItemDataSO.ItemRarity.Rare)
+            {
+                RewardScreen.Instance.DestroyAllRareItemCards();
+                Destroy(RewardScreen.Instance.currentRareItemRewardButton);
+                RewardScreen.Instance.currentRareItemRewardButton = null;
+                RewardScreen.Instance.DisableRareItemLootScreen();
+            }
+            else if (myData.itemRarity == ItemDataSO.ItemRarity.Epic)
+            {
+                RewardScreen.Instance.DestroyAllRareItemCards();
+                Destroy(RewardScreen.Instance.currentEpicItemRewardButton);
+                RewardScreen.Instance.currentEpicItemRewardButton = null;
+                RewardScreen.Instance.DisableEpicItemLootScreen();
+            }
+
+            Debug.Log("Adding Item to inventory: " + myName);
+            InventoryController.Instance.AddItemToInventory(myItemDataSO);
         }
-        else if (myData.itemRarity == ItemDataSO.ItemRarity.Rare)
-        {
-            RewardScreen.Instance.DestroyAllRareItemCards();
-            Destroy(RewardScreen.Instance.currentRareItemRewardButton);
-            RewardScreen.Instance.currentRareItemRewardButton = null;
-            RewardScreen.Instance.DisableRareItemLootScreen();
-        }
-        else if (myData.itemRarity == ItemDataSO.ItemRarity.Epic)
-        {
-            RewardScreen.Instance.DestroyAllRareItemCards();
-            Destroy(RewardScreen.Instance.currentEpicItemRewardButton);
-            RewardScreen.Instance.currentEpicItemRewardButton = null;
-            RewardScreen.Instance.DisableEpicItemLootScreen();
-        }               
-        
+
         ItemCardPanelHover.Instance.OnItemCardMouseExit();
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("ItemCard.OnPointerEnter() called...");
 
-        if (!inInventory)
+        if (location == Location.Shop ||
+            location == Location.LootScreen)
         {
             Debug.Log("Mouse Enter detected...");
             StartCoroutine(Expand(1));            
         }
+
         else
         {
-            ItemCardPanelHover.Instance.OnItemCardMousedOver(this);
+            if(location != Location.Inventory)
+            {
+                ItemCardPanelHover.Instance.OnItemCardMousedOver(this);
+            }
+            
         }
         
 
@@ -117,7 +131,8 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         Debug.Log("ItemCard.OnPointerEnter() called...");
 
-        if (!inInventory)
+        if (location == Location.Shop ||
+            location == Location.LootScreen)
         {
             Debug.Log("Mouse Exit detected...");
             StartCoroutine(Shrink(1));

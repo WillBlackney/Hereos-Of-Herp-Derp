@@ -12,6 +12,7 @@ public class InventoryController : MonoBehaviour
 
     [Header("Properties")]
     public GameObject itemBeingDragged;
+    public int inventoryItemCardSortingOrder;
 
     [Header("Ability Tome Colours")]
     public Color32 neutralColor;
@@ -67,6 +68,7 @@ public class InventoryController : MonoBehaviour
         // check if character has already learnt the ability
         if (character.DoesCharacterAlreadyKnowAbility(data))
         {
+            InvalidActionManager.Instance.ShowNewErrorMessage("Character already knows " + data.abilityName);
             Debug.Log("Tome drop action invalid: " + character.myName + " already knows " + data.abilityName);
             boolReturned = false;
         }
@@ -76,6 +78,7 @@ public class InventoryController : MonoBehaviour
         {
             Debug.Log("Tome drop action invalid: " + character.myName + " does not meet ability tier requirmens of "
                 + data.abilityName);
+            InvalidActionManager.Instance.ShowNewErrorMessage("Character does not meet the talent requirments of " + data.abilityName);
             boolReturned = false;
         }
 
@@ -137,6 +140,7 @@ public class InventoryController : MonoBehaviour
         else
         {
             Debug.Log(item.myItemData.Name + " is NOT valid in the " + slot.mySlotType.ToString() + " slot, returning false...");
+            InvalidActionManager.Instance.ShowNewErrorMessage(item.myItemData.Name + " is not a valid item for the " + slot.mySlotType.ToString() + " slot.");
             return false;
         }
     }
@@ -191,6 +195,7 @@ public class InventoryController : MonoBehaviour
         else
         {
             Debug.Log("Cannot buy ability tome: Not enough gold...");
+            InvalidActionManager.Instance.ShowNewErrorMessage("You don't have enough Gold");
         }
     }
     #endregion
@@ -210,7 +215,7 @@ public class InventoryController : MonoBehaviour
         GameObject newInventoryItem = Instantiate(PrefabHolder.Instance.InventoryItem, itemsParent.transform);
         InventoryItemCard itemCard = newInventoryItem.GetComponent<InventoryItemCard>();
         PlaceItemOnInventorySlot(itemCard, GetNextAvailableSlot());
-        ItemManager.Instance.SetUpInventoryItemCardFromData(itemCard, itemAdded);
+        ItemManager.Instance.SetUpInventoryItemCardFromData(itemCard, itemAdded, inventoryItemCardSortingOrder);
 
     }
     public void CreateAndAddItemDirectlyToCharacter(ItemDataSO itemAdded, CharacterItemSlot weaponSlot)
@@ -221,7 +226,7 @@ public class InventoryController : MonoBehaviour
         GameObject newInventoryItem = Instantiate(PrefabHolder.Instance.InventoryItem, itemsParent.transform);
         InventoryItemCard itemCard = newInventoryItem.GetComponent<InventoryItemCard>();
 
-        ItemManager.Instance.SetUpInventoryItemCardFromData(itemCard, itemAdded);
+        ItemManager.Instance.SetUpInventoryItemCardFromData(itemCard, itemAdded, inventoryItemCardSortingOrder);
         PlaceItemOnCharacterSlot(itemCard, weaponSlot);
 
     }
