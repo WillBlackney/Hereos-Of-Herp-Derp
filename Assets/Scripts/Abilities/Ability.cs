@@ -11,7 +11,8 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public LivingEntity myLivingEntity;
     public TextMeshProUGUI myCooldownText;
     public AbilityDataSO myAbilityData;
-    public Sprite abilityImage;
+    public Sprite abilitySprite;
+    public Image abilityImage;
     public CanvasGroup glowHighlightCG;
     public AbilityInfoSheet abilityInfoSheet;
     public TextMeshProUGUI abilityNumberText;
@@ -45,13 +46,12 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     {
         myAbilityData = abilityFromLibrary;
 
-        abilityImage = abilityFromLibrary.sprite;
-        Image image = GetComponent<Image>();
+        abilitySprite = abilityFromLibrary.sprite;
 
         // only for defenders. enemies don't have ability button gameobjects, so GetComponent<Image> will cause a null ref on enemies.
-        if (image)
-        {            
-            GetComponent<Image>().sprite = abilityImage;
+        if (abilityImage)
+        {
+            abilityImage.sprite = abilitySprite;
         }        
 
         // Set base properties
@@ -209,7 +209,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     }    
     public IEnumerator HighLight()
     {
-        while (highlightButton)
+        while (highlightButton && glowHighlightCG.alpha < 0.2f)
         {
             glowHighlightCG.alpha += 0.2f;
             yield return new WaitForEndOfFrame();

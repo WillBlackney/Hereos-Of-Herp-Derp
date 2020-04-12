@@ -1604,7 +1604,7 @@ public static class TextLogic
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage to a target. If the target is " +
                 ReturnColoredText("Shocked", air) + ", apply " +
-                ReturnColoredText("Stunned", air);
+                ReturnColoredText("Stunned", yellow);
         }
         else if (ability.abilityName == "Thaw")
         {
@@ -2481,7 +2481,7 @@ public static class TextLogic
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage to a target. If the target is " +
                 ReturnColoredText("Shocked", air) + ", apply " +
-                ReturnColoredText("Stunned", air);
+                ReturnColoredText("Stunned", yellow);
         }
         else if (ability.abilityName == "Thaw")
         {

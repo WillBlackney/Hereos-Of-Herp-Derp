@@ -6291,6 +6291,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 422619330}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &422619332 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7038060462053945645, guid: 5eb244ffd8608304da6f6f3d38480ec9,
+    type: 3}
+  m_PrefabInstance: {fileID: 422619330}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c4292767ad0d2b448b12e116e60464f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &432770829
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7500,7 +7512,7 @@ SpriteRenderer:
   m_Size: {x: 5, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &499854671
@@ -12472,7 +12484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myVisualParent: {fileID: 1875362495}
-  myAnimator: {fileID: 0}
+  myAnimator: {fileID: 834080292}
   isActive: 0
 --- !u!95 &834080292
 Animator:
@@ -26233,7 +26245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentIconUnderMouse: {fileID: 0}
-  passiveInfoSheet: {fileID: 0}
+  passiveInfoSheet: {fileID: 422619332}
   statusPanelParent: {fileID: 411792910}
 --- !u!1 &1864907329
 GameObject:
@@ -60248,6 +60260,11 @@ PrefabInstance:
     - target: {fileID: 8870296836795412346, guid: 0b38456be912c1e4eaedc05017dfea42,
         type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8895147378558506261, guid: 0b38456be912c1e4eaedc05017dfea42,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8895925284449243994, guid: 0b38456be912c1e4eaedc05017dfea42,

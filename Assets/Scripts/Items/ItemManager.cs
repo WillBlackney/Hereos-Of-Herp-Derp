@@ -492,6 +492,8 @@ public class ItemManager : MonoBehaviour
         itemCard.myInfoItemCard.RunSetupFromItemData(data, sortingOrder);
 
         itemCard.myInfoItemCard.location = ItemCard.Location.Inventory;
+
+        itemCard.myInfoItemCard.mainCanvas.sortingOrder = 3100;
     }
     
     

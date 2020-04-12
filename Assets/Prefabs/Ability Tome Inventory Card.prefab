@@ -1331,6 +1331,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemImage: {fileID: 6068552698060059770}
   itemDamageTypeImage: {fileID: 7247970689685042548}
+  mainCanvas: {fileID: 0}
+  cg: {fileID: 0}
   myNameText: {fileID: 4956622314196716099}
   myDescriptionText: {fileID: 7094533677199595968}
   myItemTypeText: {fileID: 6919803187063361575}
@@ -1341,8 +1343,7 @@ MonoBehaviour:
   rareParent: {fileID: 0}
   epicParent: {fileID: 0}
   myItemDataSO: {fileID: 0}
-  inInventory: 0
-  inShop: 0
+  location: 0
   myItemSlot: {fileID: 0}
   myData: {fileID: 0}
   myName: 
@@ -1428,12 +1429,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8061442595866974675}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 36, y: 36}
+  m_SizeDelta: {x: 28, y: 28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8061442594680292243
 CanvasRenderer:
@@ -1499,8 +1500,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8061442594680292241}
   - {fileID: 8061442595995624933}
+  - {fileID: 8061442594680292241}
   - {fileID: 5545176101165308234}
   - {fileID: 6326943395587630217}
   m_Father: {fileID: 8061442596405185152}
@@ -1541,7 +1542,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8061442595866974675}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1575,7 +1576,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e9ef78c89f68ae84cb0b483336d0b11e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cdb79a294ea34ce4d95c3a26c0cb720e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
