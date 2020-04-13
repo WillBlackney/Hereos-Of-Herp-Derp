@@ -86,7 +86,7 @@ SpriteRenderer:
   m_Size: {x: 0.796875, y: 0.90625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!65 &1685953104715442114
@@ -517,6 +517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myHealthBar: {fileID: 2963414166164248532}
+  myWorldSpaceCanvas: {fileID: 3619565404902493683}
   myWorldSpaceCanvasParent: {fileID: 5714972409383504945}
   mySpriteParent: {fileID: 7892589003505560018}
   myModelParent: {fileID: 7892589003505560018}
@@ -1723,6 +1724,12 @@ GameObject:
 --- !u!224 &2131671217089549421 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3340377047826902652, guid: b6d0a0a634ea79d43b0b51bbd7497198,
+    type: 3}
+  m_PrefabInstance: {fileID: 3733009753276365329}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &3619565404902493683 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 141044361211852770, guid: b6d0a0a634ea79d43b0b51bbd7497198,
     type: 3}
   m_PrefabInstance: {fileID: 3733009753276365329}
   m_PrefabAsset: {fileID: 0}

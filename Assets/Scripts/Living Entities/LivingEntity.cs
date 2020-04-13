@@ -10,7 +10,8 @@ public class LivingEntity : MonoBehaviour
     
     [Header("Component References")]
     public Slider myHealthBar;
-    public GameObject myWorldSpaceCanvasParent;
+    public Canvas myWorldSpaceCanvas;
+    public GameObject myWorldSpaceCanvasParent;    
     public GameObject mySpriteParent;
     public GameObject myModelParent;
     public UniversalCharacterModel myModel;
@@ -162,6 +163,9 @@ public class LivingEntity : MonoBehaviour
 
         // Set up all base properties and values (damage, mobility etc)
         SetBaseProperties();
+
+        // Set world space canvas event camera to help performance
+        AutoSetWorldCanvasEventCamera();
     }    
     public virtual void SetBaseProperties()
     {
@@ -620,6 +624,20 @@ public class LivingEntity : MonoBehaviour
     public void DisableWorldSpaceCanvas()
     {
         myWorldSpaceCanvasParent.SetActive(false);
+    }
+    public void AutoSetWorldCanvasEventCamera()
+    {
+        Debug.Log("LivingEntity.AutoSetWorldCanvasEventCamera() called...");
+
+        if (myWorldSpaceCanvas)
+        {
+            Debug.Log("LivingEntity.AutoSetWorldCanvasEventCamera() found a canvas component, setting event camera to main unity camera...");
+            myWorldSpaceCanvas.worldCamera = CameraManager.Instance.unityCamera.mainCamera;
+        }
+        else
+        {
+            Debug.Log("LivingEntity.AutoSetWorldCanvasEventCamera() recieved a null canvas, failed to set event camera...");
+        }
     }
     public virtual IEnumerator PlayMeleeAttackAnimation(LivingEntity entityMovedTowards, float speed = 3)
     {

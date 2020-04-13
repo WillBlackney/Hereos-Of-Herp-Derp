@@ -36,7 +36,6 @@ public class CameraMovement : MonoBehaviour
     {
         offset = new Vector3(0, 0, -10);
         mainCamera.transform.position = new Vector3(0, 0, -10);
-        mainCamera = Camera.main;
         SetPreferedOrthographicSize(5);
     }
     void Update()
@@ -119,12 +118,12 @@ public class CameraMovement : MonoBehaviour
         if (Input.GetAxis("Mouse ScrollWheel") > 0 && mainCamera.orthographicSize > 1)
         {
             Debug.Log("HandleZoomInput() detected zoom IN input");
-            mainCamera.orthographicSize -= 0.1f;
+            mainCamera.orthographicSize -= 0.1f * cameraZoomSpeed;
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0 && mainCamera.orthographicSize < 5f)
         {
             Debug.Log("HandleZoomInput() detected zoom OUT input");
-            mainCamera.orthographicSize += 0.1f;
+            mainCamera.orthographicSize += 0.1f * cameraZoomSpeed;
         }
     }
     public void SetPreferedOrthographicSize(float newSize)
@@ -186,6 +185,7 @@ public class CameraMovement : MonoBehaviour
             }
 
             // Detect and prevent moving camera over the boundary
+            /*
             if (
                 (IsGameObjectVisible(northCollider) && movingNorth) ||
                 (IsGameObjectVisible(southCollider) && movingSouth))
@@ -198,30 +198,29 @@ public class CameraMovement : MonoBehaviour
             {
                 desiredPosition = new Vector3(mainCamera.transform.position.x, CameraManager.Instance.currentLookAtTarget.transform.position.y, mainCamera.transform.position.z) + offset;
             }
+            */
 
-            // move cam to newly calculated position, increase lerp speed as camera gets closer to look at target
-            if (IsCameraAxisBetweenPositions(mainCamera.transform.position.x, desiredPosition.x + 0.5f, desiredPosition.x - 0.5f) ||
-                IsCameraAxisBetweenPositions(mainCamera.transform.position.y, desiredPosition.y + 0.5f, desiredPosition.y - 0.5f))
-            {
-                mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, desiredPosition, smoothSpeed * 3);
-            }
-            else
+            // calculations finished, move camera
+            mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, desiredPosition, smoothSpeed);
+
+            // move cam to newly calculated position, if not already very close
+            /*
+            if (!IsCameraAxisBetweenPositions(mainCamera.transform.position.x, desiredPosition.x + 0.2f, desiredPosition.x - 0.2f) ||
+                !IsCameraAxisBetweenPositions(mainCamera.transform.position.y, desiredPosition.y + 0.2f, desiredPosition.y - 0.2f))
             {
                 mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, desiredPosition, smoothSpeed);
-            }
+            }     
+            */
 
             // Have we reach our target to look at?
-            if (mainCamera.transform.position == desiredPosition)
-            {
-                Debug.Log("Camera has reached LookAtTarget() position");
-                ClearLookAtTarget();
-            }
+            // if (mainCamera.transform.position == desiredPosition)
+            // {
+            // Debug.Log("Camera has reached LookAtTarget() position");
+            // ClearLookAtTarget();
+            //}
         }        
 
-    }
-
-
-    
+    }    
     public bool IsGameObjectVisible(GameObject GO)
     {
         Vector3 viewPos = mainCamera.WorldToViewportPoint(GO.transform.position);
