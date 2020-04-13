@@ -27,14 +27,15 @@ public class InvalidActionManager : MonoBehaviour
 
     public void ShowNewErrorMessage(string reason)
     {
-        ResetMessageViews();
+        StopAllCoroutines();
         StartCoroutine(ShowNewErrorMessageCoroutine(reason));
     }
     private IEnumerator ShowNewErrorMessageCoroutine(string reason)
     {
-        activeMessage = true;
+        ResetMessageViews();
         EnableVisualParent();
         SetReasonText(reason);
+        activeMessage = true;
 
         while (activeMessage)
         {
@@ -56,9 +57,9 @@ public class InvalidActionManager : MonoBehaviour
             }
 
             // flush and reset
-            ResetMessageViews();
-        }
-        
+            //ResetMessageViews();
+        }       
+
     }
 
     public void EnableVisualParent()
@@ -77,8 +78,7 @@ public class InvalidActionManager : MonoBehaviour
     {
         activeMessage = false;
         DisableVisualParent();
-        cg.alpha = 0;
-        
+        cg.alpha = 0;        
     }
 
 }

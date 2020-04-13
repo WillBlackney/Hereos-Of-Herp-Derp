@@ -1338,6 +1338,8 @@ public class LivingEntity : MonoBehaviour
     }
     public IEnumerator OnNewTurnCycleStartedCoroutine(Action action)
     {
+        Debug.Log("OnNewTurnCycleStartedCoroutine() called for " + myName);
+
         timesMeleeAttackedThisTurnCycle = 0;
         hasActivatedThisTurn = false;
 

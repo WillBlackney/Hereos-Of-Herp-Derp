@@ -65,7 +65,7 @@ public class LevelManager : MonoBehaviour
         ToggleLevelBackgroundView(true);
 
         // Move camera to focus on the centre tile
-        FindObjectOfType<CameraMovement>().cinemachineCamera.transform.position = new Vector3(GetWorldCentreTile().WorldPosition.x, GetWorldCentreTile().WorldPosition.y + 0.5f, -10);
+        ///FindObjectOfType<CameraMovement>().cinemachineCamera.transform.position = new Vector3(GetWorldCentreTile().WorldPosition.x, GetWorldCentreTile().WorldPosition.y + 0.5f, -10);
 
     }
     public void CreateLevelBackground()

@@ -437,8 +437,7 @@ public class EventManager : MonoBehaviour
         StartCoroutine(StartNewEndBasicEncounterEventCoroutine());
     }
     private IEnumerator StartNewEndBasicEncounterEventCoroutine()
-    {
-        
+    {        
         Debug.Log("StartNewEndBasicEncounterEvent() coroutine started...");
 
         // Modify player score
@@ -724,6 +723,8 @@ public class EventManager : MonoBehaviour
         StoryEventManager.Instance.ResetStoryEventWindow();
         // Destroy treasure chest
         TreasureRoomManager.Instance.DestroyActiveTreasureChest();
+        // Force resolve unresolved actions and flush queue
+        ActionManager.Instance.FlushActionQueue();
     }   
     public void ResetEncounterProperties()
     {

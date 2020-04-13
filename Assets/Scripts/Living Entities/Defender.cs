@@ -748,11 +748,12 @@ public class Defender : LivingEntity
             awaitingAnOrder = false;
             enableTileHover = false;
         }
-        if(!EntityLogic.IsAbleToMove(this) &&
+        if(
             (ability.abilityName == "Move" ||
             ability.abilityName == "Charge" ||
             ability.abilityName == "Dash" ||
-            ability.abilityName == "Get Down!")
+            ability.abilityName == "Get Down!") &&
+            !EntityLogic.IsAbleToMove(this)
             )
         {
             awaitingAnOrder = false;

@@ -32,6 +32,6 @@ public class CameraManager : MonoBehaviour
         unityCamera.SetPreferedOrthographicSize(5); 
 
         // Focus on world centre tile
-        unityCamera.cinemachineCamera.transform.position = new Vector3(LevelManager.Instance.GetWorldCentreTile().WorldPosition.x, LevelManager.Instance.GetWorldCentreTile().WorldPosition.y + 0.5f, -10);
+        unityCamera.mainCamera.transform.position = new Vector3(LevelManager.Instance.GetWorldCentreTile().WorldPosition.x, LevelManager.Instance.GetWorldCentreTile().WorldPosition.y + 0.5f, -10);
     }
 }

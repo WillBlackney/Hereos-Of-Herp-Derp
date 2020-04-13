@@ -119,6 +119,7 @@ public class MovementLogic : MonoBehaviour
                     //yield return new WaitUntil(() => moveToNewLocation.ActionResolved() == true);
                     characterMoved.destination = characterMoved.path.Pop().WorldPosition;
                     freeStrikesOnThisTileResolved = false;
+                    overwatchOnThisTileResolved = false;
                 }
 
                 // if we have reached the final destination
@@ -139,6 +140,7 @@ public class MovementLogic : MonoBehaviour
                     Debug.Log("Final point reached, movement finished");
                     characterMoved.PlayIdleAnimation();
                     freeStrikesOnThisTileResolved = false;
+                    overwatchOnThisTileResolved = false;
                     hasCompletedMovement = true;
                     action.actionResolved = true;
                 }
@@ -698,20 +700,6 @@ public class MovementLogic : MonoBehaviour
     public void OnNewTileSet(LivingEntity character)
     {
         // TO DO: in future, if we have any tiles that apply effects the instant a character moves on it, the logic would go here
-
-        /*
-        // Check grass tile / camo application or removal
-        if (character.tile.myTileType == Tile.TileType.Grass &&
-            character.myPassiveManager.camoflage == false)
-        {
-            character.myPassiveManager.ModifyCamoflage(1);
-        }
-        else if (character.tile.myTileType != Tile.TileType.Grass &&
-            character.myPassiveManager.camoflage)
-        {
-            character.myPassiveManager.ModifyCamoflage(-character.myPassiveManager.camoflageStacks);
-        }
-        */
     }
     public Action ResolveFreeStrikes(LivingEntity characterMoved, Tile previousLocation, Tile newLocation)
     {
@@ -789,7 +777,6 @@ public class MovementLogic : MonoBehaviour
         foreach (LivingEntity entity in unfriendlyEntities)
         {
             if (LevelManager.Instance.IsTileYWithinRangeOfTileX(entity.tile, previousLocation, 5) &&
-                //EntityLogic.IsTargetInRange(entity, characterMoved, 5) &&
                 EntityLogic.IsTargetVisible(entity, characterMoved) &&
                 characterMoved.inDeathProcess == false)
             {

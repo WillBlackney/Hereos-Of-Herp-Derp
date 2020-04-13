@@ -55,5 +55,21 @@ public class ActionManager : MonoBehaviour
 
         return boolReturned;
     }
+    public void FlushActionQueue()
+    {
+        Debug.Log("ActionManager.ForceResolveAllQueueActions() called...");
+
+        ForceResolveAllQueueActions();
+        actionQueue.Clear();
+    }
+    public void ForceResolveAllQueueActions()
+    {
+        Debug.Log("ActionManager.ForceResolveAllQueueActions() called...");
+
+        foreach(Action action in actionQueue)
+        {
+            action.actionResolved = true;
+        }
+    }
     #endregion
 }

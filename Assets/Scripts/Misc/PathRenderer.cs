@@ -62,24 +62,26 @@ public class PathRenderer : MonoBehaviour
                     Tile currentTile = currentPath[index];
                     foreach (Enemy enemy in EnemyManager.Instance.allEnemies)
                     {
-                        // Dont both checking free strikes if selected defender is immune to free strikes
-                        if (DefenderManager.Instance.selectedDefender == null || DefenderManager.Instance.selectedDefender.myPassiveManager.slippery == false)
+                        // only check enemies that actually have a melee weapon
+                        if(enemy.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeOneHand || enemy.myMainHandWeapon.itemType == ItemDataSO.ItemType.MeleeTwoHand)
                         {
-                            List<Tile> enemyMeleeRange = LevelManager.Instance.GetTilesWithinRange(enemy.currentMeleeRange, enemy.tile, true, false);
-                            // is current tile index in melee range of the enemy?
-                            if (enemyMeleeRange.Contains(currentTile))
+                            // Dont both checking free strikes if selected defender is immune to free strikes, or enemy doesnt have a melee weapon
+                            if (DefenderManager.Instance.selectedDefender == null || DefenderManager.Instance.selectedDefender.myPassiveManager.slippery == false)
                             {
-                                // it is. is the next position on the path not within the enemies melee range?
-                                if (enemyMeleeRange.Contains(currentPath[index + 1]) == false)
+                                List<Tile> enemyMeleeRange = LevelManager.Instance.GetTilesWithinRange(enemy.currentMeleeRange, enemy.tile, true, false);
+                                // is current tile index in melee range of the enemy?
+                                if (enemyMeleeRange.Contains(currentTile))
                                 {
-                                    // moving from the current index will trigger a free strike
-                                    Debug.Log("PathRenderer.DrawPath() FREE STRIKE DETECTED");
-                                    enemy.SetFreeStrikeIndicatorViewState(true);
-
+                                    // it is. is the next position on the path not within the enemies melee range?
+                                    if (enemyMeleeRange.Contains(currentPath[index + 1]) == false)
+                                    {
+                                        // moving from the current index will trigger a free strike
+                                        Debug.Log("PathRenderer.DrawPath() FREE STRIKE DETECTED");
+                                        enemy.SetFreeStrikeIndicatorViewState(true);
+                                    }
                                 }
-
                             }
-                        }
+                        }     
 
                     }
                 }

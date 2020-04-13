@@ -319,7 +319,7 @@ public class AbilityLogic : MonoBehaviour
     public int CalculateAbilityRange(Ability ability, LivingEntity entity)
     {
         Debug.Log("AbilityLogic.CalculateAbilityRange() called for " +
-            entity.myName + " using ability " + ability.name);
+            entity.myName + " using ability " + ability.abilityName);
 
         int rangeReturned = 0;
 
@@ -687,7 +687,7 @@ public class AbilityLogic : MonoBehaviour
         {
             // Set up properties
             Ability strike = caster.mySpellBook.GetAbilityByName("Strike");
-            Ability twinStrike = caster.mySpellBook.GetAbilityByName("Strike");
+            Ability twinStrike = caster.mySpellBook.GetAbilityByName("Twin Strike");
             Ability abilityUsed = null;
             if (strike)
             {
@@ -805,6 +805,8 @@ public class AbilityLogic : MonoBehaviour
     // Over Watch Shot
     public Action PerformOverwatchShot(LivingEntity caster, LivingEntity victim)
     {
+        Debug.Log("AbilityLogic.PerformOverwatchShot() called for " + caster.myName + " against " + victim.myName);
+
         Action action = new Action(true);
         StartCoroutine(PerformOverwatchShotCoroutine(caster, victim, action));
         return action;
@@ -835,7 +837,7 @@ public class AbilityLogic : MonoBehaviour
             Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
             yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
-            // if the target successfully parried, dont do HandleDamage: do parry stuff instead
+            // if the target successfully dodged, dont do HandleDamage: do dodge stuff instead
             if (dodge)
             {
                 Action dodgeAction = CombatLogic.Instance.HandleDodge(caster, victim);
@@ -2716,7 +2718,7 @@ public class AbilityLogic : MonoBehaviour
         // Set up properties
         Ability fireNova = caster.mySpellBook.GetAbilityByName("Fire Nova");
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, fireNova);
-        List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(caster, fireNova.abilitySecondaryValue);
+        List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(caster, 1);
 
         // Status VFX notification for enemies
         if (caster.enemy)
