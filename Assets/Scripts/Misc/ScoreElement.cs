@@ -25,7 +25,7 @@ public class ScoreElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         myCG.alpha = 0;
         while(myCG.alpha < 1)
         {
-            myCG.alpha += 0.1f;
+            myCG.alpha += 0.1f * Time.deltaTime * 10;
             yield return new WaitForEndOfFrame();
         }
     }

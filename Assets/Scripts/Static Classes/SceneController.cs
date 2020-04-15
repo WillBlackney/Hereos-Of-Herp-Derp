@@ -57,7 +57,11 @@ public class SceneController : MonoBehaviour
         loadingScreenSlider.value = 0;
         loadingBarCG.alpha = 1;
         continueButton.SetActive(false);
-        continueButtonCG.alpha = 0;
+
+        // create CG component dynamically
+        //continueButtonCG = continueButton.AddComponent<CanvasGroup>();
+        //continueButtonCG.alpha = 0;
+
         bool fadeOutStarted = false;    
         float startTime = Time.time;
 
@@ -112,6 +116,7 @@ public class SceneController : MonoBehaviour
     private IEnumerator LoadGameSceneAsyncCoroutine()
     {
         // Set up + reset values from a previous scene load
+        currentLoadFinished = false;
         playerPressedContinue = false;
         loadingScreenSlider.value = 0;
         loadingBarCG.alpha = 1;

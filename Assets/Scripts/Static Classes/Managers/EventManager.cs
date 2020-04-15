@@ -12,7 +12,7 @@ public class EventManager : MonoBehaviour
     public bool damageTakenThisEncounter;
     public bool gameOverEventStarted;
     public bool currentCombatEndEventTriggered;
-
+    public bool actTransitionInProcess;
     #endregion
 
     // Singleton Set up
@@ -501,30 +501,25 @@ public class EventManager : MonoBehaviour
     }
     private IEnumerator StartNewEndBossEncounterEventCoroutine()
     {
-        Debug.Log("StartNewEndBossEncounterEvent() coroutine started...");
-
+        // Modify player score
+        ScoreManager.Instance.HandlePostCombatScoring();
         // Destroy windows
         ActivationManager.Instance.ClearAllWindowsFromActivationPanel();
-
         // Show combat end visual events before loot reward screen appears
         preLootScreenEventFinished = false;
-
         // Disable end turn button
         UIManager.Instance.DisableEndTurnButtonView();
-
         // Unselect defender to hide ability bar UI, prevent null behaviors
         DefenderManager.Instance.ClearSelectedDefender();
-
         // Show xp rewards + level ups
-        Action lootEvent = StartPreLootScreenVisualEvent(20);
+        Action lootEvent = StartPreLootScreenVisualEvent(50);
         yield return new WaitUntil(() => lootEvent.ActionResolved() == true);
-
         // Give characters xp
-        CharacterRoster.Instance.RewardAllCharactersXP(100);
-
-        // Finish game
-        StartNewGameOverVictoryEvent();
-        yield return null;
+        CharacterRoster.Instance.RewardAllCharactersXP(50);
+        // re enable world map + get next viable enocunter hexagon tiles
+        //WorldManager.Instance.SetWorldMapReadyState();
+        // Start loot creation/display process
+        StartNewLootRewardEvent(WorldEncounter.EncounterType.Boss);
     }
     public void StartNewGameOverDefeatedEvent()
     {
@@ -656,10 +651,34 @@ public class EventManager : MonoBehaviour
     }
     public void EndNewLootRewardEvent()
     {
-        RewardScreen.Instance.ClearRewards();
-        UIManager.Instance.DisableRewardScreenView();
-        UIManager.Instance.EnableWorldMapView();
-        WorldManager.Instance.HighlightNextAvailableEncounters();
+        Debug.Log("EventManager.EndNewLootRewardEvent() called...");
+
+        // continue normally if not fighting a boss at the end of an act
+        if (currentEncounterType != WorldEncounter.EncounterType.Boss)
+        {
+            RewardScreen.Instance.ClearRewards();
+            UIManager.Instance.DisableRewardScreenView();
+            UIManager.Instance.EnableWorldMapView();
+            WorldManager.Instance.HighlightNextAvailableEncounters();
+        }
+
+        // start load new act sequence after looting boss awards
+        else if(currentEncounterType == WorldEncounter.EncounterType.Boss)
+        {
+            Debug.Log("EventManager.EndNewLootRewardEvent() detected a boss loot event ending");
+
+            if (actTransitionInProcess == false)
+            {
+                if (WorldManager.Instance.currentAct == 1)
+                {
+                    actTransitionInProcess = true;
+                    StartActTwoLoadSequence();
+                }
+            }
+           
+        }
+
+
     }
     public void StartNewLootRewardEvent(WorldEncounter.EncounterType encounterType)
     {
@@ -693,6 +712,20 @@ public class EventManager : MonoBehaviour
             RewardScreen.Instance.PopulateItemScreen();
         }
 
+        else if (encounterType == WorldEncounter.EncounterType.Boss)
+        {
+            UIManager.Instance.EnableRewardScreenView();
+            RewardScreen.Instance.CreateGoldRewardButton();
+            RewardScreen.Instance.CreateCommonItemRewardButton();
+            RewardScreen.Instance.CreateRareItemRewardButton();
+            RewardScreen.Instance.CreateEpicItemRewardButton();
+            RewardScreen.Instance.CreateConsumableRewardButton();
+            RewardScreen.Instance.CreateStateRewardButton();
+
+            RewardScreen.Instance.PopulateBossStateRewardScreen();
+            RewardScreen.Instance.PopulateItemScreen();
+        }
+
         else if (encounterType == WorldEncounter.EncounterType.Treasure)
         {
             UIManager.Instance.EnableRewardScreenView();
@@ -708,6 +741,8 @@ public class EventManager : MonoBehaviour
     #region
     public void ClearPreviousEncounter()
     {
+        Debug.Log("EventManager.ClearPreviousEncounter() called...");
+
         ResetEncounterProperties();
         // Destroy the level data + all tile Go's
         LevelManager.Instance.DestroyCurrentLevel();
@@ -728,13 +763,64 @@ public class EventManager : MonoBehaviour
     }   
     public void ResetEncounterProperties()
     {
+        Debug.Log("EventManager.ResetEncounterProperties() called...");
+
         damageTakenThisEncounter = false;
         currentCombatEndEventTriggered = false;
     }
     #endregion
 
+    // Start + End of Act Transitions and Logic
+    #region
+    public Action StartActTwoLoadSequence()
+    {
+        Action action = new Action();
+        StartCoroutine(StartActTwoLoadSequenceCoroutine(action));
+        return action;
+    }
+    private IEnumerator StartActTwoLoadSequenceCoroutine(Action action)
+    {
+        Debug.Log("EventManager.StartActTwoLoadSequenceCoroutine() called...");
 
+        // Destroy the previous level and tiles + reset values/properties, turn off unneeded views
+        ClearPreviousEncounter();
 
+        // Disable player's ability to click on encounter buttons and start new encounters
+        WorldManager.Instance.canSelectNewEncounter = false;
+
+        // fade out view, wait until completed
+        Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 3, 1, true);
+        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
+
+        // Build new world
+        WorldManager.Instance.OnActTwoStarted();
+
+        // Heal all characters to full hp
+        foreach(CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+        {
+            character.ModifyCurrentHealth(character.maxHealth);
+        }
+
+        // Clear current encounter type
+        currentEncounterType = WorldEncounter.EncounterType.NoType;
+
+        // Enable world map view
+        UIManager.Instance.EnableWorldMapView();
+
+        // Enable player's ability to click on encounter buttons and start new encounters
+        WorldManager.Instance.canSelectNewEncounter = true;
+
+        // Refresh act transition bool
+        actTransitionInProcess = false;
+
+        // Fade scene back in, wait until completed
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 3, 0, false);
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+
+        action.actionResolved = true;      
+    }
+
+    #endregion
 
 
 

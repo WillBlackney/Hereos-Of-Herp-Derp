@@ -17940,7 +17940,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1, y: 0}
   m_SizeDelta: {x: 2, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1227547315
@@ -18550,7 +18550,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1, y: 0}
   m_SizeDelta: {x: 2, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1295633029
@@ -20742,6 +20742,7 @@ MonoBehaviour:
   damageTakenThisEncounter: 0
   gameOverEventStarted: 0
   currentCombatEndEventTriggered: 0
+  actTransitionInProcess: 0
   preLootScreenEventFinished: 0
 --- !u!4 &1414821886
 Transform:
@@ -27730,8 +27731,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72ab7d3845f51140802bb51ec0b3500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runTestWaveOnly: 0
-  testingWave: {fileID: 11400000, guid: f4837810f8c890643938e29350d63c5e, type: 2}
+  runTestWaveOnly: 1
+  testingWave: {fileID: 11400000, guid: a925a91cb3c75e64cadf1f518e9a621e, type: 2}
   basicEnemyWavesActOneHalfOne:
   - {fileID: 11400000, guid: 9c7a79d32d54c1f4a8e0c24b37645675, type: 2}
   - {fileID: 11400000, guid: 241410e7a039fad46b9203d68bd47782, type: 2}
@@ -28304,6 +28305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWorld: {fileID: 0}
+  currentAct: 0
   playerColumnPosition: 0
   playerEncounterPosition: {fileID: 0}
   canSelectNewEncounter: 0
@@ -28329,18 +28331,6 @@ MonoBehaviour:
   mysteryEncounterImage: {fileID: 21300000, guid: 8bef9980e57f06d4d9d109daa1002aa0,
     type: 3}
   bossEncounterImage: {fileID: 21300000, guid: 44efe2d0718aaa046af912b16bc62dad, type: 3}
-  basicEncounterShadowImage: {fileID: 21300000, guid: 8246088b1ad1c284585c1e9efd8839a2,
-    type: 3}
-  eliteEncounterShadowImage: {fileID: 21300000, guid: 53fb1808e064d8d4480eb2a276a5ccc4,
-    type: 3}
-  campSiteEncounterShadowImage: {fileID: 21300000, guid: 27e880f827a7e524e984f0bf5b3387e7,
-    type: 3}
-  shopEncounterShadowImage: {fileID: 21300000, guid: d8db44fd2f419304ea7228000d411f43,
-    type: 3}
-  treasureEncounterShadowImage: {fileID: 21300000, guid: 333afe01e3a96af4497b6836ef435664,
-    type: 3}
-  mysteryEncounterShadowImage: {fileID: 21300000, guid: 29294c8a4bf8ef740a6da2b5c2b31ce6,
-    type: 3}
 --- !u!1 &2008025704
 GameObject:
   m_ObjectHideFlags: 0

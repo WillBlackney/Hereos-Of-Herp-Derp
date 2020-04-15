@@ -41,6 +41,22 @@ public class ScoreManager : MonoBehaviour
     {
         Instance = this;
     }
+    private void Start()
+    {
+        // FOR TESTING: REMOVE LATER
+        itemsCollected++;
+        epicItemsCollected++;
+        statesCollected++;
+        encountersCompleted = 8;
+        levelsGained = 8;
+        goldGained = 300;
+        bossesDefeated = 2;
+        elitesDefeated = 2;
+        basicsDefeated = 2;
+        killedBasicNoDamageTaken = 2;
+        killedEliteNoDamageTaken = 2;
+        killedBossNoDamageTaken = 2;
+    }
     #endregion
 
     // Calculate Score
@@ -109,13 +125,6 @@ public class ScoreManager : MonoBehaviour
             CreateScoreElement("Well Armed", epicItemsCollected, epicItemsCollected * 5, "Collect an epic item");
         }
 
-        // artifacts collected
-        if (artifactsCollected > 0)
-        {
-            totalScore += artifactsCollected * 10;
-            CreateScoreElement("Artifact Collector", artifactsCollected, artifactsCollected * 10, "Collect an artifact");
-        }
-
         // states collected
         if (statesCollected > 0)
         {
@@ -145,13 +154,15 @@ public class ScoreManager : MonoBehaviour
             CreateScoreElement("Unstoppable", killedBossNoDamageTaken, killedBossNoDamageTaken * 50, "Defeat an boss enemy encounter without taking damage");
         }
 
+        // Set final score text
+        finalScoreText.text = totalScore.ToString();
+
+        // fade in each score element 1 by 1
         foreach (ScoreElement scoreElement in scoreElements)
         {
             StartCoroutine(scoreElement.FadeInPanel());
             yield return new WaitForSeconds(0.3f);
-        }
-
-        finalScoreText.text = totalScore.ToString();
+        }        
 
         action.actionResolved = true;
     }
@@ -159,6 +170,7 @@ public class ScoreManager : MonoBehaviour
     {
         GameObject newElement = Instantiate(scoreElementPrefab, scoreScreenContentParent.transform);
         ScoreElement scoreElement = newElement.GetComponent<ScoreElement>();
+        scoreElements.Add(scoreElement);
         scoreElement.InitializeSetup(name, amount, finalScoreValue, description);
 
     }

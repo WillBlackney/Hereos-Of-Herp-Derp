@@ -6,6 +6,7 @@ public class WorldManager : MonoBehaviour
 {
     [Header("Properties")]
     public World currentWorld;
+    public int currentAct;
     public int playerColumnPosition;
     public WorldEncounter playerEncounterPosition;
     public bool canSelectNewEncounter;
@@ -31,13 +32,6 @@ public class WorldManager : MonoBehaviour
     public Sprite mysteryEncounterImage;
     public Sprite bossEncounterImage;
 
-    [Header("Encounter Type Shadow Images")]
-    public Sprite basicEncounterShadowImage;
-    public Sprite eliteEncounterShadowImage;
-    public Sprite campSiteEncounterShadowImage;
-    public Sprite shopEncounterShadowImage;
-    public Sprite treasureEncounterShadowImage;
-    public Sprite mysteryEncounterShadowImage;
 
     // Initialization + Setup
     #region
@@ -52,11 +46,22 @@ public class WorldManager : MonoBehaviour
     }   
     public void OnNewGameStarted()
     {
+        OnActOneStarted();
+    }
+    public void OnActOneStarted()
+    {
+        currentAct = 1;
         CreateNewWorld();
-        SetPlayerPosition(0);
+        SetPlayerAtHomePosition();
         SetWorldMapReadyState();
-        // UIManager.Instance.OnWorldMapButtonClicked();
-        UIManager.Instance.DisableInventoryView();
+    }
+    public void OnActTwoStarted()
+    {
+        currentAct = 2;
+        DestroyCurrentWorld();
+        CreateNewWorld();
+        SetPlayerAtHomePosition();
+        SetWorldMapReadyState();
     }
     public void CreateNewWorld()
     {
@@ -113,6 +118,11 @@ public class WorldManager : MonoBehaviour
 
     // Travelling + World Navigation Logic
     #region
+    public void SetPlayerAtHomePosition()
+    {
+        playerColumnPosition = 0;
+        playerEncounterPosition = null;
+    }
     public void SetPlayerPosition(int newColumnPosition)
     {
         playerColumnPosition = newColumnPosition;
@@ -158,6 +168,7 @@ public class WorldManager : MonoBehaviour
         if (currentWorld != null)
         {
             Destroy(currentWorld.gameObject);
+            currentWorld = null;
         }
     }
     #endregion

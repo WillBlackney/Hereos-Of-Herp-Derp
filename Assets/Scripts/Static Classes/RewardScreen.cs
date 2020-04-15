@@ -185,6 +185,43 @@ public class RewardScreen : MonoBehaviour
             stateThree.BuildFromStateData(StateLibrary.Instance.GetRandomStateReward());
         }
     }
+    public void PopulateBossStateRewardScreen()
+    {
+        Debug.Log("RewardScreen.PopulateBossStateRewardScreen() called...");
+
+        // Generate random state for state reward 1
+        GameObject newStateOne = Instantiate(PrefabHolder.Instance.StateCard, ChooseStateScreenContent.transform);
+        StateCard stateOne = newStateOne.GetComponent<StateCard>();
+        stateOne.BuildFromStateData(StateLibrary.Instance.GetRandomBossState());
+        currentStateOne = newStateOne;
+
+        // Generate random state for state reward 2
+        GameObject newStateTwo = Instantiate(PrefabHolder.Instance.StateCard, ChooseStateScreenContent.transform);
+        StateCard stateTwo = newStateTwo.GetComponent<StateCard>();
+        stateTwo.BuildFromStateData(StateLibrary.Instance.GetRandomBossState());
+        currentStateTwo = newStateTwo;
+
+        // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
+        while (stateTwo.myStateData.stateName == stateOne.myStateData.stateName)
+        {
+            Debug.Log("RewardScreen.PopulateStateScreen() detected a duplicate state reward, rerolling state two...");
+            stateTwo.BuildFromStateData(StateLibrary.Instance.GetRandomBossState());
+        }
+
+        // Generate random state for state reward 3
+        GameObject newStateThree = Instantiate(PrefabHolder.Instance.StateCard, ChooseStateScreenContent.transform);
+        StateCard stateThree = newStateThree.GetComponent<StateCard>();
+        stateThree.BuildFromStateData(StateLibrary.Instance.GetRandomBossState());
+        currentStateThree = newStateThree;
+
+        // Prevent duplicate items appearing as reward: Reroll item until we get a non-duplicate
+        while (stateThree.myStateData.stateName == stateOne.myStateData.stateName ||
+               stateThree.myStateData.stateName == stateTwo.myStateData.stateName)
+        {
+            Debug.Log("RewardScreen.PopulateStateScreen() detected a duplicate state reward, rerolling state three...");
+            stateThree.BuildFromStateData(StateLibrary.Instance.GetRandomBossState());
+        }
+    }
     public void PopulateItemScreen()
     {
         if(EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.BasicEnemy)
@@ -199,6 +236,8 @@ public class RewardScreen : MonoBehaviour
         }
         else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.Boss)
         {
+            PopulateCommonItemScreen();
+            PopulateRareItemScreen();
             PopulateEpicItemScreen();
         }
 
@@ -376,6 +415,7 @@ public class RewardScreen : MonoBehaviour
     #region
     public void OnSkipRewardsButtonClicked()
     {
+        Debug.Log("RewardScreen.OnSkipRewardsButtonClicked() called...");
         EventManager.Instance.EndNewLootRewardEvent();
     }
     #endregion

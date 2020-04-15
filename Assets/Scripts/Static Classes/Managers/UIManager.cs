@@ -26,7 +26,15 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
     private void Awake()
     {
-        Instance = this;
+        Instance = this;       
+    }
+    private void Start()
+    {
+        // for some reason, game build always open inventory on game start
+        // these lines prevents this weird bug
+        DisableInventoryView();
+        EnableInventoryView();
+        DisableInventoryView();
     }
 
     // Mouse + Click Events
@@ -57,20 +65,7 @@ public class UIManager : MonoBehaviour
         }
             
     }  
-    public void OnInventoryButtonClicked()
-    {
-        if (Inventory.activeSelf == true)
-        {
-            DisableInventoryView();            
-        }
-
-        else if (Inventory.activeSelf == false)
-        {
-            EnableInventoryView();
-            DisableCharacterRosterView();
-            DisableWorldMapView();
-        }
-    }
+   
     public void OnWorldMapButtonClicked()
     {
         KingsBlessingManager.Instance.DisableView();
@@ -176,7 +171,7 @@ public class UIManager : MonoBehaviour
         gameOverScreenCG.alpha = 0;
         while(gameOverScreenCG.alpha < 1)
         {
-            gameOverScreenCG.alpha += 0.1f;            
+            gameOverScreenCG.alpha += 0.1f * 10 * Time.deltaTime;            
             yield return new WaitForEndOfFrame();
         }
 
@@ -200,6 +195,7 @@ public class UIManager : MonoBehaviour
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
 
         // Ready, load the game scene
+        SceneController.Instance.continueButton.SetActive(false);
         SceneController.Instance.LoadMenuSceneAsync(true);
     }
     #endregion
