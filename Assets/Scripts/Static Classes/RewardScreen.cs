@@ -222,22 +222,21 @@ public class RewardScreen : MonoBehaviour
             stateThree.BuildFromStateData(StateLibrary.Instance.GetRandomBossState());
         }
     }
-    public void PopulateItemScreen()
+    public void PopulateItemScreen(WorldEncounter.EncounterType encounterType)
     {
-        if(EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.BasicEnemy)
+        if(encounterType == WorldEncounter.EncounterType.BasicEnemy)
         {
             PopulateCommonItemScreen();
         }
 
-        else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.EliteEnemy)
+        else if (encounterType == WorldEncounter.EncounterType.EliteEnemy)
         {
             PopulateCommonItemScreen();
             PopulateRareItemScreen();
         }
-        else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.Boss)
+        else if (encounterType == WorldEncounter.EncounterType.Boss)
         {
             PopulateCommonItemScreen();
-            PopulateRareItemScreen();
             PopulateEpicItemScreen();
         }
 

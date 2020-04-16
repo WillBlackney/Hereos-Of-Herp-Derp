@@ -202,6 +202,61 @@ public class StateManager : MonoBehaviour
             }
         }
 
+        // boss states
+        else if (data.stateName == "Combat Mastery")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyStamina(10);
+                character.ModifyMaxEnergy(10);
+            }
+        }
+        else if (data.stateName == "Trauma Savant")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyStamina(10);
+                character.ModifyMaxEnergy(10);
+            }
+        }
+        else if (data.stateName == "Oath Of Honour")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyStamina(10);
+                character.ModifyMaxEnergy(10);
+            }
+        }
+        else if (data.stateName == "Awesomeness")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyStamina(5);
+                character.ModifyMaxEnergy(5);
+            }
+        }
+        else if (data.stateName == "Orcish Tendencies")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyStrength(5);
+            }
+        }
+        else if (data.stateName == "Thick Skinned")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyMaxHealth(50);
+            }
+        }
+        else if (data.stateName == "Lottery Winners")
+        {
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomEpicItem());
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomEpicItem());
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomEpicItem());
+        }
+
+
         yield return null;
     }
     public Action ApplyAllStateEffectsToLivingEntities()

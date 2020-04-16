@@ -516,8 +516,6 @@ public class EventManager : MonoBehaviour
         yield return new WaitUntil(() => lootEvent.ActionResolved() == true);
         // Give characters xp
         CharacterRoster.Instance.RewardAllCharactersXP(50);
-        // re enable world map + get next viable enocunter hexagon tiles
-        //WorldManager.Instance.SetWorldMapReadyState();
         // Start loot creation/display process
         StartNewLootRewardEvent(WorldEncounter.EncounterType.Boss);
     }
@@ -674,10 +672,8 @@ public class EventManager : MonoBehaviour
                     actTransitionInProcess = true;
                     StartActTwoLoadSequence();
                 }
-            }
-           
+            }           
         }
-
 
     }
     public void StartNewLootRewardEvent(WorldEncounter.EncounterType encounterType)
@@ -689,7 +685,7 @@ public class EventManager : MonoBehaviour
             UIManager.Instance.EnableRewardScreenView();
             RewardScreen.Instance.CreateGoldRewardButton();
             RewardScreen.Instance.CreateCommonItemRewardButton();
-            RewardScreen.Instance.PopulateItemScreen();
+            RewardScreen.Instance.PopulateItemScreen(WorldEncounter.EncounterType.BasicEnemy);
 
             // 50% chance to get a consumable from basic encounters
             int consumableRoll = Random.Range(1, 101);
@@ -709,7 +705,7 @@ public class EventManager : MonoBehaviour
             RewardScreen.Instance.CreateStateRewardButton();
 
             RewardScreen.Instance.PopulateStateRewardScreen();
-            RewardScreen.Instance.PopulateItemScreen();
+            RewardScreen.Instance.PopulateItemScreen(WorldEncounter.EncounterType.EliteEnemy);
         }
 
         else if (encounterType == WorldEncounter.EncounterType.Boss)
@@ -717,13 +713,12 @@ public class EventManager : MonoBehaviour
             UIManager.Instance.EnableRewardScreenView();
             RewardScreen.Instance.CreateGoldRewardButton();
             RewardScreen.Instance.CreateCommonItemRewardButton();
-            RewardScreen.Instance.CreateRareItemRewardButton();
             RewardScreen.Instance.CreateEpicItemRewardButton();
             RewardScreen.Instance.CreateConsumableRewardButton();
             RewardScreen.Instance.CreateStateRewardButton();
 
             RewardScreen.Instance.PopulateBossStateRewardScreen();
-            RewardScreen.Instance.PopulateItemScreen();
+            RewardScreen.Instance.PopulateItemScreen(WorldEncounter.EncounterType.Boss);
         }
 
         else if (encounterType == WorldEncounter.EncounterType.Treasure)
@@ -791,6 +786,10 @@ public class EventManager : MonoBehaviour
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 3, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
+
+        // Reset reward screen
+        RewardScreen.Instance.ClearRewards();
+        UIManager.Instance.DisableRewardScreenView();
 
         // Build new world
         WorldManager.Instance.OnActTwoStarted();

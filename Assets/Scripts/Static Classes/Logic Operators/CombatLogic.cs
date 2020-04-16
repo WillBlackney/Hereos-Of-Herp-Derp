@@ -706,12 +706,8 @@ public class CombatLogic : MonoBehaviour
             EventManager.Instance.currentCombatEndEventTriggered == false)
         {
             Debug.Log("CombatLogic.HandleDeath() detected that all enemies have been killed...");
-
-            // FOR TESTING: UNCOMMENT EVERYTHING WHEN DONE
-            EventManager.Instance.StartNewEndBossEncounterEvent();
-
-            // Trigger combat victory event depending on current encounter type
-            /*
+            
+            // Trigger combat victory event depending on current encounter type            
             if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.EliteEnemy)
             {
                 EventManager.Instance.currentCombatEndEventTriggered = true;
@@ -727,7 +723,7 @@ public class CombatLogic : MonoBehaviour
                 EventManager.Instance.currentCombatEndEventTriggered = true;
                 EventManager.Instance.StartNewEndBossEncounterEvent();
             }
-            */
+            
 
         }
 

@@ -108,12 +108,7 @@ public class ItemLibrary : MonoBehaviour
     }
     public ItemDataSO GetRandomEpicItem(bool includeStoryItems = false)
     {
-        return GetRandomRareItem();
-
-        // TO DO: implement some epic items, then uncomment this
-
-
-        /*
+        
         Debug.Log("ItemLibrary.GetRandomEpicItem() called...");
 
         List<ItemDataSO> allEpicItems = new List<ItemDataSO>();
@@ -138,7 +133,7 @@ public class ItemLibrary : MonoBehaviour
         randomIndex = Random.Range(0, allEpicItems.Count);
         Debug.Log("ItemLibrary.GetRandomEpicItem() returning " + allEpicItems[randomIndex].Name);
         return allEpicItems[randomIndex];
-        */
+        
     }
     
     #endregion

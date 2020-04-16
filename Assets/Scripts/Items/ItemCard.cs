@@ -93,7 +93,7 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             }
             else if (myData.itemRarity == ItemDataSO.ItemRarity.Epic)
             {
-                RewardScreen.Instance.DestroyAllRareItemCards();
+                RewardScreen.Instance.DestroyAllEpicItemCards();
                 Destroy(RewardScreen.Instance.currentEpicItemRewardButton);
                 RewardScreen.Instance.currentEpicItemRewardButton = null;
                 RewardScreen.Instance.DisableEpicItemLootScreen();

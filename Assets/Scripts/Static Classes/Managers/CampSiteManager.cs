@@ -109,6 +109,13 @@ public class CampSiteManager : MonoBehaviour
     public void OnTriageButtonClicked()
     {
         Debug.Log("CampSiteManager.OnTriageButtonClicked() called...");
+
+        if (StateManager.Instance.DoesPlayerAlreadyHaveState("Trauma Savant"))
+        {
+            Debug.Log("Player has 'Trauma Savant' state, cancelling triage action...");
+            return;
+        }
+
         ClearAllOrders();
 
         if (HasEnoughCampSitePoints(triagePointCost))
@@ -123,6 +130,12 @@ public class CampSiteManager : MonoBehaviour
     public void OnTrainButtonClicked()
     {
         Debug.Log("CampSiteManager.OnTrainButtonClicked() called...");
+
+        if (StateManager.Instance.DoesPlayerAlreadyHaveState("Combat Mastery"))
+        {
+            Debug.Log("Player has 'Combat Mastery' state, cancelling train action...");
+            return;
+        }
 
         ClearAllOrders();
         if (HasEnoughCampSitePoints(trainPointCost))
@@ -148,7 +161,7 @@ public class CampSiteManager : MonoBehaviour
     }
     public void OnPrayButtonClicked()
     {
-        Debug.Log("CampSiteManager.OnPrayButtonClicked() called...");
+        Debug.Log("CampSiteManager.OnPrayButtonClicked() called...");        
 
         ClearAllOrders();
         if (HasEnoughCampSitePoints(prayPointCost))
