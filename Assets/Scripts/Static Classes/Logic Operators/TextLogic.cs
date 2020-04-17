@@ -9,6 +9,10 @@ public static class TextLogic
     public static string white = "<color=#FFFFFF>";
     public static string yellow = "<color=#FFF91C>";
 
+    public static string negativeRed = "<color=#FF1D00>";
+    public static string positiveGreen = "<color=#16FF00>";
+    public static string neutralYellow = "<color=#F8FF00>";
+
     public static string physical = "<color=#BA8400>";
     public static string fire = "<color=#FF6637>";
     public static string frost = "<color=#3687FF>";

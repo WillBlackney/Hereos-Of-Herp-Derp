@@ -53,7 +53,11 @@ public class InventoryController : MonoBehaviour
         Instance = this;
 
     }
-    
+    private void Start()
+    {
+        UIManager.Instance.DisableInventoryView();
+    }
+
     #endregion
 
     // Conditional Checks

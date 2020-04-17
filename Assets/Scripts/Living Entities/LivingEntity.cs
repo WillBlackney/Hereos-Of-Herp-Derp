@@ -6,8 +6,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class LivingEntity : MonoBehaviour
-{        
-    
+{
+    // Propeties + Component References
+    #region
     [Header("Component References")]
     public Slider myHealthBar;
     public Canvas myWorldSpaceCanvas;
@@ -111,6 +112,7 @@ public class LivingEntity : MonoBehaviour
     public bool myRangedAttackFinished;
     public bool hasActivatedThisTurn;
     public LivingEntity myTaunter;
+    #endregion
 
     // Initialization / Setup
     #region
@@ -170,8 +172,8 @@ public class LivingEntity : MonoBehaviour
     public virtual void SetBaseProperties()
     {
         // Set health
-        currentMaxHealth = baseMaxHealth;    
-        currentHealth = baseStartingHealth;     
+        currentMaxHealth += baseMaxHealth;    
+        currentHealth += baseStartingHealth;     
         
         // Set up core stats
         ModifyCurrentStrength(baseStrength);

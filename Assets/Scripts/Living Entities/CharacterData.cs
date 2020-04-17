@@ -1540,10 +1540,10 @@ public class CharacterData : MonoBehaviour
     public void ModifyGuardianPoints(int pointsGainedOrLost)
     {
         guardianPoints += pointsGainedOrLost;
-        guardianPointsText.text = guardianPoints.ToString();
+        guardianPointsText.text = GetColouredStatValueString(guardianPoints, 0);
 
         // Enable button
-        if(guardianPoints >= 1)
+        if (guardianPoints >= 1)
         {
             EnableTopBarTalentButton(guardianTopBarButton);
         }
@@ -1553,7 +1553,7 @@ public class CharacterData : MonoBehaviour
     public void ModifyDuelistPoints(int pointsGainedOrLost)
     {
         duelistPoints += pointsGainedOrLost;
-        duelistPointsText.text = duelistPoints.ToString();
+        duelistPointsText.text = GetColouredStatValueString(duelistPoints, 0);
 
         // Enable button
         if (duelistPoints >= 1)
@@ -1565,7 +1565,7 @@ public class CharacterData : MonoBehaviour
     public void ModifyBrawlerPoints(int pointsGainedOrLost)
     {
         brawlerPoints += pointsGainedOrLost;
-        brawlerPointsText.text = brawlerPoints.ToString();
+        brawlerPointsText.text = GetColouredStatValueString(brawlerPoints, 0);
 
         // Enable button
         if (brawlerPoints >= 1)
@@ -1578,7 +1578,7 @@ public class CharacterData : MonoBehaviour
     public void ModifyAssassinationPoints(int pointsGainedOrLost)
     {
         assassinationPoints += pointsGainedOrLost;
-        assassinationPointsText.text = assassinationPoints.ToString();
+        assassinationPointsText.text = GetColouredStatValueString(assassinationPoints, 0);
 
         // Enable button
         if (assassinationPoints >= 1)
@@ -1591,7 +1591,7 @@ public class CharacterData : MonoBehaviour
     public void ModifyPyromaniaPoints(int pointsGainedOrLost)
     {
         pyromaniaPoints += pointsGainedOrLost;
-        pyromaniaPointsText.text = pyromaniaPoints.ToString();
+        pyromaniaPointsText.text = GetColouredStatValueString(pyromaniaPoints, 0);
 
         // Enable button
         if (pyromaniaPoints >= 1)
@@ -1604,7 +1604,7 @@ public class CharacterData : MonoBehaviour
     public void ModifyCyromancyPoints(int pointsGainedOrLost)
     {
         cyromancyPoints += pointsGainedOrLost;
-        cyromancyPointsText.text = cyromancyPoints.ToString();
+        cyromancyPointsText.text = GetColouredStatValueString(cyromancyPoints, 0);
 
         // Enable button
         if (cyromancyPoints >= 1)
@@ -1617,7 +1617,7 @@ public class CharacterData : MonoBehaviour
     public void ModifyRangerPoints(int pointsGainedOrLost)
     {
         rangerPoints += pointsGainedOrLost;
-        rangerPointsText.text = rangerPoints.ToString();
+        rangerPointsText.text = GetColouredStatValueString(rangerPoints, 0);
 
         // Enable button
         if (rangerPoints >= 1)
@@ -1630,7 +1630,7 @@ public class CharacterData : MonoBehaviour
     public void ModifyManipulationPoints(int pointsGainedOrLost)
     {
         manipulationPoints += pointsGainedOrLost;
-        manipulationPointsText.text = manipulationPoints.ToString();
+        manipulationPointsText.text = GetColouredStatValueString(manipulationPoints, 0);
 
         // Enable button
         if (manipulationPoints >= 1)
@@ -1643,7 +1643,7 @@ public class CharacterData : MonoBehaviour
     public void ModifyDivinityPoints(int pointsGainedOrLost)
     {
         divinityPoints += pointsGainedOrLost;
-        divinityPointsText.text = divinityPoints.ToString();
+        divinityPointsText.text = GetColouredStatValueString(divinityPoints, 0);
 
         // Enable button
         if (divinityPoints >= 1)
@@ -1656,7 +1656,7 @@ public class CharacterData : MonoBehaviour
     public void ModifyShadowcraftPoints(int pointsGainedOrLost)
     {
         shadowcraftPoints += pointsGainedOrLost;
-        shadowcraftPointsText.text = shadowcraftPoints.ToString();
+        shadowcraftPointsText.text = GetColouredStatValueString(shadowcraftPoints, 0);
 
         // Enable button
         if (shadowcraftPoints >= 1)
@@ -1669,7 +1669,7 @@ public class CharacterData : MonoBehaviour
     public void ModifyCorruptionPoints(int pointsGainedOrLost)
     {
         corruptionPoints += pointsGainedOrLost;
-        corruptionPointsText.text = corruptionPoints.ToString();
+        corruptionPointsText.text = GetColouredStatValueString(corruptionPoints, 0);
 
         // Enable button
         if (corruptionPoints >= 1)
@@ -1682,7 +1682,7 @@ public class CharacterData : MonoBehaviour
     public void ModifyNaturalismPoints(int pointsGainedOrLost)
     {
         naturalismPoints += pointsGainedOrLost;
-        naturalismPointsText.text = naturalismPoints.ToString();
+        naturalismPointsText.text = GetColouredStatValueString(naturalismPoints, 0);
 
         // Enable button
         if (naturalismPoints >= 1)
@@ -1696,41 +1696,59 @@ public class CharacterData : MonoBehaviour
 
     // Modify Primary Stats + Text Values
     #region    
+    public string GetColouredStatValueString(int actualValue, int normalValue)
+    {
+        // color text green if stat is in bonus
+        if(actualValue > normalValue)
+        {
+            return TextLogic.ReturnColoredText(actualValue.ToString(), TextLogic.positiveGreen);
+        }
+        // color text red if stat is in negative
+        else if (actualValue < normalValue)
+        {
+            return TextLogic.ReturnColoredText(actualValue.ToString(), TextLogic.negativeRed);
+        }
+        // color text normally if stat is unmodified
+        else
+        {
+            return TextLogic.ReturnColoredText(actualValue.ToString(), TextLogic.neutralYellow);
+        }
+    }
     public void ModifyStrength(int strengthGainedOrLost)
     {
         Debug.Log("CharacterData.ModifyStrength() called, modifying by " + strengthGainedOrLost.ToString());
         strength += strengthGainedOrLost;
-        strengthText.text = strength.ToString();
+        strengthText.text = GetColouredStatValueString(strength, 0);
     }
     public void ModifyWisdom(int wisdomGainedOrLost)
     {
         Debug.Log("CharacterData.ModifyWisdom() called, modifying by " + wisdomGainedOrLost.ToString());
         wisdom += wisdomGainedOrLost;
-        wisdomText.text = wisdom.ToString();
+        wisdomText.text = GetColouredStatValueString(wisdom, 0);
     }
     public void ModifyDexterity(int dexterityGainedOrLost)
     {
         Debug.Log("CharacterData.ModifyDexterity() called, modifying by " + dexterityGainedOrLost.ToString());
         dexterity += dexterityGainedOrLost;
-        dexterityText.text = dexterity.ToString();
+        dexterityText.text = GetColouredStatValueString(dexterity, 0);
     }
     public void ModifyMobility(int mobilityGainedOrLost)
     {
         Debug.Log("CharacterData.ModifyMobility() called, modifying by " + mobilityGainedOrLost.ToString());
         mobility += mobilityGainedOrLost;
-        mobilityText.text = mobility.ToString();
+        mobilityText.text = GetColouredStatValueString(mobility, 2);
     }
     public void ModifyInitiative(int initiativeGainedOrLost)
     {
         Debug.Log("CharacterData.ModifyInitiative() called, modifying by " + initiativeGainedOrLost.ToString());
         initiative += initiativeGainedOrLost;
-        initiativeText.text = initiative.ToString();
+        initiativeText.text = GetColouredStatValueString(initiative, 3);
     }    
     public void ModifyStamina(int energyGainedOrlost)
     {
         Debug.Log("CharacterData.ModifyStamina() called, modifying by " + energyGainedOrlost.ToString());
         stamina += energyGainedOrlost;
-        staminaText.text = stamina.ToString();
+        staminaText.text = GetColouredStatValueString(stamina, 40);
     }
     #endregion
 
@@ -1740,37 +1758,37 @@ public class CharacterData : MonoBehaviour
     {
         Debug.Log("CharacterData.ModifyCriticalChance() called, modifying by " + criticalGainedOrLost.ToString());
         criticalChance += criticalGainedOrLost;
-        criticalText.text = criticalChance.ToString();
+        criticalText.text = GetColouredStatValueString(criticalChance, 0);
     }
     public void ModifyDodge(int dodgeGainedOrLost)
     {
         Debug.Log("CharacterData.ModifyDodge() called, modifying by " + dodgeGainedOrLost.ToString());
         dodge += dodgeGainedOrLost;
-        dodgeText.text = dodge.ToString();
+        dodgeText.text = GetColouredStatValueString(dodge, 0);
     }
     public void ModifyParry(int parryGainedOrLost)
     {
         Debug.Log("CharacterData.ModifyParry() called, modifying by " + parryGainedOrLost.ToString());
         parry += parryGainedOrLost;
-        parryText.text = parry.ToString();
+        parryText.text = GetColouredStatValueString(parry, 0);
     }
     public void ModifyAuraSize(int auraGainedOrLost)
     {
         Debug.Log("CharacterData.ModifyAuraSize() called, modifying by " + auraGainedOrLost.ToString());
         auraSize += auraGainedOrLost;
-        auraSizeText.text = auraSize.ToString();
+        auraSizeText.text = GetColouredStatValueString(auraSize, 1);
     }
     public void ModifyMaxEnergy(int maxEnergyGainedOrlost)
     {
         Debug.Log("CharacterData.ModifyMaxEnergy() called, modifying by " + maxEnergyGainedOrlost.ToString());
         maxEnergy += maxEnergyGainedOrlost;
-        maxEnergyText.text = maxEnergy.ToString();
+        maxEnergyText.text = GetColouredStatValueString(maxEnergy, 60);
     }   
     public void ModifyMeleeRange(int meleeRangeGainedOrLost)
     {
         Debug.Log("CharacterData.ModifyMeleeRange() called, modifying by " + meleeRangeGainedOrLost.ToString());
         meleeRange += meleeRangeGainedOrLost;
-        meleeRangeText.text = meleeRange.ToString();
+        meleeRangeText.text = GetColouredStatValueString(meleeRange, 1);
     }
 
 
@@ -1782,37 +1800,37 @@ public class CharacterData : MonoBehaviour
     {
         Debug.Log("CharacterData.ModifyPhysicalResistance() called, modifying by " + resistanceGainedOrLost.ToString());
         physicalResistance += resistanceGainedOrLost;
-        physicalResistanceText.text = physicalResistance.ToString();
+        physicalResistanceText.text = GetColouredStatValueString(physicalResistance, 0);
     }
     public void ModifyFireResistance(int resistanceGainedOrLost)
     {
         Debug.Log("CharacterData.ModifyFireResistance() called, modifying by " + resistanceGainedOrLost.ToString());
         fireResistance += resistanceGainedOrLost;
-        fireResistanceText.text = fireResistance.ToString();
+        fireResistanceText.text = GetColouredStatValueString(fireResistance, 0);
     }
     public void ModifyFrostResistance(int resistanceGainedOrLost)
     {
         Debug.Log("CharacterData.ModifyFrostResistance() called, modifying by " + resistanceGainedOrLost.ToString());
         frostResistance += resistanceGainedOrLost;
-        frostResistanceText.text = frostResistance.ToString();
+        frostResistanceText.text = GetColouredStatValueString(frostResistance, 0);
     }
     public void ModifyPoisonResistance(int resistanceGainedOrLost)
     {
         Debug.Log("CharacterData.ModifyPoisonResistance() called, modifying by " + resistanceGainedOrLost.ToString());
         poisonResistance += resistanceGainedOrLost;
-        poisonResistanceText.text = poisonResistance.ToString();
+        poisonResistanceText.text = GetColouredStatValueString(poisonResistance, 0);
     }
     public void ModifyAirResistance(int resistanceGainedOrLost)
     {
         Debug.Log("CharacterData.ModifyAirResistance() called, modifying by " + resistanceGainedOrLost.ToString());
         airResistance += resistanceGainedOrLost;
-        airResistanceText.text = airResistance.ToString();
+        airResistanceText.text = GetColouredStatValueString(airResistance, 0);
     }
     public void ModifyShadowResistance(int resistanceGainedOrLost)
     {
         Debug.Log("CharacterData.ModifyShadowResistance() called, modifying by " + resistanceGainedOrLost.ToString());
         shadowResistance += resistanceGainedOrLost;
-        shadowResistanceText.text = shadowResistance.ToString();
+        shadowResistanceText.text = GetColouredStatValueString(shadowResistance, 0);
     }
 
     #endregion

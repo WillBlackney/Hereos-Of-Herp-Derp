@@ -20,6 +20,11 @@ public class Enemy : LivingEntity
         myInfoPanel.InitializeSetup(this);
         
     }
+    public override void SetBaseProperties()
+    {
+        DifficultyManager.Instance.ApplyActTwoModifiersToLivingEntity(this);
+        base.SetBaseProperties();
+    }
     #endregion
 
     // Activation + Related

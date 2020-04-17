@@ -33,7 +33,6 @@ public class UIManager : MonoBehaviour
         // for some reason, game build always open inventory on game start
         // these lines prevents this weird bug
         DisableInventoryView();
-        EnableInventoryView();
         DisableInventoryView();
     }
 
