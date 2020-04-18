@@ -1618,7 +1618,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Charge button clicked, awaiting charge target");
             awaitingChargeTargetOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(charge.abilityPrimaryValue + EntityLogic.GetTotalMobility(this), LevelManager.Instance.Tiles[gridPosition], true, false));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(charge.abilityPrimaryValue + EntityLogic.GetTotalMobility(this), LevelManager.Instance.Tiles[gridPosition], true));
             InstructionHover.Instance.EnableInstructionHover("Choose an enemy");
         }      
 
@@ -3693,8 +3693,8 @@ public class Defender : LivingEntity
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;
         Ability charge = mySpellBook.GetAbilityByName("Charge");
 
-        List<Tile> tilesWithinChargeRangeOfCharacter = LevelManager.Instance.GetValidMoveableTilesWithinRange(charge.abilityPrimaryValue + EntityLogic.GetTotalMobility(this), tile);
-        List<Tile> tilesWithinMeleeRangeOfTarget = LevelManager.Instance.GetValidMoveableTilesWithinRange(1, enemyTarget.tile);
+        List<Tile> tilesWithinChargeRangeOfCharacter = LevelManager.Instance.GetValidMoveableTilesWithinRange(charge.abilityPrimaryValue + EntityLogic.GetTotalMobility(this), tile, true);
+        List<Tile> tilesWithinMeleeRangeOfTarget = LevelManager.Instance.GetValidMoveableTilesWithinRange(currentMeleeRange, enemyTarget.tile);
         List<Tile> validChargeLocationTiles = new List<Tile>();
 
         foreach (Tile tile in tilesWithinMeleeRangeOfTarget)
@@ -3710,6 +3710,10 @@ public class Defender : LivingEntity
             awaitingChargeLocationOrder = false;
             awaitingChargeTargetOrder = false;
             AbilityLogic.Instance.PerformCharge(this, enemyTarget, destination);
+        }
+        else
+        {
+            InvalidActionManager.Instance.ShowNewErrorMessage("Location is out of range");
         }
         
     }

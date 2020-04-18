@@ -69,7 +69,7 @@ public class InventoryItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler,
             //
             ItemCardPanelHover.Instance.OnItemCardMousedOver(myInfoItemCard);
         }
-    }
+    }   
     public void OnMouseExit()
     {
         ItemCardPanelHover.Instance.OnItemCardMouseExit();

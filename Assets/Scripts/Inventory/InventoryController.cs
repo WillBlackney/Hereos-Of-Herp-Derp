@@ -52,8 +52,7 @@ public class InventoryController : MonoBehaviour
     public static InventoryController Instance;
     private void Awake()
     {
-        Instance = this;
-
+        Instance = this;        
     }
     private void Start()
     {
@@ -264,10 +263,11 @@ public class InventoryController : MonoBehaviour
         
         itemCard.equipted = true;       
         itemCard.transform.SetParent(characterSlot.transform);
-        characterSlot.myItem = itemCard;  
-        
+        characterSlot.myItem = itemCard;
+        itemCard.transform.localScale = new Vector3(1, 1, 1);
+
         // Weapon specific set up
-        if(characterSlot.mySlotType == CharacterItemSlot.SlotType.MainHand)
+        if (characterSlot.mySlotType == CharacterItemSlot.SlotType.MainHand)
         {
             characterSlot.myCharacterData.mainHandWeapon = itemCard.myItemData;
         }

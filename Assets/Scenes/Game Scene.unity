@@ -4304,7 +4304,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 3000
+  m_SortingOrder: 3001
   m_TargetDisplay: 0
 --- !u!1 &283991787
 GameObject:
@@ -21375,7 +21375,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2096382344}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -30082,7 +30082,7 @@ RectTransform:
   - {fileID: 927906484}
   - {fileID: 438312044}
   m_Father: {fileID: 2096382344}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -31527,8 +31527,8 @@ RectTransform:
   - {fileID: 1661454699}
   - {fileID: 2008025705}
   - {fileID: 2045094363}
-  - {fileID: 1370830338}
   - {fileID: 1995040390}
+  - {fileID: 1370830338}
   - {fileID: 1218641345}
   m_Father: {fileID: 1512715753}
   m_RootOrder: 0
@@ -32749,6 +32749,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1042938416}
+    - target: {fileID: 180668039663388981, guid: 55617621eaf9bf44caac472d981960b4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnActionButtonClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 180668039663388981, guid: 55617621eaf9bf44caac472d981960b4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: StoryEventManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 4059583735448404611, guid: 55617621eaf9bf44caac472d981960b4,
         type: 3}
       propertyPath: m_IsActive
@@ -32934,11 +32944,31 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1042938416}
+    - target: {fileID: 5335498685807147679, guid: 55617621eaf9bf44caac472d981960b4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnActionButtonClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 5335498685807147679, guid: 55617621eaf9bf44caac472d981960b4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: StoryEventManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 5335498685929358117, guid: 55617621eaf9bf44caac472d981960b4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1042938416}
+    - target: {fileID: 5335498685929358117, guid: 55617621eaf9bf44caac472d981960b4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnActionButtonClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 5335498685929358117, guid: 55617621eaf9bf44caac472d981960b4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: StoryEventManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6391889525002995368, guid: 55617621eaf9bf44caac472d981960b4,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -33123,6 +33153,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1475444945}
     m_Modifications:
+    - target: {fileID: 1649163513579374090, guid: be477e22ad69edd4f9a20457c4b435b4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1221488086}
+    - target: {fileID: 1649163513579374090, guid: be477e22ad69edd4f9a20457c4b435b4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnCancelButtonClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 1649163513579374090, guid: be477e22ad69edd4f9a20457c4b435b4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CampSiteManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 4306071511702340416, guid: be477e22ad69edd4f9a20457c4b435b4,
         type: 3}
       propertyPath: m_Name
@@ -33238,6 +33283,21 @@ PrefabInstance:
       propertyPath: canvasParent
       value: 
       objectReference: {fileID: 1475444944}
+    - target: {fileID: 4306071512766751916, guid: be477e22ad69edd4f9a20457c4b435b4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1221488086}
+    - target: {fileID: 4306071512766751916, guid: be477e22ad69edd4f9a20457c4b435b4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnContinueButtonClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 4306071512766751916, guid: be477e22ad69edd4f9a20457c4b435b4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CampSiteManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4306071511702340418, guid: be477e22ad69edd4f9a20457c4b435b4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: be477e22ad69edd4f9a20457c4b435b4, type: 3}
@@ -33422,6 +33482,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1475444945}
     m_Modifications:
+    - target: {fileID: 69418559594296421, guid: 0b38456be912c1e4eaedc05017dfea42,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 830578030}
+    - target: {fileID: 69418559594296421, guid: 0b38456be912c1e4eaedc05017dfea42,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DisableArmouryScreenView
+      objectReference: {fileID: 0}
     - target: {fileID: 1170141974240574330, guid: 0b38456be912c1e4eaedc05017dfea42,
         type: 3}
       propertyPath: m_sharedMaterial
@@ -33439,12 +33509,32 @@ PrefabInstance:
       propertyPath: canvasParent
       value: 
       objectReference: {fileID: 1475444944}
+    - target: {fileID: 3297556399650090631, guid: 0b38456be912c1e4eaedc05017dfea42,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 830578030}
+    - target: {fileID: 3297556399650090631, guid: 0b38456be912c1e4eaedc05017dfea42,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DisablePotionLabScreenView
+      objectReference: {fileID: 0}
     - target: {fileID: 3765983201263533694, guid: 0b38456be912c1e4eaedc05017dfea42,
         type: 3}
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 9207819091200517606, guid: 9922d0edef7e7954dbbdbcc292307eee,
         type: 2}
+    - target: {fileID: 3907607498795876515, guid: 0b38456be912c1e4eaedc05017dfea42,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 830578030}
+    - target: {fileID: 3907607498795876515, guid: 0b38456be912c1e4eaedc05017dfea42,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DisableLibraryScreenView
+      objectReference: {fileID: 0}
     - target: {fileID: 4354891777951679625, guid: 0b38456be912c1e4eaedc05017dfea42,
         type: 3}
       propertyPath: m_LocalPosition.x

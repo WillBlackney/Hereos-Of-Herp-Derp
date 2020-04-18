@@ -591,11 +591,7 @@ public static class TextLogic
             statusDescriptionText.text =
                 "This character has +" + ReturnColoredText("20", yellow) + " to all resistances";
         }
-        else if (statusName == "Testudo")
-        {
-            statusDescriptionText.text =
-                "On activation start, this character gains " + ReturnColoredText("5", yellow) + " Block";
-        }
+        
         else if (statusName == "Last Stand")
         {
             statusDescriptionText.text =
@@ -987,9 +983,9 @@ public static class TextLogic
         else if (ability.abilityName == "Testudo")
         {
             ability.abilityInfoSheet.descriptionText.text =
-                "While channeled, gain " +
-                ReturnColoredText(CombatLogic.Instance.CalculateBlockGainedByEffect(3, entity).ToString(), yellow) +
-                " " + ReturnColoredText("Block", yellow) + " on activation start";
+                 "Gain " +
+                ReturnColoredText(CombatLogic.Instance.CalculateBlockGainedByEffect(ability.abilityPrimaryValue, entity).ToString(), yellow) +
+                " " + ReturnColoredText("Block", yellow);
         }
         else if (ability.abilityName == "Shadow Wreath")
         {
@@ -1524,10 +1520,9 @@ public static class TextLogic
                 "Give an ally " +
                 ReturnColoredText(CombatLogic.Instance.CalculateBlockGainedByEffect(ability.abilityPrimaryValue, entity).ToString(), yellow) +
                 " " + ReturnColoredText("Block", yellow) + ". Removes " +
-                ReturnColoredText("Poisoned", poison) + ", " +
-                ReturnColoredText("Burning", fire) + ", " +
-                ReturnColoredText("Chilled", frost) + ",  and " +
-                ReturnColoredText("Shocked", yellow);
+                ReturnColoredText("Stunned", yellow) + ", " +
+                ReturnColoredText("Sleep", yellow) + ",  and " +
+                ReturnColoredText("Immobilized", yellow);
         }
         else if (ability.abilityName == "Forest Medicine")
         {
@@ -1866,7 +1861,7 @@ public static class TextLogic
         {
             descriptionText.text =
                 "Gain " +
-                ReturnColoredText("5", yellow) +
+                ReturnColoredText(ability.primaryValue.ToString(), yellow) +
                 " " + ReturnColoredText("Block", yellow);
         }
         else if (ability.abilityName == "Shadow Wreath")
