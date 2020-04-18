@@ -12,6 +12,7 @@ public class StoryEventManager : MonoBehaviour
 
     [Header("Parent References")]
     public GameObject visualParent;
+    public GameObject canvasParent;
     public GameObject buttonsVisualParent;
     public GameObject characterPanelParent;
 
@@ -346,10 +347,12 @@ public class StoryEventManager : MonoBehaviour
     }
     public void EnableEventScreen()
     {
+       // canvasParent.SetActive(true);
         visualParent.SetActive(true);
     }
     public void DisableEventScreen()
     {
+       // canvasParent.SetActive(false);
         visualParent.SetActive(false);
     }
     public void EnableContinueButton()

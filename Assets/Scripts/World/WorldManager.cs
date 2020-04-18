@@ -13,7 +13,9 @@ public class WorldManager : MonoBehaviour
 
     [Header("Component References")]
     public List<GameObject> worldMapPrefabs;    
-    public GameObject worldMapParent;
+    public GameObject visualParent;
+    public GameObject canvasParent;
+    public RectTransform scrollViewParent;
 
     [Header("Testing Properties")]
     public bool onlySpawnBasics;
@@ -65,7 +67,7 @@ public class WorldManager : MonoBehaviour
     }
     public void CreateNewWorld()
     {
-        GameObject newWorld = Instantiate(GetRandomWorldPrefab(), worldMapParent.transform);
+        GameObject newWorld = Instantiate(GetRandomWorldPrefab(), scrollViewParent);
         currentWorld = newWorld.GetComponent<World>();
         currentWorld.InitializeSetup();
     }

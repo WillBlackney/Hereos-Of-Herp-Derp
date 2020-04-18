@@ -16,6 +16,7 @@ public class StateManager : MonoBehaviour
     [Header("Component References")]
     public GameObject statePanel;
     public GameObject afflicationPanelGridParent;
+    public GameObject afflictionPanelCanvasParent;
     public GameObject afflicationPanelVisualParent;
 
     [Header("Properties")]
@@ -436,6 +437,7 @@ public class StateManager : MonoBehaviour
     }
     public void SetAfflicationPanelViewState(bool onOrOff)
     {
+        afflictionPanelCanvasParent.SetActive(onOrOff);
         afflicationPanelVisualParent.SetActive(onOrOff);
     }
     #endregion

@@ -5,9 +5,9 @@ using UnityEngine;
 public class CharacterRoster : MonoBehaviour
 {
     [Header("Component References")]
-    public GameObject CharacterRosterVisualParent;
+    public GameObject visualParent;
+    public GameObject canvasParent;
     public GameObject CharacterRosterCloseButton;
-    public GameObject inventoryParent;
 
     public CharacterData characterOne;
     public CharacterData characterTwo;
@@ -144,11 +144,13 @@ public class CharacterRoster : MonoBehaviour
     }
     public void EnableInventoryView()
     {
-        inventoryParent.SetActive(true);
+        InventoryController.Instance.canvasParent.SetActive(true);
+        InventoryController.Instance.visualParent.SetActive(true);
     }
     public void DisableInventoryView()
     {
-        inventoryParent.SetActive(false);
+        InventoryController.Instance.visualParent.SetActive(false);
+        InventoryController.Instance.canvasParent.SetActive(false);
     }
     public void PlayIdleAnimOnAllModels()
     {

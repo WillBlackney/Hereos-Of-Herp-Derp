@@ -5,20 +5,22 @@ using Cinemachine;
 
 public class CameraMovement : MonoBehaviour
 {
-    [Header("Properties + Component References ")]
-    public float cameraMoveSpeed = 1f;
+    public enum MovementStyle { Lerp, SmoothDamp};
+
+    [Header("Movement Properties ")]
+    public MovementStyle movementStyle;
+    public float cameraMoveSpeed;
     public float cameraZoomSpeed;
-    public float smoothSpeed = 0.01f;
+
+    [Header("Positional Properties ")]
     public float currentOrthoSize;
     public Vector3 offset;
     public bool enforceCameraBounds;
 
-    [Header("Camera Component References")]
+    [Header("Component References")]
     public Camera mainCamera;
-    //public CinemachineVirtualCamera cinemachineCamera;
-    public GameObject CamerasParent;
 
-    [Header("Edge Colliders / View Boundary Objects")]
+    [Header("View Boundary Objects")]
     public GameObject northCollider;
     public GameObject southCollider;
     public GameObject eastCollider;
@@ -30,6 +32,14 @@ public class CameraMovement : MonoBehaviour
     public bool movingEast;
     public bool movingWest;
 
+    [Header("Lerp Properties")]
+    public float smoothSpeed;
+
+    [Header("Smooth Damp Properties")]
+    public float dampSpeed;
+    public Vector3 dampVelocity = Vector3.zero;
+    public float maxCloseness;
+
     // Initialization / Update
     #region
     void Start()
@@ -37,16 +47,15 @@ public class CameraMovement : MonoBehaviour
         offset = new Vector3(0, 0, -10);
         mainCamera.transform.position = new Vector3(0, 0, -10);
         SetPreferedOrthographicSize(5);
-    }
-    void Update()
+    }   
+
+    private void FixedUpdate()
     {
+        LookAtTarget();
         HandleZoomInput();
         MoveTowardsLeftRightUpDown();
     }
-    private void LateUpdate()
-    {
-        LookAtTarget();
-    }
+
     #endregion
 
     // Camera Movement 
@@ -154,7 +163,21 @@ public class CameraMovement : MonoBehaviour
     {
         if (CameraManager.Instance.currentLookAtTarget != null && !enforceCameraBounds)
         {
-            mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, CameraManager.Instance.currentLookAtTarget.transform.position + offset, smoothSpeed);
+            if (!IsCameraAxisBetweenPositions(mainCamera.transform.position.x, CameraManager.Instance.currentLookAtTarget.transform.position.x + maxCloseness, CameraManager.Instance.currentLookAtTarget.transform.position.x - maxCloseness) ||
+                !IsCameraAxisBetweenPositions(mainCamera.transform.position.y, CameraManager.Instance.currentLookAtTarget.transform.position.y + maxCloseness, CameraManager.Instance.currentLookAtTarget.transform.position.y - maxCloseness))
+            {
+                // Smooth Damp
+                if (movementStyle == MovementStyle.SmoothDamp)
+                {
+                    mainCamera.transform.position = Vector3.SmoothDamp(mainCamera.transform.position, CameraManager.Instance.currentLookAtTarget.transform.position + offset, ref dampVelocity, dampSpeed, 100, Time.deltaTime);
+                }
+
+                // Lerp
+                if (movementStyle == MovementStyle.Lerp)
+                {
+                    mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, CameraManager.Instance.currentLookAtTarget.transform.position + offset, smoothSpeed);
+                }                    
+            }
         }
 
         else if (CameraManager.Instance.currentLookAtTarget != null && enforceCameraBounds)
@@ -184,8 +207,7 @@ public class CameraMovement : MonoBehaviour
                 movingSouth = true;
             }
 
-            // Detect and prevent moving camera over the boundary
-            /*
+            // Detect and prevent moving camera over the boundary            
             if (
                 (IsGameObjectVisible(northCollider) && movingNorth) ||
                 (IsGameObjectVisible(southCollider) && movingSouth))
@@ -197,27 +219,25 @@ public class CameraMovement : MonoBehaviour
                 (IsGameObjectVisible(westCollider) && movingWest))
             {
                 desiredPosition = new Vector3(mainCamera.transform.position.x, CameraManager.Instance.currentLookAtTarget.transform.position.y, mainCamera.transform.position.z) + offset;
-            }
-            */
+            }            
 
-            // calculations finished, move camera
-            mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, desiredPosition, smoothSpeed);
-
-            // move cam to newly calculated position, if not already very close
-            /*
-            if (!IsCameraAxisBetweenPositions(mainCamera.transform.position.x, desiredPosition.x + 0.2f, desiredPosition.x - 0.2f) ||
-                !IsCameraAxisBetweenPositions(mainCamera.transform.position.y, desiredPosition.y + 0.2f, desiredPosition.y - 0.2f))
+            // Move cam to newly calculated position, if not already very close            
+            if (!IsCameraAxisBetweenPositions(mainCamera.transform.position.x, desiredPosition.x + maxCloseness, desiredPosition.x - maxCloseness) ||
+                !IsCameraAxisBetweenPositions(mainCamera.transform.position.y, desiredPosition.y + maxCloseness, desiredPosition.y - maxCloseness))
             {
-                mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, desiredPosition, smoothSpeed);
-            }     
-            */
+                // Smooth Damp
+                if (movementStyle == MovementStyle.SmoothDamp)
+                {
+                    mainCamera.transform.position = Vector3.SmoothDamp(mainCamera.transform.position, desiredPosition, ref dampVelocity, dampSpeed, 100, Time.deltaTime);
+                }
 
-            // Have we reach our target to look at?
-            // if (mainCamera.transform.position == desiredPosition)
-            // {
-            // Debug.Log("Camera has reached LookAtTarget() position");
-            // ClearLookAtTarget();
-            //}
+                // Lerp
+                else if (movementStyle == MovementStyle.Lerp)
+                {
+                    mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, desiredPosition, smoothSpeed);
+                }                   
+            }                
+
         }        
 
     }    

@@ -10,6 +10,7 @@ public class CampSiteManager : MonoBehaviour
     #region
     [Header("Component References")]
     public GameObject visualParent;
+    public GameObject canvasParent;
     public TextMeshProUGUI actionPointsText;
     public TextMeshProUGUI trainButtonDescriptionText;
 
@@ -236,10 +237,12 @@ public class CampSiteManager : MonoBehaviour
     #region
     public void EnableCampSiteView()
     {
+       // canvasParent.SetActive(true);
         visualParent.SetActive(true);
     }
     public void DisableCampSiteView()
     {
+       // canvasParent.SetActive(false);
         visualParent.SetActive(false);
     }
     public void SetCharacterArrowViewStates(bool onOrOff)

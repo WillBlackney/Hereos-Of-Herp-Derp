@@ -6,6 +6,7 @@ public class TreasureRoomManager : MonoBehaviour
 {
     [Header("Component References")]
     public GameObject visualParent;
+    public GameObject canvasParent;
     public Transform chestParent;
 
 
@@ -44,11 +45,13 @@ public class TreasureRoomManager : MonoBehaviour
 
     public void EnableTreasureRoomView()
     {
+        //canvasParent.SetActive(true);
         visualParent.SetActive(true);
         IdleAllCharacterAnims();
     }
     public void DisableTreasureRoomView()
     {
+       // canvasParent.SetActive(false);
         visualParent.SetActive(false);
     }
     public void IdleAllCharacterAnims()

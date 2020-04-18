@@ -7,6 +7,8 @@ public class InventoryController : MonoBehaviour
     // Properties + Components
     #region
     [Header("Component References")]
+    public GameObject visualParent;
+    public GameObject canvasParent;
     public GameObject itemsParent;
     public List<InventorySlot> inventorySlots;
 
@@ -229,6 +231,7 @@ public class InventoryController : MonoBehaviour
 
         GameObject newInventoryItem = Instantiate(PrefabHolder.Instance.InventoryItem, itemsParent.transform);
         InventoryItemCard itemCard = newInventoryItem.GetComponent<InventoryItemCard>();
+        itemCard.transform.localScale = new Vector3(1, 1, 1);
 
         ItemManager.Instance.SetUpInventoryItemCardFromData(itemCard, itemAdded, inventoryItemCardSortingOrder);
         PlaceItemOnCharacterSlot(itemCard, weaponSlot);
@@ -251,7 +254,8 @@ public class InventoryController : MonoBehaviour
     public void PlaceItemOnCharacterSlot(InventoryItemCard itemCard, CharacterItemSlot characterSlot)
     {
         itemCard.transform.position = characterSlot.transform.position;
-        if(itemCard.myInventorySlot != null)
+        itemCard.transform.localScale = new Vector3(1, 1, 1);
+        if (itemCard.myInventorySlot != null)
         {
             itemCard.myInventorySlot.occupied = false;
             itemCard.myInventorySlot.myItemCard = null;

@@ -7,6 +7,7 @@ public class InvalidActionManager : MonoBehaviour
 {
     [Header("Component References")]
     public GameObject visualParent;
+    public GameObject canvasParent;
     public TextMeshProUGUI reasonText;
     public CanvasGroup cg;
 
@@ -28,11 +29,12 @@ public class InvalidActionManager : MonoBehaviour
     public void ShowNewErrorMessage(string reason)
     {
         StopAllCoroutines();
+        ResetMessageViews();
         StartCoroutine(ShowNewErrorMessageCoroutine(reason));
     }
     private IEnumerator ShowNewErrorMessageCoroutine(string reason)
     {
-        ResetMessageViews();
+        //ResetMessageViews();
         EnableVisualParent();
         SetReasonText(reason);
         activeMessage = true;
@@ -56,18 +58,19 @@ public class InvalidActionManager : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
 
-            // flush and reset
-            //ResetMessageViews();
+            activeMessage = false;
         }       
 
     }
 
     public void EnableVisualParent()
     {
+        canvasParent.SetActive(true);
         visualParent.SetActive(true);
     }
     public void DisableVisualParent()
     {
+        canvasParent.SetActive(false);
         visualParent.SetActive(false);
     }
     public void SetReasonText(string reason)

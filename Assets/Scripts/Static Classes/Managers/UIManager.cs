@@ -9,11 +9,8 @@ public class UIManager : MonoBehaviour
 {
     [Header("UI Component References")]    
     public GameObject GameOverScreenParent;
+    public GameObject GameOverScreenCanvasParent;
     public TextMeshProUGUI GameOverScreenTitleText;
-    public GameObject characterRoster;
-    public GameObject worldMap;
-    public GameObject rewardScreen;
-    public GameObject Inventory;
     //public GameObject
 
     [Header("End Turn Button Component References")]
@@ -40,13 +37,14 @@ public class UIManager : MonoBehaviour
     #region
     public void OnCharacterPanelBackButtonClicked()
     {
-        characterRoster.SetActive(false);        
+        CharacterRoster.Instance.canvasParent.SetActive(false);
+        CharacterRoster.Instance.visualParent.SetActive(false);
     }
     public void OnCharacterPanelButtonClicked()
     {
         KingsBlessingManager.Instance.DisableView();
 
-        if (characterRoster.activeSelf == true)
+        if (CharacterRoster.Instance.visualParent.activeSelf == true)
         {
             DisableInventoryView();
             DisableCharacterRosterView();
@@ -69,7 +67,7 @@ public class UIManager : MonoBehaviour
     {
         KingsBlessingManager.Instance.DisableView();
 
-        if(worldMap.activeSelf == true)
+        if(WorldManager.Instance.visualParent.activeSelf == true)
         {
             DisableWorldMapView();
             if (KingsBlessingManager.Instance.eventCompleted == false)
@@ -78,7 +76,7 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        else if (worldMap.activeSelf == false)
+        else if (WorldManager.Instance.visualParent.activeSelf == false)
         {
             DisableInventoryView();
             DisableCharacterRosterView();
@@ -91,7 +89,8 @@ public class UIManager : MonoBehaviour
     #region
     public void EnableWorldMapView()
     {
-        worldMap.SetActive(true);
+        WorldManager.Instance.canvasParent.SetActive(true);
+        WorldManager.Instance.visualParent.SetActive(true);        
         if (WorldManager.Instance.canSelectNewEncounter == true)
         {
             WorldManager.Instance.HighlightNextAvailableEncounters();
@@ -99,7 +98,8 @@ public class UIManager : MonoBehaviour
     }
     public void DisableWorldMapView()
     {
-        worldMap.SetActive(false);
+        WorldManager.Instance.visualParent.SetActive(false);
+        WorldManager.Instance.canvasParent.SetActive(false);
     }
     public void EnableRewardScreenView()
     {        
@@ -111,24 +111,25 @@ public class UIManager : MonoBehaviour
     }   
     public void EnableInventoryView()
     {
-        Inventory.SetActive(true);
+        InventoryController.Instance.canvasParent.SetActive(true);
+        InventoryController.Instance.visualParent.SetActive(true);
     }
     public void DisableInventoryView()
     {
-        Inventory.SetActive(false);
+        InventoryController.Instance.canvasParent.SetActive(false);
+        InventoryController.Instance.visualParent.SetActive(false);
     }
     public void EnableCharacterRosterView()
     {
-        characterRoster.SetActive(true);
-        //CharacterRoster.Instance.PlayIdleAnimOnAllModels();
-
+        CharacterRoster.Instance.visualParent.SetActive(true);
+        CharacterRoster.Instance.canvasParent.SetActive(true);
         // set character one as default view
         CharacterRoster.Instance.SetDefaultViewState();
     }
     public void DisableCharacterRosterView()
     {
-        characterRoster.SetActive(false);
-        CampSiteManager.Instance.awaitingTrainChoice = false;
+        CharacterRoster.Instance.visualParent.SetActive(false);
+        CharacterRoster.Instance.canvasParent.SetActive(false);
     }
     public void DisableEndTurnButtonInteractions()
     {
@@ -164,6 +165,7 @@ public class UIManager : MonoBehaviour
     }
     public IEnumerator FadeInGameOverScreenCoroutine(Action action)
     {
+        GameOverScreenCanvasParent.SetActive(true);
         GameOverScreenParent.SetActive(true);
         CanvasGroup gameOverScreenCG = GameOverScreenParent.GetComponent<CanvasGroup>();
 
@@ -196,6 +198,13 @@ public class UIManager : MonoBehaviour
         // Ready, load the game scene
         SceneController.Instance.continueButton.SetActive(false);
         SceneController.Instance.LoadMenuSceneAsync(true);
+    }
+
+    public void DisableUnneededCanvasesOnCombatStart()
+    {
+        DisableCharacterRosterView();
+        DisableInventoryView();
+        DisableWorldMapView();
     }
     #endregion
 }

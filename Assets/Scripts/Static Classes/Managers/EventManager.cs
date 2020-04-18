@@ -61,8 +61,10 @@ public class EventManager : MonoBehaviour
         // Instantiate enemies
         EnemySpawner.Instance.SpawnEnemyWave("Basic", enemyWave);
 
-        // disable world map view
-        UIManager.Instance.DisableWorldMapView();
+        // disable unneed UI views
+        UIManager.Instance.DisableUnneededCanvasesOnCombatStart();
+
+        // Set encounter type
         currentEncounterType = WorldEncounter.EncounterType.BasicEnemy;
 
         // Fade scene back in, wait until completed
@@ -117,8 +119,8 @@ public class EventManager : MonoBehaviour
         currentEncounterType = WorldEncounter.EncounterType.EliteEnemy;
         EnemySpawner.Instance.SpawnEnemyWave("Elite");
 
-        // disable world map view
-        UIManager.Instance.DisableWorldMapView();        
+        // disable unneed UI views
+        UIManager.Instance.DisableUnneededCanvasesOnCombatStart();
 
         // Fade scene back in, wait until completed
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
@@ -173,8 +175,9 @@ public class EventManager : MonoBehaviour
         // Instantiate enemies
         EnemySpawner.Instance.SpawnEnemyWave("Boss", enemyWave);
 
-        // disable world map view
-        UIManager.Instance.DisableWorldMapView();
+        // disable unneed UI views
+        UIManager.Instance.DisableUnneededCanvasesOnCombatStart();
+
         currentEncounterType = WorldEncounter.EncounterType.Boss;
 
         // Fade scene back in, wait until completed

@@ -4068,7 +4068,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4138672954666215474
 Transform:
   m_ObjectHideFlags: 0
@@ -4298,7 +4298,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 878244be53656c6499c61da9931bcb74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  screenFadeTime: 20
+  screenFadeTime: 30
+  itemCardSortingOrder: 2600
   commonItemRewardCG: {fileID: 3511018962626594514}
   rareItemRewardCG: {fileID: 2678619711828453841}
   epicItemRewardCG: {fileID: 3322282198614472818}
@@ -4309,14 +4310,15 @@ MonoBehaviour:
   RewardButtonParent: {fileID: 1668181639}
   SkipRewardsButton: {fileID: 769550004}
   ChooseCommonItemScreenParent: {fileID: 303043744}
-  ChooseCommonItemScreenContent: {fileID: 2139961112}
-  ChooseRareItemScreenContent: {fileID: 4329495371699172697}
   ChooseRareItemScreenParent: {fileID: 5731780621984347614}
   ChooseEpicItemScreenParent: {fileID: 7880425524050505433}
+  ChooseCommonItemScreenContent: {fileID: 2139961112}
+  ChooseRareItemScreenContent: {fileID: 4329495371699172697}
   ChooseEpicItemScreenContent: {fileID: 2826763287764182289}
   ChooseStateScreenParent: {fileID: 3436841240562908390}
   ChooseStateScreenContent: {fileID: 2291609130178443629}
   RewardScreenParent: {fileID: 5317225970947133359}
+  canvasParent: {fileID: 0}
   BlackScreenParent: {fileID: 6083790233897121343}
   currentGoldRewardButton: {fileID: 0}
   currentCommonItemRewardButton: {fileID: 0}

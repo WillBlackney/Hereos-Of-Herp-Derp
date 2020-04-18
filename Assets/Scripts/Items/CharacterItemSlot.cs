@@ -18,7 +18,7 @@ public class CharacterItemSlot : MonoBehaviour, IDropHandler
 
         InventoryItemCard draggedItem = InventoryController.Instance.itemBeingDragged.GetComponent<InventoryItemCard>();
 
-        if (draggedItem)
+        if (draggedItem && InventoryController.Instance.itemBeingDragged)
         {
             InventoryController.Instance.TryPlaceItemOnCharacterSlot(draggedItem, this);
             InventoryController.Instance.itemBeingDragged = null;

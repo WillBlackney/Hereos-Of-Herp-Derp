@@ -9,6 +9,7 @@ public class ShopScreenManager : MonoBehaviour
     #region
     [Header("Component References")]
     public GameObject visualParent;
+    public GameObject canvasParent;
     public GameObject continueButton;
 
     [Header("Character References")]
@@ -99,10 +100,12 @@ public class ShopScreenManager : MonoBehaviour
     // Enable + Disable Main View
     public void EnableShopScreenView()
     {
+        //canvasParent.SetActive(true);
         visualParent.SetActive(true);
     }
     public void DisableShopScreenView()
     {
+        //canvasParent.SetActive(false);
         visualParent.SetActive(false);
     }
 

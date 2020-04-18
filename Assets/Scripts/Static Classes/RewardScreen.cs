@@ -28,7 +28,8 @@ public class RewardScreen : MonoBehaviour
     public GameObject ChooseEpicItemScreenContent;
     public GameObject ChooseStateScreenParent;
     public GameObject ChooseStateScreenContent;
-    public GameObject RewardScreenParent;
+    public GameObject visualParent;
+    public GameObject canvasParent;
     public GameObject BlackScreenParent;   
 
     [Header("Current Button References")]
@@ -588,7 +589,8 @@ public class RewardScreen : MonoBehaviour
     }
     public IEnumerator EnableRewardScreenViewCoroutine()
     {
-        RewardScreenParent.SetActive(true);
+        canvasParent.SetActive(true);
+        visualParent.SetActive(true);
         
         masterCG.alpha = 0;
 
@@ -613,7 +615,8 @@ public class RewardScreen : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        RewardScreenParent.SetActive(false);
+        canvasParent.SetActive(false);
+        visualParent.SetActive(false);
     }
     #endregion
     

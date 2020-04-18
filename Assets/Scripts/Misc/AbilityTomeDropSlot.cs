@@ -10,7 +10,12 @@ public class AbilityTomeDropSlot : MonoBehaviour, IDropHandler
     {
         Debug.Log("AbilityTomeDropSlot.OnDrop() called...");
 
-        AbilityTomeInventoryCard draggedTome = InventoryController.Instance.itemBeingDragged.GetComponent<AbilityTomeInventoryCard>();
+        AbilityTomeInventoryCard draggedTome = null;
+
+        if (InventoryController.Instance.itemBeingDragged)
+        {
+            draggedTome = InventoryController.Instance.itemBeingDragged.GetComponent<AbilityTomeInventoryCard>();
+        }       
 
         if (draggedTome)
         {

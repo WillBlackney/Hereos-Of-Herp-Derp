@@ -19,6 +19,7 @@ public class KingsBlessingManager : MonoBehaviour
     #region
     [Header("Component References")]
     public GameObject visualParent;
+    public GameObject canvasParent;
     public GameObject continueButton;
     public CanvasGroup speechBubbleCG;
     public TextMeshProUGUI speechBubbleText;
@@ -72,6 +73,7 @@ public class KingsBlessingManager : MonoBehaviour
     #region
     public void EnableView()
     {
+        //canvasParent.SetActive(true);
         visualParent.SetActive(true);
         modelOne.SetIdleAnim();
         modelTwo.SetIdleAnim();
@@ -81,6 +83,7 @@ public class KingsBlessingManager : MonoBehaviour
     }
     public void DisableView()
     {
+       // canvasParent.SetActive(false);
         visualParent.SetActive(false);
     }
     public void SetSpeechBubbleText(string text)
