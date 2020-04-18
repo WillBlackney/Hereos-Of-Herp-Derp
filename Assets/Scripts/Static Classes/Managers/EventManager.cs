@@ -707,7 +707,7 @@ public class EventManager : MonoBehaviour
             RewardScreen.Instance.CreateConsumableRewardButton();
             RewardScreen.Instance.CreateStateRewardButton();
 
-            RewardScreen.Instance.PopulateStateRewardScreen();
+            RewardScreen.Instance.PopulateStateRewardScreen(true, true, false);
             RewardScreen.Instance.PopulateItemScreen(WorldEncounter.EncounterType.EliteEnemy);
         }
 
@@ -720,7 +720,7 @@ public class EventManager : MonoBehaviour
             RewardScreen.Instance.CreateConsumableRewardButton();
             RewardScreen.Instance.CreateStateRewardButton();
 
-            RewardScreen.Instance.PopulateBossStateRewardScreen();
+            RewardScreen.Instance.PopulateStateRewardScreen(false, false, true);
             RewardScreen.Instance.PopulateItemScreen(WorldEncounter.EncounterType.Boss);
         }
 
@@ -728,7 +728,7 @@ public class EventManager : MonoBehaviour
         {
             UIManager.Instance.EnableRewardScreenView();
             RewardScreen.Instance.CreateStateRewardButton();
-            RewardScreen.Instance.PopulateStateRewardScreen();
+            RewardScreen.Instance.PopulateStateRewardScreen(true, true, false);
 
         }
 
@@ -754,8 +754,9 @@ public class EventManager : MonoBehaviour
         ShopScreenManager.Instance.DisableShopScreenView();
         // Destroy active treasure chest if it exists
         StoryEventManager.Instance.ResetStoryEventWindow();
-        // Destroy treasure chest
+        // Clear treasure room event
         TreasureRoomManager.Instance.DestroyActiveTreasureChest();
+        TreasureRoomManager.Instance.DisableTreasureRoomView();
         // Force resolve unresolved actions and flush queue
         ActionManager.Instance.FlushActionQueue();
     }   

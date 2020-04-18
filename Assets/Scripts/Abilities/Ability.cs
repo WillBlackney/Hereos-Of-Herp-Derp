@@ -125,12 +125,12 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         {
             abilityCurrentCooldownTime = 0;
 
-            if (myLivingEntity.gameObject.GetComponent<Enemy>())
+            if (myLivingEntity.enemy)
             {
                 return;
             }
 
-            else if (myLivingEntity.gameObject.GetComponent<Defender>() == true)
+            else if (myLivingEntity.defender == true)
             {
                 HideCooldownTimer();
             }
@@ -138,12 +138,12 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         }
         else if (abilityCurrentCooldownTime > 0)
         {
-            if (myLivingEntity.gameObject.GetComponent<Enemy>())
+            if (myLivingEntity.enemy)
             {
                 return;
             }
 
-            else if (myLivingEntity.gameObject.GetComponent<Defender>() == true)
+            else if (myLivingEntity.defender == true)
             {
                 ShowCooldownTimer();
             }
@@ -171,7 +171,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     {
         Defender defender = myLivingEntity.GetComponent<Defender>();
 
-        if (myLivingEntity.GetComponent<Enemy>())
+        if (myLivingEntity.enemy)
         {
             return;
         }
@@ -186,7 +186,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     {
         Defender defender = myLivingEntity.gameObject.GetComponent<Defender>();
 
-        if (myLivingEntity.GetComponent<Enemy>())
+        if (myLivingEntity.enemy)
         {
             return;
         }

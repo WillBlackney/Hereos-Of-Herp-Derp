@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
     public GameObject GameOverScreenParent;
     public GameObject GameOverScreenCanvasParent;
     public TextMeshProUGUI GameOverScreenTitleText;
-    //public GameObject
 
     [Header("End Turn Button Component References")]
     public Button EndTurnButton;

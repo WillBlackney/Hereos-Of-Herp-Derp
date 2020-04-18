@@ -9573,9 +9573,9 @@ MonoBehaviour:
   EndTurnButton: {fileID: 1990138811}
   EndTurnButtonBGImage: {fileID: 1402826722}
   EndTurnButtonText: {fileID: 5148551053089057779}
-  EndTurnButtonDisabledSprite: {fileID: 21300000, guid: 3927196f7168de848a7fedc623cc8f7f,
+  EndTurnButtonDisabledSprite: {fileID: 21300000, guid: 28d727e38bed25c4fbea7281e825eccc,
     type: 3}
-  EndTurnButtonEnabledSprite: {fileID: 21300000, guid: 3773335159e7ffb45bffba293c274828,
+  EndTurnButtonEnabledSprite: {fileID: 21300000, guid: 93e4f2f6b3cac944f8fff72b328cb523,
     type: 3}
 --- !u!4 &583354384
 Transform:
@@ -19426,7 +19426,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1227547315
@@ -20148,7 +20148,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1295633029
@@ -23496,7 +23496,7 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.1745283, g: 0.49824247, b: 1, a: 1}
+      key0: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -45266,17 +45266,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1761317495}
     m_Modifications:
-    - target: {fileID: 5148551053624847542, guid: ea7737f515fe6814eb3df41cc0794647,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 87e99a81f1cbf00428f7e0adbc0d7cf5,
-        type: 2}
-    - target: {fileID: 5148551053624847542, guid: ea7737f515fe6814eb3df41cc0794647,
-        type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5148551054472327240, guid: ea7737f515fe6814eb3df41cc0794647,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -45382,16 +45371,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5148551054472327240, guid: ea7737f515fe6814eb3df41cc0794647,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.8999999
-      objectReference: {fileID: 0}
-    - target: {fileID: 5148551054472327240, guid: ea7737f515fe6814eb3df41cc0794647,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.8999999
-      objectReference: {fileID: 0}
     - target: {fileID: 5148551054472327241, guid: ea7737f515fe6814eb3df41cc0794647,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -45401,11 +45380,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: End Turn Button
-      objectReference: {fileID: 0}
-    - target: {fileID: 5148551054472327243, guid: ea7737f515fe6814eb3df41cc0794647,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea7737f515fe6814eb3df41cc0794647, type: 3}
@@ -45428,6 +45402,49 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 363722642}
     m_Modifications:
+    - target: {fileID: 599776649, guid: 3a08b461c645f6f40935a97095b99377, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 602410971}
+    - target: {fileID: 599776649, guid: 3a08b461c645f6f40935a97095b99377, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DisableCommonItemLootScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 606222663077077488, guid: 3a08b461c645f6f40935a97095b99377,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 602410971}
+    - target: {fileID: 606222663077077488, guid: 3a08b461c645f6f40935a97095b99377,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DisableEpicItemLootScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 1412446130957296279, guid: 3a08b461c645f6f40935a97095b99377,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 602410971}
+    - target: {fileID: 1412446130957296279, guid: 3a08b461c645f6f40935a97095b99377,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSkipRewardsButtonClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 1412446130957296279, guid: 3a08b461c645f6f40935a97095b99377,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RewardScreen, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2918197937632294800, guid: 3a08b461c645f6f40935a97095b99377,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 602410971}
+    - target: {fileID: 2918197937632294800, guid: 3a08b461c645f6f40935a97095b99377,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DisableStateRewardScreen
+      objectReference: {fileID: 0}
     - target: {fileID: 4080640984078912545, guid: 3a08b461c645f6f40935a97095b99377,
         type: 3}
       propertyPath: canvasParent
@@ -45492,6 +45509,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6730869145620837761, guid: 3a08b461c645f6f40935a97095b99377,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 602410971}
+    - target: {fileID: 6730869145620837761, guid: 3a08b461c645f6f40935a97095b99377,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DisableRareItemLootScreen
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4080640984078912545, guid: 3a08b461c645f6f40935a97095b99377, type: 3}

@@ -282,14 +282,14 @@ public class VisualEffectManager : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
-    public Action ShootArrow(Vector3 startPos, Vector3 endPos, float speed = 7)
+    public Action ShootArrow(Vector3 startPos, Vector3 endPos, float speed = 15)
     {
         Debug.Log("VisualEffectManager.ShootArrow() called...");
         Action action = new Action();
         StartCoroutine(ShootArrowCoroutine(startPos, endPos, action, speed));
         return action;
     }
-    public IEnumerator ShootArrowCoroutine(Vector3 startPos, Vector3 endPos, Action action, float speed = 7)
+    public IEnumerator ShootArrowCoroutine(Vector3 startPos, Vector3 endPos, Action action, float speed)
     {
         GameObject arrow = Instantiate(ArrowPrefab,startPos,Quaternion.identity);
         Projectile projectileScript = arrow.GetComponent<Projectile>();

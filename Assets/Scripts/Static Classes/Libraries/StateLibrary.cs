@@ -31,7 +31,7 @@ public class StateLibrary : MonoBehaviour
 
         return stateReturned;
     }
-    public StateDataSO GetRandomCommonState()
+    public StateDataSO GetRandomCommonState(bool onlyGetViable = true)
     {
         Debug.Log("StateLibrary.GetRandomCommonState() called...");
 
@@ -42,7 +42,17 @@ public class StateLibrary : MonoBehaviour
         {
             if (state.rarity == StateDataSO.Rarity.Common)
             {
-                commonStates.Add(state);
+                if (onlyGetViable)
+                {
+                    if (!StateManager.Instance.DoesPlayerAlreadyHaveState(state.stateName))
+                    {
+                        commonStates.Add(state);
+                    }
+                }
+                else
+                {
+                    commonStates.Add(state);
+                }
             }
         }
 
@@ -50,7 +60,7 @@ public class StateLibrary : MonoBehaviour
         Debug.Log("StateLibrary.GetRandomCommonState() returning " + stateReturned.stateName);
         return stateReturned;
     }
-    public StateDataSO GetRandomRareState()
+    public StateDataSO GetRandomRareState(bool onlyGetViable = true)
     {
         Debug.Log("StateLibrary.GetRandomRareState() called...");
 
@@ -61,7 +71,17 @@ public class StateLibrary : MonoBehaviour
         {
             if (state.rarity == StateDataSO.Rarity.Rare)
             {
-                rareStates.Add(state);
+                if (onlyGetViable)
+                {
+                    if (!StateManager.Instance.DoesPlayerAlreadyHaveState(state.stateName))
+                    {
+                        rareStates.Add(state);
+                    }
+                }
+                else
+                {
+                    rareStates.Add(state);
+                }
             }
         }
 
@@ -69,7 +89,7 @@ public class StateLibrary : MonoBehaviour
         Debug.Log("StateLibrary.GetRandomRareState() returning " + stateReturned.stateName);
         return stateReturned;
     }
-    public StateDataSO GetRandomBossState()
+    public StateDataSO GetRandomBossState(bool onlyGetViable = true)
     {
         Debug.Log("StateLibrary.GetRandomBossState() called...");
 
@@ -80,13 +100,97 @@ public class StateLibrary : MonoBehaviour
         {
             if (state.rarity == StateDataSO.Rarity.Boss)
             {
-                bossStates.Add(state);
+                if (onlyGetViable)
+                {
+                    if (!StateManager.Instance.DoesPlayerAlreadyHaveState(state.stateName))
+                    {
+                        bossStates.Add(state);
+                    }
+                }
+                else
+                {
+                    bossStates.Add(state);
+                }
             }
         }
 
         stateReturned = bossStates[Random.Range(0, bossStates.Count)];
         Debug.Log("StateLibrary.GetRandomBossState() returning " + stateReturned.stateName);
         return stateReturned;
+    }
+    public List<StateDataSO> GetAllCommonStates(bool onlyGetViable = true)
+    {
+        List<StateDataSO> dataReturned = new List<StateDataSO>();
+
+        foreach(StateDataSO state in allStates)
+        {
+            if(state.rarity == StateDataSO.Rarity.Common)
+            {
+                if (onlyGetViable)
+                {
+                    if (!StateManager.Instance.DoesPlayerAlreadyHaveState(state.stateName))
+                    {
+                        dataReturned.Add(state);
+                    }
+                }
+                else
+                {
+                    dataReturned.Add(state);
+                }
+                
+            }
+        }
+
+        return dataReturned;
+    }
+    public List<StateDataSO> GetAllRareStates(bool onlyGetViable = true)
+    {
+        List<StateDataSO> dataReturned = new List<StateDataSO>();
+
+        foreach (StateDataSO state in allStates)
+        {
+            if (state.rarity == StateDataSO.Rarity.Rare)
+            {
+                if (onlyGetViable)
+                {
+                    if (!StateManager.Instance.DoesPlayerAlreadyHaveState(state.stateName))
+                    {
+                        dataReturned.Add(state);
+                    }
+                }
+                else
+                {
+                    dataReturned.Add(state);
+                }
+            }
+        }
+
+        return dataReturned;
+    }
+    public List<StateDataSO> GetAllBossStates(bool onlyGetViable = true)
+    {
+        List<StateDataSO> dataReturned = new List<StateDataSO>();
+
+        foreach (StateDataSO state in allStates)
+        {
+            if (state.rarity == StateDataSO.Rarity.Boss)
+            {
+                if (onlyGetViable)
+                {
+                    if (!StateManager.Instance.DoesPlayerAlreadyHaveState(state.stateName))
+                    {
+                        dataReturned.Add(state);
+                    }
+                }
+
+                else
+                {
+                    dataReturned.Add(state);
+                }
+            }
+        }
+
+        return dataReturned;
     }
     public StateDataSO GetRandomStateReward()
     {       

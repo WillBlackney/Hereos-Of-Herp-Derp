@@ -24,17 +24,17 @@ public class ItemSlot : MonoBehaviour
         if(rarity == ItemDataSO.ItemRarity.Common)
         {
             itemData = ItemLibrary.Instance.GetRandomCommonItem();
-            randomGoldCost = Random.Range(3, 7);
+            randomGoldCost = Random.Range(4, 8);
         }
         else if (rarity == ItemDataSO.ItemRarity.Rare)
         {
             itemData = ItemLibrary.Instance.GetRandomRareItem();
-            randomGoldCost = Random.Range(7, 11);
+            randomGoldCost = Random.Range(8, 12);
         }
         else if (rarity == ItemDataSO.ItemRarity.Epic)
         {
             itemData = ItemLibrary.Instance.GetRandomEpicItem();
-            randomGoldCost = Random.Range(11, 15);
+            randomGoldCost = Random.Range(14, 18);
         }
 
         myItemCard.RunSetupFromItemData(itemData, ShopScreenManager.Instance.itemSlotSortingLayer);

@@ -21,6 +21,11 @@ public class GoldRewardButton : MonoBehaviour
         {
             goldAmount = Random.Range(7, 11);
         }
+        else if (EventManager.Instance.currentEncounterType == WorldEncounter.EncounterType.Boss)
+        {
+            goldAmount = Random.Range(11, 14);
+
+        }
         goldAmountText.text = goldAmount.ToString();
     }
     public void OnGoldRewardButtonClicked()

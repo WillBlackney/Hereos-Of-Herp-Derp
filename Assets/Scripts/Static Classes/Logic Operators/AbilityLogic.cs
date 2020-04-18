@@ -93,7 +93,7 @@ public class AbilityLogic : MonoBehaviour
                 ability.abilityName != "Concealing Clouds" &&
                 ability.abilityName != "Shadow Step")
             {
-                entity.myPassiveManager.ModifyCamoflage(-1);
+                entity.myPassiveManager.ModifyCamoflage(-entity.myPassiveManager.camoflageStacks);
             }
         }
 
@@ -643,7 +643,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitUntil(() => caster.myRangedAttackFinished == true);
 
         // Play arrow shot VFX
-        Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
+        Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 15);
         yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
@@ -834,7 +834,7 @@ public class AbilityLogic : MonoBehaviour
             yield return new WaitUntil(() => caster.myRangedAttackFinished == true);
 
             // Play arrow shot VFX
-            Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
+            Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 15);
             yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
             // if the target successfully dodged, dont do HandleDamage: do dodge stuff instead
@@ -2057,7 +2057,7 @@ public class AbilityLogic : MonoBehaviour
 
                 
                 // Play arrow shot VFX
-                Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
+                Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 15);
                 yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
                 // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
@@ -2472,9 +2472,6 @@ public class AbilityLogic : MonoBehaviour
             VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Testudo");
             yield return new WaitForSeconds(0.5f);
         }
-
-
-        OnAbilityUsedStart(testudo, caster);
 
         // Play animation
         caster.PlaySkillAnimation();
@@ -3685,7 +3682,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitUntil(() => caster.myRangedAttackFinished == true);
 
         // Play arrow shot VFX
-        Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
+        Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 15);
         yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
@@ -3749,7 +3746,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitUntil(() => caster.myRangedAttackFinished == true);
 
         // Play arrow shot VFX
-        Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
+        Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 15);
         yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
@@ -3912,7 +3909,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitUntil(() => caster.myRangedAttackFinished == true);
 
         // Play arrow shot VFX
-        Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
+        Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 15);
         yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
@@ -3975,7 +3972,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitUntil(() => caster.myRangedAttackFinished == true);
 
         // Play arrow shot VFX
-        Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
+        Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 15);
         yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
@@ -4141,7 +4138,7 @@ public class AbilityLogic : MonoBehaviour
                 //yield return new WaitUntil(() => attacker.myRangedAttackFinished == true);
 
                 // Play arrow shot VFX
-                Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 9);
+                Action shootAction = VisualEffectManager.Instance.ShootArrow(caster.tile.WorldPosition, victim.tile.WorldPosition, 15);
                 yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
                 // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
