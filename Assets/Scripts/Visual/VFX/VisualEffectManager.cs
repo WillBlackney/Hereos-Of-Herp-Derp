@@ -27,6 +27,13 @@ public class VisualEffectManager : MonoBehaviour
     public GameObject FrostBoltPrefab;
     public GameObject HolyFirePrefab;
 
+    [Header("TOON Projectile Prefab References")]
+    public GameObject toonFireBall;
+    public GameObject toonPoisonBall;
+    public GameObject toonShadowBall;
+    public GameObject toonFrostBall;
+    public GameObject toonLightningBall;
+
     [Header("Properties")]
     public List<DamageEffect> vfxQueue = new List<DamageEffect>();
     public int campsiteVfxSortingLayer;
@@ -342,6 +349,9 @@ public class VisualEffectManager : MonoBehaviour
     }
     public IEnumerator ShootFrostBoltCoroutine(Vector3 startPosition, Vector3 endPosition, Action action, float speed = 5)
     {
+        // FOR TESTING, REMOVE LATER!
+        speed = VFXTestManager.Instance.projectileSpeed;
+
         GameObject frostBolt = Instantiate(FrostBoltPrefab, startPosition, FrostBoltPrefab.transform.rotation);
         FaceDestination(frostBolt, endPosition);
         ExplodeOnHit myExplodeOnHit = frostBolt.gameObject.GetComponent<ExplodeOnHit>();
@@ -388,4 +398,156 @@ public class VisualEffectManager : MonoBehaviour
     }
     #endregion
 
+    // Toon Vfx Projectiles
+
+    public Action ShootToonFireball(Vector3 startPos, Vector3 endPos, float speed, int sortingOrder = 15, float scaleModifier = 0.5f)
+    {
+        Action action = new Action();
+        StartCoroutine(ShootToonFireballCoroutine(startPos, endPos, action, speed, sortingOrder, scaleModifier));
+        return action;
+    }
+    private IEnumerator ShootToonFireballCoroutine(Vector3 startPosition, Vector3 endPosition, Action action, float speed, int sortingOrder, float scaleModifier)
+    {
+        // override speed for testing
+        bool destinationReached = false;
+
+        GameObject fireBall = Instantiate(toonFireBall, startPosition, toonFireBall.transform.rotation);
+        ToonProjectile tsScript = fireBall.GetComponent<ToonProjectile>();
+        tsScript.InitializeSetup(sortingOrder, scaleModifier);
+
+        yield return null;
+
+        while (fireBall.transform.position != endPosition)
+        {
+            fireBall.transform.position = Vector2.MoveTowards(fireBall.transform.position, endPosition, speed * Time.deltaTime);
+            if (fireBall.transform.position == endPosition && !destinationReached)
+            {
+                destinationReached = true;
+                tsScript.OnDestinationReached();
+                action.actionResolved = true;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+
+    }
+    public Action ShootToonPoisonBall(Vector3 startPos, Vector3 endPos, float speed, int sortingOrder = 15, float scaleModifier = 0.5f)
+    {
+        Action action = new Action();
+        StartCoroutine(ShootToonPoisonBallCoroutine(startPos, endPos, action, speed, sortingOrder, scaleModifier));
+        return action;
+    }
+    private IEnumerator ShootToonPoisonBallCoroutine(Vector3 startPosition, Vector3 endPosition, Action action, float speed, int sortingOrder, float scaleModifier)
+    {
+        // override speed for testing
+        bool destinationReached = false;
+
+        GameObject fireBall = Instantiate(toonPoisonBall, startPosition, toonPoisonBall.transform.rotation);
+        ToonProjectile tsScript = fireBall.GetComponent<ToonProjectile>();
+        tsScript.InitializeSetup(sortingOrder, scaleModifier);
+
+        yield return null;
+
+        while (fireBall.transform.position != endPosition)
+        {
+            fireBall.transform.position = Vector2.MoveTowards(fireBall.transform.position, endPosition, speed * Time.deltaTime);
+            if (fireBall.transform.position == endPosition && !destinationReached)
+            {
+                destinationReached = true;
+                tsScript.OnDestinationReached();
+                action.actionResolved = true;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+
+    }
+    public Action ShootToonShadowBall(Vector3 startPos, Vector3 endPos, float speed, int sortingOrder = 15, float scaleModifier = 0.5f)
+    {
+        Action action = new Action();
+        StartCoroutine(ShootToonShadowBallCoroutine(startPos, endPos, action, speed, sortingOrder, scaleModifier));
+        return action;
+    }
+    private IEnumerator ShootToonShadowBallCoroutine(Vector3 startPosition, Vector3 endPosition, Action action, float speed, int sortingOrder, float scaleModifier)
+    {
+        // override speed for testing
+        bool destinationReached = false;
+
+        GameObject shadowBall = Instantiate(toonShadowBall, startPosition, toonShadowBall.transform.rotation);
+        ToonProjectile tsScript = shadowBall.GetComponent<ToonProjectile>();
+        tsScript.InitializeSetup(sortingOrder, scaleModifier);
+
+        yield return null;
+
+        while (shadowBall.transform.position != endPosition)
+        {
+            shadowBall.transform.position = Vector2.MoveTowards(shadowBall.transform.position, endPosition, speed * Time.deltaTime);
+            if (shadowBall.transform.position == endPosition && !destinationReached)
+            {
+                destinationReached = true;
+                tsScript.OnDestinationReached();
+                action.actionResolved = true;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+
+    }
+    public Action ShootToonFrostBall(Vector3 startPos, Vector3 endPos, float speed, int sortingOrder = 15, float scaleModifier = 0.5f)
+    {
+        Action action = new Action();
+        StartCoroutine(ShootToonFrostBallCoroutine(startPos, endPos, action, speed, sortingOrder, scaleModifier));
+        return action;
+    }
+    private IEnumerator ShootToonFrostBallCoroutine(Vector3 startPosition, Vector3 endPosition, Action action, float speed, int sortingOrder, float scaleModifier)
+    {
+        // override speed for testing
+        bool destinationReached = false;
+
+        GameObject frostBall = Instantiate(toonFrostBall, startPosition, toonFrostBall.transform.rotation);
+        ToonProjectile tsScript = frostBall.GetComponent<ToonProjectile>();
+        tsScript.InitializeSetup(sortingOrder, scaleModifier);
+
+        yield return null;
+
+        while (frostBall.transform.position != endPosition)
+        {
+            frostBall.transform.position = Vector2.MoveTowards(frostBall.transform.position, endPosition, speed * Time.deltaTime);
+            if (frostBall.transform.position == endPosition && !destinationReached)
+            {
+                destinationReached = true;
+                tsScript.OnDestinationReached();
+                action.actionResolved = true;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+
+    }
+    public Action ShootToonLightningBall(Vector3 startPos, Vector3 endPos, float speed, int sortingOrder = 15, float scaleModifier = 0.5f)
+    {
+        Action action = new Action();
+        StartCoroutine(ShootToonLightningBallCoroutine(startPos, endPos, action, speed, sortingOrder, scaleModifier));
+        return action;
+    }
+    private IEnumerator ShootToonLightningBallCoroutine(Vector3 startPosition, Vector3 endPosition, Action action, float speed, int sortingOrder, float scaleModifier)
+    {
+        // override speed for testing
+        bool destinationReached = false;
+
+        GameObject frostBall = Instantiate(toonLightningBall, startPosition, toonLightningBall.transform.rotation);
+        ToonProjectile tsScript = frostBall.GetComponent<ToonProjectile>();
+        tsScript.InitializeSetup(sortingOrder, scaleModifier);
+
+        yield return null;
+
+        while (frostBall.transform.position != endPosition)
+        {
+            frostBall.transform.position = Vector2.MoveTowards(frostBall.transform.position, endPosition, speed * Time.deltaTime);
+            if (frostBall.transform.position == endPosition && !destinationReached)
+            {
+                destinationReached = true;
+                tsScript.OnDestinationReached();
+                action.actionResolved = true;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+
+    }
 }

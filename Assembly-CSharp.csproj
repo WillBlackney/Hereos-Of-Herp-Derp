@@ -66,6 +66,19 @@
     <Compile Include="Assets\Imported Assets\Anim Imports\Spriter2UnityDX\Runtime\EntityRenderer.cs" />
     <Compile Include="Assets\Imported Assets\Anim Imports\Spriter2UnityDX\Runtime\SortingOrderUpdater.cs" />
     <Compile Include="Assets\Imported Assets\Anim Imports\Spriter2UnityDX\Runtime\TextureController.cs" />
+    <Compile Include="Assets\Imported Assets\Epic Toon FX\Demo\Scripts\ETFXButtonScript.cs" />
+    <Compile Include="Assets\Imported Assets\Epic Toon FX\Demo\Scripts\ETFXFireProjectile.cs" />
+    <Compile Include="Assets\Imported Assets\Epic Toon FX\Demo\Scripts\ETFXLoopScript.cs" />
+    <Compile Include="Assets\Imported Assets\Epic Toon FX\Demo\Scripts\ETFXMouseOrbit.cs" />
+    <Compile Include="Assets\Imported Assets\Epic Toon FX\Demo\Scripts\ETFXProjectileScript.cs" />
+    <Compile Include="Assets\Imported Assets\Epic Toon FX\Demo\Scripts\ETFXSceneManager.cs" />
+    <Compile Include="Assets\Imported Assets\Epic Toon FX\Demo\Scripts\ETFXTarget.cs" />
+    <Compile Include="Assets\Imported Assets\Epic Toon FX\Demo\Scripts\VFX Library\PEButtonScript.cs" />
+    <Compile Include="Assets\Imported Assets\Epic Toon FX\Demo\Scripts\VFX Library\ParticleEffectsLibrary.cs" />
+    <Compile Include="Assets\Imported Assets\Epic Toon FX\Demo\Scripts\VFX Library\UICanvasManager.cs" />
+    <Compile Include="Assets\Imported Assets\Epic Toon FX\Scripts\ETFXLightFade.cs" />
+    <Compile Include="Assets\Imported Assets\Epic Toon FX\Scripts\ETFXPitchRandomizer.cs" />
+    <Compile Include="Assets\Imported Assets\Epic Toon FX\Scripts\ETFXRotation.cs" />
     <Compile Include="Assets\Imported Assets\Particles\Imported Particles\48 Particle Effect Pack\Script\csDestroyEffect.cs" />
     <Compile Include="Assets\Imported Assets\Particles\Imported Particles\48 Particle Effect Pack\Script\csMouseOrbit.cs" />
     <Compile Include="Assets\Imported Assets\Particles\Imported Particles\48 Particle Effect Pack\Script\csParticleEffectPackLightControl.cs" />
@@ -207,6 +220,8 @@
     <Compile Include="Assets\Scripts\Misc\Texture Exporting\SpriteBouncer.cs" />
     <Compile Include="Assets\Scripts\Misc\Texture Exporting\Texture2DExtensions.cs" />
     <Compile Include="Assets\Scripts\Misc\TileHover.cs" />
+    <Compile Include="Assets\Scripts\Misc\ToonEffect.cs" />
+    <Compile Include="Assets\Scripts\Misc\ToonProjectile.cs" />
     <Compile Include="Assets\Scripts\MouseOverBroadCaster.cs" />
     <Compile Include="Assets\Scripts\PassiveInfoSheet.cs" />
     <Compile Include="Assets\Scripts\PassiveInfoSheetController.cs" />
@@ -264,6 +279,7 @@
     <Compile Include="Assets\Scripts\TreasureRoomCharacter.cs" />
     <Compile Include="Assets\Scripts\TreasureRoomManager.cs" />
     <Compile Include="Assets\Scripts\UniversalCharacterModelElement.cs" />
+    <Compile Include="Assets\Scripts\VFXTestManager.cs" />
     <Compile Include="Assets\Scripts\VillageCharacter.cs" />
     <Compile Include="Assets\Scripts\Visual\AbilitySlot.cs" />
     <Compile Include="Assets\Scripts\Visual\ActivationWindow.cs" />
@@ -306,9 +322,11 @@
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Imported Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
+     <None Include="Assets\Imported Assets\Epic Toon FX\Prefabs\Environment\Environment FX.txt" />
      <None Include="Assets\Imported Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\Resources\Level Text Files\Map 1.txt" />
      <None Include="Assets\Imported Assets\ScriptCalculator\Readme.txt" />
+     <None Include="Assets\Imported Assets\Epic Toon FX\Prefabs\Combat\Combat FX.txt" />
      <None Include="Assets\Imported Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
      <None Include="Assets\Resources\Level Text Files\New Maps\Map 4.txt" />
      <None Include="Assets\Resources\Level Text Files\Map 4.txt" />
@@ -321,6 +339,7 @@
      <None Include="Assets\Imported Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\Sprites\UI\RPG Pack 2\readme.txt" />
      <None Include="Assets\Imported Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
+     <None Include="Assets\Imported Assets\Epic Toon FX\Prefabs\Interactive\Interactive FX.txt" />
      <None Include="Assets\Imported Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
      <None Include="Assets\Imported Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
      <None Include="Assets\Resources\Level Text Files\Map 3.txt" />
