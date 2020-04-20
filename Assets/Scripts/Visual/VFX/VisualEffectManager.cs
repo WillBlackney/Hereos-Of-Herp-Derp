@@ -33,6 +33,25 @@ public class VisualEffectManager : MonoBehaviour
     public GameObject toonShadowBall;
     public GameObject toonFrostBall;
     public GameObject toonLightningBall;
+    public GameObject toonHolyBall;
+
+    [Header("TOON Nova Prefab References")]
+    public GameObject toonFireNova;
+    public GameObject toonShadowNova;
+    public GameObject toonPoisonNova;
+    public GameObject toonLightningNova;
+    public GameObject toonFrostNova;
+    public GameObject toonHolyNova;
+
+    [Header("TOON Debuff Prefab References")]
+    public GameObject toonGeneralDebuff;
+    public GameObject toonApplyStunned;
+    public GameObject toonApplyPoisoned;
+    public GameObject toonApplyBurning;
+    public GameObject toonApplyShocked;
+    public GameObject toonApplyChilled;
+    public GameObject toonApplyVulnerable;
+    public GameObject toonApplyWeakened;
 
     [Header("Properties")]
     public List<DamageEffect> vfxQueue = new List<DamageEffect>();
@@ -399,7 +418,8 @@ public class VisualEffectManager : MonoBehaviour
     #endregion
 
     // Toon Vfx Projectiles
-
+    #region
+    // Fire Ball
     public Action ShootToonFireball(Vector3 startPos, Vector3 endPos, float speed, int sortingOrder = 15, float scaleModifier = 0.5f)
     {
         Action action = new Action();
@@ -430,6 +450,8 @@ public class VisualEffectManager : MonoBehaviour
         }
 
     }
+
+    // Poison Ball
     public Action ShootToonPoisonBall(Vector3 startPos, Vector3 endPos, float speed, int sortingOrder = 15, float scaleModifier = 0.5f)
     {
         Action action = new Action();
@@ -460,6 +482,8 @@ public class VisualEffectManager : MonoBehaviour
         }
 
     }
+
+    // Shadow Ball
     public Action ShootToonShadowBall(Vector3 startPos, Vector3 endPos, float speed, int sortingOrder = 15, float scaleModifier = 0.5f)
     {
         Action action = new Action();
@@ -490,6 +514,8 @@ public class VisualEffectManager : MonoBehaviour
         }
 
     }
+
+    // Frost Ball
     public Action ShootToonFrostBall(Vector3 startPos, Vector3 endPos, float speed, int sortingOrder = 15, float scaleModifier = 0.5f)
     {
         Action action = new Action();
@@ -520,6 +546,8 @@ public class VisualEffectManager : MonoBehaviour
         }
 
     }
+
+    // Lightning Ball
     public Action ShootToonLightningBall(Vector3 startPos, Vector3 endPos, float speed, int sortingOrder = 15, float scaleModifier = 0.5f)
     {
         Action action = new Action();
@@ -550,4 +578,199 @@ public class VisualEffectManager : MonoBehaviour
         }
 
     }
+
+    // Holy Ball
+    public Action ShootToonHolyBall(Vector3 startPos, Vector3 endPos, float speed, int sortingOrder = 15, float scaleModifier = 0.5f)
+    {
+        Action action = new Action();
+        StartCoroutine(ShootToonHolyBallCoroutine(startPos, endPos, action, speed, sortingOrder, scaleModifier));
+        return action;
+    }
+    private IEnumerator ShootToonHolyBallCoroutine(Vector3 startPosition, Vector3 endPosition, Action action, float speed, int sortingOrder, float scaleModifier)
+    {
+        // override speed for testing
+        bool destinationReached = false;
+
+        GameObject hb = Instantiate(toonHolyBall, startPosition, toonHolyBall.transform.rotation);
+        ToonProjectile tsScript = hb.GetComponent<ToonProjectile>();
+        tsScript.InitializeSetup(sortingOrder, scaleModifier);
+
+        yield return null;
+
+        while (hb.transform.position != endPosition)
+        {
+            hb.transform.position = Vector2.MoveTowards(hb.transform.position, endPosition, speed * Time.deltaTime);
+            if (hb.transform.position == endPosition && !destinationReached)
+            {
+                destinationReached = true;
+                tsScript.OnDestinationReached();
+                action.actionResolved = true;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+
+    }
+
+    #endregion
+
+    // Toon Auras
+    #region
+
+    // Fire Nova
+    public Action CreateFireNova(Vector3 location, int sortingOrder = 15, float scaleModifier = 0.5f)
+    {
+        Action action = new Action();
+        StartCoroutine(CreateFireNovaCoroutine(location, action, sortingOrder, scaleModifier));
+        return action;
+    }
+    private IEnumerator CreateFireNovaCoroutine(Vector3 location, Action action, int sortingOrder, float scaleModifier)
+    {
+        GameObject fireNova = Instantiate(toonFireNova, location, toonFireNova.transform.rotation);
+        ToonEffect teScript = fireNova.GetComponent<ToonEffect>();
+        teScript.InitializeSetup(sortingOrder, scaleModifier);
+        action.actionResolved = true;
+        yield return null;
+
+    }
+
+    // Poison Nova
+    public Action CreatePoisonNova(Vector3 location, int sortingOrder = 15, float scaleModifier = 0.5f)
+    {
+        Action action = new Action();
+        StartCoroutine(CreatePoisonNovaCoroutine(location, action, sortingOrder, scaleModifier));
+        return action;
+    }
+    private IEnumerator CreatePoisonNovaCoroutine(Vector3 location, Action action, int sortingOrder, float scaleModifier)
+    {
+        GameObject poisonNova = Instantiate(toonPoisonNova, location, toonPoisonNova.transform.rotation);
+        ToonEffect teScript = poisonNova.GetComponent<ToonEffect>();
+        teScript.InitializeSetup(sortingOrder, scaleModifier);
+        action.actionResolved = true;
+        yield return null;
+
+    }
+
+    // Shadow Nova
+    public Action CreateShadowNova(Vector3 location, int sortingOrder = 15, float scaleModifier = 0.5f)
+    {
+        Action action = new Action();
+        StartCoroutine(CreateShadowNovaCoroutine(location, action, sortingOrder, scaleModifier));
+        return action;
+    }
+    private IEnumerator CreateShadowNovaCoroutine(Vector3 location, Action action, int sortingOrder, float scaleModifier)
+    {
+        GameObject shadowNova = Instantiate(toonShadowNova, location, toonShadowNova.transform.rotation);
+        ToonEffect teScript = shadowNova.GetComponent<ToonEffect>();
+        teScript.InitializeSetup(sortingOrder, scaleModifier);
+        action.actionResolved = true;
+        yield return null;
+
+    }
+
+    // Frost Nova
+    public Action CreateFrostNova(Vector3 location, int sortingOrder = 15, float scaleModifier = 0.5f)
+    {
+        Action action = new Action();
+        StartCoroutine(CreateFrostNovaCoroutine(location, action, sortingOrder, scaleModifier));
+        return action;
+    }
+    private IEnumerator CreateFrostNovaCoroutine(Vector3 location, Action action, int sortingOrder, float scaleModifier)
+    {
+        GameObject frostNova = Instantiate(toonFrostNova, location, toonFrostNova.transform.rotation);
+        ToonEffect teScript = frostNova.GetComponent<ToonEffect>();
+        teScript.InitializeSetup(sortingOrder, scaleModifier);
+        action.actionResolved = true;
+        yield return null;
+
+    }
+
+    // Lightning Nova
+    public Action CreateLightningNova(Vector3 location, int sortingOrder = 15, float scaleModifier = 0.5f)
+    {
+        Action action = new Action();
+        StartCoroutine(CreateLightningNovaCoroutine(location, action, sortingOrder, scaleModifier));
+        return action;
+    }
+    private IEnumerator CreateLightningNovaCoroutine(Vector3 location, Action action, int sortingOrder, float scaleModifier)
+    {
+        GameObject lightningNova = Instantiate(toonLightningNova, location, toonLightningNova.transform.rotation);
+        ToonEffect teScript = lightningNova.GetComponent<ToonEffect>();
+        teScript.InitializeSetup(sortingOrder, scaleModifier);
+        action.actionResolved = true;
+        yield return null;
+
+    }
+
+    // Holy Nova
+    public Action CreateHolyNova(Vector3 location, int sortingOrder = 15, float scaleModifier = 0.5f)
+    {
+        Action action = new Action();
+        StartCoroutine(CreateHolyNovaCoroutine(location, action, sortingOrder, scaleModifier));
+        return action;
+    }
+    private IEnumerator CreateHolyNovaCoroutine(Vector3 location, Action action, int sortingOrder, float scaleModifier)
+    {
+        GameObject hn = Instantiate(toonHolyNova, location, toonHolyNova.transform.rotation);
+        ToonEffect teScript = hn.GetComponent<ToonEffect>();
+        teScript.InitializeSetup(sortingOrder, scaleModifier);
+        action.actionResolved = true;
+        yield return null;
+
+    }
+    #endregion
+
+    // Toon Debuffs
+    #region
+
+    // Apply Stunned Effect
+    public Action CreateStunnedEffect(Vector3 location, int sortingOrder = 15, float scaleModifier = 0.5f)
+    {
+        Action action = new Action();
+        StartCoroutine(CreateStunnedEffectCoroutine(location, action, sortingOrder, scaleModifier));
+        return action;
+    }
+    private IEnumerator CreateStunnedEffectCoroutine(Vector3 location, Action action, int sortingOrder, float scaleModifier)
+    {
+        GameObject hn = Instantiate(toonApplyStunned, location, toonApplyStunned.transform.rotation);
+        ToonEffect teScript = hn.GetComponent<ToonEffect>();
+        teScript.InitializeSetup(sortingOrder, scaleModifier);
+        action.actionResolved = true;
+        yield return null;
+
+    }
+
+    // Apply Burning Effect
+    public Action CreateApplyBurningEffect(Vector3 location, int sortingOrder = 15, float scaleModifier = 0.5f)
+    {
+        Action action = new Action();
+        StartCoroutine(CreateApplyBurningEffectCoroutine(location, action, sortingOrder, scaleModifier));
+        return action;
+    }
+    private IEnumerator CreateApplyBurningEffectCoroutine(Vector3 location, Action action, int sortingOrder, float scaleModifier)
+    {
+        GameObject hn = Instantiate(toonApplyBurning, location, toonApplyBurning.transform.rotation);
+        ToonEffect teScript = hn.GetComponent<ToonEffect>();
+        teScript.InitializeSetup(sortingOrder, scaleModifier);
+        action.actionResolved = true;
+        yield return null;
+
+    }
+
+    // Apply Burning Effect
+    public Action CreateApplyPoisonedEffect(Vector3 location, int sortingOrder = 15, float scaleModifier = 0.5f)
+    {
+        Action action = new Action();
+        StartCoroutine(CreateApplyPoisonedEffectCoroutine(location, action, sortingOrder, scaleModifier));
+        return action;
+    }
+    private IEnumerator CreateApplyPoisonedEffectCoroutine(Vector3 location, Action action, int sortingOrder, float scaleModifier)
+    {
+        GameObject hn = Instantiate(toonApplyPoisoned, location, toonApplyPoisoned.transform.rotation);
+        ToonEffect teScript = hn.GetComponent<ToonEffect>();
+        teScript.InitializeSetup(sortingOrder, scaleModifier);
+        action.actionResolved = true;
+        yield return null;
+
+    }
+    #endregion
 }

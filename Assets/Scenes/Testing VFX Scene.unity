@@ -1001,6 +1001,75 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &131507418
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4049692594412773547, guid: e7318fa4572bde946b78e5a645109f3f,
+        type: 3}
+      propertyPath: m_Name
+      value: Apply Burning Effect
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049692594413119285, guid: e7318fa4572bde946b78e5a645109f3f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049692594413119285, guid: e7318fa4572bde946b78e5a645109f3f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049692594413119285, guid: e7318fa4572bde946b78e5a645109f3f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049692594413119285, guid: e7318fa4572bde946b78e5a645109f3f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049692594413119285, guid: e7318fa4572bde946b78e5a645109f3f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049692594413119285, guid: e7318fa4572bde946b78e5a645109f3f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049692594413119285, guid: e7318fa4572bde946b78e5a645109f3f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049692594413119285, guid: e7318fa4572bde946b78e5a645109f3f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049692594413119285, guid: e7318fa4572bde946b78e5a645109f3f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049692594413119285, guid: e7318fa4572bde946b78e5a645109f3f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049692594413119285, guid: e7318fa4572bde946b78e5a645109f3f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e7318fa4572bde946b78e5a645109f3f, type: 3}
 --- !u!1 &139254043
 GameObject:
   m_ObjectHideFlags: 0
@@ -3658,16 +3727,11 @@ MonoBehaviour:
   caster: {fileID: 1376282356}
   target: {fileID: 1288384609}
   projectileSpeed: 25
-  projectileScale: 0.8
+  projectileScale: 0.5
   projectileSortingOrder: 15
   currentEffect: 
   currentEffectIndex: 0
-  effectNames:
-  - Fire Ball
-  - Poison Ball
-  - Shadow Ball
-  - Frost Ball
-  - Lightning Ball
+  effectNames: []
 --- !u!1 &728048184
 GameObject:
   m_ObjectHideFlags: 0
@@ -7807,6 +7871,31 @@ MonoBehaviour:
     type: 3}
   toonLightningBall: {fileID: 8415557916090896220, guid: 72bad4a764715864d939a1d3538f29a9,
     type: 3}
+  toonHolyBall: {fileID: 3755333235594938142, guid: 9469577d29a6d1a4fb00d81f230ca09a,
+    type: 3}
+  toonFireNova: {fileID: 6173602624215566803, guid: 63e7a9a69f6a56a4683be7bbeb75487c,
+    type: 3}
+  toonShadowNova: {fileID: 3861992713593756217, guid: eee2856cc1403e141a0fcb90dd14dab5,
+    type: 3}
+  toonPoisonNova: {fileID: 2664518565671497612, guid: c0a9139142948524495917aa36077627,
+    type: 3}
+  toonLightningNova: {fileID: 7695154345206479975, guid: 81a04619c0eba494196e2713eb34217b,
+    type: 3}
+  toonFrostNova: {fileID: 448564134168739609, guid: 53e787bf980ab2849980a3e35ffb1617,
+    type: 3}
+  toonHolyNova: {fileID: 4842217772913655563, guid: 32aab9dc2a867394ea3617744788026b,
+    type: 3}
+  toonGeneralDebuff: {fileID: 0}
+  toonApplyStunned: {fileID: 4211829791415223923, guid: a89242a0debbba945a1c58a24dcf7a07,
+    type: 3}
+  toonApplyPoisoned: {fileID: 8388142293858420718, guid: 56531f7b3d83d50489e3b79096d6c886,
+    type: 3}
+  toonApplyBurning: {fileID: 4049692594412773547, guid: e7318fa4572bde946b78e5a645109f3f,
+    type: 3}
+  toonApplyShocked: {fileID: 0}
+  toonApplyChilled: {fileID: 0}
+  toonApplyVulnerable: {fileID: 0}
+  toonApplyWeakened: {fileID: 0}
   vfxQueue: []
   campsiteVfxSortingLayer: 2100
   timeBetweenEffectsInSeconds: 0.5
@@ -9179,72 +9268,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &8076563270682912533
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2229852831262795155, guid: 315e8400eaab12c4395c7068c01b9ca5,
-        type: 3}
-      propertyPath: m_Name
-      value: Fire Aura 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2229852831263050011, guid: 315e8400eaab12c4395c7068c01b9ca5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2229852831263050011, guid: 315e8400eaab12c4395c7068c01b9ca5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2229852831263050011, guid: 315e8400eaab12c4395c7068c01b9ca5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2229852831263050011, guid: 315e8400eaab12c4395c7068c01b9ca5,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2229852831263050011, guid: 315e8400eaab12c4395c7068c01b9ca5,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2229852831263050011, guid: 315e8400eaab12c4395c7068c01b9ca5,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2229852831263050011, guid: 315e8400eaab12c4395c7068c01b9ca5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2229852831263050011, guid: 315e8400eaab12c4395c7068c01b9ca5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2229852831263050011, guid: 315e8400eaab12c4395c7068c01b9ca5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 2229852831263050011, guid: 315e8400eaab12c4395c7068c01b9ca5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2229852831263050011, guid: 315e8400eaab12c4395c7068c01b9ca5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 315e8400eaab12c4395c7068c01b9ca5, type: 3}

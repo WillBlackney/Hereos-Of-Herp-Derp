@@ -34,6 +34,7 @@ public class VFXTestManager : MonoBehaviour
     {
         Instance = this;
         currentEffectIndex = 0;
+        PopulateEffectNamesList();
         SetCurrentEffect("Fire Ball");
     }
     #endregion
@@ -53,9 +54,39 @@ public class VFXTestManager : MonoBehaviour
             GetNextEffect();
         }
     }
+    public void PopulateEffectNamesList()
+    {
+        // Projectiles
+        effectNames.Add("Fire Ball");
+        effectNames.Add("Poison Ball");
+        effectNames.Add("Shadow Ball");
+        effectNames.Add("Frost Ball");
+        effectNames.Add("Lightning Ball");
+        effectNames.Add("Holy Ball");
+
+        // Novas
+        effectNames.Add("Fire Nova");
+        effectNames.Add("Poison Nova");
+        effectNames.Add("Shadow Nova");
+        effectNames.Add("Frost Nova");
+        effectNames.Add("Lightning Nova");
+        effectNames.Add("Holy Nova");
+
+        // Debuffs
+        effectNames.Add("Apply Stunned");
+        effectNames.Add("Apply Poisoned");
+        effectNames.Add("Apply Burning");
+        effectNames.Add("Apply Shocked");
+        effectNames.Add("Apply Chilled");
+        effectNames.Add("Apply Weakened");
+        effectNames.Add("Apply Vulnerable");
+        effectNames.Add("General Debuff");
+
+    }
 
     public void PlayCurrentEffect()
     {
+        // Projectiles
         if(currentEffect ==  "Fire Ball")
         {
             VisualEffectManager.Instance.ShootToonFireball(caster.transform.position, target.transform.position, projectileSpeed, projectileSortingOrder, projectileScale);
@@ -75,6 +106,70 @@ public class VFXTestManager : MonoBehaviour
         else if (currentEffect == "Lightning Ball")
         {
             VisualEffectManager.Instance.ShootToonLightningBall(caster.transform.position, target.transform.position, projectileSpeed, projectileSortingOrder, projectileScale);
+        }
+        else if (currentEffect == "Holy Ball")
+        {
+            VisualEffectManager.Instance.ShootToonHolyBall(caster.transform.position, target.transform.position, projectileSpeed, projectileSortingOrder, projectileScale);
+        }
+
+        // Novas
+        else if (currentEffect == "Fire Nova")
+        {
+            VisualEffectManager.Instance.CreateFireNova(caster.transform.position, projectileSortingOrder, projectileScale);
+        }
+        else if (currentEffect == "Poison Nova")
+        {
+            VisualEffectManager.Instance.CreatePoisonNova(caster.transform.position, projectileSortingOrder, projectileScale);
+        }
+        else if (currentEffect == "Shadow Nova")
+        {
+            VisualEffectManager.Instance.CreateShadowNova(caster.transform.position, projectileSortingOrder, projectileScale);
+        }
+        else if (currentEffect == "Frost Nova")
+        {
+            VisualEffectManager.Instance.CreateFrostNova(caster.transform.position, projectileSortingOrder, projectileScale);
+        }
+        else if (currentEffect == "Lightning Nova")
+        {
+            VisualEffectManager.Instance.CreateLightningNova(caster.transform.position, projectileSortingOrder, projectileScale);
+        }
+        else if (currentEffect == "Holy Nova")
+        {
+            VisualEffectManager.Instance.CreateHolyNova(caster.transform.position, projectileSortingOrder, projectileScale);
+        }
+
+        // Debuffs
+        else if (currentEffect == "General Debuff")
+        {
+            //VisualEffectManager.Instance.CreateStunnedEffect(caster.transform.position, projectileSortingOrder, projectileScale);
+        }
+        else if (currentEffect == "Apply Stunned")
+        {
+            VisualEffectManager.Instance.CreateStunnedEffect(caster.transform.position, projectileSortingOrder, projectileScale);
+        }
+        else if (currentEffect == "Apply Poisoned")
+        {
+            VisualEffectManager.Instance.CreateApplyPoisonedEffect(caster.transform.position, projectileSortingOrder, projectileScale);
+        }
+        else if (currentEffect == "Apply Burning")
+        {
+            VisualEffectManager.Instance.CreateApplyBurningEffect(caster.transform.position, projectileSortingOrder, projectileScale);
+        }
+        else if (currentEffect == "Apply Shocked")
+        {
+            //VisualEffectManager.Instance.CreateStunnedEffect(caster.transform.position, projectileSortingOrder, projectileScale);
+        }
+        else if (currentEffect == "Apply Chilled")
+        {
+            //VisualEffectManager.Instance.CreateStunnedEffect(caster.transform.position, projectileSortingOrder, projectileScale);
+        }
+        else if (currentEffect == "Apply Weakened")
+        {
+            //VisualEffectManager.Instance.CreateStunnedEffect(caster.transform.position, projectileSortingOrder, projectileScale);
+        }
+        else if (currentEffect == "Apply Vulnerable")
+        {
+            //VisualEffectManager.Instance.CreateStunnedEffect(caster.transform.position, projectileSortingOrder, projectileScale);
         }
     }
 
