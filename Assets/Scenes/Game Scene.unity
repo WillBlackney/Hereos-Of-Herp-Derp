@@ -19426,7 +19426,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1, y: 0}
   m_SizeDelta: {x: 2, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1227547315
@@ -20148,7 +20148,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1, y: 0}
   m_SizeDelta: {x: 2, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1295633029
@@ -24419,6 +24419,72 @@ MonoBehaviour:
   FrostBoltPrefab: {fileID: 1626682765528968, guid: 04e74dcb278e1b548bf6afe547338aef,
     type: 3}
   HolyFirePrefab: {fileID: 1272580456194116, guid: e09bcda0eecb91c4db7243542e071dd0,
+    type: 3}
+  toonFireBall: {fileID: 8939679008224264058, guid: f6ed12516004fdd43987908f7571040a,
+    type: 3}
+  toonPoisonBall: {fileID: 2677862378484934484, guid: 380bdac2f7860ec4eb3589e09e734c1e,
+    type: 3}
+  toonShadowBall: {fileID: 555154473473056639, guid: 9bfda997700d0194f9ae354a7073c391,
+    type: 3}
+  toonFrostBall: {fileID: 4791370038448963663, guid: c3314106041381a4e9c86d9f9f9fb751,
+    type: 3}
+  toonLightningBall: {fileID: 8415557916090896220, guid: 72bad4a764715864d939a1d3538f29a9,
+    type: 3}
+  toonHolyBall: {fileID: 3755333235594938142, guid: 9469577d29a6d1a4fb00d81f230ca09a,
+    type: 3}
+  toonFireNova: {fileID: 6173602624215566803, guid: 63e7a9a69f6a56a4683be7bbeb75487c,
+    type: 3}
+  toonShadowNova: {fileID: 3861992713593756217, guid: eee2856cc1403e141a0fcb90dd14dab5,
+    type: 3}
+  toonPoisonNova: {fileID: 2664518565671497612, guid: c0a9139142948524495917aa36077627,
+    type: 3}
+  toonLightningNova: {fileID: 7695154345206479975, guid: 81a04619c0eba494196e2713eb34217b,
+    type: 3}
+  toonFrostNova: {fileID: 448564134168739609, guid: 53e787bf980ab2849980a3e35ffb1617,
+    type: 3}
+  toonHolyNova: {fileID: 4842217772913655563, guid: 32aab9dc2a867394ea3617744788026b,
+    type: 3}
+  toonBlueNova: {fileID: 4925359557682846022, guid: 8ae75a014098e2a43a96d0b292b7dd5c,
+    type: 3}
+  toonGeneralBuffPrefab: {fileID: 5659877139890206841, guid: 2ed29062e4a914446922ab3a8892fa06,
+    type: 3}
+  toonShadowBuffPrefab: {fileID: 2525129301743460790, guid: 0ddcee0541907d3498a7009cf075c802,
+    type: 3}
+  toonHolyBuffPrefab: {fileID: 4675475944524223865, guid: 0ec354c1223f4134caa739f007533d2c,
+    type: 3}
+  toonGainEnergyPrefab: {fileID: 2224571706420085682, guid: 5e8753b8673d5754faafe15f72a259f4,
+    type: 3}
+  toonGainCoreStatPrefab: {fileID: 5659877139890206841, guid: 2ed29062e4a914446922ab3a8892fa06,
+    type: 3}
+  toonGainCamoflagePrefab: {fileID: 7534306385490995454, guid: d552aa5ca5eb1814bb3907240a7d11e4,
+    type: 3}
+  toonGeneralDebuff: {fileID: 5385591415384465306, guid: 91161dcdd3248874da2e14808821664c,
+    type: 3}
+  toonApplyStunned: {fileID: 4211829791415223923, guid: a89242a0debbba945a1c58a24dcf7a07,
+    type: 3}
+  toonApplyPoisoned: {fileID: 3191055191521735958, guid: ea9244b7fd313e04d9fc5049deb4cde0,
+    type: 3}
+  toonApplyBurning: {fileID: 8636529612959752039, guid: 66be78d695dc4ac4fa353fc9e2079459,
+    type: 3}
+  toonApplyShocked: {fileID: 7732740387141800755, guid: 0a2f40723a6495d4db3d82e58ba1212b,
+    type: 3}
+  toonApplyChilled: {fileID: 8241308452969391303, guid: 1a8a01218a46cfb43a1e6a9205340d8f,
+    type: 3}
+  toonApplyVulnerable: {fileID: 0}
+  toonApplyWeakened: {fileID: 0}
+  smallFrostExplosion: {fileID: 1746093192591130533, guid: b3a20cac69b9f274a8bc0c2c1d155ad0,
+    type: 3}
+  smallPoisonExplosion: {fileID: 7225358078336664810, guid: 0f816b8a50bc40e4b91bffa084ff4674,
+    type: 3}
+  smallLightningExplosion: {fileID: 6053030748321263839, guid: a1e4e73ef273199478fcbc451062f991,
+    type: 3}
+  smallMeleeImpact: {fileID: 692682014936523782, guid: 5abcae1efbfe96e419214726503971da,
+    type: 3}
+  bigMeleeImpact: {fileID: 1715221111737187171, guid: eb5966f00c9e02b46b71c2c9b7466092,
+    type: 3}
+  hardLandingEffect: {fileID: 8984305527692031728, guid: f24474872dd8678458084f46bf5a7eab,
+    type: 3}
+  bloodSplatterEffect: {fileID: 213578429006332720, guid: 8dd3f610617b45843a787968433f8197,
     type: 3}
   vfxQueue: []
   campsiteVfxSortingLayer: 2100

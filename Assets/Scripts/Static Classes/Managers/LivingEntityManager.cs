@@ -160,6 +160,8 @@ public class LivingEntityManager : MonoBehaviour
                 VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Encouraging Aura");
                 yield return new WaitForSeconds(0.5f);
 
+                VisualEffectManager.Instance.CreateHolyNova(entity.transform.position);
+
                 List<Tile> tilesInEncouragingPresenceRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
                 foreach (LivingEntity entitty in allLivingEntities)
                 {
@@ -167,7 +169,7 @@ public class LivingEntityManager : MonoBehaviour
                         CombatLogic.Instance.IsTargetFriendly(entity, entitty))
                     {
                         Debug.Log("Character " + entitty.name + " is within range of Encouraging presence, granting bonus Energy...");
-                        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(entitty.transform.position));
+                        VisualEffectManager.Instance.CreateGainEnergyBuffEffect(entitty.transform.position);
                         entitty.ModifyCurrentEnergy(entity.myPassiveManager.encouragingAuraStacks);
                     }
                 }
@@ -182,6 +184,8 @@ public class LivingEntityManager : MonoBehaviour
 
                 VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Soul Drain Aura");
                 yield return new WaitForSeconds(0.5f);
+
+                VisualEffectManager.Instance.CreateShadowNova(entity.transform.position);
 
                 List<Tile> tilesInSoulDrainAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
                 foreach (LivingEntity entityy in allLivingEntities)
@@ -206,6 +210,8 @@ public class LivingEntityManager : MonoBehaviour
                 VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Hateful Aura");
                 yield return new WaitForSeconds(0.5f);
 
+                VisualEffectManager.Instance.CreateShadowNova(entity.transform.position);
+
                 List<Tile> tilesInHatefulPresenceRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
                 foreach (LivingEntity entityy in allLivingEntities)
                 {
@@ -226,6 +232,8 @@ public class LivingEntityManager : MonoBehaviour
                 Debug.Log("OnActivationEndCoroutine() checking Fiery Aura...");
                 VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Fiery Aura");
                 yield return new WaitForSeconds(0.5f);
+
+                VisualEffectManager.Instance.CreateFireNova(entity.transform.position);                
 
                 List<Tile> tilesInFieryAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
 
@@ -251,6 +259,8 @@ public class LivingEntityManager : MonoBehaviour
                 VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Shadow Aura");
                 yield return new WaitForSeconds(0.5f);
 
+                VisualEffectManager.Instance.CreateShadowNova(entity.transform.position);
+
                 List<Tile> tilesInShadowAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
 
                 foreach (LivingEntity entityy in allLivingEntities)
@@ -273,6 +283,8 @@ public class LivingEntityManager : MonoBehaviour
                 VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Storm Aura");
                 yield return new WaitForSeconds(0.5f);
 
+                VisualEffectManager.Instance.CreateLightningNova(entity.transform.position);
+
                 List<LivingEntity> stormAuraRange = EntityLogic.GetAllEnemiesWithinRange(entity, EntityLogic.GetTotalAuraSize(entity));
                 List<LivingEntity> targetsHit = new List<LivingEntity>();
 
@@ -290,8 +302,14 @@ public class LivingEntityManager : MonoBehaviour
                     {
                         if (entityy.inDeathProcess == false)
                         {
+                            // Calc daamage
                             int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(entity, entityy, null, "Air", false, entity.myPassiveManager.stormAuraStacks);
 
+                            // Shoot lightning ball
+                            Action lightningShotAction = VisualEffectManager.Instance.ShootToonLightningBall(entity.transform.position, entityy.transform.position);
+                            yield return new WaitUntil(() => lightningShotAction.ActionResolved() == true);
+
+                            // Handle damage
                             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, entity, entityy, "Air");
                             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
                         }
@@ -309,6 +327,8 @@ public class LivingEntityManager : MonoBehaviour
 
                 VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Guardian Aura");
                 yield return new WaitForSeconds(0.5f);
+
+                VisualEffectManager.Instance.CreateHolyNova(entity.transform.position);
 
                 List<Tile> tilesInGuardianAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
 
@@ -332,6 +352,8 @@ public class LivingEntityManager : MonoBehaviour
                 VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Toxic Aura");
                 yield return new WaitForSeconds(0.5f);
 
+                VisualEffectManager.Instance.CreatePoisonNova(entity.transform.position);
+
                 List<Tile> tilesInToxicAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
 
                 foreach (LivingEntity entityy in allLivingEntities)
@@ -353,6 +375,8 @@ public class LivingEntityManager : MonoBehaviour
                 VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Sacred Aura");
                 yield return new WaitForSeconds(0.5f);
 
+                VisualEffectManager.Instance.CreateHolyNova(entity.transform.position);
+
                 List<Tile> tilesInEncouragingPresenceRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
                 foreach (LivingEntity entityy in allLivingEntities)
                 {
@@ -360,7 +384,8 @@ public class LivingEntityManager : MonoBehaviour
                         CombatLogic.Instance.IsTargetFriendly(entity, entityy))
                     {
                         Debug.Log("Character " + entityy.name + " is within range of Sacred Aura, removing debuffs...");
-                        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(entityy.transform.position));
+                        VisualEffectManager.Instance.CreateHolyBuffEffect(entityy.transform.position);
+
 
                         // Remove Blind
                         if (entityy.myPassiveManager.blind)

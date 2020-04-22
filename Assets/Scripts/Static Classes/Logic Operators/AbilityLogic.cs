@@ -1014,6 +1014,10 @@ public class AbilityLogic : MonoBehaviour
 
         // Play attack animation
         caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
+        yield return new WaitForSeconds(0.2f);
+
+        // VFX
+        VisualEffectManager.Instance.CreateBigMeleeImpact(victim.transform.position);
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
@@ -1504,7 +1508,7 @@ public class AbilityLogic : MonoBehaviour
 
         // Apply temporary parry
         target.myPassiveManager.ModifyTemporaryParry(evasion.abilityPrimaryValue);
-        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+        VisualEffectManager.Instance.CreateGeneralBuffEffect(target.transform.position);
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
@@ -2631,7 +2635,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
 
         // Create fireball from prefab and play animation
-        Action fireballHit = VisualEffectManager.Instance.ShootFireball(caster.tile.WorldPosition, victim.tile.WorldPosition);
+        Action fireballHit = VisualEffectManager.Instance.ShootToonFireball(caster.tile.WorldPosition, victim.tile.WorldPosition);
 
         // wait until fireball has hit the target
         yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
@@ -2690,7 +2694,8 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
 
         // Create fire explosion from prefab and play animation
-        VisualEffectManager.Instance.ShootFireball(victim.tile.WorldPosition, victim.tile.WorldPosition);
+        Action fireBallAction = VisualEffectManager.Instance.ShootToonFireball(victim.tile.WorldPosition, victim.tile.WorldPosition);
+        yield return new WaitUntil(() => fireBallAction.ActionResolved() == true);
 
         // Remove all the targets block
         victim.ModifyCurrentBlock(-victim.currentBlock);
@@ -2727,6 +2732,9 @@ public class AbilityLogic : MonoBehaviour
         // Play animation
         caster.PlaySkillAnimation();
 
+        // VFX
+        VisualEffectManager.Instance.CreateFireNova(caster.transform.position);
+
         // Pay energy cost
         OnAbilityUsedStart(fireNova, caster);
 
@@ -2743,9 +2751,10 @@ public class AbilityLogic : MonoBehaviour
             
             // Deal damage
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, fireNova);
+            yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             // Apply burning
-            if(entity.inDeathProcess == false)
+            if (entity.inDeathProcess == false)
             {
                 entity.myPassiveManager.ModifyBurning(fireNova.abilitySecondaryValue);
             }
@@ -2782,6 +2791,9 @@ public class AbilityLogic : MonoBehaviour
         // Teleport to destination
         Action teleportAction = MovementLogic.Instance.TeleportEntity(caster, destination);
         yield return new WaitUntil(() => teleportAction.ActionResolved() == true);
+
+        // VFX
+        VisualEffectManager.Instance.CreateFireNova(caster.transform.position);
 
         // Apply 1 burning to adjacent enemies
         List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(caster, 1);
@@ -2915,6 +2927,9 @@ public class AbilityLogic : MonoBehaviour
         // Pay energy cost
         OnAbilityUsedStart(combustion, caster);
 
+        // VFX
+        VisualEffectManager.Instance.CreateFireNova(victim.transform.position);
+
         // Resolve hits against targets
         foreach (LivingEntity entity in targetsInBlastRadius)
         {
@@ -3031,6 +3046,8 @@ public class AbilityLogic : MonoBehaviour
 
         // Play attack animation
         caster.StartCoroutine(caster.PlayMeleeAttackAnimation(target));
+        yield return new WaitForSeconds(0.2f);
+        VisualEffectManager.Instance.CreateSmallFrostExplosion(target.transform.position);
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
@@ -3086,6 +3103,9 @@ public class AbilityLogic : MonoBehaviour
 
         // Play animation
         caster.PlaySkillAnimation();
+
+        // VFX
+        VisualEffectManager.Instance.CreateFrostNova(caster.transform.position);
 
         // Pay energy cost
         OnAbilityUsedStart(frostNova, caster);
@@ -3251,7 +3271,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
 
         // Create frost bolt VFX
-        Action frostBoltAction = VisualEffectManager.Instance.ShootFrostBolt(caster.tile.WorldPosition, victim.tile.WorldPosition);
+        Action frostBoltAction = VisualEffectManager.Instance.ShootToonFrostBall(caster.tile.WorldPosition, victim.tile.WorldPosition);
         yield return new WaitUntil(() => frostBoltAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
@@ -3408,7 +3428,7 @@ public class AbilityLogic : MonoBehaviour
 
         // Give bonus energy
         target.myPassiveManager.ModifyBarrier(snowStasis.abilityPrimaryValue);
-        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(target.transform.position));
+        VisualEffectManager.Instance.CreateGeneralBuffEffect(target.transform.position);
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
@@ -3498,7 +3518,7 @@ public class AbilityLogic : MonoBehaviour
                 caster.StartCoroutine(caster.PlayMeleeAttackAnimation(entity));
 
                 // Create frost bolt VFX
-                Action frostBoltAction = VisualEffectManager.Instance.ShootFrostBolt(caster.tile.WorldPosition, entity.tile.WorldPosition);
+                Action frostBoltAction = VisualEffectManager.Instance.ShootToonFrostBall(caster.tile.WorldPosition, entity.tile.WorldPosition);
                 yield return new WaitUntil(() => frostBoltAction.ActionResolved() == true);
 
                 // if the target successfully dodged, dont do HandleDamage: do dodge stuff instead
@@ -3799,7 +3819,7 @@ public class AbilityLogic : MonoBehaviour
 
         // Give target mobility 
         target.myPassiveManager.ModifyBonusMobility(haste.abilityPrimaryValue);
-        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(target.transform.position));
+        VisualEffectManager.Instance.CreateCoreStatBuffEffect(target.transform.position);
         yield return new WaitForSeconds(0.5f);
 
         // Resolve Event
@@ -3869,7 +3889,7 @@ public class AbilityLogic : MonoBehaviour
 
         // Give target bonus to ranged attacks
         target.myPassiveManager.ModifyTemporaryHawkEyeBonus(steadyHands.abilityPrimaryValue);
-        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(target.transform.position));
+        VisualEffectManager.Instance.CreateCoreStatBuffEffect(target.transform.position);
         yield return new WaitForSeconds(0.5f);
 
         // Resolve Event
@@ -3926,6 +3946,9 @@ public class AbilityLogic : MonoBehaviour
             {
                 VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
+
+            // VFX
+            VisualEffectManager.Instance.CreateBigMeleeImpact(victim.transform.position);
 
             // Knockback
             Action knockBackAction = MovementLogic.Instance.KnockBackEntity(caster, victim, impalingBolt.abilitySecondaryValue);
@@ -3989,6 +4012,10 @@ public class AbilityLogic : MonoBehaviour
             {
                 VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
             }
+
+            // VFX
+            VisualEffectManager.Instance.CreateBigMeleeImpact(victim.transform.position);
+
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, headShot);
             yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
         }
@@ -4237,6 +4264,9 @@ public class AbilityLogic : MonoBehaviour
         caster.ModifyCurrentEnergy(bloodOffering.abilityPrimaryValue);
         yield return new WaitForSeconds(1f);
 
+        // VFX
+        VisualEffectManager.Instance.CreateBloodSplatterEffect(caster.transform.position);
+
         // Reduce Health
         Action selfDamageAction = CombatLogic.Instance.HandleDamage(bloodOffering.abilitySecondaryValue, caster, caster, "None", null, true);
         yield return new WaitUntil(() => selfDamageAction.ActionResolved() == true);        
@@ -4331,6 +4361,7 @@ public class AbilityLogic : MonoBehaviour
 
         // Play animation
         caster.PlaySkillAnimation();
+        VisualEffectManager.Instance.CreatePoisonNova(caster.transform.position);
 
         // Resolve damage against targets
         foreach (LivingEntity entity in targetsInRange)
@@ -4516,6 +4547,9 @@ public class AbilityLogic : MonoBehaviour
         // Play animation
         caster.PlaySkillAnimation();
 
+        // Poison explosion VFX
+        VisualEffectManager.Instance.CreateSmallPoisonExplosion(victim.transform.position);
+
         // Deal Damage
         Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, victim, damageType, drain);
         yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
@@ -4592,11 +4626,43 @@ public class AbilityLogic : MonoBehaviour
 
         // TO DO: should create a project relevant to the damage type generated randomly (e.g., fire creates a fireball, shadow creates a shadow bal, etc)
 
-        // Create fireball from prefab and play animation
-        Action fireballHit = VisualEffectManager.Instance.ShootFireball(caster.tile.WorldPosition, victim.tile.WorldPosition);
+        if(damageType == "Fire")
+        {
+            // Create fireball from prefab and play animation
+            Action fireballHit = VisualEffectManager.Instance.ShootToonFireball(caster.tile.WorldPosition, victim.tile.WorldPosition);
+            // wait until fireball has hit the target
+            yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
+        }
+        else if (damageType == "Poison")
+        {
+            // Create fireball from prefab and play animation
+            Action fireballHit = VisualEffectManager.Instance.ShootToonPoisonBall(caster.tile.WorldPosition, victim.tile.WorldPosition);
+            // wait until fireball has hit the target
+            yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
+        }
+        else if (damageType == "Air")
+        {
+            // Create fireball from prefab and play animation
+            Action fireballHit = VisualEffectManager.Instance.ShootToonLightningBall(caster.tile.WorldPosition, victim.tile.WorldPosition);
+            // wait until fireball has hit the target
+            yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
+        }
+        else if (damageType == "Frost")
+        {
+            // Create fireball from prefab and play animation
+            Action fireballHit = VisualEffectManager.Instance.ShootToonFrostBall(caster.tile.WorldPosition, victim.tile.WorldPosition);
+            // wait until fireball has hit the target
+            yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
+        }
+        else if (damageType == "Shadow")
+        {
+            // Create fireball from prefab and play animation
+            Action fireballHit = VisualEffectManager.Instance.ShootToonShadowBall(caster.tile.WorldPosition, victim.tile.WorldPosition);
+            // wait until fireball has hit the target
+            yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
+        }
 
-        // wait until fireball has hit the target
-        yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
+
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
         if (dodge)
@@ -4648,7 +4714,7 @@ public class AbilityLogic : MonoBehaviour
 
         // Apply temporary dodge
         target.myPassiveManager.ModifyTemporaryDodge(mirage.abilityPrimaryValue);
-        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+        VisualEffectManager.Instance.CreateCoreStatBuffEffect(target.transform.position);
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
@@ -4721,7 +4787,7 @@ public class AbilityLogic : MonoBehaviour
 
         // Apply temporary wisdom
         target.myPassiveManager.ModifyTemporaryWisdom(burstOfKnowledge.abilityPrimaryValue);
-        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+        VisualEffectManager.Instance.CreateCoreStatBuffEffect(target.transform.position);
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
@@ -4787,10 +4853,12 @@ public class AbilityLogic : MonoBehaviour
 
         // Apply burning, poisoned, chilled and shocked
         target.myPassiveManager.ModifyBurning(dimensionalHex.abilityPrimaryValue);
+        yield return new WaitForSeconds(0.5f);
         target.myPassiveManager.ModifyPoisoned(dimensionalHex.abilityPrimaryValue, caster);
+        yield return new WaitForSeconds(0.5f);
         target.myPassiveManager.ModifyChilled(dimensionalHex.abilityPrimaryValue);
+        yield return new WaitForSeconds(0.5f);
         target.myPassiveManager.ModifyShocked(dimensionalHex.abilityPrimaryValue);
-        StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
@@ -4857,7 +4925,7 @@ public class AbilityLogic : MonoBehaviour
 
         // Apply time warp buff
         target.myPassiveManager.ModifyTimeWarp(1);
-        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(target.transform.position));
+        VisualEffectManager.Instance.CreateGeneralBuffEffect(target.transform.position);
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
@@ -4897,7 +4965,7 @@ public class AbilityLogic : MonoBehaviour
         caster.PlaySkillAnimation();
 
         // Create holy fire from prefab and play animation
-        Action holyFireHit = VisualEffectManager.Instance.ShootHolyFire(target.tile.WorldPosition);
+        Action holyFireHit = VisualEffectManager.Instance.ShootToonHolyBall( caster.transform.position, target.tile.WorldPosition);
         yield return new WaitUntil(() => holyFireHit.ActionResolved() == true);
 
         // Give block if ally
@@ -5151,6 +5219,7 @@ public class AbilityLogic : MonoBehaviour
 
         // Play animation
         caster.PlaySkillAnimation();
+        VisualEffectManager.Instance.CreateHolyNova(caster.transform.position);
 
         // Pay energy cost
         OnAbilityUsedStart(consecrate, caster);
@@ -5161,7 +5230,7 @@ public class AbilityLogic : MonoBehaviour
             if (CombatLogic.Instance.IsTargetFriendly(caster, entity))
             {
                 // Create holy fire from prefab and play animation
-                Action holyFireHit = VisualEffectManager.Instance.ShootHolyFire(entity.tile.WorldPosition);
+                VisualEffectManager.Instance.ShootHolyFire(entity.tile.WorldPosition);
 
                 // Give target block
                 entity.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(consecrate.abilitySecondaryValue, caster));
@@ -5179,7 +5248,7 @@ public class AbilityLogic : MonoBehaviour
                 int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, consecrate, damageType, critical, consecrate.abilityPrimaryValue);
 
                 // Create holy fire from prefab and play animation
-                Action holyFireHit = VisualEffectManager.Instance.ShootHolyFire(entity.tile.WorldPosition);
+                VisualEffectManager.Instance.ShootHolyFire(entity.tile.WorldPosition);
 
                 if (critical)
                 {
@@ -5188,6 +5257,7 @@ public class AbilityLogic : MonoBehaviour
 
                 // Deal damage
                 Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, consecrate);
+                yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
 
             }
         }
@@ -5226,7 +5296,8 @@ public class AbilityLogic : MonoBehaviour
 
         // Give bonus energy
         target.ModifyCurrentEnergy(invigorate.abilityPrimaryValue);
-        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(target.transform.position));
+        VisualEffectManager.Instance.CreateGainEnergyBuffEffect(target.transform.position);
+        VisualEffectManager.Instance.CreateHolyBuffEffect(target.transform.position);
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
@@ -5416,7 +5487,6 @@ public class AbilityLogic : MonoBehaviour
 
         // Apply camoflage
         target.myPassiveManager.ModifyCamoflage(1);
-        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(target.transform.position));
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
@@ -5561,7 +5631,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
 
         // Shoot shadow ball
-        Action shootAction = VisualEffectManager.Instance.ShootShadowBall(caster.tile.WorldPosition, victim.tile.WorldPosition);
+        Action shootAction = VisualEffectManager.Instance.ShootToonShadowBall(caster.tile.WorldPosition, victim.tile.WorldPosition);
         yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
@@ -5674,7 +5744,7 @@ public class AbilityLogic : MonoBehaviour
                 caster.StartCoroutine(caster.PlayMeleeAttackAnimation(entity));
 
                 // Shoot shadow ball
-                Action shootAction = VisualEffectManager.Instance.ShootShadowBall(caster.tile.WorldPosition, entity.tile.WorldPosition);
+                Action shootAction = VisualEffectManager.Instance.ShootToonShadowBall(caster.tile.WorldPosition, entity.tile.WorldPosition);
                 yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
                 // if the target successfully dodged, dont do HandleDamage: do dodge stuff instead
@@ -5766,7 +5836,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
 
         // Shoot shadow ball
-        Action shootAction = VisualEffectManager.Instance.ShootShadowBall(caster.tile.WorldPosition, victim.tile.WorldPosition);
+        Action shootAction = VisualEffectManager.Instance.ShootToonShadowBall(caster.tile.WorldPosition, victim.tile.WorldPosition);
         yield return new WaitUntil(() => shootAction.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
@@ -5834,6 +5904,10 @@ public class AbilityLogic : MonoBehaviour
 
         // Play attack animation
         caster.StartCoroutine(caster.PlayMeleeAttackAnimation(target));
+        yield return new WaitForSeconds(0.2f);
+
+        // VFX
+        VisualEffectManager.Instance.CreateSmallLightningExplosion(target.transform.position);
 
         // if the target successfully parried, dont do HandleDamage: do parry stuff instead
         if (parry)
@@ -5892,8 +5966,8 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
 
         // Create fireball from prefab and play animation
-        Action fireballHit = VisualEffectManager.Instance.ShootFireball(caster.tile.WorldPosition, victim.tile.WorldPosition);
-        yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
+        Action lightningBoltShot = VisualEffectManager.Instance.ShootToonLightningBall(caster.tile.WorldPosition, victim.tile.WorldPosition);
+        yield return new WaitUntil(() => lightningBoltShot.ActionResolved() == true);
 
         // if the target successfully dodged dont do HandleDamage: do dodge stuff instead
         if (dodge)
@@ -5949,13 +6023,16 @@ public class AbilityLogic : MonoBehaviour
         // Start
         OnAbilityUsedStart(spiritSurge, caster);
 
+        // VFX
+        VisualEffectManager.Instance.CreateBlueNova(caster.transform.position);
+
         List<Tile> tilesInSurgeRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(caster), caster.tile);
         foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
         {
             if (tilesInSurgeRange.Contains(entity.tile) &&
                 CombatLogic.Instance.IsTargetFriendly(caster, entity))
             {
-                StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(entity.transform.position));
+                VisualEffectManager.Instance.CreateGainEnergyBuffEffect(entity.transform.position);
                 entity.ModifyCurrentEnergy(spiritSurge.abilityPrimaryValue);
             }
         }
@@ -6037,6 +6114,10 @@ public class AbilityLogic : MonoBehaviour
 
         OnAbilityUsedStart(chainLightning, caster);
 
+        // VFX
+        Action lightningBall = VisualEffectManager.Instance.ShootToonLightningBall(caster.transform.position, victim.transform.position);
+        yield return new WaitUntil(() => lightningBall.ActionResolved() == true);
+
         // Resolve attack against the first target
         if (dodge)
         {
@@ -6077,6 +6158,9 @@ public class AbilityLogic : MonoBehaviour
                 {
                     bool critical2 = CombatLogic.Instance.RollForCritical(caster, victim, chainLightning);
                     int finalDamageValue2 = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, currentTarget, chainLightning, damageType, critical2, chainLightning.abilityPrimaryValue);
+
+                    Action lightningBall2 = VisualEffectManager.Instance.ShootToonLightningBall(previousTarget.transform.position, currentTarget.transform.position);
+                    yield return new WaitUntil(() => lightningBall2.ActionResolved() == true);
 
                     if (critical2)
                     {
@@ -6187,7 +6271,7 @@ public class AbilityLogic : MonoBehaviour
 
         // Apply temporary strength
         target.myPassiveManager.ModifyTemporaryStrength(primalRage.abilityPrimaryValue);
-        StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+        VisualEffectManager.Instance.CreateCoreStatBuffEffect(target.transform.position);
         yield return new WaitForSeconds(0.5f);
 
         // remove camoflage, etc
@@ -6276,10 +6360,10 @@ public class AbilityLogic : MonoBehaviour
 
                 // TO DO: create lightning bolt VFX and replace fire ball here
                 // Create fireball from prefab and play animation
-                Action fireballHit = VisualEffectManager.Instance.ShootFireball(caster.tile.WorldPosition, target.tile.WorldPosition);
+                Action lightningHit = VisualEffectManager.Instance.ShootToonLightningBall(caster.tile.WorldPosition, target.tile.WorldPosition);
 
                 // wait until fireball has hit the target
-                yield return new WaitUntil(() => fireballHit.ActionResolved() == true);
+                yield return new WaitUntil(() => lightningHit.ActionResolved() == true);
 
 
                 // if the target successfully dodged dont do HandleDamage: do dodge stuff instead

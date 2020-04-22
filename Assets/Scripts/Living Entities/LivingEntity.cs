@@ -889,6 +889,7 @@ public class LivingEntity : MonoBehaviour
         {
             Debug.Log("OnActivationEndCoroutine() checking Encouraging Aura..");
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Encouraging Aura");
+            VisualEffectManager.Instance.CreateHolyNova(transform.position);
             yield return new WaitForSeconds(0.5f);
 
             List<Tile> tilesInEncouragingPresenceRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(this), tile);

@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed4e27eafb6e07949aa35349a8886b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myScaleModifier: 0
+  mySortingOrder: 0
+  projectileDestroyDelay: 3
   myRigidBody: {fileID: 0}
   mySphereCollider: {fileID: 0}
   allParticleSystems: []
@@ -53,7 +56,6 @@ MonoBehaviour:
   muzzleParticle: {fileID: 193574, guid: 5c2bdcf6f0badc34f9f192b0995e4a79, type: 3}
   colliderRadius: 0.1
   collideOffset: 0.15
-  projectileDestroyDelay: 3
 --- !u!135 &8939679008236757438
 SphereCollider:
   m_ObjectHideFlags: 0

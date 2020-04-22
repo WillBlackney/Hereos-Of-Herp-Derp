@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 2677862378484934484}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.313633, y: 5.892903, z: -13.319157}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -74,6 +74,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed4e27eafb6e07949aa35349a8886b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myScaleModifier: 0
+  mySortingOrder: 0
+  projectileDestroyDelay: 0
   myRigidBody: {fileID: 0}
   mySphereCollider: {fileID: 0}
   allParticleSystems: []
@@ -83,4 +86,3 @@ MonoBehaviour:
   muzzleParticle: {fileID: 102230, guid: d7f63b37654882b4a9496590d25c54ff, type: 3}
   colliderRadius: 0.1
   collideOffset: 0.1
-  projectileDestroyDelay: 0

@@ -183,6 +183,7 @@ public class MovementLogic : MonoBehaviour
 
         // Make target reappear
         StartCoroutine(VisualEffectManager.Instance.CreateTeleportEffect(target.transform.position));
+        VisualEffectManager.Instance.CreateHardLandingEffect(target.transform.position);
         target.myModelParent.SetActive(true);
         target.myWorldSpaceCanvasParent.SetActive(true);
 

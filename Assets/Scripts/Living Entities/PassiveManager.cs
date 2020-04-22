@@ -476,7 +476,8 @@ public class PassiveManager : MonoBehaviour
                 {
                     stunned = true;
                     VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Stunned!");
-                    StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                    //StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                    VisualEffectManager.Instance.CreateStunnedEffect(transform.position);
                 }
             }
 
@@ -518,7 +519,7 @@ public class PassiveManager : MonoBehaviour
                 {
                     blind = true;
                     VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Blind");
-                    StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                    VisualEffectManager.Instance.CreateGeneralDebuffEffect(transform.position);
                 }
             }
 
@@ -561,7 +562,7 @@ public class PassiveManager : MonoBehaviour
                 {
                     silenced = true;
                     VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Silenced");
-                    StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                    VisualEffectManager.Instance.CreateGeneralDebuffEffect(transform.position);
                 }
             }
 
@@ -604,7 +605,7 @@ public class PassiveManager : MonoBehaviour
                 {
                     disarmed = true;
                     VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Disarmed");
-                    StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                    VisualEffectManager.Instance.CreateGeneralDebuffEffect(transform.position);
                 }
             }
 
@@ -637,7 +638,7 @@ public class PassiveManager : MonoBehaviour
                     terrified = true;
                     VisualEffectManager.Instance.
                     CreateStatusEffect(myLivingEntity.transform.position, "Terrified");
-                    StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                    VisualEffectManager.Instance.CreateGeneralDebuffEffect(transform.position);
                 }
             }
 
@@ -682,7 +683,7 @@ public class PassiveManager : MonoBehaviour
                     sleep = true;
                 }
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Sleep");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateStunnedEffect(transform.position);
 
             }
         }
@@ -718,7 +719,7 @@ public class PassiveManager : MonoBehaviour
             {
                 vulnerable = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Vulnerable!");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateGeneralDebuffEffect(transform.position);
             }
         }
 
@@ -752,7 +753,7 @@ public class PassiveManager : MonoBehaviour
             {
                 weakened = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Weakened!");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateGeneralDebuffEffect(transform.position);
             }
         }
 
@@ -788,7 +789,7 @@ public class PassiveManager : MonoBehaviour
                 {
                     chilled = true;
                     VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Chilled");
-                    StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                    VisualEffectManager.Instance.CreateApplyChilledEffect(transform.position);
                 }
             }
 
@@ -826,7 +827,7 @@ public class PassiveManager : MonoBehaviour
                 {
                     shocked = true;
                     VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Shocked!");
-                    StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                    VisualEffectManager.Instance.CreateApplyShockedEffect(transform.position);
                 }
             }
 
@@ -878,7 +879,7 @@ public class PassiveManager : MonoBehaviour
                 {
                     poisoned = true;
                     VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Poisoned + " + stacks.ToString());
-                    StartCoroutine(VisualEffectManager.Instance.CreatePoisonAppliedEffect(myLivingEntity.transform.position));
+                    VisualEffectManager.Instance.CreateApplyPoisonedEffect(myLivingEntity.transform.position);
                     myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Poisoned"), stacks);
                 }
             }
@@ -971,7 +972,7 @@ public class PassiveManager : MonoBehaviour
             {
                 fading = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Fading + " + stacks.ToString());
-                StartCoroutine(VisualEffectManager.Instance.CreatePoisonAppliedEffect(myLivingEntity.transform.position));
+                VisualEffectManager.Instance.CreateGeneralDebuffEffect(myLivingEntity.transform.position);
                 myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Fading"), stacks);
             }
         }
@@ -999,10 +1000,10 @@ public class PassiveManager : MonoBehaviour
             {
                 taunted = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Taunted");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateGeneralDebuffEffect(transform.position);
 
                 // Set taunter target
-                if(taunter != null)
+                if (taunter != null)
                 {
                     myLivingEntity.myTaunter = taunter;
                 }
@@ -1040,14 +1041,15 @@ public class PassiveManager : MonoBehaviour
             if (bonusStrengthStacks > 0)
             {
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Strength + " + stacks.ToString());
-                StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
+                //StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
+                VisualEffectManager.Instance.CreateCoreStatBuffEffect(myLivingEntity.transform.position);
                 bonusStrength = true;
             }
         }
 
         else if (stacks < 0)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(myLivingEntity.transform.position));
+            VisualEffectManager.Instance.CreateGeneralDebuffEffect(transform.position);
             bonusStrengthStacks += stacks;
             if (bonusStrengthStacks < 0)
             {
@@ -1074,7 +1076,8 @@ public class PassiveManager : MonoBehaviour
             if (bonusWisdomStacks > 0)
             {
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Wisdom + " + stacks.ToString());
-                StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
+                //StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
+                VisualEffectManager.Instance.CreateCoreStatBuffEffect(myLivingEntity.transform.position);
                 bonusWisdom = true;
             }
         }
@@ -1107,7 +1110,8 @@ public class PassiveManager : MonoBehaviour
             if (bonusDexterityStacks > 0)
             {
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Dexterity + " + stacks.ToString());
-                StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
+                //StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
+                VisualEffectManager.Instance.CreateCoreStatBuffEffect(myLivingEntity.transform.position);
                 bonusDexterity = true;
             }
         }
@@ -1140,7 +1144,8 @@ public class PassiveManager : MonoBehaviour
             if (bonusStaminaStacks > 0)
             {
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Stamina + " + stacks.ToString());
-                StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
+                //StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
+                VisualEffectManager.Instance.CreateCoreStatBuffEffect(myLivingEntity.transform.position);
                 bonusStamina = true;
             }
         }
@@ -1238,7 +1243,7 @@ public class PassiveManager : MonoBehaviour
                 sharpenedBlade = true;
             }
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Sharpen Blade" + stacks.ToString());
-            StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+            VisualEffectManager.Instance.CreateGeneralBuffEffect(transform.position);
 
         }
 
@@ -1268,7 +1273,8 @@ public class PassiveManager : MonoBehaviour
                 darkGift = true;
             }
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Dark Gift" + stacks.ToString());
-            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+            // StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+            VisualEffectManager.Instance.CreateShadowBuffEffect(myLivingEntity.transform.position);
 
         }
 
@@ -1297,7 +1303,8 @@ public class PassiveManager : MonoBehaviour
                 pureHate = true;
             }
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Pure Hate" + stacks.ToString());
-            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+            // StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+            VisualEffectManager.Instance.CreateShadowBuffEffect(myLivingEntity.transform.position);
 
         }
 
@@ -1332,7 +1339,8 @@ public class PassiveManager : MonoBehaviour
                 camoflage = true;
                 VisualEffectManager.Instance.
                 CreateStatusEffect(myLivingEntity.transform.position, "Camoflage");
-                StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
+                //StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
+                VisualEffectManager.Instance.CreateCamoflageBuffEffect(myLivingEntity.transform.position);
             }          
         }
 
@@ -1362,7 +1370,8 @@ public class PassiveManager : MonoBehaviour
             {
                 preparation = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Preparation");
-                StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+                //StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateGeneralBuffEffect(myLivingEntity.transform.position);
             }
 
         }
@@ -1761,7 +1770,7 @@ public class PassiveManager : MonoBehaviour
                 {
                     airImbuement = true;
                     VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Air Imbuement");
-                    StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                    VisualEffectManager.Instance.CreateGeneralBuffEffect(transform.position);
                 }
             }
 
@@ -1794,7 +1803,7 @@ public class PassiveManager : MonoBehaviour
                 {
                     fireImbuement = true;
                     VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Fire Imbuement");
-                    StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                    VisualEffectManager.Instance.CreateGeneralBuffEffect(transform.position);
                 }
             }
 
@@ -1827,7 +1836,7 @@ public class PassiveManager : MonoBehaviour
                 {
                     poisonImbuement = true;
                     VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Poison Imbuement");
-                    StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                    StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
                 }
             }
 
@@ -1861,7 +1870,7 @@ public class PassiveManager : MonoBehaviour
                     shadowImbuement = true;
                     VisualEffectManager.Instance.
                     CreateStatusEffect(myLivingEntity.transform.position, "Shadow Imbuement");
-                    StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                    VisualEffectManager.Instance.CreateShadowBuffEffect(transform.position);
                 }
             }
 
@@ -1894,7 +1903,7 @@ public class PassiveManager : MonoBehaviour
                 {
                     frostImbuement = true;
                     VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Frost Imbuement");
-                    StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                    VisualEffectManager.Instance.CreateGeneralBuffEffect(transform.position);
                 }
             }
 
@@ -1927,7 +1936,7 @@ public class PassiveManager : MonoBehaviour
             {
                 temporaryAirImbuement = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Temporary Air Imbuement");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateGeneralBuffEffect(transform.position);
             }
         }
 
@@ -1956,7 +1965,7 @@ public class PassiveManager : MonoBehaviour
             {
                 temporaryFireImbuement = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Temporary Fire Imbuement");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateGeneralBuffEffect(transform.position);
             }
         }
 
@@ -1985,7 +1994,7 @@ public class PassiveManager : MonoBehaviour
             {
                 temporaryPoisonImbuement = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Temporary Poison Imbuement");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateGeneralBuffEffect(transform.position);
             }
         }
 
@@ -2015,7 +2024,7 @@ public class PassiveManager : MonoBehaviour
             {
                 temporaryFrostImbuement = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Temporary Frost Imbuement");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateGeneralBuffEffect(transform.position);
             }
         }
 
@@ -2045,7 +2054,7 @@ public class PassiveManager : MonoBehaviour
             {
                 temporaryShadowImbuement = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Temporary Shadow Imbuement");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateShadowBuffEffect(transform.position);
             }
         }
 
@@ -2077,7 +2086,7 @@ public class PassiveManager : MonoBehaviour
             {
                 purity = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Purity");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateHolyBuffEffect(transform.position);
             }
         }
 
@@ -2106,7 +2115,7 @@ public class PassiveManager : MonoBehaviour
             {
                 recklessness = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Recklessness");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateGeneralBuffEffect(transform.position);
             }
         }
 
@@ -2135,7 +2144,7 @@ public class PassiveManager : MonoBehaviour
             {
                 berserk = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Berserk");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateGeneralBuffEffect(transform.position);
             }
         }
 
@@ -2164,7 +2173,7 @@ public class PassiveManager : MonoBehaviour
             {
                 testudo = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Testudo");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateGeneralBuffEffect(transform.position);
             }
         }
 
@@ -2226,7 +2235,7 @@ public class PassiveManager : MonoBehaviour
             {
                 infuse = true;
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Infuse");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateGeneralBuffEffect(transform.position);
             }
         }
 
@@ -2254,8 +2263,8 @@ public class PassiveManager : MonoBehaviour
             if (rapidCloakingStacks > 0)
             {
                 rapidCloaking = true;
-                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Concentration");
-                StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
+                VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Rapid Cloaking");
+                VisualEffectManager.Instance.CreateGeneralBuffEffect(transform.position);
             }
         }
 
@@ -3047,7 +3056,8 @@ public class PassiveManager : MonoBehaviour
         if(stacks > 0)
         {
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Rune + " + runeStacks.ToString());
-            StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+            //StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
+            VisualEffectManager.Instance.CreateGeneralBuffEffect(myLivingEntity.transform.position);
         }
         else if(stacks < 0)
         {

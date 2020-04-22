@@ -792,13 +792,8 @@ public class CombatLogic : MonoBehaviour
         if (abilityUsed != null &&
         abilityUsed.abilityType != AbilityDataSO.AbilityType.None)
         {
-            StartCoroutine(VisualEffectManager.Instance.CreateImpactEffect(victim.transform.position));
-
-            // if melee attack, play melee attack vfx
-            if (abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
-            {
-                StartCoroutine(VisualEffectManager.Instance.CreateMeleeAttackEffect(victim.transform.position));
-            }
+            //StartCoroutine(VisualEffectManager.Instance.CreateImpactEffect(victim.transform.position));
+            VisualEffectManager.Instance.CreateSmallMeleeImpact(victim.transform.position);
         }
 
         // Check for no block
@@ -1066,7 +1061,7 @@ public class CombatLogic : MonoBehaviour
             
         }       
 
-        yield return new WaitForSeconds(0.5f);
+        //yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
     }
     public Action HandleParry(LivingEntity attacker, LivingEntity target)
