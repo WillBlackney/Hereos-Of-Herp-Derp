@@ -143,16 +143,6 @@ public class LivingEntityManager : MonoBehaviour
                 yield return new WaitForSeconds(1f);
             }
 
-            // Cautious
-            if (entity.myPassiveManager.cautious)
-            {
-                Debug.Log("OnActivationEndCoroutine() checking Cautious...");
-                VisualEffectManager.Instance.CreateStatusEffect(entity.transform.position, "Cautious");
-                yield return new WaitForSeconds(0.5f);
-                entity.ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(entity.myPassiveManager.cautiousStacks, entity));
-                yield return new WaitForSeconds(1f);
-            }
-
             // Encouraging Aura
             if (entity.myPassiveManager.encouragingAura)
             {
@@ -161,6 +151,7 @@ public class LivingEntityManager : MonoBehaviour
                 yield return new WaitForSeconds(0.5f);
 
                 VisualEffectManager.Instance.CreateHolyNova(entity.transform.position);
+                yield return new WaitForSeconds(0.5f);
 
                 List<Tile> tilesInEncouragingPresenceRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
                 foreach (LivingEntity entitty in allLivingEntities)
@@ -236,16 +227,24 @@ public class LivingEntityManager : MonoBehaviour
                 VisualEffectManager.Instance.CreateFireNova(entity.transform.position);                
 
                 List<Tile> tilesInFieryAuraRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(entity), entity.tile);
+                List<LivingEntity> targetsHit = new List<LivingEntity>();
 
+                // Get targets hit
                 foreach (LivingEntity entityy in allLivingEntities)
                 {
                     if (tilesInFieryAuraRange.Contains(entityy.tile) &&
                         CombatLogic.Instance.IsTargetFriendly(entity, entityy) == false)
                     {
-                        int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(entity, entityy, null, "Fire", false, entity.myPassiveManager.fieryAuraStacks);
-                        Action damageAction = CombatLogic.Instance.HandleDamage(finalDamageValue, entity, entityy, "Fire");
-                        yield return new WaitUntil(() => damageAction.ActionResolved() == true);
+                        targetsHit.Add(entityy);
                     }
+                }
+
+                // Damage targets hit
+                foreach(LivingEntity entityyy in targetsHit)
+                {
+                    int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(entity, entityyy, null, "Fire", false, entity.myPassiveManager.fieryAuraStacks);
+                    Action damageAction = CombatLogic.Instance.HandleDamage(finalDamageValue, entity, entityyy, "Fire");
+                    yield return new WaitUntil(() => damageAction.ActionResolved() == true);
                 }
 
                 yield return new WaitForSeconds(1f);

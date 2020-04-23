@@ -96,29 +96,8 @@ public class EnemyInfoPanel : MonoBehaviour
         EnemyPanelAbilityTab tooltipData = newToolTip.GetComponent<EnemyPanelAbilityTab>();
 
         tooltipData.abilityImage.sprite = ability.myAbilityData.sprite;
-        tooltipData.abilityNameText.text = ability.myAbilityData.abilityName;
-        tooltipData.energyCostText.text = ability.myAbilityData.energyCost.ToString();
-        tooltipData.cdText.text = ability.myAbilityData.baseCooldownTime.ToString();
-        tooltipData.rangeText.text = ability.myAbilityData.range.ToString();
-
-        if (ability.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
-        {
-            tooltipData.meleeAttackIcon.SetActive(true);
-        }
-        else if (ability.abilityType == AbilityDataSO.AbilityType.RangedAttack)
-        {
-            tooltipData.rangedAttackIcon.SetActive(true);
-        }
-        else if (ability.abilityType == AbilityDataSO.AbilityType.Skill)
-        {
-            tooltipData.skillIcon.SetActive(true);
-        }
-        else if (ability.abilityType == AbilityDataSO.AbilityType.Power)
-        {
-            tooltipData.powerIcon.SetActive(true);
-        }
-
-        TextLogic.SetAbilityDescriptionText(ability.myAbilityData, tooltipData.descriptionText);
+        AbilityInfoSheetController.Instance.BuildSheetFromData(tooltipData.abilityInfoSheet, ability.myAbilityData, AbilityInfoSheet.PivotDirection.Upwards);
+        TextLogic.SetAbilityDescriptionText(ability.myAbilityData, tooltipData.abilityInfoSheet.descriptionText);
     }
     #endregion
 

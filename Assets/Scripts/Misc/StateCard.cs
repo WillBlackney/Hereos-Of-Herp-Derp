@@ -17,6 +17,7 @@ public class StateCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public GameObject rareParent;
     public GameObject bossParent;
     public GameObject afflictionParent;
+    public GameObject eventParent;
 
     [Header("Properties")]
     public StateDataSO myStateData;
@@ -53,6 +54,10 @@ public class StateCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         else if (data.rarity == StateDataSO.Rarity.Boss)
         {
             bossParent.SetActive(true);
+        }
+        else if (data.eventReward)
+        {
+            eventParent.SetActive(true);
         }
     }
 

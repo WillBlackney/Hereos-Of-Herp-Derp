@@ -4255,21 +4255,23 @@ public class AbilityLogic : MonoBehaviour
         }
 
         // Pay energy cost, + etc
-        OnAbilityUsedStart(bloodOffering, caster);
-
-        // Play animation
-        caster.PlaySkillAnimation();
-
-        // Gain Energy
-        caster.ModifyCurrentEnergy(bloodOffering.abilityPrimaryValue);
-        yield return new WaitForSeconds(1f);
+        OnAbilityUsedStart(bloodOffering, caster);        
 
         // VFX
         VisualEffectManager.Instance.CreateBloodSplatterEffect(caster.transform.position);
 
         // Reduce Health
         Action selfDamageAction = CombatLogic.Instance.HandleDamage(bloodOffering.abilitySecondaryValue, caster, caster, "None", null, true);
-        yield return new WaitUntil(() => selfDamageAction.ActionResolved() == true);        
+        yield return new WaitUntil(() => selfDamageAction.ActionResolved() == true);
+        yield return new WaitForSeconds(0.5f);
+
+        // Play animation
+        caster.PlaySkillAnimation();
+
+        // Gain Energy
+        caster.ModifyCurrentEnergy(bloodOffering.abilityPrimaryValue);
+        VisualEffectManager.Instance.CreateGainEnergyBuffEffect(caster.transform.position);
+        yield return new WaitForSeconds(0.5f);               
 
         // remove camoflage, etc
         OnAbilityUsedFinish(bloodOffering, caster);

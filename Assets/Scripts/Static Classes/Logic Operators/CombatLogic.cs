@@ -1061,7 +1061,7 @@ public class CombatLogic : MonoBehaviour
             
         }       
 
-        //yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
     }
     public Action HandleParry(LivingEntity attacker, LivingEntity target)

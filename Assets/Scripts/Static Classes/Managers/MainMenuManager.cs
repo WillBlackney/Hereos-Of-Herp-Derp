@@ -434,7 +434,7 @@ public class MainMenuManager : MonoBehaviour
             character.tabOne.SetUpAbilityTabAsAbility("Provoke");
             character.tabTwo.SetUpAbilityTabAsAbility("Get Down!");
             character.tabThree.SetUpAbilityTabAsAbility("Fortify");
-            character.tabFour.SetUpAbilityTabAsPassive("Guardian Aura", 1);
+            character.tabFour.SetUpAbilityTabAsPassive("Guardian Aura", 3);
         }
         else if (character.myPresetName == "Random")
         {

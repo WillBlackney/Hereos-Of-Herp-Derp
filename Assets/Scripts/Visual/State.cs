@@ -20,6 +20,7 @@ public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public GameObject commonParent;
     public GameObject rareParent;
     public GameObject bossParent;
+    public GameObject eventParent;
     public GameObject afflictionParent;
 
     [Header("Properties")]
@@ -74,6 +75,10 @@ public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         else if (stateData.rarity == StateDataSO.Rarity.Boss)
         {
             bossParent.SetActive(true);
+        }
+        else if (stateData.eventReward)
+        {
+            eventParent.SetActive(true);
         }
     }
     #endregion

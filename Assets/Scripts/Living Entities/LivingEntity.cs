@@ -706,74 +706,29 @@ public class LivingEntity : MonoBehaviour
             myPassiveManager.ModifyTimeWarp(-myPassiveManager.timeWarpStacks);
         }
 
+        // Cautious
+        if (myPassiveManager.growing)
+        {
+            Debug.Log("OnActivationEndCoroutine() checking Cautious...");
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Cautious");
+            ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(myPassiveManager.cautiousStacks, this));
+            yield return new WaitForSeconds(1f);
+        }
+
         // Growing
         if (myPassiveManager.growing)
         {
             myPassiveManager.ModifyBonusStrength(myPassiveManager.growingStacks);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1);
         }
 
         // Fast Learner
         if (myPassiveManager.fastLearner)
         {
             myPassiveManager.ModifyBonusWisdom(myPassiveManager.fastLearnerStacks);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1);
         }
-
-        // Testudo
-        if (myPassiveManager.testudo)
-        {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Testudo");
-            yield return new WaitForSeconds(0.5f);
-            ModifyCurrentBlock(CombatLogic.Instance.CalculateBlockGainedByEffect(5, this));
-            yield return new WaitForSeconds(0.5f);
-        }
-
-        // Lightning Shield
-        if (myPassiveManager.lightningShield)
-        {
-            myPassiveManager.lightningShield = false;
-            myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Lightning Shield"), -myPassiveManager.lightningShieldStacks);
-            yield return new WaitForSeconds(0.5f);
-        }
-
-        // Thick of the Fight
-        if (myPassiveManager.thickOfTheFight)
-        {
-            int charactersInMyMeleeRange = 0;
-            List<Tile> tilesInMyMeleeRange = LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, tile);
-
-            if (defender)
-            {
-                foreach(Enemy enemy in EnemyManager.Instance.allEnemies)
-                {
-                    if (tilesInMyMeleeRange.Contains(enemy.tile))
-                    {
-                        charactersInMyMeleeRange++;
-                    }
-                }
-            }
-
-            else if (enemy)
-            {
-                foreach (Defender defender in DefenderManager.Instance.allDefenders)
-                {
-                    if (tilesInMyMeleeRange.Contains(defender.tile))
-                    {
-                        charactersInMyMeleeRange++;
-                    }
-                }
-            }
-
-            if(charactersInMyMeleeRange > 0)
-            {
-                VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Thick Of The Fight");
-                yield return new WaitForSeconds(0.5f);
-                ModifyCurrentEnergy(myPassiveManager.thickOfTheFightStacks);
-            }
-            
-        }
-
+        
         action.actionResolved = true;
     }
     public Action OnActivationEnd()

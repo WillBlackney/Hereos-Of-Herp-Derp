@@ -428,7 +428,7 @@ public class VisualEffectManager : MonoBehaviour
 
     #region
     // Fire Ball
-    public Action ShootToonFireball(Vector3 startPos, Vector3 endPos, float speed = 20, int sortingOrderBonus = 15, float scaleModifier = 0.7f)
+    public Action ShootToonFireball(Vector3 startPos, Vector3 endPos, float speed = 12.5f, int sortingOrderBonus = 15, float scaleModifier = 0.7f)
     {
         Action action = new Action();
         StartCoroutine(ShootToonFireballCoroutine(startPos, endPos, action, speed, sortingOrderBonus, scaleModifier));
@@ -459,7 +459,7 @@ public class VisualEffectManager : MonoBehaviour
     }
 
     // Poison Ball
-    public Action ShootToonPoisonBall(Vector3 startPos, Vector3 endPos, float speed = 20, int sortingOrderBonus = 15, float scaleModifier = 0.5f)
+    public Action ShootToonPoisonBall(Vector3 startPos, Vector3 endPos, float speed = 12.5f, int sortingOrderBonus = 15, float scaleModifier = 0.5f)
     {
         Action action = new Action();
         StartCoroutine(ShootToonPoisonBallCoroutine(startPos, endPos, action, speed, sortingOrderBonus, scaleModifier));
@@ -490,7 +490,7 @@ public class VisualEffectManager : MonoBehaviour
     }
 
     // Shadow Ball
-    public Action ShootToonShadowBall(Vector3 startPos, Vector3 endPos, float speed = 20, int sortingOrderBonus = 15, float scaleModifier = 0.5f)
+    public Action ShootToonShadowBall(Vector3 startPos, Vector3 endPos, float speed = 12.5f, int sortingOrderBonus = 15, float scaleModifier = 0.5f)
     {
         Action action = new Action();
         StartCoroutine(ShootToonShadowBallCoroutine(startPos, endPos, action, speed, sortingOrderBonus, scaleModifier));
@@ -521,7 +521,7 @@ public class VisualEffectManager : MonoBehaviour
     }
 
     // Frost Ball
-    public Action ShootToonFrostBall(Vector3 startPos, Vector3 endPos, float speed = 20, int sortingOrderBonus = 15, float scaleModifier = 0.5f)
+    public Action ShootToonFrostBall(Vector3 startPos, Vector3 endPos, float speed = 12.5f, int sortingOrderBonus = 15, float scaleModifier = 0.5f)
     {
         Action action = new Action();
         StartCoroutine(ShootToonFrostBallCoroutine(startPos, endPos, action, speed, sortingOrderBonus, scaleModifier));
@@ -552,7 +552,7 @@ public class VisualEffectManager : MonoBehaviour
     }
 
     // Lightning Ball
-    public Action ShootToonLightningBall(Vector3 startPos, Vector3 endPos, float speed = 20, int sortingOrderBonus = 15, float scaleModifier = 0.5f)
+    public Action ShootToonLightningBall(Vector3 startPos, Vector3 endPos, float speed = 12.5f, int sortingOrderBonus = 15, float scaleModifier = 0.5f)
     {
         Action action = new Action();
         StartCoroutine(ShootToonLightningBallCoroutine(startPos, endPos, action, speed, sortingOrderBonus, scaleModifier));
@@ -583,7 +583,7 @@ public class VisualEffectManager : MonoBehaviour
     }
 
     // Holy Ball
-    public Action ShootToonHolyBall(Vector3 startPos, Vector3 endPos, float speed = 20, int sortingOrderBonus = 15, float scaleModifier = 0.5f)
+    public Action ShootToonHolyBall(Vector3 startPos, Vector3 endPos, float speed = 12.5f, int sortingOrderBonus = 15, float scaleModifier = 0.5f)
     {
         Action action = new Action();
         StartCoroutine(ShootToonHolyBallCoroutine(startPos, endPos, action, speed, sortingOrderBonus, scaleModifier));

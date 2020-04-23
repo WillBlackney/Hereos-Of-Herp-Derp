@@ -455,10 +455,10 @@ public class EventManager : MonoBehaviour
         DefenderManager.Instance.ClearSelectedDefender();
         // Hide ability info panel
         // Show xp rewards + level ups
-        Action lootEvent = StartPreLootScreenVisualEvent(20);
+        Action lootEvent = StartPreLootScreenVisualEvent(25);
         yield return new WaitUntil(() => lootEvent.ActionResolved() == true);
         // Give characters xp
-        CharacterRoster.Instance.RewardAllCharactersXP(20);
+        CharacterRoster.Instance.RewardAllCharactersXP(25);
         //SpellInfoBox.Instance.HideInfoBox();       
         // re enable world map + get next viable enocunter hexagon tiles
         WorldManager.Instance.SetWorldMapReadyState();

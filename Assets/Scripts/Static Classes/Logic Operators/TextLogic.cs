@@ -214,7 +214,7 @@ public static class TextLogic
         else if (statusName == "Cautious")
         {
             statusDescriptionText.text =
-                "On activation end, this character gains " + ReturnColoredText(statusStacks.ToString(), yellow)
+                "On activation start, this character gains " + ReturnColoredText(statusStacks.ToString(), yellow)
                 + " Block";
         }
         else if (statusName == "Chilled")
@@ -686,12 +686,11 @@ public static class TextLogic
         else if (statusName == "Sacred Aura")
         {
             statusDescriptionText.text =
-                "On activation end, this character removes " + ReturnColoredText("Blind", yellow) + ", "
-                + ReturnColoredText("Weakened", yellow) + ", "
-                + ReturnColoredText("Vulnerable", yellow) + ", "
+                "On activation end, this character removes " + ReturnColoredText("Blind", yellow) + ", "                
                 + ReturnColoredText("Disarmed", yellow) + ", "
-                + ReturnColoredText("Silenced", yellow) + " and "
-                + ReturnColoredText("Blind", yellow) + 
+                + ReturnColoredText("Silenced", yellow) + ", "
+                + ReturnColoredText("Weakened", yellow) + " and "
+                + ReturnColoredText("Vulnerable", yellow) + 
                 " from allies within its Aura";
         }
         else if (statusName == "Shadow Aura")
@@ -2176,7 +2175,7 @@ public static class TextLogic
                 " + " + ReturnColoredText(ability.primaryValue.ToString(), yellow) +
                 ". At the end of the movement, give " +
                 ReturnColoredText(ability.secondaryValue.ToString(), yellow) +
-                " " + ReturnColoredText("Block", yellow) + " yourself to adjacent allies";
+                " " + ReturnColoredText("Block", yellow) + " to yourself and adjacent allies";
         }
         else if (ability.abilityName == "Glacial Burst")
         {
