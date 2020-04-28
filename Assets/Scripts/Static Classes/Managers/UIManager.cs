@@ -19,6 +19,30 @@ public class UIManager : MonoBehaviour
     public Sprite EndTurnButtonDisabledSprite;
     public Sprite EndTurnButtonEnabledSprite;
 
+    [Header("Character Roster Movement References")]
+    public RectTransform characterRosterCentrePosition;
+    public RectTransform characterRosterOffScreenPosition;
+    public RectTransform characterRosterTransformParent;
+    public bool crMovingOnScreen;
+    public bool crMovingOffScreen;
+    public float characterRosterMoveSpeed;
+
+    [Header("Inventory Movement References")]
+    public RectTransform inventoryCentrePosition;
+    public RectTransform inventoryOffScreenPosition;
+    public RectTransform inventoryTransformParent;
+    public bool inventoryMovingOnScreen;
+    public bool inventoryMovingOffScreen;
+    public float inventoryMoveSpeed;
+
+    [Header("World Map Movement References")]
+    public RectTransform worldMapCentrePosition;
+    public RectTransform worldMapOffScreenPosition;
+    public RectTransform worldMapTransformParent;
+    public bool worldMapMovingOnScreen;
+    public bool worldMapMovingOffScreen;
+    public float worldMapMoveSpeed;
+
     public static UIManager Instance;
     private void Awake()
     {
@@ -41,47 +65,289 @@ public class UIManager : MonoBehaviour
     }
     public void OnCharacterPanelButtonClicked()
     {
-        KingsBlessingManager.Instance.DisableView();
+        //KingsBlessingManager.Instance.DisableView();
 
         if (CharacterRoster.Instance.visualParent.activeSelf == true)
         {
-            DisableInventoryView();
-            DisableCharacterRosterView();
+            MoveCharacterRosterOffScreen();
+            MoveInventoryOffScreen();
+            /*
             if(KingsBlessingManager.Instance.eventCompleted == false)
             {
                 KingsBlessingManager.Instance.EnableView();
             }
+            */
         }
 
         else
         {
             EnableCharacterRosterView();
             EnableInventoryView();
+
+            MoveCharacterRosterOnScreen();
+            MoveInventoryOnScreen();
+
             DisableWorldMapView();
         }
             
-    }  
-   
+    }     
     public void OnWorldMapButtonClicked()
     {
-        KingsBlessingManager.Instance.DisableView();
+        //KingsBlessingManager.Instance.DisableView();
 
         if(WorldManager.Instance.visualParent.activeSelf == true)
         {
-            DisableWorldMapView();
+            //DisableWorldMapView();
+            MoveWorldMapOffScreen();
+            /*
             if (KingsBlessingManager.Instance.eventCompleted == false)
             {
                 KingsBlessingManager.Instance.EnableView();
             }
+            */
         }
 
         else if (WorldManager.Instance.visualParent.activeSelf == false)
         {
-            DisableInventoryView();
-            DisableCharacterRosterView();
-            EnableWorldMapView();            
+            EnableWorldMapView();
+            MoveWorldMapOnScreen();
+
+            MoveCharacterRosterOffScreen();
+            MoveInventoryOffScreen();
+
+            //DisableInventoryView();
+           // DisableCharacterRosterView();
+                     
         }
     }
+    #endregion
+
+    // Character Roster Movement
+    #region
+    public Action MoveCharacterRosterOnScreen()
+    {
+        Debug.Log("UIManager.MoveCharacterRosterToCentrePosition() called...");
+        Action action = new Action();
+        StartCoroutine(MoveCharacterRosterOnScreenCoroutine(action));
+        return action;
+
+    }
+    private IEnumerator MoveCharacterRosterOnScreenCoroutine(Action action)
+    {
+        // reset z axis
+        characterRosterTransformParent.anchoredPosition = new Vector3(characterRosterTransformParent.anchoredPosition.x, characterRosterTransformParent.anchoredPosition.y, 0f);
+
+        // set up
+        crMovingOffScreen = false;
+        crMovingOnScreen = true;
+        bool reachedCentrePos = false;
+
+        while (reachedCentrePos == false && crMovingOnScreen)
+        {
+            Debug.Log("UIManager.MoveCharacterRosterToCentrePositionCoroutine() running 'while' loop...");
+
+            characterRosterTransformParent.anchoredPosition = Vector2.MoveTowards(characterRosterTransformParent.anchoredPosition, characterRosterCentrePosition.anchoredPosition, Time.deltaTime * characterRosterMoveSpeed);
+
+            if (characterRosterTransformParent.anchoredPosition.y == characterRosterCentrePosition.anchoredPosition.y)
+            {
+                // reset z axis
+                characterRosterTransformParent.anchoredPosition = new Vector3(characterRosterTransformParent.anchoredPosition.x, characterRosterTransformParent.anchoredPosition.y, 0f);
+                reachedCentrePos = true;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        crMovingOnScreen = false;
+        action.actionResolved = true;
+    }
+    public Action MoveCharacterRosterOffScreen()
+    {
+        Debug.Log("UIManager.MoveCharacterRosterToCentrePosition() called...");
+        Action action = new Action();
+        StartCoroutine(MoveCharacterRosterOffScreenCoroutine(action));
+        return action;
+
+    }
+    private IEnumerator MoveCharacterRosterOffScreenCoroutine(Action action)
+    {
+        // reset z axis
+        characterRosterTransformParent.anchoredPosition = new Vector3(characterRosterTransformParent.anchoredPosition.x, characterRosterTransformParent.anchoredPosition.y, 0f);
+
+        crMovingOnScreen = false;
+        crMovingOffScreen = true;
+        
+        bool reachedOffScreenPos = false;
+
+        while (reachedOffScreenPos == false && crMovingOffScreen)
+        {
+            Debug.Log("UIManager.MoveCharacterRosterOffScreenCoroutine() running 'while' loop...");
+
+            characterRosterTransformParent.anchoredPosition = Vector2.MoveTowards(characterRosterTransformParent.anchoredPosition, characterRosterOffScreenPosition.anchoredPosition, Time.deltaTime * characterRosterMoveSpeed);
+
+            if (characterRosterTransformParent.anchoredPosition.y == characterRosterOffScreenPosition.anchoredPosition.y)
+            {
+                // reset z axis
+                characterRosterTransformParent.anchoredPosition = new Vector3(characterRosterTransformParent.anchoredPosition.x, characterRosterTransformParent.anchoredPosition.y, 0f);
+                reachedOffScreenPos = true;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        DisableCharacterRosterView();
+        crMovingOffScreen = false;
+        action.actionResolved = true;
+    }
+
+    #endregion
+
+    // Inventory Movement
+    #region
+    public Action MoveInventoryOnScreen()
+    {
+        Debug.Log("UIManager.MoveInventoryOnScreen() called...");
+        Action action = new Action();
+        StartCoroutine(MoveInventoryOnScreenCoroutine(action));
+        return action;
+
+    }
+    private IEnumerator MoveInventoryOnScreenCoroutine(Action action)
+    {
+        // reset z axis
+        inventoryTransformParent.anchoredPosition = new Vector3(inventoryTransformParent.anchoredPosition.x, characterRosterTransformParent.anchoredPosition.y, 0f);
+
+        inventoryMovingOffScreen = false;
+        inventoryMovingOnScreen = true;
+        bool reachedCentrePos = false;
+
+        while (reachedCentrePos == false && inventoryMovingOnScreen)
+        {
+            Debug.Log("UIManager.MoveInventoryOnScreenCoroutine() running 'while' loop...");
+
+            inventoryTransformParent.anchoredPosition = Vector2.MoveTowards(inventoryTransformParent.anchoredPosition, inventoryCentrePosition.anchoredPosition, Time.deltaTime * inventoryMoveSpeed);
+
+            if (inventoryTransformParent.anchoredPosition.y == inventoryCentrePosition.anchoredPosition.y)
+            {
+                // reset z axis
+                inventoryTransformParent.anchoredPosition = new Vector3(inventoryTransformParent.anchoredPosition.x, inventoryTransformParent.anchoredPosition.y, 0f);
+                reachedCentrePos = true;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        inventoryMovingOnScreen = false;
+        action.actionResolved = true;
+    }
+    public Action MoveInventoryOffScreen()
+    {
+        Debug.Log("UIManager.MoveInventoryOffScreen() called...");
+        Action action = new Action();
+        StartCoroutine(MoveInventoryOffScreenCoroutine(action));
+        return action;
+
+    }
+    private IEnumerator MoveInventoryOffScreenCoroutine(Action action)
+    {
+        // reset z axis
+        inventoryTransformParent.anchoredPosition = new Vector3(inventoryTransformParent.anchoredPosition.x, characterRosterTransformParent.anchoredPosition.y, 0f);
+
+        inventoryMovingOnScreen = false;
+        inventoryMovingOffScreen = true;
+
+        bool reachedOffScreenPos = false;
+
+        while (reachedOffScreenPos == false && inventoryMovingOffScreen)
+        {
+            Debug.Log("UIManager.MoveInventoryOffScreenCoroutine() running 'while' loop...");
+
+            inventoryTransformParent.anchoredPosition = Vector2.MoveTowards(inventoryTransformParent.anchoredPosition, inventoryOffScreenPosition.anchoredPosition, Time.deltaTime * inventoryMoveSpeed);
+
+            if (inventoryTransformParent.anchoredPosition.y == inventoryOffScreenPosition.anchoredPosition.y)
+            {
+                // reset z axis
+                inventoryTransformParent.anchoredPosition = new Vector3(inventoryTransformParent.anchoredPosition.x, characterRosterTransformParent.anchoredPosition.y, 0f);
+                reachedOffScreenPos = true;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        DisableInventoryView();
+        inventoryMovingOffScreen = false;
+        action.actionResolved = true;
+    }
+
+    #endregion
+
+    // World Map Movement
+    #region
+    public Action MoveWorldMapOnScreen()
+    {
+        Debug.Log("UIManager.MoveWorldMapOnScreen() called...");
+        Action action = new Action();
+        StartCoroutine(MoveWorldMapOnScreenCoroutine(action));
+        return action;
+
+    }
+    private IEnumerator MoveWorldMapOnScreenCoroutine(Action action)
+    {
+        worldMapMovingOffScreen = false;
+        worldMapMovingOnScreen = true;
+        bool reachedCentrePos = false;
+
+        while (reachedCentrePos == false && worldMapMovingOnScreen)
+        {
+            Debug.Log("UIManager.MoveWorldMapOnScreenCoroutine() running 'while' loop...");
+
+            worldMapTransformParent.anchoredPosition = Vector2.MoveTowards(worldMapTransformParent.anchoredPosition, worldMapCentrePosition.anchoredPosition, Time.deltaTime * worldMapMoveSpeed);
+
+            if (worldMapTransformParent.anchoredPosition.y == worldMapCentrePosition.anchoredPosition.y)
+            {
+                reachedCentrePos = true;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        worldMapMovingOnScreen = false;
+        action.actionResolved = true;
+    }
+    public Action MoveWorldMapOffScreen()
+    {
+        Debug.Log("UIManager.MoveInventoryOffScreen() called...");
+        Action action = new Action();
+        StartCoroutine(MoveWorldMapOffScreenCoroutine(action));
+        return action;
+
+    }
+    private IEnumerator MoveWorldMapOffScreenCoroutine(Action action)
+    {
+        worldMapMovingOnScreen = false;
+        worldMapMovingOffScreen = true;
+
+        bool reachedOffScreenPos = false;
+
+        while (reachedOffScreenPos == false && worldMapMovingOffScreen)
+        {
+            Debug.Log("UIManager.MoveInventoryOffScreenCoroutine() running 'while' loop...");
+
+            worldMapTransformParent.anchoredPosition = Vector2.MoveTowards(worldMapTransformParent.anchoredPosition, worldMapOffScreenPosition.anchoredPosition, Time.deltaTime * worldMapMoveSpeed);
+
+            if (worldMapTransformParent.anchoredPosition.y == worldMapOffScreenPosition.anchoredPosition.y)
+            {
+                reachedOffScreenPos = true;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        DisableWorldMapView();
+        worldMapMovingOffScreen = false;
+        action.actionResolved = true;
+    }
+
     #endregion
 
     // Visibility + View Logic
@@ -110,12 +376,12 @@ public class UIManager : MonoBehaviour
     }   
     public void EnableInventoryView()
     {
-        InventoryController.Instance.canvasParent.SetActive(true);
+        //InventoryController.Instance.canvasParent.SetActive(true);
         InventoryController.Instance.visualParent.SetActive(true);
     }
     public void DisableInventoryView()
     {
-        InventoryController.Instance.canvasParent.SetActive(false);
+        //InventoryController.Instance.canvasParent.SetActive(false);
         InventoryController.Instance.visualParent.SetActive(false);
     }
     public void EnableCharacterRosterView()
@@ -127,6 +393,7 @@ public class UIManager : MonoBehaviour
     }
     public void DisableCharacterRosterView()
     {
+        Debug.Log("UIManager.DisableCharacterRosterView() called...");
         CharacterRoster.Instance.visualParent.SetActive(false);
         CharacterRoster.Instance.canvasParent.SetActive(false);
     }

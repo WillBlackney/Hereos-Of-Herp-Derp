@@ -8,9 +8,9 @@ public class TurnManager : MonoBehaviour
     [Header("Turn Notifier Properties + Components")]
     public TextMeshProUGUI whoseTurnText;
     public CanvasGroup visualParentCG;
-    public GameObject startPos;
-    public GameObject endPos;
-    public GameObject middlePos;
+    public RectTransform startPos;
+    public RectTransform endPos;
+    public RectTransform middlePos;
 
     public bool currentlyPlayersTurn = false;
     public int currentTurnCount = 0;
@@ -33,23 +33,23 @@ public class TurnManager : MonoBehaviour
         bool reachedMiddlePos = false;
         bool reachedEndPos = false;
 
-        GameObject parent = visualParentCG.gameObject;
+        RectTransform parent = visualParentCG.gameObject.GetComponent<RectTransform>();
 
         visualParentCG.gameObject.SetActive(true);
-        parent.transform.position = startPos.transform.position;
+        parent.anchoredPosition = startPos.anchoredPosition;
         visualParentCG.alpha = 0;
 
         whoseTurnText.text = "Turn " + currentTurnCount;
 
-        Vector3 middlePos1 = new Vector2(middlePos.transform.position.x, middlePos.transform.position.y);
-        Vector3 endPos1 = new Vector2(endPos.transform.position.x, endPos.transform.position.y);
+        Vector3 middlePos1 = new Vector2(middlePos.anchoredPosition.x, middlePos.anchoredPosition.y);
+        Vector3 endPos1 = new Vector2(endPos.anchoredPosition.x, endPos.anchoredPosition.y);
 
 
         while(reachedMiddlePos == false)
         {
-            visualParentCG.alpha += 0.08f;
-            parent.transform.position = Vector2.MoveTowards(parent.transform.position, middlePos1, 10 * Time.deltaTime);
-            if(parent.transform.position.x == middlePos1.x && parent.transform.position.y == middlePos1.y)
+            visualParentCG.alpha += 0.05f;
+            parent.anchoredPosition = Vector2.MoveTowards(parent.anchoredPosition, middlePos1, 100 * Time.deltaTime);
+            if(parent.anchoredPosition.x == middlePos1.x && parent.anchoredPosition.y == middlePos1.y)
             {
                 Debug.Log("reached Middle pos");
                 reachedMiddlePos = true;
@@ -64,9 +64,9 @@ public class TurnManager : MonoBehaviour
 
         while (reachedEndPos == false)
         {
-            visualParentCG.alpha -= 0.08f;
-            parent.transform.position = Vector2.MoveTowards(parent.transform.position, endPos1, 10 * Time.deltaTime);
-            if (parent.transform.position.x == endPos1.x && parent.transform.position.y == endPos1.y)
+            visualParentCG.alpha -= 0.05f;
+            parent.anchoredPosition = Vector2.MoveTowards(parent.anchoredPosition, endPos1, 100 * Time.deltaTime);
+            if (parent.anchoredPosition.x == endPos1.x && parent.anchoredPosition.y == endPos1.y)
             {
                 Debug.Log("reached end pos");
                 reachedEndPos = true;

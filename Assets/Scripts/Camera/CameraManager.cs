@@ -1,12 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
 
 public class CameraManager : MonoBehaviour
 {
     [Header("Component References")]
-    public CinemachineVirtualCamera cinemachineCamera;
     public CameraMovement unityCamera;
 
     [Header("Properties")]

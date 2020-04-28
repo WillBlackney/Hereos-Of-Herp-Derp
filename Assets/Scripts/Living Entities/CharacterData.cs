@@ -66,9 +66,10 @@ public class CharacterData : MonoBehaviour
 
     [Header("Talent + Ability Points Text References")]
     public TextMeshProUGUI talentPointsText;
-    public TextMeshProUGUI abilityPointsText;   
+    public TextMeshProUGUI abilityPointsText;
 
     [Header("Talent Tree Page References")]
+    public TextMeshProUGUI currentTreeNameText;
     public GameObject guardianTreeParent;
     public GameObject duelistTreeParent;
     public GameObject brawlerTreeParent;
@@ -564,50 +565,62 @@ public class CharacterData : MonoBehaviour
         if(guardianPoints > 0)
         {
             guardianTreeParent.SetActive(true);
+            currentTreeNameText.text = "Guardian";
         }
         else if (duelistPoints > 0)
         {
             duelistTreeParent.SetActive(true);
+            currentTreeNameText.text = "Duelist";
         }
         else if (brawlerPoints > 0)
         {
             brawlerTreeParent.SetActive(true);
+            currentTreeNameText.text = "Brawler";
         }
         else if (assassinationPoints > 0)
         {
             assassinationTreeParent.SetActive(true);
+            currentTreeNameText.text = "Assassination";
         }
         else if (pyromaniaPoints > 0)
         {
             pyromaniaTreeParent.SetActive(true);
+            currentTreeNameText.text = "Pyromania";
         }
         else if (cyromancyPoints > 0)
         {
             cyromancyTreeParent.SetActive(true);
+            currentTreeNameText.text = "Cyromancy";
         }
         else if (rangerPoints > 0)
         {
             rangerTreeParent.SetActive(true);
+            currentTreeNameText.text = "Ranger";
         }
         else if (manipulationPoints > 0)
         {
             manipulationTreeParent.SetActive(true);
+            currentTreeNameText.text = "Manipulation";
         }
         else if (divinityPoints > 0)
         {
             divinityTreeParent.SetActive(true);
+            currentTreeNameText.text = "Divinity";
         }
         else if (shadowcraftPoints > 0)
         {
             shadowcraftTreeParent.SetActive(true);
+            currentTreeNameText.text = "Shadowcraft";
         }
         else if (corruptionPoints > 0)
         {
             corruptionTreeParent.SetActive(true);
+            currentTreeNameText.text = "Corruption";
         }
         else if (naturalismPoints > 0)
         {
             naturalismTreeParent.SetActive(true);
+            currentTreeNameText.text = "Naturalism";
         }
 
     }
@@ -1352,72 +1365,84 @@ public class CharacterData : MonoBehaviour
         Debug.Log("CharacterData.OnGuardianButtonClicked() called...");
         CloseAllTalentTreePages();
         guardianTreeParent.SetActive(true);
+        currentTreeNameText.text = "Guardian";
     }
     public void OnDuelistButtonClicked()
     {
         Debug.Log("CharacterData.OnDuelistButtonClicked() called...");
         CloseAllTalentTreePages();
         duelistTreeParent.SetActive(true);
+        currentTreeNameText.text = "Duelist";
     }
     public void OnBrawlerButtonClicked()
     {
         Debug.Log("CharacterData.OnBrawlerButtonClicked() called...");
         CloseAllTalentTreePages();
         brawlerTreeParent.SetActive(true);
+        currentTreeNameText.text = "Brawler";
     }
     public void OnAssassinationButtonClicked()
     {
         Debug.Log("CharacterData.OnAssassinationButtonClicked() called...");
         CloseAllTalentTreePages();
         assassinationTreeParent.SetActive(true);
+        currentTreeNameText.text = "Assassination";
     }
     public void OnPyromaniaButtonClicked()
     {
         Debug.Log("CharacterData.OnPyromaniaButtonClicked() called...");
         CloseAllTalentTreePages();
         pyromaniaTreeParent.SetActive(true);
+        currentTreeNameText.text = "Pyromania";
     }
     public void OnCyromancyButtonClicked()
     {
         Debug.Log("CharacterData.OnCyromancyButtonClicked() called...");
         CloseAllTalentTreePages();
         cyromancyTreeParent.SetActive(true);
+        currentTreeNameText.text = "Cyromancy";
     }
     public void OnRangerButtonClicked()
     {
         Debug.Log("CharacterData.OnRangerButtonClicked() called...");
         CloseAllTalentTreePages();
         rangerTreeParent.SetActive(true);
+        currentTreeNameText.text = "Ranger";
     }
     public void OnManipulationButtonClicked()
     {
         Debug.Log("CharacterData.OnManipulationButtonClicked() called...");
         CloseAllTalentTreePages();
         manipulationTreeParent.SetActive(true);
+        currentTreeNameText.text = "Manipulation";
     }
     public void OnDivinityButtonClicked()
     {
         Debug.Log("CharacterData.OnDivinityButtonClicked() called...");
         CloseAllTalentTreePages();
         divinityTreeParent.SetActive(true);
+        currentTreeNameText.text = "Divinity";
     }
     public void OnShadowcraftButtonClicked()
     {
         Debug.Log("CharacterData.OnShadowcraftButtonClicked() called...");
         CloseAllTalentTreePages();
         shadowcraftTreeParent.SetActive(true);
+        currentTreeNameText.text = "Shadowcraft";
     }
     public void OnCorruptionButtonClicked()
     {
         Debug.Log("CharacterData.OnCorruptionButtonClicked() called...");
         CloseAllTalentTreePages();
         corruptionTreeParent.SetActive(true);
+        currentTreeNameText.text = "Corruption";
     }
     public void OnNaturalismButtonClicked()
     {
         Debug.Log("CharacterData.OnNaturalismButtonClicked() called...");
         CloseAllTalentTreePages();
         naturalismTreeParent.SetActive(true);
+        currentTreeNameText.text = "Naturalism";
     }
 
     #endregion
