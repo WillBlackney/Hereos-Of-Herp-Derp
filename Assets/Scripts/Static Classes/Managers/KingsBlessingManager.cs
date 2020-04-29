@@ -147,7 +147,7 @@ public class KingsBlessingManager : MonoBehaviour
     public void OnContinueButtonClicked()
     {
         eventCompleted = true;
-        DisableView();
+        //DisableView();
         UIManager.Instance.OnWorldMapButtonClicked();
     }
     public void StartChoiceProcess(string choiceName)

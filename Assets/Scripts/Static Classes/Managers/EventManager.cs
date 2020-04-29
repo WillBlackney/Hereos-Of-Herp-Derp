@@ -13,6 +13,7 @@ public class EventManager : MonoBehaviour
     public bool gameOverEventStarted;
     public bool currentCombatEndEventTriggered;
     public bool actTransitionInProcess;
+    public bool combatSceneIsActive;
     #endregion
 
     // Singleton Set up
@@ -36,6 +37,9 @@ public class EventManager : MonoBehaviour
     {
         // Destroy the previous level and tiles + reset values/properties, turn off unneeded views
         ClearPreviousEncounter();
+
+        // make char roster canvas turn off when disabled
+        combatSceneIsActive = true;
 
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = false;
@@ -96,6 +100,9 @@ public class EventManager : MonoBehaviour
         // Destroy the previous level and tiles + reset values/properties
         ClearPreviousEncounter();
 
+        // make char roster canvas turn off when disabled
+        combatSceneIsActive = true;
+
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = false;
 
@@ -150,6 +157,9 @@ public class EventManager : MonoBehaviour
     {
         // Destroy the previous level and tiles + reset values/properties, turn off unneeded views
         ClearPreviousEncounter();
+
+        // make char roster canvas turn off when disabled
+        combatSceneIsActive = true;
 
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = false;
@@ -443,6 +453,8 @@ public class EventManager : MonoBehaviour
     {        
         Debug.Log("StartNewEndBasicEncounterEvent() coroutine started...");
 
+        // make char roster canvas turn on when enabled
+        combatSceneIsActive = true;
         // Modify player score
         ScoreManager.Instance.HandlePostCombatScoring();
         // Destroy windows
@@ -474,7 +486,8 @@ public class EventManager : MonoBehaviour
     private IEnumerator StartNewEndEliteEncounterEventCoroutine(Action action)
     {
         Debug.Log("StartNewEndEliteEncounterEvent() coroutine started...");
-
+        // make char roster canvas turn on when enabled
+        combatSceneIsActive = true;
         // Modify player score
         ScoreManager.Instance.HandlePostCombatScoring();
         // Destroy windows
@@ -504,6 +517,8 @@ public class EventManager : MonoBehaviour
     }
     private IEnumerator StartNewEndBossEncounterEventCoroutine()
     {
+        // make char roster canvas turn on when enabled
+        combatSceneIsActive = true;
         // Modify player score
         ScoreManager.Instance.HandlePostCombatScoring();
         // Destroy windows
@@ -754,6 +769,8 @@ public class EventManager : MonoBehaviour
         ShopScreenManager.Instance.DisableShopScreenView();
         // Destroy active treasure chest if it exists
         StoryEventManager.Instance.ResetStoryEventWindow();
+        // Disable KBE
+        KingsBlessingManager.Instance.DisableView();
         // Clear treasure room event
         TreasureRoomManager.Instance.DestroyActiveTreasureChest();
         TreasureRoomManager.Instance.DisableTreasureRoomView();
@@ -764,6 +781,7 @@ public class EventManager : MonoBehaviour
     {
         Debug.Log("EventManager.ResetEncounterProperties() called...");
 
+        combatSceneIsActive = false;
         damageTakenThisEncounter = false;
         currentCombatEndEventTriggered = false;
     }

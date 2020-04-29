@@ -141,12 +141,7 @@ public class CharacterRoster : MonoBehaviour
     {
         DisablesAllCharacterDataViews();
         characterSelected.EnableMainWindowView();
-    }
-    public void EnableInventoryView()
-    {
-        InventoryController.Instance.canvasParent.SetActive(true);
-        InventoryController.Instance.visualParent.SetActive(true);
-    }
+    }   
     public void DisableInventoryView()
     {
         InventoryController.Instance.visualParent.SetActive(false);
@@ -164,7 +159,6 @@ public class CharacterRoster : MonoBehaviour
         DisablesAllCharacterDataViews();
 
         characterOne.EnableMainWindowView();
-        characterOne.OnStatsPageButtonClicked();
     }
 
 

@@ -247,7 +247,7 @@ public class CharacterData : MonoBehaviour
     public void EnableMainWindowView()
     {
         masterVisualParent.SetActive(true);
-        CharacterRoster.Instance.DisableInventoryView();
+        //CharacterRoster.Instance.DisableInventoryView();
         myCharacterModel.SetIdleAnim();
 
         // set stats page as defualt view 
@@ -1073,7 +1073,7 @@ public class CharacterData : MonoBehaviour
     public void OnTalentPageButtonClicked()
     {
         Debug.Log("CharacterData.OnTalentPageButtonClicked() called...");
-        CharacterRoster.Instance.DisableInventoryView();
+        UIManager.Instance.DisableInventoryView();
         talentsPageParent.SetActive(true);
         statsPageParent.SetActive(false);
         abilityPageParent.SetActive(false);
@@ -1081,7 +1081,7 @@ public class CharacterData : MonoBehaviour
     public void OnStatsPageButtonClicked()
     {
         Debug.Log("CharacterData.OnStatsPageButtonClicked() called...");
-        CharacterRoster.Instance.EnableInventoryView();
+        UIManager.Instance.EnableInventoryView();
         statsPageParent.SetActive(true);
         myCharacterModel.SetIdleAnim();
         talentsPageParent.SetActive(false);
@@ -1090,7 +1090,7 @@ public class CharacterData : MonoBehaviour
     public void OnAbilitiesPageButtonClicked()
     {
         Debug.Log("CharacterData.OnAbilitiesPageButtonClicked() called...");
-        CharacterRoster.Instance.EnableInventoryView();
+        UIManager.Instance.EnableInventoryView();
         abilityPageParent.SetActive(true);
         statsPageParent.SetActive(false);
         talentsPageParent.SetActive(false);

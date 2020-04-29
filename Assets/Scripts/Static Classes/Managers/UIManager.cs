@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     public Sprite EndTurnButtonEnabledSprite;
 
     [Header("Character Roster Movement References")]
+    public Canvas charRosterCanvasComponent;
     public RectTransform characterRosterCentrePosition;
     public RectTransform characterRosterOffScreenPosition;
     public RectTransform characterRosterTransformParent;
@@ -28,6 +29,7 @@ public class UIManager : MonoBehaviour
     public float characterRosterMoveSpeed;
 
     [Header("Inventory Movement References")]
+    public Canvas inventoryCanvasComponent;
     public RectTransform inventoryCentrePosition;
     public RectTransform inventoryOffScreenPosition;
     public RectTransform inventoryTransformParent;
@@ -36,6 +38,7 @@ public class UIManager : MonoBehaviour
     public float inventoryMoveSpeed;
 
     [Header("World Map Movement References")]
+    public Canvas worldMapCanvasComponent;
     public RectTransform worldMapCentrePosition;
     public RectTransform worldMapOffScreenPosition;
     public RectTransform worldMapTransformParent;
@@ -47,14 +50,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;       
-    }
-    private void Start()
-    {
-        // for some reason, game build always open inventory on game start
-        // these lines prevents this weird bug
-        DisableInventoryView();
-        DisableInventoryView();
-    }
+    }    
 
     // Mouse + Click Events
     #region
@@ -65,46 +61,44 @@ public class UIManager : MonoBehaviour
     }
     public void OnCharacterPanelButtonClicked()
     {
-        //KingsBlessingManager.Instance.DisableView();
-
         if (CharacterRoster.Instance.visualParent.activeSelf == true)
         {
             MoveCharacterRosterOffScreen();
             MoveInventoryOffScreen();
             /*
-            if(KingsBlessingManager.Instance.eventCompleted == false)
-            {
-                KingsBlessingManager.Instance.EnableView();
-            }
-            */
+        DisableCharacterRosterView();
+        DisableInventoryView();       
+        */
         }
 
         else
         {
+            // Enable parents + canvases
             EnableCharacterRosterView();
             EnableInventoryView();
 
+            // Move views on screen
             MoveCharacterRosterOnScreen();
             MoveInventoryOnScreen();
 
+            // Move world map off screen
+            MoveWorldMapOffScreen();
+
+            /*
+            EnableCharacterRosterView();
+            EnableInventoryView();
             DisableWorldMapView();
+            */
         }
             
     }     
     public void OnWorldMapButtonClicked()
     {
-        //KingsBlessingManager.Instance.DisableView();
-
         if(WorldManager.Instance.visualParent.activeSelf == true)
         {
-            //DisableWorldMapView();
             MoveWorldMapOffScreen();
-            /*
-            if (KingsBlessingManager.Instance.eventCompleted == false)
-            {
-                KingsBlessingManager.Instance.EnableView();
-            }
-            */
+
+            // DisableWorldMapView();
         }
 
         else if (WorldManager.Instance.visualParent.activeSelf == false)
@@ -112,12 +106,14 @@ public class UIManager : MonoBehaviour
             EnableWorldMapView();
             MoveWorldMapOnScreen();
 
-            MoveCharacterRosterOffScreen();
             MoveInventoryOffScreen();
+            MoveCharacterRosterOffScreen();
 
-            //DisableInventoryView();
-           // DisableCharacterRosterView();
-                     
+            /*
+            EnableWorldMapView();
+            DisableInventoryView();
+            DisableCharacterRosterView();    
+            */
         }
     }
     #endregion
@@ -150,9 +146,9 @@ public class UIManager : MonoBehaviour
 
             if (characterRosterTransformParent.anchoredPosition.y == characterRosterCentrePosition.anchoredPosition.y)
             {
-                // reset z axis
-                characterRosterTransformParent.anchoredPosition = new Vector3(characterRosterTransformParent.anchoredPosition.x, characterRosterTransformParent.anchoredPosition.y, 0f);
                 reachedCentrePos = true;
+                // reset z axis
+                characterRosterTransformParent.anchoredPosition = new Vector3(characterRosterTransformParent.anchoredPosition.x, characterRosterTransformParent.anchoredPosition.y, 0f);                
             }
 
             yield return new WaitForEndOfFrame();
@@ -190,12 +186,11 @@ public class UIManager : MonoBehaviour
                 // reset z axis
                 characterRosterTransformParent.anchoredPosition = new Vector3(characterRosterTransformParent.anchoredPosition.x, characterRosterTransformParent.anchoredPosition.y, 0f);
                 reachedOffScreenPos = true;
+                DisableCharacterRosterView();               
             }
-
             yield return new WaitForEndOfFrame();
-        }
-
-        DisableCharacterRosterView();
+        }     
+        
         crMovingOffScreen = false;
         action.actionResolved = true;
     }
@@ -229,9 +224,9 @@ public class UIManager : MonoBehaviour
 
             if (inventoryTransformParent.anchoredPosition.y == inventoryCentrePosition.anchoredPosition.y)
             {
-                // reset z axis
-                inventoryTransformParent.anchoredPosition = new Vector3(inventoryTransformParent.anchoredPosition.x, inventoryTransformParent.anchoredPosition.y, 0f);
                 reachedCentrePos = true;
+                // reset z axis
+                inventoryTransformParent.anchoredPosition = new Vector3(inventoryTransformParent.anchoredPosition.x, inventoryTransformParent.anchoredPosition.y, 0f);                
             }
 
             yield return new WaitForEndOfFrame();
@@ -266,15 +261,14 @@ public class UIManager : MonoBehaviour
 
             if (inventoryTransformParent.anchoredPosition.y == inventoryOffScreenPosition.anchoredPosition.y)
             {
+                reachedOffScreenPos = true;
                 // reset z axis
                 inventoryTransformParent.anchoredPosition = new Vector3(inventoryTransformParent.anchoredPosition.x, characterRosterTransformParent.anchoredPosition.y, 0f);
-                reachedOffScreenPos = true;
+                DisableInventoryView();                
             }
-
             yield return new WaitForEndOfFrame();
         }
-
-        DisableInventoryView();
+        
         inventoryMovingOffScreen = false;
         action.actionResolved = true;
     }
@@ -331,19 +325,17 @@ public class UIManager : MonoBehaviour
 
         while (reachedOffScreenPos == false && worldMapMovingOffScreen)
         {
-            Debug.Log("UIManager.MoveInventoryOffScreenCoroutine() running 'while' loop...");
-
             worldMapTransformParent.anchoredPosition = Vector2.MoveTowards(worldMapTransformParent.anchoredPosition, worldMapOffScreenPosition.anchoredPosition, Time.deltaTime * worldMapMoveSpeed);
 
             if (worldMapTransformParent.anchoredPosition.y == worldMapOffScreenPosition.anchoredPosition.y)
             {
                 reachedOffScreenPos = true;
+                DisableWorldMapView();
             }
-
+           
             yield return new WaitForEndOfFrame();
         }
-
-        DisableWorldMapView();
+        
         worldMapMovingOffScreen = false;
         action.actionResolved = true;
     }
@@ -354,8 +346,10 @@ public class UIManager : MonoBehaviour
     #region
     public void EnableWorldMapView()
     {
+        //worldMapCanvasComponent.enabled = true;
         WorldManager.Instance.canvasParent.SetActive(true);
-        WorldManager.Instance.visualParent.SetActive(true);        
+        WorldManager.Instance.visualParent.SetActive(true);  
+        
         if (WorldManager.Instance.canSelectNewEncounter == true)
         {
             WorldManager.Instance.HighlightNextAvailableEncounters();
@@ -363,6 +357,7 @@ public class UIManager : MonoBehaviour
     }
     public void DisableWorldMapView()
     {
+       // worldMapCanvasComponent.enabled = false;
         WorldManager.Instance.visualParent.SetActive(false);
         WorldManager.Instance.canvasParent.SetActive(false);
     }
@@ -376,26 +371,36 @@ public class UIManager : MonoBehaviour
     }   
     public void EnableInventoryView()
     {
-        //InventoryController.Instance.canvasParent.SetActive(true);
+        InventoryController.Instance.canvasParent.SetActive(true);
         InventoryController.Instance.visualParent.SetActive(true);
     }
     public void DisableInventoryView()
     {
-        //InventoryController.Instance.canvasParent.SetActive(false);
+        if (EventManager.Instance.combatSceneIsActive)
+        {
+            InventoryController.Instance.canvasParent.SetActive(false);
+        }        
         InventoryController.Instance.visualParent.SetActive(false);
     }
     public void EnableCharacterRosterView()
     {
+        Debug.Log("UIManager.EnableCharacterRosterView() called...");
         CharacterRoster.Instance.visualParent.SetActive(true);
         CharacterRoster.Instance.canvasParent.SetActive(true);
+
         // set character one as default view
         CharacterRoster.Instance.SetDefaultViewState();
     }
     public void DisableCharacterRosterView()
     {
         Debug.Log("UIManager.DisableCharacterRosterView() called...");
+        if (EventManager.Instance.combatSceneIsActive)
+        {
+            CharacterRoster.Instance.canvasParent.SetActive(false);
+        }
         CharacterRoster.Instance.visualParent.SetActive(false);
-        CharacterRoster.Instance.canvasParent.SetActive(false);
+       
+        
     }
     public void DisableEndTurnButtonInteractions()
     {

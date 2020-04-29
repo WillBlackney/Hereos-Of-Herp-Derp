@@ -8,7 +8,6 @@ using UnityEngine.EventSystems;
 public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [Header("Component References")]
-    public Image myEntityImage;
     public TextMeshProUGUI rollText;
     public Slider myHealthBar;
     public GameObject myGlowOutline;
@@ -23,7 +22,6 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void InitializeSetup(LivingEntity entity)
     {
         myLivingEntity = entity;
-        myEntityImage.sprite = entity.mySpriteRenderer.sprite;
         entity.myActivationWindow = this;
         myCanvasGroup = GetComponent<CanvasGroup>();
         gameObject.SetActive(false);

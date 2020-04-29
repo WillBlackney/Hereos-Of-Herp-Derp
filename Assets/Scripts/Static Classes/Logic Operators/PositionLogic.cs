@@ -17,7 +17,6 @@ public class PositionLogic : MonoBehaviour
         {
             if (faceRight == true)
             {
-                character.mySpriteRenderer.flipX = false;
                 if (character.myModelParent != null)
                 {
                     character.myModelParent.transform.localScale = new Vector3(1, 1, 1);
@@ -26,7 +25,6 @@ public class PositionLogic : MonoBehaviour
 
             else
             {
-               character.mySpriteRenderer.flipX = true;
                 if (character.myModelParent != null)
                 {
                     character.myModelParent.transform.localScale = new Vector3(-1, 1, 1);
@@ -38,7 +36,6 @@ public class PositionLogic : MonoBehaviour
         {
             if (faceRight == true)
             {
-                character.mySpriteRenderer.flipX = true;
                 if (character.myModelParent != null)
                 {
                     character.myModelParent.transform.localScale = new Vector3(-1, 1, 1);
@@ -47,7 +44,6 @@ public class PositionLogic : MonoBehaviour
 
             else
             {
-                character.mySpriteRenderer.flipX = false;
                 if (character.myModelParent != null)
                 {
                     character.myModelParent.transform.localScale = new Vector3(1, 1, 1);

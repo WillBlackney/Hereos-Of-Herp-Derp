@@ -48,7 +48,7 @@ public class TurnManager : MonoBehaviour
         while(reachedMiddlePos == false)
         {
             visualParentCG.alpha += 0.05f;
-            parent.anchoredPosition = Vector2.MoveTowards(parent.anchoredPosition, middlePos1, 100 * Time.deltaTime);
+            parent.anchoredPosition = Vector2.MoveTowards(parent.anchoredPosition, middlePos1, 300 * Time.deltaTime);
             if(parent.anchoredPosition.x == middlePos1.x && parent.anchoredPosition.y == middlePos1.y)
             {
                 Debug.Log("reached Middle pos");
@@ -65,7 +65,7 @@ public class TurnManager : MonoBehaviour
         while (reachedEndPos == false)
         {
             visualParentCG.alpha -= 0.05f;
-            parent.anchoredPosition = Vector2.MoveTowards(parent.anchoredPosition, endPos1, 100 * Time.deltaTime);
+            parent.anchoredPosition = Vector2.MoveTowards(parent.anchoredPosition, endPos1, 300 * Time.deltaTime);
             if (parent.anchoredPosition.x == endPos1.x && parent.anchoredPosition.y == endPos1.y)
             {
                 Debug.Log("reached end pos");

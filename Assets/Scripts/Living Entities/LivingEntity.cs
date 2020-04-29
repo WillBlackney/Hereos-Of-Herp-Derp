@@ -22,7 +22,6 @@ public class LivingEntity : MonoBehaviour
     public TextMeshProUGUI myCurrentHealthText;
     public TextMeshProUGUI myCurrentMaxHealthText;
     public Animator myAnimator;
-    public SpriteRenderer mySpriteRenderer;
     public StatusManager myStatusManager;
     public SpellBook mySpellBook;
     public PassiveManager myPassiveManager;
@@ -120,8 +119,6 @@ public class LivingEntity : MonoBehaviour
     {
         Debug.Log("Calling LivingEntity.InitializeSetup...");
 
-        // Get component references        
-        mySpriteRenderer = GetComponent<SpriteRenderer>();
         if (myAnimator == null)
         {
             myAnimator = GetComponent<Animator>();
@@ -612,7 +609,7 @@ public class LivingEntity : MonoBehaviour
     public void StartDeathFadeOut()
     {
         Debug.Log("LivingEntity.StartDeathFadeOut() called...");
-        StartCoroutine(FadeOutModel());
+        //StartCoroutine(FadeOutModel());
     }
    
     public void SetRangedAttackAnimAsFinished()

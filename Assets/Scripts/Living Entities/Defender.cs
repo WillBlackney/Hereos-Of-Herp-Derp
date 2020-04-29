@@ -154,13 +154,6 @@ public class Defender : LivingEntity
         // Get and build from relevant character data values
         RunSetupFromCharacterData();
         base.SetBaseProperties();
-
-        // Set up visuals
-        UpdateCurrentEnergyText(currentEnergy);
-        UpdateCurrentMaxEnergyText(currentMaxEnergy);
-        UpdateCurrentStaminaText(currentStamina);        
-        UpdateCurrentStrengthStatText(currentStrength);
-        UpdateCurrentMobilityStatText(currentMobility);
         mySpellBook.SetNewAbilityDescriptions();
         
     }
@@ -2919,49 +2912,9 @@ public class Defender : LivingEntity
     }
     #endregion
 
-
-    // Stat and Property Modifiers
-    #region
-    public override void ModifyCurrentMobility(int mobilityGainedOrLost)
-    {
-        base.ModifyCurrentMobility(mobilityGainedOrLost);
-        UpdateCurrentMobilityStatText(currentMobility);
-    }
-    public override void ModifyCurrentEnergy(int APGainedOrLost, bool showVFX = true)
-    {
-        base.ModifyCurrentEnergy(APGainedOrLost, showVFX);
-        UpdateCurrentEnergyText(currentEnergy);
-    }
-    public override void ModifyCurrentStrength(int strengthGainedOrLost)
-    {
-        base.ModifyCurrentStrength(strengthGainedOrLost);
-        UpdateCurrentStrengthStatText(currentStrength);
-    }
-    #endregion
-
-
     // Text + UI Component Updates
-    #region
-    public void UpdateCurrentStrengthStatText(int newValue)
-    {
-        myCurrentStrengthStatText.text = newValue.ToString();
-    }       
-    public void UpdateCurrentEnergyText(int newEnergyValue)
-    {
-        //myCurrentEnergyText.text = newEnergyValue.ToString();
-    }
-    public void UpdateCurrentStaminaText(int newAPStatValue)
-    {
-        //myCurrentStaminaStatText.text = newAPStatValue.ToString();
-    }
-    public void UpdateCurrentMaxEnergyText(int newMaxAPValue)
-    {
-        //myCurrentMaxEnergyText.text = newMaxAPValue.ToString();
-    }
-    public void UpdateCurrentMobilityStatText(int newMobilityValue)
-    {
-        myCurrentMobilityStatText.text = newMobilityValue.ToString();
-    }
+    #region  
+   
     public float CalculateEnergyBarPosition()
     {
         float currentAPFloat = currentEnergy;
@@ -3029,19 +2982,7 @@ public class Defender : LivingEntity
             }
             yield return new WaitForEndOfFrame();
         }
-    }
-    public void SetUpAPBarDividers()
-    {
-        GameObject dividersParent = myEnergyBar.transform.Find("Line Dividers Parent").gameObject;
-        if(dividersParent != null)
-        {
-            int dividersToAdd = currentMaxEnergy - 1;
-            for(int i = 0; i < dividersToAdd; i++)
-            {
-                Instantiate(PrefabHolder.Instance.apBarDividerPrefab, dividersParent.transform);
-            }
-        }
-    }
+    }   
     #endregion
 
 
