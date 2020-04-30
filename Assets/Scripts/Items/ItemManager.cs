@@ -4,16 +4,6 @@ using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
-    [Header("Ribbon Sprite References")]
-    public Sprite commonRibbonSprite;
-    public Sprite rareRibbonSprite;
-    public Sprite epicRibbonSprite;
-
-    [Header("Frame Sprite References")]
-    public Sprite commonFrameSprite;
-    public Sprite rareFrameSprite;
-    public Sprite epicFrameSprite;
-
     [Header("Damage Type Sprite References")]
     public Sprite physicalDamageSprite;
     public Sprite fireDamageSprite;
@@ -29,6 +19,7 @@ public class ItemManager : MonoBehaviour
     }
 
     // Get Data
+    #region
     public string GetDamageTypeFromWeapon(ItemDataSO weapon)
     {
         Debug.Log("ItemManager.GetDamageTypeFromWeapon() called...");
@@ -139,8 +130,10 @@ public class ItemManager : MonoBehaviour
         Debug.Log("Conversion returned: " + stringReturned);
         return stringReturned;
     }
+    #endregion
 
     // Assign items    
+    #region
     public void SetUpDefenderWeaponsFromCharacterData(LivingEntity entity)
     {
         Debug.Log("ItemManager.SetUpLivingEntityWeapons() called for " + entity.myName);
@@ -413,8 +406,10 @@ public class ItemManager : MonoBehaviour
             character.ModifyShadowForm(stacksApplied);
         }
     }
+    #endregion
 
     // Bools and conditional checks
+    #region
     public bool IsItemWeapon(ItemDataSO item)
     {
         Debug.Log("ItemManager.IsItemWeapon() called for: " + item.Name);
@@ -432,8 +427,10 @@ public class ItemManager : MonoBehaviour
             return false;
         }
     }
+    #endregion
 
     // Set up item cards + etc
+    #region
     public void SetUpItemCardFromData(ItemCard itemCard, ItemDataSO data, int sortingOrder)
     {
         Debug.Log("ItemManager.RunSetupFromItemData() called for: " + data.Name);
@@ -495,8 +492,9 @@ public class ItemManager : MonoBehaviour
 
         itemCard.myInfoItemCard.mainCanvas.sortingOrder = 3100;
     }
-    
-    
+    #endregion
+
+
 
 
 }

@@ -100,7 +100,7 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             }
 
             Debug.Log("Adding Item to inventory: " + myName);
-            InventoryController.Instance.AddItemToInventory(myItemDataSO);
+            InventoryController.Instance.AddItemToInventory(myItemDataSO, true);
         }
 
         ItemCardPanelHover.Instance.OnItemCardMouseExit();

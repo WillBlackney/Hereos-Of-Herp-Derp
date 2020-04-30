@@ -56,7 +56,7 @@ public class ItemSlot : MonoBehaviour
         if (PlayerDataManager.Instance.currentGold >= goldCost)
         {
             Debug.Log("Buying Item " + myItemCard.myName + " for " + goldCost.ToString());
-            InventoryController.Instance.AddItemToInventory(myItemCard.myItemDataSO);
+            InventoryController.Instance.AddItemToInventory(myItemCard.myItemDataSO, true);
             PlayerDataManager.Instance.ModifyGold(-goldCost);
             DisableItemSlotView();
         }

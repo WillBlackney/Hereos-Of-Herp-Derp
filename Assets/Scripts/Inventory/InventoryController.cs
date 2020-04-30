@@ -153,11 +153,22 @@ public class InventoryController : MonoBehaviour
 
     // Ability Tome Logic
     #region
-    public void AddAbilityTomeToInventory(AbilityDataSO abilityData)
+    public void AddAbilityTomeToInventory(AbilityDataSO abilityData, bool showOverlayCardEffect = false)
     {
+        // Create game object
         GameObject newAbilityTomeGO = Instantiate(PrefabHolder.Instance.AbilityTomeInventoryCard, itemsParent.transform);
         AbilityTomeInventoryCard abilityTome = newAbilityTomeGO.GetComponent<AbilityTomeInventoryCard>();
+
+        // play screen overlay VFX
+        if (showOverlayCardEffect)
+        {
+            CardRewardScreenManager.Instance.CreateAbilityCardRewardEffect(abilityData);
+        }
+
+        // Place in inventory
         PlaceAbilityTomeOnInventorySlot(abilityTome, GetNextAvailableSlot());
+
+        // Initialize tome
         abilityTome.BuildFromAbilityData(abilityData);
     }
     public void PlaceAbilityTomeOnInventorySlot(AbilityTomeInventoryCard abilityCard, InventorySlot slot)
@@ -195,7 +206,7 @@ public class InventoryController : MonoBehaviour
             Debug.Log("Buying Ability Tome " + tome.myData.abilityName + " for " + tome.goldCost.ToString());
             PlayerDataManager.Instance.ModifyGold(-tome.goldCost);
             tome.DisableSlotView();
-            AddAbilityTomeToInventory(tome.myData);
+            AddAbilityTomeToInventory(tome.myData, true);
         }
         else
         {
@@ -207,18 +218,28 @@ public class InventoryController : MonoBehaviour
 
     // Add Item Logic
     #region
-    public void AddItemToInventory(ItemDataSO itemAdded)
+    public void AddItemToInventory(ItemDataSO itemAdded, bool playCardRewardOverlayEffect = false)
     {
         Debug.Log("InventoryController.AddItemToInventory() called for " + itemAdded.Name);
 
+        // Play screen overlay VFX
+        if (playCardRewardOverlayEffect)
+        {
+            CardRewardScreenManager.Instance.CreateItemCardRewardEffect(itemAdded);
+        }
+
+        // Modify player score
         ScoreManager.Instance.itemsCollected++;
         if(itemAdded.itemRarity == ItemDataSO.ItemRarity.Epic)
         {
             ScoreManager.Instance.epicItemsCollected++;
         }
 
+        // Create item
         GameObject newInventoryItem = Instantiate(PrefabHolder.Instance.InventoryItem, itemsParent.transform);
         InventoryItemCard itemCard = newInventoryItem.GetComponent<InventoryItemCard>();
+
+        // Place item in inventory
         PlaceItemOnInventorySlot(itemCard, GetNextAvailableSlot());
         ItemManager.Instance.SetUpInventoryItemCardFromData(itemCard, itemAdded, inventoryItemCardSortingOrder);
 

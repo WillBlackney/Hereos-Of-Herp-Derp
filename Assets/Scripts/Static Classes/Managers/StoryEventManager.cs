@@ -190,7 +190,7 @@ public class StoryEventManager : MonoBehaviour
         // Walk the long way around
         else if (buttonPressed == 3)
         {
-            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Exhausted"));
+            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Exhausted"), true);
             HideAllActionButtons();
             EnableContinueButton();
             
@@ -201,8 +201,8 @@ public class StoryEventManager : MonoBehaviour
         // Take the Sword
         if (buttonPressed == 1)
         {
-            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetItemByName("Blade Of The Blood God"));
-            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Curse Of The Blood God"));
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetItemByName("Blade Of The Blood God"), true);
+            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Curse Of The Blood God"), true);
             HideAllActionButtons();
             EnableContinueButton();
         }
@@ -211,7 +211,7 @@ public class StoryEventManager : MonoBehaviour
         else if (buttonPressed == 2)
         {
             PlayerDataManager.Instance.ModifyGold(15);            
-            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Shame"));
+            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Shame"), true);
             HideAllActionButtons();
             EnableContinueButton();
         }
@@ -226,7 +226,7 @@ public class StoryEventManager : MonoBehaviour
             {
                 character.ModifyMaxHealth(-character.maxHealth / 2);
             }
-            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Vampirism"));
+            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Vampirism"), true);
             HideAllActionButtons();
             EnableContinueButton();
         }
@@ -254,7 +254,7 @@ public class StoryEventManager : MonoBehaviour
             if(PlayerDataManager.Instance.currentGold >= 10)
             {
                 PlayerDataManager.Instance.ModifyGold(-10);
-                StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Heroism"));
+                StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Heroism"), true);
                 HideAllActionButtons();
                 EnableContinueButton();
             }
@@ -265,7 +265,7 @@ public class StoryEventManager : MonoBehaviour
         else if (buttonPressed == 2)
         {
             PlayerDataManager.Instance.ModifyGold(10);
-            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Wanted"));
+            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("Wanted"), true);
             HideAllActionButtons();
             EnableContinueButton();
         }

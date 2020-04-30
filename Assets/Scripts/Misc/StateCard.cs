@@ -66,7 +66,7 @@ public class StateCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public void OnStateCardClicked()
     {
         // Gain new state
-        StateManager.Instance.GainState(myStateData);
+        StateManager.Instance.GainState(myStateData, true);
 
         // Clear relevant reward screen elements
         RewardScreen.Instance.DestroyAllStateCards();

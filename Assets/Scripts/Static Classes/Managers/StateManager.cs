@@ -26,12 +26,18 @@ public class StateManager : MonoBehaviour
 
     // Misc Logic
     #region
-    public void GainState(StateDataSO stateGained)
+    public void GainState(StateDataSO stateGained, bool showStateCardOverlayEffect = false)
     {
         Debug.Log("StateManager.GainState() called, gaining state: " + stateGained.stateName);
 
         // Modify Player Score
         ScoreManager.Instance.statesCollected++;
+
+        // Create reward overlay effect
+        if (showStateCardOverlayEffect)
+        {
+            CardRewardScreenManager.Instance.CreateStateCardRewardEffect(stateGained);
+        }
 
         // Create State object out of prefab and parent it to the grid view panel
         GameObject newState = Instantiate(PrefabHolder.Instance.statePrefab, statePanel.transform);
@@ -252,9 +258,9 @@ public class StateManager : MonoBehaviour
         }
         else if (data.stateName == "Lottery Winners")
         {
-            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomEpicItem());
-            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomEpicItem());
-            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomEpicItem());
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomEpicItem(), true);
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomEpicItem(), true);
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomEpicItem(), true);
         }
 
 

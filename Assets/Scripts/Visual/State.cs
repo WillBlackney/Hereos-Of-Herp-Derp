@@ -89,17 +89,21 @@ public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         infoPanelParent.SetActive(onOrOff);
     }  
-    public Action PlayExpireVfxAndDestroy()
+    public Action PlayExpireVfxAndDestroy(bool createScreenCardOverlayEffect = false)
     {
         Debug.Log("PlayExpireVfxAndDestroy().called");
         Action action = new Action();
-        StartCoroutine(PlayExpireVfxAndDestroyCoroutine(action));
+        StartCoroutine(PlayExpireVfxAndDestroyCoroutine(action, createScreenCardOverlayEffect));
         return action;
     }
-    private IEnumerator PlayExpireVfxAndDestroyCoroutine(Action action)
+    private IEnumerator PlayExpireVfxAndDestroyCoroutine(Action action, bool createScreenCardOverlayEffect)
     {
-        Debug.Log("State '" + Name + "' expiration condition met, destroying... "); 
-        // TO DO: play some cool expiration VFX, like it burning up or fading out
+        Debug.Log("State '" + Name + "' expiration condition met, destroying... ");
+        if (createScreenCardOverlayEffect)
+        {
+            CardRewardScreenManager.Instance.CreateAfflictionCardRemovedEffect(myStateData);
+        }       
+
         yield return new WaitForSeconds(0.5f);
         StateManager.Instance.activeStates.Remove(this);
         action.actionResolved = true;

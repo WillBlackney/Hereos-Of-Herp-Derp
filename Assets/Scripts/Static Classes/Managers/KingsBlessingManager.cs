@@ -178,20 +178,20 @@ public class KingsBlessingManager : MonoBehaviour
         }
         else if (choiceName == "Gain 3 Random Common Items")
         {
-            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
-            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem(), true);
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem(), true);
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem(), true);
         }
         else if (choiceName == "Gain 3 Random Tier 1 Spell Books")
         {
-            InventoryController.Instance.AddAbilityTomeToInventory(AbilityLibrary.Instance.GetRandomValidTierOneAbilityTomeAbility());
-            InventoryController.Instance.AddAbilityTomeToInventory(AbilityLibrary.Instance.GetRandomValidTierOneAbilityTomeAbility());
-            InventoryController.Instance.AddAbilityTomeToInventory(AbilityLibrary.Instance.GetRandomValidTierOneAbilityTomeAbility());
+            InventoryController.Instance.AddAbilityTomeToInventory(AbilityLibrary.Instance.GetRandomValidTierOneAbilityTomeAbility(), true);
+            InventoryController.Instance.AddAbilityTomeToInventory(AbilityLibrary.Instance.GetRandomValidTierOneAbilityTomeAbility(), true);
+            InventoryController.Instance.AddAbilityTomeToInventory(AbilityLibrary.Instance.GetRandomValidTierOneAbilityTomeAbility(), true);
 
         }
         else if (choiceName == "Enemies In The Next Two Combats Have 50% Health")
         {
-            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("King's Decree"));
+            StateManager.Instance.GainState(StateLibrary.Instance.GetStateByName("King's Decree"), true);
         }
         else if (choiceName == "All Characters Gain 80 XP")
         {
@@ -205,21 +205,21 @@ public class KingsBlessingManager : MonoBehaviour
         }
         else if (choiceName == "Gain A Random Rare State. Gain A Random Affliction")
         {
-            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomRareState());
-            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomAffliction());
+            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomRareState(), true);
+            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomAffliction(), true);
         }
         else if (choiceName == "Gain A Random Epic Item. Gain A Random Affliction")
         {
-            // TO DO: GAIN EPIC ITEM
-            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomAffliction());
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomEpicItem(), true);
+            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomAffliction(), true);
         }
         else if (choiceName == "Gain 3 Random Rare Items. Gain A Random Affliction")
         {
-            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
-            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
-            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem());
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem(), true);
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem(), true);
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem(), true);
 
-            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomAffliction());
+            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomAffliction(), true);
         }
 
         else if (choiceName == "All Characters Gain 20 Max Health")
@@ -232,11 +232,11 @@ public class KingsBlessingManager : MonoBehaviour
         }
         else if (choiceName == "Gain A Random Rare Weapon")
         {
-            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareWeaponItem());
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareWeaponItem(), true);
         }
         else if (choiceName == "Gain A Random Common State")
         {
-            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomCommonState());
+            StateManager.Instance.GainState(StateLibrary.Instance.GetRandomCommonState(), true);
         }
 
     }
@@ -258,7 +258,7 @@ public class KingsBlessingManager : MonoBehaviour
         allChoiceData.Add(new BlessingChoice("Gain 3 Random Consumables"));
         allChoiceData.Add(new BlessingChoice("Gain A Random Rare State. Gain A Random Affliction"));
         allChoiceData.Add(new BlessingChoice("Gain 3 Random Rare Items. Gain A Random Affliction"));
-
+        allChoiceData.Add(new BlessingChoice("Gain A Random Epic Item. Gain A Random Affliction")); 
         allChoiceData.Add(new BlessingChoice("Gain A Random Rare Weapon"));
         allChoiceData.Add(new BlessingChoice("All Characters Gain 20 Max Health"));
         allChoiceData.Add(new BlessingChoice("Gain A Random Common State"));

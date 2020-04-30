@@ -201,8 +201,6 @@ public class CampSiteManager : MonoBehaviour
             StateManager.Instance.ClearAfflicationsPanel();
             StateManager.Instance.SetAfflicationPanelViewState(true);
             StateManager.Instance.PopulateAfflicationsPanel();
-            // TO DO: Enable afflications panel view here
-
         }
 
     }
@@ -213,7 +211,7 @@ public class CampSiteManager : MonoBehaviour
         ClearAllOrders();
         if (HasEnoughCampSitePoints(digPointCost))
         {
-            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem());
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem(), true);
         }
     }
     public void OnContinueButtonClicked()
@@ -428,7 +426,7 @@ public class CampSiteManager : MonoBehaviour
     {
         Debug.Log("CampSiteManager.PerformBathe() called...");
 
-        chosenState.myState.PlayExpireVfxAndDestroy();
+        chosenState.myState.PlayExpireVfxAndDestroy(true);
         StateManager.Instance.SetAfflicationPanelViewState(false);
         StateManager.Instance.ClearAfflicationsPanel();
 
