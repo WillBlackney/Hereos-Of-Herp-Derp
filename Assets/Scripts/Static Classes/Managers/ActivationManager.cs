@@ -55,7 +55,7 @@ public class ActivationManager : MonoBehaviour
     }
     public IEnumerator OnNewCombatEventStartedCoroutine(Action action)
     {
-        TurnManager.Instance.currentTurnCount = 0;
+        TurnChangeNotifier.Instance.currentTurnCount = 0;
         SetActivationWindowViewState(true);
         StartNewTurnSequence();
         action.actionResolved = true;
@@ -76,7 +76,7 @@ public class ActivationManager : MonoBehaviour
     }
     private IEnumerator StartNewTurnSequenceCoroutine(Action action)
     {
-        TurnManager.Instance.currentTurnCount++;
+        TurnChangeNotifier.Instance.currentTurnCount++;
 
         // Resolve each entity's OnNewTurnCycleStarted events
         foreach(LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
@@ -88,7 +88,7 @@ public class ActivationManager : MonoBehaviour
         Action rolls = CalculateActivationOrder();
         yield return new WaitUntil(() => rolls.ActionResolved() == true);
 
-        Action turnNotification = TurnManager.Instance.DisplayTurnChangeNotification();
+        Action turnNotification = TurnChangeNotifier.Instance.DisplayTurnChangeNotification();
         yield return new WaitUntil(() => turnNotification.ActionResolved());        
 
         ActivateEntity(activationOrder[0]);

@@ -1322,16 +1322,20 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyCamoflage(int stacks)
     {
+        ModifyCamoflageCoroutine(stacks);
+    }
+    private IEnumerator ModifyCamoflageCoroutine(int stacks)
+    {
         Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyCamoflage() called, stacks = " + stacks.ToString());
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Camoflage");
 
         // Dont apply camoflage to characters with stealth
         if (stealth)
         {
-            return;
+            yield return null;
         }
 
-        if (stacks > 0)
+        else if (stacks > 0)
         {
             camoflageStacks += stacks;
             if (camoflageStacks > 0)
@@ -1339,9 +1343,9 @@ public class PassiveManager : MonoBehaviour
                 camoflage = true;
                 VisualEffectManager.Instance.
                 CreateStatusEffect(myLivingEntity.transform.position, "Camoflage");
-                //StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(myLivingEntity.transform.position));
+                yield return new WaitForSeconds(0.5f);
                 VisualEffectManager.Instance.CreateCamoflageBuffEffect(myLivingEntity.transform.position);
-            }          
+            }
         }
 
         else if (stacks < 0)

@@ -530,7 +530,7 @@ public class LivingEntityManager : MonoBehaviour
             if (entity.defender &&
                 StateManager.Instance.DoesPlayerAlreadyHaveState("Thieves Guild Membership") &&
                 entity.myPassiveManager.camoflage == false &&
-                TurnManager.Instance.currentTurnCount == 1)
+                TurnChangeNotifier.Instance.currentTurnCount == 1)
             {
                 Debug.Log("OnActivationEndCoroutine() checking Rapid Cloaking...");
                 entity.myPassiveManager.ModifyCamoflage(1);
