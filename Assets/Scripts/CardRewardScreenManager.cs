@@ -45,30 +45,7 @@ public class CardRewardScreenManager : MonoBehaviour
     public CardRewardScreenSlot centreSlot;
     public CardRewardScreenSlot leftSlot;
     public CardRewardScreenSlot rightSlot;
-
-    [Header("Testing References")]
-    public StateDataSO testStateData;
-    public AbilityDataSO testAbilityData;
     #endregion
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            CreateItemCardRewardEffect(ItemLibrary.Instance.GetRandomCommonItem());
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            CreateStateCardRewardEffect(testStateData);
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            CreateAfflictionCardRemovedEffect(testStateData);
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            CreateAbilityCardRewardEffect(testAbilityData);
-        }
-    }
 
     // Initialization + Setup
     #region
@@ -503,6 +480,7 @@ public class CardRewardScreenManager : MonoBehaviour
         action.actionResolved = true;
     }
     #endregion
+
     // Movement Logic
     #region
     public Action MoveCardToDestination(RectTransform cardParent, Vector3 destination)

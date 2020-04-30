@@ -171,11 +171,7 @@ public class KingsBlessingManager : MonoBehaviour
         if (choiceName == "Gain 10 Gold")
         {
             PlayerDataManager.Instance.ModifyGold(10);
-        }
-        else if (choiceName == "Choose A Rare Item")
-        {
-
-        }
+        }        
         else if (choiceName == "Gain 3 Random Common Items")
         {
             InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem(), true);

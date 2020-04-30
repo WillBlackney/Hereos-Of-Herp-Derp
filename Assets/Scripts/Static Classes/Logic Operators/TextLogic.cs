@@ -1088,7 +1088,7 @@ public static class TextLogic
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage and apply " +
-                ReturnColoredText("Silenced", fire) +
+                ReturnColoredText("Silenced", yellow) +
                 " to all characters in a 3x3 area. ";
         }
         else if (ability.abilityName == "Thunder Storm")
@@ -1357,7 +1357,13 @@ public static class TextLogic
             ability.abilityInfoSheet.descriptionText.text =
                  "Increase all damage dealt by a target by " + ReturnColoredText("50%", yellow) +
                 " until the end of their next activation";
-        }      
+        }
+        else if (ability.abilityName == "Pure Hate")
+        {
+            ability.abilityInfoSheet.descriptionText.text =
+                 "Increase all " + ReturnColoredText("Shadow", shadow) + " damage dealt by this character by " + ReturnColoredText("50%", yellow) +
+                " until the end of their next activation";
+        }
 
         else if (ability.abilityName == "Mark Target")
         {
@@ -1965,7 +1971,7 @@ public static class TextLogic
                 "Deal " + ReturnColoredText(damageValue.ToString(), yellow) + " " +
                 ReturnColoredText(damageType, GetColorCodeFromString(damageType)) +
                 " damage and apply " +
-                ReturnColoredText("Silenced", fire) +
+                ReturnColoredText("Silenced", yellow) +
                 " to all characters in a 3x3 area. ";
         }
         else if (ability.abilityName == "Thunder Storm")
@@ -2233,6 +2239,13 @@ public static class TextLogic
         {
             descriptionText.text =
                 "Increase all damage dealt by a target by " + ReturnColoredText("50%", yellow) +
+                " until the end of their next activation";
+        }
+
+        else if (ability.abilityName == "Pure Hate")
+        {
+            descriptionText.text =
+                 "Increase all " + ReturnColoredText("Shadow", shadow) + " damage dealt by this character by " + ReturnColoredText("50%", yellow) +
                 " until the end of their next activation";
         }
         else if (ability.abilityName == "Mark Target")
@@ -2725,6 +2738,11 @@ public static class TextLogic
         if(choiceName == "Gain 10 Gold")
         {
             stringReturned = ReturnColoredText("Gain 10 Gold", yellow);
+        }
+        else if(choiceName == "Gain A Random Epic Item. Gain A Random Affliction")
+        {
+            stringReturned = ReturnColoredText("Gain A Random Epic Item. ", yellow)
+                + ReturnColoredText("Gain A Random Affliction.", fire);
         }
         else if (choiceName == "Gain 3 Random Common Items")
         {
