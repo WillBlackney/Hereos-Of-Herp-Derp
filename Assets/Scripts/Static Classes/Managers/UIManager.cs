@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     public GameObject GameOverScreenParent;
     public GameObject GameOverScreenCanvasParent;
     public TextMeshProUGUI GameOverScreenTitleText;
+    public GameObject charRosterParticleParent;
 
     [Header("End Turn Button Component References")]
     public Button EndTurnButton;
@@ -64,6 +65,7 @@ public class UIManager : MonoBehaviour
     {
         // refresh char roster button highlight
         EventSystem.current.SetSelectedGameObject(null);
+        SetCharacterRosterButtonParticleViewState(false);
 
         if (CharacterRoster.Instance.visualParent.activeSelf == true)
         {
@@ -393,6 +395,10 @@ public class UIManager : MonoBehaviour
         CharacterRoster.Instance.visualParent.SetActive(false);
        
         
+    }
+    public void SetCharacterRosterButtonParticleViewState(bool onOrOff)
+    {
+        charRosterParticleParent.SetActive(onOrOff);
     }
     public void DisableEndTurnButtonInteractions()
     {

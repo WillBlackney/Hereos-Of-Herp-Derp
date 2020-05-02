@@ -140,6 +140,7 @@ public class TalentController : MonoBehaviour
         if (IsTalentPurchaseable(character, talent))
         {
             PurchaseTalent(character, talent);
+            CardRewardScreenManager.Instance.CreateTalentUnlockedExplosion(talent);
         }
     }
     #endregion
@@ -169,7 +170,7 @@ public class TalentController : MonoBehaviour
             ApplyTalentAbilityToCharacter(character, talent);
         }
 
-        RefreshAllTalentButtonViewStates(character);
+        RefreshAllTalentButtonViewStates(character, true, talent.talentPool);
         
     }
     public void ApplyTalentPassiveEffectToCharacter(CharacterData character, Talent talent)
@@ -356,8 +357,13 @@ public class TalentController : MonoBehaviour
     {
         Debug.Log("TalentController.ApplyTalentAbilityToCharacter() called...");
 
-        // Get ability data
-        AbilityDataSO data = AbilityLibrary.Instance.GetAbilityByName(talent.talentName);
+        AbilityDataSO data = talent.myAbilityData;
+
+        if(data == null)
+        {
+            Debug.Log("ApplyTalentAbilityToCharacter.ApplyTalentAbilityToCharacter() revieved null talent argument, searching for clone in Ability Library instead.");
+            data = AbilityLibrary.Instance.GetAbilityByName(talent.talentName);
+        }
 
         // Modify character data
         character.HandleLearnAbility(data);
@@ -430,26 +436,59 @@ public class TalentController : MonoBehaviour
 
     // View Logic
     #region
-    public void RefreshAllTalentButtonViewStates(CharacterData character)
+    public void RefreshAllTalentButtonViewStates(CharacterData character, bool refreshSpecificPageOnly = false, Talent.TalentPool specificPage = Talent.TalentPool.Guardian)
     {
-        foreach(Talent talent in character.allTalentButtons)
+        // only refresh a single talent page (helps with performance)
+        if (refreshSpecificPageOnly)
         {
-            if(!IsTalentPurchaseable(character, talent) && talent.purchased == false)
+            foreach (Talent talent in character.allTalentButtons)
             {
-                talent.purchasedOverlay.SetActive(false);
-                talent.blackTintOverlay.SetActive(true);
-            }
-            else if (talent.purchased)
-            {
-                talent.blackTintOverlay.SetActive(false);
-                talent.purchasedOverlay.SetActive(true);
-            }
-            else
-            {
-                talent.blackTintOverlay.SetActive(false);
-                talent.purchasedOverlay.SetActive(false);
+                if(talent.talentPool == specificPage)
+                {
+                    if (!IsTalentPurchaseable(character, talent) && talent.purchased == false)
+                    {
+                        talent.purchasedOverlay.SetActive(false);
+                        talent.blackTintOverlay.SetActive(true);
+                    }
+                    else if (talent.purchased)
+                    {
+                        talent.blackTintOverlay.SetActive(false);
+                        talent.purchasedOverlay.SetActive(true);
+                    }
+                    else
+                    {
+                        talent.blackTintOverlay.SetActive(false);
+                        talent.purchasedOverlay.SetActive(false);
+                    }
+                }
             }
         }
+
+        // refresh all talent buttons
+        else
+        {
+            foreach (Talent talent in character.allTalentButtons)
+            {
+
+                if (!IsTalentPurchaseable(character, talent) && talent.purchased == false)
+                {
+                    talent.purchasedOverlay.SetActive(false);
+                    talent.blackTintOverlay.SetActive(true);
+                }
+                else if (talent.purchased)
+                {
+                    talent.blackTintOverlay.SetActive(false);
+                    talent.purchasedOverlay.SetActive(true);
+                }
+                else
+                {
+                    talent.blackTintOverlay.SetActive(false);
+                    talent.purchasedOverlay.SetActive(false);
+                }
+            }
+
+        }
+      
     }
     #endregion
 }

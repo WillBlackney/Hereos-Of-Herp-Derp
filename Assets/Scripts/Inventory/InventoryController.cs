@@ -159,6 +159,9 @@ public class InventoryController : MonoBehaviour
         GameObject newAbilityTomeGO = Instantiate(PrefabHolder.Instance.AbilityTomeInventoryCard, itemsParent.transform);
         AbilityTomeInventoryCard abilityTome = newAbilityTomeGO.GetComponent<AbilityTomeInventoryCard>();
 
+        // Enable char roster sparkle
+        UIManager.Instance.SetCharacterRosterButtonParticleViewState(true);
+
         // play screen overlay VFX
         if (showOverlayCardEffect)
         {
@@ -221,6 +224,9 @@ public class InventoryController : MonoBehaviour
     public void AddItemToInventory(ItemDataSO itemAdded, bool playCardRewardOverlayEffect = false)
     {
         Debug.Log("InventoryController.AddItemToInventory() called for " + itemAdded.Name);
+
+        // Enable char roster sparkle
+        UIManager.Instance.SetCharacterRosterButtonParticleViewState(true);
 
         // Play screen overlay VFX
         if (playCardRewardOverlayEffect)

@@ -13,8 +13,16 @@ public class AbilityLibrary : MonoBehaviour
     public static AbilityLibrary Instance;
     private void Awake()
     {
-        Instance = this;
-        DontDestroyOnLoad(this);
+        if (!Instance)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
     }
     #endregion
 

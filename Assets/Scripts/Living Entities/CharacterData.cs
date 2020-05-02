@@ -17,6 +17,7 @@ public class CharacterData : MonoBehaviour
     public TextMeshProUGUI myNameText;
     public UniversalCharacterModel myCharacterModel;
     public List<Talent> allTalentButtons;
+    public List<GameObject> talentPlusButtons;
 
     [Header("Ability References")]
     public List<AbilitySlot> allKnownAbilitySlots;
@@ -1345,6 +1346,20 @@ public class CharacterData : MonoBehaviour
 
     // Talent Tree Button 'OnButtonClick' methods
     #region
+    public void EnableAllTalentPlusButtons()
+    {
+        foreach(GameObject button in talentPlusButtons)
+        {
+            button.SetActive(true);
+        }
+    }
+    public void DisableAllTalentPlusButtons()
+    {
+        foreach (GameObject button in talentPlusButtons)
+        {
+            button.SetActive(false);
+        }
+    }
     public void CloseAllTalentTreePages()
     {
         guardianTreeParent.SetActive(false);
@@ -1366,6 +1381,7 @@ public class CharacterData : MonoBehaviour
         CloseAllTalentTreePages();
         guardianTreeParent.SetActive(true);
         currentTreeNameText.text = "Guardian";
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Guardian);
     }
     public void OnDuelistButtonClicked()
     {
@@ -1373,6 +1389,7 @@ public class CharacterData : MonoBehaviour
         CloseAllTalentTreePages();
         duelistTreeParent.SetActive(true);
         currentTreeNameText.text = "Duelist";
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Duelist);
     }
     public void OnBrawlerButtonClicked()
     {
@@ -1380,6 +1397,7 @@ public class CharacterData : MonoBehaviour
         CloseAllTalentTreePages();
         brawlerTreeParent.SetActive(true);
         currentTreeNameText.text = "Brawler";
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Brawler);
     }
     public void OnAssassinationButtonClicked()
     {
@@ -1387,6 +1405,7 @@ public class CharacterData : MonoBehaviour
         CloseAllTalentTreePages();
         assassinationTreeParent.SetActive(true);
         currentTreeNameText.text = "Assassination";
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Assassination);
     }
     public void OnPyromaniaButtonClicked()
     {
@@ -1394,6 +1413,7 @@ public class CharacterData : MonoBehaviour
         CloseAllTalentTreePages();
         pyromaniaTreeParent.SetActive(true);
         currentTreeNameText.text = "Pyromania";
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Pyromania);
     }
     public void OnCyromancyButtonClicked()
     {
@@ -1401,6 +1421,7 @@ public class CharacterData : MonoBehaviour
         CloseAllTalentTreePages();
         cyromancyTreeParent.SetActive(true);
         currentTreeNameText.text = "Cyromancy";
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Cyromancy);
     }
     public void OnRangerButtonClicked()
     {
@@ -1408,6 +1429,7 @@ public class CharacterData : MonoBehaviour
         CloseAllTalentTreePages();
         rangerTreeParent.SetActive(true);
         currentTreeNameText.text = "Ranger";
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Ranger);
     }
     public void OnManipulationButtonClicked()
     {
@@ -1415,6 +1437,7 @@ public class CharacterData : MonoBehaviour
         CloseAllTalentTreePages();
         manipulationTreeParent.SetActive(true);
         currentTreeNameText.text = "Manipulation";
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Manipulation);
     }
     public void OnDivinityButtonClicked()
     {
@@ -1422,6 +1445,7 @@ public class CharacterData : MonoBehaviour
         CloseAllTalentTreePages();
         divinityTreeParent.SetActive(true);
         currentTreeNameText.text = "Divinity";
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Divinity);
     }
     public void OnShadowcraftButtonClicked()
     {
@@ -1429,6 +1453,7 @@ public class CharacterData : MonoBehaviour
         CloseAllTalentTreePages();
         shadowcraftTreeParent.SetActive(true);
         currentTreeNameText.text = "Shadowcraft";
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Shadowcraft);
     }
     public void OnCorruptionButtonClicked()
     {
@@ -1436,6 +1461,7 @@ public class CharacterData : MonoBehaviour
         CloseAllTalentTreePages();
         corruptionTreeParent.SetActive(true);
         currentTreeNameText.text = "Corruption";
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Corruption);
     }
     public void OnNaturalismButtonClicked()
     {
@@ -1443,6 +1469,7 @@ public class CharacterData : MonoBehaviour
         CloseAllTalentTreePages();
         naturalismTreeParent.SetActive(true);
         currentTreeNameText.text = "Naturalism";
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Naturalism);
     }
 
     #endregion
@@ -1573,7 +1600,7 @@ public class CharacterData : MonoBehaviour
             EnableTopBarTalentButton(guardianTopBarButton);
         }
 
-        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Guardian);
     }
     public void ModifyDuelistPoints(int pointsGainedOrLost)
     {
@@ -1585,7 +1612,7 @@ public class CharacterData : MonoBehaviour
         {
             EnableTopBarTalentButton(duelistTopBarButton);
         }
-        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Duelist);
     }
     public void ModifyBrawlerPoints(int pointsGainedOrLost)
     {
@@ -1598,7 +1625,7 @@ public class CharacterData : MonoBehaviour
             EnableTopBarTalentButton(brawlerTopBarButton);
         }
 
-        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Brawler);
     }
     public void ModifyAssassinationPoints(int pointsGainedOrLost)
     {
@@ -1611,7 +1638,7 @@ public class CharacterData : MonoBehaviour
             EnableTopBarTalentButton(assassinationTopBarButton);
         }
 
-        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Assassination);
     }
     public void ModifyPyromaniaPoints(int pointsGainedOrLost)
     {
@@ -1624,7 +1651,7 @@ public class CharacterData : MonoBehaviour
             EnableTopBarTalentButton(pyromaniaTopBarButton);
         }
 
-        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Pyromania);
     }
     public void ModifyCyromancyPoints(int pointsGainedOrLost)
     {
@@ -1637,7 +1664,7 @@ public class CharacterData : MonoBehaviour
             EnableTopBarTalentButton(cyromancyTopBarButton);
         }
 
-        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Cyromancy);
     }
     public void ModifyRangerPoints(int pointsGainedOrLost)
     {
@@ -1650,7 +1677,7 @@ public class CharacterData : MonoBehaviour
             EnableTopBarTalentButton(rangerTopBarButton);
         }
 
-        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Ranger);
     }
     public void ModifyManipulationPoints(int pointsGainedOrLost)
     {
@@ -1663,7 +1690,7 @@ public class CharacterData : MonoBehaviour
             EnableTopBarTalentButton(manipulationTopBarButton);
         }
 
-        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Manipulation);
     }
     public void ModifyDivinityPoints(int pointsGainedOrLost)
     {
@@ -1676,7 +1703,7 @@ public class CharacterData : MonoBehaviour
             EnableTopBarTalentButton(divinityTopBarButton);
         }
 
-        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Divinity);
     }
     public void ModifyShadowcraftPoints(int pointsGainedOrLost)
     {
@@ -1689,7 +1716,7 @@ public class CharacterData : MonoBehaviour
             EnableTopBarTalentButton(shadowcraftTopBarButton);
         }
 
-        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Shadowcraft);
     }
     public void ModifyCorruptionPoints(int pointsGainedOrLost)
     {
@@ -1702,7 +1729,7 @@ public class CharacterData : MonoBehaviour
             EnableTopBarTalentButton(corruptionTopBarButton);
         }
 
-        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Corruption);
     }
     public void ModifyNaturalismPoints(int pointsGainedOrLost)
     {
@@ -1715,7 +1742,7 @@ public class CharacterData : MonoBehaviour
             EnableTopBarTalentButton(naturalismTopBarButton);
         }
 
-        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
+        TalentController.Instance.RefreshAllTalentButtonViewStates(this, true, Talent.TalentPool.Naturalism);
     }
     #endregion
 
@@ -2337,12 +2364,21 @@ public class CharacterData : MonoBehaviour
     {
         talentPoints += talentPointsGainedOrLost;
         talentPointsText.text = talentPoints.ToString();
+
+        if(talentPoints > 0)
+        {
+            EnableAllTalentPlusButtons();
+        }
+        else
+        {
+            DisableAllTalentPlusButtons();
+        }
     }
     public void ModifyAbilityPoints(int abilityPointsGainedOrLost)
     {
         abilityPoints += abilityPointsGainedOrLost;
         abilityPointsText.text = abilityPoints.ToString();
-        TalentController.Instance.RefreshAllTalentButtonViewStates(this);
+        //TalentController.Instance.RefreshAllTalentButtonViewStates(this);
     }
     #endregion
 

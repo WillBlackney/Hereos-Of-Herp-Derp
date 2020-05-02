@@ -33,6 +33,7 @@ public class CardRewardScreenManager : MonoBehaviour
     public GameObject stateCardEffectPrefab;
     public GameObject abilityCardEffectPrefab;
     public GameObject lootExplosionEffectPrefab;
+    public GameObject talentUnlockedExplosionEffectPrefab;
 
     [Header("Properties")]
     public int itemCardSortingOrder;
@@ -326,6 +327,14 @@ public class CardRewardScreenManager : MonoBehaviour
 
         // Resolve
         action.actionResolved = true;
+    }
+
+    public void CreateTalentUnlockedExplosion(Talent talent)
+    {
+        GameObject talentExplosionGO = Instantiate(talentUnlockedExplosionEffectPrefab, talent.talentImage.gameObject.transform);
+        Destroy(talentExplosionGO, 3);
+        //Vector3 talentCentrePos = talent.myGlowOutline.transform.position;
+       // Vector3 screenPos = 
     }
     #endregion
 

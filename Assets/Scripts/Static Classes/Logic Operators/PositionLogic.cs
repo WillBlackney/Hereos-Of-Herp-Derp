@@ -75,21 +75,21 @@ public class PositionLogic : MonoBehaviour
         if (LevelManager.Instance.IsDestinationTileToTheLeft(character.tile, tileToFace) == false &&
             LevelManager.Instance.IsDestinationTileToTheRight(character.tile, tileToFace) == false)
         {
-            Debug.Log("CalculateWhichDirectionToFace() detected character is already aligned with target, not flipping...");
+            //Debug.Log("CalculateWhichDirectionToFace() detected character is already aligned with target, not flipping...");
             return;
         }
         
         // if the target is to the right, flip and face right
         else if (LevelManager.Instance.IsDestinationTileToTheRight(character.tile, tileToFace))
         {
-            Debug.Log("CalculateWhichDirectionToFace() facing character towards the right...");
+           // Debug.Log("CalculateWhichDirectionToFace() facing character towards the right...");
             SetDirection(character,"Right");            
         }
 
         // if the target is to the left, flip and face left
         else if (LevelManager.Instance.IsDestinationTileToTheRight(character.tile, tileToFace) == false)
         {
-            Debug.Log("CalculateWhichDirectionToFace() facing character towards the left...");
+           // Debug.Log("CalculateWhichDirectionToFace() facing character towards the left...");
             SetDirection(character,"Left");            
         }
 

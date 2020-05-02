@@ -704,7 +704,7 @@ public class LivingEntity : MonoBehaviour
         }
 
         // Cautious
-        if (myPassiveManager.growing)
+        if (myPassiveManager.cautious)
         {
             Debug.Log("OnActivationEndCoroutine() checking Cautious...");
             VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Cautious");

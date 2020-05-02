@@ -1172,6 +1172,8 @@ public class Defender : LivingEntity
         else if (abilityName == "Testudo")
         {
             OnTestudoButtonClicked();
+            enableTileHover = false;
+            awaitingAnOrder = false;
         }
         else if (abilityName == "Blaze")
         {

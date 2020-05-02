@@ -915,6 +915,7 @@ public class PassiveManager : MonoBehaviour
                 {
                     burning = true;
                     VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Burning + " + stacks.ToString());
+                    VisualEffectManager.Instance.CreateApplyBurningEffect(myLivingEntity.transform.position);
                     myLivingEntity.myStatusManager.StartAddStatusProcess(StatusIconLibrary.Instance.GetStatusIconByName("Burning"), stacks);
                 }
             }
@@ -1322,7 +1323,7 @@ public class PassiveManager : MonoBehaviour
     }
     public void ModifyCamoflage(int stacks)
     {
-        ModifyCamoflageCoroutine(stacks);
+        StartCoroutine(ModifyCamoflageCoroutine(stacks));
     }
     private IEnumerator ModifyCamoflageCoroutine(int stacks)
     {
@@ -1332,7 +1333,7 @@ public class PassiveManager : MonoBehaviour
         // Dont apply camoflage to characters with stealth
         if (stealth)
         {
-            yield return null;
+            yield break;
         }
 
         else if (stacks > 0)
