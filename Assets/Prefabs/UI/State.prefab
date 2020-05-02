@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 671245008}
   - component: {fileID: 671245010}
+  - component: {fileID: 8324639802974927671}
   m_Layer: 5
   m_Name: Info Panel Parent
   m_TagString: Untagged
@@ -54,6 +55,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 671245007}
   m_CullTransparentMesh: 0
+--- !u!225 &8324639802974927671
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671245007}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &986286825
 GameObject:
   m_ObjectHideFlags: 0
@@ -3479,6 +3492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myImageComponent: {fileID: 6328745391693269865}
   infoPanelParent: {fileID: 671245007}
+  infoPanelCg: {fileID: 8324639802974927671}
   durationText: {fileID: 6328745393050474789}
   nameText: {fileID: 986286827}
   descriptionText: {fileID: 2060331393}
@@ -3495,6 +3509,8 @@ MonoBehaviour:
   affliction: 0
   duration: 0
   currentDuration: 0
+  fadeSpeed: 10
+  fadingIn: 0
 --- !u!1 &6328745393050474791
 GameObject:
   m_ObjectHideFlags: 0

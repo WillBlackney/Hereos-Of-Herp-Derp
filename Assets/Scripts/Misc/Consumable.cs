@@ -13,12 +13,15 @@ public class Consumable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Image frameImage;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI desccriptionText;
+    public CanvasGroup infoPanelCg;
 
     [Header("Properties")]
     public ConsumableDataSO myData;
     public ConsumableTopPanelSlot mySlot;
     public Color normalColor;
     public Color highlightColor;
+    public bool fadingIn;
+    public float fadeSpeed;
 
     // Set up + Initialization
     #region
@@ -55,10 +58,24 @@ public class Consumable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void EnableInfoPanelView()
     {
         infoPanelParent.SetActive(true);
+        StartCoroutine(FadeInInfoPanel());
     }
     public void DisableInfoPanelView()
     {
+        fadingIn = false;
+        infoPanelCg.alpha = 0;
         infoPanelParent.SetActive(false);
+    }
+    public IEnumerator FadeInInfoPanel()
+    {
+        fadingIn = true;
+        infoPanelCg.alpha = 0;
+
+        while (fadingIn && infoPanelCg.alpha < 1)
+        {
+            infoPanelCg.alpha += 0.1f * fadeSpeed * Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     #endregion

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AbilityBar : MonoBehaviour
 {
+    [Header("Component References")]
+    public GameObject abilityButtonFitterParent;
+
     [Header("Properties")]
     public Defender myDefender;   
 
@@ -21,8 +24,33 @@ public class AbilityBar : MonoBehaviour
  
     public void PlaceButtonOnNextAvailableSlot(string abilityName)
     {
+        // Create new ability button game object
+        GameObject newAbilityGO = Instantiate(PrefabHolder.Instance.AbilityButtonPrefab, myDefender.myAbilityBar.abilityButtonFitterParent.transform);
+        Ability newAbility = newAbilityGO.GetComponent<Ability>();
+
+        // Set up ability properties
+        newAbility.myLivingEntity = myDefender;
+        newAbility.SetupBaseProperties(AbilityLibrary.Instance.GetAbilityByName(abilityName));
+        myDefender.mySpellBook.myActiveAbilities.Add(newAbility);
+        myDefender.mySpellBook.PlaceAbilityOnNextAvailableSlot(newAbility);
+
+        // 10th ability is triggered bt num key 0
+        string abBarPos = myDefender.mySpellBook.myActiveAbilities.Count.ToString();
+        if (abBarPos == "10")
+        {
+            abBarPos = "9";
+        }
+        // Set number on bar text
+        newAbility.abilityNumberText.text = abBarPos;
+
+        
+        
+
+        /*
         if (myDefender.mySpellBook.AbilityOne == null)
         {
+
+
             GameObject newAbilityGO = Instantiate(PrefabHolder.Instance.AbilityButtonPrefab, AbilityOneParent.transform);
             myDefender.mySpellBook.AbilityOne = newAbilityGO.GetComponent<Ability>();
             myDefender.mySpellBook.AbilityOne.myLivingEntity = myDefender;
@@ -128,6 +156,7 @@ public class AbilityBar : MonoBehaviour
 
             myDefender.mySpellBook.myActiveAbilities.Add(myDefender.mySpellBook.AbilityTen);
         }
+        */
 
     }
 

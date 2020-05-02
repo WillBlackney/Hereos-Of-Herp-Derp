@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PathRenderer : MonoBehaviour
 {
+    // Properties + Component References
+    #region
     [Header("Component References")]
     public LineRenderer lineRenderer;
     public GameObject lineRendererParent;
@@ -12,13 +14,27 @@ public class PathRenderer : MonoBehaviour
     [Header("Properties")]
     public List<Tile> currentPath;
     public bool active;
+    #endregion
 
+    // Singleton Pattern
+    #region
     public static PathRenderer Instance;
     private void Awake()
     {
-        Instance = this;
-    }   
+        if (!Instance)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
+    }
+    #endregion
+
+    // Set Path
+    #region
     public void DrawPath()
     {
         Tile endPoint = LevelManager.Instance.mousedOverTile;
@@ -92,7 +108,15 @@ public class PathRenderer : MonoBehaviour
         }
         
     }
+    public void ClearCurrentPath()
+    {
+        currentPath.Clear();
+        lineRenderer.positionCount = 0;
+    }
+    #endregion
 
+    // View Logic
+    #region
     public void ActivatePathRenderer()
     {
         SetLineRendererViewState(true);
@@ -105,23 +129,18 @@ public class PathRenderer : MonoBehaviour
         DisableAllFreeStrikeIndicators();
         ClearCurrentPath();
     }
-
-    public void ClearCurrentPath()
-    {
-        currentPath.Clear();
-        lineRenderer.positionCount = 0;
-    }
-
     public void SetLineRendererViewState(bool onOrOff)
     {
         lineRendererParent.SetActive(onOrOff);
     }
+    #endregion
 
+    // Misc Logic
+    #region
     public void SetReadyState(bool onOrOff)
     {
         active = onOrOff;
     }
-
     public void DisableAllFreeStrikeIndicators()
     {
         foreach(Enemy enemy in EnemyManager.Instance.allEnemies)
@@ -129,4 +148,5 @@ public class PathRenderer : MonoBehaviour
             enemy.SetFreeStrikeIndicatorViewState(false);
         }
     }
+    #endregion
 }

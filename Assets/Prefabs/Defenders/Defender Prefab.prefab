@@ -53,7 +53,6 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -113,7 +112,6 @@ MonoBehaviour:
   myCurrentHealthText: {fileID: 7067000552374284369}
   myCurrentMaxHealthText: {fileID: 7793037636539068588}
   myAnimator: {fileID: 1761801173438563823}
-  mySpriteRenderer: {fileID: 0}
   myStatusManager: {fileID: 7295713433496637161}
   mySpellBook: {fileID: 0}
   myPassiveManager: {fileID: 0}
@@ -196,16 +194,20 @@ MonoBehaviour:
   myHealthBarStatPanel: {fileID: 4224426300586718670}
   myAbilityBar: {fileID: 5640642640988225606}
   myUIParent: {fileID: 3341751109597630267}
+  myUIParentCg: {fileID: 2196768046523180851}
   myCharacterData: {fileID: 0}
   myCurrentEnergyText: {fileID: 0}
   myCurrentMaxEnergyText: {fileID: 0}
-  myCurrentStrengthStatText: {fileID: 9006979682508581850}
-  myCurrentMobilityStatText: {fileID: 8770290685694483042}
+  myCurrentStrengthStatText: {fileID: 0}
+  myCurrentMobilityStatText: {fileID: 0}
   myCurrentStaminaStatText: {fileID: 0}
   myCurrentHealthTextStatBar: {fileID: 4076602211060364519}
   myCurrentMaxHealthTextStatBar: {fileID: 3937951348266906650}
   myCurrentEnergyBarText: {fileID: 8245365794298048259}
   myCurrentMaxEnergyBarText: {fileID: 8959917500273897470}
+  uiFadeSpeed: 20
+  fadingIn: 0
+  fadingOut: 0
   awaitingAnOrder: 0
   awaitingMoveOrder: 0
   awaitingStrikeOrder: 0
@@ -920,6 +922,31 @@ PrefabInstance:
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1990009332587029320, guid: 70d8818b8d4b4064d96376ea5c3163af,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 1990009332587029320, guid: 70d8818b8d4b4064d96376ea5c3163af,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -151.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1990009332587029321, guid: 70d8818b8d4b4064d96376ea5c3163af,
+        type: 3}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1990009333162773831, guid: 70d8818b8d4b4064d96376ea5c3163af,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1990009333162773831, guid: 70d8818b8d4b4064d96376ea5c3163af,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2118924855749383620, guid: 70d8818b8d4b4064d96376ea5c3163af,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -1240,6 +1267,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 7765242849890635107}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &2196768046523180851 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 8484733168672238160, guid: 70d8818b8d4b4064d96376ea5c3163af,
+    type: 3}
+  m_PrefabInstance: {fileID: 7765242849890635107}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4224426300586718670 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5864674542216444077, guid: 70d8818b8d4b4064d96376ea5c3163af,
@@ -1322,30 +1355,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e94c68d40de70e34e853f63b23c341b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8770290685694483042 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1330246151833851649, guid: 70d8818b8d4b4064d96376ea5c3163af,
-    type: 3}
-  m_PrefabInstance: {fileID: 7765242849890635107}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &9006979682508581850 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1674379694625662649, guid: 70d8818b8d4b4064d96376ea5c3163af,
-    type: 3}
-  m_PrefabInstance: {fileID: 7765242849890635107}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &8849101755315084477

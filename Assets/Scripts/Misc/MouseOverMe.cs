@@ -7,20 +7,52 @@ public class MouseOverMe : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 {
     // Attatch this script to a game object that needs mouse over/exit/click events to disable/enable UI components
 
-    public List<GameObject> myElements; 
+    public List<GameObject> myElements;
+
+    // Pointer Listeners
+    #region
     public void OnPointerEnter(PointerEventData eventData)
     {
-        foreach(GameObject element in myElements)
+        Debug.Log("MouseOverMe.OnPointerEnter() called...");
+        ActivateElements();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Debug.Log("MouseOverMe.OnPointerExit() called...");
+        DeactivateElements();
+    }
+    #endregion
+
+    // Collider Listeners
+    #region
+    public void OnMouseEnter()
+    {
+        Debug.Log("MouseOverMe.OnMouseEnter() called...");
+        ActivateElements();
+    }
+    public void OnMouseExit()
+    {
+        Debug.Log("MouseOverMe.OnMouseExit() called...");
+        DeactivateElements();
+    }
+    #endregion
+
+    // View Logic
+    #region
+    public void ActivateElements()
+    {
+        foreach (GameObject element in myElements)
         {
             element.SetActive(true);
         }
     }
-
-    public void OnPointerExit(PointerEventData eventData)
+    public void DeactivateElements()
     {
         foreach (GameObject element in myElements)
         {
             element.SetActive(false);
         }
     }
+    #endregion
 }

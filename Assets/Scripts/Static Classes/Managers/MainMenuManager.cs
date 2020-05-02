@@ -521,11 +521,9 @@ public class MainMenuManager : MonoBehaviour
 
         else if (character.myPresetName == "Priest")
         {
-            character.attributeOneText.text = "Divinity +2";
-            character.attributeTwoText.text = "Shadowcraft +1";
+            character.attributeOneText.text = "Divinity +3";
 
             character.attributeOneText.gameObject.SetActive(true);
-            character.attributeTwoText.gameObject.SetActive(true);
         }
         else if (character.myPresetName == "Monk")
         {

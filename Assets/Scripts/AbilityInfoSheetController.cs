@@ -30,6 +30,7 @@ public class AbilityInfoSheetController : MonoBehaviour
     #endregion
 
     // Initialization + Setup
+    #region
     public void BuildSheetFromData(AbilityInfoSheet sheet, AbilityDataSO data, AbilityInfoSheet.PivotDirection pivotDirection)
     {
         Debug.Log("AbilityInfoSheetController.BuildSheetFromData() called...");
@@ -153,6 +154,7 @@ public class AbilityInfoSheetController : MonoBehaviour
         SetMainTransformPosition(sheet, menuAbilityParent.transform.position);
         SetOrientationFromTransformParent(sheet, AbilityInfoSheet.Orientation.North);
     }
+    #endregion
 
     // Modify Pivot + Transform + Positioning
     #region

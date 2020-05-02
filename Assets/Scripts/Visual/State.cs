@@ -12,6 +12,7 @@ public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [Header("Component References")]
     public Image myImageComponent;
     public GameObject infoPanelParent;
+    public CanvasGroup infoPanelCg;
     public TextMeshProUGUI durationText;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI descriptionText;
@@ -32,6 +33,8 @@ public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public bool affliction;
     public int duration;
     public int currentDuration;
+    public float fadeSpeed;
+    public bool fadingIn;
     #endregion
 
     // Initialization + Setup
@@ -109,6 +112,17 @@ public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         action.actionResolved = true;
         Destroy(gameObject);
     }
+    public IEnumerator FadeInInfoPanel()
+    {
+        fadingIn = true;
+        infoPanelCg.alpha = 0;
+
+        while (fadingIn && infoPanelCg.alpha < 1)
+        {
+            infoPanelCg.alpha += 0.1f * fadeSpeed * Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+    }
     #endregion
 
     // Mouse + Click Events
@@ -116,10 +130,14 @@ public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         SetInfoPanelViewState(true);
+        StartCoroutine(FadeInInfoPanel());
     }
     public void OnPointerExit(PointerEventData eventData)
     {
+        fadingIn = false;
+        infoPanelCg.alpha = 0;        
         SetInfoPanelViewState(false);
+
     }
     #endregion
 

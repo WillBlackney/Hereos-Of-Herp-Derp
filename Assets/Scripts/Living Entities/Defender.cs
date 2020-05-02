@@ -13,6 +13,7 @@ public class Defender : LivingEntity
     public Slider myHealthBarStatPanel;
     public AbilityBar myAbilityBar;
     public GameObject myUIParent;
+    public CanvasGroup myUIParentCg;
     public CharacterData myCharacterData;
     public TextMeshProUGUI myCurrentEnergyText;
     public TextMeshProUGUI myCurrentMaxEnergyText;
@@ -24,6 +25,10 @@ public class Defender : LivingEntity
     public TextMeshProUGUI myCurrentEnergyBarText;
     public TextMeshProUGUI myCurrentMaxEnergyBarText;
 
+    [Header("Defender Properties")]
+    public float uiFadeSpeed;
+    public bool fadingIn;
+    public bool fadingOut;
 
     [Header("Ability Orders")]
     public bool awaitingAnOrder;
@@ -582,11 +587,13 @@ public class Defender : LivingEntity
     {
         DefenderManager.Instance.SetSelectedDefender(this);
         myUIParent.SetActive(true);
+        StartCoroutine(FadeInUICanvas());
     }
     public void UnselectDefender()
     {
         ClearAllOrders();
-        myUIParent.SetActive(false);
+       // myUIParent.SetActive(false);
+        StartCoroutine(FadeOutUICanvas());
     }
     public void ClearAllOrders()
     {
@@ -696,6 +703,7 @@ public class Defender : LivingEntity
         TileHover.Instance.SetVisibility(false);
         LevelManager.Instance.UnhighlightAllTiles();
         PathRenderer.Instance.DeactivatePathRenderer();
+        TargetingPathRenderer.Instance.DeactivatePathRenderer();
         InstructionHover.Instance.DisableInstructionHover();
 
         myCurrentTarget = null;
@@ -1360,6 +1368,17 @@ public class Defender : LivingEntity
         if (enableTileHover)
         {
             TileHover.Instance.SetVisibility(true);
+
+            if(
+            ability.abilityName != "Move" &&
+            ability.abilityName != "Dash" &&
+            ability.abilityName != "Get Down!"
+                )
+            {
+                TargetingPathRenderer.Instance.ActivatePathRenderer();
+            }
+
+            
         }
         else if (!enableTileHover)
         {
@@ -1611,7 +1630,7 @@ public class Defender : LivingEntity
         {
             Debug.Log("Charge button clicked, awaiting charge target");
             awaitingChargeTargetOrder = true;
-            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(charge.abilityPrimaryValue + EntityLogic.GetTotalMobility(this), LevelManager.Instance.Tiles[gridPosition], true));
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(charge.abilityPrimaryValue + EntityLogic.GetTotalMobility(this), LevelManager.Instance.Tiles[gridPosition], true, false));
             InstructionHover.Instance.EnableInstructionHover("Choose an enemy");
         }      
 
@@ -2983,6 +3002,38 @@ public class Defender : LivingEntity
             yield return new WaitForEndOfFrame();
         }
     }   
+
+    public IEnumerator FadeInUICanvas()
+    {
+        myUIParentCg.alpha = 0;
+
+        fadingOut = false;
+        fadingIn = true;
+
+        while (fadingIn && myUIParentCg.alpha < 1)
+        {
+            myUIParentCg.alpha += 0.1f * uiFadeSpeed * Time.deltaTime;
+            yield return new WaitForEndOfFrame();            
+        }
+    }
+    public IEnumerator FadeOutUICanvas()
+    {
+        myUIParentCg.alpha = 1;
+
+        fadingIn = false;
+        fadingOut = true;
+
+        while (fadingOut && myUIParentCg.alpha > 0)
+        {
+            myUIParentCg.alpha -= 0.1f * uiFadeSpeed * Time.deltaTime;
+
+            if(myUIParentCg.alpha == 0)
+            {
+                myUIParent.SetActive(false);
+            }
+            yield return new WaitForEndOfFrame();
+        }
+    }
     #endregion
 
 
@@ -3603,6 +3654,9 @@ public class Defender : LivingEntity
     public void StartChargeLocationSettingProcess()
     {
         Ability charge = mySpellBook.GetAbilityByName("Charge");
+
+        TargetingPathRenderer.Instance.DeactivatePathRenderer();
+        PathRenderer.Instance.ActivatePathRenderer();
 
         Debug.Log("Defender.StartChargeLocationSettingProcess() called");
         Enemy enemyTarget = EnemyManager.Instance.selectedEnemy;

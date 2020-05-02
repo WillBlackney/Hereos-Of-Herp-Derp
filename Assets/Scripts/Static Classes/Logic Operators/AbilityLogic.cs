@@ -28,6 +28,7 @@ public class AbilityLogic : MonoBehaviour
         TileHover.Instance.SetVisibility(false);
         LevelManager.Instance.UnhighlightAllTiles();
         PathRenderer.Instance.DeactivatePathRenderer();
+        TargetingPathRenderer.Instance.DeactivatePathRenderer();
         InstructionHover.Instance.DisableInstructionHover();
 
         // temp variables

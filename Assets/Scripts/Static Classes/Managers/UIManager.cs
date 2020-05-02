@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour
 {
@@ -61,14 +62,13 @@ public class UIManager : MonoBehaviour
     }
     public void OnCharacterPanelButtonClicked()
     {
+        // refresh char roster button highlight
+        EventSystem.current.SetSelectedGameObject(null);
+
         if (CharacterRoster.Instance.visualParent.activeSelf == true)
         {
             MoveCharacterRosterOffScreen();
-            MoveInventoryOffScreen();
-            /*
-        DisableCharacterRosterView();
-        DisableInventoryView();       
-        */
+            MoveInventoryOffScreen();            
         }
 
         else
@@ -83,37 +83,29 @@ public class UIManager : MonoBehaviour
 
             // Move world map off screen
             MoveWorldMapOffScreen();
-
-            /*
-            EnableCharacterRosterView();
-            EnableInventoryView();
-            DisableWorldMapView();
-            */
         }
             
     }     
     public void OnWorldMapButtonClicked()
     {
-        if(WorldManager.Instance.visualParent.activeSelf == true)
-        {
-            MoveWorldMapOffScreen();
+        // refresh world map button highlight
+        EventSystem.current.SetSelectedGameObject(null);
 
-            // DisableWorldMapView();
+        if (WorldManager.Instance.visualParent.activeSelf == true)
+        {
+            // Move map away and disable
+            MoveWorldMapOffScreen();
         }
 
         else if (WorldManager.Instance.visualParent.activeSelf == false)
         {
+            // Move map on screen and enable
             EnableWorldMapView();
             MoveWorldMapOnScreen();
 
+            // Move char roster + inventory off screen and disable
             MoveInventoryOffScreen();
             MoveCharacterRosterOffScreen();
-
-            /*
-            EnableWorldMapView();
-            DisableInventoryView();
-            DisableCharacterRosterView();    
-            */
         }
     }
     #endregion

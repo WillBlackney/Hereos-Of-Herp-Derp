@@ -343,8 +343,13 @@ public static class EntityLogic
 
         Tile targetsTile = target.tile;
 
+        if (!IsTargetVisible(caster, target))
+        {
+            Debug.Log("Target is not visible");
+            return false;
+        }
 
-        if (!tilesWithinMyRange.Contains(targetsTile))
+        else if (!tilesWithinMyRange.Contains(targetsTile))
         {
             Debug.Log("Target is out of range");
             if (caster.defender)
@@ -352,13 +357,7 @@ public static class EntityLogic
                 InvalidActionManager.Instance.ShowNewErrorMessage("Target is out of range");
             }
             return false;
-        }
-
-        else if(!IsTargetVisible(caster, target))
-        {
-            Debug.Log("Target is not visible");
-            return false;
-        }
+        }      
 
         else if (tilesWithinMyRange.Contains(targetsTile) && IsTargetVisible(caster, target))
         {

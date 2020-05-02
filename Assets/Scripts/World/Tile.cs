@@ -98,7 +98,7 @@ public class Tile : MonoBehaviour
     public void OnTileMouseEnter()
     {       
 
-        if (PathRenderer.Instance.active && DefenderManager.Instance.selectedDefender != null)
+        if (DefenderManager.Instance.selectedDefender != null)
         {
             Defender selectedDefender = DefenderManager.Instance.selectedDefender;
 
@@ -107,7 +107,15 @@ public class Tile : MonoBehaviour
                 selectedDefender.awaitingDashOrder ||
                 selectedDefender.awaitingGetDownOrder)
             {
-                PathRenderer.Instance.DrawPath();
+                if (PathRenderer.Instance.active)
+                {
+                    PathRenderer.Instance.DrawPath();
+                }
+                
+            }
+            else if(selectedDefender.awaitingAnOrder)
+            {
+                TargetingPathRenderer.Instance.DrawPath();
             }
         }
         

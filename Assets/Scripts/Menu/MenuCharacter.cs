@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 using Spriter2UnityDX;
+using UnityEngine.UI;
 
 public class MenuCharacter : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class MenuCharacter : MonoBehaviour
     public UniversalCharacterModel myModel;
     public EntityRenderer myER;
 
-
     [Header("Text References")]
     public TextMeshProUGUI presetNameText;
     public TextMeshProUGUI presetDescriptionText;
@@ -22,6 +22,9 @@ public class MenuCharacter : MonoBehaviour
     public TextMeshProUGUI attributeTwoText;
     public TextMeshProUGUI attributeThreeText;
 
+    [Header("GUI References")]
+    public Button previousPresetButton;
+    public Button nextPresetButton;
 
     [Header("Properties")]
     public string myPresetName;
@@ -88,10 +91,16 @@ public class MenuCharacter : MonoBehaviour
     public void OnPreviousPresetButtonClicked()
     {
         BuildMyViewsFromPresetString(MainMenuManager.Instance.GetPreviousPresetString(myPresetName));
+
+        // refresh button highlight
+        EventSystem.current.SetSelectedGameObject(null);
     }
     public void OnNextPresetButtonClicked()
     {
         BuildMyViewsFromPresetString(MainMenuManager.Instance.GetNextPresetString(myPresetName));
+
+        // refresh button highlight
+        EventSystem.current.SetSelectedGameObject(null);
     }
     #endregion
 
