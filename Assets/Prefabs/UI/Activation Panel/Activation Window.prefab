@@ -94,7 +94,7 @@ Canvas:
   m_OverrideSorting: 1
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 18
   m_TargetDisplay: 0
@@ -606,8 +606,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 12
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a4e594a45eb5ad0468b0c37f19dae334, type: 2}
-  m_sharedMaterial: {fileID: -3775861969150997240, guid: a4e594a45eb5ad0468b0c37f19dae334,
+  m_fontAsset: {fileID: 11400000, guid: 87e99a81f1cbf00428f7e0adbc0d7cf5, type: 2}
+  m_sharedMaterial: {fileID: 937035506399193613, guid: 87e99a81f1cbf00428f7e0adbc0d7cf5,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -633,14 +633,14 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 23.8
+  m_fontSize: 24.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 32
   m_fontStyle: 0
-  m_textAlignment: 65535
+  m_textAlignment: 514
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -674,13 +674,13 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1211881903115631261}
-    characterCount: 0
+    characterCount: 2
     spriteCount: 0
     spaceCount: 0
-    wordCount: 0
+    wordCount: 1
     linkCount: 0
-    lineCount: 0
-    pageCount: 0
+    lineCount: 1
+    pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -1189,6 +1189,16 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 23
       objectReference: {fileID: 0}
+    - target: {fileID: 705804342759778679, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 756985789800244493, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 757374748071995561, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
         type: 3}
       propertyPath: m_MaskInteraction
@@ -1358,6 +1368,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingOrder
       value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 999222110370518216, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1035638304873134436, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
         type: 3}
@@ -1698,6 +1713,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_MaskInteraction
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1610475661772015368, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1636071483481826449, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
         type: 3}
@@ -2089,6 +2109,11 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 2271625567329425606, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2293204252756736499, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
         type: 3}
       propertyPath: m_SortingOrder
@@ -2408,6 +2433,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingOrder
       value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 3106248266264342947, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3132477339000786129, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
         type: 3}
@@ -2804,6 +2834,11 @@ PrefabInstance:
       propertyPath: m_MaskInteraction
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3964122954305336937, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3976761267062600737, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
         type: 3}
       propertyPath: m_MaskInteraction
@@ -3023,6 +3058,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_MaskInteraction
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4399381957079887684, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4416652937033671866, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
         type: 3}
@@ -4293,6 +4333,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingOrder
       value: 31
+      objectReference: {fileID: 0}
+    - target: {fileID: 7032316408749994513, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7044343892679872021, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
         type: 3}

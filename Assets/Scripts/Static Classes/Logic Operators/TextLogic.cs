@@ -1348,9 +1348,8 @@ public static class TextLogic
         else if (ability.abilityName == "Haste")
         {
             ability.abilityInfoSheet.descriptionText.text =
-                "Give an ally " +
-                ReturnColoredText(ability.abilityPrimaryValue.ToString(), blueNumber) +
-                " " + ReturnColoredText("Mobility", yellow);
+                "Increase a target's " + ReturnColoredText("Mobility", yellow) + " by " +
+                ReturnColoredText(ability.abilityPrimaryValue.ToString(), blueNumber);
         }
         else if (ability.abilityName == "Head Shot")
         {
@@ -1390,8 +1389,8 @@ public static class TextLogic
         else if (ability.abilityName == "Icy Focus")
         {
             ability.abilityInfoSheet.descriptionText.text =
-                "Give an ally " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), blueNumber) +
-                " " + ReturnColoredText("Wisdom", yellow);
+                "Increase a target's "+ ReturnColoredText("Wisdom", yellow) + " by " +
+                ReturnColoredText(ability.abilityPrimaryValue.ToString(), blueNumber);
         }
         else if (ability.abilityName == "Impaling Bolt")
         {
@@ -2238,9 +2237,8 @@ public static class TextLogic
         else if (ability.abilityName == "Haste")
         {
             descriptionText.text =
-                "Give an ally " +
-                ReturnColoredText(ability.primaryValue.ToString(), blueNumber) +
-                " " + ReturnColoredText("Mobility", yellow);
+                "Increase a target's " + ReturnColoredText("Mobility", yellow) + " by " +
+                ReturnColoredText(ability.primaryValue.ToString(), blueNumber);
         }
         else if (ability.abilityName == "Head Shot")
         {
@@ -2279,8 +2277,8 @@ public static class TextLogic
         else if (ability.abilityName == "Icy Focus")
         {
             descriptionText.text =
-                "Give an ally " + ReturnColoredText(ability.primaryValue.ToString(), blueNumber) +
-                " " + ReturnColoredText("Wisdom", yellow);
+                "Increase a target's " + ReturnColoredText("Wisdom", yellow) + " by " +
+                ReturnColoredText(ability.primaryValue.ToString(), blueNumber);
         }
         else if (ability.abilityName == "Impaling Bolt")
         {

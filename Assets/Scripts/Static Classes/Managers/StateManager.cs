@@ -323,8 +323,20 @@ public class StateManager : MonoBehaviour
                 defender.myPassiveManager.ModifyTemporaryInitiative(1);
             }
             yield return new WaitForSeconds(.5f);
-        }        
-       
+        }
+
+        else if (stateApplied.Name == "Thieves Guild Membership")
+        {
+            Debug.Log("StateManager applying Thieves Guild Membership...");
+
+            // Gain camoflage
+            foreach (Defender defender in DefenderManager.Instance.allDefenders)
+            {
+                defender.myPassiveManager.ModifyCamoflage(1);
+            }
+            yield return new WaitForSeconds(.5f);
+        }
+
         else if (stateApplied.Name == "King's Decree")
         {
             Debug.Log("StateManager applying King's Decree...");
@@ -383,8 +395,8 @@ public class StateManager : MonoBehaviour
             }
         }
 
-        yield return null;
         action.actionResolved = true;
+        yield return null;        
 
     }
     #endregion

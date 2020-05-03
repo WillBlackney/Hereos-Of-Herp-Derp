@@ -119,10 +119,12 @@ public class LivingEntity : MonoBehaviour
     {
         Debug.Log("Calling LivingEntity.InitializeSetup...");
 
+        // Get + Set Components
         if (myAnimator == null)
         {
             myAnimator = GetComponent<Animator>();
         }
+
         PlayIdleAnimation();
         
         defender = GetComponent<Defender>();
@@ -135,16 +137,19 @@ public class LivingEntity : MonoBehaviour
 
         // Set grid position 'Point'
         gridPosition = startingGridPosition;
+
         // Set our current tile
         tile = startingTile;
+
         // Set its tile to 'occupied' state
         LevelManager.Instance.SetTileAsOccupied(startingTile);
+
         // Place tower in the centre point of the tile
         transform.position = startingTile.WorldPosition;
+
         // Add this to the list of all active enemy and defender characters
         LivingEntityManager.Instance.allLivingEntities.Add(this);
-        // Create Activation Window
-        ActivationManager.Instance.CreateActivationWindow(this);
+        
         // Face towards the opponents
         if (defender)
         {
@@ -156,12 +161,18 @@ public class LivingEntity : MonoBehaviour
             PositionLogic.Instance.SetDirection(this, "Left");
         }
         
-        myEntityRenderer = GetComponentInChildren<EntityRenderer>();
+       // myEntityRenderer = GetComponentInChildren<EntityRenderer>();
         myStatusManager.SetPanelViewState(true);
         MovementLogic.Instance.OnNewTileSet(this);
 
         // Set up all base properties and values (damage, mobility etc)
         SetBaseProperties();
+
+        // Create Activation Window
+        ActivationManager.Instance.CreateActivationWindow(this);
+
+        // Update GUI views
+        UpdateHealthGUIElements();
 
         // Set world space canvas event camera to help performance
         AutoSetWorldCanvasEventCamera();
@@ -201,8 +212,7 @@ public class LivingEntity : MonoBehaviour
         ModifyCurrentBlock(baseStartingBlock);
         ModifyCurrentEnergy(baseStartingEnergyBonus);        
 
-        // Refresh GUI's
-        UpdateHealthGUIElements();
+        // Set colour        
         SetColor(normalColour);
 
         // TESTING CODE FOR ITEMS/PASSIVES/ABILITIES ETC!! Remove in future
@@ -696,6 +706,12 @@ public class LivingEntity : MonoBehaviour
         GainEnergyOnActivationStart();
         ReduceCooldownsOnActivationStart();
         ModifyBlockOnActivationStart();
+
+        // check if taunted, and if taunter died 
+        if(myPassiveManager.taunted && myTaunter == null)
+        {
+            myPassiveManager.ModifyTaunted(-myPassiveManager.tauntedStacks, null);
+        }
 
         // Remove time warp
         if (myPassiveManager.timeWarp && hasActivatedThisTurn)
@@ -1309,7 +1325,7 @@ public class LivingEntity : MonoBehaviour
         StartCoroutine(OnNewTurnCycleStartedCoroutine(action));
         return action;
     }
-    public IEnumerator OnNewTurnCycleStartedCoroutine(Action action)
+    private IEnumerator OnNewTurnCycleStartedCoroutine(Action action)
     {
         Debug.Log("OnNewTurnCycleStartedCoroutine() called for " + myName);
 

@@ -48,12 +48,13 @@ public class ActivationManager : MonoBehaviour
     // Events
     #region
     public Action OnNewCombatEventStarted()
-    {        
+    {
+        Debug.Log("ActivationManager.OnNewCombatEventStarted() called...");
         Action action = new Action();
         StartCoroutine(OnNewCombatEventStartedCoroutine(action));
         return action;
     }
-    public IEnumerator OnNewCombatEventStartedCoroutine(Action action)
+    private IEnumerator OnNewCombatEventStartedCoroutine(Action action)
     {
         TurnChangeNotifier.Instance.currentTurnCount = 0;
         SetActivationWindowViewState(true);
@@ -263,6 +264,7 @@ public class ActivationManager : MonoBehaviour
     }
     public void SetActivationWindowViewState(bool onOrOff)
     {
+        Debug.Log("ActivationManager.SetActivationWindowViewState() called...");
         activationPanelParent.SetActive(onOrOff);
     }
     #endregion

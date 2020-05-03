@@ -333,6 +333,10 @@ public class UIManager : MonoBehaviour
         worldMapMovingOffScreen = false;
         action.actionResolved = true;
     }
+    public void MoveWorldMapToOffScreenPositionInstantly()
+    {
+        worldMapTransformParent.anchoredPosition = worldMapOffScreenPosition.anchoredPosition;
+    }
 
     #endregion
 

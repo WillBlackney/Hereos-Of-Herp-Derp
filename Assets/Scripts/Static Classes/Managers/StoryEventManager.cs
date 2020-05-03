@@ -281,9 +281,9 @@ public class StoryEventManager : MonoBehaviour
     }
     public void OnContinueButtonClicked()
     {
-        DisableEventScreen();
+        //DisableEventScreen();
         WorldManager.Instance.canSelectNewEncounter = true;
-        UIManager.Instance.EnableWorldMapView();
+        UIManager.Instance.OnWorldMapButtonClicked();
 
     }
     public void OnCharacterPanelBackButtonClicked()

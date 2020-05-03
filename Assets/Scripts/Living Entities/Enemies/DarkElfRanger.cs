@@ -18,8 +18,9 @@ public class DarkElfRanger : Enemy
         mySpellBook.EnemyLearnAbility("Overwatch");
         mySpellBook.EnemyLearnAbility("Snipe");
 
-        myPassiveManager.ModifyStealth(1);
+       // myPassiveManager.ModifyStealth(1);
         myPassiveManager.ModifyFlux(1);
+        myPassiveManager.ModifyTrueSight(1);
 
         myMainHandWeapon = ItemLibrary.Instance.GetItemByName("Simple Bow");
     }

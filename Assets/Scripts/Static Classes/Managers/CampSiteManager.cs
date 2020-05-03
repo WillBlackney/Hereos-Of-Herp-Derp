@@ -218,9 +218,9 @@ public class CampSiteManager : MonoBehaviour
     {
         Debug.Log("CampSiteManager.OnContinueButtonClicked() called...");
 
-        DisableCampSiteView();
+       // DisableCampSiteView();
         UIManager.Instance.OnWorldMapButtonClicked();
-        UIManager.Instance.EnableWorldMapView();
+        //UIManager.Instance.EnableWorldMapView();
         // re enable world map + get next viable enocunter hexagon tiles
         WorldManager.Instance.SetWorldMapReadyState();
     }

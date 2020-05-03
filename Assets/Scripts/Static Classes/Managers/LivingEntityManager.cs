@@ -527,15 +527,17 @@ public class LivingEntityManager : MonoBehaviour
             }
 
             // Camoflage from 'Thieves Guild Membership' state
+            /*
             if (entity.defender &&
                 StateManager.Instance.DoesPlayerAlreadyHaveState("Thieves Guild Membership") &&
                 entity.myPassiveManager.camoflage == false &&
                 TurnChangeNotifier.Instance.currentTurnCount == 1)
             {
-                Debug.Log("OnActivationEndCoroutine() checking Rapid Cloaking...");
+                Debug.Log("OnActivationEndCoroutine() checking Thieves Guild Membership...");
                 entity.myPassiveManager.ModifyCamoflage(1);
                 yield return new WaitForSeconds(1f);
             }
+            */
 
             // Tile related events
             if (entity.tile.myTileType == Tile.TileType.Grass)

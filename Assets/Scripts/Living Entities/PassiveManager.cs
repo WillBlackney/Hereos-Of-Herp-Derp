@@ -434,6 +434,7 @@ public class PassiveManager : MonoBehaviour
                 }
                 
                 VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Immobilized");
+                VisualEffectManager.Instance.CreateGeneralDebuffEffect(myLivingEntity.transform.position);
             }
             
         }
@@ -477,7 +478,7 @@ public class PassiveManager : MonoBehaviour
                     stunned = true;
                     VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Stunned!");
                     //StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
-                    VisualEffectManager.Instance.CreateStunnedEffect(transform.position);
+                    VisualEffectManager.Instance.CreateStunnedEffect(myLivingEntity.transform.position);
                 }
             }
 

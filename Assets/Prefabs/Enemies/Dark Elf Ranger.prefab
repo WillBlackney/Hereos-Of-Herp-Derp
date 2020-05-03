@@ -527,7 +527,6 @@ MonoBehaviour:
   myCurrentHealthText: {fileID: 483891675344038007}
   myCurrentMaxHealthText: {fileID: 613132856407713930}
   myAnimator: {fileID: 3155444342040140265}
-  mySpriteRenderer: {fileID: 0}
   myStatusManager: {fileID: 115883937870943951}
   mySpellBook: {fileID: 0}
   myPassiveManager: {fileID: 0}
@@ -586,7 +585,7 @@ MonoBehaviour:
   myCurrentTarget: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   activePowers: []
-  myName: 
+  myName: Dark Elf Ranger
   speed: 3
   mouseIsOverStatusIconPanel: 0
   mouseIsOverCharacter: 0
@@ -1446,6 +1445,16 @@ PrefabInstance:
       propertyPath: myEntity
       value: 
       objectReference: {fileID: 6490625464494978909}
+    - target: {fileID: 1610475661772015368, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2271625567329425606, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9, type: 3}
 --- !u!4 &3067225886428192435 stripped

@@ -34,13 +34,7 @@ public class EventManager : MonoBehaviour
         return action;
     }
     private IEnumerator StartNewBasicEncounterEventCoroutine(Action action, EnemyWaveSO enemyWave = null)
-    {
-        // Destroy the previous level and tiles + reset values/properties, turn off unneeded views
-        ClearPreviousEncounter();
-
-        // make char roster canvas turn off when disabled
-        combatSceneIsActive = true;
-
+    {   
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = false;
 
@@ -48,7 +42,11 @@ public class EventManager : MonoBehaviour
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
 
-        StoryEventManager.Instance.DisableEventScreen();
+        // Destroy the previous level and tiles + reset values/properties, turn off unneeded views
+        ClearPreviousEncounter();
+
+        // make char roster canvas turn off when disabled
+        combatSceneIsActive = true;
 
         // Create a new level
         LevelManager.Instance.CreateLevel();
@@ -97,18 +95,18 @@ public class EventManager : MonoBehaviour
     }
     private IEnumerator StartNewEliteEncounterEventCoroutine(Action action)
     {
-        // Destroy the previous level and tiles + reset values/properties
-        ClearPreviousEncounter();
-
-        // make char roster canvas turn off when disabled
-        combatSceneIsActive = true;
-
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = false;
 
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
+
+        // Destroy the previous level and tiles + reset values/properties
+        ClearPreviousEncounter();
+
+        // make char roster canvas turn off when disabled
+        combatSceneIsActive = true;
 
         // Create a new level
         LevelManager.Instance.CreateLevel();
@@ -155,12 +153,6 @@ public class EventManager : MonoBehaviour
     }
     private IEnumerator StartNewBossEncounterEventCoroutine(Action action, EnemyWaveSO enemyWave = null)
     {
-        // Destroy the previous level and tiles + reset values/properties, turn off unneeded views
-        ClearPreviousEncounter();
-
-        // make char roster canvas turn off when disabled
-        combatSceneIsActive = true;
-
         // Disable player's ability to click on encounter buttons and start new encounters
         WorldManager.Instance.canSelectNewEncounter = false;
 
@@ -168,7 +160,11 @@ public class EventManager : MonoBehaviour
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
 
-        StoryEventManager.Instance.DisableEventScreen();
+        // Destroy the previous level and tiles + reset values/properties, turn off unneeded views
+        ClearPreviousEncounter();
+
+        // make char roster canvas turn off when disabled
+        combatSceneIsActive = true;
 
         // Create a new level
         LevelManager.Instance.CreateLevel();
@@ -323,7 +319,9 @@ public class EventManager : MonoBehaviour
         TreasureRoomManager.Instance.CreateNewTreasureChest();
 
         // disable world map view
-        UIManager.Instance.DisableWorldMapView();        
+        UIManager.Instance.DisableCharacterRosterView();
+        UIManager.Instance.DisableInventoryView();
+        UIManager.Instance.DisableWorldMapView();
 
         // Fade scene back in, wait until completed
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 6, 0, false);
@@ -345,14 +343,15 @@ public class EventManager : MonoBehaviour
 
         // fade out view, wait until completed
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 6, 1, true);
-        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
-
-        // Disable Map + Character Roster
-        UIManager.Instance.DisableWorldMapView();
-        UIManager.Instance.DisableCharacterRosterView();
+        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);        
 
         // Destroy the previous level and tiles + reset values/properties
         ClearPreviousEncounter();
+
+        // Disable Map + Character Roster
+        UIManager.Instance.DisableCharacterRosterView();
+        UIManager.Instance.DisableInventoryView();
+        UIManager.Instance.DisableWorldMapView();
 
         // Load a random event + set up story event screen
         StoryEventManager.Instance.LoadNewStoryEvent();
@@ -631,7 +630,7 @@ public class EventManager : MonoBehaviour
         {
             Debug.Log("StartPreLootScreenVisualEvent() creating visual status xp gained effect...");
             // Dead characters get no XP
-            if (character.currentHealth > 0 && character.myDefenderGO != null)
+            if (character.myDefenderGO != null && character.currentHealth > 0 )
             {
                 VisualEffectManager.Instance.CreateStatusEffect(character.myDefenderGO.transform.position, "XP + " + xpReward.ToString());
             }
@@ -641,7 +640,7 @@ public class EventManager : MonoBehaviour
 
         foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
         {
-            if (character.currentXP + xpReward >= character.currentMaxXP)
+            if (character.myDefenderGO != null && character.currentXP + xpReward >= character.currentMaxXP)
             {
                 Debug.Log("StartPreLootScreenVisualEvent() creating visual status LEVEL GAINED! effect...");
                 VisualEffectManager.Instance.CreateStatusEffect(character.myDefenderGO.transform.position, "LEVEL UP!");
@@ -672,9 +671,13 @@ public class EventManager : MonoBehaviour
         // continue normally if not fighting a boss at the end of an act
         if (currentEncounterType != WorldEncounter.EncounterType.Boss)
         {
+            /*
             RewardScreen.Instance.ClearRewards();
             UIManager.Instance.DisableRewardScreenView();
             UIManager.Instance.EnableWorldMapView();
+            WorldManager.Instance.HighlightNextAvailableEncounters();
+            */
+            UIManager.Instance.OnWorldMapButtonClicked();
             WorldManager.Instance.HighlightNextAvailableEncounters();
         }
 
@@ -756,24 +759,42 @@ public class EventManager : MonoBehaviour
     {
         Debug.Log("EventManager.ClearPreviousEncounter() called...");
 
+        // Reset current event data
         ResetEncounterProperties();
+
+        // Move map to offscreen position
+        UIManager.Instance.MoveWorldMapToOffScreenPositionInstantly();
+
         // Destroy the level data + all tile Go's
         LevelManager.Instance.DestroyCurrentLevel();
+
         // Destroy defender GO's from previous encounter
         DefenderManager.Instance.DestroyAllDefenders();
+
         // Destroy all activation windows
         ActivationManager.Instance.ClearAllWindowsFromActivationPanel();
-        // Hide rest site view screen if open
+
+        // Hide camp site view screen if open
         CampSiteManager.Instance.DisableCampSiteView();
+
+        // Hide story event view screen if open
+        StoryEventManager.Instance.DisableEventScreen();
+        StoryEventManager.Instance.ResetStoryEventWindow();
+
         // Hide Shop view screen if open
         ShopScreenManager.Instance.DisableShopScreenView();
-        // Destroy active treasure chest if it exists
-        StoryEventManager.Instance.ResetStoryEventWindow();
+
         // Disable KBE
         KingsBlessingManager.Instance.DisableView();
+
         // Clear treasure room event
         TreasureRoomManager.Instance.DestroyActiveTreasureChest();
         TreasureRoomManager.Instance.DisableTreasureRoomView();
+
+        // Reset reward screen
+        RewardScreen.Instance.ClearRewards();
+        RewardScreen.Instance.DisableRewardScreenView();
+
         // Force resolve unresolved actions and flush queue
         ActionManager.Instance.FlushActionQueue();
     }   

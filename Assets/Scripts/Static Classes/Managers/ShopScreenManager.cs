@@ -363,7 +363,7 @@ public class ShopScreenManager : MonoBehaviour
     #region
     public void OnContinueButtonClicked()
     {
-        UIManager.Instance.EnableWorldMapView();
+        UIManager.Instance.OnWorldMapButtonClicked();
     }
     #endregion
 

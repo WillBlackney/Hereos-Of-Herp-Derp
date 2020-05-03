@@ -442,7 +442,13 @@ public class VisualEffectManager : MonoBehaviour
         ToonProjectile tsScript = fireBall.GetComponent<ToonProjectile>();
         tsScript.InitializeSetup(sortingOrderBonus, scaleModifier);
 
-        yield return null;
+        // insta explode of created on destination
+        if (fireBall.transform.position == endPosition)
+        {
+            destinationReached = true;
+            tsScript.OnDestinationReached();
+            action.actionResolved = true;
+        }
 
         while (fireBall.transform.position != endPosition)
         {
@@ -469,16 +475,22 @@ public class VisualEffectManager : MonoBehaviour
     {
         bool destinationReached = false;
 
-        GameObject fireBall = Instantiate(toonPoisonBall, startPosition, toonPoisonBall.transform.rotation);
-        ToonProjectile tsScript = fireBall.GetComponent<ToonProjectile>();
+        GameObject poisonBall = Instantiate(toonPoisonBall, startPosition, toonPoisonBall.transform.rotation);
+        ToonProjectile tsScript = poisonBall.GetComponent<ToonProjectile>();
         tsScript.InitializeSetup(sortingOrderBonus, scaleModifier);
 
-        yield return null;
-
-        while (fireBall.transform.position != endPosition)
+        // insta explode of created on destination
+        if (poisonBall.transform.position == endPosition)
         {
-            fireBall.transform.position = Vector2.MoveTowards(fireBall.transform.position, endPosition, speed * Time.deltaTime);
-            if (fireBall.transform.position == endPosition && !destinationReached)
+            destinationReached = true;
+            tsScript.OnDestinationReached();
+            action.actionResolved = true;
+        }
+
+        while (poisonBall.transform.position != endPosition)
+        {
+            poisonBall.transform.position = Vector2.MoveTowards(poisonBall.transform.position, endPosition, speed * Time.deltaTime);
+            if (poisonBall.transform.position == endPosition && !destinationReached)
             {
                 destinationReached = true;
                 tsScript.OnDestinationReached();
@@ -504,7 +516,13 @@ public class VisualEffectManager : MonoBehaviour
         ToonProjectile tsScript = shadowBall.GetComponent<ToonProjectile>();
         tsScript.InitializeSetup(sortingOrderBonus, scaleModifier);
 
-        yield return null;
+        // insta explode of created on destination
+        if (shadowBall.transform.position == endPosition)
+        {
+            destinationReached = true;
+            tsScript.OnDestinationReached();
+            action.actionResolved = true;
+        }
 
         while (shadowBall.transform.position != endPosition)
         {
@@ -535,7 +553,13 @@ public class VisualEffectManager : MonoBehaviour
         ToonProjectile tsScript = frostBall.GetComponent<ToonProjectile>();
         tsScript.InitializeSetup(sortingOrderBonus, scaleModifier);
 
-        yield return null;
+        // insta explode of created on destination
+        if (frostBall.transform.position == endPosition)
+        {
+            destinationReached = true;
+            tsScript.OnDestinationReached();
+            action.actionResolved = true;
+        }
 
         while (frostBall.transform.position != endPosition)
         {
@@ -562,16 +586,22 @@ public class VisualEffectManager : MonoBehaviour
     {
         bool destinationReached = false;
 
-        GameObject frostBall = Instantiate(toonLightningBall, startPosition, toonLightningBall.transform.rotation);
-        ToonProjectile tsScript = frostBall.GetComponent<ToonProjectile>();
+        GameObject lightningBall = Instantiate(toonLightningBall, startPosition, toonLightningBall.transform.rotation);
+        ToonProjectile tsScript = lightningBall.GetComponent<ToonProjectile>();
         tsScript.InitializeSetup(sortingOrderBonus, scaleModifier);
 
-        yield return null;
-
-        while (frostBall.transform.position != endPosition)
+        // insta explode of created on destination
+        if (lightningBall.transform.position == endPosition)
         {
-            frostBall.transform.position = Vector2.MoveTowards(frostBall.transform.position, endPosition, speed * Time.deltaTime);
-            if (frostBall.transform.position == endPosition && !destinationReached)
+            destinationReached = true;
+            tsScript.OnDestinationReached();
+            action.actionResolved = true;
+        }
+
+        while (lightningBall.transform.position != endPosition)
+        {
+            lightningBall.transform.position = Vector2.MoveTowards(lightningBall.transform.position, endPosition, speed * Time.deltaTime);
+            if (lightningBall.transform.position == endPosition && !destinationReached)
             {
                 destinationReached = true;
                 tsScript.OnDestinationReached();
@@ -598,6 +628,14 @@ public class VisualEffectManager : MonoBehaviour
         tsScript.InitializeSetup(sortingOrderBonus, scaleModifier);
 
         yield return null;
+
+        // insta explode of created on destination
+        if (hb.transform.position == endPosition)
+        {
+            destinationReached = true;
+            tsScript.OnDestinationReached();
+            action.actionResolved = true;
+        }
 
         while (hb.transform.position != endPosition)
         {

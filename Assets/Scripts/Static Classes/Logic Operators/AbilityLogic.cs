@@ -2695,7 +2695,7 @@ public class AbilityLogic : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
 
         // Create fire explosion from prefab and play animation
-        Action fireBallAction = VisualEffectManager.Instance.ShootToonFireball(victim.tile.WorldPosition, victim.tile.WorldPosition);
+        Action fireBallAction = VisualEffectManager.Instance.ShootToonFireball(caster.tile.WorldPosition, victim.tile.WorldPosition);
         yield return new WaitUntil(() => fireBallAction.ActionResolved() == true);
 
         // Remove all the targets block
@@ -3003,7 +3003,8 @@ public class AbilityLogic : MonoBehaviour
 
             // Deal Damage
             Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, dragonBreath);
-            
+            yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
+
         }
         yield return new WaitForSeconds(0.5f);
 
@@ -4220,11 +4221,17 @@ public class AbilityLogic : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(blight, caster);
+
         // Play animation
         caster.PlaySkillAnimation();
 
-        // Pay energy cost, + etc
-        OnAbilityUsedStart(blight, caster);
+        // Create fireball from prefab and play animation
+        Action poisonBallHit = VisualEffectManager.Instance.ShootToonPoisonBall(caster.tile.WorldPosition, target.tile.WorldPosition);
+
+        // wait until fireball has hit the target
+        yield return new WaitUntil(() => poisonBallHit.ActionResolved() == true);       
 
         // Apply Poisoned
         target.myPassiveManager.ModifyPoisoned(blight.abilityPrimaryValue, caster);
@@ -4968,7 +4975,7 @@ public class AbilityLogic : MonoBehaviour
         caster.PlaySkillAnimation();
 
         // Create holy fire from prefab and play animation
-        Action holyFireHit = VisualEffectManager.Instance.ShootToonHolyBall( caster.transform.position, target.tile.WorldPosition);
+        Action holyFireHit = VisualEffectManager.Instance.ShootToonHolyBall(caster.transform.position, target.tile.WorldPosition);
         yield return new WaitUntil(() => holyFireHit.ActionResolved() == true);
 
         // Give block if ally
