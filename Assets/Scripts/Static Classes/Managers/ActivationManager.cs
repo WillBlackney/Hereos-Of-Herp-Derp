@@ -297,7 +297,6 @@ public class ActivationManager : MonoBehaviour
             UIManager.Instance.DisableEndTurnButtonInteractions();
         }
 
-        entity.myOnActivationEndEffectsFinished = false;
         Action activationStartAction = entity.OnActivationStart();
         yield return new WaitUntil(() => activationStartAction.ActionResolved() == true);
 
@@ -311,19 +310,7 @@ public class ActivationManager : MonoBehaviour
         }
 
         action.actionResolved = true;        
-    }
-    public Action EndEntityActivation(LivingEntity entity)
-    {
-        Action action = new Action();
-        StartCoroutine(EndEntityActivationCoroutine(entity, action));
-        return action;
-    }
-    public IEnumerator EndEntityActivationCoroutine(LivingEntity entity, Action action)
-    {
-        Action endActivationAction = entity.OnActivationEnd();
-        yield return new WaitUntil(() => endActivationAction.ActionResolved() == true);
-        action.actionResolved = true;
-    }
+    }  
     public void ActivateNextEntity()
     {
         Debug.Log("ActivationManager.ActivateNextEntity() called...");

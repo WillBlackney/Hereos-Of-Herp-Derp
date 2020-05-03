@@ -1057,6 +1057,7 @@ public class CombatLogic : MonoBehaviour
                 // the victim was killed, start death process
                 Action deathAction = HandleDeath(victim);
                 yield return new WaitUntil(() => deathAction.ActionResolved() == true);
+                action.actionResolved = true;
             }
             
         }       

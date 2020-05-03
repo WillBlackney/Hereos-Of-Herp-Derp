@@ -29,7 +29,7 @@ public class LivingEntityManager : MonoBehaviour
     #region
     public Action EndEntityActivation(LivingEntity enemy)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(EndEntityActivationCoroutine(enemy, action));
         return action;
     }
@@ -42,7 +42,7 @@ public class LivingEntityManager : MonoBehaviour
     }
     private Action StartEntityOnActivationEndEvents(LivingEntity entity)
     {
-        Action action = new Action();
+        Action action = new Action(true);
         StartCoroutine(StartEntityOnActivationEndEventsCoroutine(entity, action));
         return action;
     }
@@ -656,8 +656,7 @@ public class LivingEntityManager : MonoBehaviour
 
         // Resolve
         Debug.Log("OnActivationEndCoroutine() finished and resolving...");
-        yield return new WaitForSeconds(1f);
-        entity.myOnActivationEndEffectsFinished = true;
+        yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
 
     }
