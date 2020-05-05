@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RewardScreen : MonoBehaviour
 {
+    // Properties + Component References
+    #region
     [Header("Properties")]
     public float screenFadeTime;
     public int itemCardSortingOrder;
@@ -59,13 +61,21 @@ public class RewardScreen : MonoBehaviour
     public GameObject currentStateOne;
     public GameObject currentStateTwo;
     public GameObject currentStateThree;
+    #endregion
 
     // Initialization + Singleton Pattern
     #region
     public static RewardScreen Instance;
     private void Awake()
     {
-        Instance = this;
+        if (!Instance)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     #endregion
 

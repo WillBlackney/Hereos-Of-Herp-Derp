@@ -132,15 +132,15 @@
     <Compile Include="Assets\Scripts\AbilityCardRewardOverlay.cs" />
     <Compile Include="Assets\Scripts\AbilityInfoSheet.cs" />
     <Compile Include="Assets\Scripts\AbilityInfoSheetController.cs" />
-    <Compile Include="Assets\Scripts\Artifacts\ArtifactGO.cs" />
-    <Compile Include="Assets\Scripts\Artifacts\ArtifactSlot.cs" />
     <Compile Include="Assets\Scripts\Artifacts\StateRewardButton.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraManager.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraMovement.cs" />
     <Compile Include="Assets\Scripts\CardRewardScreenManager.cs" />
     <Compile Include="Assets\Scripts\CardRewardScreenSlot.cs" />
     <Compile Include="Assets\Scripts\CharacterDataPanelHover.cs" />
+    <Compile Include="Assets\Scripts\Debugger.cs" />
     <Compile Include="Assets\Scripts\DifficultyManager.cs" />
+    <Compile Include="Assets\Scripts\GlobalSettings.cs" />
     <Compile Include="Assets\Scripts\InfoPanelHover.cs" />
     <Compile Include="Assets\Scripts\InvalidActionManager.cs" />
     <Compile Include="Assets\Scripts\Inventory\InventoryController.cs" />
@@ -192,7 +192,6 @@
     <Compile Include="Assets\Scripts\Loot\ConsumableRewardButton.cs" />
     <Compile Include="Assets\Scripts\Loot\GoldRewardButton.cs" />
     <Compile Include="Assets\Scripts\Loot\TreasureChest.cs" />
-    <Compile Include="Assets\Scripts\Menu\CharacterBox.cs" />
     <Compile Include="Assets\Scripts\Menu\MenuCharacter.cs" />
     <Compile Include="Assets\Scripts\Misc\AbilityPageAbility.cs" />
     <Compile Include="Assets\Scripts\Misc\AbilityTomeDropSlot.cs" />
@@ -211,11 +210,9 @@
     <Compile Include="Assets\Scripts\Misc\MenuAbilityTab.cs" />
     <Compile Include="Assets\Scripts\Misc\MenuButton.cs" />
     <Compile Include="Assets\Scripts\Misc\MouseOverMe.cs" />
-    <Compile Include="Assets\Scripts\Misc\MouseOverObject.cs" />
     <Compile Include="Assets\Scripts\Misc\PathRenderer.cs" />
     <Compile Include="Assets\Scripts\Misc\PrefabHolder.cs" />
     <Compile Include="Assets\Scripts\Misc\Projectile.cs" />
-    <Compile Include="Assets\Scripts\Misc\Raycaster.cs" />
     <Compile Include="Assets\Scripts\Misc\ScoreElement.cs" />
     <Compile Include="Assets\Scripts\Misc\Singleton.cs" />
     <Compile Include="Assets\Scripts\Misc\StateCard.cs" />
@@ -231,7 +228,6 @@
     <Compile Include="Assets\Scripts\PassiveInfoSheet.cs" />
     <Compile Include="Assets\Scripts\PassiveInfoSheetController.cs" />
     <Compile Include="Assets\Scripts\Scriptable Objects\AbilityDataSO.cs" />
-    <Compile Include="Assets\Scripts\Scriptable Objects\ArtifactDataSO.cs" />
     <Compile Include="Assets\Scripts\Scriptable Objects\ConsumableDataSO.cs" />
     <Compile Include="Assets\Scripts\Scriptable Objects\EnemyWaveSO.cs" />
     <Compile Include="Assets\Scripts\Scriptable Objects\ItemDataSO.cs" />
@@ -242,8 +238,6 @@
     <Compile Include="Assets\Scripts\StateCardRewardOverlay.cs" />
     <Compile Include="Assets\Scripts\Static Classes\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\Static Classes\Libraries\AbilityLibrary.cs" />
-    <Compile Include="Assets\Scripts\Static Classes\Libraries\ArtifactLibrary.cs" />
-    <Compile Include="Assets\Scripts\Static Classes\Libraries\CharacterLibrary.cs" />
     <Compile Include="Assets\Scripts\Static Classes\Libraries\ConsumableLibrary.cs" />
     <Compile Include="Assets\Scripts\Static Classes\Libraries\ItemLibrary.cs" />
     <Compile Include="Assets\Scripts\Static Classes\Libraries\StateLibrary.cs" />
@@ -256,7 +250,6 @@
     <Compile Include="Assets\Scripts\Static Classes\Logic Operators\TextLogic.cs" />
     <Compile Include="Assets\Scripts\Static Classes\Managers\ActionManager.cs" />
     <Compile Include="Assets\Scripts\Static Classes\Managers\ActivationManager.cs" />
-    <Compile Include="Assets\Scripts\Static Classes\Managers\ArtifactManager.cs" />
     <Compile Include="Assets\Scripts\Static Classes\Managers\CampSiteManager.cs" />
     <Compile Include="Assets\Scripts\Static Classes\Managers\ConsumableManager.cs" />
     <Compile Include="Assets\Scripts\Static Classes\Managers\DefenderManager.cs" />

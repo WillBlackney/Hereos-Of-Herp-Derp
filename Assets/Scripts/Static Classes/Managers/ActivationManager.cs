@@ -10,6 +10,7 @@ public class ActivationManager : MonoBehaviour
     public GameObject activationWindowContentParent;
     public GameObject windowStartPos;
     public GameObject activationPanelParent;
+    public Canvas activationPanelParentCanvas;
     public GameObject panelArrow;
     public GameObject panelSlotPrefab;
     public GameObject slotHolderPrefab;
@@ -243,10 +244,10 @@ public class ActivationManager : MonoBehaviour
         {
             for (int i = 0; i < activationOrder.Count; i++)
             {
-                //Check if GameObject is in the List
+                // Check if GameObject is in the List
                 if (activationOrder[i] == entityActivated)
                 {
-                    //It is. Return the current index
+                    // It is. Return the current index
                     currentActivationIndex = i;
                     break;
                 }

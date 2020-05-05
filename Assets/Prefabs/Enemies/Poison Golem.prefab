@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 950178438733135257}
-  - component: {fileID: 1139462146350652909}
   - component: {fileID: 2224053685287273549}
   - component: {fileID: 7875565963865044812}
   - component: {fileID: 8037510221416019977}
@@ -38,56 +37,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1139462146350652909
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946410964796985835}
-  m_Enabled: 0
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RenderingLayerMask: 4294967295
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: 967b6b4023746fd4399a1f58c7296136, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 0.5543478, y: 0.6304348}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!65 &2224053685287273549
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -518,19 +467,17 @@ MonoBehaviour:
   myHealthBar: {fileID: 3242669608695699030}
   myWorldSpaceCanvas: {fileID: 3898754026335243377}
   myWorldSpaceCanvasParent: {fileID: 5435781593088249267}
-  mySpriteParent: {fileID: 1810716730088168656}
-  myModelParent: {fileID: 1810716730088168656}
-  myModel: {fileID: 8101749104189681921}
-  myEntityRenderer: {fileID: 183676370757358255}
   myBlockIcon: {fileID: 8891521053413066687}
   myBlockText: {fileID: 5530554245770483512}
   myCurrentHealthText: {fileID: 3401180470964770687}
   myCurrentMaxHealthText: {fileID: 2379592071367546754}
+  myModelParent: {fileID: 1810716730088168656}
+  myModel: {fileID: 8101749104189681921}
+  myEntityRenderer: {fileID: 183676370757358255}
   myAnimator: {fileID: 166114891800651489}
-  mySpriteRenderer: {fileID: 0}
   myStatusManager: {fileID: 2891302885453670855}
-  mySpellBook: {fileID: 0}
-  myPassiveManager: {fileID: 0}
+  mySpellBook: {fileID: 7875565963865044812}
+  myPassiveManager: {fileID: 8037510221416019977}
   myActivationWindow: {fileID: 0}
   defender: {fileID: 0}
   enemy: {fileID: 0}
@@ -583,29 +530,26 @@ MonoBehaviour:
   myMainHandWeapon: {fileID: 0}
   myOffHandWeapon: {fileID: 0}
   tile: {fileID: 0}
-  myCurrentTarget: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
-  activePowers: []
-  myName: Poison Golem
-  speed: 3
-  mouseIsOverStatusIconPanel: 0
-  mouseIsOverCharacter: 0
-  currentInitiativeRoll: 0
+  myCurrentTarget: {fileID: 0}
+  myTaunter: {fileID: 0}
   moveActionsTakenThisActivation: 0
   meleeAbilityActionsTakenThisActivation: 0
   skillAbilityActionsTakenThisActivation: 0
   rangedAttackAbilityActionsTakenThisActivation: 0
   timesMeleeAttackedThisTurnCycle: 0
-  inDeathProcess: 0
-  facingRight: 0
-  spriteImportedFacingRight: 1
-  normalColour: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
-  highlightColour: {r: 1, g: 1, b: 1, a: 1}
+  currentInitiativeRoll: 0
   myRangedAttackFinished: 0
   hasActivatedThisTurn: 0
-  myTaunter: {fileID: 0}
+  inDeathProcess: 0
+  mouseIsOverStatusIconPanel: 0
+  mouseIsOverCharacter: 0
+  myName: Poison Golem
+  movementAnimSpeed: 0
+  facingRight: 0
+  normalColour: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
+  highlightColour: {r: 1, g: 1, b: 1, a: 1}
   myDeathAnimationFinished: 0
-  myOnActivationEndEffectsFinished: 0
   myInfoPanel: {fileID: 1167252939688865562}
   freeStrikeIndicator: {fileID: 7641735319385677338}
   currentlyActivated: 0

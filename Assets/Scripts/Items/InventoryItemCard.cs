@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class InventoryItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class InventoryItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [Header("Component References")]
     public Image itemImage;
@@ -31,14 +31,12 @@ public class InventoryItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler,
     }
     public void OnDrag(PointerEventData eventData)
     {
-        // Follow mouse position
-
         // prevent player dragging equipted items
         if (!equipted)
         {
             var screenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
             screenPoint.z = 10.0f;
-            transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
+            transform.position = CameraManager.Instance.unityCamera.mainCamera.ScreenToWorldPoint(screenPoint);
         }
         
     }
@@ -66,7 +64,6 @@ public class InventoryItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler,
         if (InventoryController.Instance.itemBeingDragged == null)
         {
             infoItemCardVisualParent.SetActive(true);
-            //
             ItemCardPanelHover.Instance.OnItemCardMousedOver(myInfoItemCard);
         }
     }   
@@ -74,27 +71,7 @@ public class InventoryItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler,
     {
         ItemCardPanelHover.Instance.OnItemCardMouseExit();
         infoItemCardVisualParent.SetActive(false);
-    }
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        /*
-        // dont display item cards of other items will an item is being dragged
-        if(InventoryController.Instance.itemBeingDragged == null)
-        {
-            infoItemCardVisualParent.SetActive(true);
-            //
-            ItemCardPanelHover.Instance.OnItemCardMousedOver(myInfoItemCard);
-        }
-        */
-        
-    }
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        /*
-        ItemCardPanelHover.Instance.OnItemCardMouseExit();
-        infoItemCardVisualParent.SetActive(false);
-        */
-    }
+    }      
     public void SetRayCastingState(bool onOrOff)
     {
         Debug.Log("InventoryItemCard.SetRayCastingState() called...");

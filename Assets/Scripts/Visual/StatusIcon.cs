@@ -18,7 +18,6 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [Header("Component References")]
     public TextMeshProUGUI statusStacksText;
     public Image iconImage;
-    public CanvasGroup panelCG;
     #endregion
 
     // Initialization + Setup
@@ -68,18 +67,6 @@ public class StatusIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     // Visibility + View Logic
     #region
-    public void SetInfoPanelVisibility(bool onOroff)
-    {
-        if(onOroff == true)
-        {
-            panelCG.alpha = 1;
-
-        }
-        else
-        {
-            panelCG.alpha = 0.001f;
-        }
-        
-    }
+   
     #endregion
 }

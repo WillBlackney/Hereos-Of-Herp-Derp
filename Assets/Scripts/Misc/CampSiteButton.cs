@@ -7,11 +7,16 @@ using TMPro;
 
 public class CampSiteButton : MonoBehaviour
 {
-    [Header("Component References")]
+    [Header("General Component References")]
     public GameObject buttonImageParent;
-    public GameObject glowOutlineParent;
+    public RectTransform buttonImageTransform;
     public GameObject infoPanelParent;
     public TextMeshProUGUI costText;
+
+    [Header("Glow Outline Component References")]
+    public GameObject glowOutlineParent;
+    public CanvasGroup glowOutlineCg;
+    public Animator glowOutlineAnimator;
 
     [Header("Properties")]
     public string buttonName;
@@ -24,7 +29,7 @@ public class CampSiteButton : MonoBehaviour
     #region
     private void Start()
     {
-        buttonScale = buttonImageParent.GetComponent<RectTransform>().localScale.x;
+        buttonScale = buttonImageTransform.localScale.x;
     }
     #endregion
 
@@ -55,16 +60,15 @@ public class CampSiteButton : MonoBehaviour
         expanding = true;
 
         float finalScale = buttonScale * 1.2f;
-        RectTransform transform = buttonImageParent.GetComponent<RectTransform>();
 
-        while (transform.localScale.x < finalScale && expanding == true)
+        while (buttonImageTransform.localScale.x < finalScale && expanding == true)
         {
-            Vector3 targetScale = new Vector3(transform.localScale.x + (0.1f * speed * Time.deltaTime), transform.localScale.y + (0.1f * speed * Time.deltaTime));
-            transform.localScale = targetScale;
+            Vector3 targetScale = new Vector3(buttonImageTransform.localScale.x + (0.1f * speed * Time.deltaTime), buttonImageTransform.localScale.y + (0.1f * speed * Time.deltaTime));
+            buttonImageTransform.localScale = targetScale;
             yield return new WaitForEndOfFrame();
         }
 
-        if (transform.localScale.x >= finalScale)
+        if (buttonImageTransform.localScale.x >= finalScale)
         {
             EnableInfoPanelView();
         }
@@ -76,26 +80,22 @@ public class CampSiteButton : MonoBehaviour
         shrinking = true;
         DisableInfoPanelView();
 
-        RectTransform transform = buttonImageParent.GetComponent<RectTransform>();
-
-        while (transform.localScale.x > buttonScale && shrinking == true)
+        while (buttonImageTransform.localScale.x > buttonScale && shrinking == true)
         {
-            Vector3 targetScale = new Vector3(transform.localScale.x - (0.1f * speed * Time.deltaTime), transform.localScale.y - (0.1f * speed * Time.deltaTime));
-            transform.localScale = targetScale;
+            Vector3 targetScale = new Vector3(buttonImageTransform.localScale.x - (0.1f * speed * Time.deltaTime), buttonImageTransform.localScale.y - (0.1f * speed * Time.deltaTime));
+            buttonImageTransform.localScale = targetScale;
             yield return new WaitForEndOfFrame();
         }
     }
     public void EnableGlowAnimation()
     {
         glowOutlineParent.SetActive(true);
-        glowOutlineParent.GetComponent<CanvasGroup>().alpha = 0;
-        glowOutlineParent.GetComponent<Animator>().SetTrigger("Glow");
+        glowOutlineCg.alpha = 0;
+        glowOutlineAnimator.SetTrigger("Glow");
     }
     public void DisableGlowAnimation()
     {
         glowOutlineParent.SetActive(false);
-        //glowOutlineParent.GetComponent<CanvasGroup>().alpha = 0;
-        //glowOutlineParent.GetComponent<Animator>().SetTrigger("Glow");
     }
     public void EnableInfoPanelView()
     {

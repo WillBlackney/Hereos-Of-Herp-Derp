@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class TargetingPathRenderer : MonoBehaviour
 {
+    // Properties + Component References
+    #region
     [Header("Component References")]
     public LineRenderer lineRenderer;
     public GameObject lineRendererParent;
 
     [Header("Properties")]
     public bool active;
+    #endregion
 
     // Singleton Pattern
     #region
@@ -29,6 +32,8 @@ public class TargetingPathRenderer : MonoBehaviour
     }
     #endregion
 
+    // Pathing Logic
+    #region
     public void DrawPath()
     {
         lineRenderer.positionCount = 2;
@@ -42,6 +47,7 @@ public class TargetingPathRenderer : MonoBehaviour
         }
        
     }
+    #endregion
 
     // View Logic
     #region

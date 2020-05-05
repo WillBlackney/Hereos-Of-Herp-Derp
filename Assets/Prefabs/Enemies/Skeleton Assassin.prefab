@@ -9,11 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4067185318700630}
-  - component: {fileID: 8436321203685556223}
-  - component: {fileID: 212209716703020578}
   - component: {fileID: 1440211106981617538}
   - component: {fileID: -2275895814606721917}
   - component: {fileID: 7109844203329741766}
+  - component: {fileID: 8436321203685556223}
   m_Layer: 0
   m_Name: Skeleton Assassin
   m_TagString: Untagged
@@ -38,162 +37,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8436321203685556223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1009995944954404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60675789ec546134e9d4a2129c0aca9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myHealthBar: {fileID: 2315276270290029977}
-  myWorldSpaceCanvas: {fileID: 4267984685794219966}
-  myWorldSpaceCanvasParent: {fileID: 5065990870195869308}
-  mySpriteParent: {fileID: 1441486208059787039}
-  myModelParent: {fileID: 1441486208059787039}
-  myModel: {fileID: 9029423368655661774}
-  myEntityRenderer: {fileID: 1129640427035838816}
-  myBlockIcon: {fileID: 8522149828800781424}
-  myBlockText: {fileID: 4747282864048557303}
-  myCurrentHealthText: {fileID: 2455216930099662000}
-  myCurrentMaxHealthText: {fileID: 3181730694455266381}
-  myAnimator: {fileID: 1112369081407405358}
-  mySpriteRenderer: {fileID: 0}
-  myStatusManager: {fileID: 2683650545205604872}
-  mySpellBook: {fileID: 0}
-  myPassiveManager: {fileID: 0}
-  myActivationWindow: {fileID: 0}
-  defender: {fileID: 0}
-  enemy: {fileID: 0}
-  baseMobility: 2
-  baseMaxHealth: 45
-  baseStartingHealth: 45
-  baseStamina: 40
-  baseMaxEnergy: 60
-  baseMeleeRange: 1
-  baseStrength: 0
-  baseWisdom: 0
-  baseDexterity: 0
-  baseInitiative: 3
-  baseCriticalChance: 5
-  baseDodgeChance: 5
-  baseParryChance: 5
-  baseAuraSize: 1
-  baseStartingBlock: 0
-  baseStartingEnergyBonus: 0
-  baseMaxPowersCount: 1
-  basePhysicalResistance: 0
-  baseFireResistance: 0
-  baseFrostResistance: 0
-  baseShadowResistance: 0
-  basePoisonResistance: 0
-  baseAirResistance: 0
-  currentMobility: 0
-  currentMaxHealth: 0
-  currentHealth: 0
-  currentMaxEnergy: 0
-  currentStamina: 0
-  currentEnergy: 0
-  currentMeleeRange: 0
-  currentStrength: 0
-  currentWisdom: 0
-  currentDexterity: 0
-  currentInitiative: 0
-  currentCriticalChance: 5
-  currentDodgeChance: 0
-  currentParryChance: 0
-  currentAuraSize: 0
-  currentMaxPowersCount: 0
-  currentBlock: 0
-  currentPhysicalResistance: 0
-  currentFireResistance: 0
-  currentFrostResistance: 0
-  currentShadowResistance: 0
-  currentPoisonResistance: 0
-  currentAirResistance: 0
-  myMainHandWeapon: {fileID: 0}
-  myOffHandWeapon: {fileID: 0}
-  tile: {fileID: 0}
-  myCurrentTarget: {fileID: 0}
-  destination: {x: 0, y: 0, z: 0}
-  activePowers: []
-  myName: Skeleton Assassin
-  speed: 3
-  mouseIsOverStatusIconPanel: 0
-  mouseIsOverCharacter: 0
-  currentInitiativeRoll: 0
-  moveActionsTakenThisActivation: 0
-  meleeAbilityActionsTakenThisActivation: 0
-  skillAbilityActionsTakenThisActivation: 0
-  rangedAttackAbilityActionsTakenThisActivation: 0
-  timesMeleeAttackedThisTurnCycle: 0
-  inDeathProcess: 0
-  facingRight: 0
-  spriteImportedFacingRight: 1
-  normalColour: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
-  highlightColour: {r: 1, g: 1, b: 1, a: 1}
-  myRangedAttackFinished: 0
-  hasActivatedThisTurn: 0
-  myTaunter: {fileID: 0}
-  myDeathAnimationFinished: 0
-  myOnActivationEndEffectsFinished: 0
-  myInfoPanel: {fileID: 2095069968850433237}
-  freeStrikeIndicator: {fileID: 7434634418847630805}
-  currentlyActivated: 0
---- !u!212 &212209716703020578
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1009995944954404}
-  m_Enabled: 0
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RenderingLayerMask: 4294967295
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: 967b6b4023746fd4399a1f58c7296136, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 0.5543478, y: 0.6304348}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!65 &1440211106981617538
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -609,6 +452,107 @@ MonoBehaviour:
   runeStacks: 0
   barrier: 0
   barrierStacks: 0
+--- !u!114 &8436321203685556223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009995944954404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60675789ec546134e9d4a2129c0aca9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myHealthBar: {fileID: 2315276270290029977}
+  myWorldSpaceCanvas: {fileID: 4267984685794219966}
+  myWorldSpaceCanvasParent: {fileID: 5065990870195869308}
+  myBlockIcon: {fileID: 8522149828800781424}
+  myBlockText: {fileID: 4747282864048557303}
+  myCurrentHealthText: {fileID: 2455216930099662000}
+  myCurrentMaxHealthText: {fileID: 3181730694455266381}
+  myModelParent: {fileID: 1441486208059787039}
+  myModel: {fileID: 9029423368655661774}
+  myEntityRenderer: {fileID: 1129640427035838816}
+  myAnimator: {fileID: 1112369081407405358}
+  myStatusManager: {fileID: 2683650545205604872}
+  mySpellBook: {fileID: -2275895814606721917}
+  myPassiveManager: {fileID: 7109844203329741766}
+  myActivationWindow: {fileID: 0}
+  defender: {fileID: 0}
+  enemy: {fileID: 0}
+  baseMobility: 2
+  baseMaxHealth: 45
+  baseStartingHealth: 45
+  baseStamina: 40
+  baseMaxEnergy: 60
+  baseMeleeRange: 1
+  baseStrength: 0
+  baseWisdom: 0
+  baseDexterity: 0
+  baseInitiative: 3
+  baseCriticalChance: 5
+  baseDodgeChance: 5
+  baseParryChance: 5
+  baseAuraSize: 1
+  baseStartingBlock: 0
+  baseStartingEnergyBonus: 0
+  baseMaxPowersCount: 1
+  basePhysicalResistance: 0
+  baseFireResistance: 0
+  baseFrostResistance: 0
+  baseShadowResistance: 0
+  basePoisonResistance: 0
+  baseAirResistance: 0
+  currentMobility: 0
+  currentMaxHealth: 0
+  currentHealth: 0
+  currentMaxEnergy: 0
+  currentStamina: 0
+  currentEnergy: 0
+  currentMeleeRange: 0
+  currentStrength: 0
+  currentWisdom: 0
+  currentDexterity: 0
+  currentInitiative: 0
+  currentCriticalChance: 5
+  currentDodgeChance: 0
+  currentParryChance: 0
+  currentAuraSize: 0
+  currentMaxPowersCount: 0
+  currentBlock: 0
+  currentPhysicalResistance: 0
+  currentFireResistance: 0
+  currentFrostResistance: 0
+  currentShadowResistance: 0
+  currentPoisonResistance: 0
+  currentAirResistance: 0
+  myMainHandWeapon: {fileID: 0}
+  myOffHandWeapon: {fileID: 0}
+  tile: {fileID: 0}
+  destination: {x: 0, y: 0, z: 0}
+  myCurrentTarget: {fileID: 0}
+  myTaunter: {fileID: 0}
+  moveActionsTakenThisActivation: 0
+  meleeAbilityActionsTakenThisActivation: 0
+  skillAbilityActionsTakenThisActivation: 0
+  rangedAttackAbilityActionsTakenThisActivation: 0
+  timesMeleeAttackedThisTurnCycle: 0
+  currentInitiativeRoll: 0
+  myRangedAttackFinished: 0
+  hasActivatedThisTurn: 0
+  inDeathProcess: 0
+  mouseIsOverStatusIconPanel: 0
+  mouseIsOverCharacter: 0
+  myName: Skeleton Assassin
+  movementAnimSpeed: 0
+  facingRight: 0
+  normalColour: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
+  highlightColour: {r: 1, g: 1, b: 1, a: 1}
+  myDeathAnimationFinished: 0
+  myInfoPanel: {fileID: 2095069968850433237}
+  freeStrikeIndicator: {fileID: 7434634418847630805}
+  currentlyActivated: 0
 --- !u!1 &1441486208059787039
 GameObject:
   m_ObjectHideFlags: 0

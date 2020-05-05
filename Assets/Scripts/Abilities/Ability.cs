@@ -7,17 +7,16 @@ using TMPro;
 
 public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    [Header("Component References ")]
-    public LivingEntity myLivingEntity;
+    [Header("Component References ")]    
     public TextMeshProUGUI myCooldownText;
     public AbilityDataSO myAbilityData;
-    public Sprite abilitySprite;
     public Image abilityImage;
     public CanvasGroup glowHighlightCG;
     public AbilityInfoSheet abilityInfoSheet;
     public TextMeshProUGUI abilityNumberText;
 
     [Header("Properties")]
+    public LivingEntity myLivingEntity;
     public string abilityName;
     public string abilityDescription;
     public int abilityBaseCooldownTime;
@@ -27,7 +26,6 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public int abilityPrimaryValue;
     public int abilitySecondaryValue;
     public float weaponDamagePercentage;
-    public AbilityDataSO.AttackType abilityAttackType;
     public AbilityDataSO.DamageType abilityDamageType;
     public AbilityDataSO.AbilityType abilityType;
 
@@ -46,12 +44,10 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     {
         myAbilityData = abilityFromLibrary;
 
-        abilitySprite = abilityFromLibrary.sprite;
-
-        // only for defenders. enemies don't have ability button gameobjects, so GetComponent<Image> will cause a null ref on enemies.
+        // only for defenders. enemies don't have ability button gameobjects
         if (abilityImage)
         {
-            abilityImage.sprite = abilitySprite;
+            abilityImage.sprite = abilityFromLibrary.sprite;
         }        
 
         // Set base properties
@@ -62,7 +58,6 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         abilityRange = abilityFromLibrary.range;
         abilityPrimaryValue = abilityFromLibrary.primaryValue;
         abilitySecondaryValue = abilityFromLibrary.secondaryValue;
-        abilityAttackType = abilityFromLibrary.attackType;
         abilityDamageType = abilityFromLibrary.damageType;
         abilityType = abilityFromLibrary.abilityType;
         weaponDamagePercentage = abilityFromLibrary.weaponDamagePercentage;
@@ -72,7 +67,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
         // Set up info panel for defenders
         if (myLivingEntity != null &&
-            myLivingEntity.GetComponent<Defender>())
+            myLivingEntity.defender)
         {
             AbilityInfoSheetController.Instance.BuildSheetFromData(abilityInfoSheet, abilityFromLibrary, AbilityInfoSheet.PivotDirection.Upwards);
         }
@@ -84,14 +79,14 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     #region
     public void OnButtonClick()
     {
-        if (myLivingEntity.GetComponent<Defender>())
+        if (myLivingEntity.defender)
         {
-            myLivingEntity.GetComponent<Defender>().OnAbilityButtonClicked(abilityName);
+            myLivingEntity.defender.OnAbilityButtonClicked(abilityName);
         }
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (myLivingEntity.GetComponent<Defender>())
+        if (myLivingEntity.defender)
         {
             CalculateAndSetInfoPanelFields();
             SetInfoPanelVisibility(true);
@@ -101,7 +96,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (myLivingEntity.GetComponent<Defender>())
+        if (myLivingEntity.defender)
         {
             highlightButton = false;
             SetInfoPanelVisibility(false);
@@ -130,7 +125,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
                 return;
             }
 
-            else if (myLivingEntity.defender == true)
+            else if (myLivingEntity.defender)
             {
                 HideCooldownTimer();
             }
@@ -143,7 +138,7 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
                 return;
             }
 
-            else if (myLivingEntity.defender == true)
+            else if (myLivingEntity.defender)
             {
                 ShowCooldownTimer();
             }
@@ -169,14 +164,12 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     #region
     public void ShowCooldownTimer()
     {
-        Defender defender = myLivingEntity.GetComponent<Defender>();
-
         if (myLivingEntity.enemy)
         {
             return;
         }
 
-        else if (defender)
+        else if (myLivingEntity.defender)
         {
             myCooldownText.gameObject.SetActive(true);
         }
@@ -184,14 +177,12 @@ public class Ability : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     }
     public void HideCooldownTimer()
     {
-        Defender defender = myLivingEntity.gameObject.GetComponent<Defender>();
-
         if (myLivingEntity.enemy)
         {
             return;
         }
 
-        else if (defender)
+        else if (myLivingEntity.defender)
         {
             myCooldownText.gameObject.SetActive(false);
         }

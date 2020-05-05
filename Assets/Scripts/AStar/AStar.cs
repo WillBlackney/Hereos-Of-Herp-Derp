@@ -8,16 +8,6 @@ public static class AStar
 {
     private static Dictionary<Point, Node> nodes;
 
-    public static void ClearNodes()
-    {
-        /*
-        if(nodes != null)
-        {
-            nodes.Clear();
-        }
-        */        
-    }
-
     // Create a node for every tile in the game
     private static void CreateNodes()
     {
@@ -120,10 +110,6 @@ public static class AStar
         }
 
         return finalPath;
-
-        //**** THIS IS FOR DEBUGGING ONLY, REMOVE LATER
-
-        //GameObject.Find("AStarDebugger").GetComponent<AStarDebugger>().DebugPath(openList, closedList, finalPath);
     }
 
     // Prevents entities moving diagonally between two other entities / world objects

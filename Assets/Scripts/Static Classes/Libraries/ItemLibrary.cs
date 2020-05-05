@@ -29,6 +29,7 @@ public class ItemLibrary : MonoBehaviour
             if (itemData.Name == itemName)
             {
                 itemReturned = itemData;
+                break;
             }
         }
 

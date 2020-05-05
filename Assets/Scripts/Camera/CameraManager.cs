@@ -26,10 +26,13 @@ public class CameraManager : MonoBehaviour
     }
     public void ResetCameraOnCombatStart()
     {
+        // Get Start Pos
+        Tile centreTile = LevelManager.Instance.GetWorldCentreTile();
+
         // Zoom out
         unityCamera.SetPreferedOrthographicSize(5); 
 
         // Focus on world centre tile
-        unityCamera.mainCamera.transform.position = new Vector3(LevelManager.Instance.GetWorldCentreTile().WorldPosition.x, LevelManager.Instance.GetWorldCentreTile().WorldPosition.y + 0.5f, -10);
+        unityCamera.mainCamera.transform.position = new Vector3(centreTile.WorldPosition.x, centreTile.WorldPosition.y + 0.5f, -10);
     }
 }

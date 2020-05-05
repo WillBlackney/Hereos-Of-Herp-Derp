@@ -104,7 +104,6 @@ public class CameraMovement : MonoBehaviour
         {
             Debug.Log("MoveTowardsZoomPosition() detected that camera zoom is not equal to desired zoom size, adjusting...");
 
-
             // Zoom in smoothly     
             if (mainCamera.orthographicSize > currentOrthoSize)
             {

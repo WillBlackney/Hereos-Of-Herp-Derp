@@ -467,19 +467,17 @@ MonoBehaviour:
   myHealthBar: {fileID: 31010588087759604}
   myWorldSpaceCanvas: {fileID: 1978563488056486099}
   myWorldSpaceCanvasParent: {fileID: 7350344822569167121}
-  mySpriteParent: {fileID: 3769117505042200690}
-  myModelParent: {fileID: 3769117505042200690}
-  myModel: {fileID: 6701739707453969827}
-  myEntityRenderer: {fileID: 3450568258780673549}
   myBlockIcon: {fileID: 6200166319345361693}
   myBlockText: {fileID: 7038586270520554394}
   myCurrentHealthText: {fileID: 170299770628600797}
   myCurrentMaxHealthText: {fileID: 894086857796547360}
+  myModelParent: {fileID: 3769117505042200690}
+  myModel: {fileID: 6701739707453969827}
+  myEntityRenderer: {fileID: 3450568258780673549}
   myAnimator: {fileID: 3395790802001199683}
-  mySpriteRenderer: {fileID: 0}
   myStatusManager: {fileID: 392259040366497125}
-  mySpellBook: {fileID: 0}
-  myPassiveManager: {fileID: 0}
+  mySpellBook: {fileID: 4622325612481680366}
+  myPassiveManager: {fileID: 4820142244116733099}
   myActivationWindow: {fileID: 0}
   defender: {fileID: 0}
   enemy: {fileID: 0}
@@ -532,29 +530,26 @@ MonoBehaviour:
   myMainHandWeapon: {fileID: 0}
   myOffHandWeapon: {fileID: 0}
   tile: {fileID: 0}
-  myCurrentTarget: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
-  activePowers: []
-  myName: Air Golem
-  speed: 3
-  mouseIsOverStatusIconPanel: 0
-  mouseIsOverCharacter: 0
-  currentInitiativeRoll: 0
+  myCurrentTarget: {fileID: 0}
+  myTaunter: {fileID: 0}
   moveActionsTakenThisActivation: 0
   meleeAbilityActionsTakenThisActivation: 0
   skillAbilityActionsTakenThisActivation: 0
   rangedAttackAbilityActionsTakenThisActivation: 0
   timesMeleeAttackedThisTurnCycle: 0
-  inDeathProcess: 0
-  facingRight: 0
-  spriteImportedFacingRight: 1
-  normalColour: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
-  highlightColour: {r: 1, g: 1, b: 1, a: 1}
+  currentInitiativeRoll: 0
   myRangedAttackFinished: 0
   hasActivatedThisTurn: 0
-  myTaunter: {fileID: 0}
+  inDeathProcess: 0
+  mouseIsOverStatusIconPanel: 0
+  mouseIsOverCharacter: 0
+  myName: Air Golem
+  movementAnimSpeed: 0
+  facingRight: 0
+  normalColour: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
+  highlightColour: {r: 1, g: 1, b: 1, a: 1}
   myDeathAnimationFinished: 0
-  myOnActivationEndEffectsFinished: 0
   myInfoPanel: {fileID: 4421557910620031928}
   freeStrikeIndicator: {fileID: 5143824263063943864}
   currentlyActivated: 0

@@ -372,7 +372,7 @@ public class AbilityLogic : MonoBehaviour
     {
         Debug.Log("AbilityLogic.RemovePowerFromEntity() called, removing " + power.abilityName + " from " + entity.name);
         // Remove power from active powers list
-        entity.activePowers.Remove(power);
+        //entity.activePowers.Remove(power);
 
         // Disable passive effect of power
         if(power.abilityName == "Overload")

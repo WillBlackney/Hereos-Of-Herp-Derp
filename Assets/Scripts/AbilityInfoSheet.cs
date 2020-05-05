@@ -46,6 +46,8 @@ public class AbilityInfoSheet : MonoBehaviour
     public TextMeshProUGUI weaponRequirmentText;
 
     [Header("Transform Component References")]
+    public RectTransform visualParentTransform;
+    public RectTransform canvasTransform;
     public RectTransform transformParent;
     public RectTransform middleFrameTransform;
     public RectTransform allFramesParentTransform;

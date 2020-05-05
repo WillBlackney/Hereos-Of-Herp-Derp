@@ -41,15 +41,10 @@ public class InstructionHover : MonoBehaviour
 
     public void EnableInstructionHover(string message)
     {
-        StartCoroutine(EnableInstructionHoverCoroutine(message));
-    }
-    private IEnumerator EnableInstructionHoverCoroutine(string message)
-    {
         EnableView();
         SetText(message);
         SetFollowMouseState(true);
-        yield return null;
-    }
+    }    
     public void DisableInstructionHover()
     {
         StartCoroutine(DisableInstructionHoverCoroutine());

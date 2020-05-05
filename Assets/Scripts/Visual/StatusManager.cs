@@ -8,12 +8,19 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [Header("Component + Prefab References")]
     public GameObject statusIconPrefab;
     public LivingEntity myLivingEntity;
-    public CanvasGroup myCG;
-    public List<StatusIcon> myStatusIcons;
+    public CanvasGroup myCG;    
 
     [Header("Properties")]
+    public List<StatusIcon> myStatusIcons;
     public bool fadingIn;
     public bool fadingOut;
+
+    // Initialization + Setup
+    public void InitializeSetup(LivingEntity entity)
+    {
+        myLivingEntity = entity;
+        SetPanelViewState(false);
+    }
 
     // Add, Update, and Remove Status Icon Logic
     #region
@@ -102,6 +109,7 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             if(iconName == icon.statusName)
             {
                 iconReturned = icon;
+                break;
             }
         }
 
@@ -180,12 +188,7 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             yield return new WaitForEndOfFrame();
         }
         action.actionResolved = true;
-    }
-    private void Start()
-    {
-        myLivingEntity = GetComponentInParent<LivingEntity>();
-        SetPanelViewState(false);
-    }
+    }    
     #endregion
 
     // Mouse + Input Events
@@ -200,18 +203,11 @@ public class StatusManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         myLivingEntity.mouseIsOverStatusIconPanel = false;
         if (myLivingEntity.mouseIsOverCharacter == false)
         {
-            DisableAllMyIcons();
+            //DisableAllMyIcons();
             SetPanelViewState(false);
             InfoPanelHover.Instance.DisableView();
         }        
-    }
-    public void DisableAllMyIcons()
-    {
-        foreach(StatusIcon icon in myStatusIcons)
-        {
-            icon.SetInfoPanelVisibility(false);
-        }
-    }
+    }   
 
     #endregion
 

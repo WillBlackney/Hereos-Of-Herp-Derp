@@ -20,10 +20,10 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [Header("Component References")]
     public Image myEncounterTypeImage;
     public Image myEncounterTypeShadowImage;
-    public Image circleImage;
     public Image glowOutline;
     public GameObject redXOverlay;
     public GameObject visualParent;
+    public RectTransform visualParentTransform;
     public Animator myAnimator;
     #endregion
 
@@ -40,7 +40,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     #region
     public void PlayBreatheAnimation()
     {
-        visualParent.GetComponent<RectTransform>().localScale = new Vector3(1, 1);
+        visualParentTransform.localScale = new Vector3(1, 1);
         myAnimator.SetTrigger("Idle");
     }
     public void PlayIdleAnimation()

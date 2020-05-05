@@ -11,7 +11,6 @@ public class Talent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
         Ranger, Manipulation, Divinity, Shadowcraft, Corruption, Naturalism};
 
     [Header("General Component References")]  
-    public GameObject myGlowOutline;
     public GameObject blackTintOverlay;
     public GameObject purchasedOverlay;
     public Image talentImage;

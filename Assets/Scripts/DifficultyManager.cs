@@ -41,7 +41,7 @@ public class DifficultyManager : MonoBehaviour
             WorldManager.Instance.currentAct == 2)
         {
             entity.baseMaxHealth += (int)(entity.baseMaxHealth * bonusHealthPercentage);
-            entity.baseStartingHealth += (int)(entity.baseMaxHealth * bonusHealthPercentage);
+            entity.baseStartingHealth += (int)(entity.baseStartingHealth * bonusHealthPercentage);
             entity.baseStrength += bonusStrength;
             entity.baseDexterity += bonusDexterity;
             entity.baseWisdom += bonusWisdom;

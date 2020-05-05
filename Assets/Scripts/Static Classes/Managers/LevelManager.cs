@@ -11,13 +11,11 @@ public class LevelManager : MonoBehaviour
     [Header("Prefab References")]
     [SerializeField] private GameObject[] tilePrefabs;    
     [SerializeField] private List <TextAsset> mapTextFiles;
-    public GameObject combatBGPrefab;
 
     [Header("Component References")]
     [SerializeField] private Transform tileParent;
 
-    [Header("Properties")]
-    public Tile selectedTile;    
+    [Header("Properties")]   
     private Point mapSize;
     public GameObject currentLevelBG;
     public Tile mousedOverTile;
@@ -30,7 +28,14 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance;
     private void Awake()
     {
-        Instance = this;
+        if (!Instance)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     #endregion
 
@@ -63,20 +68,14 @@ public class LevelManager : MonoBehaviour
 
         // Turn on level background
         ToggleLevelBackgroundView(true);
-    }
-    public void CreateLevelBackground()
-    {
-        GameObject newLevelBG = Instantiate(PrefabHolder.Instance.LevelBG);
-        currentLevelBG = newLevelBG;        
-        newLevelBG.transform.position = new Vector3(0, -4, 0.001F);
-    }
+    }    
     private void PlaceTile(string tileType, int x, int y, Vector3 worldStart)
     {
         int tileIndex = int.Parse(tileType);
 
         Tile newTile = Instantiate(tilePrefabs[tileIndex]).GetComponent<Tile>();
 
-        newTile.Setup(new Point(x, y), new Vector3(worldStart.x + (TileSize * x), worldStart.y - (TileSize * y), 0), tileParent);
+        newTile.Setup(new Point(x, y), new Vector3(worldStart.x + (1 * x), worldStart.y - (1 * y), 0), tileParent);
 
     }
     private string[] ReadMapTextAssetData()
@@ -92,14 +91,7 @@ public class LevelManager : MonoBehaviour
     #region
     public void ToggleLevelBackgroundView(bool onOrOff)
     {
-        if (onOrOff == true)
-        {
-            currentLevelBG.SetActive(true);
-        }
-        else
-        {
-            currentLevelBG.SetActive(false);
-        }
+        currentLevelBG.SetActive(onOrOff);
     }
     public void HighlightTiles(List<Tile> tilesToHighlight)
     {
@@ -160,11 +152,6 @@ public class LevelManager : MonoBehaviour
         {
             return true;
         }
-        else if (tileFrom.GridPosition.X > destination.GridPosition.X)
-        {
-            return false;
-        }
-
         else
         {
             return false;
@@ -176,11 +163,6 @@ public class LevelManager : MonoBehaviour
         {
             return true;
         }
-        else if (tileFrom.GridPosition.X < destination.GridPosition.X)
-        {
-            return false;
-        }
-
         else
         {
             return false;
@@ -332,10 +314,9 @@ public class LevelManager : MonoBehaviour
     }   
     public List<Tile> GetEnemySpawnTiles()
     {
-        List<Tile> allTiles = GetAllTilesFromCurrentLevelDictionary();
         List<Tile> enemySpawnTiles = new List<Tile>();
 
-        foreach (Tile tile in allTiles)
+        foreach (Tile tile in GetAllTilesFromCurrentLevelDictionary())
         {
             if (
                 (tile.GridPosition.X == 10) 
@@ -350,10 +331,9 @@ public class LevelManager : MonoBehaviour
     }
     public List<Tile> GetDefenderSpawnTiles()
     {
-        List<Tile> allTiles = GetAllTilesFromCurrentLevelDictionary();
         List<Tile> defenderSpawnTiles = new List<Tile>();
 
-        foreach (Tile tile in allTiles)
+        foreach (Tile tile in GetAllTilesFromCurrentLevelDictionary())
         {
             if (
                 (tile.GridPosition.X == 0) &&
@@ -389,15 +369,7 @@ public class LevelManager : MonoBehaviour
 
         return enemyLocations;
     }
-    public List<Tile> GetAllCurrentLivingEntitiesLocations()
-    {
-        List<Tile> entityLocations = new List<Tile>();
-
-        entityLocations.AddRange(GetAllCurrentDefenderLocations());
-        entityLocations.AddRange(GetAllCurrentEnemyLocations());
-
-        return entityLocations;
-    }
+    
     public Tile GetClosestValidTile(List <Tile> tiles, Tile tileFrom)
     {
         Tile closestTile = null;
@@ -499,8 +471,7 @@ public class LevelManager : MonoBehaviour
 
         Debug.Log("Valid tiles found: " + validTiles.Count);
 
-        int randomIndex = UnityEngine.Random.Range(0, validTiles.Count);
-        return validTiles[randomIndex];
+        return validTiles[UnityEngine.Random.Range(0, validTiles.Count)];
     }
     public Tile GetTileFromPointReference(Point point)
     {
@@ -514,17 +485,6 @@ public class LevelManager : MonoBehaviour
                 break;
             }
         }
-
-        /*
-        foreach(Tile tile in GetAllTilesFromCurrentLevelDictionary())
-        {
-            if(tile.GridPosition == point)
-            {
-                tileReturned = tile;
-                break;
-            }
-        }
-        */
         return tileReturned;
     }   
     public void SetTileAsOccupied(Tile tile)
@@ -666,8 +626,7 @@ public class LevelManager : MonoBehaviour
     // Misc Logic
     #region
     public void DestroyCurrentLevel()
-    {
-        
+    {        
         Debug.Log("Destroying all tiles...");
 
         List<Tile> tilesToDestroy = new List<Tile>();
@@ -682,17 +641,9 @@ public class LevelManager : MonoBehaviour
         {            
             Destroy(tile.gameObject);
             Destroy(tile);
-        }
+        }       
 
-        AStar.ClearNodes();
-        // Destroy(currentLevelBG);
-        
-
-    }
-    public float TileSize
-    {
-        get { return tilePrefabs[0].GetComponent<SpriteRenderer>().sprite.bounds.size.x; }
-    }
+    }   
     #endregion
 
 

@@ -6,9 +6,11 @@ public class UniversalCharacterModel : MonoBehaviour
 {
     // Properties + Component References
     #region
+    [Header("Component References")]
+    public Animator myAnimator;
+
     [Header("Properties")]
     public LivingEntity myLivingEntity;
-    public List <SpriteRenderer> allRenderers;
 
     [Header("Left Leg References")]
     public List<GameObject> allLeftLegs;
@@ -421,11 +423,11 @@ public class UniversalCharacterModel : MonoBehaviour
     }
     public void SetBaseAnim()
     {
-        GetComponent<Animator>().SetTrigger("Base");
+        myAnimator.SetTrigger("Base");
     }
     public void SetIdleAnim()
     {
-        GetComponent<Animator>().SetTrigger("Idle");
+        myAnimator.SetTrigger("Idle");
     }
 
     #endregion

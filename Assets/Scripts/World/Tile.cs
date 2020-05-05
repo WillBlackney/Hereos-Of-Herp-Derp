@@ -6,7 +6,6 @@ public class Tile : MonoBehaviour
     public enum TileType { None, Dirt, Grass, Tree, Water };
 
     [Header("Component References")]
-    private SpriteRenderer mySpriteRenderer;
     public Animator myAnimator;
 
     [Header("Properties")]
@@ -14,8 +13,6 @@ public class Tile : MonoBehaviour
     public bool IsEmpty;
     public bool IsWalkable;
     public bool BlocksLoS;
-    public Color32 originalColor;
-    public Color32 highlightedColor = Color.white;
     public Point GridPosition { get; set; }
     public Vector2 WorldPosition
     {
@@ -27,11 +24,6 @@ public class Tile : MonoBehaviour
 
     // Initialization + Setup
     #region
-    private void Start()
-    {
-        mySpriteRenderer = GetComponent<SpriteRenderer>();
-        originalColor = mySpriteRenderer.color;
-    }
     public void Setup(Point gridPos, Vector3 worldPos, Transform parent)
     {
         if (myTileType == TileType.Dirt)
@@ -48,7 +40,7 @@ public class Tile : MonoBehaviour
             RunWaterTileSetup();
         }
 
-        this.GridPosition = gridPos;
+        GridPosition = gridPos;
         transform.position = worldPos;
         transform.SetParent(parent);
         LevelManager.Instance.Tiles.Add(gridPos, this);
@@ -84,20 +76,18 @@ public class Tile : MonoBehaviour
     #endregion
 
     // Mouse + Click Events
-    #region
-    private void OnMouseOver()
-    {
-        //LevelManager.Instance.mousedOverTile = this;
-        //OnTileMouseEnter();
-    }
+    #region    
     private void OnMouseEnter()
     {
         LevelManager.Instance.mousedOverTile = this;
         OnTileMouseEnter();
     }
     public void OnTileMouseEnter()
-    {       
+    {
+        // Move tile hover over this
+        TileHover.Instance.UpdatePosition(this);
 
+        // Activate path renderers
         if (DefenderManager.Instance.selectedDefender != null)
         {
             Defender selectedDefender = DefenderManager.Instance.selectedDefender;
@@ -117,14 +107,12 @@ public class Tile : MonoBehaviour
             {
                 TargetingPathRenderer.Instance.DrawPath();
             }
-        }
-        
+        }       
 
 
     }
     public void OnMouseDown()
     {
-        LevelManager.Instance.selectedTile = this;
         Defender selectedDefender = DefenderManager.Instance.selectedDefender;
 
         // check consumables first
@@ -158,7 +146,7 @@ public class Tile : MonoBehaviour
 
         else if (selectedDefender != null && selectedDefender.awaitingMeteorOrder == true)
         {
-            selectedDefender.StartMeteorProcess(LevelManager.Instance.selectedTile);
+            selectedDefender.StartMeteorProcess(this);
         }
         else if (selectedDefender != null && selectedDefender.awaitingBlizzardOrder == true)
         {

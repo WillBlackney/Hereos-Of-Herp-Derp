@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 public class MouseOverMe : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     // Attatch this script to a game object that needs mouse over/exit/click events to disable/enable UI components
-
     public List<GameObject> myElements;
 
     // Pointer Listeners

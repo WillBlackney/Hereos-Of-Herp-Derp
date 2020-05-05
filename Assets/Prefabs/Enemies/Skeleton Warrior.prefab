@@ -9,11 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4067185318700630}
-  - component: {fileID: 212209716703020578}
   - component: {fileID: 1440211106981617538}
-  - component: {fileID: 8889074023644783072}
   - component: {fileID: -2275895814606721917}
   - component: {fileID: 7109844203329741766}
+  - component: {fileID: 8889074023644783072}
   m_Layer: 0
   m_Name: Skeleton Warrior
   m_TagString: Untagged
@@ -38,56 +37,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &212209716703020578
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1009995944954404}
-  m_Enabled: 0
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RenderingLayerMask: 4294967295
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: 584eaaf075d35c6438eafcb4987b6c10, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 0.796875, y: 0.90625}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!65 &1440211106981617538
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -101,112 +50,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6794222, y: 1.0900767, z: 0.2}
   m_Center: {x: -0.025853068, y: 0.2807101, z: 0}
---- !u!114 &8889074023644783072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1009995944954404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba14f6e95820694fad17c6afbda83bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myHealthBar: {fileID: 2536721955585058358}
-  myWorldSpaceCanvas: {fileID: 4048544582219201553}
-  myWorldSpaceCanvasParent: {fileID: 4997798727213530579}
-  mySpriteParent: {fileID: 264823862675203903}
-  myModelParent: {fileID: 264823862675203903}
-  myModel: {fileID: 4488162890251037222}
-  myEntityRenderer: {fileID: 5524391804070283656}
-  myBlockIcon: {fileID: 8453677271998281695}
-  myBlockText: {fileID: 4824481312766846808}
-  myCurrentHealthText: {fileID: 2379891164532582175}
-  myCurrentMaxHealthText: {fileID: 3400916561566181346}
-  myAnimator: {fileID: 5505704562343706054}
-  mySpriteRenderer: {fileID: 0}
-  myStatusManager: {fileID: 2750434239363209639}
-  mySpellBook: {fileID: 0}
-  myPassiveManager: {fileID: 0}
-  myActivationWindow: {fileID: 0}
-  defender: {fileID: 0}
-  enemy: {fileID: 0}
-  baseMobility: 2
-  baseMaxHealth: 51
-  baseStartingHealth: 51
-  baseStamina: 40
-  baseMaxEnergy: 60
-  baseMeleeRange: 1
-  baseStrength: 0
-  baseWisdom: 0
-  baseDexterity: 0
-  baseInitiative: 3
-  baseCriticalChance: 5
-  baseDodgeChance: 5
-  baseParryChance: 5
-  baseAuraSize: 1
-  baseStartingBlock: 0
-  baseStartingEnergyBonus: 0
-  baseMaxPowersCount: 1
-  basePhysicalResistance: 0
-  baseFireResistance: 0
-  baseFrostResistance: 0
-  baseShadowResistance: 0
-  basePoisonResistance: 0
-  baseAirResistance: 0
-  currentMobility: 0
-  currentMaxHealth: 0
-  currentHealth: 0
-  currentMaxEnergy: 0
-  currentStamina: 0
-  currentEnergy: 0
-  currentMeleeRange: 0
-  currentStrength: 0
-  currentWisdom: 0
-  currentDexterity: 0
-  currentInitiative: 0
-  currentCriticalChance: 0
-  currentDodgeChance: 0
-  currentParryChance: 0
-  currentAuraSize: 0
-  currentMaxPowersCount: 0
-  currentBlock: 0
-  currentPhysicalResistance: 0
-  currentFireResistance: 0
-  currentFrostResistance: 0
-  currentShadowResistance: 0
-  currentPoisonResistance: 0
-  currentAirResistance: 0
-  myMainHandWeapon: {fileID: 0}
-  myOffHandWeapon: {fileID: 0}
-  tile: {fileID: 0}
-  myCurrentTarget: {fileID: 0}
-  destination: {x: 0, y: 0, z: 0}
-  activePowers: []
-  myName: Skeleton Warrior
-  speed: 3
-  mouseIsOverStatusIconPanel: 0
-  mouseIsOverCharacter: 0
-  currentInitiativeRoll: 0
-  moveActionsTakenThisActivation: 0
-  meleeAbilityActionsTakenThisActivation: 0
-  skillAbilityActionsTakenThisActivation: 0
-  rangedAttackAbilityActionsTakenThisActivation: 0
-  timesMeleeAttackedThisTurnCycle: 0
-  inDeathProcess: 0
-  facingRight: 0
-  spriteImportedFacingRight: 1
-  normalColour: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
-  highlightColour: {r: 1, g: 1, b: 1, a: 1}
-  myRangedAttackFinished: 0
-  hasActivatedThisTurn: 0
-  myTaunter: {fileID: 0}
-  myDeathAnimationFinished: 0
-  myOnActivationEndEffectsFinished: 0
-  myInfoPanel: {fileID: 2095069968850433237}
-  freeStrikeIndicator: {fileID: 7221693735101132410}
-  currentlyActivated: 0
 --- !u!114 &-2275895814606721917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,6 +452,107 @@ MonoBehaviour:
   runeStacks: 0
   barrier: 0
   barrierStacks: 0
+--- !u!114 &8889074023644783072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009995944954404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba14f6e95820694fad17c6afbda83bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myHealthBar: {fileID: 2536721955585058358}
+  myWorldSpaceCanvas: {fileID: 4048544582219201553}
+  myWorldSpaceCanvasParent: {fileID: 4997798727213530579}
+  myBlockIcon: {fileID: 8453677271998281695}
+  myBlockText: {fileID: 4824481312766846808}
+  myCurrentHealthText: {fileID: 2379891164532582175}
+  myCurrentMaxHealthText: {fileID: 3400916561566181346}
+  myModelParent: {fileID: 264823862675203903}
+  myModel: {fileID: 4488162890251037222}
+  myEntityRenderer: {fileID: 5524391804070283656}
+  myAnimator: {fileID: 5505704562343706054}
+  myStatusManager: {fileID: 2750434239363209639}
+  mySpellBook: {fileID: -2275895814606721917}
+  myPassiveManager: {fileID: 7109844203329741766}
+  myActivationWindow: {fileID: 0}
+  defender: {fileID: 0}
+  enemy: {fileID: 0}
+  baseMobility: 2
+  baseMaxHealth: 51
+  baseStartingHealth: 51
+  baseStamina: 40
+  baseMaxEnergy: 60
+  baseMeleeRange: 1
+  baseStrength: 0
+  baseWisdom: 0
+  baseDexterity: 0
+  baseInitiative: 3
+  baseCriticalChance: 5
+  baseDodgeChance: 5
+  baseParryChance: 5
+  baseAuraSize: 1
+  baseStartingBlock: 0
+  baseStartingEnergyBonus: 0
+  baseMaxPowersCount: 1
+  basePhysicalResistance: 0
+  baseFireResistance: 0
+  baseFrostResistance: 0
+  baseShadowResistance: 0
+  basePoisonResistance: 0
+  baseAirResistance: 0
+  currentMobility: 0
+  currentMaxHealth: 0
+  currentHealth: 0
+  currentMaxEnergy: 0
+  currentStamina: 0
+  currentEnergy: 0
+  currentMeleeRange: 0
+  currentStrength: 0
+  currentWisdom: 0
+  currentDexterity: 0
+  currentInitiative: 0
+  currentCriticalChance: 0
+  currentDodgeChance: 0
+  currentParryChance: 0
+  currentAuraSize: 0
+  currentMaxPowersCount: 0
+  currentBlock: 0
+  currentPhysicalResistance: 0
+  currentFireResistance: 0
+  currentFrostResistance: 0
+  currentShadowResistance: 0
+  currentPoisonResistance: 0
+  currentAirResistance: 0
+  myMainHandWeapon: {fileID: 0}
+  myOffHandWeapon: {fileID: 0}
+  tile: {fileID: 0}
+  destination: {x: 0, y: 0, z: 0}
+  myCurrentTarget: {fileID: 0}
+  myTaunter: {fileID: 0}
+  moveActionsTakenThisActivation: 0
+  meleeAbilityActionsTakenThisActivation: 0
+  skillAbilityActionsTakenThisActivation: 0
+  rangedAttackAbilityActionsTakenThisActivation: 0
+  timesMeleeAttackedThisTurnCycle: 0
+  currentInitiativeRoll: 0
+  myRangedAttackFinished: 0
+  hasActivatedThisTurn: 0
+  inDeathProcess: 0
+  mouseIsOverStatusIconPanel: 0
+  mouseIsOverCharacter: 0
+  myName: Skeleton Warrior
+  movementAnimSpeed: 0
+  facingRight: 0
+  normalColour: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
+  highlightColour: {r: 1, g: 1, b: 1, a: 1}
+  myDeathAnimationFinished: 0
+  myInfoPanel: {fileID: 2095069968850433237}
+  freeStrikeIndicator: {fileID: 7221693735101132410}
+  currentlyActivated: 0
 --- !u!1 &264823862675203903
 GameObject:
   m_ObjectHideFlags: 0

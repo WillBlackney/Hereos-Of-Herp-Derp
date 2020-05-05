@@ -4,50 +4,32 @@ using UnityEngine;
 
 public class PositionLogic : MonoBehaviour
 {
+    // Singleton Pattern
+    #region
     public static PositionLogic Instance;
     private void Awake()
     {
         Instance = this;
     }
+    #endregion
+
     // Calculate Direction + Visual
     #region
     public void FlipCharacterSprite(LivingEntity character, bool faceRight)
     {
-        if(character.spriteImportedFacingRight == true)
+        if (faceRight == true)
         {
-            if (faceRight == true)
+            if (character.myModelParent != null)
             {
-                if (character.myModelParent != null)
-                {
-                    character.myModelParent.transform.localScale = new Vector3(1, 1, 1);
-                }
-            }
-
-            else
-            {
-                if (character.myModelParent != null)
-                {
-                    character.myModelParent.transform.localScale = new Vector3(-1, 1, 1);
-                }
+                character.myModelParent.transform.localScale = new Vector3(1, 1, 1);
             }
         }
 
-        else if (character.spriteImportedFacingRight == false)
+        else
         {
-            if (faceRight == true)
+            if (character.myModelParent != null)
             {
-                if (character.myModelParent != null)
-                {
-                    character.myModelParent.transform.localScale = new Vector3(-1, 1, 1);
-                }
-            }
-
-            else
-            {
-                if (character.myModelParent != null)
-                {
-                    character.myModelParent.transform.localScale = new Vector3(1, 1, 1);
-                }
+                character.myModelParent.transform.localScale = new Vector3(-1, 1, 1);
             }
         }
 
@@ -57,13 +39,11 @@ public class PositionLogic : MonoBehaviour
         if (leftOrRight == "Left")
         {
             FlipCharacterSprite(character, false);
-            //character.FlipMySprite(false);
             character.facingRight = false;
         }
         else if (leftOrRight == "Right")
         {
             FlipCharacterSprite(character, true);
-            //character.FlipMySprite(true);
             character.facingRight = true;
         }
     }
@@ -75,21 +55,18 @@ public class PositionLogic : MonoBehaviour
         if (LevelManager.Instance.IsDestinationTileToTheLeft(character.tile, tileToFace) == false &&
             LevelManager.Instance.IsDestinationTileToTheRight(character.tile, tileToFace) == false)
         {
-            //Debug.Log("CalculateWhichDirectionToFace() detected character is already aligned with target, not flipping...");
             return;
         }
         
         // if the target is to the right, flip and face right
         else if (LevelManager.Instance.IsDestinationTileToTheRight(character.tile, tileToFace))
         {
-           // Debug.Log("CalculateWhichDirectionToFace() facing character towards the right...");
             SetDirection(character,"Right");            
         }
 
         // if the target is to the left, flip and face left
         else if (LevelManager.Instance.IsDestinationTileToTheRight(character.tile, tileToFace) == false)
         {
-           // Debug.Log("CalculateWhichDirectionToFace() facing character towards the left...");
             SetDirection(character,"Left");            
         }
 

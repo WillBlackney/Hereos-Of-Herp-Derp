@@ -4,34 +4,33 @@ using UnityEngine;
 
 public class TileHover : MonoBehaviour
 {
+    // Properties + Component References
+    #region
     [Header("Component References")]
     public GameObject myVisualParent;
-    public Animator myAnimator;
+    #endregion
 
-    [Header("Properties")]
-    public bool isActive;
-    void Update()
-    {
-        FollowMouse();
-    }
-    private void FollowMouse()
-    {
-        if (LevelManager.Instance.mousedOverTile != null)
-        {
-            transform.position = LevelManager.Instance.mousedOverTile.WorldPosition;
-        }
-    }
-    public void SetVisibility(bool onOrOff)
-    {
-        myVisualParent.SetActive(onOrOff);
-        myAnimator.SetTrigger("New Trigger");
-        isActive = onOrOff;
-    }
-
+    // Singleton Pattern
+    #region
     public static TileHover Instance;
     private void Awake()
     {
         Instance = this;
     }
+    #endregion
+
+    // Update Position + Views
+    #region
+    public void UpdatePosition(Tile newPos)
+    {
+        transform.position = newPos.WorldPosition;
+    }
+    public void SetVisibility(bool onOrOff)
+    {
+        myVisualParent.SetActive(onOrOff);
+    }
+    #endregion
+
+
 
 }

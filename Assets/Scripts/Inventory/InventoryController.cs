@@ -16,21 +16,6 @@ public class InventoryController : MonoBehaviour
     public GameObject itemBeingDragged;
     public int inventoryItemCardSortingOrder;
 
-    [Header("Ability Tome Colours")]
-    public Color32 neutralColor;
-    public Color brawlerColor;
-    public Color duelistColor;
-    public Color assassinationColor;
-    public Color guardianColor;
-    public Color pyromaniaColor;
-    public Color cyromancyColor;
-    public Color rangerColor;
-    public Color manipulationColor;
-    public Color divinityColor;
-    public Color shadowcraftColor;
-    public Color corruptionColor;
-    public Color naturalismColor;
-
     [Header("Ability Tome Images")]
     public Sprite neutralBookImage;
     public Sprite brawlerBookImage;
@@ -53,11 +38,7 @@ public class InventoryController : MonoBehaviour
     private void Awake()
     {
         Instance = this;        
-    }
-    private void Start()
-    {
-        UIManager.Instance.DisableInventoryView();
-    }
+    }   
 
     #endregion
 

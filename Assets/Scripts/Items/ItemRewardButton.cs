@@ -24,19 +24,16 @@ public class ItemRewardButton : MonoBehaviour
 
         if(rarity == RarityReward.Common)
         {
-            //chooseNewItemText.text = TextLogic.ReturnColoredText("Common", "<color=#00FF6E>") + " Item";
             chooseNewItemText.text = "Common Item";
             commonGemParent.SetActive(true);
         }
         else if (rarity == RarityReward.Rare)
         {
-            //chooseNewItemText.text = TextLogic.ReturnColoredText("Rare", "<color=#006EFF>") + " Item";
             chooseNewItemText.text = "Rare Item";
             rareGemParent.SetActive(true);
         }
         if (rarity == RarityReward.Epic)
         {
-            //chooseNewItemText.text = TextLogic.ReturnColoredText("Epic", "<color=#5000F>") + " Item";
             chooseNewItemText.text = "Epic Item";
             epicGemParent.SetActive(true);
         }

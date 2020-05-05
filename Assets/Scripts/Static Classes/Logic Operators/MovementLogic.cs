@@ -60,7 +60,7 @@ public class MovementLogic : MonoBehaviour
     public IEnumerator MoveEntityCoroutine(LivingEntity characterMoved, Tile destination, Action action, float speed = 3, bool freeStrikeImmune = false)
     {
         // Set properties
-        float originalSpeed = characterMoved.speed;
+        float originalSpeed = characterMoved.movementAnimSpeed;
         float speedOfThisMovement = speed;
         bool hasCompletedMovement = false;
         bool freeStrikesOnThisTileResolved = false;
@@ -148,7 +148,7 @@ public class MovementLogic : MonoBehaviour
 
             
             // Reset speed
-            characterMoved.speed = originalSpeed;
+            characterMoved.movementAnimSpeed = originalSpeed;
             //yield return null;
             yield return new WaitForEndOfFrame();
         }

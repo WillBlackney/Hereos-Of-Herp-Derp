@@ -23,28 +23,7 @@ public class ItemManager : MonoBehaviour
     public string GetDamageTypeFromWeapon(ItemDataSO weapon)
     {
         Debug.Log("ItemManager.GetDamageTypeFromWeapon() called...");
-        string damageTypeStringReturned = "None";
-
-        if(weapon.weaponDamageType == ItemDataSO.WeaponDamageType.Physical)
-        {
-            damageTypeStringReturned = "Physical";
-        }
-        else if (weapon.weaponDamageType == ItemDataSO.WeaponDamageType.Fire)
-        {
-            damageTypeStringReturned = "Fire";
-        }
-        else if (weapon.weaponDamageType == ItemDataSO.WeaponDamageType.Shadow)
-        {
-            damageTypeStringReturned = "Shadow";
-        }
-        else if (weapon.weaponDamageType == ItemDataSO.WeaponDamageType.Poison)
-        {
-            damageTypeStringReturned = "Poison";
-        }
-        else if (weapon.weaponDamageType == ItemDataSO.WeaponDamageType.Frost)
-        {
-            damageTypeStringReturned = "Frost";
-        }
+        string damageTypeStringReturned = weapon.weaponDamageType.ToString();
 
         Debug.Log("ItemManager.GetDamageTypeFromWeapon() detected that " + weapon.Name + " has a damage type of " + damageTypeStringReturned);
         return damageTypeStringReturned;

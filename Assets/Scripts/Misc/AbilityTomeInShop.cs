@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class AbilityTomeInShop : MonoBehaviour
 {
@@ -11,7 +9,6 @@ public class AbilityTomeInShop : MonoBehaviour
     public AbilityInfoSheet abilityInfoSheet;
     public GameObject visualParent;
     public TextMeshProUGUI goldCostText;
-    public Image bgColorImage;
     public Image bookImage;
     public TextMeshProUGUI ribbonNameText;
 
@@ -21,6 +18,7 @@ public class AbilityTomeInShop : MonoBehaviour
 
     [Header("Sizing Properties + Components")]
     public GameObject bookParent;
+    public RectTransform bookParentTransform;
     private float buttonScale;
     private bool shrinking;
     private bool expanding;
@@ -62,69 +60,8 @@ public class AbilityTomeInShop : MonoBehaviour
         SetBookImage();
 
     }
-    public void SetBackgroundColor()
-    {
-        /*
-        if (myData.abilitySchool == AbilityDataSO.AbilitySchool.None)
-        {
-            bgColorImage.color = InventoryController.Instance.neutralColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Brawler)
-        {
-            bgColorImage.color = InventoryController.Instance.brawlerColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Duelist)
-        {
-            bgColorImage.color = InventoryController.Instance.duelistColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Assassination)
-        {
-            bgColorImage.color = InventoryController.Instance.assassinationColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Guardian)
-        {
-            bgColorImage.color = InventoryController.Instance.guardianColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Pyromania)
-        {
-            bgColorImage.color = InventoryController.Instance.pyromaniaColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Cyromancy)
-        {
-            bgColorImage.color = InventoryController.Instance.cyromancyColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Ranger)
-        {
-            bgColorImage.color = InventoryController.Instance.rangerColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Manipulation)
-        {
-            bgColorImage.color = InventoryController.Instance.manipulationColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Divinity)
-        {
-            bgColorImage.color = InventoryController.Instance.divinityColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Shadowcraft)
-        {
-            bgColorImage.color = InventoryController.Instance.shadowcraftColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Corruption)
-        {
-            bgColorImage.color = InventoryController.Instance.corruptionColor;
-        }
-        else if (myData.abilitySchool == AbilityDataSO.AbilitySchool.Naturalism)
-        {
-            bgColorImage.color = InventoryController.Instance.naturalismColor;
-        }
-
-        // set transperancy
-        bgColorImage.color = new Color(bgColorImage.color.r / 255, bgColorImage.color.g / 255, bgColorImage.color.g / 255, 0.30f);
-        */
-    }
     public void SetBookImage()
     {
-
         if (myData.abilitySchool == AbilityDataSO.AbilitySchool.None)
         {
             bookImage.sprite = InventoryController.Instance.neutralBookImage;
@@ -204,16 +141,15 @@ public class AbilityTomeInShop : MonoBehaviour
         expanding = true;
 
         float finalScale = buttonScale * 1.2f;
-        RectTransform transform = bookParent.GetComponent<RectTransform>();
 
-        while (transform.localScale.x < finalScale && expanding == true)
+        while (bookParentTransform.localScale.x < finalScale && expanding == true)
         {
-            Vector3 targetScale = new Vector3(transform.localScale.x + (0.1f * speed * Time.deltaTime), transform.localScale.y + (0.1f * speed * Time.deltaTime));
-            transform.localScale = targetScale;
+            Vector3 targetScale = new Vector3(bookParentTransform.localScale.x + (0.1f * speed * Time.deltaTime), bookParentTransform.localScale.y + (0.1f * speed * Time.deltaTime));
+            bookParentTransform.localScale = targetScale;
             yield return new WaitForEndOfFrame();
         }
 
-        if (transform.localScale.x >= finalScale)
+        if (bookParentTransform.localScale.x >= finalScale)
         {
             EnableInfoPanelView();
         }
@@ -225,18 +161,16 @@ public class AbilityTomeInShop : MonoBehaviour
         shrinking = true;
         DisableInfoPanelView();
 
-        RectTransform transform = bookParent.GetComponent<RectTransform>();
-
-        while (transform.localScale.x > buttonScale && shrinking == true)
+        while (bookParentTransform.localScale.x > buttonScale && shrinking == true)
         {
-            Vector3 targetScale = new Vector3(transform.localScale.x - (0.1f * speed * Time.deltaTime), transform.localScale.y - (0.1f * speed * Time.deltaTime));
-            transform.localScale = targetScale;
+            Vector3 targetScale = new Vector3(bookParentTransform.localScale.x - (0.1f * speed * Time.deltaTime), bookParentTransform.localScale.y - (0.1f * speed * Time.deltaTime));
+            bookParentTransform.localScale = targetScale;
             yield return new WaitForEndOfFrame();
         }
     }
     public void ResetScale()
     {
-        bookParent.GetComponent<RectTransform>().localScale = new Vector3(buttonScale, buttonScale);
+        bookParentTransform.localScale = new Vector3(buttonScale, buttonScale);
     }
 
     #endregion

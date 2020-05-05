@@ -224,6 +224,12 @@ public static class TextLogic
                 "This character has " + ReturnColoredText("-1", blueNumber) + " " + ReturnColoredText("Mobility", yellow) + " and " +
                 ReturnColoredText("Initiative", yellow) + ". Expires on activation end";
         }
+        else if (statusName == "Shocked")
+        {
+            statusDescriptionText.text =
+                "This character has " + ReturnColoredText("10", blueNumber) + " less " + ReturnColoredText("Stamina", yellow) +
+                ". Expires on activation end";
+        }
         else if (statusName == "Concentration")
         {
             statusDescriptionText.text =

@@ -18,7 +18,8 @@ public class CharacterDataPanelHover : MonoBehaviour
 
     [Header("Properties")]
     public float fadeSpeed;
-    public bool fadingIn;
+    bool fadingIn;
+    bool isActive;
     #endregion
 
     // Singleton Pattern
@@ -34,7 +35,10 @@ public class CharacterDataPanelHover : MonoBehaviour
     #region
     private void Update()
     {
-        FollowMouse();
+        if (isActive)
+        {
+            FollowMouse();
+        }      
     }
 #endregion
 
@@ -42,7 +46,7 @@ public class CharacterDataPanelHover : MonoBehaviour
     #region
     public void MoveToElementPosition(GameObject element)
     {
-        panelParent.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, element.transform.position);
+        panelParent.transform.position = RectTransformUtility.WorldToScreenPoint(CameraManager.Instance.unityCamera.mainCamera, element.transform.position);
     }
     public void FollowMouse()
     {
@@ -60,10 +64,12 @@ public class CharacterDataPanelHover : MonoBehaviour
     #region
     public void EnableView()
     {
+        isActive = true;
         StartCoroutine(FadeInView());
     }
     public void DisableView()
     {
+        isActive = false;
         fadingIn = false;
         cg.alpha = 0.001f;
     }

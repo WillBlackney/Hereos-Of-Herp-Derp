@@ -182,6 +182,10 @@ public static class CharacterModelController
         {
             SetUpAsVolatileZombiePreset(model);
         }
+        else if (preset == "Toxic Zombie")
+        {
+            SetUpAsVolatileZombiePreset(model);
+        }
         else if (preset == "Dark Elf Ranger")
         {
             SetUpAsDarkElfRangerPreset(model);

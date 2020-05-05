@@ -11,7 +11,7 @@ public class InputManager : MonoBehaviour
             HandleMouseRightClicked();            
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        else if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             if (DefenderManager.Instance.selectedDefender != null)
             {
@@ -22,7 +22,7 @@ public class InputManager : MonoBehaviour
                 
             }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             if (DefenderManager.Instance.selectedDefender != null)
             {
@@ -32,7 +32,7 @@ public class InputManager : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             if (DefenderManager.Instance.selectedDefender != null)
             {
@@ -42,7 +42,7 @@ public class InputManager : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             if (DefenderManager.Instance.selectedDefender != null)
             {
@@ -52,7 +52,7 @@ public class InputManager : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             if (DefenderManager.Instance.selectedDefender != null)
             {
@@ -62,7 +62,7 @@ public class InputManager : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             if (DefenderManager.Instance.selectedDefender != null)
             {
@@ -72,7 +72,7 @@ public class InputManager : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
+        else if (Input.GetKeyDown(KeyCode.Alpha7))
         {
             if (DefenderManager.Instance.selectedDefender != null)
             {
@@ -82,7 +82,7 @@ public class InputManager : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha8))
+        else if (Input.GetKeyDown(KeyCode.Alpha8))
         {
             if (DefenderManager.Instance.selectedDefender != null)
             {
@@ -92,7 +92,7 @@ public class InputManager : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha9))
+        else if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             if (DefenderManager.Instance.selectedDefender != null)
             {
@@ -102,7 +102,8 @@ public class InputManager : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha0))
+
+        else if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             if (DefenderManager.Instance.selectedDefender != null)
             {

@@ -7,6 +7,7 @@ public class ShopButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 {
     [Header("Component References")]
     public GameObject buttonImageParent;
+    public RectTransform buttonImageParentTransform;
 
     [Header("Properties")]
     public string buttonName;
@@ -19,7 +20,7 @@ public class ShopButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     #region
     private void Start()
     {
-        buttonScale = buttonImageParent.GetComponent<RectTransform>().localScale.x;
+        buttonScale = buttonImageParentTransform.localScale.x;
     }
     #endregion
 

@@ -7,12 +7,16 @@ using TMPro;
 
 public class AbilityTomeInventoryCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [Header("General Properties + Components")]
+    // Properties + Component References
+    #region
+    [Header("Component References")]    
     public Image bookImage;
-    public AbilityDataSO myData;
-    public InventorySlot myInventorySlot;
     public AbilityInfoSheet abilityInfoSheet;
 
+    [Header("Properties")]
+    public InventorySlot myInventorySlot;
+    public AbilityDataSO myData;
+    #endregion
 
     // Initialization + Setup
     #region
@@ -112,7 +116,7 @@ public class AbilityTomeInventoryCard : MonoBehaviour, IBeginDragHandler, IDragH
     {
         var screenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
         screenPoint.z = 10.0f;
-        transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
+        transform.position = CameraManager.Instance.unityCamera.mainCamera.ScreenToWorldPoint(screenPoint);
     }
     public void OnEndDrag(PointerEventData eventData)
     {

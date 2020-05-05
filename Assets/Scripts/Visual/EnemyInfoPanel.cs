@@ -55,7 +55,7 @@ public class EnemyInfoPanel : MonoBehaviour
 
         // Fix camera/canvas issue weirdness
         myParentRenderCanvas = GetComponentInParent<Canvas>();
-        myParentRenderCanvas.worldCamera = Camera.main;
+        myParentRenderCanvas.worldCamera = CameraManager.Instance.unityCamera.mainCamera;
 
         // Build character model
         CharacterModelController.BuildModelFromPresetString(myModel, myEnemy.myName);

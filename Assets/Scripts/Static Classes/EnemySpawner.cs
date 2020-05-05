@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    // Properties + Component References
+    #region
     [Header("Testing Properties")]
     public bool runTestWaveOnly;
     public EnemyWaveSO testingWave;
@@ -16,20 +18,31 @@ public class EnemySpawner : MonoBehaviour
     public List<EnemyWaveSO> storyEventEnemyWaves;
 
     [Header("Current Viable Encounters Lists")]
-    public List<EnemyWaveSO> viableBasicEnemyActOneHalfOneWaves;
-    public List<EnemyWaveSO> viableBasicEnemyActOneHalfTwoWaves;
-    public List<EnemyWaveSO> viableEliteEnemyWaves;
+    [HideInInspector] public List<EnemyWaveSO> viableBasicEnemyActOneHalfOneWaves;
+    [HideInInspector] public List<EnemyWaveSO> viableBasicEnemyActOneHalfTwoWaves;
+    [HideInInspector] public List<EnemyWaveSO> viableEliteEnemyWaves;
 
     [Header("Properties")]
-    public List<Tile> spawnLocations;
+    [HideInInspector] public List<Tile> spawnLocations;
+    #endregion
 
-    // Initialization + Setup
+    // Singleton Pattern
     #region
     public static EnemySpawner Instance;
     private void Awake()
     {
-        Instance = this;
+        if (!Instance)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
+    #endregion
+    // Initialization + Setup
+    #region   
     private void Start()
     {
         PopulateWaveList(viableBasicEnemyActOneHalfOneWaves, basicEnemyWavesActOneHalfOne);

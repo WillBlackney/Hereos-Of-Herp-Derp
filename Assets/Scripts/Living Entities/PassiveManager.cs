@@ -374,16 +374,12 @@ public class PassiveManager : MonoBehaviour
     public bool shadowAura;
     public int shadowAuraStacks;
 
-
-
-    [Header("Old Known Passive Traits")]
-   
+    [Header("Old Known Passive Traits")]   
     public bool preparation;
     public int preparationStacks;
 
     public bool poisonedImmunity;
 
-    // Below passives not reworked/updated, will do when needed
     public bool soulLink;
 
     public bool lightningShield;
@@ -398,14 +394,6 @@ public class PassiveManager : MonoBehaviour
     public bool barrier;
     public int barrierStacks;
    
-    #endregion
-
-    // Initialization + Setup
-    #region
-    public void InitializeSetup()
-    {
-        myLivingEntity = GetComponent<LivingEntity>();
-    }
     #endregion
 
     // Learn + Modify Passive Traits

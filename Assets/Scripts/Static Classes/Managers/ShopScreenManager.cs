@@ -65,11 +65,6 @@ public class ShopScreenManager : MonoBehaviour
     public AbilityTomeInShop abilityTomeSlotNine;
     public AbilityTomeInShop abilityTomeSlotTen;
 
-    [Header("Artifact Slot References")]
-    public ArtifactSlot artifactSlotOne;
-    public ArtifactSlot artifactSlotTwo;
-    public ArtifactSlot artifactSlotThree;
-
     [Header("Properties")]
     public List<ItemDataSO> itemsInShopData;
     public List<ItemSlot> allItemsSlots;

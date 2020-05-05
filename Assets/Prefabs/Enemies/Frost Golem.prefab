@@ -467,19 +467,17 @@ MonoBehaviour:
   myHealthBar: {fileID: 2807001426629005295}
   myWorldSpaceCanvas: {fileID: 4462810055165187528}
   myWorldSpaceCanvasParent: {fileID: 4655588108251583498}
-  mySpriteParent: {fileID: 1356933127586219369}
-  myModelParent: {fileID: 1356933127586219369}
-  myModel: {fileID: 8906730118759524536}
-  myEntityRenderer: {fileID: 682491706781698838}
   myBlockIcon: {fileID: 8111327562135264774}
   myBlockText: {fileID: 5130804971839819393}
   myCurrentHealthText: {fileID: 2650181081422515910}
   myCurrentMaxHealthText: {fileID: 3094602248455278139}
+  myModelParent: {fileID: 1356933127586219369}
+  myModel: {fileID: 8906730118759524536}
+  myEntityRenderer: {fileID: 682491706781698838}
   myAnimator: {fileID: 700897593924894552}
-  mySpriteRenderer: {fileID: 0}
   myStatusManager: {fileID: 2588380797358092414}
-  mySpellBook: {fileID: 0}
-  myPassiveManager: {fileID: 0}
+  mySpellBook: {fileID: 7403811943316369141}
+  myPassiveManager: {fileID: 7241443843125354928}
   myActivationWindow: {fileID: 0}
   defender: {fileID: 0}
   enemy: {fileID: 0}
@@ -532,29 +530,26 @@ MonoBehaviour:
   myMainHandWeapon: {fileID: 0}
   myOffHandWeapon: {fileID: 0}
   tile: {fileID: 0}
-  myCurrentTarget: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
-  activePowers: []
-  myName: Frost Golem
-  speed: 3
-  mouseIsOverStatusIconPanel: 0
-  mouseIsOverCharacter: 0
-  currentInitiativeRoll: 0
+  myCurrentTarget: {fileID: 0}
+  myTaunter: {fileID: 0}
   moveActionsTakenThisActivation: 0
   meleeAbilityActionsTakenThisActivation: 0
   skillAbilityActionsTakenThisActivation: 0
   rangedAttackAbilityActionsTakenThisActivation: 0
   timesMeleeAttackedThisTurnCycle: 0
-  inDeathProcess: 0
-  facingRight: 0
-  spriteImportedFacingRight: 1
-  normalColour: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
-  highlightColour: {r: 1, g: 1, b: 1, a: 1}
+  currentInitiativeRoll: 0
   myRangedAttackFinished: 0
   hasActivatedThisTurn: 0
-  myTaunter: {fileID: 0}
+  inDeathProcess: 0
+  mouseIsOverStatusIconPanel: 0
+  mouseIsOverCharacter: 0
+  myName: Frost Golem
+  movementAnimSpeed: 0
+  facingRight: 0
+  normalColour: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
+  highlightColour: {r: 1, g: 1, b: 1, a: 1}
   myDeathAnimationFinished: 0
-  myOnActivationEndEffectsFinished: 0
   myInfoPanel: {fileID: 2001520616839116451}
   freeStrikeIndicator: {fileID: 7059634247458719651}
   currentlyActivated: 0

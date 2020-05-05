@@ -23,7 +23,6 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         myLivingEntity = entity;
         entity.myActivationWindow = this;
-        myCanvasGroup = GetComponent<CanvasGroup>();
         gameObject.SetActive(false);
         gameObject.SetActive(true);
 
@@ -44,8 +43,8 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
             // TO DO: 2 lines below prevent buggy behabiour in unity that prevents the activation window's health bar
             // from rendering correctly. Doing this in update degrades performance. fix in the future
 
-            ActivationManager.Instance.activationPanelParent.GetComponent<Canvas>().overrideSorting = true;
-            ActivationManager.Instance.activationPanelParent.GetComponent<Canvas>().sortingOrder = 19;
+            //ActivationManager.Instance.activationPanelParentCanvas.overrideSorting = true;
+           // ActivationManager.Instance.activationPanelParentCanvas.sortingOrder = 19;
 
             for (int i = 0; i < ActivationManager.Instance.activationOrder.Count; i++)
             {
@@ -89,14 +88,11 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 }                
                 ActivationManager.Instance.panelSlots.Remove(slotDestroyed);                
                 Destroy(slotDestroyed);
-               // Destroy(gameObject);
-                //action.actionResolved = true;
             }
             yield return new WaitForEndOfFrame();
         }
 
         action.actionResolved = true;
-        //Destroy(slotDestroyed);
         Destroy(gameObject);
     }
 
@@ -106,7 +102,6 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
     }
     public void MoveTowardsSlotPosition(GameObject slot)
     {
-        //Vector3 targetPos = new Vector3(slot.transform.position.x, slot.transform.position.y - 80, slot.transform.position.z);
         if (!dontFollowSlot)
         {
             transform.position = Vector2.MoveTowards(transform.position, slot.transform.position, 10 * Time.deltaTime);
@@ -118,11 +113,11 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         Debug.Log("ActivationWindow.OnPointerClick() called...");
         // Clicking on a character's activation window performs the same logic as clicking on the character itself
-        if (myLivingEntity.GetComponent<Defender>())
+        if (myLivingEntity.defender)
         {
             myLivingEntity.defender.OnMouseDown();
         }
-        else if (myLivingEntity.GetComponent<Enemy>())
+        else if (myLivingEntity.enemy)
         {
             myLivingEntity.enemy.OnMouseDown();
         }
@@ -149,8 +144,5 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
             myLivingEntity.SetColor(myLivingEntity.normalColour);
         }
     }    
-    public void ButtonTest()
-    {
-        Debug.Log("BUTTON CLICK DETECTED");
-    }
+   
 }

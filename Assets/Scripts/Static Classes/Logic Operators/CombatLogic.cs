@@ -19,12 +19,10 @@ public class CombatLogic : MonoBehaviour
     {
         Debug.Log("CombatLogic.IsTargetFriendly() called, comparing " + caster.myName + " and " + target.myName);
 
-        Defender defender = caster.GetComponent<Defender>();
-        Enemy enemy = caster.GetComponent<Enemy>();
 
-        if (defender)
+        if (caster.defender)
         {
-            if (target.GetComponent<Defender>())
+            if (target.defender)
             {
                 return true;
             }
@@ -33,9 +31,9 @@ public class CombatLogic : MonoBehaviour
                 return false;
             }
         }
-        else if (enemy)
+        else if (caster.enemy)
         {
-            if (target.GetComponent<Enemy>())
+            if (target.enemy)
             {
                 return true;
             }

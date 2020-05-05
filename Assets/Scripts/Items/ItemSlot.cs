@@ -53,6 +53,8 @@ public class ItemSlot : MonoBehaviour
     }
     public void BuyItem()
     {
+        Debug.Log("ItemSlot.BuyItem() called for: " + myItemCard.myName);
+
         if (PlayerDataManager.Instance.currentGold >= goldCost)
         {
             Debug.Log("Buying Item " + myItemCard.myName + " for " + goldCost.ToString());

@@ -274,7 +274,7 @@ public class AbilityInfoSheetController : MonoBehaviour
     {
         Debug.Log("AbilityInfoSheetController.RefreshAllLayoutGroups() called...");
         
-        LayoutRebuilder.ForceRebuildLayoutImmediate(sheet.visualParent.GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate(sheet.visualParentTransform);
         LayoutRebuilder.ForceRebuildLayoutImmediate(sheet.allElementsTransform);
         RefreshMiddleFrameSize(sheet);
         RefreshShadowSize(sheet);
@@ -300,7 +300,7 @@ public class AbilityInfoSheetController : MonoBehaviour
     }
     public void ResetCanvasProperties(AbilityInfoSheet sheet)
     {
-        sheet.canvas.GetComponent<RectTransform>().position = new Vector3(0, 0, 0);
+        sheet.canvasTransform.position = new Vector3(0, 0, 0);
     }
     public void RecentreFrameAndElements(AbilityInfoSheet sheet)
     {

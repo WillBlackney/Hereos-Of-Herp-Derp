@@ -8,147 +8,158 @@ using UnityEngine.UI;
 
 public class Defender : LivingEntity
 {
-    [Header("Defender Component References ")]
-    public Slider myEnergyBar;
-    public Slider myHealthBarStatPanel;
-    public AbilityBar myAbilityBar;
+    // Properties + Component References
+    #region
+    [Header("Defender Core GUI Component References ")]
     public GameObject myUIParent;
     public CanvasGroup myUIParentCg;
-    public CharacterData myCharacterData;
-    public TextMeshProUGUI myCurrentEnergyText;
-    public TextMeshProUGUI myCurrentMaxEnergyText;
-    public TextMeshProUGUI myCurrentStrengthStatText;
-    public TextMeshProUGUI myCurrentMobilityStatText;
-    public TextMeshProUGUI myCurrentStaminaStatText;
+    public AbilityBar myAbilityBar;
+
+    [Header("Defender Health Bar Component References ")]
+    public Slider myHealthBarStatPanel;
     public TextMeshProUGUI myCurrentHealthTextStatBar;
     public TextMeshProUGUI myCurrentMaxHealthTextStatBar;
+    
+    [Header("Defender Energy Bar Component References ")]
+    public Slider myEnergyBar;
     public TextMeshProUGUI myCurrentEnergyBarText;
     public TextMeshProUGUI myCurrentMaxEnergyBarText;
 
     [Header("Defender Properties")]
     public float uiFadeSpeed;
-    public bool fadingIn;
-    public bool fadingOut;
+    [HideInInspector] public CharacterData myCharacterData;
+    [HideInInspector] public bool fadingIn;
+    [HideInInspector] public bool fadingOut;
 
     [Header("Ability Orders")]
-    public bool awaitingAnOrder;
-    public bool awaitingMoveOrder;
-    public bool awaitingStrikeOrder;
-    public bool awaitingChargeTargetOrder;
-    public bool awaitingChargeLocationOrder;
-    public bool awaitingInspireOrder;
-    public bool awaitingGuardOrder;
-    public bool awaitingShootOrder;
-    public bool awaitingMeteorOrder;
-    public bool awaitingTelekinesisTargetOrder;
-    public bool awaitingTelekinesisLocationOrder;
-    public bool awaitingFrostBoltOrder;
-    public bool awaitingFireBallOrder;
-    public bool awaitingRapidFireOrder;
-    public bool awaitingImpalingBoltOrder;
-    public bool awaitingForestMedicineOrder;
-    public bool awaitingInvigorateOrder;
-    public bool awaitingHolyFireOrder;
-    public bool awaitingVoidBombOrder;
-    public bool awaitingNightmareOrder;
-    public bool awaitingTwinStrikeOrder;
-    public bool awaitingDashOrder;
-    public bool awaitingSliceAndDiceOrder;
-    public bool awaitingPoisonDartOrder;
-    public bool awaitingChemicalReactionOrder;
-    public bool awaitingGetDownOrder;
-    public bool awaitingSmashOrder;
-    public bool awaitingLightningShieldOrder;
-    public bool awaitingChainLightningOrder;
-    public bool awaitingPrimalBlastOrder;
-    public bool awaitingPrimalRageOrder;
-    public bool awaitingPhaseShiftOrder;
-    public bool awaitingSanctityOrder;
-    public bool awaitingBlessOrder;
-    public bool awaitingSiphonLifeOrder;
-    public bool awaitingChaosBoltOrder;
-    public bool awaitingShadowBlastOrder;
-    public bool awaitingMeltOrder;
-
-    public bool awaitingKickToTheBallsOrder;
-    public bool awaitingDevastatingBlowOrder;
-    public bool awaitingBladeFlurryOrder;
-    public bool awaitingEvasionOrder;
-    public bool awaitingShieldSlamOrder;
-    public bool awaitingTendonSlashOrder;
-    public bool awaitingShieldShatterOrder;
-    public bool awaitingSwordAndBoardOrder;
-    public bool awaitingPhoenixDiveOrder;
-    public bool awaitingChillingBlowOrder;
-    public bool awaitingIcyFocusOrder;
-    public bool awaitingCombustionOrder;
-    public bool awaitingDragonBreathOrder;
-    public bool awaitingBlizzardOrder;
-    public bool awaitingFrostArmourOrder;
-    public bool awaitingThawOrder;
-    public bool awaitingSnipeOrder;
-    public bool awaitingHasteOrder;
-    public bool awaitingSteadyHandsOrder;
-    public bool awaitingTreeLeapOrder;
-    public bool awaitingDimensionalBlastOrder;
-    public bool awaitingMirageOrder;
-    public bool awaitingBurstOfKnowledgeOrder;
-    public bool awaitingBlinkOrder;
-    public bool awaitingTimeWarpOrder;
-    public bool awaitingDimensionalHexOrder;
-    public bool awaitingBlindingLightOrder;
-    public bool awaitingTranscendenceOrder;
-    public bool awaitingJudgementOrder;
-    public bool awaitingShroudOrder;
-    public bool awaitingRainOfChaosOrder;
-    public bool awaitingBlightOrder;
-    public bool awaitingToxicSlashOrder;
-    public bool awaitingToxicEruptionOrder;
-    public bool awaitingDrainOrder;
-    public bool awaitingLightningBoltOrder;
-    public bool awaitingThunderStrikeOrder;
-    public bool awaitingSpiritVisionOrder;
-    public bool awaitingThunderStormOrder;
-    public bool awaitingConcealingCloudsOrder;
-    public bool awaitingHeadShotOrder;
-    public bool awaitingHexOrder;
-    public bool awaitingShankOrder;
-    public bool awaitingCheapShotOrder;
-    public bool awaitingAmbushOrder;
-    public bool awaitingShadowStepOrder;
-    public bool awaitingProvokeOrder;
-    public bool awaitingDecapitateOrder;
-    public bool awaitingDisarmOrder;
-    public bool awaitingGoBerserkOrder;
-    public bool awaitingFortifyOrder;
-    public bool awaitingStoneFormOrder;
-    public bool awaitingBackStabOrder;
-    public bool awaitingChloroformBombOrder;
-    public bool awaitingPinningShotOrder;
-    public bool awaitingMarkTargetOrder;
-    public bool awaitingSnowStasisOrder;
-    public bool awaitingOverloadOrder;
-    public bool awaitingBlazeOrder;
-    public bool awaitingCreepingFrostOrder;
-    public bool awaitingShadowWreathOrder;
-    public bool awaitingDarkGiftOrder;
-    public bool awaitingSuperConductorOrder;
+    [HideInInspector] public bool awaitingAnOrder;
+    [HideInInspector] public bool awaitingMoveOrder;
+    [HideInInspector] public bool awaitingStrikeOrder;
+    [HideInInspector] public bool awaitingChargeTargetOrder;
+    [HideInInspector] public bool awaitingChargeLocationOrder;
+    [HideInInspector] public bool awaitingInspireOrder;
+    [HideInInspector] public bool awaitingGuardOrder;
+    [HideInInspector] public bool awaitingShootOrder;
+    [HideInInspector] public bool awaitingMeteorOrder;
+    [HideInInspector] public bool awaitingTelekinesisTargetOrder;
+    [HideInInspector] public bool awaitingTelekinesisLocationOrder;
+    [HideInInspector] public bool awaitingFrostBoltOrder;
+    [HideInInspector] public bool awaitingFireBallOrder;
+    [HideInInspector] public bool awaitingRapidFireOrder;
+    [HideInInspector] public bool awaitingImpalingBoltOrder;
+    [HideInInspector] public bool awaitingForestMedicineOrder;
+    [HideInInspector] public bool awaitingInvigorateOrder;
+    [HideInInspector] public bool awaitingHolyFireOrder;
+    [HideInInspector] public bool awaitingVoidBombOrder;
+    [HideInInspector] public bool awaitingNightmareOrder;
+    [HideInInspector] public bool awaitingTwinStrikeOrder;
+    [HideInInspector] public bool awaitingDashOrder;
+    [HideInInspector] public bool awaitingSliceAndDiceOrder;
+    [HideInInspector] public bool awaitingPoisonDartOrder;
+    [HideInInspector] public bool awaitingChemicalReactionOrder;
+    [HideInInspector] public bool awaitingGetDownOrder;
+    [HideInInspector] public bool awaitingSmashOrder;
+    [HideInInspector] public bool awaitingLightningShieldOrder;
+    [HideInInspector] public bool awaitingChainLightningOrder;
+    [HideInInspector] public bool awaitingPrimalBlastOrder;
+    [HideInInspector] public bool awaitingPrimalRageOrder;
+    [HideInInspector] public bool awaitingPhaseShiftOrder;
+    [HideInInspector] public bool awaitingSanctityOrder;
+    [HideInInspector] public bool awaitingBlessOrder;
+    [HideInInspector] public bool awaitingSiphonLifeOrder;
+    [HideInInspector] public bool awaitingChaosBoltOrder;
+    [HideInInspector] public bool awaitingShadowBlastOrder;
+    [HideInInspector] public bool awaitingMeltOrder;
+    [HideInInspector] public bool awaitingKickToTheBallsOrder;
+    [HideInInspector] public bool awaitingDevastatingBlowOrder;
+    [HideInInspector] public bool awaitingBladeFlurryOrder;
+    [HideInInspector] public bool awaitingEvasionOrder;
+    [HideInInspector] public bool awaitingShieldSlamOrder;
+    [HideInInspector] public bool awaitingTendonSlashOrder;
+    [HideInInspector] public bool awaitingShieldShatterOrder;
+    [HideInInspector] public bool awaitingSwordAndBoardOrder;
+    [HideInInspector] public bool awaitingPhoenixDiveOrder;
+    [HideInInspector] public bool awaitingChillingBlowOrder;
+    [HideInInspector] public bool awaitingIcyFocusOrder;
+    [HideInInspector] public bool awaitingCombustionOrder;
+    [HideInInspector] public bool awaitingDragonBreathOrder;
+    [HideInInspector] public bool awaitingBlizzardOrder;
+    [HideInInspector] public bool awaitingFrostArmourOrder;
+    [HideInInspector] public bool awaitingThawOrder;
+    [HideInInspector] public bool awaitingSnipeOrder;
+    [HideInInspector] public bool awaitingHasteOrder;
+    [HideInInspector] public bool awaitingSteadyHandsOrder;
+    [HideInInspector] public bool awaitingTreeLeapOrder;
+    [HideInInspector] public bool awaitingDimensionalBlastOrder;
+    [HideInInspector] public bool awaitingMirageOrder;
+    [HideInInspector] public bool awaitingBurstOfKnowledgeOrder;
+    [HideInInspector] public bool awaitingBlinkOrder;
+    [HideInInspector] public bool awaitingTimeWarpOrder;
+    [HideInInspector] public bool awaitingDimensionalHexOrder;
+    [HideInInspector] public bool awaitingBlindingLightOrder;
+    [HideInInspector] public bool awaitingTranscendenceOrder;
+    [HideInInspector] public bool awaitingJudgementOrder;
+    [HideInInspector] public bool awaitingShroudOrder;
+    [HideInInspector] public bool awaitingRainOfChaosOrder;
+    [HideInInspector] public bool awaitingBlightOrder;
+    [HideInInspector] public bool awaitingToxicSlashOrder;
+    [HideInInspector] public bool awaitingToxicEruptionOrder;
+    [HideInInspector] public bool awaitingDrainOrder;
+    [HideInInspector] public bool awaitingLightningBoltOrder;
+    [HideInInspector] public bool awaitingThunderStrikeOrder;
+    [HideInInspector] public bool awaitingSpiritVisionOrder;
+    [HideInInspector] public bool awaitingThunderStormOrder;
+    [HideInInspector] public bool awaitingConcealingCloudsOrder;
+    [HideInInspector] public bool awaitingHeadShotOrder;
+    [HideInInspector] public bool awaitingHexOrder;
+    [HideInInspector] public bool awaitingShankOrder;
+    [HideInInspector] public bool awaitingCheapShotOrder;
+    [HideInInspector] public bool awaitingAmbushOrder;
+    [HideInInspector] public bool awaitingShadowStepOrder;
+    [HideInInspector] public bool awaitingProvokeOrder;
+    [HideInInspector] public bool awaitingDecapitateOrder;
+    [HideInInspector] public bool awaitingDisarmOrder;
+    [HideInInspector] public bool awaitingGoBerserkOrder;
+    [HideInInspector] public bool awaitingFortifyOrder;
+    [HideInInspector] public bool awaitingStoneFormOrder;
+    [HideInInspector] public bool awaitingBackStabOrder;
+    [HideInInspector] public bool awaitingChloroformBombOrder;
+    [HideInInspector] public bool awaitingPinningShotOrder;
+    [HideInInspector] public bool awaitingMarkTargetOrder;
+    [HideInInspector] public bool awaitingSnowStasisOrder;
+    [HideInInspector] public bool awaitingOverloadOrder;
+    [HideInInspector] public bool awaitingBlazeOrder;
+    [HideInInspector] public bool awaitingCreepingFrostOrder;
+    [HideInInspector] public bool awaitingShadowWreathOrder;
+    [HideInInspector] public bool awaitingDarkGiftOrder;
+    [HideInInspector] public bool awaitingSuperConductorOrder;
 
     [Header("Update Related Properties")]
-    public bool energyBarPositionCurrentlyUpdating;
-    public bool healthBarPositionCurrentlyUpdating;
+    [HideInInspector] public bool energyBarPositionCurrentlyUpdating;
+    [HideInInspector] public bool healthBarPositionCurrentlyUpdating;
+
+    #endregion
 
     // Initialization + Setup
     #region
     public override void InitializeSetup(Point startingGridPosition, Tile startingTile)
     {
+        // Add to persistent defender data list
         DefenderManager.Instance.allDefenders.Add(this);
+
+        // Set name
         myName = myCharacterData.myClass;
 
-        myUIParent.GetComponent<Canvas>().worldCamera = Camera.main;
+        // Auto Get+Set World camera for UI canvas (helps with performance)
+        myUIParent.GetComponent<Canvas>().worldCamera = CameraManager.Instance.unityCamera.mainCamera;
+
+        // Hide UI
         myUIParent.SetActive(false);
 
+        // Set parent to keep hierachy view clean
         transform.SetParent(DefenderManager.Instance.defendersParent.transform);
+
+        // Perform standard LE setup
         base.InitializeSetup(startingGridPosition, startingTile);
     }
     public override void SetBaseProperties()
@@ -158,7 +169,11 @@ public class Defender : LivingEntity
 
         // Get and build from relevant character data values
         RunSetupFromCharacterData();
+
+        // Perform standard LE setup
         base.SetBaseProperties();
+
+        // Set up ability button descriptions
         mySpellBook.SetNewAbilityDescriptions();
         
     }
@@ -380,7 +395,6 @@ public class Defender : LivingEntity
    
     #endregion
 
-
     // Mouse + Click Events
     #region
     public void OnMouseDown()
@@ -592,7 +606,6 @@ public class Defender : LivingEntity
     public void UnselectDefender()
     {
         ClearAllOrders();
-       // myUIParent.SetActive(false);
         StartCoroutine(FadeOutUICanvas());
     }
     public void ClearAllOrders()
@@ -710,10 +723,8 @@ public class Defender : LivingEntity
     }
     #endregion
 
-
     // Ability Button Click Events
     #region
-
     public bool IsAwaitingOrder()
     {
         return awaitingAnOrder;
@@ -3038,7 +3049,6 @@ public class Defender : LivingEntity
     }
     #endregion
 
-
     // Perform Abilities 
     #region
     public void StartMoveAbilityProcess(Tile destination)
@@ -3280,7 +3290,7 @@ public class Defender : LivingEntity
     public void StartShieldShatterProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartShieldShatterProcess() called");
-        Ability shieldShatter = mySpellBook.GetAbilityByName("Shield Slam");
+        Ability shieldShatter = mySpellBook.GetAbilityByName("Shield Shatter");
 
         if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
             && EntityLogic.IsAbilityUseable(this, shieldShatter, target))
@@ -3293,7 +3303,7 @@ public class Defender : LivingEntity
     public void StartTendonSlashProcess(LivingEntity target)
     {
         Debug.Log("Defender.StartTendonSlashProcess() called");
-        Ability tendonSlash = mySpellBook.GetAbilityByName("Shield Slam");
+        Ability tendonSlash = mySpellBook.GetAbilityByName("Tendon Slash");
 
         if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
             && EntityLogic.IsAbilityUseable(this, tendonSlash, target))

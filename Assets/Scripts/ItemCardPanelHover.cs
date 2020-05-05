@@ -265,7 +265,7 @@ public class ItemCardPanelHover : MonoBehaviour
     #region
     public void MoveToItemCardPosition(ItemCard itemCard)
     {
-        locationParent.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, itemCard.mouseOverInfoPanelPos.transform.position);
+        locationParent.transform.position = RectTransformUtility.WorldToScreenPoint(CameraManager.Instance.unityCamera.mainCamera, itemCard.mouseOverInfoPanelPos.transform.position);
     }
     public void DisableAllViews()
     {

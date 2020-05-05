@@ -44,10 +44,6 @@ public class TurnChangeNotifier : MonoBehaviour
 
         whoseTurnText.text = "Turn " + currentTurnCount;
 
-       // Vector3 middlePos1 = new Vector2(middlePos.anchoredPosition.x, middlePos.anchoredPosition.y);
-        //Vector3 endPos1 = new Vector2(endPos.anchoredPosition.x, endPos.anchoredPosition.y);
-
-
         while(reachedMiddlePos == false)
         {
             visualParentCG.alpha += alphaChangeSpeed;

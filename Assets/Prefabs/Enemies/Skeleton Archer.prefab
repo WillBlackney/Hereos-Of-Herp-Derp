@@ -9,11 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 370026184820387457}
-  - component: {fileID: 566609485844418293}
   - component: {fileID: 1643888152677570389}
-  - component: {fileID: 3983794577562494969}
-  - component: {fileID: -3784379066773537958}
   - component: {fileID: 8890848482907727934}
+  - component: {fileID: -3784379066773537958}
+  - component: {fileID: 3983794577562494969}
   m_Layer: 0
   m_Name: Skeleton Archer
   m_TagString: Untagged
@@ -38,56 +37,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &566609485844418293
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 373655118092026611}
-  m_Enabled: 0
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RenderingLayerMask: 4294967295
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: 8474341632e62c14385b6c3c14d16448, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 0.796875, y: 0.90625}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!65 &1643888152677570389
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -101,253 +50,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.64677924, y: 0.9112718, z: 0.2}
   m_Center: {x: -0.032705635, y: 0.22382212, z: 0}
---- !u!114 &3983794577562494969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 373655118092026611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c3b9150831667649999fe304b32ef08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myHealthBar: {fileID: 8373564347077298539}
-  myWorldSpaceCanvas: {fileID: 8011779070758884172}
-  myWorldSpaceCanvasParent: {fileID: 1322756690567352974}
-  mySpriteParent: {fileID: 439861008224047907}
-  myModelParent: {fileID: 439861008224047907}
-  myModel: {fileID: 7896384737547601249}
-  myEntityRenderer: {fileID: 2267040530861385423}
-  myBlockIcon: {fileID: 2472935745396922498}
-  myBlockText: {fileID: 1582135060352829445}
-  myCurrentHealthText: {fileID: 8504991969405159490}
-  myCurrentMaxHealthText: {fileID: 8661166303037016255}
-  myAnimator: {fileID: 2284593209431151233}
-  mySpriteRenderer: {fileID: 566609485844418293}
-  myStatusManager: {fileID: 8154715022164965114}
-  mySpellBook: {fileID: 0}
-  myPassiveManager: {fileID: 0}
-  myActivationWindow: {fileID: 0}
-  defender: {fileID: 0}
-  enemy: {fileID: 0}
-  baseMobility: 2
-  baseMaxHealth: 42
-  baseStartingHealth: 42
-  baseStamina: 40
-  baseMaxEnergy: 60
-  baseMeleeRange: 1
-  baseStrength: 0
-  baseWisdom: 0
-  baseDexterity: 0
-  baseInitiative: 3
-  baseCriticalChance: 5
-  baseDodgeChance: 5
-  baseParryChance: 5
-  baseAuraSize: 1
-  baseStartingBlock: 0
-  baseStartingEnergyBonus: 0
-  baseMaxPowersCount: 1
-  basePhysicalResistance: 0
-  baseFireResistance: 0
-  baseFrostResistance: 0
-  baseShadowResistance: 0
-  basePoisonResistance: 0
-  baseAirResistance: 0
-  currentMobility: 0
-  currentMaxHealth: 0
-  currentHealth: 0
-  currentMaxEnergy: 0
-  currentStamina: 0
-  currentEnergy: 0
-  currentMeleeRange: 0
-  currentStrength: 0
-  currentWisdom: 0
-  currentDexterity: 0
-  currentInitiative: 0
-  currentCriticalChance: 0
-  currentDodgeChance: 0
-  currentParryChance: 0
-  currentAuraSize: 0
-  currentMaxPowersCount: 0
-  currentBlock: 0
-  currentPhysicalResistance: 0
-  currentFireResistance: 0
-  currentFrostResistance: 0
-  currentShadowResistance: 0
-  currentPoisonResistance: 0
-  currentAirResistance: 0
-  myMainHandWeapon: {fileID: 0}
-  myOffHandWeapon: {fileID: 0}
-  tile: {fileID: 0}
-  myCurrentTarget: {fileID: 0}
-  destination: {x: 0, y: 0, z: 0}
-  activePowers: []
-  myName: Skeleton Archer
-  speed: 3
-  mouseIsOverStatusIconPanel: 0
-  mouseIsOverCharacter: 0
-  currentInitiativeRoll: 0
-  moveActionsTakenThisActivation: 0
-  meleeAbilityActionsTakenThisActivation: 0
-  skillAbilityActionsTakenThisActivation: 0
-  rangedAttackAbilityActionsTakenThisActivation: 0
-  timesMeleeAttackedThisTurnCycle: 0
-  inDeathProcess: 0
-  facingRight: 0
-  spriteImportedFacingRight: 1
-  normalColour: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
-  highlightColour: {r: 1, g: 1, b: 1, a: 1}
-  myRangedAttackFinished: 0
-  hasActivatedThisTurn: 0
-  myTaunter: {fileID: 0}
-  myDeathAnimationFinished: 0
-  myOnActivationEndEffectsFinished: 0
-  myInfoPanel: {fileID: 8205476209254731278}
-  freeStrikeIndicator: {fileID: 3690774067484426535}
-  currentlyActivated: 0
---- !u!114 &-3784379066773537958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 373655118092026611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b140600ea334b64b8dd1469701d7033, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myLivingEntity: {fileID: 0}
-  myActiveAbilities: []
-  AbilityOne: {fileID: 0}
-  AbilityTwo: {fileID: 0}
-  AbilityThree: {fileID: 0}
-  AbilityFour: {fileID: 0}
-  AbilityFive: {fileID: 0}
-  AbilitySix: {fileID: 0}
-  AbilitySeven: {fileID: 0}
-  AbilityEight: {fileID: 0}
-  AbilityNine: {fileID: 0}
-  AbilityTen: {fileID: 0}
-  KnowsMove: 0
-  KnowsStrike: 0
-  KnowsBlock: 0
-  KnowsCharge: 0
-  KnowsGuard: 0
-  KnowsInspire: 0
-  KnowsMeteor: 0
-  KnowsTelekinesis: 0
-  KnowsFrostBolt: 0
-  KnowsFireBall: 0
-  KnowsShoot: 0
-  KnowsRapidFire: 0
-  KnowsImpalingBolt: 0
-  KnowsForestMedicine: 0
-  KnowsWhirlwind: 0
-  KnowsInvigorate: 0
-  KnowsHolyFire: 0
-  KnowsVoidBomb: 0
-  KnowsNightmare: 0
-  KnowsTwinStrike: 0
-  KnowsDash: 0
-  KnowsPreparation: 0
-  KnowsHealingLight: 0
-  KnowsSliceAndDice: 0
-  KnowsPoisonDart: 0
-  KnowsChemicalReaction: 0
-  KnowsBloodLust: 0
-  KnowsGetDown: 0
-  KnowsSmash: 0
-  KnowsLightningShield: 0
-  KnowsElectricalDischarge: 0
-  KnowsChainLightning: 0
-  KnowsPrimalBlast: 0
-  KnowsPrimalRage: 0
-  KnowsPhaseShift: 0
-  KnowsTeleport: 0
-  KnowsSanctity: 0
-  KnowsBless: 0
-  KnowsSiphonLife: 0
-  KnowsChaosBolt: 0
-  KnowsFrostNova: 0
-  KnowsEmpowerBinding: 0
-  KnowsRapidCloaking: 0
-  KnowsDevastatingBlow: 0
-  KnowsKickToTheBalls: 0
-  KnowsBladeFlurry: 0
-  KnowsRecklessness: 0
-  KnowsTendonSlash: 0
-  KnowsShieldShatter: 0
-  KnowsEvasion: 0
-  KnowsDecapitate: 0
-  KnowsVanish: 0
-  KnowsCheapShot: 0
-  KnowsShank: 0
-  KnowsShadowStep: 0
-  KnowsShadowBlast: 0
-  KnowsAmbush: 0
-  KnowsStalk: 0
-  KnowsSharpenBlade: 0
-  KnowsProvoke: 0
-  KnowsSwordAndBoard: 0
-  KnowsShieldSlam: 0
-  KnowsTestudo: 0
-  KnowsReactiveArmour: 0
-  KnowsChallengingShout: 0
-  KnowsFireNova: 0
-  KnowsPhoenixDive: 0
-  KnowsBlaze: 0
-  KnowsCombustion: 0
-  KnowsDragonBreath: 0
-  KnowsChillingBlow: 0
-  KnowsIcyFocus: 0
-  KnowsBlizzard: 0
-  KnowsFrostArmour: 0
-  KnowsGlacialBurst: 0
-  KnowsCreepingFrost: 0
-  KnowsThaw: 0
-  KnowsHaste: 0
-  KnowsSteadyHands: 0
-  KnowsHeadShot: 0
-  KnowsTreeLeap: 0
-  KnowsConcentration: 0
-  KnowsOverwatch: 0
-  KnowsDimenisonalBlast: 0
-  KnowsMirage: 0
-  KnowsBurstOfKnowledge: 0
-  KnowsBlink: 0
-  KnowsInfuse: 0
-  KnowsTimeWarp: 0
-  KnowsDimensionalHex: 0
-  KnowsConsecrate: 0
-  KnowsPurity: 0
-  KnowsBlindingLight: 0
-  KnowsTranscendence: 0
-  KnowsJudgement: 0
-  KnowsShroud: 0
-  KnowsHex: 0
-  KnowsRainOfChaos: 0
-  KnowsShadowWreath: 0
-  KnowsUnbridledChaos: 0
-  KnowsBlight: 0
-  KnowsBloodOffering: 0
-  KnowsToxicSlash: 0
-  KnowsNoxiousFumes: 0
-  KnowsToxicEruption: 0
-  KnowsDrain: 0
-  KnowsSpiritSurge: 0
-  KnowsLightningBolt: 0
-  KnowsThunderStrike: 0
-  KnowsSpiritVision: 0
-  KnowsThunderStorm: 0
-  KnowsOverload: 0
-  KnowsConcealingClouds: 0
-  KnowsSuperConductor: 0
-  KnowsSnipe: 0
-  KnowsDisarm: 0
-  KnowsSecondWind: 0
 --- !u!114 &8890848482907727934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,6 +311,248 @@ MonoBehaviour:
   runeStacks: 0
   barrier: 0
   barrierStacks: 0
+--- !u!114 &-3784379066773537958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373655118092026611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b140600ea334b64b8dd1469701d7033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myLivingEntity: {fileID: 0}
+  myActiveAbilities: []
+  AbilityOne: {fileID: 0}
+  AbilityTwo: {fileID: 0}
+  AbilityThree: {fileID: 0}
+  AbilityFour: {fileID: 0}
+  AbilityFive: {fileID: 0}
+  AbilitySix: {fileID: 0}
+  AbilitySeven: {fileID: 0}
+  AbilityEight: {fileID: 0}
+  AbilityNine: {fileID: 0}
+  AbilityTen: {fileID: 0}
+  KnowsMove: 0
+  KnowsStrike: 0
+  KnowsBlock: 0
+  KnowsCharge: 0
+  KnowsGuard: 0
+  KnowsInspire: 0
+  KnowsMeteor: 0
+  KnowsTelekinesis: 0
+  KnowsFrostBolt: 0
+  KnowsFireBall: 0
+  KnowsShoot: 0
+  KnowsRapidFire: 0
+  KnowsImpalingBolt: 0
+  KnowsForestMedicine: 0
+  KnowsWhirlwind: 0
+  KnowsInvigorate: 0
+  KnowsHolyFire: 0
+  KnowsVoidBomb: 0
+  KnowsNightmare: 0
+  KnowsTwinStrike: 0
+  KnowsDash: 0
+  KnowsPreparation: 0
+  KnowsHealingLight: 0
+  KnowsSliceAndDice: 0
+  KnowsPoisonDart: 0
+  KnowsChemicalReaction: 0
+  KnowsBloodLust: 0
+  KnowsGetDown: 0
+  KnowsSmash: 0
+  KnowsLightningShield: 0
+  KnowsElectricalDischarge: 0
+  KnowsChainLightning: 0
+  KnowsPrimalBlast: 0
+  KnowsPrimalRage: 0
+  KnowsPhaseShift: 0
+  KnowsTeleport: 0
+  KnowsSanctity: 0
+  KnowsBless: 0
+  KnowsSiphonLife: 0
+  KnowsChaosBolt: 0
+  KnowsFrostNova: 0
+  KnowsEmpowerBinding: 0
+  KnowsRapidCloaking: 0
+  KnowsDevastatingBlow: 0
+  KnowsKickToTheBalls: 0
+  KnowsBladeFlurry: 0
+  KnowsRecklessness: 0
+  KnowsTendonSlash: 0
+  KnowsShieldShatter: 0
+  KnowsEvasion: 0
+  KnowsDecapitate: 0
+  KnowsVanish: 0
+  KnowsCheapShot: 0
+  KnowsShank: 0
+  KnowsShadowStep: 0
+  KnowsShadowBlast: 0
+  KnowsAmbush: 0
+  KnowsStalk: 0
+  KnowsSharpenBlade: 0
+  KnowsProvoke: 0
+  KnowsSwordAndBoard: 0
+  KnowsShieldSlam: 0
+  KnowsTestudo: 0
+  KnowsReactiveArmour: 0
+  KnowsChallengingShout: 0
+  KnowsFireNova: 0
+  KnowsPhoenixDive: 0
+  KnowsBlaze: 0
+  KnowsCombustion: 0
+  KnowsDragonBreath: 0
+  KnowsChillingBlow: 0
+  KnowsIcyFocus: 0
+  KnowsBlizzard: 0
+  KnowsFrostArmour: 0
+  KnowsGlacialBurst: 0
+  KnowsCreepingFrost: 0
+  KnowsThaw: 0
+  KnowsHaste: 0
+  KnowsSteadyHands: 0
+  KnowsHeadShot: 0
+  KnowsTreeLeap: 0
+  KnowsConcentration: 0
+  KnowsOverwatch: 0
+  KnowsDimenisonalBlast: 0
+  KnowsMirage: 0
+  KnowsBurstOfKnowledge: 0
+  KnowsBlink: 0
+  KnowsInfuse: 0
+  KnowsTimeWarp: 0
+  KnowsDimensionalHex: 0
+  KnowsConsecrate: 0
+  KnowsPurity: 0
+  KnowsBlindingLight: 0
+  KnowsTranscendence: 0
+  KnowsJudgement: 0
+  KnowsShroud: 0
+  KnowsHex: 0
+  KnowsRainOfChaos: 0
+  KnowsShadowWreath: 0
+  KnowsUnbridledChaos: 0
+  KnowsBlight: 0
+  KnowsBloodOffering: 0
+  KnowsToxicSlash: 0
+  KnowsNoxiousFumes: 0
+  KnowsToxicEruption: 0
+  KnowsDrain: 0
+  KnowsSpiritSurge: 0
+  KnowsLightningBolt: 0
+  KnowsThunderStrike: 0
+  KnowsSpiritVision: 0
+  KnowsThunderStorm: 0
+  KnowsOverload: 0
+  KnowsConcealingClouds: 0
+  KnowsSuperConductor: 0
+  KnowsSnipe: 0
+  KnowsDisarm: 0
+  KnowsSecondWind: 0
+--- !u!114 &3983794577562494969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373655118092026611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c3b9150831667649999fe304b32ef08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myHealthBar: {fileID: 8373564347077298539}
+  myWorldSpaceCanvas: {fileID: 8011779070758884172}
+  myWorldSpaceCanvasParent: {fileID: 1322756690567352974}
+  myBlockIcon: {fileID: 2472935745396922498}
+  myBlockText: {fileID: 1582135060352829445}
+  myCurrentHealthText: {fileID: 8504991969405159490}
+  myCurrentMaxHealthText: {fileID: 8661166303037016255}
+  myModelParent: {fileID: 439861008224047907}
+  myModel: {fileID: 7896384737547601249}
+  myEntityRenderer: {fileID: 2267040530861385423}
+  myAnimator: {fileID: 2284593209431151233}
+  myStatusManager: {fileID: 8154715022164965114}
+  mySpellBook: {fileID: -3784379066773537958}
+  myPassiveManager: {fileID: 8890848482907727934}
+  myActivationWindow: {fileID: 0}
+  defender: {fileID: 0}
+  enemy: {fileID: 0}
+  baseMobility: 2
+  baseMaxHealth: 42
+  baseStartingHealth: 42
+  baseStamina: 40
+  baseMaxEnergy: 60
+  baseMeleeRange: 1
+  baseStrength: 0
+  baseWisdom: 0
+  baseDexterity: 0
+  baseInitiative: 3
+  baseCriticalChance: 5
+  baseDodgeChance: 5
+  baseParryChance: 5
+  baseAuraSize: 1
+  baseStartingBlock: 0
+  baseStartingEnergyBonus: 0
+  baseMaxPowersCount: 1
+  basePhysicalResistance: 0
+  baseFireResistance: 0
+  baseFrostResistance: 0
+  baseShadowResistance: 0
+  basePoisonResistance: 0
+  baseAirResistance: 0
+  currentMobility: 0
+  currentMaxHealth: 0
+  currentHealth: 0
+  currentMaxEnergy: 0
+  currentStamina: 0
+  currentEnergy: 0
+  currentMeleeRange: 0
+  currentStrength: 0
+  currentWisdom: 0
+  currentDexterity: 0
+  currentInitiative: 0
+  currentCriticalChance: 0
+  currentDodgeChance: 0
+  currentParryChance: 0
+  currentAuraSize: 0
+  currentMaxPowersCount: 0
+  currentBlock: 0
+  currentPhysicalResistance: 0
+  currentFireResistance: 0
+  currentFrostResistance: 0
+  currentShadowResistance: 0
+  currentPoisonResistance: 0
+  currentAirResistance: 0
+  myMainHandWeapon: {fileID: 0}
+  myOffHandWeapon: {fileID: 0}
+  tile: {fileID: 0}
+  destination: {x: 0, y: 0, z: 0}
+  myCurrentTarget: {fileID: 0}
+  myTaunter: {fileID: 0}
+  moveActionsTakenThisActivation: 0
+  meleeAbilityActionsTakenThisActivation: 0
+  skillAbilityActionsTakenThisActivation: 0
+  rangedAttackAbilityActionsTakenThisActivation: 0
+  timesMeleeAttackedThisTurnCycle: 0
+  currentInitiativeRoll: 0
+  myRangedAttackFinished: 0
+  hasActivatedThisTurn: 0
+  inDeathProcess: 0
+  mouseIsOverStatusIconPanel: 0
+  mouseIsOverCharacter: 0
+  myName: Skeleton Archer
+  movementAnimSpeed: 0
+  facingRight: 0
+  normalColour: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
+  highlightColour: {r: 1, g: 1, b: 1, a: 1}
+  myDeathAnimationFinished: 0
+  myInfoPanel: {fileID: 8205476209254731278}
+  freeStrikeIndicator: {fileID: 3690774067484426535}
+  currentlyActivated: 0
 --- !u!1 &439861008224047907
 GameObject:
   m_ObjectHideFlags: 0

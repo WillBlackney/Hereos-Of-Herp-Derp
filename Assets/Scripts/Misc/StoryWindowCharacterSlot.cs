@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class StoryWindowCharacterSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    // Properties + Component References
+    #region
     [Header("Properties")]
     public CharacterData myCharacterData;
 
@@ -18,8 +18,9 @@ public class StoryWindowCharacterSlot : MonoBehaviour, IPointerClickHandler, IPo
     public UniversalCharacterModel myModel;
     public Slider healthBar;
     public Slider xpBar;
+    #endregion
 
-    // Initialization + Setip
+    // Initialization + Setup
     #region
     public void InitializeSetup(CharacterData data)
     {

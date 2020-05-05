@@ -1,23 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    // Properties + COmponent References
+    #region
+    [Header("Component References")]
     public Animator myAnim;
+    public GameObject imageParent;
+   
+    [Header("Properties")]
     public Vector3 destination;
     public bool readyToMove;
     public bool destinationReached;
     public float travelSpeed;
-    public GameObject imageParent;
+    #endregion
 
-    private void Update()
-    {
-        if (readyToMove)
-        {
-            MoveTowardsTarget();
-        }
-    }
+    // Initialization 
+    #region
+    
     public void InitializeSetup(Vector3 startPos, Vector3 endPos, float speed)
     {
         transform.position = startPos;
@@ -26,6 +26,17 @@ public class Projectile : MonoBehaviour
         FaceDestination();
         readyToMove = true;
     }
+    #endregion
+
+    // Movement logic
+    #region
+    private void Update()
+    {
+        if (readyToMove)
+        {
+            MoveTowardsTarget();
+        }
+    }   
     public void MoveTowardsTarget()
     {
         if(transform.position != destination)
@@ -38,6 +49,10 @@ public class Projectile : MonoBehaviour
             }
         }
     }
+    #endregion
+
+    // Misc Logic
+    #region
     public void FaceDestination()
     {
         Vector2 direction = destination - transform.position;
@@ -49,5 +64,6 @@ public class Projectile : MonoBehaviour
     {
         Destroy(gameObject);
     }
-    
+    #endregion
+
 }

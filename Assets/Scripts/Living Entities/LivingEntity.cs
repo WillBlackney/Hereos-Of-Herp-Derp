@@ -7,27 +7,30 @@ using UnityEngine.UI;
 
 public class LivingEntity : MonoBehaviour
 {
-    // Propeties + Component References
+    // Properties + Component References
     #region
-    [Header("Component References")]
+    [Header("GUI Component References")]
     public Slider myHealthBar;
     public Canvas myWorldSpaceCanvas;
-    public GameObject myWorldSpaceCanvasParent;    
-    public GameObject mySpriteParent;
-    public GameObject myModelParent;
-    public UniversalCharacterModel myModel;
-    public EntityRenderer myEntityRenderer;
+    public GameObject myWorldSpaceCanvasParent;
     public GameObject myBlockIcon;
     public TextMeshProUGUI myBlockText;
     public TextMeshProUGUI myCurrentHealthText;
     public TextMeshProUGUI myCurrentMaxHealthText;
+
+    [Header("Model Component References")]
+    public GameObject myModelParent;
+    public UniversalCharacterModel myModel;
+    public EntityRenderer myEntityRenderer;
     public Animator myAnimator;
+
+    [Header("Core Component References")]
     public StatusManager myStatusManager;
     public SpellBook mySpellBook;
     public PassiveManager myPassiveManager;
-    public ActivationWindow myActivationWindow;
-    public Defender defender;
-    public Enemy enemy;
+    [HideInInspector] public ActivationWindow myActivationWindow;
+    [HideInInspector] public Defender defender;
+    [HideInInspector] public Enemy enemy;
 
     [Header("Base Trait Properties")]
     public int baseMobility;
@@ -48,6 +51,7 @@ public class LivingEntity : MonoBehaviour
     public int baseStartingEnergyBonus;
     public int baseMaxPowersCount;
 
+    [Header("Base Resistance Properties")]
     public int basePhysicalResistance;
     public int baseFireResistance;
     public int baseFrostResistance;
@@ -73,44 +77,58 @@ public class LivingEntity : MonoBehaviour
     public int currentAuraSize;
     public int currentMaxPowersCount;
     public int currentBlock;
+
+    [Header("Current Resistance Properties")]
     public int currentPhysicalResistance;
     public int currentFireResistance;
     public int currentFrostResistance;
     public int currentShadowResistance;
     public int currentPoisonResistance;
     public int currentAirResistance;
+
+    [Header("Weapon Properties")]
     public ItemDataSO myMainHandWeapon;
     public ItemDataSO myOffHandWeapon;
 
-    [Header("Pathing + Location Related ")]
+    [Header("Location Properties ")]
     public Tile tile;
     public Point gridPosition;
-    public LivingEntity myCurrentTarget;
+
+    [Header("Pathfinding Properties ")]
     public Stack<Node> path;
     public Vector3 destination;
 
-    [Header("Other Properties ")]
-    public List<Ability> activePowers;
+    [Header("Targetting Properties ")]
+    public LivingEntity myCurrentTarget;
+    public LivingEntity myTaunter;
 
-    [Header("Miscealaneous Properties ")]
-    public string myName;
-    public float speed;   
-    public bool mouseIsOverStatusIconPanel;
-    public bool mouseIsOverCharacter;
-    public int currentInitiativeRoll;
+    [Header("Combat State Properties ")]
     public int moveActionsTakenThisActivation;
     public int meleeAbilityActionsTakenThisActivation;
     public int skillAbilityActionsTakenThisActivation;
     public int rangedAttackAbilityActionsTakenThisActivation;
     public int timesMeleeAttackedThisTurnCycle;
-    public bool inDeathProcess;
-    public bool facingRight;
-    public bool spriteImportedFacingRight;
-    public Color normalColour;
-    public Color highlightColour;
+    public int currentInitiativeRoll;
+
+    [Header("Combat Conditional Properties ")]
     public bool myRangedAttackFinished;
     public bool hasActivatedThisTurn;
-    public LivingEntity myTaunter;
+    public bool inDeathProcess;
+
+    [Header("Mouse Input Properties ")]
+    public bool mouseIsOverStatusIconPanel;
+    public bool mouseIsOverCharacter;
+
+    [Header("Miscealaneous Properties")]
+    public string myName;
+    public float movementAnimSpeed;     
+    public bool facingRight;
+
+    [Header("Colour Properties ")]
+    public Color normalColour;
+    public Color highlightColour;
+    
+   
     #endregion
 
     // Initialization / Setup
@@ -119,38 +137,45 @@ public class LivingEntity : MonoBehaviour
     {
         Debug.Log("Calling LivingEntity.InitializeSetup...");
 
-        // Get + Set Components
-        if (myAnimator == null)
-        {
-            myAnimator = GetComponent<Animator>();
-        }
-
-        PlayIdleAnimation();
-        
+        // Get enemy/defender
         defender = GetComponent<Defender>();
         enemy = GetComponent<Enemy>();
-        myPassiveManager = GetComponent<PassiveManager>();
-        myPassiveManager.InitializeSetup();
-        mySpellBook = GetComponent<SpellBook>();
+
+        // Set up passive manager
+        myPassiveManager.myLivingEntity = this;
+
+        // Set up Spell Book
+        mySpellBook.myLivingEntity = this;
         mySpellBook.InitializeSetup();
+
+        // Set up status manager
+        myStatusManager.InitializeSetup(this);
+
+        // Connect entity to model
         myModel.myLivingEntity = this;
 
-        // Set grid position 'Point'
+        // Set idle anim as starting anim.
+        PlayIdleAnimation();
+
+        // Auto Get+Set world space canvas event camera to help performance
+        AutoSetWorldCanvasEventCamera();
+
+        // Set grid position
         gridPosition = startingGridPosition;
 
-        // Set our current tile
+        // Set current tile
         tile = startingTile;
 
         // Set its tile to 'occupied' state
         LevelManager.Instance.SetTileAsOccupied(startingTile);
 
-        // Place tower in the centre point of the tile
+        // Place character in the centre point of the tile
         transform.position = startingTile.WorldPosition;
 
         // Add this to the list of all active enemy and defender characters
         LivingEntityManager.Instance.allLivingEntities.Add(this);
         
-        // Face towards the opponents
+        // Face towards the enemy
         if (defender)
         {
             PositionLogic.Instance.SetDirection(this, "Right");
@@ -161,9 +186,8 @@ public class LivingEntity : MonoBehaviour
             PositionLogic.Instance.SetDirection(this, "Left");
         }
         
-       // myEntityRenderer = GetComponentInChildren<EntityRenderer>();
+        // Enable status icons view
         myStatusManager.SetPanelViewState(true);
-        MovementLogic.Instance.OnNewTileSet(this);
 
         // Set up all base properties and values (damage, mobility etc)
         SetBaseProperties();
@@ -173,9 +197,7 @@ public class LivingEntity : MonoBehaviour
 
         // Update GUI views
         UpdateHealthGUIElements();
-
-        // Set world space canvas event camera to help performance
-        AutoSetWorldCanvasEventCamera();
+        
     }    
     public virtual void SetBaseProperties()
     {
@@ -600,28 +622,11 @@ public class LivingEntity : MonoBehaviour
             return false;
         }
     }
-    public IEnumerator FadeOutModel()
-    {
-        Debug.Log("LivingEntity.FadeOutModel() called...");
-
-        while (myEntityRenderer.Color.a > 0)
-        {
-            float newAlpha = myEntityRenderer.Color.a - 25;
-            myEntityRenderer.Color = new Color(myEntityRenderer.Color.r, myEntityRenderer.Color.g, myEntityRenderer.Color.b, newAlpha);
-            Debug.Log(myName + " current alpha value = " + myEntityRenderer.Color.a);
-            yield return new WaitForEndOfFrame();
-        }
-    }
+   
     public void SetDeathAnimAsFinished()
     {
         myDeathAnimationFinished = true;
-    }
-    public void StartDeathFadeOut()
-    {
-        Debug.Log("LivingEntity.StartDeathFadeOut() called...");
-        //StartCoroutine(FadeOutModel());
-    }
-   
+    }    
     public void SetRangedAttackAnimAsFinished()
     {
         myRangedAttackFinished = true;
@@ -939,7 +944,6 @@ public class LivingEntity : MonoBehaviour
         }       
 
     }
-
     public void SetColor(Color newColor)
     {
         Debug.Log("Setting Entity Color....");
