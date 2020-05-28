@@ -922,8 +922,7 @@ public class CombatLogic : MonoBehaviour
         if (attacker != null &&
             attacker.myPassiveManager.immolation && totalLifeLost > 0 &&
             abilityUsed != null &&
-            (abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack ||
-            abilityUsed.abilityType == AbilityDataSO.AbilityType.RangedAttack))
+            abilityUsed.abilityType == AbilityDataSO.AbilityType.MeleeAttack)
         {
             Debug.Log(attacker.name + " has 'Immolation', applying " + attacker.myPassiveManager.immolationStacks.ToString() + " 'Burning'");
             yield return new WaitForSeconds(0.5f);
