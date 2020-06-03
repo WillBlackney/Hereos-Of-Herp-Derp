@@ -114,7 +114,7 @@ public class MainMenuManager : MonoBehaviour
         }
         
     }
-    public IEnumerator OnStartGameButtonClickedCoroutine()
+    private IEnumerator OnStartGameButtonClickedCoroutine()
     {
         Debug.Log("Start Game Button Clicked...");
 
@@ -173,7 +173,11 @@ public class MainMenuManager : MonoBehaviour
     {
         if (selectedMenuCharacter != null)
         {
-            arrowParent.transform.position = Vector2.MoveTowards(arrowParent.transform.position, selectedMenuCharacter.transform.position, 20 * Time.deltaTime);
+            // calculate ideal pos with offest for arrow
+            Vector2 idealPos = new Vector2(selectedMenuCharacter.myModel.transform.position.x, arrowParent.transform.position.y);
+
+            // move arrow gradually
+            arrowParent.transform.position = Vector2.MoveTowards(arrowParent.transform.position, idealPos, 20 * Time.deltaTime);
         }
     }
     public string GetRandomClassString()

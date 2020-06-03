@@ -8,6 +8,8 @@ using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour
 {
+    // Properties + Component References
+    #region
     [Header("UI Component References")]    
     public GameObject GameOverScreenParent;
     public GameObject GameOverScreenCanvasParent;
@@ -47,12 +49,16 @@ public class UIManager : MonoBehaviour
     public bool worldMapMovingOnScreen;
     public bool worldMapMovingOffScreen;
     public float worldMapMoveSpeed;
+    #endregion
 
+    // Singleton Pattern
+    #region
     public static UIManager Instance;
     private void Awake()
     {
         Instance = this;       
-    }    
+    }
+    #endregion
 
     // Mouse + Click Events
     #region
@@ -120,7 +126,6 @@ public class UIManager : MonoBehaviour
         Action action = new Action();
         StartCoroutine(MoveCharacterRosterOnScreenCoroutine(action));
         return action;
-
     }
     private IEnumerator MoveCharacterRosterOnScreenCoroutine(Action action)
     {

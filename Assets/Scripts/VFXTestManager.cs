@@ -19,10 +19,13 @@ public class VFXTestManager : MonoBehaviour
     public float projectileScale;
     public int projectileSortingOrder;
 
-    [Header("FX Sortin Properties")]
+    [Header("VFX Sorting Properties")]
     public string currentEffect;
     public int currentEffectIndex;
     public List<string> effectNames;
+
+    [Header("Reward Overlay Properties")]
+    public ItemDataSO testItemData;
 
     #endregion
 
@@ -50,6 +53,10 @@ public class VFXTestManager : MonoBehaviour
             GetPreviousEffect();
         }
         if (Input.GetKeyDown(KeyCode.D))
+        {
+            GetNextEffect();
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             GetNextEffect();
         }
