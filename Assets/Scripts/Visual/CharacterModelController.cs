@@ -215,6 +215,32 @@ public static class CharacterModelController
         DisableAllViewsInList(model.allLeftHands);
         DisableAllViewsInList(model.allLeftArms);
         DisableAllViewsInList(model.allChests);
+
+        // Clear all body part refs
+        ClearAllActiveBodyPartReferences(model);
+    }
+    public static void ClearAllActiveBodyPartReferences(UniversalCharacterModel model)
+    {
+        Debug.Log("CharacterModelController.ClearAllActiveBodyPartReferences() called...");
+
+        // Body Parts
+        model.activeHead = null;
+        model.activeFace = null;
+        model.activeLeftLeg = null;
+        model.activeRightLeg = null;
+        model.activeRightHand = null;
+        model.activeRightArm = null;
+        model.activeLeftHand = null;
+        model.activeLeftArm = null;
+        model.activeChest = null;
+
+        // Clothing / Weapons
+        model.activeHeadWear = null;
+        model.activeChestWear = null;
+        model.activeRightLegWear = null;
+        model.activeLeftLegWear = null;
+        model.activeMainHandWeapon = null;
+        model.activeOffHandWeapon = null;
     }
     #endregion
 
@@ -825,6 +851,268 @@ public static class CharacterModelController
     }
     #endregion
 
+    // NEW MODEL LOGICC!!!!!!!!!
 
+    // Set Model Race
+    #region
+    public static void SetBaseHumanView(UniversalCharacterModel model)
+    {
+        CompletelyDisableAllViews(model);
+        model.myModelRace = UniversalCharacterModel.ModelRace.Human;
 
+        EnableAndSetElementOnModel(model, model.humanLeftLeg);
+        EnableAndSetElementOnModel(model, model.humanRightLeg);
+        EnableAndSetElementOnModel(model, model.humanHeads[0]);
+        EnableAndSetElementOnModel(model, model.humanFaces[0]);
+        EnableAndSetElementOnModel(model, model.humanRightHand);
+        EnableAndSetElementOnModel(model, model.humanRightArm);
+        EnableAndSetElementOnModel(model, model.humanLeftHand);
+        EnableAndSetElementOnModel(model, model.humanLeftArm);
+        EnableAndSetElementOnModel(model, model.humanChest);        
+    }
+    #endregion
+
+    // Set Specific Body Parts
+    public static void EnableAndSetElementOnModel(UniversalCharacterModel model, UniversalCharacterModelElement element)
+    {
+        // Enable GO
+        element.gameObject.SetActive(true);
+
+        // Set Active Body Part Reference
+        if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.Chest)
+        {
+            if (model.activeChest != null)
+            {
+                model.activeChest.gameObject.SetActive(false);
+            }            
+            model.activeChest = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.Head)
+        {
+            if (model.activeHead != null)
+            {
+                model.activeHead.gameObject.SetActive(false);
+            }
+            model.activeHead = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.Face)
+        {
+            if (model.activeFace != null)
+            {
+                model.activeFace.gameObject.SetActive(false);
+            }
+            model.activeFace = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightArm)
+        {
+            if (model.activeRightArm != null)
+            {
+                model.activeRightArm.gameObject.SetActive(false);
+            }
+            model.activeRightArm = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightHand)
+        {
+            if (model.activeRightHand != null)
+            {
+                model.activeRightHand.gameObject.SetActive(false);
+            }
+            model.activeRightHand = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftArm)
+        {
+            if (model.activeLeftArm != null)
+            {
+                model.activeLeftArm.gameObject.SetActive(false);
+            }
+            model.activeLeftArm = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftHand)
+        {
+            if (model.activeLeftHand != null)
+            {
+                model.activeLeftHand.gameObject.SetActive(false);
+            }
+            model.activeLeftHand = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightLeg)
+        {
+            if (model.activeRightLeg != null)
+            {
+                model.activeRightLeg.gameObject.SetActive(false);
+            }
+            model.activeRightLeg = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftLeg)
+        {
+            if (model.activeLeftLeg != null)
+            {
+                model.activeLeftLeg.gameObject.SetActive(false);
+            }
+            model.activeLeftLeg = element;
+        }
+
+        // Set Active Weapons + Clothing Reference
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.HeadWear)
+        {
+            if (model.activeHeadWear != null)
+            {
+                model.activeHeadWear.gameObject.SetActive(false);
+            }
+            model.activeHeadWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.ChestWear)
+        {
+            if (model.activeChestWear != null)
+            {
+                model.activeChestWear.gameObject.SetActive(false);
+            }
+            model.activeChestWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftLegWear)
+        {
+            if (model.activeLeftLegWear != null)
+            {
+                model.activeLeftLegWear.gameObject.SetActive(false);
+            }
+            model.activeLeftLegWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightLegWear)
+        {
+            if (model.activeRightLegWear != null)
+            {
+                model.activeRightLegWear.gameObject.SetActive(false);
+            }
+            model.activeRightLegWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftArmWear)
+        {
+            if (model.activeLeftArmWear != null)
+            {
+                model.activeLeftArmWear.gameObject.SetActive(false);
+            }
+            model.activeLeftArmWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightArmWear)
+        {
+            if (model.activeRightArmWear != null)
+            {
+                model.activeRightArmWear.gameObject.SetActive(false);
+            }
+            model.activeRightArmWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftHandWear)
+        {
+            if (model.activeLeftHandWear != null)
+            {
+                model.activeLeftHandWear.gameObject.SetActive(false);
+            }
+            model.activeLeftHandWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightHandWear)
+        {
+            if (model.activeRightHandWear != null)
+            {
+                model.activeRightHandWear.gameObject.SetActive(false);
+            }
+            model.activeRightHandWear = element;
+        }
+    }
+
+    // Get View Parts
+   
+    public static UniversalCharacterModelElement GetNextElementInList(List<UniversalCharacterModelElement> list)
+    {
+        Debug.Log("CharacterModelController.GetNextElementInList() called...");
+
+        // Set up
+        UniversalCharacterModelElement elementReturned = null;
+        int currentIndex = 0;
+        int nextIndex = 0;
+
+        // calculate list size
+        int maxIndex = list.Count - 1;
+
+        // prevent negative index
+        if(maxIndex < 0)
+        {
+            maxIndex = 0;
+        }
+        
+        // calculate current index
+        foreach (UniversalCharacterModelElement ele in list)
+        {
+            if (ele.gameObject.activeSelf)
+            {
+                currentIndex = list.IndexOf(ele);
+                Debug.Log("CharacterModelController.GetNextElementInList() calculated that " + ele.gameObject.name +
+                    " is at list index " + currentIndex);
+                break;
+            }
+        }
+
+        // if at end of list, go back to index 0
+        if(currentIndex + 1 > maxIndex)
+        {
+            nextIndex = 0;
+        }
+        else
+        {
+            nextIndex = currentIndex + 1;
+        }
+        
+        elementReturned = list[nextIndex];
+
+        Debug.Log("CharacterModelController.GetNextElementInList() returning " +
+            elementReturned.gameObject.name + " as next indexed element");
+
+        return elementReturned;
+    }
+    public static UniversalCharacterModelElement GetPreviousElementInList(List<UniversalCharacterModelElement> list)
+    {
+        Debug.Log("CharacterModelController.GetNextElementInList() called...");
+
+        // Set up
+        UniversalCharacterModelElement elementReturned = null;
+        int currentIndex = 0;
+        int nextIndex = 0;
+
+        // calculate list size
+        int maxIndex = list.Count - 1;
+
+        // prevent negative index
+        if (maxIndex < 0)
+        {
+            maxIndex = 0;
+        }
+
+        // calculate current index
+        foreach (UniversalCharacterModelElement ele in list)
+        {
+            if (ele.gameObject.activeSelf)
+            {
+                currentIndex = list.IndexOf(ele);
+                Debug.Log("CharacterModelController.GetPreviousElementInList() calculated that " + ele.gameObject.name +
+                    " is at list index " + currentIndex);
+                break;
+            }
+        }
+
+        // if at start of list, go to the last index
+        if (currentIndex - 1 < 0)
+        {
+            nextIndex = maxIndex;
+        }
+        else
+        {
+            nextIndex = currentIndex - 1;
+        }
+
+        elementReturned = list[nextIndex];
+
+        Debug.Log("CharacterModelController.GetPreviousElementInList() returning " +
+            elementReturned.gameObject.name + " as next indexed element");
+
+        return elementReturned;
+    }
 }

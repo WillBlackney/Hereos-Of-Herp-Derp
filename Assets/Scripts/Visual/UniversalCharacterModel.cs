@@ -4,6 +4,44 @@ using UnityEngine;
 
 public class UniversalCharacterModel : MonoBehaviour
 {
+    // Enum Declaration
+    public enum ModelRace { None, Human, Orc, Undead};
+
+    // NEW Properties + Component References
+    [Header("Active Body Part References")]
+    public UniversalCharacterModelElement activeHead;
+    public UniversalCharacterModelElement activeFace;
+    public UniversalCharacterModelElement activeLeftLeg;
+    public UniversalCharacterModelElement activeRightLeg;
+    public UniversalCharacterModelElement activeRightHand;
+    public UniversalCharacterModelElement activeRightArm;
+    public UniversalCharacterModelElement activeLeftHand;
+    public UniversalCharacterModelElement activeLeftArm;
+    public UniversalCharacterModelElement activeChest;
+
+    [Header("Active Clothing Part References")]
+    public UniversalCharacterModelElement activeHeadWear;
+    public UniversalCharacterModelElement activeChestWear;
+    public UniversalCharacterModelElement activeLeftLegWear;
+    public UniversalCharacterModelElement activeRightLegWear;
+    public UniversalCharacterModelElement activeLeftArmWear;
+    public UniversalCharacterModelElement activeRightArmWear;
+    public UniversalCharacterModelElement activeLeftHandWear;
+    public UniversalCharacterModelElement activeRightHandWear;
+    public UniversalCharacterModelElement activeMainHandWeapon;
+    public UniversalCharacterModelElement activeOffHandWeapon;
+
+    [Header("Human Model References")]
+    public List<UniversalCharacterModelElement> humanHeads;
+    public List<UniversalCharacterModelElement> humanFaces;
+    public UniversalCharacterModelElement humanLeftLeg;
+    public UniversalCharacterModelElement humanRightLeg;
+    public UniversalCharacterModelElement humanRightHand;
+    public UniversalCharacterModelElement humanRightArm;
+    public UniversalCharacterModelElement humanLeftHand;
+    public UniversalCharacterModelElement humanLeftArm;
+    public UniversalCharacterModelElement humanChest;
+
     // Properties + Component References
     #region
     [Header("Component References")]
@@ -11,6 +49,7 @@ public class UniversalCharacterModel : MonoBehaviour
 
     [Header("Properties")]
     public LivingEntity myLivingEntity;
+    public ModelRace myModelRace;
 
     [Header("Left Leg References")]
     public List<GameObject> allLeftLegs;

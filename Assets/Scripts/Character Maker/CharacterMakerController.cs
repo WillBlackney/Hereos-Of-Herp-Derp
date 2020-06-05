@@ -12,6 +12,9 @@ public class CharacterMakerController : MonoBehaviour
     public GameObject originPanelParent;
     public GameObject appearancePanelParent;
     public GameObject presetPanelParent;
+
+    [Header("UCM References")]
+    public UniversalCharacterModel characterModel;
     #endregion
 
     // Singleton Pattern
@@ -32,10 +35,13 @@ public class CharacterMakerController : MonoBehaviour
 
     // On Button Click Events
     #region
+
+    // Main Buttons
     public void OnCharacterMakerMainMenuButtonClicked()
     {
         Debug.Log("CharacterMakerController.OnCharacterMakerButtonClicked() called...");
         SetMainWindowViewState(true);
+        SetCharacterModelDefaultStartingState();
     }
     public void OnOriginButtonClicked()
     {
@@ -54,6 +60,48 @@ public class CharacterMakerController : MonoBehaviour
         Debug.Log("CharacterMakerController.OnPresetButtonClicked() called...");
         DisabelAllPanelViews();
         SetPresetPanelViewState(true);
+    }
+
+    // Appearance Page
+    public void OnNextHeadButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnNextHeadButtonClicked() called...");
+
+        if(characterModel.myModelRace == UniversalCharacterModel.ModelRace.Human)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.humanHeads));
+        }
+    }
+    public void OnPreviousHeadButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnPreviousHeadButtonClicked() called...");
+
+        if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Human)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetPreviousElementInList(characterModel.humanHeads));
+        }
+    }
+    public void OnNextFaceButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnNextFaceButtonClicked() called...");
+
+        if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Human)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.humanFaces));
+        }
+    }
+    public void OnPreviousFaceButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnPreviousFaceButtonClicked() called...");
+
+        if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Human)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetPreviousElementInList(characterModel.humanFaces));
+        }
     }
     #endregion
 
@@ -90,6 +138,26 @@ public class CharacterMakerController : MonoBehaviour
         SetOriginPanelViewState(false);
         SetAppearancePanelViewState(false);
         SetPresetPanelViewState(false);
+    }
+    #endregion
+
+    // Character Model Logic
+    #region
+    private void SetCharacterModelDefaultStartingState()
+    {
+        Debug.Log("CharacterMakerController.SetCharacterModelDefaultStartingState() called...");
+        SetCharacterModelIdleAnim();
+        SetCharacterModelDefaultView();
+    }
+    private void SetCharacterModelIdleAnim()
+    {
+        Debug.Log("CharacterMakerController.SetCharacterModelIdleAnim() called...");
+        characterModel.SetIdleAnim();
+    }
+    private void SetCharacterModelDefaultView()
+    {
+        Debug.Log("CharacterMakerController.SetCharacterModelDefaultView() called...");
+        CharacterModelController.SetBaseHumanView(characterModel);
     }
     #endregion
 }
