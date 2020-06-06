@@ -88,6 +88,11 @@ public class CharacterMakerController : MonoBehaviour
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.orcHeads));
         }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Undead)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.undeadHeads));
+        }
     }
     public void OnPreviousHeadButtonClicked()
     {
@@ -102,6 +107,11 @@ public class CharacterMakerController : MonoBehaviour
         {
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetPreviousElementInList(characterModel.orcHeads));
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Undead)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetPreviousElementInList(characterModel.undeadHeads));
         }
     }
     public void OnNextFaceButtonClicked()
@@ -118,6 +128,11 @@ public class CharacterMakerController : MonoBehaviour
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.orcFaces));
         }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Undead)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.undeadFaces));
+        }
     }
     public void OnPreviousFaceButtonClicked()
     {
@@ -132,6 +147,11 @@ public class CharacterMakerController : MonoBehaviour
         {
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetPreviousElementInList(characterModel.orcFaces));
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Undead)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetPreviousElementInList(characterModel.undeadFaces));
         }
     }
     public void OnNextHeadWearButtonClicked()
@@ -203,6 +223,11 @@ public class CharacterMakerController : MonoBehaviour
         }
         else if(characterModel.myModelRace == UniversalCharacterModel.ModelRace.Orc)
         {
+            CharacterModelController.SetBaseUndeadView(characterModel);
+            characterRaceText.text = "Undead";
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Undead)
+        {
             CharacterModelController.SetBaseHumanView(characterModel);
             characterRaceText.text = "Human";
         }
@@ -217,6 +242,11 @@ public class CharacterMakerController : MonoBehaviour
             characterRaceText.text = "Human";
         }
         else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Human)
+        {
+            CharacterModelController.SetBaseUndeadView(characterModel);
+            characterRaceText.text = "Undead";
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Undead)
         {
             CharacterModelController.SetBaseOrcView(characterModel);
             characterRaceText.text = "Orc";
