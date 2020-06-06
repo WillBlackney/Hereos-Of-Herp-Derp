@@ -9,6 +9,7 @@ public class UniversalCharacterModelElement : MonoBehaviour
         RightHand, LeftArm, LeftHand, HeadWear, ChestWear, RightLegWear, 
         LeftLegWear, RightArmWear, RightHandWear, LeftArmWear, LeftHandWear
     };
+
     public int sortingOrderBonus;
     public BodyPartType bodyPartType;
 }

@@ -103,6 +103,62 @@ public class CharacterMakerController : MonoBehaviour
                 CharacterModelController.GetPreviousElementInList(characterModel.humanFaces));
         }
     }
+    public void OnNextHeadWearButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnNextHeadWearButtonClicked() called...");
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.allHeadWear));
+    }
+    public void OnPreviousHeadWearButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnPreviousHeadWearButtonClicked() called...");
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetPreviousElementInList(characterModel.allHeadWear));
+    }
+    public void OnNextChestWearButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnNextChestWearButtonClicked() called...");
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.allChestWear));
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.allRightArmWear));
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.allLeftArmWear));
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.allRightHandWear));
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.allLeftHandWear));
+    }
+    public void OnPreviousChestWearButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnPreviousHeadWearButtonClicked() called...");
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+               CharacterModelController.GetNextElementInList(characterModel.allChestWear));
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.allRightArmWear));
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.allLeftArmWear));
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.allRightHandWear));
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.allLeftHandWear));
+    }
+    public void OnNextLegWearButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnNextLegWearButtonClicked() called...");
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.allLeftLegWear));
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.allRightLegWear));
+    }
+    public void OnPreviousLegWearButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnPreviousLegWearButtonClicked() called...");
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+               CharacterModelController.GetNextElementInList(characterModel.allLeftLegWear));
+        CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.allRightLegWear));
+    }
     #endregion
 
     // Enable + Disable Views

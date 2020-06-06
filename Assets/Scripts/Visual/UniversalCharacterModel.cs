@@ -31,6 +31,22 @@ public class UniversalCharacterModel : MonoBehaviour
     public UniversalCharacterModelElement activeMainHandWeapon;
     public UniversalCharacterModelElement activeOffHandWeapon;
 
+    [Header("Head Wear References")]
+    public List<UniversalCharacterModelElement> allHeadWear;
+
+    [Header("Chest Wear References")]
+    public List<UniversalCharacterModelElement> allChestWear;
+
+    [Header("Leg Wear References")]
+    public List<UniversalCharacterModelElement> allLeftLegWear;
+    public List<UniversalCharacterModelElement> allRightLegWear;
+
+    [Header("Arm Wear References")]
+    public List<UniversalCharacterModelElement> allLeftArmWear;
+    public List<UniversalCharacterModelElement> allRightArmWear;
+    public List<UniversalCharacterModelElement> allLeftHandWear;
+    public List<UniversalCharacterModelElement> allRightHandWear;
+
     [Header("Human Model References")]
     public List<UniversalCharacterModelElement> humanHeads;
     public List<UniversalCharacterModelElement> humanFaces;
@@ -96,7 +112,6 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject demonBladeMasterLeftLeg;
     public GameObject demonHellGuardLeftLeg;
     public GameObject darkElfRangerLeftLeg;
-
 
 
     [Header("Right Leg References")]

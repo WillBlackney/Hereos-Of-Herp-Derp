@@ -198,6 +198,13 @@ public static class CharacterModelController
             go.SetActive(false);
         }
     }
+    public static void DisableAllViewsInList(List<UniversalCharacterModelElement> listOfViews)
+    {
+        foreach (UniversalCharacterModelElement ucme in listOfViews)
+        {
+            ucme.gameObject.SetActive(false);
+        }
+    }
     public static void CompletelyDisableAllViews(UniversalCharacterModel model)
     {
         Debug.Log("CharacterModelController.CompletelyDisableAllViews() called...");
@@ -218,6 +225,17 @@ public static class CharacterModelController
 
         // Clear all body part refs
         ClearAllActiveBodyPartReferences(model);
+    }
+    public static void DisableAllClothingViews(UniversalCharacterModel model)
+    {
+        DisableAllViewsInList(model.allHeadWear);
+        DisableAllViewsInList(model.allChestWear);
+        DisableAllViewsInList(model.allLeftLegWear);
+        DisableAllViewsInList(model.allRightLegWear);
+        DisableAllViewsInList(model.allLeftArmWear);
+        DisableAllViewsInList(model.allRightArmWear);
+        DisableAllViewsInList(model.allLeftHandWear);
+        DisableAllViewsInList(model.allRightHandWear);
     }
     public static void ClearAllActiveBodyPartReferences(UniversalCharacterModel model)
     {
@@ -858,8 +876,11 @@ public static class CharacterModelController
     public static void SetBaseHumanView(UniversalCharacterModel model)
     {
         CompletelyDisableAllViews(model);
+        DisableAllClothingViews(model);
+
         model.myModelRace = UniversalCharacterModel.ModelRace.Human;
 
+        // Body parts
         EnableAndSetElementOnModel(model, model.humanLeftLeg);
         EnableAndSetElementOnModel(model, model.humanRightLeg);
         EnableAndSetElementOnModel(model, model.humanHeads[0]);
@@ -868,7 +889,17 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, model.humanRightArm);
         EnableAndSetElementOnModel(model, model.humanLeftHand);
         EnableAndSetElementOnModel(model, model.humanLeftArm);
-        EnableAndSetElementOnModel(model, model.humanChest);        
+        EnableAndSetElementOnModel(model, model.humanChest);
+
+        // Clothing parts
+        EnableAndSetElementOnModel(model, model.allHeadWear[0]);
+        EnableAndSetElementOnModel(model, model.allChestWear[0]);
+        EnableAndSetElementOnModel(model, model.allLeftLegWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightLegWear[0]);
+        EnableAndSetElementOnModel(model, model.allLeftArmWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightArmWear[0]);
+        EnableAndSetElementOnModel(model, model.allLeftHandWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightHandWear[0]);
     }
     #endregion
 
@@ -1019,8 +1050,7 @@ public static class CharacterModelController
         }
     }
 
-    // Get View Parts
-   
+    // Get View Parts  
     public static UniversalCharacterModelElement GetNextElementInList(List<UniversalCharacterModelElement> list)
     {
         Debug.Log("CharacterModelController.GetNextElementInList() called...");
