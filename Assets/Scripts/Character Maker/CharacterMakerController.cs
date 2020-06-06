@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CharacterMakerController : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class CharacterMakerController : MonoBehaviour
     public GameObject originPanelParent;
     public GameObject appearancePanelParent;
     public GameObject presetPanelParent;
+
+    [Header("Origin Tab References")]
+    public TextMeshProUGUI characterRaceText;
+    public TextMeshProUGUI characterBackgroundText;
+    public TextMeshProUGUI characterRacialBackgroundText;
 
     [Header("UCM References")]
     public UniversalCharacterModel characterModel;
@@ -61,6 +67,11 @@ public class CharacterMakerController : MonoBehaviour
         DisabelAllPanelViews();
         SetPresetPanelViewState(true);
     }
+    public void OnSaveCharacterButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnSaveCharacterButtonClicked() called...");
+        StartCharacterSaveProcess();
+    }
 
     // Appearance Page
     public void OnNextHeadButtonClicked()
@@ -72,6 +83,11 @@ public class CharacterMakerController : MonoBehaviour
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.humanHeads));
         }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Orc)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.orcHeads));
+        }
     }
     public void OnPreviousHeadButtonClicked()
     {
@@ -81,6 +97,11 @@ public class CharacterMakerController : MonoBehaviour
         {
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetPreviousElementInList(characterModel.humanHeads));
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Orc)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetPreviousElementInList(characterModel.orcHeads));
         }
     }
     public void OnNextFaceButtonClicked()
@@ -92,6 +113,11 @@ public class CharacterMakerController : MonoBehaviour
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.humanFaces));
         }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Orc)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.orcFaces));
+        }
     }
     public void OnPreviousFaceButtonClicked()
     {
@@ -101,6 +127,11 @@ public class CharacterMakerController : MonoBehaviour
         {
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetPreviousElementInList(characterModel.humanFaces));
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Orc)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetPreviousElementInList(characterModel.orcFaces));
         }
     }
     public void OnNextHeadWearButtonClicked()
@@ -159,6 +190,38 @@ public class CharacterMakerController : MonoBehaviour
         CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.allRightLegWear));
     }
+
+    // Origin Page
+    public void OnNextRaceButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnNextRaceButtonClicked() called...");
+
+        if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Human)
+        {            
+            CharacterModelController.SetBaseOrcView(characterModel);
+            characterRaceText.text = "Orc";
+        }
+        else if(characterModel.myModelRace == UniversalCharacterModel.ModelRace.Orc)
+        {
+            CharacterModelController.SetBaseHumanView(characterModel);
+            characterRaceText.text = "Human";
+        }
+    }
+    public void OnPreviousRaceButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnPreviousRaceButtonClicked() called...");
+
+        if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Orc)
+        {
+            CharacterModelController.SetBaseHumanView(characterModel);
+            characterRaceText.text = "Human";
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Human)
+        {
+            CharacterModelController.SetBaseOrcView(characterModel);
+            characterRaceText.text = "Orc";
+        }
+    }
     #endregion
 
     // Enable + Disable Views
@@ -214,6 +277,70 @@ public class CharacterMakerController : MonoBehaviour
     {
         Debug.Log("CharacterMakerController.SetCharacterModelDefaultView() called...");
         CharacterModelController.SetBaseHumanView(characterModel);
+        characterRaceText.text = "Human";
     }
     #endregion
+
+    // Conditional Checks + Bools
+    #region
+    public static bool IsCharacterSaveActionValid()
+    {
+        return true;
+    }
+    #endregion
+
+    // Loading + Save Character Preset Data Logic
+    #region
+    public void StartCharacterSaveProcess()
+    {
+        Debug.Log("CharacterMakerController.StartCharacterSaveProcess() called...");
+
+        if (IsCharacterSaveActionValid())
+        {
+            // Save action is valid, start save process
+            CharacterPresetData newData = new CharacterPresetData();
+
+            // Set up model data
+            BuildPresetFileModelDataFromUcmModelData(newData, characterModel);
+        }
+    }
+    public void BuildPresetFileModelDataFromUcmModelData(CharacterPresetData charData, UniversalCharacterModel model)
+    {
+        // Get all active model elements
+        List<UniversalCharacterModelElement> allActiveModelElements = new List<UniversalCharacterModelElement>
+        {
+            // Body Parts
+            model.activeHead,
+            model.activeFace,
+            model.activeLeftLeg ,
+            model.activeRightLeg ,
+            model.activeRightHand,
+            model.activeRightArm,
+            model.activeLeftHand,
+            model.activeLeftArm,
+            model.activeChest,
+
+            // Clothing 
+            model.activeHeadWear,
+            model.activeChestWear,
+            model.activeRightLegWear,
+            model.activeLeftLegWear,
+            model.activeRightArmWear,
+            model.activeRightHandWear,
+            model.activeLeftArmWear,
+            model.activeLeftHandWear,
+
+            // Weapons
+            model.activeMainHandWeapon,
+            model.activeOffHandWeapon,
+        };
+
+        // Add names of each element to preset data list
+        foreach(UniversalCharacterModelElement ele in allActiveModelElements)
+        {
+            charData.activeModelElements.Add(ele.gameObject.name);
+        }
+    }
+    #endregion
+
 }

@@ -58,6 +58,28 @@ public class UniversalCharacterModel : MonoBehaviour
     public UniversalCharacterModelElement humanLeftArm;
     public UniversalCharacterModelElement humanChest;
 
+    [Header("Orc Model References")]
+    public List<UniversalCharacterModelElement> orcHeads;
+    public List<UniversalCharacterModelElement> orcFaces;
+    public UniversalCharacterModelElement orcLeftLeg;
+    public UniversalCharacterModelElement orcRightLeg;
+    public UniversalCharacterModelElement orcRightHand;
+    public UniversalCharacterModelElement orcRightArm;
+    public UniversalCharacterModelElement orcLeftHand;
+    public UniversalCharacterModelElement orcLeftArm;
+    public UniversalCharacterModelElement orcChest;
+
+    [Header("Undead Model References")]
+    public List<UniversalCharacterModelElement> undeadHeads;
+    public List<UniversalCharacterModelElement> undeadFaces;
+    public UniversalCharacterModelElement undeadLeftLeg;
+    public UniversalCharacterModelElement undeadRightLeg;
+    public UniversalCharacterModelElement undeadRightHand;
+    public UniversalCharacterModelElement undeadRightArm;
+    public UniversalCharacterModelElement undeadLeftHand;
+    public UniversalCharacterModelElement undeadLeftArm;
+    public UniversalCharacterModelElement undeadChest;
+
     // Properties + Component References
     #region
     [Header("Component References")]

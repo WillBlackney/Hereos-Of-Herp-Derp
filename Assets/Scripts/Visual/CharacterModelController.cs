@@ -224,7 +224,7 @@ public static class CharacterModelController
         DisableAllViewsInList(model.allChests);
 
         // Clear all body part refs
-        ClearAllActiveBodyPartReferences(model);
+        //ClearAllActiveBodyPartReferences(model);
     }
     public static void DisableAllClothingViews(UniversalCharacterModel model)
     {
@@ -252,13 +252,105 @@ public static class CharacterModelController
         model.activeLeftArm = null;
         model.activeChest = null;
 
-        // Clothing / Weapons
+        // Clothing 
         model.activeHeadWear = null;
         model.activeChestWear = null;
         model.activeRightLegWear = null;
         model.activeLeftLegWear = null;
+        model.activeRightArmWear = null;
+        model.activeRightHandWear = null;
+        model.activeLeftArmWear = null;
+        model.activeLeftHandWear = null;
+
+        // Weapons
         model.activeMainHandWeapon = null;
         model.activeOffHandWeapon = null;
+    }
+    public static void DisableAllActiveElementViews(UniversalCharacterModel model)
+    {
+        Debug.Log("CharacterModelController.DisableAllActiveBodyPartViews() called...");
+
+        // Body Parts
+        if (model.activeHead)
+        {
+            model.activeHead.gameObject.SetActive(false);
+        }
+        if (model.activeFace)
+        {
+            model.activeFace.gameObject.SetActive(false);
+        }
+        if (model.activeLeftLeg)
+        {
+            model.activeLeftLeg.gameObject.SetActive(false);
+        }
+        if (model.activeRightLeg)
+        {
+            model.activeRightLeg.gameObject.SetActive(false);
+        }
+        if (model.activeRightHand)
+        {
+            model.activeRightHand.gameObject.SetActive(false);
+        }
+        if (model.activeRightArm)
+        {
+            model.activeRightArm.gameObject.SetActive(false);
+        }
+        if (model.activeLeftHand)
+        {
+            model.activeLeftHand.gameObject.SetActive(false);
+        }
+        if (model.activeLeftArm)
+        {
+            model.activeLeftArm.gameObject.SetActive(false);
+        }
+        if (model.activeChest)
+        {
+            model.activeChest.gameObject.SetActive(false);
+        }
+
+        // Clothing 
+        if (model.activeHeadWear)
+        {
+            model.activeHeadWear.gameObject.SetActive(false);
+        }
+        if (model.activeChestWear)
+        {
+            model.activeChestWear.gameObject.SetActive(false);
+        }
+        if (model.activeRightLegWear)
+        {
+            model.activeRightLegWear.gameObject.SetActive(false);
+        }
+        if (model.activeLeftLegWear)
+        {
+            model.activeLeftLegWear.gameObject.SetActive(false);
+        }
+        if (model.activeRightArmWear)
+        {
+            model.activeRightArmWear.gameObject.SetActive(false);
+        }
+        if (model.activeRightHandWear)
+        {
+            model.activeRightHandWear.gameObject.SetActive(false);
+        }
+        if (model.activeLeftArmWear)
+        {
+            model.activeLeftArmWear.gameObject.SetActive(false);
+        }
+        if (model.activeLeftHandWear)
+        {
+            model.activeLeftHandWear.gameObject.SetActive(false);
+        }
+
+        // Weapons
+        if (model.activeMainHandWeapon)
+        {
+            model.activeMainHandWeapon.gameObject.SetActive(false);
+        }
+        if (model.activeOffHandWeapon)
+        {
+            model.activeOffHandWeapon.gameObject.SetActive(false);
+        }
     }
     #endregion
 
@@ -875,8 +967,12 @@ public static class CharacterModelController
     #region
     public static void SetBaseHumanView(UniversalCharacterModel model)
     {
+        Debug.Log("CharacterModelController.SetBaseHumanView() called...");
+
         CompletelyDisableAllViews(model);
-        DisableAllClothingViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
+        //DisableAllClothingViews(model);
 
         model.myModelRace = UniversalCharacterModel.ModelRace.Human;
 
@@ -890,6 +986,38 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, model.humanLeftHand);
         EnableAndSetElementOnModel(model, model.humanLeftArm);
         EnableAndSetElementOnModel(model, model.humanChest);
+
+        // Clothing parts
+        EnableAndSetElementOnModel(model, model.allHeadWear[0]);
+        EnableAndSetElementOnModel(model, model.allChestWear[0]);
+        EnableAndSetElementOnModel(model, model.allLeftLegWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightLegWear[0]);
+        EnableAndSetElementOnModel(model, model.allLeftArmWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightArmWear[0]);
+        EnableAndSetElementOnModel(model, model.allLeftHandWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightHandWear[0]);
+    }
+    public static void SetBaseOrcView(UniversalCharacterModel model)
+    {
+        Debug.Log("CharacterModelController.SetBaseHumanView() called...");
+
+        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
+        //DisableAllClothingViews(model);
+
+        model.myModelRace = UniversalCharacterModel.ModelRace.Orc;
+
+        // Body parts
+        EnableAndSetElementOnModel(model, model.orcLeftLeg);
+        EnableAndSetElementOnModel(model, model.orcRightLeg);
+        EnableAndSetElementOnModel(model, model.orcHeads[0]);
+        EnableAndSetElementOnModel(model, model.orcFaces[0]);
+        EnableAndSetElementOnModel(model, model.orcRightHand);
+        EnableAndSetElementOnModel(model, model.orcRightArm);
+        EnableAndSetElementOnModel(model, model.orcLeftHand);
+        EnableAndSetElementOnModel(model, model.orcLeftArm);
+        EnableAndSetElementOnModel(model, model.orcChest);
 
         // Clothing parts
         EnableAndSetElementOnModel(model, model.allHeadWear[0]);
