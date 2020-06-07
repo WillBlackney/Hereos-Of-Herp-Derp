@@ -6,6 +6,11 @@ public static class CharacterModelController
 {
     // View Logic
     #region
+    public static void SetModelScale(UniversalCharacterModel model, float newScale)
+    {
+        Debug.Log("CharacterModelController.SetModelScale() called...");
+        model.scalingParent.localScale = new Vector3(newScale, newScale, newScale);
+    }
     public static void BuildModelFromPresetString(UniversalCharacterModel model, string preset)
     {
         Debug.Log("CharacterModelController.BuildModelFromPresetString() called, preset string: " + preset);
@@ -1050,6 +1055,37 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, model.undeadLeftHand);
         EnableAndSetElementOnModel(model, model.undeadLeftArm);
         EnableAndSetElementOnModel(model, model.undeadChest);
+
+        // Clothing parts
+        EnableAndSetElementOnModel(model, model.allHeadWear[0]);
+        EnableAndSetElementOnModel(model, model.allChestWear[0]);
+        EnableAndSetElementOnModel(model, model.allLeftLegWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightLegWear[0]);
+        EnableAndSetElementOnModel(model, model.allLeftArmWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightArmWear[0]);
+        EnableAndSetElementOnModel(model, model.allLeftHandWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightHandWear[0]);
+    }
+    public static void SetBaseElfView(UniversalCharacterModel model)
+    {
+        Debug.Log("CharacterModelController.SetBaseElfView() called...");
+
+        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
+
+        model.myModelRace = UniversalCharacterModel.ModelRace.Elf;
+
+        // Body parts
+        EnableAndSetElementOnModel(model, model.elfLeftLeg);
+        EnableAndSetElementOnModel(model, model.elfRightLeg);
+        EnableAndSetElementOnModel(model, model.elfHeads[0]);
+        EnableAndSetElementOnModel(model, model.elfFaces[0]);
+        EnableAndSetElementOnModel(model, model.elfRightHand);
+        EnableAndSetElementOnModel(model, model.elfRightArm);
+        EnableAndSetElementOnModel(model, model.elfLeftHand);
+        EnableAndSetElementOnModel(model, model.elfLeftArm);
+        EnableAndSetElementOnModel(model, model.elfChest);
 
         // Clothing parts
         EnableAndSetElementOnModel(model, model.allHeadWear[0]);

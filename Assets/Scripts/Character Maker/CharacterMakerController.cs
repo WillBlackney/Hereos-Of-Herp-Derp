@@ -93,6 +93,11 @@ public class CharacterMakerController : MonoBehaviour
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.undeadHeads));
         }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Elf)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.elfHeads));
+        }
     }
     public void OnPreviousHeadButtonClicked()
     {
@@ -112,6 +117,11 @@ public class CharacterMakerController : MonoBehaviour
         {
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetPreviousElementInList(characterModel.undeadHeads));
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Elf)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetPreviousElementInList(characterModel.elfHeads));
         }
     }
     public void OnNextFaceButtonClicked()
@@ -228,9 +238,15 @@ public class CharacterMakerController : MonoBehaviour
         }
         else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Undead)
         {
+            CharacterModelController.SetBaseElfView(characterModel);
+            characterRaceText.text = "Elf";
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Elf)
+        {
             CharacterModelController.SetBaseHumanView(characterModel);
             characterRaceText.text = "Human";
         }
+
     }
     public void OnPreviousRaceButtonClicked()
     {
@@ -247,6 +263,11 @@ public class CharacterMakerController : MonoBehaviour
             characterRaceText.text = "Undead";
         }
         else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Undead)
+        {
+            CharacterModelController.SetBaseElfView(characterModel);
+            characterRaceText.text = "Elf";
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Elf)
         {
             CharacterModelController.SetBaseOrcView(characterModel);
             characterRaceText.text = "Orc";

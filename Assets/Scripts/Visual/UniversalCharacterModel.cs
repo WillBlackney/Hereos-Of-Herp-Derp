@@ -5,7 +5,7 @@ using UnityEngine;
 public class UniversalCharacterModel : MonoBehaviour
 {
     // Enum Declaration
-    public enum ModelRace { None, Human, Orc, Undead};
+    public enum ModelRace { None, Human, Orc, Undead, Elf, Goblin};
 
     // NEW Properties + Component References
     [Header("Active Body Part References")]
@@ -80,10 +80,22 @@ public class UniversalCharacterModel : MonoBehaviour
     public UniversalCharacterModelElement undeadLeftArm;
     public UniversalCharacterModelElement undeadChest;
 
+    [Header("Undead Model References")]
+    public List<UniversalCharacterModelElement> elfHeads;
+    public List<UniversalCharacterModelElement> elfFaces;
+    public UniversalCharacterModelElement elfLeftLeg;
+    public UniversalCharacterModelElement elfRightLeg;
+    public UniversalCharacterModelElement elfRightHand;
+    public UniversalCharacterModelElement elfRightArm;
+    public UniversalCharacterModelElement elfLeftHand;
+    public UniversalCharacterModelElement elfLeftArm;
+    public UniversalCharacterModelElement elfChest;
+
     // Properties + Component References
     #region
     [Header("Component References")]
     public Animator myAnimator;
+    public Transform scalingParent;
 
     [Header("Properties")]
     public LivingEntity myLivingEntity;
