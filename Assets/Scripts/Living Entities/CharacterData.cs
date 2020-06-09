@@ -6,6 +6,10 @@ using TMPro;
 
 public class CharacterData : MonoBehaviour
 {
+    // Enum Decs
+    #region
+    public enum Background { None, Acolyte, Soldier, Scholar, Wanderer, Slave, Outlaw, Politician, Aristocrat, Labourer};
+    #endregion
     // Components References
     #region
     [Header("General References")]

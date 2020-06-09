@@ -29,6 +29,11 @@ public class CharacterMakerController : MonoBehaviour
 
     [Header("Ability + Passive Tab References")]
     public List<MenuAbilityTab> allAbilityTabs;
+    public List<StatusPairing> allPassiveTabs;
+
+    [Header("Talent Tab References")]
+    public List<TalentPairing> allTalentPairings;
+    public List<TextMeshProUGUI> allTalentTextTabs;
     #endregion
 
     // Singleton Pattern
@@ -343,6 +348,13 @@ public class CharacterMakerController : MonoBehaviour
             tab.gameObject.SetActive(false);
         }
     }
+    public void DisableAllTalentTextTabs()
+    {
+        foreach (TextMeshProUGUI tab in allTalentTextTabs)
+        {
+            tab.gameObject.SetActive(false);
+        }
+    }
     #endregion
 
     // Character Model Logic
@@ -385,11 +397,18 @@ public class CharacterMakerController : MonoBehaviour
             // Save action is valid, start save process
             CharacterPresetData newData = new CharacterPresetData();
 
+            // Add new data to persistency
+            CharacterPresetLibrary.Instance.AddCharacterPresetToPlayerMadeList(newData);
+
             // Set up model data
-            BuildPresetFileModelDataFromUcmModelData(newData, characterModel);
+            SaveModelDataToCharacterPresetFile(newData, characterModel);
+
+            // Set up ability + passive data
+            SaveCombatDataToCharacterPresetFile(newData);
+
         }
     }
-    public void BuildPresetFileModelDataFromUcmModelData(CharacterPresetData charData, UniversalCharacterModel model)
+    private void SaveModelDataToCharacterPresetFile(CharacterPresetData charData, UniversalCharacterModel model)
     {
         // Get all active model elements
         List<UniversalCharacterModelElement> allActiveModelElements = new List<UniversalCharacterModelElement>
@@ -426,8 +445,30 @@ public class CharacterMakerController : MonoBehaviour
             charData.activeModelElements.Add(ele.gameObject.name);
         }
     }
-    #endregion
+    private void SaveCombatDataToCharacterPresetFile(CharacterPresetData charData)
+    {
+        // Add abilities
+        foreach(MenuAbilityTab ability in allAbilityTabs)
+        {
+            if (ability.isAbility)
+            {
+                charData.knownAbilities.Add(ability.myAbilityData);
+            }
+        }
 
+        // Add passives
+        foreach (StatusPairing passive in allPassiveTabs)
+        {
+            charData.knownPassives.Add(passive);
+        }
+
+        // Add talent data
+        foreach(TalentPairing talentPairing in allTalentPairings)
+        {
+            charData.knownTalents.Add(talentPairing);
+        }
+    }
+    #endregion
 
     // Preset Window Logic
     #region
@@ -435,9 +476,12 @@ public class CharacterMakerController : MonoBehaviour
     {
         Debug.Log("CharacterMakerController.BuildCharacterFromClassPresetData() called, building from " + data.classPresetName);
         DisableAllAbilityTabs();
+        DisableAllTalentTextTabs();
+        ClearAllTalentPairings();
         currentClassPreset = data;
         currentClassPresetText.text = data.classPresetName;
         BuildAllAbilityTabsFromClassPresetData(data);
+        BuildAllTalentTextTabsFromClassPresetData(data);
 
     }
     private void BuildAllAbilityTabsFromClassPresetData(ClassPresetDataSO data)
@@ -456,12 +500,24 @@ public class CharacterMakerController : MonoBehaviour
             BuildAbilityTabFromPassiveData(passiveData.statusData, passiveData.statusStacks);
         }
     }
+    private void BuildTalentTextTabFromTalentPairing(TalentPairing talentPair)
+    {
+        // Get next available text tab
+        TextMeshProUGUI textTab = GetNextAvailableTalentTextTab();
+
+        // Enable view
+        textTab.gameObject.SetActive(true);
+
+        // Set text
+        textTab.text = talentPair.talentType.ToString() + " +" + talentPair.talentStacks.ToString();
+        
+    }
     private void BuildAbilityTabFromAbilityData(AbilityDataSO data)
     {
         Debug.Log("CharacterMakerController.BuildAbilityTabFromAbilityData() called, building from: " + data.abilityName);
 
         // Get slot
-        MenuAbilityTab nextSlot = GetNextAvailbleMenuTabSlot();
+        MenuAbilityTab nextSlot = GetNextAvailableMenuTabSlot();
 
         // Enable view
         nextSlot.gameObject.SetActive(true);
@@ -474,7 +530,7 @@ public class CharacterMakerController : MonoBehaviour
         Debug.Log("CharacterMakerController.BuildAbilityTabFromAbilityData() called, building from: " + data.statusName);
 
         // Get slot
-        MenuAbilityTab nextSlot = GetNextAvailbleMenuTabSlot();
+        MenuAbilityTab nextSlot = GetNextAvailableMenuTabSlot();
 
         // Enable view
         nextSlot.gameObject.SetActive(true);
@@ -482,7 +538,7 @@ public class CharacterMakerController : MonoBehaviour
         // Build views and data
         nextSlot.SetUpAbilityTabAsPassive(data, stacks);
     }
-    private MenuAbilityTab GetNextAvailbleMenuTabSlot()
+    private MenuAbilityTab GetNextAvailableMenuTabSlot()
     {
         Debug.Log("CharacterMakerController.GetNextAvailbleMenuTabSlot() called...");
 
@@ -499,6 +555,27 @@ public class CharacterMakerController : MonoBehaviour
         if(tabReturned == null)
         {
             Debug.Log("CharacterMakerController.GetNextAvailbleMenuTabSlot() could not find an availble menu tab, returning null...");
+        }
+        return tabReturned;
+
+    }
+    private TextMeshProUGUI GetNextAvailableTalentTextTab()
+    {
+        Debug.Log("CharacterMakerController.GetNextAvailableTalentTextSlot() called...");
+
+        TextMeshProUGUI tabReturned = null;
+
+        foreach (TextMeshProUGUI tab in allTalentTextTabs)
+        {
+            if (tab.gameObject.activeSelf == false)
+            {
+                tabReturned = tab;
+                break;
+            }
+        }
+        if (tabReturned == null)
+        {
+            Debug.Log("CharacterMakerController.TextMeshProUGUI() could not find an availble menu tab, returning null...");
         }
         return tabReturned;
 
@@ -539,5 +616,25 @@ public class CharacterMakerController : MonoBehaviour
 
         return CharacterPresetLibrary.Instance.allClassPresets[previousIndex];
     }
+    private void BuildAllTalentTextTabsFromClassPresetData(ClassPresetDataSO data)
+    {
+        Debug.Log("CharacterMakerController.BuildAbilityTabsFromClassPresetData() called, building from " + data.classPresetName);
+
+        foreach(TalentPairing talentPair in data.talents)
+        {
+            AddTalentPairingToPersistentList(new TalentPairing(talentPair.talentType, talentPair.talentStacks));
+            BuildTalentTextTabFromTalentPairing(talentPair);
+        }
+
+    }
+    private void ClearAllTalentPairings()
+    {
+        allTalentPairings.Clear();
+    }
+    private void AddTalentPairingToPersistentList(TalentPairing talentPairing)
+    {
+        allTalentPairings.Add(talentPairing);
+    }
+
     #endregion
 }

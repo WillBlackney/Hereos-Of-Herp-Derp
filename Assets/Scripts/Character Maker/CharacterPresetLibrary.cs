@@ -6,6 +6,7 @@ public class CharacterPresetLibrary : MonoBehaviour
 {
     [Header("Properties + Component References")]
     public List<CharacterPresetData> allOriginCharacters;
+    public List<CharacterPresetData> allPlayerMadeCharacters;
     public List<ClassPresetDataSO> allClassPresets;
 
     // Singleton Pattern
@@ -43,6 +44,10 @@ public class CharacterPresetLibrary : MonoBehaviour
     public void AddCharacterPresetToOriginList(CharacterPresetData charDataAdded)
     {
         allOriginCharacters.Add(charDataAdded);
+    }
+    public void AddCharacterPresetToPlayerMadeList(CharacterPresetData charDataAdded)
+    {
+        allPlayerMadeCharacters.Add(charDataAdded);
     }
     #endregion
 
