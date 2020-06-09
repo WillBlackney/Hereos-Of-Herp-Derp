@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ca509f12a979245a983cd4130bc8a9, type: 3}
+  m_Name: Shadow Blade
+  m_EditorClassIdentifier: 
+  classPresetName: Shadow Blade
+  talents:
+  - talentType: 3
+    talentStacks: 3
+  abilities:
+  - {fileID: 11400000, guid: 9d9f79652d9bd5047ae5460f0a04b149, type: 2}
+  - {fileID: 11400000, guid: da3cd984f2293df4c8c53db2ac6e35c2, type: 2}
+  - {fileID: 11400000, guid: 7818cf6e0589f134c8d08a97296a6fb2, type: 2}
+  passives:
+  - statusData: {fileID: 11400000, guid: cb739376fc1b9f14e989c12982ab3ecc, type: 2}
+    statusStacks: 0
+  mainHandWeapon: {fileID: 0}
+  offHandWeapon: {fileID: 0}

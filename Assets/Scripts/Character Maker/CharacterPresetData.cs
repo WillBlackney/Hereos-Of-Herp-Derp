@@ -23,6 +23,8 @@ public class CharacterPresetData
     public ItemDataSO mhWeapon;
     public ItemDataSO ohWeapon;
 }
+
+[System.Serializable]
 public class StatusPairing
 {
     public StatusIconDataSO statusData;
@@ -34,10 +36,12 @@ public class StatusPairing
         statusStacks = stacks;
     }
 }
+
+[System.Serializable]
 public class TalentPairing
-{
-    public int talentStacks;
+{    
     public AbilityDataSO.AbilitySchool talentType;
+    public int talentStacks;
 
     public TalentPairing(AbilityDataSO.AbilitySchool tType, int tStacks)
     {

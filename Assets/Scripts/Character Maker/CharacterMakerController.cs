@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class CharacterMakerController : MonoBehaviour
 {
@@ -19,8 +20,15 @@ public class CharacterMakerController : MonoBehaviour
     public TextMeshProUGUI characterBackgroundText;
     public TextMeshProUGUI characterRacialBackgroundText;
 
+    [Header("Origin Tab References")]
+    public ClassPresetDataSO currentClassPreset;
+    public TextMeshProUGUI currentClassPresetText;
+
     [Header("UCM References")]
     public UniversalCharacterModel characterModel;
+
+    [Header("Ability + Passive Tab References")]
+    public List<MenuAbilityTab> allAbilityTabs;
     #endregion
 
     // Singleton Pattern
@@ -43,11 +51,13 @@ public class CharacterMakerController : MonoBehaviour
     #region
 
     // Main Buttons
+    #region
     public void OnCharacterMakerMainMenuButtonClicked()
     {
         Debug.Log("CharacterMakerController.OnCharacterMakerButtonClicked() called...");
         SetMainWindowViewState(true);
         SetCharacterModelDefaultStartingState();
+        BuildCharacterFromClassPresetData(CharacterPresetLibrary.Instance.allClassPresets[0]);
     }
     public void OnOriginButtonClicked()
     {
@@ -72,8 +82,10 @@ public class CharacterMakerController : MonoBehaviour
         Debug.Log("CharacterMakerController.OnSaveCharacterButtonClicked() called...");
         StartCharacterSaveProcess();
     }
+    #endregion
 
     // Appearance Page
+    #region
     public void OnNextHeadButtonClicked()
     {
         Debug.Log("CharacterMakerController.OnNextHeadButtonClicked() called...");
@@ -220,8 +232,10 @@ public class CharacterMakerController : MonoBehaviour
         CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.allRightLegWear));
     }
+    #endregion
 
     // Origin Page
+    #region
     public void OnNextRaceButtonClicked()
     {
         Debug.Log("CharacterMakerController.OnNextRaceButtonClicked() called...");
@@ -275,6 +289,19 @@ public class CharacterMakerController : MonoBehaviour
     }
     #endregion
 
+    // Preset Page
+    public void OnNextClassPresetButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnNextClassPresetButtonClicked() called...");
+        BuildCharacterFromClassPresetData(GetNextClassPreset());
+    }
+    public void OnPreviousClassPresetButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnPreviousClassPresetButtonClicked() called...");
+        BuildCharacterFromClassPresetData(GetPreviousClassPreset());
+    }
+    #endregion
+
     // Enable + Disable Views
     #region
     public void SetMainWindowViewState(bool onOrOff)
@@ -308,6 +335,13 @@ public class CharacterMakerController : MonoBehaviour
         SetOriginPanelViewState(false);
         SetAppearancePanelViewState(false);
         SetPresetPanelViewState(false);
+    }
+    public void DisableAllAbilityTabs()
+    {
+        foreach(MenuAbilityTab tab in allAbilityTabs)
+        {
+            tab.gameObject.SetActive(false);
+        }
     }
     #endregion
 
@@ -394,4 +428,116 @@ public class CharacterMakerController : MonoBehaviour
     }
     #endregion
 
+
+    // Preset Window Logic
+    #region
+    public void BuildCharacterFromClassPresetData(ClassPresetDataSO data)
+    {
+        Debug.Log("CharacterMakerController.BuildCharacterFromClassPresetData() called, building from " + data.classPresetName);
+        DisableAllAbilityTabs();
+        currentClassPreset = data;
+        currentClassPresetText.text = data.classPresetName;
+        BuildAllAbilityTabsFromClassPresetData(data);
+
+    }
+    private void BuildAllAbilityTabsFromClassPresetData(ClassPresetDataSO data)
+    {
+        Debug.Log("CharacterMakerController.BuildAbilityTabsFromClassPresetData() called, building from " + data.classPresetName);
+
+        // Build abilities first
+        foreach(AbilityDataSO abilityData in data.abilities)
+        {
+            BuildAbilityTabFromAbilityData(abilityData);
+        }
+
+        // Build passives second
+        foreach (StatusPairing passiveData in data.passives)
+        {
+            BuildAbilityTabFromPassiveData(passiveData.statusData, passiveData.statusStacks);
+        }
+    }
+    private void BuildAbilityTabFromAbilityData(AbilityDataSO data)
+    {
+        Debug.Log("CharacterMakerController.BuildAbilityTabFromAbilityData() called, building from: " + data.abilityName);
+
+        // Get slot
+        MenuAbilityTab nextSlot = GetNextAvailbleMenuTabSlot();
+
+        // Enable view
+        nextSlot.gameObject.SetActive(true);
+
+        // Build views and data
+        nextSlot.SetUpAbilityTabAsAbility(data);
+    }
+    private void BuildAbilityTabFromPassiveData(StatusIconDataSO data, int stacks)
+    {
+        Debug.Log("CharacterMakerController.BuildAbilityTabFromAbilityData() called, building from: " + data.statusName);
+
+        // Get slot
+        MenuAbilityTab nextSlot = GetNextAvailbleMenuTabSlot();
+
+        // Enable view
+        nextSlot.gameObject.SetActive(true);
+
+        // Build views and data
+        nextSlot.SetUpAbilityTabAsPassive(data, stacks);
+    }
+    private MenuAbilityTab GetNextAvailbleMenuTabSlot()
+    {
+        Debug.Log("CharacterMakerController.GetNextAvailbleMenuTabSlot() called...");
+
+        MenuAbilityTab tabReturned = null;
+
+        foreach(MenuAbilityTab tab in allAbilityTabs)
+        {
+            if (tab.gameObject.activeSelf == false)
+            {
+                tabReturned = tab;
+                break;
+            }
+        }
+        if(tabReturned == null)
+        {
+            Debug.Log("CharacterMakerController.GetNextAvailbleMenuTabSlot() could not find an availble menu tab, returning null...");
+        }
+        return tabReturned;
+
+    }
+    private ClassPresetDataSO GetNextClassPreset()
+    {
+        Debug.Log("CharacterMakerController.GetNextClassPreset() called...");
+
+        int currentIndex = CharacterPresetLibrary.Instance.allClassPresets.IndexOf(currentClassPreset); 
+        int nextIndex = 0;
+
+        if(currentClassPreset == CharacterPresetLibrary.Instance.allClassPresets.Last())
+        {
+            nextIndex = 0;
+        }
+        else
+        {
+            nextIndex = currentIndex + 1;
+        }
+
+        return CharacterPresetLibrary.Instance.allClassPresets[nextIndex];
+    }
+    private ClassPresetDataSO GetPreviousClassPreset()
+    {
+        Debug.Log("CharacterMakerController.GetPreviousClassPreset() called...");
+
+        int currentIndex = CharacterPresetLibrary.Instance.allClassPresets.IndexOf(currentClassPreset);
+        int previousIndex = 0;
+
+        if (currentClassPreset == CharacterPresetLibrary.Instance.allClassPresets.First())
+        {
+            previousIndex = CharacterPresetLibrary.Instance.allClassPresets.Count - 1;
+        }
+        else
+        {
+            previousIndex = currentIndex - 1;
+        }
+
+        return CharacterPresetLibrary.Instance.allClassPresets[previousIndex];
+    }
+    #endregion
 }

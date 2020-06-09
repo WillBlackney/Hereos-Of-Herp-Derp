@@ -16,6 +16,8 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public Image passiveImage;
 
     [Header("Properties")]
+    public AbilityDataSO myAbilityData;
+    public StatusIconDataSO myPassiveData;
     public bool isAbility;
     public bool isPassive;
 
@@ -41,6 +43,18 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         isAbility = true;
         isPassive = false;
         AbilityDataSO data = AbilityLibrary.Instance.GetAbilityByName(abilityName);
+        myAbilityData = data;
+        myPassiveData = null;
+        abilityImage.sprite = data.sprite;
+        AbilityInfoSheetController.Instance.BuildSheetFromData(abilityInfoSheet, data, AbilityInfoSheet.PivotDirection.Upwards);
+
+    }
+    public void SetUpAbilityTabAsAbility(AbilityDataSO data)
+    {
+        isAbility = true;
+        isPassive = false;
+        myAbilityData = data;
+        myPassiveData = null;
         abilityImage.sprite = data.sprite;
         AbilityInfoSheetController.Instance.BuildSheetFromData(abilityInfoSheet, data, AbilityInfoSheet.PivotDirection.Upwards);
 
@@ -50,13 +64,21 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         isPassive = true;
         isAbility = false;
         StatusIconDataSO data = StatusIconLibrary.Instance.GetStatusIconByName(passiveName);
+        myAbilityData = null;
+        myPassiveData = data;
 
         passiveImage.sprite = data.statusSprite;
         PassiveInfoSheetController.Instance.BuildSheetFromData(passiveInfoSheet, data, stacks, PassiveInfoSheet.PivotDirection.Upwards);
-
-        // Refresh layout
-        //RefreshLayoutGroups();
-
     }
-    
+    public void SetUpAbilityTabAsPassive(StatusIconDataSO data, int stacks)
+    {
+        isPassive = true;
+        isAbility = false;
+        myAbilityData = null;
+        myPassiveData = data;
+
+        passiveImage.sprite = data.statusSprite;
+        PassiveInfoSheetController.Instance.BuildSheetFromData(passiveInfoSheet, data, stacks, PassiveInfoSheet.PivotDirection.Upwards);
+    }
+
 }

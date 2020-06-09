@@ -6,7 +6,8 @@ public class CharacterPresetLibrary : MonoBehaviour
 {
     [Header("Properties + Component References")]
     public List<CharacterPresetData> allOriginCharacters;
-    
+    public List<ClassPresetDataSO> allClassPresets;
+
     // Singleton Pattern
     #region
     public static CharacterPresetLibrary Instance;
