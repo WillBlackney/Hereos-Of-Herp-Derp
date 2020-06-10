@@ -1354,4 +1354,13 @@ public static class CharacterModelController
 
         return elementReturned;
     }
+
+    // Build Models
+    public static void BuildCharacterModelFromCharacterPresetData(UniversalCharacterModel model, CharacterPresetData data)
+    {
+        foreach(ModelElementData elementData in data.activeModelElements)
+        {
+            // make lists for racial elements (allRacialArms, chests, etc)
+        }
+    }
 }

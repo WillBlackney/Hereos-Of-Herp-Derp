@@ -9,39 +9,36 @@ public class CharacterMakerController : MonoBehaviour
 {
     // Properties + Component References
     #region
-    [Header("Parent References")]
+    [Header("Parent Component References")]
     public GameObject mainVisualParent;
     public GameObject panelMasterParent;
     public GameObject originPanelParent;
     public GameObject appearancePanelParent;
     public GameObject presetPanelParent;
 
-    [Header("Origin Tab References")]
+    [Header("Origin Tab Component References")]
     public TextMeshProUGUI characterNameText;
     public TextMeshProUGUI characterRaceText;
     public TextMeshProUGUI currentBackgroundOneText;
-    public TextMeshProUGUI currentBackgroundTwoText;
+    public TextMeshProUGUI currentBackgroundTwoText;   
 
-    [Header("Origin Tab Properties")]
-    public CharacterData.Background currentBackgroundOne;
-    public CharacterData.Background currentBackgroundTwo;
-
-    [Header("Preset Tab References")]
-    public ClassPresetDataSO currentClassPreset;
+    [Header("Preset Tab Component References")]    
     public TextMeshProUGUI currentClassPresetText;
     public TextMeshProUGUI currentWeaponPresetText;
+    public List<TextMeshProUGUI> allTalentTextTabs;
 
-    [Header("UCM References")]
+    [Header("Model Component References")]
     public UniversalCharacterModel characterModel;
 
-    [Header("Ability + Passive Tab References")]
-    public List<MenuAbilityTab> allAbilityTabs;
-    public List<StatusPairing> allPassiveTabs;
-    public WeaponPresetDataSO currentWeaponPreset;
+    [Header("Character Data Properties")]
+    private List<MenuAbilityTab> allAbilityTabs;
+    private List<StatusPairing> allPassiveTabs;
+    private WeaponPresetDataSO currentWeaponPreset;
+    private ClassPresetDataSO currentClassPreset;
+    private CharacterData.Background currentBackgroundOne;
+    private CharacterData.Background currentBackgroundTwo;
+    private List<TalentPairing> allTalentPairings;
 
-    [Header("Talent Tab References")]
-    public List<TalentPairing> allTalentPairings;
-    public List<TextMeshProUGUI> allTalentTextTabs;
     #endregion
 
     // Singleton Pattern
@@ -500,7 +497,7 @@ public class CharacterMakerController : MonoBehaviour
             model.activeHead,
             model.activeFace,
             model.activeLeftLeg ,
-            model.activeRightLeg ,
+            model.activeRightLeg,
             model.activeRightHand,
             model.activeRightArm,
             model.activeLeftHand,
@@ -527,7 +524,7 @@ public class CharacterMakerController : MonoBehaviour
         {
             if(ele != null)
             {
-                charData.activeModelElements.Add(ele.gameObject.name);
+                charData.activeModelElements.Add(new ModelElementData(ele));
             }
             else if(ele == null)
             {

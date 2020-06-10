@@ -10,7 +10,7 @@ public class CharacterPresetData
     public List<CharacterData.Background> backgrounds;
 
     // Model Properties
-    public List<string> activeModelElements;
+    public List<ModelElementData> activeModelElements;
     public UniversalCharacterModel.ModelRace modelRace;
 
     // Combat Properties
@@ -26,7 +26,7 @@ public class CharacterPresetData
     public CharacterPresetData()
     {
         // Initialize lists
-        activeModelElements = new List<string>();
+        activeModelElements = new List<ModelElementData>();
         knownAbilities = new List<AbilityDataSO>();
         knownPassives = new List<StatusPairing>();
         knownTalents = new List<TalentPairing>();

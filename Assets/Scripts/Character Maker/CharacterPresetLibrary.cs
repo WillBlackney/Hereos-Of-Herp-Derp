@@ -99,9 +99,9 @@ public class CharacterPresetLibrary : MonoBehaviour
 
         // Print active model view elements
         Debug.Log("Active model parts: ");
-        foreach (string modelPart in data.activeModelElements)
+        foreach (ModelElementData modelPart in data.activeModelElements)
         {
-            Debug.Log(modelPart);
+            Debug.Log(modelPart.elementName);
         }
 
     }
@@ -111,6 +111,10 @@ public class CharacterPresetLibrary : MonoBehaviour
     #region
     public CharacterPresetData CreateRagnarData()
     {
+        // TO DO !!!: should make a way to build CharacterPresetData objects from from scriptable object files
+        // so that we can create origin characters via the inspectors instead of programatically
+        // e.g. OriginCharacterDataSO
+
         CharacterPresetData cpd = new CharacterPresetData();
 
         // Set General Data
@@ -120,7 +124,7 @@ public class CharacterPresetLibrary : MonoBehaviour
         cpd.backgrounds.Add(CharacterData.Background.Recluse);
 
         // Set Race
-        cpd.modelRace = UniversalCharacterModel.ModelRace.Human;
+        cpd.modelRace = UniversalCharacterModel.ModelRace.Undead;
 
         // Set Talents
         cpd.knownTalents = new List<TalentPairing>
@@ -142,6 +146,12 @@ public class CharacterPresetLibrary : MonoBehaviour
         {
             new StatusPairing(StatusIconLibrary.Instance.GetStatusIconByName("Tenacious"), 2)
         };
+
+        // Set weapons
+
+        // Set body view elements
+
+        // Set clothing views
 
         return cpd;
     }
