@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    // Properties + Component References
+    #region
     [Header("Sheet Component References")]
     public AbilityInfoSheet abilityInfoSheet;
     public PassiveInfoSheet passiveInfoSheet;
@@ -20,7 +22,11 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public StatusIconDataSO myPassiveData;
     public bool isAbility;
     public bool isPassive;
+    public int passiveStacks;
+    #endregion
 
+    // Mouse + Pointer Events
+    #region
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (isAbility)
@@ -37,7 +43,10 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         AbilityInfoSheetController.Instance.DisableSheetView(abilityInfoSheet);
         PassiveInfoSheetController.Instance.DisableSheetView(passiveInfoSheet);
     }
+    #endregion
 
+    // Build Ability Tab
+    #region
     public void SetUpAbilityTabAsAbility(string abilityName)
     {
         isAbility = true;
@@ -66,6 +75,7 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         StatusIconDataSO data = StatusIconLibrary.Instance.GetStatusIconByName(passiveName);
         myAbilityData = null;
         myPassiveData = data;
+        passiveStacks = stacks;
 
         passiveImage.sprite = data.statusSprite;
         PassiveInfoSheetController.Instance.BuildSheetFromData(passiveInfoSheet, data, stacks, PassiveInfoSheet.PivotDirection.Upwards);
@@ -76,9 +86,11 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         isAbility = false;
         myAbilityData = null;
         myPassiveData = data;
+        passiveStacks = stacks;
 
         passiveImage.sprite = data.statusSprite;
         PassiveInfoSheetController.Instance.BuildSheetFromData(passiveInfoSheet, data, stacks, PassiveInfoSheet.PivotDirection.Upwards);
     }
+    #endregion
 
 }

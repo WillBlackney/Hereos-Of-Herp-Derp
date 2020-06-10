@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class CharacterPresetLibrary : MonoBehaviour
 {
+    // Properties + Component References
+    #region
     [Header("Properties + Component References")]
     public List<CharacterPresetData> allOriginCharacters;
     public List<CharacterPresetData> allPlayerMadeCharacters;
     public List<ClassPresetDataSO> allClassPresets;
     public List<WeaponPresetDataSO> allWeaponPresets;
+    #endregion
 
     // Singleton Pattern
     #region
@@ -55,6 +58,13 @@ public class CharacterPresetLibrary : MonoBehaviour
     {
         Debug.Log("Printing character preset data with name: " + data.characterName);
 
+        // Print backgrounds
+        Debug.Log("Backgrounds: ");
+        foreach (CharacterData.Background bg in data.backgrounds)
+        {
+            Debug.Log(bg.ToString());
+        }
+
         // Print abilities
         Debug.Log("Known abilities: ");
         foreach(AbilityDataSO ability in data.knownAbilities)
@@ -76,6 +86,17 @@ public class CharacterPresetLibrary : MonoBehaviour
             Debug.Log(tp.talentType.ToString() + " +" + tp.talentStacks.ToString());
         }
 
+        // Print weapons
+        Debug.Log("Active weapons: ");
+        if(data.mhWeapon)
+        {
+            Debug.Log("Main hand weapon: " + data.mhWeapon.Name);
+        }
+        if (data.ohWeapon)
+        {
+            Debug.Log("Off hand weapon: " + data.ohWeapon.Name);
+        }
+
         // Print active model view elements
         Debug.Log("Active model parts: ");
         foreach (string modelPart in data.activeModelElements)
@@ -95,8 +116,8 @@ public class CharacterPresetLibrary : MonoBehaviour
         // Set General Data
         cpd.characterName = "Ragnar The Eternal";
         cpd.characterDescription = "Place holder description.....";
-        cpd.characterBackground = "Recluse";
-        cpd.characterRacialBackground = "Ancient One";
+        cpd.backgrounds.Add(CharacterData.Background.Wanderer);
+        cpd.backgrounds.Add(CharacterData.Background.Recluse);
 
         // Set Race
         cpd.modelRace = UniversalCharacterModel.ModelRace.Human;

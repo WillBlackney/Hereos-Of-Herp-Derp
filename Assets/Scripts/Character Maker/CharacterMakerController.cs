@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Linq;
+using System;
 
 public class CharacterMakerController : MonoBehaviour
 {
@@ -18,8 +19,12 @@ public class CharacterMakerController : MonoBehaviour
     [Header("Origin Tab References")]
     public TextMeshProUGUI characterNameText;
     public TextMeshProUGUI characterRaceText;
-    public TextMeshProUGUI characterBackgroundText;
-    public TextMeshProUGUI characterRacialBackgroundText;
+    public TextMeshProUGUI currentBackgroundOneText;
+    public TextMeshProUGUI currentBackgroundTwoText;
+
+    [Header("Origin Tab Properties")]
+    public CharacterData.Background currentBackgroundOne;
+    public CharacterData.Background currentBackgroundTwo;
 
     [Header("Preset Tab References")]
     public ClassPresetDataSO currentClassPreset;
@@ -65,6 +70,7 @@ public class CharacterMakerController : MonoBehaviour
         Debug.Log("CharacterMakerController.OnCharacterMakerButtonClicked() called...");
         SetMainWindowViewState(true);
         SetCharacterModelDefaultStartingState();
+        SetCharacterBackgroundDefaultState();
         BuildCharacterFromClassPresetData(CharacterPresetLibrary.Instance.allClassPresets[0]);
     }
     public void OnOriginButtonClicked()
@@ -309,9 +315,42 @@ public class CharacterMakerController : MonoBehaviour
 
         BuildWeaponTabFromWeaponPresetData(currentWeaponPreset);
     }
+    public void OnNextBackgroundOneButtonClicked()
+    {
+        SetCharacterBackgroundOne(GetNextBackground(currentBackgroundOne));
+        if(currentBackgroundOne == currentBackgroundTwo)
+        {
+            SetCharacterBackgroundOne(GetNextBackground(currentBackgroundOne));
+        }
+    }
+    public void OnPreviousBackgroundOneButtonClicked()
+    {
+        SetCharacterBackgroundOne(GetPreviousBackground(currentBackgroundOne));
+        if (currentBackgroundOne == currentBackgroundTwo)
+        {
+            SetCharacterBackgroundOne(GetPreviousBackground(currentBackgroundOne));
+        }
+    }
+    public void OnNextBackgroundTwoButtonClicked()
+    {
+        SetCharacterBackgroundTwo(GetNextBackground(currentBackgroundTwo));
+        if (currentBackgroundTwo == currentBackgroundOne)
+        {
+            SetCharacterBackgroundTwo(GetNextBackground(currentBackgroundTwo));
+        }
+    }
+    public void OnPreviousBackgroundTwoButtonClicked()
+    {
+        SetCharacterBackgroundTwo(GetPreviousBackground(currentBackgroundTwo));
+        if (currentBackgroundTwo == currentBackgroundOne)
+        {
+            SetCharacterBackgroundTwo(GetPreviousBackground(currentBackgroundTwo));
+        }
+    }
     #endregion
 
     // Preset Page
+    #region
     public void OnNextClassPresetButtonClicked()
     {
         Debug.Log("CharacterMakerController.OnNextClassPresetButtonClicked() called...");
@@ -332,6 +371,7 @@ public class CharacterMakerController : MonoBehaviour
         Debug.Log("CharacterMakerController.OnPreviousWeaponPresetButtonClicked() called...");
         BuildWeaponTabFromWeaponPresetData(GetPreviousWeaponPreset());
     }
+    #endregion
     #endregion
 
     // Enable + Disable Views
@@ -384,7 +424,7 @@ public class CharacterMakerController : MonoBehaviour
     }
     #endregion
 
-    // Character Model Logic
+    // Set Default + Start State Logic
     #region
     private void SetCharacterModelDefaultStartingState()
     {
@@ -404,6 +444,11 @@ public class CharacterMakerController : MonoBehaviour
         CharacterModelController.SetBaseHumanView(characterModel);
         characterRaceText.text = "Human";
     }
+    private void SetCharacterBackgroundDefaultState()
+    {
+        SetCharacterBackgroundOne(CharacterData.Background.Unknown);
+        SetCharacterBackgroundTwo(CharacterData.Background.Unknown);
+    }
     #endregion
 
     // Conditional Checks + Bools
@@ -414,7 +459,7 @@ public class CharacterMakerController : MonoBehaviour
     }
     #endregion
 
-    // Loading + Save Character Preset Data Logic
+    // Save Character Preset Data Logic
     #region
     public void StartCharacterSaveProcess()
     {
@@ -425,14 +470,17 @@ public class CharacterMakerController : MonoBehaviour
             // Save action is valid, start save process
             CharacterPresetData newData = new CharacterPresetData();
 
-            // Set Name
-            newData.characterName = characterNameText.text;
+            // Set Origin Data
+            SaveOriginDataToCharacterPresetFile(newData);            
 
             // Set up model data
             SaveModelDataToCharacterPresetFile(newData, characterModel);
 
-            // Set up ability + passive data
+            // Set up combat data
             SaveCombatDataToCharacterPresetFile(newData);
+
+            // Set up weapon data
+            SaveWeaponDataToCharacterPresetFile(newData);
 
             // Print info (for testing, remove later)
             CharacterPresetLibrary.Instance.PrintPresetData(newData);
@@ -485,18 +533,23 @@ public class CharacterMakerController : MonoBehaviour
             {
                 Debug.Log("CharacterMakerController.SaveModelDataToCharacterPresetFile() detected a " +
                     "UCM element with a null gameObject parent, skipping...");
-            }
-            
+            }            
         }
     }
     private void SaveCombatDataToCharacterPresetFile(CharacterPresetData charData)
     {
+        Debug.Log("CharacterMakerController.SaveCombatDataToCharacterPresetFile() called...");
+
         // Add abilities
-        foreach(MenuAbilityTab ability in allAbilityTabs)
+        foreach (MenuAbilityTab ability in allAbilityTabs)
         {
             if (ability.isAbility)
             {
                 charData.knownAbilities.Add(ability.myAbilityData);
+            }
+            if (ability.isPassive)
+            {
+                allPassiveTabs.Add(new StatusPairing(ability.myPassiveData, ability.passiveStacks));
             }
         }
 
@@ -512,9 +565,37 @@ public class CharacterMakerController : MonoBehaviour
             charData.knownTalents.Add(talentPairing);
         }
     }
+    private void SaveOriginDataToCharacterPresetFile(CharacterPresetData charData)
+    {
+        Debug.Log("CharacterMakerController.SaveOriginDataToCharacterPresetFile() called...");
+
+        // Set name
+        charData.characterName = characterNameText.text;
+
+        // Set backgrounds
+        charData.backgrounds.Add(currentBackgroundOne);
+        charData.backgrounds.Add(currentBackgroundTwo);
+    }
+    private void SaveWeaponDataToCharacterPresetFile(CharacterPresetData charData)
+    {
+        Debug.Log("CharacterMakerController.SaveWeaponDataToCharacterPresetFile() called...");
+
+        // Main hand weapon
+        if (currentWeaponPreset.mainHandWeapon)
+        {
+            charData.mhWeapon = currentWeaponPreset.mainHandWeapon;
+        }
+
+        // Off hand weapon
+        if (currentWeaponPreset.offHandWeapon)
+        {
+            charData.ohWeapon = currentWeaponPreset.offHandWeapon;
+        }
+
+    }
     #endregion
 
-    // Preset Window Logic
+    // Core Logic
     #region
     public void BuildCharacterFromClassPresetData(ClassPresetDataSO data)
     {
@@ -639,13 +720,53 @@ public class CharacterMakerController : MonoBehaviour
         // Build views and data
         nextSlot.SetUpAbilityTabAsPassive(data, stacks);
     }
+    private void SetCharacterBackgroundOne(CharacterData.Background background)
+    {
+        // cache BG ref
+        currentBackgroundOne = background;
+
+        // set text
+        currentBackgroundOneText.text = background.ToString();
+    }
+    private void SetCharacterBackgroundTwo(CharacterData.Background background)
+    {
+        // cache BG ref
+        currentBackgroundTwo = background;
+
+        // set text
+        currentBackgroundTwoText.text = background.ToString();
+    }    
+    private void BuildAllTalentTextTabsFromClassPresetData(ClassPresetDataSO data)
+    {
+        Debug.Log("CharacterMakerController.BuildAbilityTabsFromClassPresetData() called, building from " + data.classPresetName);
+
+        foreach(TalentPairing talentPair in data.talents)
+        {
+            AddTalentPairingToPersistentList(new TalentPairing(talentPair.talentType, talentPair.talentStacks));
+            BuildTalentTextTabFromTalentPairing(talentPair);
+        }
+
+    }
+    private void ClearAllTalentPairings()
+    {
+        allTalentPairings.Clear();
+    }
+    private void AddTalentPairingToPersistentList(TalentPairing talentPairing)
+    {
+        allTalentPairings.Add(talentPairing);
+    }
+
+    #endregion
+
+    // Get Next + Previous Data
+    #region
     private MenuAbilityTab GetNextAvailableMenuTabSlot()
     {
         Debug.Log("CharacterMakerController.GetNextAvailbleMenuTabSlot() called...");
 
         MenuAbilityTab tabReturned = null;
 
-        foreach(MenuAbilityTab tab in allAbilityTabs)
+        foreach (MenuAbilityTab tab in allAbilityTabs)
         {
             if (tab.gameObject.activeSelf == false)
             {
@@ -653,7 +774,7 @@ public class CharacterMakerController : MonoBehaviour
                 break;
             }
         }
-        if(tabReturned == null)
+        if (tabReturned == null)
         {
             Debug.Log("CharacterMakerController.GetNextAvailbleMenuTabSlot() could not find an availble menu tab, returning null...");
         }
@@ -685,10 +806,10 @@ public class CharacterMakerController : MonoBehaviour
     {
         Debug.Log("CharacterMakerController.GetNextClassPreset() called...");
 
-        int currentIndex = CharacterPresetLibrary.Instance.allClassPresets.IndexOf(currentClassPreset); 
+        int currentIndex = CharacterPresetLibrary.Instance.allClassPresets.IndexOf(currentClassPreset);
         int nextIndex = 0;
 
-        if(currentClassPreset == CharacterPresetLibrary.Instance.allClassPresets.Last())
+        if (currentClassPreset == CharacterPresetLibrary.Instance.allClassPresets.Last())
         {
             nextIndex = 0;
         }
@@ -753,26 +874,54 @@ public class CharacterMakerController : MonoBehaviour
 
         return CharacterPresetLibrary.Instance.allWeaponPresets[previousIndex];
     }
-    private void BuildAllTalentTextTabsFromClassPresetData(ClassPresetDataSO data)
+    private CharacterData.Background GetNextBackground(CharacterData.Background currentBackground)
     {
-        Debug.Log("CharacterMakerController.BuildAbilityTabsFromClassPresetData() called, building from " + data.classPresetName);
+        Debug.Log("CharacterMakerController.GetNextBackground() called...");
 
-        foreach(TalentPairing talentPair in data.talents)
+        CharacterData.Background bgReturned = CharacterData.Background.None;
+
+        int currentEnumIndex = (int)currentBackground;
+        int enumCount = Enum.GetNames(typeof(CharacterData.Background)).Length;
+        Debug.Log("CharacterMakerController.GetNextBackground() found " + enumCount.ToString() + " elements in the background enum");
+        int nextIndex = 0;
+
+        if (currentEnumIndex == enumCount - 1)
         {
-            AddTalentPairingToPersistentList(new TalentPairing(talentPair.talentType, talentPair.talentStacks));
-            BuildTalentTextTabFromTalentPairing(talentPair);
+            nextIndex = 0;
+        }
+        else
+        {
+            nextIndex = currentEnumIndex + 1;
         }
 
-    }
-    private void ClearAllTalentPairings()
-    {
-        allTalentPairings.Clear();
-    }
-    private void AddTalentPairingToPersistentList(TalentPairing talentPairing)
-    {
-        allTalentPairings.Add(talentPairing);
-    }
-    
+        bgReturned = (CharacterData.Background)nextIndex;
 
+        return bgReturned;
+    }
+    private CharacterData.Background GetPreviousBackground(CharacterData.Background currentBackground)
+    {
+        Debug.Log("CharacterMakerController.GetPreviousBackground() called...");
+
+        CharacterData.Background bgReturned = CharacterData.Background.None;
+
+        int currentEnumIndex = (int)currentBackground;
+        int enumCount = Enum.GetNames(typeof(CharacterData.Background)).Length;
+        Debug.Log("CharacterMakerController.GetPreviousBackground() found " + enumCount.ToString() + " elements in the background enum");
+        int previousIndex = 0;
+
+        if (currentEnumIndex == 0)
+        {
+            previousIndex = enumCount - 1;
+        }
+        else
+        {
+            previousIndex = currentEnumIndex - 1;
+        }
+
+        bgReturned = (CharacterData.Background)previousIndex;
+
+        return bgReturned;
+    }
     #endregion
+
 }

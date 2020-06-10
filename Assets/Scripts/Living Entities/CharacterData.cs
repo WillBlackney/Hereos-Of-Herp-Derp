@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -8,8 +7,11 @@ public class CharacterData : MonoBehaviour
 {
     // Enum Decs
     #region
-    public enum Background { None, Acolyte, Soldier, Scholar, Wanderer, Slave, Outlaw, Politician, Aristocrat, Labourer};
+    public enum Background { None, Unknown, Acolyte, Soldier, Scholar, Wanderer, 
+        Recluse, Slave, Outlaw, Politician, Aristocrat, Labourer, Entertainer
+    };
     #endregion
+
     // Components References
     #region
     [Header("General References")]

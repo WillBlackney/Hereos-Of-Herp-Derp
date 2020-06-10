@@ -7,8 +7,7 @@ public class CharacterPresetData
     // General Data
     public string characterName;
     public string characterDescription;
-    public string characterBackground;
-    public string characterRacialBackground;
+    public List<CharacterData.Background> backgrounds;
 
     // Model Properties
     public List<string> activeModelElements;
@@ -31,6 +30,7 @@ public class CharacterPresetData
         knownAbilities = new List<AbilityDataSO>();
         knownPassives = new List<StatusPairing>();
         knownTalents = new List<TalentPairing>();
+        backgrounds = new List<CharacterData.Background>();
     }
 }
 
@@ -59,3 +59,4 @@ public class TalentPairing
         talentStacks = tStacks;
     }
 }
+
