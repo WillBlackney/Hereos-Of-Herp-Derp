@@ -22,6 +22,16 @@ public class CharacterPresetData
     // Weapons
     public ItemDataSO mhWeapon;
     public ItemDataSO ohWeapon;
+
+    // Constructors
+    public CharacterPresetData()
+    {
+        // Initialize lists
+        activeModelElements = new List<string>();
+        knownAbilities = new List<AbilityDataSO>();
+        knownPassives = new List<StatusPairing>();
+        knownTalents = new List<TalentPairing>();
+    }
 }
 
 [System.Serializable]

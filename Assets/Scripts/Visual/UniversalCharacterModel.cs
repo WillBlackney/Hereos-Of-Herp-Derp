@@ -47,6 +47,10 @@ public class UniversalCharacterModel : MonoBehaviour
     public List<UniversalCharacterModelElement> allLeftHandWear;
     public List<UniversalCharacterModelElement> allRightHandWear;
 
+    [Header("Weapon References")]
+    public List<UniversalCharacterModelElement> allMainHandWeapons;
+    public List<UniversalCharacterModelElement> allOffHandWeapons;
+
     [Header("Human Model References")]
     public List<UniversalCharacterModelElement> humanHeads;
     public List<UniversalCharacterModelElement> humanFaces;
@@ -471,7 +475,6 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject darkElfRangerChest;
 
     [Header("Main Hand Weapon References")]
-    public List<GameObject> allMainHandWeapons;
     public GameObject simpleSwordMH;
     public GameObject simpleDaggerMH;
     public GameObject simpleBowMH;
@@ -479,7 +482,6 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject simpleBattleAxe;
 
     [Header("Off Hand Weapon References")]
-    public List<GameObject> allOffHandWeapons;
     public GameObject simpleSwordOH;
     public GameObject simpleDaggerOH;
     public GameObject simpleShieldOH;

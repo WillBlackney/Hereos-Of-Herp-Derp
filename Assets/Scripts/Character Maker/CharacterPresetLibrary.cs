@@ -8,6 +8,7 @@ public class CharacterPresetLibrary : MonoBehaviour
     public List<CharacterPresetData> allOriginCharacters;
     public List<CharacterPresetData> allPlayerMadeCharacters;
     public List<ClassPresetDataSO> allClassPresets;
+    public List<WeaponPresetDataSO> allWeaponPresets;
 
     // Singleton Pattern
     #region
@@ -30,6 +31,7 @@ public class CharacterPresetLibrary : MonoBehaviour
     #region
     private void Start()
     {
+        allPlayerMadeCharacters = new List<CharacterPresetData>();
         allOriginCharacters = new List<CharacterPresetData>();
         PopulateCharacterLibraryOnStart();
     }
@@ -48,6 +50,39 @@ public class CharacterPresetLibrary : MonoBehaviour
     public void AddCharacterPresetToPlayerMadeList(CharacterPresetData charDataAdded)
     {
         allPlayerMadeCharacters.Add(charDataAdded);
+    }
+    public void PrintPresetData(CharacterPresetData data)
+    {
+        Debug.Log("Printing character preset data with name: " + data.characterName);
+
+        // Print abilities
+        Debug.Log("Known abilities: ");
+        foreach(AbilityDataSO ability in data.knownAbilities)
+        {
+            Debug.Log(ability.abilityName);
+        }
+
+        // Print passives
+        Debug.Log("Known passives: ");
+        foreach (StatusPairing passive in data.knownPassives)
+        {
+            Debug.Log(passive.statusData.statusName + "(stacks = " + passive.statusStacks.ToString() +")");
+        }
+
+        // Print talents
+        Debug.Log("Known talents: ");
+        foreach (TalentPairing tp in data.knownTalents)
+        {
+            Debug.Log(tp.talentType.ToString() + " +" + tp.talentStacks.ToString());
+        }
+
+        // Print active model view elements
+        Debug.Log("Active model parts: ");
+        foreach (string modelPart in data.activeModelElements)
+        {
+            Debug.Log(modelPart);
+        }
+
     }
     #endregion
 

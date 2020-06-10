@@ -16,13 +16,15 @@ public class CharacterMakerController : MonoBehaviour
     public GameObject presetPanelParent;
 
     [Header("Origin Tab References")]
+    public TextMeshProUGUI characterNameText;
     public TextMeshProUGUI characterRaceText;
     public TextMeshProUGUI characterBackgroundText;
     public TextMeshProUGUI characterRacialBackgroundText;
 
-    [Header("Origin Tab References")]
+    [Header("Preset Tab References")]
     public ClassPresetDataSO currentClassPreset;
     public TextMeshProUGUI currentClassPresetText;
+    public TextMeshProUGUI currentWeaponPresetText;
 
     [Header("UCM References")]
     public UniversalCharacterModel characterModel;
@@ -30,6 +32,7 @@ public class CharacterMakerController : MonoBehaviour
     [Header("Ability + Passive Tab References")]
     public List<MenuAbilityTab> allAbilityTabs;
     public List<StatusPairing> allPassiveTabs;
+    public WeaponPresetDataSO currentWeaponPreset;
 
     [Header("Talent Tab References")]
     public List<TalentPairing> allTalentPairings;
@@ -160,6 +163,11 @@ public class CharacterMakerController : MonoBehaviour
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.undeadFaces));
         }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Elf)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.elfFaces));
+        }
     }
     public void OnPreviousFaceButtonClicked()
     {
@@ -179,6 +187,11 @@ public class CharacterMakerController : MonoBehaviour
         {
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetPreviousElementInList(characterModel.undeadFaces));
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Elf)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetPreviousElementInList(characterModel.elfFaces));
         }
     }
     public void OnNextHeadWearButtonClicked()
@@ -266,6 +279,8 @@ public class CharacterMakerController : MonoBehaviour
             characterRaceText.text = "Human";
         }
 
+        BuildWeaponTabFromWeaponPresetData(currentWeaponPreset);
+
     }
     public void OnPreviousRaceButtonClicked()
     {
@@ -291,6 +306,8 @@ public class CharacterMakerController : MonoBehaviour
             CharacterModelController.SetBaseOrcView(characterModel);
             characterRaceText.text = "Orc";
         }
+
+        BuildWeaponTabFromWeaponPresetData(currentWeaponPreset);
     }
     #endregion
 
@@ -304,6 +321,16 @@ public class CharacterMakerController : MonoBehaviour
     {
         Debug.Log("CharacterMakerController.OnPreviousClassPresetButtonClicked() called...");
         BuildCharacterFromClassPresetData(GetPreviousClassPreset());
+    }
+    public void OnNextWeaponPresetButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnNextWeaponPresetButtonClicked() called...");
+        BuildWeaponTabFromWeaponPresetData(GetNextWeaponPreset());
+    }
+    public void OnPreviousWeaponPresetButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnPreviousWeaponPresetButtonClicked() called...");
+        BuildWeaponTabFromWeaponPresetData(GetPreviousWeaponPreset());
     }
     #endregion
 
@@ -373,6 +400,7 @@ public class CharacterMakerController : MonoBehaviour
     private void SetCharacterModelDefaultView()
     {
         Debug.Log("CharacterMakerController.SetCharacterModelDefaultView() called...");
+        CharacterModelController.CompletelyDisableAllViews(characterModel);
         CharacterModelController.SetBaseHumanView(characterModel);
         characterRaceText.text = "Human";
     }
@@ -397,8 +425,8 @@ public class CharacterMakerController : MonoBehaviour
             // Save action is valid, start save process
             CharacterPresetData newData = new CharacterPresetData();
 
-            // Add new data to persistency
-            CharacterPresetLibrary.Instance.AddCharacterPresetToPlayerMadeList(newData);
+            // Set Name
+            newData.characterName = characterNameText.text;
 
             // Set up model data
             SaveModelDataToCharacterPresetFile(newData, characterModel);
@@ -406,10 +434,17 @@ public class CharacterMakerController : MonoBehaviour
             // Set up ability + passive data
             SaveCombatDataToCharacterPresetFile(newData);
 
+            // Print info (for testing, remove later)
+            CharacterPresetLibrary.Instance.PrintPresetData(newData);
+
+            // Add new data to persistency
+            CharacterPresetLibrary.Instance.AddCharacterPresetToPlayerMadeList(newData);
         }
     }
     private void SaveModelDataToCharacterPresetFile(CharacterPresetData charData, UniversalCharacterModel model)
     {
+        Debug.Log("CharacterMakerController.SaveModelDataToCharacterPresetFile() called...");
+
         // Get all active model elements
         List<UniversalCharacterModelElement> allActiveModelElements = new List<UniversalCharacterModelElement>
         {
@@ -442,7 +477,16 @@ public class CharacterMakerController : MonoBehaviour
         // Add names of each element to preset data list
         foreach(UniversalCharacterModelElement ele in allActiveModelElements)
         {
-            charData.activeModelElements.Add(ele.gameObject.name);
+            if(ele != null)
+            {
+                charData.activeModelElements.Add(ele.gameObject.name);
+            }
+            else if(ele == null)
+            {
+                Debug.Log("CharacterMakerController.SaveModelDataToCharacterPresetFile() detected a " +
+                    "UCM element with a null gameObject parent, skipping...");
+            }
+            
         }
     }
     private void SaveCombatDataToCharacterPresetFile(CharacterPresetData charData)
@@ -475,13 +519,17 @@ public class CharacterMakerController : MonoBehaviour
     public void BuildCharacterFromClassPresetData(ClassPresetDataSO data)
     {
         Debug.Log("CharacterMakerController.BuildCharacterFromClassPresetData() called, building from " + data.classPresetName);
+        // Flush old data and views
         DisableAllAbilityTabs();
         DisableAllTalentTextTabs();
         ClearAllTalentPairings();
+
+        // Build new data + views
         currentClassPreset = data;
         currentClassPresetText.text = data.classPresetName;
         BuildAllAbilityTabsFromClassPresetData(data);
         BuildAllTalentTextTabsFromClassPresetData(data);
+        BuildWeaponTabFromWeaponPresetData(data.weaponPreset);
 
     }
     private void BuildAllAbilityTabsFromClassPresetData(ClassPresetDataSO data)
@@ -511,6 +559,59 @@ public class CharacterMakerController : MonoBehaviour
         // Set text
         textTab.text = talentPair.talentType.ToString() + " +" + talentPair.talentStacks.ToString();
         
+    }
+    private void BuildWeaponTabFromWeaponPresetData(WeaponPresetDataSO data)
+    {
+        Debug.Log("CharacterMakerController.BuildWeaponTabFromWeaponPresetData() called...");
+
+        // Cancel build if character preset does not have a weapon preset
+        if (!data)
+        {
+            Debug.Log("CharacterMakerController.BuildWeaponTabFromWeaponPresetData() given null data, cancelling weapon build...");
+            return;
+        }
+
+        // Set text panel
+        currentWeaponPresetText.text = data.weaponPresetName;
+
+        // cache data
+        currentWeaponPreset = data;
+
+        // disable model weapon views and cache refs
+        if (characterModel.activeMainHandWeapon)
+        {
+            characterModel.activeMainHandWeapon.gameObject.SetActive(false);
+            characterModel.activeMainHandWeapon = null;
+        }
+        if (characterModel.activeOffHandWeapon)
+        {
+            characterModel.activeOffHandWeapon.gameObject.SetActive(false);
+            characterModel.activeOffHandWeapon = null;
+        }
+
+        // set MH weapon model view
+        foreach (UniversalCharacterModelElement ucme in characterModel.allMainHandWeapons)
+        {
+            if (ucme.weaponsWithMyView.Contains(data.mainHandWeapon))
+            {
+                CharacterModelController.EnableAndSetElementOnModel(characterModel, ucme);
+                break;
+            }
+        }
+         
+        // Set OH weapon model view
+        if(data.offHandWeapon != null)
+        {
+            foreach (UniversalCharacterModelElement ucme in characterModel.allOffHandWeapons)
+            {
+                if (ucme.weaponsWithMyView.Contains(data.offHandWeapon))
+                {
+                    CharacterModelController.EnableAndSetElementOnModel(characterModel, ucme);
+                    break;
+                }
+            }
+        }
+
     }
     private void BuildAbilityTabFromAbilityData(AbilityDataSO data)
     {
@@ -616,6 +717,42 @@ public class CharacterMakerController : MonoBehaviour
 
         return CharacterPresetLibrary.Instance.allClassPresets[previousIndex];
     }
+    private WeaponPresetDataSO GetNextWeaponPreset()
+    {
+        Debug.Log("CharacterMakerController.GetNextWeaponPreset() called...");
+
+        int currentIndex = CharacterPresetLibrary.Instance.allWeaponPresets.IndexOf(currentWeaponPreset);
+        int nextIndex = 0;
+
+        if (currentWeaponPreset == CharacterPresetLibrary.Instance.allWeaponPresets.Last())
+        {
+            nextIndex = 0;
+        }
+        else
+        {
+            nextIndex = currentIndex + 1;
+        }
+
+        return CharacterPresetLibrary.Instance.allWeaponPresets[nextIndex];
+    }
+    private WeaponPresetDataSO GetPreviousWeaponPreset()
+    {
+        Debug.Log("CharacterMakerController.GetPreviousWeaponPreset() called...");
+
+        int currentIndex = CharacterPresetLibrary.Instance.allWeaponPresets.IndexOf(currentWeaponPreset);
+        int previousIndex = 0;
+
+        if (currentWeaponPreset == CharacterPresetLibrary.Instance.allWeaponPresets.First())
+        {
+            previousIndex = CharacterPresetLibrary.Instance.allWeaponPresets.Count - 1;
+        }
+        else
+        {
+            previousIndex = currentIndex - 1;
+        }
+
+        return CharacterPresetLibrary.Instance.allWeaponPresets[previousIndex];
+    }
     private void BuildAllTalentTextTabsFromClassPresetData(ClassPresetDataSO data)
     {
         Debug.Log("CharacterMakerController.BuildAbilityTabsFromClassPresetData() called, building from " + data.classPresetName);
@@ -635,6 +772,7 @@ public class CharacterMakerController : MonoBehaviour
     {
         allTalentPairings.Add(talentPairing);
     }
+    
 
     #endregion
 }

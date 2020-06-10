@@ -16,6 +16,5 @@ public class ClassPresetDataSO : ScriptableObject
     [SerializeField] public List<StatusPairing> passives;
 
     [Header("Weapons")]
-    [SerializeField] public ItemDataSO mainHandWeapon;
-    [SerializeField] public ItemDataSO offHandWeapon;
+    [SerializeField] public WeaponPresetDataSO weaponPreset;
 }

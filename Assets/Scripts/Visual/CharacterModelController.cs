@@ -974,10 +974,9 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.SetBaseHumanView() called...");
 
-        CompletelyDisableAllViews(model);
+        //CompletelyDisableAllViews(model);
         DisableAllActiveElementViews(model);
         ClearAllActiveBodyPartReferences(model);
-        //DisableAllClothingViews(model);
 
         model.myModelRace = UniversalCharacterModel.ModelRace.Human;
 
@@ -1006,10 +1005,9 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.SetBaseHumanView() called...");
 
-        CompletelyDisableAllViews(model);
+        //CompletelyDisableAllViews(model);
         DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
-        //DisableAllClothingViews(model);
+        ClearAllActiveBodyPartReferences(model);       
 
         model.myModelRace = UniversalCharacterModel.ModelRace.Orc;
 
@@ -1038,10 +1036,9 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.SetBaseUndeadView() called...");
 
-        CompletelyDisableAllViews(model);
+       // CompletelyDisableAllViews(model);
         DisableAllActiveElementViews(model);
         ClearAllActiveBodyPartReferences(model);
-        //DisableAllClothingViews(model);
 
         model.myModelRace = UniversalCharacterModel.ModelRace.Undead;
 
@@ -1070,7 +1067,7 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.SetBaseElfView() called...");
 
-        CompletelyDisableAllViews(model);
+        //CompletelyDisableAllViews(model);
         DisableAllActiveElementViews(model);
         ClearAllActiveBodyPartReferences(model);
 
@@ -1243,6 +1240,22 @@ public static class CharacterModelController
                 model.activeRightHandWear.gameObject.SetActive(false);
             }
             model.activeRightHandWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.MainHandWeapon)
+        {
+            if (model.activeMainHandWeapon != null)
+            {
+                model.activeMainHandWeapon.gameObject.SetActive(false);
+            }
+            model.activeMainHandWeapon = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.OffHandWeapon)
+        {
+            if (model.activeOffHandWeapon != null)
+            {
+                model.activeOffHandWeapon.gameObject.SetActive(false);
+            }
+            model.activeOffHandWeapon = element;
         }
     }
 
