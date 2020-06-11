@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ce73ecbb085584fb50988847285c38, type: 3}
+  m_Name: Ragnar The Eternal
+  m_EditorClassIdentifier: 
+  characterName: Ragnar The Eternal
+  characterDescription: 'Among the very first of the Undead, your true age is a mystery,
+    and the memory of your human life has long since faded away. Centuries passed
+    in isolation as you searched and studied for the cure to your undead affliction,
+    to no avail. But for the first time in eternity, you finally have purpose: reveal
+    the source of the cataclysm, and you reveal the one with the power to deliver
+    you from undeath!'
+  characterBackgrounds: 0500000006000000
+  characterRace: 3
+  knownAbilities:
+  - {fileID: 11400000, guid: 7ad431966e7f9d3429904eae737c837f, type: 2}
+  - {fileID: 11400000, guid: 70f99ef3a83e0294db087ac98d213480, type: 2}
+  - {fileID: 11400000, guid: 6f10bd4e0b8359647a587b642ce0735d, type: 2}
+  knownPassives:
+  - statusData: {fileID: 11400000, guid: 28e5b8be23558bc4d9ac21773f3b969e, type: 2}
+    statusStacks: 2
+  knownTalents:
+  - talentType: 1
+    talentStacks: 2
+  - talentType: 11
+    talentStacks: 1
+  mhWeapon: {fileID: 11400000, guid: 75fb4bdeb7457994888328207ae3ef60, type: 2}
+  ohWeapon: {fileID: 0}
+  modelViewElements:
+  - Undead_Head_1
+  - Undead_Face_1
+  - Undead_Right_Hand
+  - Undead_Left_Hand
+  - Undead_Right_Arm
+  - Undead_Left_Arm
+  - Undead_Right_Leg
+  - Undead_Left_Leg
+  - Undead_Chest
+  - Death_Knight_Head_Wear
+  - Death_Knight_Right_Hand_Wear
+  - Death_Knight_Right_Arm_Wear
+  - Death_Knight_Left_Hand_Wear
+  - Death_Knight_Left_Arm_Wear
+  - Death_Knight_Right_Leg_Wear
+  - Death_Knight_Left_Leg_Wear
+  - Death_Knight_Chest_Wear

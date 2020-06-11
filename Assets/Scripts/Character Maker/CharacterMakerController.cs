@@ -26,18 +26,18 @@ public class CharacterMakerController : MonoBehaviour
     public TextMeshProUGUI currentClassPresetText;
     public TextMeshProUGUI currentWeaponPresetText;
     public List<TextMeshProUGUI> allTalentTextTabs;
+    public List<MenuAbilityTab> allAbilityTabs;
 
     [Header("Model Component References")]
     public UniversalCharacterModel characterModel;
 
     [Header("Character Data Properties")]
-    private List<MenuAbilityTab> allAbilityTabs;
-    private List<StatusPairing> allPassiveTabs;
+    private List<StatusPairing> allPassiveTabs = new List<StatusPairing>();
     private WeaponPresetDataSO currentWeaponPreset;
     private ClassPresetDataSO currentClassPreset;
     private CharacterData.Background currentBackgroundOne;
     private CharacterData.Background currentBackgroundTwo;
-    private List<TalentPairing> allTalentPairings;
+    private List<TalentPairing> allTalentPairings = new List<TalentPairing>();
 
     #endregion
 

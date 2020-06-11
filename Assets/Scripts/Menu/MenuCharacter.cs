@@ -28,6 +28,7 @@ public class MenuCharacter : MonoBehaviour
 
     [Header("Properties")]
     public string myPresetName;
+    public CharacterPresetData currentCharacterPreset;
     public MenuAbilityTab tabOne;
     public MenuAbilityTab tabTwo;
     public MenuAbilityTab tabThree;
@@ -40,7 +41,9 @@ public class MenuCharacter : MonoBehaviour
     private void Start()
     {
         // set default view state as random character
-        BuildMyViewsFromPresetString("Random");
+        //BuildMyViewsFromPresetString("Random");
+
+        BuildMyViewsFromCharacterPresetData(CharacterPresetLibrary.Instance.GetOriginCharacterPresetByName("Random"));
         myModel.SetIdleAnim();
     }
     public void BuildMyViewsFromPresetString(string presetName)
@@ -59,6 +62,26 @@ public class MenuCharacter : MonoBehaviour
 
         // Set Description text
         MainMenuManager.Instance.BuildDescriptionText(this);
+    }
+    public void BuildMyViewsFromCharacterPresetData(CharacterPresetData data)
+    {
+        // Cache current preset
+        currentCharacterPreset = data;
+
+        // Set name text
+        SetPresetName(data.characterName);
+
+        // Build model
+        CharacterModelController.BuildModelFromCharacterPresetData(myModel, data);
+
+        // Modify abilities/passives on panel
+        MainMenuManager.Instance.BuildCharacterAbilityTabsFromPresetData(this, data);
+
+        // modify attribute texts
+        MainMenuManager.Instance.BuildAttributeTextsFromCharacterPresetData(this, data);
+
+        // Set Description text
+        MainMenuManager.Instance.BuildDescriptionTextCharacterPresetData(this, data);
     }
     #endregion
 
@@ -90,15 +113,16 @@ public class MenuCharacter : MonoBehaviour
     }
     public void OnPreviousPresetButtonClicked()
     {
-        BuildMyViewsFromPresetString(MainMenuManager.Instance.GetPreviousPresetString(myPresetName));
+        //BuildMyViewsFromPresetString(MainMenuManager.Instance.GetPreviousPresetString(myPresetName));
+        BuildMyViewsFromCharacterPresetData(CharacterPresetLibrary.Instance.GetNextOriginPreset(currentCharacterPreset));
 
         // refresh button highlight
         EventSystem.current.SetSelectedGameObject(null);
     }
     public void OnNextPresetButtonClicked()
     {
-        BuildMyViewsFromPresetString(MainMenuManager.Instance.GetNextPresetString(myPresetName));
-
+        // BuildMyViewsFromPresetString(MainMenuManager.Instance.GetNextPresetString(myPresetName));
+        BuildMyViewsFromCharacterPresetData(CharacterPresetLibrary.Instance.GetPreviousOriginPreset(currentCharacterPreset));
         // refresh button highlight
         EventSystem.current.SetSelectedGameObject(null);
     }
@@ -120,7 +144,7 @@ public class MenuCharacter : MonoBehaviour
     #region
     public void SetPresetName(string newName)
     {
-        myPresetName = newName;
+        //myPresetName = newName;
         presetNameText.text = newName;
     }
     #endregion

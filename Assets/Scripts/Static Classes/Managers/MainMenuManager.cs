@@ -450,6 +450,48 @@ public class MainMenuManager : MonoBehaviour
 
         
     }
+    public void BuildCharacterAbilityTabsFromPresetData(MenuCharacter character, CharacterPresetData data)
+    {
+        Debug.Log("MainMenuManager.BuildCharacterAbilityTabs() called...");
+
+        // Place all menu tabs in a list
+        List<MenuAbilityTab> allTabs = new List<MenuAbilityTab>
+        {
+            character.tabOne,
+            character.tabTwo,
+            character.tabThree,
+            character.tabFour
+        };
+
+        // used for placing elements sequentially
+        int nextFreeIndex = 0;
+
+        // Enable all tab views
+        character.tabOne.gameObject.SetActive(true);
+        character.tabTwo.gameObject.SetActive(true);
+        character.tabThree.gameObject.SetActive(true);
+        character.tabFour.gameObject.SetActive(true);
+
+        // Build abilities first
+        foreach(AbilityDataSO abilityData in data.knownAbilities)
+        {
+            // build in next available slot
+            allTabs[nextFreeIndex].SetUpAbilityTabAsAbility(abilityData);
+
+            // increment next slot index 
+            nextFreeIndex++;
+        }
+
+        // Build passives first
+        foreach (StatusPairing passiveData in data.knownPassives)
+        {
+            // build in next available slot
+            allTabs[nextFreeIndex].SetUpAbilityTabAsPassive(passiveData.statusData,passiveData.statusStacks);
+
+            // increment next slot index 
+            nextFreeIndex++;
+        }
+    }
     public void BuildAttributeTexts(MenuCharacter character)
     {
         Debug.Log("MainMenuManager.BuildAttributeTexts() called...");
@@ -610,6 +652,31 @@ public class MainMenuManager : MonoBehaviour
             character.attributeOneText.gameObject.SetActive(true);
         }
     }
+    public void BuildAttributeTextsFromCharacterPresetData(MenuCharacter character, CharacterPresetData data)
+    {
+        Debug.Log("MainMenuManager.BuildAttributeTextsFromCharacterPresetData() called...");
+
+        // disable all text first
+        character.attributeOneText.gameObject.SetActive(false);
+        character.attributeTwoText.gameObject.SetActive(false);
+        character.attributeThreeText.gameObject.SetActive(false);
+
+        List<TextMeshProUGUI> textViews = new List<TextMeshProUGUI>()
+        {
+            character.attributeOneText,
+            character.attributeTwoText,
+            character.attributeThreeText
+        };
+
+        int nextFreeTextIndex = 0;
+
+        foreach(TalentPairing tp in data.knownTalents)
+        {
+            textViews[nextFreeTextIndex].gameObject.SetActive(true);
+            textViews[nextFreeTextIndex].text = tp.talentType.ToString() + " " + tp.talentStacks.ToString();
+            nextFreeTextIndex++;
+        }
+    }
     public void BuildDescriptionText(MenuCharacter character)
     {
         Debug.Log("MainMenuManager.BuildDescriptionText() called...");
@@ -720,6 +787,17 @@ public class MainMenuManager : MonoBehaviour
             character.presetDescriptionText.gameObject.SetActive(true);
             character.presetDescriptionText.text = "Noble and fearless, Bulwark's go to great lengths to protect their allies by throwing themselves into the fray, and goading foes to attack them. ";
         }
+    }
+    public void BuildDescriptionTextCharacterPresetData(MenuCharacter character, CharacterPresetData data)
+    {
+        Debug.Log("MainMenuManager.BuildDescriptionText() called...");
+
+        // enable text view
+        character.presetDescriptionText.gameObject.SetActive(true);
+
+        // set text
+        character.presetDescriptionText.text = data.characterDescription;
+        
     }
     #endregion
 

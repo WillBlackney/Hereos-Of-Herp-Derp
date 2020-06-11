@@ -196,6 +196,22 @@ public static class CharacterModelController
             SetUpAsDarkElfRangerPreset(model);
         }
     }
+    public static void BuildModelFromCharacterPresetData(UniversalCharacterModel model, CharacterPresetData data)
+    {
+        Debug.Log("CharacterModelController.BuildModelFromCharacterPresetData() called...");
+
+        foreach(ModelElementData elementData in data.activeModelElements)
+        {
+            foreach(UniversalCharacterModelElement element in model.allModelElements)
+            {
+                if(elementData.elementName == element.gameObject.name)
+                {
+                    EnableAndSetElementOnModel(model, element);
+                    break;
+                }
+            }
+        }
+    }
     public static void DisableAllViewsInList(List<GameObject> listOfViews)
     {
         foreach(GameObject go in listOfViews)
@@ -1360,7 +1376,16 @@ public static class CharacterModelController
     {
         foreach(ModelElementData elementData in data.activeModelElements)
         {
-            // make lists for racial elements (allRacialArms, chests, etc)
+            // find a gameobject view with a name that matches the data object
+            foreach(UniversalCharacterModelElement modelElement in model.allModelElements)
+            {
+                if(modelElement.gameObject.name == elementData.elementName)
+                {
+                    // match found, enable and set, then break loop
+                    EnableAndSetElementOnModel(model, modelElement);
+                    break;
+                }
+            }
         }
     }
 }

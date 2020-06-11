@@ -7,6 +7,9 @@ public class UniversalCharacterModel : MonoBehaviour
     // Enum Declaration
     public enum ModelRace { None, Human, Orc, Undead, Elf, Goblin};
 
+    [Header("All Model Element References")]
+    public List<UniversalCharacterModelElement> allModelElements;
+
     // NEW Properties + Component References
     [Header("Active Body Part References")]
     public UniversalCharacterModelElement activeHead;

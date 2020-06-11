@@ -11,4 +11,8 @@ public class ModelElementData
         elementName = data.gameObject.name;
         bodyPartType = data.bodyPartType;
     }
+    public ModelElementData(string _elementName)
+    {
+        elementName = _elementName;
+    }
 }

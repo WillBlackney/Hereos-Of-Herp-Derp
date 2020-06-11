@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterPresetLibrary : MonoBehaviour
@@ -7,7 +6,8 @@ public class CharacterPresetLibrary : MonoBehaviour
     // Properties + Component References
     #region
     [Header("Properties + Component References")]
-    public List<CharacterPresetData> allOriginCharacters;
+    [HideInInspector] public List<CharacterPresetData> allOriginCharacterPresets;
+    public List<OriginCharacterDataSO> allOriginCharacterData;
     public List<CharacterPresetData> allPlayerMadeCharacters;
     public List<ClassPresetDataSO> allClassPresets;
     public List<WeaponPresetDataSO> allWeaponPresets;
@@ -28,6 +28,7 @@ public class CharacterPresetLibrary : MonoBehaviour
         }
         
     }
+   
     #endregion
 
     // Set up + Initialization
@@ -35,12 +36,15 @@ public class CharacterPresetLibrary : MonoBehaviour
     private void Start()
     {
         allPlayerMadeCharacters = new List<CharacterPresetData>();
-        allOriginCharacters = new List<CharacterPresetData>();
-        PopulateCharacterLibraryOnStart();
+        allOriginCharacterPresets = new List<CharacterPresetData>();
+        PopulateOriginCharacterLibraryOnStart();
     }
-    private void PopulateCharacterLibraryOnStart()
+    private void PopulateOriginCharacterLibraryOnStart()
     {
-        AddCharacterPresetToOriginList(CreateRagnarData());
+        foreach(OriginCharacterDataSO data in allOriginCharacterData)
+        {
+            AddCharacterPresetToOriginList(CreateOriginCharacterPresetFromOriginCharacterData(data));
+        }
     }
     #endregion
 
@@ -48,7 +52,7 @@ public class CharacterPresetLibrary : MonoBehaviour
     #region
     public void AddCharacterPresetToOriginList(CharacterPresetData charDataAdded)
     {
-        allOriginCharacters.Add(charDataAdded);
+        allOriginCharacterPresets.Add(charDataAdded);
     }
     public void AddCharacterPresetToPlayerMadeList(CharacterPresetData charDataAdded)
     {
@@ -105,56 +109,103 @@ public class CharacterPresetLibrary : MonoBehaviour
         }
 
     }
-    #endregion
-
-    // Create Specific Origin Characters
-    #region
-    public CharacterPresetData CreateRagnarData()
+    public CharacterPresetData CreateOriginCharacterPresetFromOriginCharacterData(OriginCharacterDataSO data)
     {
-        // TO DO !!!: should make a way to build CharacterPresetData objects from from scriptable object files
-        // so that we can create origin characters via the inspectors instead of programatically
-        // e.g. OriginCharacterDataSO
+        Debug.Log("CharacterPresetLibrary.CreateOriginCharacterPresetFromOriginCharacterData() called, " +
+            "building origin preset from origin data with name: " + data.characterName);
 
-        CharacterPresetData cpd = new CharacterPresetData();
+        CharacterPresetData newPreset = new CharacterPresetData();
 
-        // Set General Data
-        cpd.characterName = "Ragnar The Eternal";
-        cpd.characterDescription = "Place holder description.....";
-        cpd.backgrounds.Add(CharacterData.Background.Wanderer);
-        cpd.backgrounds.Add(CharacterData.Background.Recluse);
+        // Origin Data
+        newPreset.characterName = data.characterName;
+        newPreset.characterDescription = data.characterDescription;
+        newPreset.backgrounds.AddRange(data.characterBackgrounds);
+        newPreset.modelRace = data.characterRace;
 
-        // Set Race
-        cpd.modelRace = UniversalCharacterModel.ModelRace.Undead;
+        // Combat data
+        newPreset.knownAbilities = data.knownAbilities;
+        newPreset.knownPassives = data.knownPassives;
+        newPreset.knownTalents = data.knownTalents;
+        newPreset.mhWeapon = data.mhWeapon;
+        newPreset.ohWeapon = data.ohWeapon;
 
-        // Set Talents
-        cpd.knownTalents = new List<TalentPairing>
+        // Model elements
+        foreach(string modelElement in data.modelViewElements)
         {
-            new TalentPairing(AbilityDataSO.AbilitySchool.Brawler, 2),
-            new TalentPairing (AbilityDataSO.AbilitySchool.Corruption, 1)
-        };
+            newPreset.activeModelElements.Add(new ModelElementData(modelElement));
+        }
 
-        // Learn abilities
-        cpd.knownAbilities = new List<AbilityDataSO>
+        return newPreset;
+    }
+    public CharacterPresetData GetNextOriginPreset(CharacterPresetData currentPreset)
+    {
+        Debug.Log("MainMenuManager.GetNextOriginCharacter() called...");
+
+        CharacterPresetData dataReturned = null;
+
+        int currentListIndex = allOriginCharacterPresets.IndexOf(currentPreset);
+        int maxCount = allOriginCharacterPresets.Count - 1;
+        int nextIndex = 0;
+
+        if(currentListIndex == maxCount)
         {
-            AbilityLibrary.Instance.GetAbilityByName("Smash"),
-            AbilityLibrary.Instance.GetAbilityByName("Charge"),
-            AbilityLibrary.Instance.GetAbilityByName("Blood Offering")
-        };
-
-        // Learn passives
-        cpd.knownPassives = new List<StatusPairing>
+            nextIndex = 0;
+        }
+        else
         {
-            new StatusPairing(StatusIconLibrary.Instance.GetStatusIconByName("Tenacious"), 2)
-        };
+            nextIndex = currentListIndex + 1;
+        }
 
-        // Set weapons
+        dataReturned = allOriginCharacterPresets[nextIndex];
 
-        // Set body view elements
+        return dataReturned;
+    }
+    public CharacterPresetData GetPreviousOriginPreset(CharacterPresetData currentPreset)
+    {
+        Debug.Log("MainMenuManager.GetPreviousOriginPreset() called...");
 
-        // Set clothing views
+        CharacterPresetData dataReturned = null;
 
-        return cpd;
+        int currentListIndex = allOriginCharacterPresets.IndexOf(currentPreset);
+        int maxCount = allOriginCharacterPresets.Count - 1;
+        int previousIndex = 0;
+
+        if (currentListIndex == 0)
+        {
+            previousIndex = maxCount;
+        }
+        else
+        {
+            previousIndex = currentListIndex - 1;
+        }
+
+        dataReturned = allOriginCharacterPresets[previousIndex];
+
+        return dataReturned;
+    }
+    public CharacterPresetData GetOriginCharacterPresetByName(string characterName)
+    {
+        Debug.Log("CharacterPresetLibrary.GetOriginCharacterPresetByName() called, searching for: " + characterName);
+
+        CharacterPresetData dataReturned = null;
+        foreach(CharacterPresetData preset in allOriginCharacterPresets)
+        {
+            if(preset.characterName == characterName)
+            {
+                dataReturned = preset;
+                break;
+            }
+        }
+
+        if(dataReturned == null)
+        {
+            Debug.Log("CharacterPresetLibrary.GetOriginCharacterPresetByName() did not find any preset data that matches the name " +
+                characterName + ", returning null...");
+        }
+
+        return dataReturned;
     }
     #endregion
+
 
 }
