@@ -5,12 +5,12 @@
 ##### Create a team of four heroes
 ![](Game%20Still%20Images/Team_Builder_Screen.png)
 
-##### Defeat enemies in turn based combat
+##### Battle enemies in turn based combat
 ![](Game%20Still%20Images/Conbat_1.png)
 ![](Game%20Still%20Images/Combat_2.png)
 ![](Game%20Still%20Images/Combat_3.png)
 
-##### Customize your character's appearance, items, weapons, talents and abilities
+##### Customize your character's appearance, items, weapons, talents, abilities and more
 ![](Game%20Still%20Images/Character_Sheet.png)
 ![](Game%20Still%20Images/Talent_Tree.png)
 
