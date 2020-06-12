@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ce73ecbb085584fb50988847285c38, type: 3}
+  m_Name: Darius The Disgraced
+  m_EditorClassIdentifier: 
+  characterName: Darius The Disgraced
+  characterDescription: A former paladin of the king's guard, you deserted your men
+    after the king ordered the slaughter of the peaceful orc natives. Wanted by the
+    Herp Derpian authorities, and despised by the orc natives, you slithered into
+    hiding to live out a shallow life of shame and regret. You long for the chance
+    to redeem yourself, and wash away the guilt of your past. You shall walk the
+    path of the righteous once more!
+  characterBackgrounds: 0300000002000000
+  characterRace: 1
+  knownAbilities:
+  - {fileID: 11400000, guid: f4cf2553025a2f047a281909997eff45, type: 2}
+  - {fileID: 11400000, guid: 6ec98f36f9ab6484ebc9830b3be7e9ba, type: 2}
+  - {fileID: 11400000, guid: 70f99ef3a83e0294db087ac98d213480, type: 2}
+  knownPassives:
+  - statusData: {fileID: 11400000, guid: bf092257da264ff4888c4109f7ce0f6f, type: 2}
+    statusStacks: 10
+  knownTalents:
+  - talentType: 9
+    talentStacks: 2
+  - talentType: 1
+    talentStacks: 1
+  mhWeapon: {fileID: 11400000, guid: 75fb4bdeb7457994888328207ae3ef60, type: 2}
+  ohWeapon: {fileID: 0}
+  modelViewElements:
+  - Human_Face_1
+  - Human_Head_2
+  - Human_Right_Hand
+  - Human_Right_Arm
+  - Human_Left_Hand
+  - Human_Left_Arm
+  - Human_Right_Leg
+  - Human_Left_Leg
+  - Paladin_Chest
+  - Paladin_Right_Arm
+  - Paladin_Right_Hand
+  - Paladin_Right_Leg
+  - Paladin_Left_Arm
+  - Paladin_Left_Hand
+  - Paladin_Left_Leg

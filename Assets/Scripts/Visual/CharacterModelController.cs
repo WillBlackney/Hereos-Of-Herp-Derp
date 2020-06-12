@@ -200,13 +200,42 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.BuildModelFromCharacterPresetData() called...");
 
-        foreach(ModelElementData elementData in data.activeModelElements)
+        CompletelyDisableAllViews(model);
+        ClearAllActiveBodyPartReferences(model);
+
+        // Body Parts + Clothing
+        foreach (ModelElementData elementData in data.activeModelElements)
         {
             foreach(UniversalCharacterModelElement element in model.allModelElements)
             {
                 if(elementData.elementName == element.gameObject.name)
                 {
+                    Debug.Log("CharacterModelController.BuildModelFromCharacterPresetData() found model element GO with matching name of " +
+                        elementData.elementName + ", enabling GO...");
                     EnableAndSetElementOnModel(model, element);
+                    break;
+                }
+            }
+        }
+
+        // set MH weapon model view
+        foreach (UniversalCharacterModelElement ucme in model.allMainHandWeapons)
+        {
+            if (ucme.weaponsWithMyView.Contains(data.mhWeapon))
+            {
+                EnableAndSetElementOnModel(model, ucme);
+                break;
+            }
+        }
+
+        // Set OH weapon model view
+        if (data.ohWeapon != null)
+        {
+            foreach (UniversalCharacterModelElement ucme in model.allOffHandWeapons)
+            {
+                if (ucme.weaponsWithMyView.Contains(data.ohWeapon))
+                {
+                    EnableAndSetElementOnModel(model, ucme);
                     break;
                 }
             }
@@ -230,6 +259,13 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.CompletelyDisableAllViews() called...");
 
+        // new logic
+        foreach(UniversalCharacterModelElement ele in model.allModelElements)
+        {
+            ele.gameObject.SetActive(false);
+        }
+        
+        // old logic
         // Disable weapons
         DisableAllViewsInList(model.allMainHandWeapons);
         DisableAllViewsInList(model.allOffHandWeapons);
@@ -243,6 +279,7 @@ public static class CharacterModelController
         DisableAllViewsInList(model.allLeftHands);
         DisableAllViewsInList(model.allLeftArms);
         DisableAllViewsInList(model.allChests);
+        
 
         // Clear all body part refs
         //ClearAllActiveBodyPartReferences(model);

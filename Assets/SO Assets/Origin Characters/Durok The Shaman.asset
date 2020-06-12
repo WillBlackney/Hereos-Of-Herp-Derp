@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ce73ecbb085584fb50988847285c38, type: 3}
+  m_Name: Durok The Shaman
+  m_EditorClassIdentifier: 
+  characterName: Durok The Shaman
+  characterDescription: As the spiritual leader of your clan, you convinced your
+    fellow orcs to allow the settlement of cataclysm refugees, and helped to foster
+    relations between the natives orcs and the new settlers. When the orcish rebellion
+    began, you found yourself torn between your national duty to your fellow orc
+    natives, and your shamanistic oath to guide the way for all living creatures.
+    Where do your loyalties lie?
+  characterBackgrounds: 0200000009000000
+  characterRace: 2
+  knownAbilities:
+  - {fileID: 11400000, guid: e3e3455aba12b8a4db849babffae0e09, type: 2}
+  - {fileID: 11400000, guid: a68a6c3b4866e234e82a3770e9ed17bd, type: 2}
+  - {fileID: 11400000, guid: 70f99ef3a83e0294db087ac98d213480, type: 2}
+  knownPassives:
+  - statusData: {fileID: 11400000, guid: e0226263891b5a449a2aca2d73cfe8f6, type: 2}
+    statusStacks: 3
+  knownTalents:
+  - talentType: 12
+    talentStacks: 2
+  - talentType: 1
+    talentStacks: 1
+  mhWeapon: {fileID: 11400000, guid: 24a7d73a2db0ff44bb29ac1f4fc06ebd, type: 2}
+  ohWeapon: {fileID: 0}
+  modelViewElements:
+  - Orc_Face_2
+  - Orc_Head_1
+  - Orc_Right_Arm
+  - Orc_Right_Hand
+  - Orc_Right_Leg
+  - Orc_Left_Arm
+  - Orc_Left_Hand
+  - Orc_Left_Leg
+  - Orc_Chest
+  - Shaman_Chest
+  - Shaman_Right_Hand
+  - Shaman_Right_Arm
+  - Shaman_Right_Leg
+  - Shaman_Left_Hand
+  - Shaman_Left_Arm
+  - Shaman_Left_Leg

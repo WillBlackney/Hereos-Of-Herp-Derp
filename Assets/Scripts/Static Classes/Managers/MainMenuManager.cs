@@ -466,15 +466,18 @@ public class MainMenuManager : MonoBehaviour
         // used for placing elements sequentially
         int nextFreeIndex = 0;
 
-        // Enable all tab views
-        character.tabOne.gameObject.SetActive(true);
-        character.tabTwo.gameObject.SetActive(true);
-        character.tabThree.gameObject.SetActive(true);
-        character.tabFour.gameObject.SetActive(true);
+        // Disable all tab views
+        character.tabOne.gameObject.SetActive(false);
+        character.tabTwo.gameObject.SetActive(false);
+        character.tabThree.gameObject.SetActive(false);
+        character.tabFour.gameObject.SetActive(false);
 
         // Build abilities first
         foreach(AbilityDataSO abilityData in data.knownAbilities)
         {
+            // enable tab
+            allTabs[nextFreeIndex].gameObject.SetActive(true);
+
             // build in next available slot
             allTabs[nextFreeIndex].SetUpAbilityTabAsAbility(abilityData);
 
@@ -485,6 +488,9 @@ public class MainMenuManager : MonoBehaviour
         // Build passives first
         foreach (StatusPairing passiveData in data.knownPassives)
         {
+            // enable tab
+            allTabs[nextFreeIndex].gameObject.SetActive(true);
+
             // build in next available slot
             allTabs[nextFreeIndex].SetUpAbilityTabAsPassive(passiveData.statusData,passiveData.statusStacks);
 
@@ -652,7 +658,7 @@ public class MainMenuManager : MonoBehaviour
             character.attributeOneText.gameObject.SetActive(true);
         }
     }
-    public void BuildAttributeTextsFromCharacterPresetData(MenuCharacter character, CharacterPresetData data)
+    public void BuildTalentTextsFromCharacterPresetData(MenuCharacter character, CharacterPresetData data)
     {
         Debug.Log("MainMenuManager.BuildAttributeTextsFromCharacterPresetData() called...");
 
@@ -673,7 +679,7 @@ public class MainMenuManager : MonoBehaviour
         foreach(TalentPairing tp in data.knownTalents)
         {
             textViews[nextFreeTextIndex].gameObject.SetActive(true);
-            textViews[nextFreeTextIndex].text = tp.talentType.ToString() + " " + tp.talentStacks.ToString();
+            textViews[nextFreeTextIndex].text = tp.talentType.ToString() + " +" + tp.talentStacks.ToString();
             nextFreeTextIndex++;
         }
     }
