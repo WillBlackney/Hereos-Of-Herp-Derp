@@ -93,6 +93,11 @@ public class CharacterMakerController : MonoBehaviour
         Debug.Log("CharacterMakerController.OnSaveCharacterButtonClicked() called...");
         StartCharacterSaveProcess();
     }
+    public void OnBackToMainMenuButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnCharacterMakerButtonClicked() called...");
+        SetMainWindowViewState(false);
+    }
     #endregion
 
     // Appearance Page

@@ -9,6 +9,8 @@ public class MainMenuManager : MonoBehaviour
 {
     [Header("Component References")]
     public GameObject HeroSelectionScreen;
+    public GameObject loadPresetWindowVisualParent;
+    public RectTransform loadPresetWindowButtonParent;
     public GameObject arrowParent;
     public GameObject allElementsParent;
     public GameObject northPos;
@@ -31,6 +33,10 @@ public class MainMenuManager : MonoBehaviour
     public MenuCharacter characterTwo;
     public MenuCharacter characterThree;
     public MenuCharacter characterFour;
+
+    [Header("Load Preset Data Button References")]
+    public GameObject loadPresetDataButtonPrefab;
+    public List<LoadPresetButton> activeLoadPresetButtons;
 
     // Singleton Set up + Start + Update
     #region
@@ -806,5 +812,63 @@ public class MainMenuManager : MonoBehaviour
         
     }
     #endregion
+
+    // Load Custom Preset Screen Logic
+    public void EnableLoadPresetWindow()
+    {
+        Debug.Log("MainMenuManager.EnableLoadPresetWindow() called...");
+
+        loadPresetWindowVisualParent.SetActive(true);
+    }
+    public void DisableLoadPresetWindow()
+    {
+        Debug.Log("MainMenuManager.DisableLoadPresetWindow() called...");
+
+        loadPresetWindowVisualParent.SetActive(false);
+    }
+    public void PopulateLoadPresetWindow()
+    {
+        Debug.Log("MainMenuManager.PopulateLoadPresetWindow() called...");
+
+        foreach(CharacterPresetData data in CharacterPresetLibrary.Instance.allPlayerMadeCharacters)
+        {
+            CreatePresetButton(data);
+        }
+    }
+    private void DestroyAllLoadPresetButtons()
+    {
+        Debug.Log("MainMenuManager.DestroyAllLoadPresetButtons() called...");
+
+        foreach(LoadPresetButton lpb in activeLoadPresetButtons)
+        {
+            Destroy(lpb.gameObject);
+        }
+
+        activeLoadPresetButtons.Clear();
+    }
+    private void CreatePresetButton(CharacterPresetData data)
+    {
+        Debug.Log("MainMenuManager.CreatePresetButton() called for: " + data.characterName);
+
+        LoadPresetButton newButton = Instantiate(loadPresetDataButtonPrefab, loadPresetWindowButtonParent).GetComponent<LoadPresetButton>();
+        newButton.InitializeSetup(data);
+        activeLoadPresetButtons.Add(newButton);
+    }
+    public void OnLoadPresetButtonClicked(LoadPresetButton button)
+    {
+        // Build active menu character
+        selectedMenuCharacter.BuildMyViewsFromCharacterPresetData(button.presetData);
+
+        // Clear active preset buttons
+        DestroyAllLoadPresetButtons();
+
+        // Hide preset selection window
+        DisableLoadPresetWindow();
+    }
+    public void OnLoadPresetWindowCancelButtonClicked()
+    {
+        DestroyAllLoadPresetButtons();
+        DisableLoadPresetWindow();
+    }
 
 }

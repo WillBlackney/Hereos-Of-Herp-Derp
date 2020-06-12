@@ -113,7 +113,6 @@ public class MenuCharacter : MonoBehaviour
     }
     public void OnPreviousPresetButtonClicked()
     {
-        //BuildMyViewsFromPresetString(MainMenuManager.Instance.GetPreviousPresetString(myPresetName));
         BuildMyViewsFromCharacterPresetData(CharacterPresetLibrary.Instance.GetPreviousOriginPreset(currentCharacterPreset));
 
         // refresh button highlight
@@ -121,10 +120,15 @@ public class MenuCharacter : MonoBehaviour
     }
     public void OnNextPresetButtonClicked()
     {
-        // BuildMyViewsFromPresetString(MainMenuManager.Instance.GetNextPresetString(myPresetName));
         BuildMyViewsFromCharacterPresetData(CharacterPresetLibrary.Instance.GetNextOriginPreset(currentCharacterPreset));
         // refresh button highlight
         EventSystem.current.SetSelectedGameObject(null);
+    }
+    public void OnLoadCustomPresetButtonClicked()
+    {
+        Debug.Log("MenuCharacter.OnLoadCustomPresetButtonClicked() called...");
+        MainMenuManager.Instance.EnableLoadPresetWindow();
+        MainMenuManager.Instance.PopulateLoadPresetWindow();
     }
     #endregion
 

@@ -223,6 +223,8 @@ public static class CharacterModelController
         {
             if (ucme.weaponsWithMyView.Contains(data.mhWeapon))
             {
+                Debug.Log("CharacterModelController.BuildModelFromCharacterPresetData() found model element GO with matching name of " +
+                        data.mhWeapon.Name + ", enabling GO...");
                 EnableAndSetElementOnModel(model, ucme);
                 break;
             }
@@ -235,6 +237,8 @@ public static class CharacterModelController
             {
                 if (ucme.weaponsWithMyView.Contains(data.ohWeapon))
                 {
+                    Debug.Log("CharacterModelController.BuildModelFromCharacterPresetData() found model element GO with matching name of " +
+                        data.ohWeapon.Name + ", enabling GO...");
                     EnableAndSetElementOnModel(model, ucme);
                     break;
                 }
@@ -1152,8 +1156,8 @@ public static class CharacterModelController
     // Set Specific Body Parts
     public static void EnableAndSetElementOnModel(UniversalCharacterModel model, UniversalCharacterModelElement element)
     {
-        // Enable GO
-        element.gameObject.SetActive(true);
+        Debug.Log("CharacterModelController.EnableAndSetElementOnModel() called, enabling " +
+            element.gameObject.name + " GO");
 
         // Set Active Body Part Reference
         if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.Chest)
@@ -1310,6 +1314,9 @@ public static class CharacterModelController
             }
             model.activeOffHandWeapon = element;
         }
+
+        // Enable GO
+        element.gameObject.SetActive(true);
     }
 
     // Get View Parts  
