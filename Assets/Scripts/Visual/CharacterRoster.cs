@@ -49,65 +49,65 @@ public class CharacterRoster : MonoBehaviour
             return;
         }
 
-        foreach (string characterData in SceneChangeDataStorage.Instance.chosenCharacters)
+        foreach (CharacterPresetData characterData in SceneChangeDataStorage.Instance.chosenCharacters)
         {
             if(characterOneSetupComplete == false)
             {
-                characterOne.InitializeSetupFromPresetString(characterData);
+                characterOne.InitializeSetupFromPresetData(characterData);
                 characterOneSetupComplete = true;
                 allCharacterDataObjects.Add(characterOne);
-                characterOne.SetMyName(characterData);
+                characterOne.SetMyName(characterData.characterName);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[0], characterOne);
                 ShopScreenManager.Instance.SetUpVillageCharacter(ShopScreenManager.Instance.characterOne, characterOne);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[0], characterOne);
                 TreasureRoomManager.Instance.SetUpTreasureRoomCharacter(TreasureRoomManager.Instance.allCharacterSlots[0], characterOne);
-                CharacterModelController.BuildModelFromPresetString(characterOneButtonModel, characterData);
-                CharacterModelController.BuildModelFromPresetString(KingsBlessingManager.Instance.modelOne, characterData);
+                CharacterModelController.BuildModelFromCharacterPresetData(characterOneButtonModel, characterData);
+                CharacterModelController.BuildModelFromCharacterPresetData(KingsBlessingManager.Instance.modelOne, characterData);
                 characterOneButtonModel.SetBaseAnim();
             }
 
             else if (characterTwoSetupComplete == false)
             {
-                characterTwo.InitializeSetupFromPresetString(characterData);
+                characterTwo.InitializeSetupFromPresetData(characterData);
                 characterTwoSetupComplete = true;
                 allCharacterDataObjects.Add(characterTwo);
-                characterTwo.SetMyName(characterData);
+                characterTwo.SetMyName(characterData.characterName);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[1], characterTwo);
                 ShopScreenManager.Instance.SetUpVillageCharacter(ShopScreenManager.Instance.characterTwo, characterTwo);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[1], characterTwo);
                 TreasureRoomManager.Instance.SetUpTreasureRoomCharacter(TreasureRoomManager.Instance.allCharacterSlots[1], characterTwo);
-                CharacterModelController.BuildModelFromPresetString(characterTwoButtonModel, characterData);
-                CharacterModelController.BuildModelFromPresetString(KingsBlessingManager.Instance.modelTwo, characterData);
+                CharacterModelController.BuildModelFromCharacterPresetData(characterTwoButtonModel, characterData);
+                CharacterModelController.BuildModelFromCharacterPresetData(KingsBlessingManager.Instance.modelTwo, characterData);
                 characterTwoButtonModel.SetBaseAnim();
             }
 
             else if (characterThreeSetupComplete == false)
             {
-                characterThree.InitializeSetupFromPresetString(characterData);
+                characterThree.InitializeSetupFromPresetData(characterData);
                 characterThreeSetupComplete = true;
                 allCharacterDataObjects.Add(characterThree);
-                characterThree.SetMyName(characterData);
+                characterThree.SetMyName(characterData.characterName);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[2], characterThree);
                 ShopScreenManager.Instance.SetUpVillageCharacter(ShopScreenManager.Instance.characterThree, characterThree);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[2], characterThree);
                 TreasureRoomManager.Instance.SetUpTreasureRoomCharacter(TreasureRoomManager.Instance.allCharacterSlots[2], characterThree);
-                CharacterModelController.BuildModelFromPresetString(characterThreeButtonModel, characterData);
-                CharacterModelController.BuildModelFromPresetString(KingsBlessingManager.Instance.modelThree, characterData);
+                CharacterModelController.BuildModelFromCharacterPresetData(characterThreeButtonModel, characterData);
+                CharacterModelController.BuildModelFromCharacterPresetData(KingsBlessingManager.Instance.modelThree, characterData);
                 characterThreeButtonModel.SetBaseAnim();
             }
 
             else if (characterFourSetupComplete == false)
             {
-                characterFour.InitializeSetupFromPresetString(characterData);
+                characterFour.InitializeSetupFromPresetData(characterData);
                 characterFourSetupComplete = true;
                 allCharacterDataObjects.Add(characterFour);
-                characterFour.SetMyName(characterData);
+                characterFour.SetMyName(characterData.characterName);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[3], characterFour);
                 ShopScreenManager.Instance.SetUpVillageCharacter(ShopScreenManager.Instance.characterFour, characterFour);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[3], characterFour);
                 TreasureRoomManager.Instance.SetUpTreasureRoomCharacter(TreasureRoomManager.Instance.allCharacterSlots[3], characterFour);
-                CharacterModelController.BuildModelFromPresetString(characterFourButtonModel, characterData);
-                CharacterModelController.BuildModelFromPresetString(KingsBlessingManager.Instance.modelFour, characterData);
+                CharacterModelController.BuildModelFromCharacterPresetData(characterFourButtonModel, characterData);
+                CharacterModelController.BuildModelFromCharacterPresetData(KingsBlessingManager.Instance.modelFour, characterData);
                 characterFourButtonModel.SetBaseAnim();
             }
         }

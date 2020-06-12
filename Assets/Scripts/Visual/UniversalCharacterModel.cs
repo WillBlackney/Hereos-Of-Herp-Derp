@@ -87,7 +87,7 @@ public class UniversalCharacterModel : MonoBehaviour
     public UniversalCharacterModelElement undeadLeftArm;
     public UniversalCharacterModelElement undeadChest;
 
-    [Header("Undead Model References")]
+    [Header("Elf Model References")]
     public List<UniversalCharacterModelElement> elfHeads;
     public List<UniversalCharacterModelElement> elfFaces;
     public UniversalCharacterModelElement elfLeftLeg;

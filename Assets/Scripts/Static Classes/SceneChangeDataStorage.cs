@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SceneChangeDataStorage : MonoBehaviour
 {    
-    public List<string> chosenCharacters = new List<string>();
+    public List<CharacterPresetData> chosenCharacters = new List<CharacterPresetData>();
     public static SceneChangeDataStorage Instance;
     private void Awake()
     {

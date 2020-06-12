@@ -183,6 +183,15 @@ public class CharacterPresetLibrary : MonoBehaviour
 
         return dataReturned;
     }
+    public CharacterPresetData GetRandomOriginCharacter()
+    {
+        List<CharacterPresetData> allOriginCharacters = new List<CharacterPresetData>();
+        allOriginCharacters.AddRange(allOriginCharacterPresets);
+        allOriginCharacters.Remove(GetOriginCharacterPresetByName("Random"));
+
+        int randomIndex = Random.Range(0, allOriginCharacters.Count);
+        return allOriginCharacters[randomIndex];
+    }
     public CharacterPresetData GetOriginCharacterPresetByName(string characterName)
     {
         Debug.Log("CharacterPresetLibrary.GetOriginCharacterPresetByName() called, searching for: " + characterName);

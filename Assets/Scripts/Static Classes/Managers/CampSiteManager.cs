@@ -298,9 +298,17 @@ public class CampSiteManager : MonoBehaviour
 
     // Misc Logic
     #region
+    public void RebuildAllModels()
+    {
+        foreach(CampSiteCharacter character in allCharacterSlots)
+        {
+            CharacterModelController.BuildModelFromModelClone(character.myModel, character.myCharacterData.myCharacterModel);
+        }
+    }
     public void ResetEventProperties()
     {
-        ModifyCurrentCampSitePoints(maxActionPoints - currentActionPoints);        
+        ModifyCurrentCampSitePoints(maxActionPoints - currentActionPoints);
+        RebuildAllModels();
     }
     public bool HasEnoughCampSitePoints(int actionCost)
     {

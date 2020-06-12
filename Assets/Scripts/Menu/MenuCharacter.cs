@@ -27,6 +27,7 @@ public class MenuCharacter : MonoBehaviour
     public Button nextPresetButton;
 
     [Header("Properties")]
+    public CharacterPresetData myPreset;
     public string myPresetName;
     public CharacterPresetData currentCharacterPreset;
     public MenuAbilityTab tabOne;
@@ -46,23 +47,6 @@ public class MenuCharacter : MonoBehaviour
         BuildMyViewsFromCharacterPresetData(CharacterPresetLibrary.Instance.GetOriginCharacterPresetByName("Random"));
         myModel.SetIdleAnim();
     }
-    public void BuildMyViewsFromPresetString(string presetName)
-    {
-        // modify text meshs
-        SetPresetName(presetName);
-
-        // modify character model
-        CharacterModelController.BuildModelFromPresetString(myModel, presetName);
-
-        // modify abilities/passives on panel
-        MainMenuManager.Instance.BuildCharacterAbilityTabs(this);
-
-        // modify attribute texts
-        MainMenuManager.Instance.BuildAttributeTexts(this);
-
-        // Set Description text
-        MainMenuManager.Instance.BuildDescriptionText(this);
-    }
     public void BuildMyViewsFromCharacterPresetData(CharacterPresetData data)
     {
         // Cache current preset
@@ -70,6 +54,9 @@ public class MenuCharacter : MonoBehaviour
 
         // Set name text
         SetPresetName(data.characterName);
+
+        // Set data
+        SetMyCharacterData(data);
 
         // Build model
         CharacterModelController.BuildModelFromCharacterPresetData(myModel, data);
@@ -83,6 +70,7 @@ public class MenuCharacter : MonoBehaviour
         // Set Description text
         MainMenuManager.Instance.BuildDescriptionTextCharacterPresetData(this, data);
     }
+   
     #endregion
 
     // Mouse + Button Click Events
@@ -149,6 +137,10 @@ public class MenuCharacter : MonoBehaviour
     public void SetPresetName(string newName)
     {
         presetNameText.text = newName;
+    }
+    public void SetMyCharacterData(CharacterPresetData data)
+    {
+        myPreset = data;
     }
     #endregion
 }

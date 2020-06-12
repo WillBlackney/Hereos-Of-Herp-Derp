@@ -148,7 +148,7 @@ public class Defender : LivingEntity
         DefenderManager.Instance.allDefenders.Add(this);
 
         // Set name
-        myName = myCharacterData.myClass;
+        myName = myCharacterData.myName;
 
         // Auto Get+Set World camera for UI canvas (helps with performance)
         myUIParent.GetComponent<Canvas>().worldCamera = CameraManager.Instance.unityCamera.mainCamera;
@@ -165,7 +165,7 @@ public class Defender : LivingEntity
     public override void SetBaseProperties()
     {
         // Build view model
-        CharacterModelController.BuildModelFromPresetString(myModel, myCharacterData.myClass);
+        CharacterModelController.BuildModelFromModelClone(myModel, myCharacterData.myCharacterModel);
 
         // Get and build from relevant character data values
         RunSetupFromCharacterData();

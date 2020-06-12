@@ -46,8 +46,16 @@ public class TreasureRoomManager : MonoBehaviour
     public void EnableTreasureRoomView()
     {
         //canvasParent.SetActive(true);
-        visualParent.SetActive(true);
+        visualParent.SetActive(true);        
+        RebuildAllModels();
         IdleAllCharacterAnims();
+    }
+    public void RebuildAllModels()
+    {
+        foreach(TreasureRoomCharacter character in allCharacterSlots)
+        {
+            CharacterModelController.BuildModelFromModelClone(character.myModel, character.myCharacterData.myCharacterModel);
+        }
     }
     public void DisableTreasureRoomView()
     {

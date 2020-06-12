@@ -96,12 +96,21 @@ public class StoryEventManager : MonoBehaviour
             actionButtonThree.SetUpMyComponents(storyEvent.actionButtonThreeName, storyEvent.actionButtonThreeDescription);
             actionButtonThree.gameObject.SetActive(true);
         }
+
+        RebuildAllModels();
     }
     public void ResetStoryEventWindow()
     {
         ClearAllAwaitingOrders();
         HideAllActionButtons();
         DisableContinueButton();
+    }
+    public void RebuildAllModels()
+    {
+        foreach (StoryWindowCharacterSlot character in allCharacterSlots)
+        {
+            CharacterModelController.BuildModelFromModelClone(character.myModel, character.myCharacterData.myCharacterModel);
+        }
     }
     public StoryEventDataSO GetRandomViableStoryEventData()
     {

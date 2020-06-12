@@ -10,7 +10,7 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.SetModelScale() called...");
         model.scalingParent.localScale = new Vector3(newScale, newScale, newScale);
-    }
+    }    
     public static void BuildModelFromPresetString(UniversalCharacterModel model, string preset)
     {
         Debug.Log("CharacterModelController.BuildModelFromPresetString() called, preset string: " + preset);
@@ -194,6 +194,21 @@ public static class CharacterModelController
         else if (preset == "Dark Elf Ranger")
         {
             SetUpAsDarkElfRangerPreset(model);
+        }
+    }
+    public static void BuildModelFromModelClone(UniversalCharacterModel modelToBuild, UniversalCharacterModel modelClonedFrom)
+    {
+        Debug.Log("CharacterModelController.BuildModelFromModelClone() called...");
+
+        CompletelyDisableAllViews(modelToBuild);
+        ClearAllActiveBodyPartReferences(modelToBuild);
+
+        foreach(UniversalCharacterModelElement ele in modelClonedFrom.allModelElements)
+        {
+            if (ele.gameObject.activeSelf)
+            {
+                EnableAndSetElementOnModel(modelToBuild, ele);
+            }
         }
     }
     public static void BuildModelFromCharacterPresetData(UniversalCharacterModel model, CharacterPresetData data)
@@ -1415,21 +1430,4 @@ public static class CharacterModelController
         return elementReturned;
     }
 
-    // Build Models
-    public static void BuildCharacterModelFromCharacterPresetData(UniversalCharacterModel model, CharacterPresetData data)
-    {
-        foreach(ModelElementData elementData in data.activeModelElements)
-        {
-            // find a gameobject view with a name that matches the data object
-            foreach(UniversalCharacterModelElement modelElement in model.allModelElements)
-            {
-                if(modelElement.gameObject.name == elementData.elementName)
-                {
-                    // match found, enable and set, then break loop
-                    EnableAndSetElementOnModel(model, modelElement);
-                    break;
-                }
-            }
-        }
-    }
 }

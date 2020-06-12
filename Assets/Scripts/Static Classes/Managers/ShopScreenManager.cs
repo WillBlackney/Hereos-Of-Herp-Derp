@@ -261,6 +261,22 @@ public class ShopScreenManager : MonoBehaviour
         PopulateItemSlots();
         PopulateConsumableSlots();
         PopulateAbilityTomeSlots();
+        RebuildAllModels();
+    }
+    public void RebuildAllModels()
+    {
+        List<VillageCharacter> allCharacterSlots = new List<VillageCharacter>
+        {
+            characterOne,
+            characterTwo,
+            characterThree,
+            characterFour
+        };
+
+        foreach (VillageCharacter character in allCharacterSlots)
+        {
+            CharacterModelController.BuildModelFromModelClone(character.myModel, character.myCharacterData.myCharacterModel);
+        }
     }
     public void PopulateItemSlots()
     {

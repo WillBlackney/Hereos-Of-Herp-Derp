@@ -101,6 +101,11 @@ namespace Spriter2UnityDX {
 			RefreshRenders ();
             myEntity = GetComponentInParent<LivingEntity>();
 		}
+		private void Start()
+		{
+			int refreshValue = SortingOrder;
+			SortingOrder = refreshValue;
+		}
 
 		private void OnEnable () {
 			DoForAll (x => x.enabled = true);
@@ -120,6 +125,8 @@ namespace Spriter2UnityDX {
 			var length = updaters.Length;
 			for (var i = 0; i < length; i++) updaters [i].SpriteCount = length;
 			_first = null;
+
+			Debug.Log("EntityRenderer.RefreshRenders() found " + renderers.Length + " sprite renderers on its UC Model...");
 		}
 
         public void SetDeathAnimationAsFinished()

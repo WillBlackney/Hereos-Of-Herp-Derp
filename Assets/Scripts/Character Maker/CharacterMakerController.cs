@@ -93,6 +93,12 @@ public class CharacterMakerController : MonoBehaviour
         Debug.Log("CharacterMakerController.OnSaveCharacterButtonClicked() called...");
         StartCharacterSaveProcess();
     }
+    public void OnLoadCharacterButtonClicked()
+    {
+        Debug.Log("CharacterMakerController.OnLoadCharacterButtonClicked() called...");
+        MainMenuManager.Instance.EnableLoadPresetWindow();
+        MainMenuManager.Instance.PopulateLoadPresetWindow();
+    }
     public void OnBackToMainMenuButtonClicked()
     {
         Debug.Log("CharacterMakerController.OnCharacterMakerButtonClicked() called...");
@@ -582,6 +588,9 @@ public class CharacterMakerController : MonoBehaviour
     {
         Debug.Log("CharacterMakerController.SaveWeaponDataToCharacterPresetFile() called...");
 
+        // Save weapon data set
+        charData.weaponSetData = currentWeaponPreset;
+
         // Main hand weapon
         if (currentWeaponPreset.mainHandWeapon)
         {
@@ -627,6 +636,22 @@ public class CharacterMakerController : MonoBehaviour
 
         // Build passives second
         foreach (StatusPairing passiveData in data.passives)
+        {
+            BuildAbilityTabFromPassiveData(passiveData.statusData, passiveData.statusStacks);
+        }
+    }
+    private void BuildAllAbilityTabsFromCharacterPresetData(CharacterPresetData data)
+    {
+        Debug.Log("CharacterMakerController.BuildAllAbilityTabsFromCharacterPresetData() called, building from " + data.characterName);
+
+        // Build abilities first
+        foreach (AbilityDataSO abilityData in data.knownAbilities)
+        {
+            BuildAbilityTabFromAbilityData(abilityData);
+        }
+
+        // Build passives second
+        foreach (StatusPairing passiveData in data.knownPassives)
         {
             BuildAbilityTabFromPassiveData(passiveData.statusData, passiveData.statusStacks);
         }
@@ -695,7 +720,7 @@ public class CharacterMakerController : MonoBehaviour
             }
         }
 
-    }
+    }    
     private void BuildAbilityTabFromAbilityData(AbilityDataSO data)
     {
         Debug.Log("CharacterMakerController.BuildAbilityTabFromAbilityData() called, building from: " + data.abilityName);
@@ -743,6 +768,17 @@ public class CharacterMakerController : MonoBehaviour
         Debug.Log("CharacterMakerController.BuildAbilityTabsFromClassPresetData() called, building from " + data.classPresetName);
 
         foreach(TalentPairing talentPair in data.talents)
+        {
+            AddTalentPairingToPersistentList(new TalentPairing(talentPair.talentType, talentPair.talentStacks));
+            BuildTalentTextTabFromTalentPairing(talentPair);
+        }
+
+    }
+    private void BuildAllTalentTextTabsFromCharacterPresetData(CharacterPresetData data)
+    {
+        Debug.Log("CharacterMakerController.BuildAllTalentTextTabsFromCharacterPresetData() called, building from " + data.characterName);
+
+        foreach (TalentPairing talentPair in data.knownTalents)
         {
             AddTalentPairingToPersistentList(new TalentPairing(talentPair.talentType, talentPair.talentStacks));
             BuildTalentTextTabFromTalentPairing(talentPair);
@@ -923,6 +959,36 @@ public class CharacterMakerController : MonoBehaviour
         bgReturned = (CharacterData.Background)previousIndex;
 
         return bgReturned;
+    }
+    #endregion
+
+    // Load Preset Data Logic
+    #region
+    public void BuildAllTabsAndViewsFromCharacterPresetData(CharacterPresetData data)
+    {
+        // Flush old data and views
+        DisableAllAbilityTabs();
+        DisableAllTalentTextTabs();
+        ClearAllTalentPairings();
+
+        // Load name
+        characterNameText.text = data.characterName;
+
+        // Load backgrounds
+        SetCharacterBackgroundOne(data.backgrounds[0]);
+        SetCharacterBackgroundTwo(data.backgrounds[1]);
+
+        // Load Model Data
+        CharacterModelController.BuildModelFromCharacterPresetData(characterModel, data);
+
+        // Build ability + passive tabs
+        BuildAllAbilityTabsFromCharacterPresetData(data);
+
+        // Build Talent views
+        BuildAllTalentTextTabsFromCharacterPresetData(data);
+
+        // Load Weapon data
+        BuildWeaponTabFromWeaponPresetData(data.weaponSetData);        
     }
     #endregion
 

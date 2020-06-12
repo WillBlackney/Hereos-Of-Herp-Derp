@@ -133,11 +133,28 @@ public class MainMenuManager : MonoBehaviour
 
         // Set Properties
         List<MenuCharacter> allCharacters = new List<MenuCharacter> { characterOne, characterTwo, characterThree, characterFour };
-        List<string> chosenClasses = new List<string>();
+        List<CharacterPresetData> chosenClasses = new List<CharacterPresetData>();
 
         // add chosen menu characters names as strings to list
         foreach(MenuCharacter character in allCharacters)
         {
+            // randomize presets for characters marked as random
+            if (character.myPreset.characterName == "Random")
+            {
+                // Get random class
+                character.myPreset = CharacterPresetLibrary.Instance.GetRandomOriginCharacter();
+
+                // re roll class if player has it already, prevent duplicate character when randomizing team
+                while (chosenClasses.Contains(character.myPreset))
+                {
+                    Debug.Log("MainMenuManager detected that player already has " + character.myPreset.characterName +
+                        " in their team, rerolling for random character again...");
+                    character.myPreset = CharacterPresetLibrary.Instance.GetRandomOriginCharacter();
+                }
+            }
+            chosenClasses.Add(character.myPreset);
+
+            /*
             // randomize presets for characters marked as random
             if(character.myPresetName == "Random")
             {
@@ -153,12 +170,13 @@ public class MainMenuManager : MonoBehaviour
                 }
             }
             chosenClasses.Add(character.myPresetName);
+            */
         }
 
         // store selected preset data between scene change
-        foreach (string characterName in chosenClasses)
+        foreach (CharacterPresetData character in chosenClasses)
         {
-            SceneChangeDataStorage.Instance.chosenCharacters.Add(characterName);
+            SceneChangeDataStorage.Instance.chosenCharacters.Add(character);
         }
 
         // Enable loading screen
@@ -856,8 +874,17 @@ public class MainMenuManager : MonoBehaviour
     }
     public void OnLoadPresetButtonClicked(LoadPresetButton button)
     {
-        // Build active menu character
-        selectedMenuCharacter.BuildMyViewsFromCharacterPresetData(button.presetData);
+        // build into char maker screen or team maker screen?
+        if(CharacterMakerController.Instance.mainVisualParent.activeSelf == true)
+        {
+            // build into char maker screen character
+            CharacterMakerController.Instance.BuildAllTabsAndViewsFromCharacterPresetData(button.presetData);
+        }
+        else
+        {
+            // Build into active menu character
+            selectedMenuCharacter.BuildMyViewsFromCharacterPresetData(button.presetData);
+        }        
 
         // Clear active preset buttons
         DestroyAllLoadPresetButtons();

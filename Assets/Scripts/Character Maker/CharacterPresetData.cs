@@ -22,6 +22,9 @@ public class CharacterPresetData
     public ItemDataSO mhWeapon;
     public ItemDataSO ohWeapon;
 
+    // Weapon set (only for loading into char maker screen!)
+    public WeaponPresetDataSO weaponSetData;
+
     // Constructors
     public CharacterPresetData()
     {
