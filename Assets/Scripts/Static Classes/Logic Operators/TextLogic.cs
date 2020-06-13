@@ -833,8 +833,8 @@ public static class TextLogic
         else if (ability.abilityName == "Move")
         {
             ability.abilityInfoSheet.descriptionText.text =
-                ReturnColoredText("Move", yellow) + " to a tile within " + ReturnColoredText(EntityLogic.GetTotalMobility(entity).ToString(), blueNumber
-                + " of your current position");
+                ReturnColoredText("Move", yellow) + " to a tile within " + ReturnColoredText(EntityLogic.GetTotalMobility(entity).ToString(), blueNumber)
+                + " of your current position";
         }
         else if (ability.abilityName == "Defend")
         {

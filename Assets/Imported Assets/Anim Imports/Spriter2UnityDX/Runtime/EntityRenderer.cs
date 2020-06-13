@@ -6,6 +6,8 @@ namespace Spriter2UnityDX {
 	[DisallowMultipleComponent, ExecuteInEditMode, AddComponentMenu("")]
 	public class EntityRenderer : MonoBehaviour
     {
+		public enum MaskInteractionn { None, VisibleInsideMask, VisibleOutsideMask};
+
         [SerializeField] public LivingEntity myEntity;
 		private SpriteRenderer[] renderers = new SpriteRenderer [0];
 		private SortingOrderUpdater[] updaters = new SortingOrderUpdater [0];
@@ -49,23 +51,24 @@ namespace Spriter2UnityDX {
 			}
 		}
 
-		[SerializeField, HideInInspector] private bool visibleWithinMask = false;
+		[SerializeField, HideInInspector] private bool visibleOutsideMask;
 		public bool VisibleWithinMask
 		{
-			get { return visibleWithinMask; }
+			get { return visibleOutsideMask; }
 			set
 			{
-				visibleWithinMask = value;
-
-				if (visibleWithinMask)
+				visibleOutsideMask = value;
+				
+				if (visibleOutsideMask)
 				{
-					DoForAll(x => x.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask);
+					DoForAll(x => x.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleOutsideMask);
 				}
 				else
 				{
 					DoForAll(x => x.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.None);
 				}
 				
+
 			}
 		}
 

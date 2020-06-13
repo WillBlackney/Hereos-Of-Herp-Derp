@@ -203,13 +203,14 @@ public static class CharacterModelController
         CompletelyDisableAllViews(modelToBuild);
         ClearAllActiveBodyPartReferences(modelToBuild);
 
-        foreach(UniversalCharacterModelElement ele in modelClonedFrom.allModelElements)
+        for(int index = 0; index < modelClonedFrom.allModelElements.Count -1; index++)
         {
-            if (ele.gameObject.activeSelf)
+            if (modelClonedFrom.allModelElements[index].gameObject.activeSelf)
             {
-                EnableAndSetElementOnModel(modelToBuild, ele);
+                EnableAndSetElementOnModel(modelToBuild, modelToBuild.allModelElements[index]);
             }
         }
+
     }
     public static void BuildModelFromCharacterPresetData(UniversalCharacterModel model, CharacterPresetData data)
     {
