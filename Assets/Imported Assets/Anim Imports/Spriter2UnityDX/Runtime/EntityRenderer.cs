@@ -11,7 +11,7 @@ namespace Spriter2UnityDX {
         [SerializeField] public LivingEntity myEntity;
 		private SpriteRenderer[] renderers = new SpriteRenderer [0];
 		private SortingOrderUpdater[] updaters = new SortingOrderUpdater [0];
-		private SpriteRenderer _first;
+		private SpriteRenderer _first; 
 		private SpriteRenderer first {
 			get {
 				if (_first == null && renderers.Length > 0)
@@ -46,8 +46,13 @@ namespace Spriter2UnityDX {
 				sortingOrder = value;
 				if (applySpriterZOrder)
 					for (var i = 0; i < updaters.Length; i++)
-						updaters [i].SortingOrder = value;
-				else DoForAll (x => x.sortingOrder = value + x.GetComponent<UniversalCharacterModelElement>().sortingOrderBonus);
+						updaters[i].SortingOrder = value;
+				else
+				{
+					DoForAll(x => x.sortingOrder = value + x.GetComponent<UniversalCharacterModelElement>().sortingOrderBonus);
+					UniversalCharacterModel myUCM = GetComponent<UniversalCharacterModel>();
+					CharacterModelController.AutoSetHeadMaskOrderInLayer(myUCM);
+				}
 			}
 		}
 
@@ -102,7 +107,7 @@ namespace Spriter2UnityDX {
 
 		private void Awake () {
 			RefreshRenders ();
-            myEntity = GetComponentInParent<LivingEntity>();
+            //myEntity = GetComponentInParent<LivingEntity>();
 		}
 		private void Start()
 		{
@@ -129,7 +134,6 @@ namespace Spriter2UnityDX {
 			for (var i = 0; i < length; i++) updaters [i].SpriteCount = length;
 			_first = null;
 
-			Debug.Log("EntityRenderer.RefreshRenders() found " + renderers.Length + " sprite renderers on its UC Model...");
 		}
 
         public void SetDeathAnimationAsFinished()

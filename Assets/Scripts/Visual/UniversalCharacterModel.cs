@@ -9,6 +9,7 @@ public class UniversalCharacterModel : MonoBehaviour
 
     [Header("All Model Element References")]
     public List<UniversalCharacterModelElement> allModelElements;
+    public List<SpriteMask> allHeadWearSpriteMasks;
 
     // NEW Properties + Component References
     [Header("Active Body Part References")]
@@ -490,7 +491,13 @@ public class UniversalCharacterModel : MonoBehaviour
     public GameObject simpleShieldOH;
 
     #endregion
-    
+
+    private void Start()
+    {
+        CharacterModelController.AutoSetHeadMaskOrderInLayer(this);
+    }
+
+
     // Animation Logic
     #region    
     public void SetDeathAnimAsFinished()

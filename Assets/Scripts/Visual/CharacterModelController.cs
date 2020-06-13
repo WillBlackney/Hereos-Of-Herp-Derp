@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Spriter2UnityDX;
 
 public static class CharacterModelController
 {
@@ -428,6 +429,18 @@ public static class CharacterModelController
         if (model.activeOffHandWeapon)
         {
             model.activeOffHandWeapon.gameObject.SetActive(false);
+        }
+    }
+    public static void AutoSetHeadMaskOrderInLayer(UniversalCharacterModel model)
+    {
+        Debug.Log("CharacterModelController.AutoSetHeadMaskOrderInLayer() called...");
+
+        int headSortOrder = model.GetComponent<EntityRenderer>().SortingOrder + 10;
+
+        foreach(SpriteMask mask in model.allHeadWearSpriteMasks)
+        {
+            mask.frontSortingOrder = headSortOrder;
+            mask.backSortingOrder = headSortOrder - 1;
         }
     }
     #endregion
