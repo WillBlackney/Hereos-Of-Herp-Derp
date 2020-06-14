@@ -707,6 +707,29 @@ public class MainMenuManager : MonoBehaviour
             nextFreeTextIndex++;
         }
     }
+    public void BuildBackgroundTextsFromCharacterPresetData(MenuCharacter character, CharacterPresetData data)
+    {
+        Debug.Log("MainMenuManager.BuildBackgroundTextsFromCharacterPresetData() called...");        
+
+        // disable all text first
+        character.backgroundTextOne.gameObject.SetActive(false);
+        character.backgroundTextTwo.gameObject.SetActive(false);
+
+        List<TextMeshProUGUI> textViews = new List<TextMeshProUGUI>()
+        {
+            character.backgroundTextOne,
+            character.backgroundTextTwo
+        };
+
+        int nextFreeTextIndex = 0;
+
+        foreach (CharacterData.Background bg in data.backgrounds)
+        {
+            textViews[nextFreeTextIndex].gameObject.SetActive(true);
+            textViews[nextFreeTextIndex].text = bg.ToString();
+            nextFreeTextIndex++;
+        }
+    }
     public void BuildDescriptionText(MenuCharacter character)
     {
         Debug.Log("MainMenuManager.BuildDescriptionText() called...");

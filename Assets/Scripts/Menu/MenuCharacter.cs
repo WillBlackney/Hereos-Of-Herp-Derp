@@ -21,6 +21,8 @@ public class MenuCharacter : MonoBehaviour
     public TextMeshProUGUI attributeOneText;
     public TextMeshProUGUI attributeTwoText;
     public TextMeshProUGUI attributeThreeText;
+    public TextMeshProUGUI backgroundTextOne;
+    public TextMeshProUGUI backgroundTextTwo;
 
     [Header("GUI References")]
     public Button previousPresetButton;
@@ -54,6 +56,9 @@ public class MenuCharacter : MonoBehaviour
 
         // Set name text
         SetPresetName(data.characterName);
+
+        // Set background texts
+        MainMenuManager.Instance.BuildBackgroundTextsFromCharacterPresetData(this, data);
 
         // Set data
         SetMyCharacterData(data);
