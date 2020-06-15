@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ca509f12a979245a983cd4130bc8a9, type: 3}
+  m_Name: Battle Mage
+  m_EditorClassIdentifier: 
+  classPresetName: Battle Mage
+  talents:
+  - talentType: 5
+    talentStacks: 2
+  - talentType: 1
+    talentStacks: 1
+  abilities:
+  - {fileID: 11400000, guid: d52180f781bcf9949a669b228d22bb87, type: 2}
+  - {fileID: 11400000, guid: 363e6eed6f30a6e46a006452c2e6e419, type: 2}
+  - {fileID: 11400000, guid: f5ed85b331cfd4a49bf05dae4b12931a, type: 2}
+  passives:
+  - statusData: {fileID: 11400000, guid: b388f508e0c68fc47b82ec4916a5bb9b, type: 2}
+    statusStacks: 3
+  weaponPreset: {fileID: 11400000, guid: 68e6be7f5ebfb8241ac1426339b43ce0, type: 2}

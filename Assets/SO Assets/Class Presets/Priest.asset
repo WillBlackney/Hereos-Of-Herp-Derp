@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ca509f12a979245a983cd4130bc8a9, type: 3}
+  m_Name: Priest
+  m_EditorClassIdentifier: 
+  classPresetName: Priest
+  talents:
+  - talentType: 9
+    talentStacks: 3
+  abilities:
+  - {fileID: 11400000, guid: 82ddcd64ddf3ca140999726a9c18ff2b, type: 2}
+  - {fileID: 11400000, guid: 6ec98f36f9ab6484ebc9830b3be7e9ba, type: 2}
+  - {fileID: 11400000, guid: 5e19fa078efcd0047a58d656c62283bb, type: 2}
+  passives:
+  - statusData: {fileID: 11400000, guid: bf092257da264ff4888c4109f7ce0f6f, type: 2}
+    statusStacks: 10
+  weaponPreset: {fileID: 11400000, guid: 48d190f6629c5e549a438b80e3bf7628, type: 2}
