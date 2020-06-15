@@ -5,8 +5,9 @@ using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    public enum Location { None, EditAbilityScreen};
     // Properties + Component References
     #region
     [Header("Sheet Component References")]
@@ -18,6 +19,7 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public Image passiveImage;
 
     [Header("Properties")]
+    public Location location;
     public AbilityDataSO myAbilityData;
     public StatusIconDataSO myPassiveData;
     public bool isAbility;
@@ -42,6 +44,10 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         AbilityInfoSheetController.Instance.DisableSheetView(abilityInfoSheet);
         PassiveInfoSheetController.Instance.DisableSheetView(passiveInfoSheet);
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log("MenuAbilityTab.OnPointerClick() called...");
     }
     #endregion
 
@@ -91,6 +97,8 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         passiveImage.sprite = data.statusSprite;
         PassiveInfoSheetController.Instance.BuildSheetFromData(passiveInfoSheet, data, stacks, PassiveInfoSheet.PivotDirection.Upwards);
     }
+
+ 
     #endregion
 
 }

@@ -5,6 +5,7 @@ public class StatusIconLibrary : MonoBehaviour
 {
     [Header("Properties")]
     public List<StatusIconDataSO> allIcons;
+    public List<StatusPairingDataSO> allStatusPairingData;    
 
     // Initialization + Singleton Pattern
     #region
@@ -47,8 +48,25 @@ public class StatusIconLibrary : MonoBehaviour
 
         return iconReturned;
     }
+    public List <StatusPairingDataSO> GetAllStatusPairingsFromTalentSchool(AbilityDataSO.AbilitySchool school, int maxTierLimit)
+    {
+        List<StatusPairingDataSO> dataReturned = new List<StatusPairingDataSO>();
+
+        foreach (StatusPairingDataSO ability in allStatusPairingData)
+        {
+            if (ability.abilitySchool == school && ability.tier <= maxTierLimit)
+            {
+                dataReturned.Add(ability);
+            }
+        }
+
+        Debug.Log("StatusIconLibrary.GetAllStatusPairingsFromTalentSchool() found " + dataReturned.Count.ToString() + " " +
+            school.ToString() + " abilities at tier " + maxTierLimit.ToString() + " or lower");
+
+        return dataReturned;
+    }
     #endregion
 
-    
-    
+
+
 }

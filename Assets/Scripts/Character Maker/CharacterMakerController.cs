@@ -15,6 +15,8 @@ public class CharacterMakerController : MonoBehaviour
     public GameObject originPanelParent;
     public GameObject appearancePanelParent;
     public GameObject presetPanelParent;
+    public GameObject editAbilitiesParent;
+    public List<MenuAbilityTab> editAbilityButtons;
 
     [Header("Origin Tab Component References")]
     public TextMeshProUGUI characterNameText;
@@ -378,6 +380,18 @@ public class CharacterMakerController : MonoBehaviour
     {
         Debug.Log("CharacterMakerController.OnPreviousWeaponPresetButtonClicked() called...");
         BuildWeaponTabFromWeaponPresetData(GetPreviousWeaponPreset());
+    }
+    public void OnEditAbilitiesButtonClicked()
+    {
+        presetPanelParent.SetActive(false);
+        editAbilitiesParent.SetActive(true);
+
+        PopulateEditAbilityButtons();
+    }
+    public void OnEditAbilitiesBackButtonClicked()
+    {
+        presetPanelParent.SetActive(true);
+        editAbilitiesParent.SetActive(false);
     }
     #endregion
     #endregion
@@ -792,6 +806,47 @@ public class CharacterMakerController : MonoBehaviour
     private void AddTalentPairingToPersistentList(TalentPairing talentPairing)
     {
         allTalentPairings.Add(talentPairing);
+    }
+
+    // Edit Ability Button Logic
+    public void PopulateEditAbilityButtons()
+    {
+        Debug.Log("CharacterMakerController.PopulateEditAbilityButtons() called...");
+
+        DisableAllEditAbilityButtons();
+
+        List<AbilityDataSO> validAbilities = new List<AbilityDataSO>();
+        List<StatusPairingDataSO> validPassives = new List<StatusPairingDataSO>();
+
+        foreach(TalentPairing tp in allTalentPairings)
+        {
+            validAbilities.AddRange(AbilityLibrary.Instance.GetAllAbilitiesFromTalentSchool(tp.talentType, tp.talentStacks));
+            validPassives.AddRange()
+        }
+
+        for(int index = 0; index < validAbilities.Count -1; index++)
+        {            
+            BuildEditAbilityTabFromAbilityData(validAbilities[index], editAbilityButtons[index]);
+        }
+    }
+    public void ClearAllEditAbilityButtons()
+    {
+        Debug.Log("CharacterMakerController.ClearAllEditAbilityButtons() called...");
+    }
+    public void DisableAllEditAbilityButtons()
+    {
+        Debug.Log("CharacterMakerController.DisableAllEditAbilityButtons() called...");
+
+        foreach(MenuAbilityTab eButton in editAbilityButtons)
+        {
+            eButton.gameObject.SetActive(false);
+        }
+    }
+    private void BuildEditAbilityTabFromAbilityData(AbilityDataSO data, MenuAbilityTab tab)
+    {
+        tab.gameObject.SetActive(true);
+
+        tab.SetUpAbilityTabAsAbility(data);
     }
 
     #endregion

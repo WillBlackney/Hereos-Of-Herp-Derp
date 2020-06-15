@@ -89,6 +89,26 @@ public class AbilityLibrary : MonoBehaviour
         Debug.Log("AbilityLibrary.GetRandomValidAbilityTomeAbility() returning " + dataReturned.abilityName);
         return dataReturned;
     }
+    public List<AbilityDataSO> GetAllAbilitiesFromTalentSchool(AbilityDataSO.AbilitySchool school, int tierMaxLimit)
+    {
+        Debug.Log("AbilityLibrary.GetAllAbilitiesFromTalentSchool() called...");
+
+        List<AbilityDataSO> dataReturned = new List<AbilityDataSO>();
+
+        foreach(AbilityDataSO ability in AllAbilities)
+        {
+            if(ability.abilitySchool == school && ability.tier <= tierMaxLimit)
+            {
+                dataReturned.Add(ability);
+            }
+        }
+
+        Debug.Log("AbilityLibrary.GetAllAbilitiesFromTalentSchool() found " + dataReturned.Count.ToString() + " " +
+            school.ToString() + " abilities at tier " + tierMaxLimit.ToString() + " or lower");
+
+        return dataReturned;
+
+    }
     #endregion
 
 }
