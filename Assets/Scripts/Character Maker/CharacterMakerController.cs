@@ -414,6 +414,7 @@ public class CharacterMakerController : MonoBehaviour
     {
         SetPresetPanelViewState(true);
         editTalentsParent.SetActive(false);
+        BuildTalentPairingsFromTalentChangeButtons();
     }
     public void OnTalentPointPlusButtonClicked(TalentChangeButton tButton)
     {
@@ -888,6 +889,67 @@ public class CharacterMakerController : MonoBehaviour
                 }
             }
         }
+    }     
+    private void BuildTalentPairingsFromTalentChangeButtons()
+    {
+        // Remove previous talent pairing data, disable text views
+        DisableAllTalentTextTabs();
+        ClearAllTalentPairings();
+
+        // Rebuild talent parents
+        foreach (TalentChangeButton tcButton in allTalentChangeButtons)
+        {
+            if(tcButton.talentTierCount > 0)
+            {
+                TalentPairing tcp = new TalentPairing(tcButton.talentSchool, tcButton.talentTierCount);
+                AddTalentPairingToPersistentList(tcp);
+                BuildTalentTextTabFromTalentPairing(tcp);
+            }            
+        }
+
+        // Check if any abilities/passive selections no longer meet their talent requirements
+        UpdateAbilitiesAfterTalentChange();
+    }
+    private void UpdateAbilitiesAfterTalentChange()
+    {
+        Debug.Log("CharacterMakerController.UpdateAbilitiesAfterTalentChange() called...");
+
+        foreach(MenuAbilityTab tab in allActiveAbilityTabs)
+        {
+            bool removeTab = true;
+
+            foreach(TalentPairing tp in allTalentPairings)
+            {
+                // Abilities
+                if (tab.myAbilityData != null &&
+                    tab.myAbilityData.abilitySchool == tp.talentType && 
+                    tab.myAbilityData.tier <= tp.talentStacks
+                    )
+                {
+                    removeTab = false;
+                }
+
+                // Passives
+                else if (tab.myPassiveData != null)
+                {
+                    StatusPairingDataSO status = StatusIconLibrary.Instance.GetStatusPairingByName(tab.myPassiveData.statusName);
+                    if(status.abilitySchool == tp.talentType &&
+                    status.tier <= tp.talentStacks)
+                    {
+                        removeTab = false;
+                    }
+                    
+                }
+            }
+
+            // Talent + tier requirements of passive/ability no longer met, remove it
+            if (removeTab)
+            {
+                tab.gameObject.SetActive(false);
+                tab.myPassiveData = null;
+                tab.myAbilityData = null;
+            }
+        }
     }
     private void ClearAllTalentPairings()
     {
@@ -977,6 +1039,7 @@ public class CharacterMakerController : MonoBehaviour
         foreach(MenuAbilityTab eButton in editAbilityButtons)
         {
             eButton.gameObject.SetActive(false);
+            eButton.DisableGlowOutline();
         }
     }
     private void BuildEditAbilityTabFromAbilityData(AbilityDataSO data, MenuAbilityTab tab)
