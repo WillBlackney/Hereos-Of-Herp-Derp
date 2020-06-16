@@ -16,6 +16,7 @@ public class CharacterMakerController : MonoBehaviour
     public GameObject appearancePanelParent;
     public GameObject presetPanelParent;
     public GameObject editAbilitiesParent;
+    public GameObject editTalentsParent;
     public List<MenuAbilityTab> editAbilityButtons;
 
     [Header("Origin Tab Component References")]
@@ -28,7 +29,11 @@ public class CharacterMakerController : MonoBehaviour
     public TextMeshProUGUI currentClassPresetText;
     public TextMeshProUGUI currentWeaponPresetText;
     public List<TextMeshProUGUI> allTalentTextTabs;
-    public List<MenuAbilityTab> allAbilityTabs;
+    public List<MenuAbilityTab> allActiveAbilityTabs;
+
+    [Header("Temp Ability Data Properties")]
+    public List<AbilityDataSO> tempAbilities;
+    public List<StatusIconDataSO> tempPassives;
 
     [Header("Model Component References")]
     public UniversalCharacterModel characterModel;
@@ -383,6 +388,8 @@ public class CharacterMakerController : MonoBehaviour
     }
     public void OnEditAbilitiesButtonClicked()
     {
+        ClearAllDataFromInactiveAbilityTabs();
+
         presetPanelParent.SetActive(false);
         editAbilitiesParent.SetActive(true);
 
@@ -390,8 +397,20 @@ public class CharacterMakerController : MonoBehaviour
     }
     public void OnEditAbilitiesBackButtonClicked()
     {
+        BuildAllAbilityTabsFromTempAbilityList();
+        ClearTempAbilityAndPassiveLists();
         presetPanelParent.SetActive(true);
         editAbilitiesParent.SetActive(false);
+    }
+    public void OnEditTalentsButtonClicked()
+    {
+        editAbilitiesParent.SetActive(false);
+        editTalentsParent.SetActive(true);
+    }
+    public void OnEditTalentsBackButtonClicked()
+    {
+        editAbilitiesParent.SetActive(true);
+        editTalentsParent.SetActive(false);
     }
     #endregion
     #endregion
@@ -430,12 +449,25 @@ public class CharacterMakerController : MonoBehaviour
         SetAppearancePanelViewState(false);
         SetPresetPanelViewState(false);
     }
-    public void DisableAllAbilityTabs()
+    public void DisableAllActiveAbilityTabs()
     {
-        foreach(MenuAbilityTab tab in allAbilityTabs)
+        foreach(MenuAbilityTab tab in allActiveAbilityTabs)
         {
             tab.gameObject.SetActive(false);
         }
+    }
+    public void ClearAllDataFromInactiveAbilityTabs()
+    {
+        Debug.Log("CharacterMakerController.ClearAllDataFromActiveAbilityTabs() called...");
+
+        foreach (MenuAbilityTab tab in allActiveAbilityTabs)
+        {
+            if (!tab.gameObject.activeSelf)
+            {
+                tab.myAbilityData = null;
+                tab.myPassiveData = null;
+            }            
+        }        
     }
     public void DisableAllTalentTextTabs()
     {
@@ -563,7 +595,7 @@ public class CharacterMakerController : MonoBehaviour
         Debug.Log("CharacterMakerController.SaveCombatDataToCharacterPresetFile() called...");
 
         // Add abilities
-        foreach (MenuAbilityTab ability in allAbilityTabs)
+        foreach (MenuAbilityTab ability in allActiveAbilityTabs)
         {
             if (ability.isAbility)
             {
@@ -626,7 +658,7 @@ public class CharacterMakerController : MonoBehaviour
     {
         Debug.Log("CharacterMakerController.BuildCharacterFromClassPresetData() called, building from " + data.classPresetName);
         // Flush old data and views
-        DisableAllAbilityTabs();
+        DisableAllActiveAbilityTabs();
         DisableAllTalentTextTabs();
         ClearAllTalentPairings();
 
@@ -654,6 +686,23 @@ public class CharacterMakerController : MonoBehaviour
             BuildAbilityTabFromPassiveData(passiveData.statusData, passiveData.statusStacks);
         }
     }
+    private void BuildAllAbilityTabsFromTempAbilityList()
+    {
+        Debug.Log("CharacterMakerController.BuildAllAbilityTabsFromTempAbilityList() called...");
+
+        // Build abilities first
+        foreach (AbilityDataSO abilityData in tempAbilities)
+        {
+            BuildAbilityTabFromAbilityData(abilityData);
+        }
+
+        // Build passives second
+        foreach (StatusIconDataSO passiveData in tempPassives)
+        {
+            StatusPairingDataSO sp = StatusIconLibrary.Instance.GetStatusPairingByName(passiveData.statusName);
+            BuildAbilityTabFromPassiveData(sp.statusData, sp.stacks);
+        }
+    }
     private void BuildAllAbilityTabsFromCharacterPresetData(CharacterPresetData data)
     {
         Debug.Log("CharacterMakerController.BuildAllAbilityTabsFromCharacterPresetData() called, building from " + data.characterName);
@@ -679,8 +728,7 @@ public class CharacterMakerController : MonoBehaviour
         textTab.gameObject.SetActive(true);
 
         // Set text
-        textTab.text = talentPair.talentType.ToString() + " +" + talentPair.talentStacks.ToString();
-        
+        textTab.text = talentPair.talentType.ToString() + " +" + talentPair.talentStacks.ToString();        
     }
     private void BuildWeaponTabFromWeaponPresetData(WeaponPresetDataSO data)
     {
@@ -809,11 +857,15 @@ public class CharacterMakerController : MonoBehaviour
     }
 
     // Edit Ability Button Logic
+    #region
     public void PopulateEditAbilityButtons()
     {
         Debug.Log("CharacterMakerController.PopulateEditAbilityButtons() called...");
 
         DisableAllEditAbilityButtons();
+        DisableAllActiveAbilityTabs();
+        ClearTempAbilityAndPassiveLists();
+        BuildTempAbilityAndPassiveLists();
 
         List<AbilityDataSO> validAbilities = new List<AbilityDataSO>();
         List<StatusPairingDataSO> validPassives = new List<StatusPairingDataSO>();
@@ -821,13 +873,56 @@ public class CharacterMakerController : MonoBehaviour
         foreach(TalentPairing tp in allTalentPairings)
         {
             validAbilities.AddRange(AbilityLibrary.Instance.GetAllAbilitiesFromTalentSchool(tp.talentType, tp.talentStacks));
-            validPassives.AddRange()
+            validPassives.AddRange(StatusIconLibrary.Instance.GetAllStatusPairingsFromTalentSchool(tp.talentType, tp.talentStacks));
         }
 
-        for(int index = 0; index < validAbilities.Count -1; index++)
-        {            
-            BuildEditAbilityTabFromAbilityData(validAbilities[index], editAbilityButtons[index]);
+        // set up abilities first
+        foreach(AbilityDataSO ability in validAbilities)
+        {
+            BuildEditAbilityTabFromAbilityData(ability, GetNextAvailableEditAbilityButton());
         }
+
+        // set up passives second
+        foreach (StatusPairingDataSO passive in validPassives)
+        {
+            BuildEditAbilityTabFromStatusPairingData(passive, GetNextAvailableEditAbilityButton());
+        }
+
+    }
+    public void BuildTempAbilityAndPassiveLists()
+    {
+        foreach(MenuAbilityTab tab in allActiveAbilityTabs)
+        {
+            if (tab.myAbilityData != null)
+            {
+                tempAbilities.Add(tab.myAbilityData);
+            }
+            else if (tab.myPassiveData != null)
+            {
+                tempPassives.Add(tab.myPassiveData);
+            }
+        }
+    }
+    public void ClearTempAbilityAndPassiveLists()
+    {
+        tempAbilities.Clear();
+        tempPassives.Clear();
+    }
+    public MenuAbilityTab GetNextAvailableEditAbilityButton()
+    {
+        Debug.Log("CharacterMakerController.GetNextAvailableEditAbilityButton() called...");
+
+        MenuAbilityTab tabReturned = null;
+        foreach(MenuAbilityTab tab in editAbilityButtons)
+        {
+            if(tab.gameObject.activeSelf == false)
+            {
+                tabReturned = tab;
+                break;
+            }
+        }
+
+        return tabReturned;
     }
     public void ClearAllEditAbilityButtons()
     {
@@ -847,8 +942,125 @@ public class CharacterMakerController : MonoBehaviour
         tab.gameObject.SetActive(true);
 
         tab.SetUpAbilityTabAsAbility(data);
-    }
 
+        if (HasCharacterAlreadyUnlockedAbilityOrPassiveFromMenuAbilityTab(tab))
+        {
+            tab.EnableGlowOutline();
+        }
+    }
+    private void BuildEditAbilityTabFromStatusPairingData(StatusPairingDataSO data, MenuAbilityTab tab)
+    {
+        tab.gameObject.SetActive(true);
+
+        tab.SetUpAbilityTabAsPassive(data.statusData, data.stacks);
+
+        if (HasCharacterAlreadyUnlockedAbilityOrPassiveFromMenuAbilityTab(tab))
+        {
+            tab.EnableGlowOutline();
+        }
+    }
+    public void HandleEditAbilityTabClicked(MenuAbilityTab tab)
+    {
+        Debug.Log("CharacterMakerController.HandleEditAbilityTabClicked() called...");
+
+        // try learn new ability/passive
+        if (!HasCharacterAlreadyUnlockedAbilityOrPassiveFromMenuAbilityTab(tab) &&
+            !HasCharacterLearntMaximumAbilitiesAndPassives())
+        {
+            if(tab.myAbilityData != null)
+            {
+                tempAbilities.Add(tab.myAbilityData);
+            }
+            else if(tab.myPassiveData != null)
+            {
+                tempPassives.Add(tab.myPassiveData);
+            }
+
+            tab.EnableGlowOutline();
+        }
+
+        // try UNLEARN new ability/passive
+        else if (HasCharacterAlreadyUnlockedAbilityOrPassiveFromMenuAbilityTab(tab) ||
+            HasCharacterLearntMaximumAbilitiesAndPassives())
+        {
+            if (tab.myAbilityData != null)
+            {
+                tempAbilities.Remove(tab.myAbilityData);
+            }
+            else if (tab.myPassiveData != null)
+            {
+                tempPassives.Remove(tab.myPassiveData);
+            }
+
+            tab.DisableGlowOutline();
+        }
+
+    }
+    public bool HasCharacterAlreadyUnlockedAbilityOrPassiveFromMenuAbilityTab(MenuAbilityTab editTab)
+    {
+        Debug.Log("CharacterMakerController.HasCharacterAlreadyUnlockedMenuAbilityTab() called...");
+
+        bool boolReturned = false;
+
+        foreach(AbilityDataSO ability in tempAbilities)
+        {
+            if(ability == editTab.myAbilityData)
+            {
+                boolReturned = true;
+            }
+        }
+
+        foreach(StatusIconDataSO passive in tempPassives)
+        {
+            if(passive == editTab.myPassiveData)
+            {
+                boolReturned = true;
+            }
+        }       
+
+        /*
+        // is status already on the active ability panel?
+        foreach (MenuAbilityTab ability in allActiveAbilityTabs)
+        {
+            if (ability.myPassiveData != null &&
+                ability.myPassiveData == editTab.myPassiveData)
+            {
+                boolReturned = true;
+            }
+            else if (ability.myAbilityData != null &&
+                ability.myAbilityData == editTab.myAbilityData)
+            {
+                boolReturned = true;
+            }
+        }
+        */
+
+        return boolReturned;
+    }
+    public bool HasCharacterLearntMaximumAbilitiesAndPassives()
+    {
+        Debug.Log("CharacterMakerController.HasCharacterLearntMaximumAbilitiesAndPassives() called...");
+        bool boolReturned = false;
+        int currentLearntAbilityCount = 0;
+
+        currentLearntAbilityCount += tempAbilities.Count;
+        currentLearntAbilityCount += tempPassives.Count;
+
+        if(currentLearntAbilityCount >= 4)
+        {
+            Debug.Log("CharacterMakerController.HasCharacterLearntMaximumAbilitiesAndPassives() detected character already knows 4 abilities");
+
+            boolReturned = true;
+        }
+        else
+        {
+            Debug.Log("CharacterMakerController.HasCharacterLearntMaximumAbilitiesAndPassives() detected character knows less than 4 abilities");
+            boolReturned = false;
+        }
+
+        return boolReturned;
+    }
+    #endregion
     #endregion
 
     // Get Next + Previous Data
@@ -859,7 +1071,7 @@ public class CharacterMakerController : MonoBehaviour
 
         MenuAbilityTab tabReturned = null;
 
-        foreach (MenuAbilityTab tab in allAbilityTabs)
+        foreach (MenuAbilityTab tab in allActiveAbilityTabs)
         {
             if (tab.gameObject.activeSelf == false)
             {
@@ -1022,7 +1234,7 @@ public class CharacterMakerController : MonoBehaviour
     public void BuildAllTabsAndViewsFromCharacterPresetData(CharacterPresetData data)
     {
         // Flush old data and views
-        DisableAllAbilityTabs();
+        DisableAllActiveAbilityTabs();
         DisableAllTalentTextTabs();
         ClearAllTalentPairings();
 

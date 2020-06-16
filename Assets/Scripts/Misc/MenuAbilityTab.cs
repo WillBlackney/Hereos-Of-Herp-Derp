@@ -18,6 +18,10 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public Image abilityImage;
     public Image passiveImage;
 
+    [Header("Misc Component References")]
+    public GameObject purchasedOverlayParent;
+    public GameObject mouseOverOverlayParent;
+
     [Header("Properties")]
     public Location location;
     public AbilityDataSO myAbilityData;
@@ -39,15 +43,29 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             PassiveInfoSheetController.Instance.EnableSheetView(passiveInfoSheet, true, true);
         }
+
+        if (mouseOverOverlayParent != null)
+        {
+            EnableMouseOverOutline();
+        }
     }
     public void OnPointerExit(PointerEventData eventData)
     {
         AbilityInfoSheetController.Instance.DisableSheetView(abilityInfoSheet);
         PassiveInfoSheetController.Instance.DisableSheetView(passiveInfoSheet);
+
+        if (mouseOverOverlayParent != null)
+        {
+            DisableMouseOverOutline();
+        }
     }
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("MenuAbilityTab.OnPointerClick() called...");
+        if(location == Location.EditAbilityScreen)
+        {
+            CharacterMakerController.Instance.HandleEditAbilityTabClicked(this);
+        }
     }
     #endregion
 
@@ -98,7 +116,27 @@ public class MenuAbilityTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         PassiveInfoSheetController.Instance.BuildSheetFromData(passiveInfoSheet, data, stacks, PassiveInfoSheet.PivotDirection.Upwards);
     }
 
- 
+    // View Logic
+    #region
+    public void EnableGlowOutline()
+    {
+        purchasedOverlayParent.SetActive(true);
+    }
+    public void DisableGlowOutline()
+    {
+        purchasedOverlayParent.SetActive(false);
+    }
+    public void EnableMouseOverOutline()
+    {
+        mouseOverOverlayParent.SetActive(true);
+    }
+    public void DisableMouseOverOutline()
+    {
+        mouseOverOverlayParent.SetActive(false);
+    }
+    #endregion
+
+
     #endregion
 
 }

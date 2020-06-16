@@ -65,6 +65,20 @@ public class StatusIconLibrary : MonoBehaviour
 
         return dataReturned;
     }
+    public StatusPairingDataSO GetStatusPairingByName(string name)
+    {
+        StatusPairingDataSO dataReturned = null;
+
+        foreach (StatusPairingDataSO passivePairing in allStatusPairingData)
+        {
+            if (passivePairing.statusData.statusName == name)
+            {
+                dataReturned = passivePairing;
+            }
+        }
+
+        return dataReturned;
+    }
     #endregion
 
 
