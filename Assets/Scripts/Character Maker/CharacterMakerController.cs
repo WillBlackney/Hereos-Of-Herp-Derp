@@ -29,7 +29,9 @@ public class CharacterMakerController : MonoBehaviour
     public TextMeshProUGUI currentClassPresetText;
     public TextMeshProUGUI currentWeaponPresetText;
     public List<TextMeshProUGUI> allTalentTextTabs;
+    public List<TalentChangeButton> allTalentChangeButtons;
     public List<MenuAbilityTab> allActiveAbilityTabs;
+    public int totalSpentTalentPoints;
 
     [Header("Temp Ability Data Properties")]
     public List<AbilityDataSO> tempAbilities;
@@ -404,13 +406,34 @@ public class CharacterMakerController : MonoBehaviour
     }
     public void OnEditTalentsButtonClicked()
     {
-        editAbilitiesParent.SetActive(false);
+        SetPresetPanelViewState(false);
         editTalentsParent.SetActive(true);
+        BuildAllTalentChangeButtons();
     }
     public void OnEditTalentsBackButtonClicked()
     {
-        editAbilitiesParent.SetActive(true);
+        SetPresetPanelViewState(true);
         editTalentsParent.SetActive(false);
+    }
+    public void OnTalentPointPlusButtonClicked(TalentChangeButton tButton)
+    {
+        Debug.Log("CharacterMakerController.OnTalentPointPlusButtonClicked() called");
+
+        if (totalSpentTalentPoints >= 3 == false)
+        {
+            totalSpentTalentPoints++;
+            tButton.SetTalentTierCount(tButton.talentTierCount + 1);
+        }
+    }
+    public void OnTalentPointMinusButtonClicked(TalentChangeButton tButton)
+    {
+        Debug.Log("CharacterMakerController.OnTalentPointMinusButtonClicked() called");
+
+        if (tButton.talentTierCount <= 0 == false)
+        {
+            totalSpentTalentPoints--;
+            tButton.SetTalentTierCount(tButton.talentTierCount - 1);
+        }
     }
     #endregion
     #endregion
@@ -846,6 +869,25 @@ public class CharacterMakerController : MonoBehaviour
             BuildTalentTextTabFromTalentPairing(talentPair);
         }
 
+    }
+    private void BuildAllTalentChangeButtons()
+    {
+        Debug.Log("CharacterMakerController.BuildAllTalentChangeButtons() called");
+
+        totalSpentTalentPoints = 0;
+
+        foreach(TalentPairing tPairing in allTalentPairings)
+        {
+            foreach(TalentChangeButton tButton in allTalentChangeButtons)
+            {
+                if(tPairing.talentType == tButton.talentSchool)
+                {
+                    tButton.SetUpFromTalentPairing(tPairing);
+                    totalSpentTalentPoints += tPairing.talentStacks;
+                    break;
+                }
+            }
+        }
     }
     private void ClearAllTalentPairings()
     {

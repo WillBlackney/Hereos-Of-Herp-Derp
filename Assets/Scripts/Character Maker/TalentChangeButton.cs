@@ -14,8 +14,25 @@ public class TalentChangeButton : MonoBehaviour
 
     public void SetTalentTierCount(int newValue)
     {
+        Debug.Log("TalentChangeButton.SetTalentTierCount() called, new value: " + talentSchool.ToString() + " ("+
+            newValue.ToString() +")");
         talentTierCount = newValue;
         currentTalentTierText.text = newValue.ToString();
     }
-
+    public void SetUpFromTalentPairing(TalentPairing talentPairing)
+    {
+        Debug.Log("TalentChangeButton.SetUpFromTalentPairing() called for talent pairing: " + talentPairing.talentType.ToString() + " ("
+            + talentPairing.talentStacks.ToString() + ")");
+        SetTalentTierCount(talentPairing.talentStacks);
+    }
+    public void OnTalentPointPlusButtonClicked()
+    {
+        Debug.Log("TalentChangeButton.OnTalentPointPlusButtonClicked() called");
+        CharacterMakerController.Instance.OnTalentPointPlusButtonClicked(this);
+    }
+    public void OnTalentPointMinusButtonClicked()
+    {
+        Debug.Log("TalentChangeButton.OnTalentPointMinusButtonClicked() called");
+        CharacterMakerController.Instance.OnTalentPointMinusButtonClicked(this);
+    }
 }

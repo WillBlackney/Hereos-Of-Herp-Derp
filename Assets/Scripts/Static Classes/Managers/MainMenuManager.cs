@@ -470,9 +470,7 @@ public class MainMenuManager : MonoBehaviour
             character.tabTwo.gameObject.SetActive(false);
             character.tabThree.gameObject.SetActive(false);
             character.tabFour.gameObject.SetActive(false);
-        }
-
-        
+        }        
     }
     public void BuildCharacterAbilityTabsFromPresetData(MenuCharacter character, CharacterPresetData data)
     {
