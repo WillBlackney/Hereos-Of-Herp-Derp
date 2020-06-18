@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System.Linq;
 using System;
+using System.IO;
 
 public class CharacterMakerController : MonoBehaviour
 {
@@ -548,6 +549,7 @@ public class CharacterMakerController : MonoBehaviour
         bool passedMaxLengthCheck = false;
         bool passedMinLengthCheck = false;
         
+        // is name too short?
         if(charName.Length >= 2)
         {
             passedMinLengthCheck = true;
@@ -557,6 +559,8 @@ public class CharacterMakerController : MonoBehaviour
             Debug.Log("Returning false: '" + charName + "' is less then 2 characters");
             return false;
         }
+
+        // is name too long?
         if(charName.Length <= 25)
         {
             passedMaxLengthCheck = true;            
@@ -567,9 +571,20 @@ public class CharacterMakerController : MonoBehaviour
             return false;
         }
 
-        Debug.Log("CharacterMakerController.IsCharacterNameValid() returning true, " + charName +
+
+        // did name pass all validity checks?
+        if(passedMaxLengthCheck && passedMinLengthCheck)
+        {
+            // it did, return true
+            Debug.Log("CharacterMakerController.IsCharacterNameValid() returning true, " + charName +
             " is a valid save name");
-        return true;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
     }
     #endregion
 
@@ -601,8 +616,11 @@ public class CharacterMakerController : MonoBehaviour
 
             // Add new data to persistency
             CharacterPresetLibrary.Instance.AddCharacterPresetToPlayerMadeList(newData);
+
+            //File.WriteAllText(Application.dataPath + "testSave.txt", "hello friend");
         }
     }
+    
     private void SaveModelDataToCharacterPresetFile(CharacterPresetData charData, UniversalCharacterModel model)
     {
         Debug.Log("CharacterMakerController.SaveModelDataToCharacterPresetFile() called...");
@@ -1406,6 +1424,10 @@ public class CharacterMakerController : MonoBehaviour
         // Load backgrounds
         SetCharacterBackgroundOne(data.backgrounds[0]);
         SetCharacterBackgroundTwo(data.backgrounds[1]);
+
+        // Load Race
+        characterRaceText.text = data.modelRace.ToString();
+        characterModel.myModelRace = data.modelRace;
 
         // Load Model Data
         CharacterModelController.BuildModelFromCharacterPresetData(characterModel, data);

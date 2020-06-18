@@ -53,6 +53,7 @@ public class CharacterPresetLibrary : MonoBehaviour
     public void AddCharacterPresetToOriginList(CharacterPresetData charDataAdded)
     {
         allOriginCharacterPresets.Add(charDataAdded);
+        Debug.Log(JsonUtility.ToJson(charDataAdded));
     }
     public void AddCharacterPresetToPlayerMadeList(CharacterPresetData charDataAdded)
     {
@@ -215,6 +216,17 @@ public class CharacterPresetLibrary : MonoBehaviour
         return dataReturned;
     }
     #endregion
+
+    // JSON Functions
+    public string ConvertCharacterPresetDataToJsonString(CharacterPresetData charData)
+    {
+        return JsonUtility.ToJson(charData);         
+    }
+    public CharacterPresetData ConvertJsonStringToCharacterPresetData(string jsonString)
+    {
+        CharacterPresetData data = JsonUtility.FromJson<CharacterPresetData>(jsonString);
+        return data;
+    }
 
 
 }

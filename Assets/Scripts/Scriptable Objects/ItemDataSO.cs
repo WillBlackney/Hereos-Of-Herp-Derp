@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [CreateAssetMenu(fileName = "New ItemDataSO", menuName = "ItemDataSO", order = 52)]
+[Serializable]
 public class ItemDataSO : ScriptableObject
 {
     public enum ItemRarity { NoRarity, Common, Rare, Epic };

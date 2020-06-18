@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-
+using System.IO;
 public class MainMenuManager : MonoBehaviour
 {
     [Header("Component References")]
@@ -37,13 +37,13 @@ public class MainMenuManager : MonoBehaviour
     [Header("Load Preset Data Button References")]
     public GameObject loadPresetDataButtonPrefab;
     public List<LoadPresetButton> activeLoadPresetButtons;
-
+    
     // Singleton Set up + Start + Update
     #region
     public static MainMenuManager Instance;
     private void Awake()
     {
-        Instance = this;
+        Instance = this;        
     }
     private void Start()
     {
@@ -899,7 +899,11 @@ public class MainMenuManager : MonoBehaviour
         if(CharacterMakerController.Instance.mainVisualParent.activeSelf == true)
         {
             // build into char maker screen character
-            CharacterMakerController.Instance.BuildAllTabsAndViewsFromCharacterPresetData(button.presetData);
+            string jsonString = CharacterPresetLibrary.Instance.ConvertCharacterPresetDataToJsonString(button.presetData);
+            CharacterPresetData data = CharacterPresetLibrary.Instance.ConvertJsonStringToCharacterPresetData(jsonString);
+            CharacterMakerController.Instance.BuildAllTabsAndViewsFromCharacterPresetData(data);
+
+            //CharacterMakerController.Instance.BuildAllTabsAndViewsFromCharacterPresetData(button.presetData);
         }
         else
         {

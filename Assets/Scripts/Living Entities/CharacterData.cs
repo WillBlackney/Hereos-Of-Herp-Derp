@@ -2,11 +2,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class CharacterData : MonoBehaviour
 {
     // Enum Decs
     #region
+    [Serializable]
     public enum Background { None, Unknown, Acolyte, Soldier, Scholar, Wanderer, 
         Recluse, Slave, Outlaw, Politician, Aristocrat, Labourer, Entertainer
     };

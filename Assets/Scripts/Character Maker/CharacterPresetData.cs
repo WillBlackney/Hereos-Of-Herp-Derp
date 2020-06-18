@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CharacterPresetData
 {
@@ -37,7 +38,7 @@ public class CharacterPresetData
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class StatusPairing
 {
     public StatusIconDataSO statusData;
@@ -50,7 +51,7 @@ public class StatusPairing
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class TalentPairing
 {    
     public AbilityDataSO.AbilitySchool talentType;

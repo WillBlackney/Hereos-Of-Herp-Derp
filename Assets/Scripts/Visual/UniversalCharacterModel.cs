@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class UniversalCharacterModel : MonoBehaviour
 {
     // Enum Declaration
+    [Serializable]
     public enum ModelRace { None, Human, Orc, Undead, Elf, Goblin};
 
     [Header("All Model Element References")]
