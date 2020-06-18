@@ -536,8 +536,39 @@ public class CharacterMakerController : MonoBehaviour
 
     // Conditional Checks + Bools
     #region
-    public static bool IsCharacterSaveActionValid()
+    public bool IsCharacterSaveActionValid()
     {
+        return IsCharacterNameValid();
+    }
+    public bool IsCharacterNameValid()
+    {
+        string charName = characterNameText.text;
+        Debug.Log("CharacterMakerController.IsCharacterNameValid() called, checking validity of name: " + charName);
+        
+        bool passedMaxLengthCheck = false;
+        bool passedMinLengthCheck = false;
+        
+        if(charName.Length >= 2)
+        {
+            passedMinLengthCheck = true;
+        }
+        else
+        {
+            Debug.Log("Returning false: '" + charName + "' is less then 2 characters");
+            return false;
+        }
+        if(charName.Length <= 25)
+        {
+            passedMaxLengthCheck = true;            
+        }
+        else
+        {
+            Debug.Log("Returning false: '" + charName + "' is more then 25 characters");
+            return false;
+        }
+
+        Debug.Log("CharacterMakerController.IsCharacterNameValid() returning true, " + charName +
+            " is a valid save name");
         return true;
     }
     #endregion
