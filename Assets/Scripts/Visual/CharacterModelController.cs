@@ -863,6 +863,26 @@ public static class CharacterModelController
     }
     public static void SetUpAsSkeletonArcherPreset(UniversalCharacterModel model)
     {
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
+
+        // Body parts
+        EnableAndSetElementOnModel(model, model.undeadLeftLeg);
+        EnableAndSetElementOnModel(model, model.undeadRightLeg);
+        EnableAndSetElementOnModel(model, model.undeadHeads[0]);
+        EnableAndSetElementOnModel(model, model.undeadFaces[0]);
+        EnableAndSetElementOnModel(model, model.undeadRightHand);
+        EnableAndSetElementOnModel(model, model.undeadRightArm);
+        EnableAndSetElementOnModel(model, model.undeadLeftHand);
+        EnableAndSetElementOnModel(model, model.undeadLeftArm);
+        EnableAndSetElementOnModel(model, model.undeadChest);
+
+        // Clothing + Weapon parts
+        EnableAndSetElementOnModel(model, "Archer_Helmet_Head_Wear");
+        EnableAndSetElementOnModel(model, "Marksman_Chest_Wear");
+        EnableAndSetElementOnModel(model, "Left_Hand_Simple_Bow");
+
+        /*
         CompletelyDisableAllViews(model);
 
         model.skeletonArcherLeftLeg.SetActive(true);
@@ -873,9 +893,31 @@ public static class CharacterModelController
         model.skeletonArcherLeftHand.SetActive(true);
         model.skeletonArcherLeftArm.SetActive(true);
         model.skeletonArcherChest.SetActive(true);
+        */
     }
     public static void SetUpAsSkeletonAssassinPreset(UniversalCharacterModel model)
     {
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
+
+        // Body parts
+        EnableAndSetElementOnModel(model, model.undeadLeftLeg);
+        EnableAndSetElementOnModel(model, model.undeadRightLeg);
+        EnableAndSetElementOnModel(model, model.undeadHeads[0]);
+        EnableAndSetElementOnModel(model, model.undeadFaces[0]);
+        EnableAndSetElementOnModel(model, model.undeadRightHand);
+        EnableAndSetElementOnModel(model, model.undeadRightArm);
+        EnableAndSetElementOnModel(model, model.undeadLeftHand);
+        EnableAndSetElementOnModel(model, model.undeadLeftArm);
+        EnableAndSetElementOnModel(model, model.undeadChest);
+
+        // Clothing + Weapon parts
+        EnableAndSetElementOnModel(model, "Red_Face_Mask_Head_Wear");
+        EnableAndSetElementOnModel(model, model.allChestWear[2]);
+        EnableAndSetElementOnModel(model, model.allMainHandWeapons[1]);
+        EnableAndSetElementOnModel(model, model.allOffHandWeapons[2]);
+
+        /*
         CompletelyDisableAllViews(model);
 
         model.skeletonAssassinLeftLeg.SetActive(true);
@@ -886,9 +928,30 @@ public static class CharacterModelController
         model.skeletonAssassinLeftHand.SetActive(true);
         model.skeletonAssassinLeftArm.SetActive(true);
         model.skeletonAssassinChest.SetActive(true);
+        */
     }
     public static void SetUpAsSkeletonWarriorPreset(UniversalCharacterModel model)
     {
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
+
+        // Body parts
+        EnableAndSetElementOnModel(model, model.undeadLeftLeg);
+        EnableAndSetElementOnModel(model, model.undeadRightLeg);
+        EnableAndSetElementOnModel(model, model.undeadHeads[0]);
+        EnableAndSetElementOnModel(model, model.undeadFaces[0]);
+        EnableAndSetElementOnModel(model, model.undeadRightHand);
+        EnableAndSetElementOnModel(model, model.undeadRightArm);
+        EnableAndSetElementOnModel(model, model.undeadLeftHand);
+        EnableAndSetElementOnModel(model, model.undeadLeftArm);
+        EnableAndSetElementOnModel(model, model.undeadChest);
+
+        // Clothing + Weapon parts
+        EnableAndSetElementOnModel(model, "Silver_Red_Helmet_Head_Wear");
+        EnableAndSetElementOnModel(model, model.allMainHandWeapons[0]);
+        EnableAndSetElementOnModel(model, model.allOffHandWeapons[0]);
+
+        /*
         CompletelyDisableAllViews(model);
 
         model.skeletonWarriorLeftLeg.SetActive(true);
@@ -899,9 +962,29 @@ public static class CharacterModelController
         model.skeletonWarriorLeftHand.SetActive(true);
         model.skeletonWarriorLeftArm.SetActive(true);
         model.skeletonWarriorChest.SetActive(true);
+        */
     }
     public static void SetUpAsSkeletonBarbarianPreset(UniversalCharacterModel model)
     {
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
+
+        // Body parts
+        EnableAndSetElementOnModel(model, model.undeadLeftLeg);
+        EnableAndSetElementOnModel(model, model.undeadRightLeg);
+        EnableAndSetElementOnModel(model, model.undeadHeads[0]);
+        EnableAndSetElementOnModel(model, model.undeadFaces[0]);
+        EnableAndSetElementOnModel(model, model.undeadRightHand);
+        EnableAndSetElementOnModel(model, model.undeadRightArm);
+        EnableAndSetElementOnModel(model, model.undeadLeftHand);
+        EnableAndSetElementOnModel(model, model.undeadLeftArm);
+        EnableAndSetElementOnModel(model, model.undeadChest);
+
+        // Clothing + Weapon parts
+        EnableAndSetElementOnModel(model, "Berserker_Mask_Head_Wear");
+        EnableAndSetElementOnModel(model, model.allMainHandWeapons[4]);
+
+        /*
         CompletelyDisableAllViews(model);
 
         model.skeletonBarbarianLeftLeg.SetActive(true);
@@ -912,9 +995,30 @@ public static class CharacterModelController
         model.skeletonBarbarianLeftHand.SetActive(true);
         model.skeletonBarbarianLeftArm.SetActive(true);
         model.skeletonBarbarianChest.SetActive(true);
+        */
     }
     public static void SetUpAsSkeletonPriestPreset(UniversalCharacterModel model)
     {
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
+
+        // Body parts
+        EnableAndSetElementOnModel(model, model.undeadLeftLeg);
+        EnableAndSetElementOnModel(model, model.undeadRightLeg);
+        EnableAndSetElementOnModel(model, model.undeadHeads[0]);
+        EnableAndSetElementOnModel(model, model.undeadFaces[0]);
+        EnableAndSetElementOnModel(model, model.undeadRightHand);
+        EnableAndSetElementOnModel(model, model.undeadRightArm);
+        EnableAndSetElementOnModel(model, model.undeadLeftHand);
+        EnableAndSetElementOnModel(model, model.undeadLeftArm);
+        EnableAndSetElementOnModel(model, model.undeadChest);
+
+        // Clothing + Weapon parts
+        EnableAndSetElementOnModel(model, "Priest_Chest_Wear");
+        EnableAndSetElementOnModel(model, "White_Head_Band_Head_Wear");
+        EnableAndSetElementOnModel(model, model.allMainHandWeapons[3]);
+
+        /*
         CompletelyDisableAllViews(model);
 
         model.skeletonPriestLeftLeg.SetActive(true);
@@ -925,9 +1029,31 @@ public static class CharacterModelController
         model.skeletonPriestLeftHand.SetActive(true);
         model.skeletonPriestLeftArm.SetActive(true);
         model.skeletonPriestChest.SetActive(true);
+        */
     }
     public static void SetUpAsSkeletonMagePreset(UniversalCharacterModel model)
     {
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
+
+        // Body parts
+        EnableAndSetElementOnModel(model, model.undeadLeftLeg);
+        EnableAndSetElementOnModel(model, model.undeadRightLeg);
+        EnableAndSetElementOnModel(model, model.undeadHeads[0]);
+        EnableAndSetElementOnModel(model, model.undeadFaces[0]);
+        EnableAndSetElementOnModel(model, model.undeadRightHand);
+        EnableAndSetElementOnModel(model, model.undeadRightArm);
+        EnableAndSetElementOnModel(model, model.undeadLeftHand);
+        EnableAndSetElementOnModel(model, model.undeadLeftArm);
+        EnableAndSetElementOnModel(model, model.undeadChest);
+
+        // Clothing + Weapon parts
+        EnableAndSetElementOnModel(model, "Arcanist_Head_Wear");
+        EnableAndSetElementOnModel(model, "Arcanist_Chest_Wear");
+        EnableAndSetElementOnModel(model, model.allMainHandWeapons[3]);
+
+
+        /*
         CompletelyDisableAllViews(model);
 
         model.skeletonMageLeftLeg.SetActive(true);
@@ -938,6 +1064,7 @@ public static class CharacterModelController
         model.skeletonMageLeftHand.SetActive(true);
         model.skeletonMageLeftArm.SetActive(true);
         model.skeletonMageChest.SetActive(true);
+        */
     }
     public static void SetUpAsSkeletonNecromancerPreset(UniversalCharacterModel model)
     {
@@ -1279,6 +1406,189 @@ public static class CharacterModelController
             {
                 model.activeChest.gameObject.SetActive(false);
             }            
+            model.activeChest = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.Head)
+        {
+            if (model.activeHead != null)
+            {
+                model.activeHead.gameObject.SetActive(false);
+            }
+            model.activeHead = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.Face)
+        {
+            if (model.activeFace != null)
+            {
+                model.activeFace.gameObject.SetActive(false);
+            }
+            model.activeFace = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightArm)
+        {
+            if (model.activeRightArm != null)
+            {
+                model.activeRightArm.gameObject.SetActive(false);
+            }
+            model.activeRightArm = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightHand)
+        {
+            if (model.activeRightHand != null)
+            {
+                model.activeRightHand.gameObject.SetActive(false);
+            }
+            model.activeRightHand = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftArm)
+        {
+            if (model.activeLeftArm != null)
+            {
+                model.activeLeftArm.gameObject.SetActive(false);
+            }
+            model.activeLeftArm = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftHand)
+        {
+            if (model.activeLeftHand != null)
+            {
+                model.activeLeftHand.gameObject.SetActive(false);
+            }
+            model.activeLeftHand = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightLeg)
+        {
+            if (model.activeRightLeg != null)
+            {
+                model.activeRightLeg.gameObject.SetActive(false);
+            }
+            model.activeRightLeg = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftLeg)
+        {
+            if (model.activeLeftLeg != null)
+            {
+                model.activeLeftLeg.gameObject.SetActive(false);
+            }
+            model.activeLeftLeg = element;
+        }
+
+        // Set Active Weapons + Clothing Reference
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.HeadWear)
+        {
+            if (model.activeHeadWear != null)
+            {
+                model.activeHeadWear.gameObject.SetActive(false);
+            }
+            model.activeHeadWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.ChestWear)
+        {
+            if (model.activeChestWear != null)
+            {
+                model.activeChestWear.gameObject.SetActive(false);
+            }
+            model.activeChestWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftLegWear)
+        {
+            if (model.activeLeftLegWear != null)
+            {
+                model.activeLeftLegWear.gameObject.SetActive(false);
+            }
+            model.activeLeftLegWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightLegWear)
+        {
+            if (model.activeRightLegWear != null)
+            {
+                model.activeRightLegWear.gameObject.SetActive(false);
+            }
+            model.activeRightLegWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftArmWear)
+        {
+            if (model.activeLeftArmWear != null)
+            {
+                model.activeLeftArmWear.gameObject.SetActive(false);
+            }
+            model.activeLeftArmWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightArmWear)
+        {
+            if (model.activeRightArmWear != null)
+            {
+                model.activeRightArmWear.gameObject.SetActive(false);
+            }
+            model.activeRightArmWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftHandWear)
+        {
+            if (model.activeLeftHandWear != null)
+            {
+                model.activeLeftHandWear.gameObject.SetActive(false);
+            }
+            model.activeLeftHandWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightHandWear)
+        {
+            if (model.activeRightHandWear != null)
+            {
+                model.activeRightHandWear.gameObject.SetActive(false);
+            }
+            model.activeRightHandWear = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.MainHandWeapon)
+        {
+            if (model.activeMainHandWeapon != null)
+            {
+                model.activeMainHandWeapon.gameObject.SetActive(false);
+            }
+            model.activeMainHandWeapon = element;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.OffHandWeapon)
+        {
+            if (model.activeOffHandWeapon != null)
+            {
+                model.activeOffHandWeapon.gameObject.SetActive(false);
+            }
+            model.activeOffHandWeapon = element;
+        }
+
+        // Enable GO
+        element.gameObject.SetActive(true);
+    }
+    public static void EnableAndSetElementOnModel(UniversalCharacterModel model, string elementName)
+    {
+        Debug.Log("CharacterModelController.EnableAndSetElementOnModel() called, enabling " +
+            elementName + " GO");
+
+        UniversalCharacterModelElement element = null;
+
+        // find element first
+        foreach(UniversalCharacterModelElement modelElement in model.allModelElements)
+        {
+            if(modelElement.gameObject.name == elementName)
+            {
+                element = modelElement;
+                break;
+            }
+        }
+
+        if(element == null)
+        {
+            Debug.Log("CharacterModelController.EnableAndSetElementOnModel() could not find an model element with the name "
+            + elementName + ", cancelling element enabling...");
+            return;
+        }
+
+        // Set Active Body Part Reference
+        if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.Chest)
+        {
+            if (model.activeChest != null)
+            {
+                model.activeChest.gameObject.SetActive(false);
+            }
             model.activeChest = element;
         }
         else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.Head)

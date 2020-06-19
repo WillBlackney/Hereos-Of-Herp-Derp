@@ -28,14 +28,16 @@ public class ActivationWindow : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
         Debug.Log("Setting up activation window UC Model for " + entity.myName);
 
-        // Set up model        
+        // Set up model   
+        
         if (entity.defender)
         {
             CharacterModelController.BuildModelFromModelClone(myUCM, entity.defender.myCharacterData.myCharacterModel);
         }
         else if (entity.enemy)
         {
-            CharacterModelController.BuildModelFromPresetString(myUCM, entity.myName);
+            //CharacterModelController.BuildModelFromPresetString(myUCM, entity.myName);
+            CharacterModelController.BuildModelFromModelClone(myUCM, entity.myModel);
         }
         
         myUCM.SetBaseAnim();

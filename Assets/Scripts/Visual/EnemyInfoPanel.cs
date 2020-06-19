@@ -58,7 +58,8 @@ public class EnemyInfoPanel : MonoBehaviour
         myParentRenderCanvas.worldCamera = CameraManager.Instance.unityCamera.mainCamera;
 
         // Build character model
-        CharacterModelController.BuildModelFromPresetString(myModel, myEnemy.myName);
+        // CharacterModelController.BuildModelFromPresetString(myModel, myEnemy.myName);
+        CharacterModelController.BuildModelFromModelClone(myModel, myEnemy.myModel);
         myModel.SetIdleAnim();
 
         // Set up text files
