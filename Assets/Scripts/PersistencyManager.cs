@@ -13,7 +13,7 @@ public class PersistencyManager : MonoBehaviour
     public static PersistencyManager Instance;
     private void Awake()
     {
-        Debug.Log(Application.dataPath);
+        BuildDirectories();
 
         if (!Instance)
         {
@@ -21,16 +21,16 @@ public class PersistencyManager : MonoBehaviour
             DontDestroyOnLoad(this);
 
             // Check if save folder directory exists
-            if (!Directory.Exists(Application.dataPath + "/Save Folders/Custom Characters"))
+            if (!Directory.Exists(SAVE_FOLDER_CUSTOM_CHARACTERS))
             {
                 Debug.Log("Custom characters save folder does not exist, creating...");
                 // it doesnt, create save folder
-                SAVE_FOLDER_CUSTOM_CHARACTERS = Application.dataPath + "/Save Folders/Custom Characters";
+                //SAVE_FOLDER_CUSTOM_CHARACTERS = Application.dataPath + "/Save Folders/Custom Characters";
                 Directory.CreateDirectory(SAVE_FOLDER_CUSTOM_CHARACTERS);                
             }
             else
             {
-                Debug.Log("Custom characters save folder already exists at: " + Application.dataPath + "/Save Folders/Custom Characters");
+                Debug.Log("Custom characters save folder already exists at: " + SAVE_FOLDER_CUSTOM_CHARACTERS);
             }
         }
         else
@@ -40,6 +40,11 @@ public class PersistencyManager : MonoBehaviour
     }
     #endregion
 
+    // Initialization + Setup
+    public void BuildDirectories()
+    {
+        SAVE_FOLDER_CUSTOM_CHARACTERS = Application.dataPath + "/Save Folders/Custom Characters";
+    }
     // JSON Logic
     #region
     public string ConvertObjectToJsonString(object t, bool printToLog = true)
@@ -70,5 +75,39 @@ public class PersistencyManager : MonoBehaviour
     #endregion
 
     // Character Preset Data Save + Load Logic
+    public void SaveCharacterPresetDataToPersistency(CharacterPresetData charData)
+    {
+        Debug.Log("PersistencyManager.SaveCharacterPresetDataToPersistency() called...");
 
+        string jsonString = ConvertObjectToJsonString(charData);
+        File.WriteAllText(SAVE_FOLDER_CUSTOM_CHARACTERS + "/" + charData.characterName + ".txt", jsonString);
+    }
+    public List<CharacterPresetData> LoadAllCharacterPresetDataFromPersistency()
+    {
+        Debug.Log("PersistencyManager.LoadAllCharacterPresetDataFromPersistency() called...");
+
+        List<string> allCharacterJsonStrings = new List<string>();
+        List<CharacterPresetData> allCharacterDataPresets = new List<CharacterPresetData>(); 
+
+        // get JSon strings from the text files
+        foreach (string textFilePath in Directory.GetFiles(SAVE_FOLDER_CUSTOM_CHARACTERS, "*.txt"))
+        {
+            Debug.Log("Checking text file at directory: " + textFilePath);
+
+            string jsonS = File.ReadAllText(textFilePath);
+            Debug.Log("Json string at directory: " + jsonS);
+
+            allCharacterJsonStrings.Add(jsonS);            
+        }
+
+        // Convert the json strings into characterDataPreset objects
+        foreach(string jsonString in allCharacterJsonStrings)
+        {
+            allCharacterDataPresets.Add(ConvertJsonStringToObject<CharacterPresetData>(jsonString));
+        }
+
+        // return all the data
+        return allCharacterDataPresets;
+        
+    } 
 }

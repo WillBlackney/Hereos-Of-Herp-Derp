@@ -8,7 +8,6 @@ public class CharacterPresetLibrary : MonoBehaviour
     [Header("Properties + Component References")]
     [HideInInspector] public List<CharacterPresetData> allOriginCharacterPresets;
     public List<OriginCharacterDataSO> allOriginCharacterData;
-    public List<CharacterPresetData> allPlayerMadeCharacters;
     public List<ClassPresetDataSO> allClassPresets;
     public List<WeaponPresetDataSO> allWeaponPresets;
     #endregion
@@ -35,7 +34,6 @@ public class CharacterPresetLibrary : MonoBehaviour
     #region
     private void Start()
     {
-        allPlayerMadeCharacters = new List<CharacterPresetData>();
         allOriginCharacterPresets = new List<CharacterPresetData>();
         PopulateOriginCharacterLibraryOnStart();
     }
@@ -53,12 +51,7 @@ public class CharacterPresetLibrary : MonoBehaviour
     public void AddCharacterPresetToOriginList(CharacterPresetData charDataAdded)
     {
         allOriginCharacterPresets.Add(charDataAdded);
-        Debug.Log(JsonUtility.ToJson(charDataAdded));
-    }
-    public void AddCharacterPresetToPlayerMadeList(CharacterPresetData charDataAdded)
-    {
-        allPlayerMadeCharacters.Add(charDataAdded);
-    }
+    }    
     public void PrintPresetData(CharacterPresetData data)
     {
         Debug.Log("Printing character preset data with name: " + data.characterName);
@@ -216,17 +209,6 @@ public class CharacterPresetLibrary : MonoBehaviour
         return dataReturned;
     }
     #endregion
-
-    // JSON Functions
-    public string ConvertCharacterPresetDataToJsonString(CharacterPresetData charData)
-    {
-        return JsonUtility.ToJson(charData);         
-    }
-    public CharacterPresetData ConvertJsonStringToCharacterPresetData(string jsonString)
-    {
-        CharacterPresetData data = JsonUtility.FromJson<CharacterPresetData>(jsonString);
-        return data;
-    }
 
 
 }

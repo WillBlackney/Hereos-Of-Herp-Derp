@@ -260,6 +260,9 @@ public class InventoryController : MonoBehaviour
     }   
     public void PlaceItemOnCharacterSlot(InventoryItemCard itemCard, CharacterItemSlot characterSlot)
     {
+        Debug.Log("InventoryController.PlaceItemOnCharacterSlot() called, placing item " + itemCard.myItemData.Name +
+            " on character slot " + characterSlot.mySlotType.ToString());
+
         itemCard.transform.position = characterSlot.transform.position;
         itemCard.transform.localScale = new Vector3(1, 1, 1);
         if (itemCard.myInventorySlot != null)
@@ -292,6 +295,8 @@ public class InventoryController : MonoBehaviour
         {
             UpdateCharacterAbilitiesFromWeapons(characterSlot.myCharacterData);
         }
+
+        CharacterModelController.ApplyItemDataAppearanceToModel(itemCard.myItemData, characterSlot.myCharacterData.myCharacterModel, characterSlot.mySlotType);
 
         itemCard.SetRayCastingState(true);
     }    
@@ -363,6 +368,10 @@ public class InventoryController : MonoBehaviour
 
                     // Remove old item effects from character
                     ItemManager.Instance.ApplyAllItemEffectsToCharacterData(characterSlot.myCharacterData, characterSlot.myCharacterData.offHandSlot.myItem.myItemData, true);
+
+                    // remove offhand item view from uc model
+                    characterSlot.myCharacterData.myCharacterModel.activeOffHandWeapon.gameObject.SetActive(false);
+                    characterSlot.myCharacterData.myCharacterModel.activeOffHandWeapon = null;
 
                     // null off hand slot
                     characterSlot.myCharacterData.offHandSlot.myItem = null;

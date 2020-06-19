@@ -615,9 +615,9 @@ public class CharacterMakerController : MonoBehaviour
             CharacterPresetLibrary.Instance.PrintPresetData(newData);
 
             // Add new data to persistency
-            CharacterPresetLibrary.Instance.AddCharacterPresetToPlayerMadeList(newData);
+            PersistencyManager.Instance.SaveCharacterPresetDataToPersistency(newData);
+            //CharacterPresetLibrary.Instance.AddCharacterPresetToPlayerMadeList(newData);
 
-            //File.WriteAllText(Application.dataPath + "testSave.txt", "hello friend");
         }
     }
     
@@ -709,6 +709,9 @@ public class CharacterMakerController : MonoBehaviour
         // Set backgrounds
         charData.backgrounds.Add(currentBackgroundOne);
         charData.backgrounds.Add(currentBackgroundTwo);
+
+        // set race
+        charData.modelRace = characterModel.myModelRace;
     }
     private void SaveWeaponDataToCharacterPresetFile(CharacterPresetData charData)
     {
@@ -846,7 +849,7 @@ public class CharacterMakerController : MonoBehaviour
         // set MH weapon model view
         foreach (UniversalCharacterModelElement ucme in characterModel.allMainHandWeapons)
         {
-            if (ucme.weaponsWithMyView.Contains(data.mainHandWeapon))
+            if (ucme.itemsWithMyView.Contains(data.mainHandWeapon))
             {
                 CharacterModelController.EnableAndSetElementOnModel(characterModel, ucme);
                 break;
@@ -858,7 +861,7 @@ public class CharacterMakerController : MonoBehaviour
         {
             foreach (UniversalCharacterModelElement ucme in characterModel.allOffHandWeapons)
             {
-                if (ucme.weaponsWithMyView.Contains(data.offHandWeapon))
+                if (ucme.itemsWithMyView.Contains(data.offHandWeapon))
                 {
                     CharacterModelController.EnableAndSetElementOnModel(characterModel, ucme);
                     break;

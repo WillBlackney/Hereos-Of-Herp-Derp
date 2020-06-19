@@ -12,5 +12,5 @@ public class UniversalCharacterModelElement : MonoBehaviour
 
     public int sortingOrderBonus;
     public BodyPartType bodyPartType;
-    public List<ItemDataSO> weaponsWithMyView;
+    public List<ItemDataSO> itemsWithMyView;
 }

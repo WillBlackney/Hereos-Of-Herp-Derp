@@ -869,7 +869,7 @@ public class MainMenuManager : MonoBehaviour
     {
         Debug.Log("MainMenuManager.PopulateLoadPresetWindow() called...");
 
-        foreach(CharacterPresetData data in CharacterPresetLibrary.Instance.allPlayerMadeCharacters)
+        foreach(CharacterPresetData data in PersistencyManager.Instance.LoadAllCharacterPresetDataFromPersistency())
         {
             CreatePresetButton(data);
         }
@@ -899,11 +899,7 @@ public class MainMenuManager : MonoBehaviour
         if(CharacterMakerController.Instance.mainVisualParent.activeSelf == true)
         {
             // build into char maker screen character
-            string jsonString = CharacterPresetLibrary.Instance.ConvertCharacterPresetDataToJsonString(button.presetData);
-            CharacterPresetData data = CharacterPresetLibrary.Instance.ConvertJsonStringToCharacterPresetData(jsonString);
-            CharacterMakerController.Instance.BuildAllTabsAndViewsFromCharacterPresetData(data);
-
-            //CharacterMakerController.Instance.BuildAllTabsAndViewsFromCharacterPresetData(button.presetData);
+            CharacterMakerController.Instance.BuildAllTabsAndViewsFromCharacterPresetData(button.presetData);
         }
         else
         {

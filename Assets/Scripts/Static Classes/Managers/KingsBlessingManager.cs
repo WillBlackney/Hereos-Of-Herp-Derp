@@ -50,6 +50,12 @@ public class KingsBlessingManager : MonoBehaviour
     private void Start()
     {
         OnNewGameLoaded();
+
+        // REMOVE THIS LATER! FOR TESTING
+        for(int i = 0; i< 15; i++)
+        {
+            InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem(), false);
+        }
     }
     public void OnNewGameLoaded()
     {

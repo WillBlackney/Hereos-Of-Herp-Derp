@@ -238,7 +238,7 @@ public static class CharacterModelController
         // set MH weapon model view
         foreach (UniversalCharacterModelElement ucme in model.allMainHandWeapons)
         {
-            if (ucme.weaponsWithMyView.Contains(data.mhWeapon))
+            if (ucme.itemsWithMyView.Contains(data.mhWeapon))
             {
                 Debug.Log("CharacterModelController.BuildModelFromCharacterPresetData() found model element GO with matching name of " +
                         data.mhWeapon.Name + ", enabling GO...");
@@ -252,7 +252,7 @@ public static class CharacterModelController
         {
             foreach (UniversalCharacterModelElement ucme in model.allOffHandWeapons)
             {
-                if (ucme.weaponsWithMyView.Contains(data.ohWeapon))
+                if (ucme.itemsWithMyView.Contains(data.ohWeapon))
                 {
                     Debug.Log("CharacterModelController.BuildModelFromCharacterPresetData() found model element GO with matching name of " +
                         data.ohWeapon.Name + ", enabling GO...");
@@ -441,6 +441,90 @@ public static class CharacterModelController
         {
             mask.frontSortingOrder = headSortOrder;
             mask.backSortingOrder = headSortOrder - 1;
+        }
+    }
+    public static void ApplyItemDataAppearanceToModel(ItemDataSO item, UniversalCharacterModel model, CharacterItemSlot.SlotType slotType = CharacterItemSlot.SlotType.None)
+    {
+        Debug.Log("CharacterModelController.ApplyItemDataAppearanceToModel() called, applying look of item '" +
+            item.Name + "' to model");
+
+        UniversalCharacterModelElement elementToActivate = null;
+
+        // search specifically for weapons (make sure to correctly enable the weapon view in the correct hand)
+        if(slotType != CharacterItemSlot.SlotType.None)
+        {
+            // check main hand weapons
+            if(slotType == CharacterItemSlot.SlotType.MainHand)
+            {
+                List<UniversalCharacterModelElement> mainHandElements = new List<UniversalCharacterModelElement>();
+                foreach(UniversalCharacterModelElement element in model.allModelElements)
+                {
+                    if(element.bodyPartType == UniversalCharacterModelElement.BodyPartType.MainHandWeapon)
+                    {
+                        mainHandElements.Add(element);
+                    }
+                }
+
+                foreach(UniversalCharacterModelElement mainHandElement in mainHandElements)
+                {
+                    if (mainHandElement.itemsWithMyView.Contains(item))
+                    {
+                        // Found an element that's view matches the items view
+                        elementToActivate = mainHandElement;
+                        break;
+                    }
+                }
+            }
+
+            // check off hand weapons
+            else if (slotType == CharacterItemSlot.SlotType.OffHand)
+            {
+                List<UniversalCharacterModelElement> offHandElements = new List<UniversalCharacterModelElement>();
+                foreach (UniversalCharacterModelElement element in model.allModelElements)
+                {
+                    if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.OffHandWeapon)
+                    {
+                        offHandElements.Add(element);
+                    }
+                }
+
+                foreach (UniversalCharacterModelElement offHandElement in offHandElements)
+                {
+                    if (offHandElement.itemsWithMyView.Contains(item))
+                    {
+                        // Found an element that's view matches the items view
+                        elementToActivate = offHandElement;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // check non weapon model elements
+        else
+        {
+            // Search through every element on the model, find the element that matches the item
+            foreach (UniversalCharacterModelElement element in model.allModelElements)
+            {
+                if (element.itemsWithMyView.Contains(item))
+                {
+                    // Found an element that's view matches the items view
+                    elementToActivate = element;
+                    break;
+                }
+            }
+        }
+        
+
+        if(elementToActivate != null)
+        {
+            Debug.Log("CharacterModelController.ApplyItemDataAppearanceToModel() found a matching UCM element for item " + item.Name +
+                ", enabling UCM element: " + elementToActivate.gameObject.name.ToString());
+            EnableAndSetElementOnModel(model, elementToActivate);
+        }
+        else
+        {
+            Debug.Log("CharacterModelController.ApplyItemDataAppearanceToModel() did not find a UCM that matches the item " + item.Name);
         }
     }
     #endregion
