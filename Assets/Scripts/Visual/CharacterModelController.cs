@@ -837,16 +837,19 @@ public static class CharacterModelController
     #region
     public static void SetUpAsVolatileZombiePreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.volatileZombieLeftLeg.SetActive(true);
-        model.volatileZombieRightLeg.SetActive(true);
-        model.volatileZombieHead.SetActive(true);
-        model.volatileZombieRightHand.SetActive(true);
-        model.volatileZombieRightArm.SetActive(true);
-        model.volatileZombieLeftHand.SetActive(true);
-        model.volatileZombieLeftArm.SetActive(true);
-        model.volatileZombieChest.SetActive(true);
+        // Body parts
+        EnableAndSetElementOnModel(model, model.undeadHeads[4]);
+        EnableAndSetElementOnModel(model, model.undeadFaces[6]);
+        EnableAndSetElementOnModel(model, "Volatile_Zombie_Right_Hand");
+        EnableAndSetElementOnModel(model, "Volatile_Zombie_Left_Hand");       
+        EnableAndSetElementOnModel(model, "Volatile_Zombie_Right_Leg");
+        EnableAndSetElementOnModel(model, "Volatile_Zombie_Left_Leg");
+        EnableAndSetElementOnModel(model, "Peasant_Cloth_Right_Arm_Wear");
+        EnableAndSetElementOnModel(model, "Peasant_Cloth_Left_Arm_Wear");
+        EnableAndSetElementOnModel(model, "Peasant_Cloth_Chest_Wear");
     }
     public static void SetUpAsDarkElfRangerPreset(UniversalCharacterModel model)
     {
@@ -1107,55 +1110,85 @@ public static class CharacterModelController
     }
     public static void SetUpAsGoblinStabbyPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.goblinStabbyLeftLeg.SetActive(true);
-        model.goblinStabbyRightLeg.SetActive(true);
-        model.goblinStabbyHead.SetActive(true);
-        model.goblinStabbyRightHand.SetActive(true);
-        model.goblinStabbyRightArm.SetActive(true);
-        model.goblinStabbyLeftHand.SetActive(true);
-        model.goblinStabbyLeftArm.SetActive(true);
-        model.goblinStabbyChest.SetActive(true);
+        // Body parts
+        EnableAndSetElementOnModel(model, model.orcHeads[1]);
+        EnableAndSetElementOnModel(model, model.orcFaces[0]);
+        EnableAndSetElementOnModel(model, model.orcLeftLeg);
+        EnableAndSetElementOnModel(model, model.orcRightLeg);
+        EnableAndSetElementOnModel(model, model.orcRightHand);
+        EnableAndSetElementOnModel(model, model.orcRightArm);
+        EnableAndSetElementOnModel(model, model.orcLeftHand);
+        EnableAndSetElementOnModel(model, model.orcLeftArm);
+        EnableAndSetElementOnModel(model, model.orcChest);
+
+        // Clothing + Weapon parts
+        EnableAndSetElementOnModel(model, model.allMainHandWeapons[1]);
     }
     public static void SetUpAsGoblinWarChiefPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.goblinWarChiefLeftLeg.SetActive(true);
-        model.goblinWarChiefRightLeg.SetActive(true);
-        model.goblinWarChiefHead.SetActive(true);
-        model.goblinWarChiefRightHand.SetActive(true);
-        model.goblinWarChiefRightArm.SetActive(true);
-        model.goblinWarChiefLeftHand.SetActive(true);
-        model.goblinWarChiefLeftArm.SetActive(true);
-        model.goblinWarChiefChest.SetActive(true);
+        // Body parts
+        EnableAndSetElementOnModel(model, model.orcHeads[0]);
+        EnableAndSetElementOnModel(model, model.orcFaces[1]);
+        EnableAndSetElementOnModel(model, model.orcLeftLeg);
+        EnableAndSetElementOnModel(model, model.orcRightLeg);
+        EnableAndSetElementOnModel(model, model.orcRightHand);
+        EnableAndSetElementOnModel(model, model.orcRightArm);
+        EnableAndSetElementOnModel(model, model.orcLeftHand);
+        EnableAndSetElementOnModel(model, model.orcLeftArm);
+        EnableAndSetElementOnModel(model, model.orcChest);
+
+        // Clothing + Weapon parts
+        EnableAndSetElementOnModel(model, model.allMainHandWeapons[4]);
+        EnableAndSetElementOnModel(model, "War_Chief_Chest_Wear");
+        EnableAndSetElementOnModel(model, "War_Chief_Left_Arm_Wear");
+        EnableAndSetElementOnModel(model, "War_Chief_Right_Arm_Wear");
     }
     public static void SetUpAsGoblinShootyPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.goblinShootyLeftLeg.SetActive(true);
-        model.goblinShootRightLeg.SetActive(true);
-        model.goblinShootyHead.SetActive(true);
-        model.goblinShootyRightHand.SetActive(true);
-        model.goblinShootyRightArm.SetActive(true);
-        model.goblinShootyLeftHand.SetActive(true);
-        model.goblinShootyLeftArm.SetActive(true);
-        model.goblinShootyChest.SetActive(true);
+        // Body parts
+        EnableAndSetElementOnModel(model, model.orcHeads[1]);
+        EnableAndSetElementOnModel(model, model.orcFaces[0]);
+        EnableAndSetElementOnModel(model, model.orcLeftLeg);
+        EnableAndSetElementOnModel(model, model.orcRightLeg);
+        EnableAndSetElementOnModel(model, model.orcRightHand);
+        EnableAndSetElementOnModel(model, model.orcRightArm);
+        EnableAndSetElementOnModel(model, model.orcLeftHand);
+        EnableAndSetElementOnModel(model, model.orcLeftArm);
+        EnableAndSetElementOnModel(model, model.orcChest);
+
+        // Clothing + Weapon parts
+        EnableAndSetElementOnModel(model, model.allMainHandWeapons[2]);
+        EnableAndSetElementOnModel(model, "Archer_Helmet_Head_Wear");
     }
     public static void SetUpAsGoblinShieldBearerPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.goblinShieldBearerLeftLeg.SetActive(true);
-        model.goblinShieldBearerRightLeg.SetActive(true);
-        model.goblinShieldBearerHead.SetActive(true);
-        model.goblinShieldBearerRightHand.SetActive(true);
-        model.goblinShieldBearerRightArm.SetActive(true);
-        model.goblinShieldBearerLeftHand.SetActive(true);
-        model.goblinShieldBearerLeftArm.SetActive(true);
-        model.goblinShieldBearerChest.SetActive(true);
+        // Body parts
+        EnableAndSetElementOnModel(model, model.orcHeads[1]);
+        EnableAndSetElementOnModel(model, model.orcFaces[0]);
+        EnableAndSetElementOnModel(model, model.orcLeftLeg);
+        EnableAndSetElementOnModel(model, model.orcRightLeg);
+        EnableAndSetElementOnModel(model, model.orcRightHand);
+        EnableAndSetElementOnModel(model, model.orcRightArm);
+        EnableAndSetElementOnModel(model, model.orcLeftHand);
+        EnableAndSetElementOnModel(model, model.orcLeftArm);
+        EnableAndSetElementOnModel(model, model.orcChest);
+
+        // Clothing + Weapon parts
+        EnableAndSetElementOnModel(model, model.allMainHandWeapons[0]);
+        EnableAndSetElementOnModel(model, model.allOffHandWeapons[0]);
+        EnableAndSetElementOnModel(model, "Death_Knight_Head_Wear");
     }
     public static void SetUpAsMorkPreset(UniversalCharacterModel model)
     {
@@ -1172,55 +1205,68 @@ public static class CharacterModelController
     }
     public static void SetUpAsFireGolemPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.fireGolemLeftLeg.SetActive(true);
-        model.fireGolemRightLeg.SetActive(true);
-        model.fireGolemHead.SetActive(true);
-        model.fireGolemRightHand.SetActive(true);
-        model.fireGolemRightArm.SetActive(true);
-        model.fireGolemLeftHand.SetActive(true);
-        model.fireGolemLeftArm.SetActive(true);
-        model.fireGolemChest.SetActive(true);
+        // Body parts
+        EnableAndSetElementOnModel(model, "Fire_Golem_Left_Leg");
+        EnableAndSetElementOnModel(model, "Fire_Golem_Right_Leg");
+        EnableAndSetElementOnModel(model, "Fire_Golem_Head");
+        EnableAndSetElementOnModel(model, "Fire_Golem_Face");
+        EnableAndSetElementOnModel(model, "Fire_Golem_Left_Hand");
+        EnableAndSetElementOnModel(model, "Fire_Golem_Left_Arm");
+        EnableAndSetElementOnModel(model, "Fire_Golem_Right_Hand");
+        EnableAndSetElementOnModel(model, "Fire_Golem_Right_Arm");
+        EnableAndSetElementOnModel(model, "Fire_Golem_Chest");
     }
     public static void SetUpAsAirGolemPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.airGolemLeftLeg.SetActive(true);
-        model.airGolemRightLeg.SetActive(true);
-        model.airGolemHead.SetActive(true);
-        model.airGolemRightHand.SetActive(true);
-        model.airGolemRightArm.SetActive(true);
-        model.airGolemLeftHand.SetActive(true);
-        model.airGolemLeftArm.SetActive(true);
-        model.airGolemChest.SetActive(true);
+        // Body parts
+        EnableAndSetElementOnModel(model, "Air_Golem_Left_Leg");
+        EnableAndSetElementOnModel(model, "Air_Golem_Right_Leg");
+        EnableAndSetElementOnModel(model, "Air_Golem_Head");
+        EnableAndSetElementOnModel(model, "Air_Golem_Face");
+        EnableAndSetElementOnModel(model, "Air_Golem_Left_Hand");
+        EnableAndSetElementOnModel(model, "Air_Golem_Left_Arm");
+        EnableAndSetElementOnModel(model, "Air_Golem_Right_Hand");
+        EnableAndSetElementOnModel(model, "Air_Golem_Right_Arm");
+        EnableAndSetElementOnModel(model, "Air_Golem_Chest");
     }
     public static void SetUpAsPoisonGolemPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.poisonGolemLeftLeg.SetActive(true);
-        model.poisonGolemRightLeg.SetActive(true);
-        model.poisonGolemHead.SetActive(true);
-        model.poisonGolemRightHand.SetActive(true);
-        model.poisonGolemRightArm.SetActive(true);
-        model.poisonGolemLeftHand.SetActive(true);
-        model.poisonGolemLeftArm.SetActive(true);
-        model.poisonGolemChest.SetActive(true);
+        // Body parts
+        EnableAndSetElementOnModel(model, "Poison_Golem_Left_Leg");
+        EnableAndSetElementOnModel(model, "Poison_Golem_Right_Leg");
+        EnableAndSetElementOnModel(model, "Poison_Golem_Head");
+        EnableAndSetElementOnModel(model, "Poison_Golem_Face");
+        EnableAndSetElementOnModel(model, "Poison_Golem_Left_Hand");
+        EnableAndSetElementOnModel(model, "Poison_Golem_Left_Arm");
+        EnableAndSetElementOnModel(model, "Poison_Golem_Right_Hand");
+        EnableAndSetElementOnModel(model, "Poison_Golem_Right_Arm");
+        EnableAndSetElementOnModel(model, "Poison_Golem_Chest");
     }
     public static void SetUpAsFrostGolemPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.frostGolemLeftLeg.SetActive(true);
-        model.frostGolemRightLeg.SetActive(true);
-        model.frostGolemHead.SetActive(true);
-        model.frostGolemRightHand.SetActive(true);
-        model.frostGolemRightArm.SetActive(true);
-        model.frostGolemLeftHand.SetActive(true);
-        model.frostGolemLeftArm.SetActive(true);
-        model.frostGolemChest.SetActive(true);
+        // Body parts
+        EnableAndSetElementOnModel(model, "Frost_Golem_Left_Leg");
+        EnableAndSetElementOnModel(model, "Frost_Golem_Right_Leg");
+        EnableAndSetElementOnModel(model, "Frost_Golem_Head");
+        EnableAndSetElementOnModel(model, "Frost_Golem_Face");
+        EnableAndSetElementOnModel(model, "Frost_Golem_Left_Hand");
+        EnableAndSetElementOnModel(model, "Frost_Golem_Left_Arm");
+        EnableAndSetElementOnModel(model, "Frost_Golem_Right_Hand");
+        EnableAndSetElementOnModel(model, "Frost_Golem_Right_Arm");
+        EnableAndSetElementOnModel(model, "Frost_Golem_Chest");
+
     }
     public static void SetUpAsDemonBerserkerPreset(UniversalCharacterModel model)
     {
