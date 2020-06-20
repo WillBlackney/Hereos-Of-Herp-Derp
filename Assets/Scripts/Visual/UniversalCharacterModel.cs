@@ -4,6 +4,31 @@ using UnityEngine;
 using System;
 public class UniversalCharacterModel : MonoBehaviour
 {
+    // TO DO: remove this awake function , find a better solution
+    private void Awake()
+    {
+        // automatically clear null values from inspector, then trim all lists
+        allModelElements.RemoveAll(list_item => list_item == null);
+        allHeadWearSpriteMasks.RemoveAll(list_item => list_item == null);
+        allHeadWear.RemoveAll(list_item => list_item == null);
+        allChestWear.RemoveAll(list_item => list_item == null);
+        allLeftLegWear.RemoveAll(list_item => list_item == null);
+        allRightLegWear.RemoveAll(list_item => list_item == null);
+        allLeftArmWear.RemoveAll(list_item => list_item == null);
+        allRightArmWear.RemoveAll(list_item => list_item == null);
+        allLeftHandWear.RemoveAll(list_item => list_item == null);
+        allRightHandWear.RemoveAll(list_item => list_item == null);
+        allMainHandWeapons.RemoveAll(list_item => list_item == null);
+        allOffHandWeapons.RemoveAll(list_item => list_item == null);
+        humanHeads.RemoveAll(list_item => list_item == null);
+        humanFaces.RemoveAll(list_item => list_item == null);
+        orcHeads.RemoveAll(list_item => list_item == null);
+        orcFaces.RemoveAll(list_item => list_item == null);
+        undeadHeads.RemoveAll(list_item => list_item == null);
+        undeadFaces.RemoveAll(list_item => list_item == null);
+        elfHeads.RemoveAll(list_item => list_item == null);
+        elfFaces.RemoveAll(list_item => list_item == null);
+    }
     // Enum Declaration
     [Serializable]
     public enum ModelRace { None, Human, Orc, Undead, Elf, Goblin};
@@ -14,27 +39,27 @@ public class UniversalCharacterModel : MonoBehaviour
 
     // NEW Properties + Component References
     [Header("Active Body Part References")]
-    public UniversalCharacterModelElement activeHead;
-    public UniversalCharacterModelElement activeFace;
-    public UniversalCharacterModelElement activeLeftLeg;
-    public UniversalCharacterModelElement activeRightLeg;
-    public UniversalCharacterModelElement activeRightHand;
-    public UniversalCharacterModelElement activeRightArm;
-    public UniversalCharacterModelElement activeLeftHand;
-    public UniversalCharacterModelElement activeLeftArm;
-    public UniversalCharacterModelElement activeChest;
+    [HideInInspector] public UniversalCharacterModelElement activeHead;
+    [HideInInspector] public UniversalCharacterModelElement activeFace;
+    [HideInInspector] public UniversalCharacterModelElement activeLeftLeg;
+    [HideInInspector] public UniversalCharacterModelElement activeRightLeg;
+    [HideInInspector] public UniversalCharacterModelElement activeRightHand;
+    [HideInInspector] public UniversalCharacterModelElement activeRightArm;
+    [HideInInspector] public UniversalCharacterModelElement activeLeftHand;
+    [HideInInspector] public UniversalCharacterModelElement activeLeftArm;
+    [HideInInspector] public UniversalCharacterModelElement activeChest;
 
     [Header("Active Clothing Part References")]
-    public UniversalCharacterModelElement activeHeadWear;
-    public UniversalCharacterModelElement activeChestWear;
-    public UniversalCharacterModelElement activeLeftLegWear;
-    public UniversalCharacterModelElement activeRightLegWear;
-    public UniversalCharacterModelElement activeLeftArmWear;
-    public UniversalCharacterModelElement activeRightArmWear;
-    public UniversalCharacterModelElement activeLeftHandWear;
-    public UniversalCharacterModelElement activeRightHandWear;
-    public UniversalCharacterModelElement activeMainHandWeapon;
-    public UniversalCharacterModelElement activeOffHandWeapon;
+    [HideInInspector] public UniversalCharacterModelElement activeHeadWear;
+    [HideInInspector] public UniversalCharacterModelElement activeChestWear;
+    [HideInInspector] public UniversalCharacterModelElement activeLeftLegWear;
+    [HideInInspector] public UniversalCharacterModelElement activeRightLegWear;
+    [HideInInspector] public UniversalCharacterModelElement activeLeftArmWear;
+    [HideInInspector] public UniversalCharacterModelElement activeRightArmWear;
+    [HideInInspector] public UniversalCharacterModelElement activeLeftHandWear;
+    [HideInInspector] public UniversalCharacterModelElement activeRightHandWear;
+    [HideInInspector] public UniversalCharacterModelElement activeMainHandWeapon;
+    [HideInInspector] public UniversalCharacterModelElement activeOffHandWeapon;
 
     [Header("Head Wear References")]
     public List<UniversalCharacterModelElement> allHeadWear;

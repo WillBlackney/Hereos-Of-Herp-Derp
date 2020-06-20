@@ -1450,7 +1450,7 @@ public static class CharacterModelController
         {
             if (model.activeChest != null)
             {
-                model.activeChest.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeChest);
             }            
             model.activeChest = element;
         }
@@ -1458,7 +1458,7 @@ public static class CharacterModelController
         {
             if (model.activeHead != null)
             {
-                model.activeHead.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeHead);
             }
             model.activeHead = element;
         }
@@ -1466,7 +1466,7 @@ public static class CharacterModelController
         {
             if (model.activeFace != null)
             {
-                model.activeFace.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeFace);
             }
             model.activeFace = element;
         }
@@ -1474,7 +1474,7 @@ public static class CharacterModelController
         {
             if (model.activeRightArm != null)
             {
-                model.activeRightArm.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeRightArm);
             }
             model.activeRightArm = element;
         }
@@ -1482,7 +1482,7 @@ public static class CharacterModelController
         {
             if (model.activeRightHand != null)
             {
-                model.activeRightHand.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeRightHand);
             }
             model.activeRightHand = element;
         }
@@ -1490,7 +1490,7 @@ public static class CharacterModelController
         {
             if (model.activeLeftArm != null)
             {
-                model.activeLeftArm.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeLeftArm);
             }
             model.activeLeftArm = element;
         }
@@ -1498,7 +1498,7 @@ public static class CharacterModelController
         {
             if (model.activeLeftHand != null)
             {
-                model.activeLeftHand.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeLeftHand);
             }
             model.activeLeftHand = element;
         }
@@ -1506,7 +1506,7 @@ public static class CharacterModelController
         {
             if (model.activeRightLeg != null)
             {
-                model.activeRightLeg.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeRightLeg);
             }
             model.activeRightLeg = element;
         }
@@ -1514,7 +1514,7 @@ public static class CharacterModelController
         {
             if (model.activeLeftLeg != null)
             {
-                model.activeLeftLeg.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeLeftLeg);
             }
             model.activeLeftLeg = element;
         }
@@ -1524,7 +1524,7 @@ public static class CharacterModelController
         {
             if (model.activeHeadWear != null)
             {
-                model.activeHeadWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeHeadWear);
             }
             model.activeHeadWear = element;
         }
@@ -1532,7 +1532,7 @@ public static class CharacterModelController
         {
             if (model.activeChestWear != null)
             {
-                model.activeChestWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeChestWear);
             }
             model.activeChestWear = element;
         }
@@ -1540,7 +1540,7 @@ public static class CharacterModelController
         {
             if (model.activeLeftLegWear != null)
             {
-                model.activeLeftLegWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeLeftLegWear);
             }
             model.activeLeftLegWear = element;
         }
@@ -1548,7 +1548,7 @@ public static class CharacterModelController
         {
             if (model.activeRightLegWear != null)
             {
-                model.activeRightLegWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeRightLegWear);
             }
             model.activeRightLegWear = element;
         }
@@ -1556,7 +1556,7 @@ public static class CharacterModelController
         {
             if (model.activeLeftArmWear != null)
             {
-                model.activeLeftArmWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeLeftArmWear);
             }
             model.activeLeftArmWear = element;
         }
@@ -1564,7 +1564,7 @@ public static class CharacterModelController
         {
             if (model.activeRightArmWear != null)
             {
-                model.activeRightArmWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeRightArmWear);
             }
             model.activeRightArmWear = element;
         }
@@ -1572,7 +1572,7 @@ public static class CharacterModelController
         {
             if (model.activeLeftHandWear != null)
             {
-                model.activeLeftHandWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeLeftHandWear);
             }
             model.activeLeftHandWear = element;
         }
@@ -1580,7 +1580,7 @@ public static class CharacterModelController
         {
             if (model.activeRightHandWear != null)
             {
-                model.activeRightHandWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeRightHandWear);
             }
             model.activeRightHandWear = element;
         }
@@ -1588,7 +1588,7 @@ public static class CharacterModelController
         {
             if (model.activeMainHandWeapon != null)
             {
-                model.activeMainHandWeapon.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeMainHandWeapon);
             }
             model.activeMainHandWeapon = element;
         }
@@ -1596,13 +1596,19 @@ public static class CharacterModelController
         {
             if (model.activeOffHandWeapon != null)
             {
-                model.activeOffHandWeapon.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeOffHandWeapon);
             }
             model.activeOffHandWeapon = element;
         }
 
         // Enable GO
         element.gameObject.SetActive(true);
+
+        // repeat for any connected elements (e.g. active arm/hand sprites that are connected to the chest piece
+        foreach(UniversalCharacterModelElement connectedElement in element.connectedElements)
+        {
+            EnableAndSetElementOnModel(model, connectedElement);
+        }
     }
     public static void EnableAndSetElementOnModel(UniversalCharacterModel model, string elementName)
     {
@@ -1633,7 +1639,7 @@ public static class CharacterModelController
         {
             if (model.activeChest != null)
             {
-                model.activeChest.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeChest);
             }
             model.activeChest = element;
         }
@@ -1641,7 +1647,7 @@ public static class CharacterModelController
         {
             if (model.activeHead != null)
             {
-                model.activeHead.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeHead);
             }
             model.activeHead = element;
         }
@@ -1649,7 +1655,7 @@ public static class CharacterModelController
         {
             if (model.activeFace != null)
             {
-                model.activeFace.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeFace);
             }
             model.activeFace = element;
         }
@@ -1657,7 +1663,7 @@ public static class CharacterModelController
         {
             if (model.activeRightArm != null)
             {
-                model.activeRightArm.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeRightArm);
             }
             model.activeRightArm = element;
         }
@@ -1665,7 +1671,7 @@ public static class CharacterModelController
         {
             if (model.activeRightHand != null)
             {
-                model.activeRightHand.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeRightHand);
             }
             model.activeRightHand = element;
         }
@@ -1673,7 +1679,7 @@ public static class CharacterModelController
         {
             if (model.activeLeftArm != null)
             {
-                model.activeLeftArm.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeLeftArm);
             }
             model.activeLeftArm = element;
         }
@@ -1681,7 +1687,7 @@ public static class CharacterModelController
         {
             if (model.activeLeftHand != null)
             {
-                model.activeLeftHand.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeLeftHand);
             }
             model.activeLeftHand = element;
         }
@@ -1689,7 +1695,7 @@ public static class CharacterModelController
         {
             if (model.activeRightLeg != null)
             {
-                model.activeRightLeg.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeRightLeg);
             }
             model.activeRightLeg = element;
         }
@@ -1697,7 +1703,7 @@ public static class CharacterModelController
         {
             if (model.activeLeftLeg != null)
             {
-                model.activeLeftLeg.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeLeftLeg);
             }
             model.activeLeftLeg = element;
         }
@@ -1707,7 +1713,7 @@ public static class CharacterModelController
         {
             if (model.activeHeadWear != null)
             {
-                model.activeHeadWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeHeadWear);
             }
             model.activeHeadWear = element;
         }
@@ -1715,7 +1721,7 @@ public static class CharacterModelController
         {
             if (model.activeChestWear != null)
             {
-                model.activeChestWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeChestWear);
             }
             model.activeChestWear = element;
         }
@@ -1723,7 +1729,7 @@ public static class CharacterModelController
         {
             if (model.activeLeftLegWear != null)
             {
-                model.activeLeftLegWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeLeftLegWear);
             }
             model.activeLeftLegWear = element;
         }
@@ -1731,7 +1737,7 @@ public static class CharacterModelController
         {
             if (model.activeRightLegWear != null)
             {
-                model.activeRightLegWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeRightLegWear);
             }
             model.activeRightLegWear = element;
         }
@@ -1739,7 +1745,7 @@ public static class CharacterModelController
         {
             if (model.activeLeftArmWear != null)
             {
-                model.activeLeftArmWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeLeftArmWear);
             }
             model.activeLeftArmWear = element;
         }
@@ -1747,7 +1753,7 @@ public static class CharacterModelController
         {
             if (model.activeRightArmWear != null)
             {
-                model.activeRightArmWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeRightArmWear);
             }
             model.activeRightArmWear = element;
         }
@@ -1755,7 +1761,7 @@ public static class CharacterModelController
         {
             if (model.activeLeftHandWear != null)
             {
-                model.activeLeftHandWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeLeftHandWear);
             }
             model.activeLeftHandWear = element;
         }
@@ -1763,7 +1769,7 @@ public static class CharacterModelController
         {
             if (model.activeRightHandWear != null)
             {
-                model.activeRightHandWear.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeRightHandWear);
             }
             model.activeRightHandWear = element;
         }
@@ -1771,7 +1777,7 @@ public static class CharacterModelController
         {
             if (model.activeMainHandWeapon != null)
             {
-                model.activeMainHandWeapon.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeMainHandWeapon);
             }
             model.activeMainHandWeapon = element;
         }
@@ -1779,13 +1785,114 @@ public static class CharacterModelController
         {
             if (model.activeOffHandWeapon != null)
             {
-                model.activeOffHandWeapon.gameObject.SetActive(false);
+                DisableAndClearElementOnModel(model, model.activeOffHandWeapon);
             }
             model.activeOffHandWeapon = element;
         }
 
         // Enable GO
         element.gameObject.SetActive(true);
+
+        // repeat for any connected elements (e.g. active arm/hand sprites that are connected to the chest piece
+        foreach (UniversalCharacterModelElement connectedElement in element.connectedElements)
+        {
+            EnableAndSetElementOnModel(model, connectedElement);
+        }
+    }
+    public static void DisableAndClearElementOnModel(UniversalCharacterModel model, UniversalCharacterModelElement element)
+    {
+        Debug.Log("CharacterModelController.DisableAndClearElementOnModel() called, enabling " +
+            element.gameObject.name + " GO");
+
+        // disable view
+        element.gameObject.SetActive(false);
+
+        // Clear reference on model
+        if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.Chest)
+        {
+            model.activeChest = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.Head)
+        {
+            model.activeHead = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.Face)
+        {
+            model.activeFace = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightArm)
+        {
+            model.activeRightArm = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightHand)
+        {
+            model.activeRightHand = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftArm)
+        {
+            model.activeLeftArm = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftHand)
+        {
+            model.activeLeftHand = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightLeg)
+        {
+            model.activeRightLeg = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftLeg)
+        {
+            model.activeLeftLeg = null;
+        }
+
+        // Set Active Weapons + Clothing Reference
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.HeadWear)
+        {
+            model.activeHeadWear = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.ChestWear)
+        {
+            model.activeChestWear = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftLegWear)
+        {
+            model.activeLeftLegWear = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightLegWear)
+        {
+            model.activeRightLegWear = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftArmWear)
+        {
+            model.activeLeftArmWear = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightArmWear)
+        {
+            model.activeRightArmWear = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.LeftHandWear)
+        {
+            model.activeLeftHandWear = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.RightHandWear)
+        {
+            model.activeRightHandWear = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.MainHandWeapon)
+        {
+            model.activeMainHandWeapon = null;
+        }
+        else if (element.bodyPartType == UniversalCharacterModelElement.BodyPartType.OffHandWeapon)
+        {
+            model.activeOffHandWeapon = null;
+        }
+
+        // repeat for any connected elements (e.g. active arm/hand sprites that are connected to the chest piece
+        foreach (UniversalCharacterModelElement connectedElement in element.connectedElements)
+        {
+            DisableAndClearElementOnModel(model, connectedElement);
+        }
+
     }
 
     // Get View Parts  

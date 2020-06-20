@@ -235,6 +235,7 @@ public class CharacterMakerController : MonoBehaviour
         Debug.Log("CharacterMakerController.OnNextChestWearButtonClicked() called...");
         CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.allChestWear));
+        /*
         CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.allRightArmWear));
         CharacterModelController.EnableAndSetElementOnModel(characterModel,
@@ -243,12 +244,14 @@ public class CharacterMakerController : MonoBehaviour
                 CharacterModelController.GetNextElementInList(characterModel.allRightHandWear));
         CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.allLeftHandWear));
+                */
     }
     public void OnPreviousChestWearButtonClicked()
     {
         Debug.Log("CharacterMakerController.OnPreviousHeadWearButtonClicked() called...");
         CharacterModelController.EnableAndSetElementOnModel(characterModel,
                CharacterModelController.GetNextElementInList(characterModel.allChestWear));
+        /*
         CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.allRightArmWear));
         CharacterModelController.EnableAndSetElementOnModel(characterModel,
@@ -257,6 +260,7 @@ public class CharacterMakerController : MonoBehaviour
                 CharacterModelController.GetNextElementInList(characterModel.allRightHandWear));
         CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.allLeftHandWear));
+                */
     }
     public void OnNextLegWearButtonClicked()
     {
