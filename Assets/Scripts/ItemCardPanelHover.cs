@@ -7,6 +7,9 @@ public class ItemCardPanelHover : MonoBehaviour
 {
     // Properties + Component References
     #region
+    [Header("Properties")]
+    public ItemCard currentItemCardUnderMouse;
+
     [Header("Component References")]
     public GameObject locationParent;
     public GameObject arrowParent;
@@ -311,14 +314,20 @@ public class ItemCardPanelHover : MonoBehaviour
 
     // Mouse + Input Events
     #region
-    public void OnItemCardMouseExit()
+    public void OnItemCardMouseExit(ItemCard itemCardMouseExited)
     {
         Debug.Log("ItemCardPanelHover.OnItemCardMouseExit() called");
-        DisableAllViews();
+        if(itemCardMouseExited == currentItemCardUnderMouse)
+        {
+            currentItemCardUnderMouse = null;
+            DisableAllViews();
+        }
+        
     }
     public void OnItemCardMousedOver(ItemCard itemCard)
     {
         Debug.Log("ItemCardPanelHover.OnItemCardMousedOver() called on " + itemCard.myItemDataSO.Name);
+        currentItemCardUnderMouse = itemCard;
         EnableAllViews();
 
         // Weapon Info Tab

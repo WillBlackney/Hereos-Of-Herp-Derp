@@ -103,7 +103,7 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             InventoryController.Instance.AddItemToInventory(myItemDataSO, true);
         }
 
-        ItemCardPanelHover.Instance.OnItemCardMouseExit();
+        ItemCardPanelHover.Instance.OnItemCardMouseExit(this);
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -121,15 +121,13 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             if(location != Location.Inventory)
             {
                 ItemCardPanelHover.Instance.OnItemCardMousedOver(this);
-            }
-            
-        }
-        
+            }            
+        }       
 
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("ItemCard.OnPointerEnter() called...");
+        Debug.Log("ItemCard.OnPointerExit() called...");
 
         if (location == Location.Shop ||
             location == Location.LootScreen)
@@ -138,7 +136,11 @@ public class ItemCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             StartCoroutine(Shrink(1));
         }
 
-        ItemCardPanelHover.Instance.OnItemCardMouseExit();
+        ItemCardPanelHover.Instance.OnItemCardMouseExit(this);
+    }
+    public void OnDisable()
+    {
+        ItemCardPanelHover.Instance.OnItemCardMouseExit(this);
     }
     #endregion
 

@@ -884,19 +884,6 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, "Archer_Helmet_Head_Wear");
         EnableAndSetElementOnModel(model, "Marksman_Chest_Wear");
         EnableAndSetElementOnModel(model, "Left_Hand_Simple_Bow");
-
-        /*
-        CompletelyDisableAllViews(model);
-
-        model.skeletonArcherLeftLeg.SetActive(true);
-        model.skeletonArcherRightLeg.SetActive(true);
-        model.skeletonArcherHead.SetActive(true);
-        model.skeletonArcherRightHand.SetActive(true);
-        model.skeletonArcherRightArm.SetActive(true);
-        model.skeletonArcherLeftHand.SetActive(true);
-        model.skeletonArcherLeftArm.SetActive(true);
-        model.skeletonArcherChest.SetActive(true);
-        */
     }
     public static void SetUpAsSkeletonAssassinPreset(UniversalCharacterModel model)
     {
@@ -919,19 +906,6 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, model.allChestWear[2]);
         EnableAndSetElementOnModel(model, model.allMainHandWeapons[1]);
         EnableAndSetElementOnModel(model, model.allOffHandWeapons[2]);
-
-        /*
-        CompletelyDisableAllViews(model);
-
-        model.skeletonAssassinLeftLeg.SetActive(true);
-        model.skeletonAssassinRightLeg.SetActive(true);
-        model.skeletonAssassinHead.SetActive(true);
-        model.skeletonAssassinRightHand.SetActive(true);
-        model.skeletonAssassinRightArm.SetActive(true);
-        model.skeletonAssassinLeftHand.SetActive(true);
-        model.skeletonAssassinLeftArm.SetActive(true);
-        model.skeletonAssassinChest.SetActive(true);
-        */
     }
     public static void SetUpAsSkeletonWarriorPreset(UniversalCharacterModel model)
     {
@@ -953,19 +927,6 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, "Silver_Red_Helmet_Head_Wear");
         EnableAndSetElementOnModel(model, model.allMainHandWeapons[0]);
         EnableAndSetElementOnModel(model, model.allOffHandWeapons[0]);
-
-        /*
-        CompletelyDisableAllViews(model);
-
-        model.skeletonWarriorLeftLeg.SetActive(true);
-        model.skeletonWarriorRightLeg.SetActive(true);
-        model.skeletonWarriorHead.SetActive(true);
-        model.skeletonWarriorRightHand.SetActive(true);
-        model.skeletonWarriorRightArm.SetActive(true);
-        model.skeletonWarriorLeftHand.SetActive(true);
-        model.skeletonWarriorLeftArm.SetActive(true);
-        model.skeletonWarriorChest.SetActive(true);
-        */
     }
     public static void SetUpAsSkeletonBarbarianPreset(UniversalCharacterModel model)
     {
@@ -986,19 +947,6 @@ public static class CharacterModelController
         // Clothing + Weapon parts
         EnableAndSetElementOnModel(model, "Berserker_Mask_Head_Wear");
         EnableAndSetElementOnModel(model, model.allMainHandWeapons[4]);
-
-        /*
-        CompletelyDisableAllViews(model);
-
-        model.skeletonBarbarianLeftLeg.SetActive(true);
-        model.skeletonBarbarianRightLeg.SetActive(true);
-        model.skeletonBarbarianHead.SetActive(true);
-        model.skeletonBarbarianRightHand.SetActive(true);
-        model.skeletonBarbarianRightArm.SetActive(true);
-        model.skeletonBarbarianLeftHand.SetActive(true);
-        model.skeletonBarbarianLeftArm.SetActive(true);
-        model.skeletonBarbarianChest.SetActive(true);
-        */
     }
     public static void SetUpAsSkeletonPriestPreset(UniversalCharacterModel model)
     {
@@ -1020,19 +968,6 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, "Priest_Chest_Wear");
         EnableAndSetElementOnModel(model, "White_Head_Band_Head_Wear");
         EnableAndSetElementOnModel(model, model.allMainHandWeapons[3]);
-
-        /*
-        CompletelyDisableAllViews(model);
-
-        model.skeletonPriestLeftLeg.SetActive(true);
-        model.skeletonPriestRightLeg.SetActive(true);
-        model.skeletonPriestHead.SetActive(true);
-        model.skeletonPriestRightHand.SetActive(true);
-        model.skeletonPriestRightArm.SetActive(true);
-        model.skeletonPriestLeftHand.SetActive(true);
-        model.skeletonPriestLeftArm.SetActive(true);
-        model.skeletonPriestChest.SetActive(true);
-        */
     }
     public static void SetUpAsSkeletonMagePreset(UniversalCharacterModel model)
     {
@@ -1054,33 +989,24 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, "Arcanist_Head_Wear");
         EnableAndSetElementOnModel(model, "Arcanist_Chest_Wear");
         EnableAndSetElementOnModel(model, model.allMainHandWeapons[3]);
-
-
-        /*
-        CompletelyDisableAllViews(model);
-
-        model.skeletonMageLeftLeg.SetActive(true);
-        model.skeletonMageRightLeg.SetActive(true);
-        model.skeletonMageHead.SetActive(true);
-        model.skeletonMageRightHand.SetActive(true);
-        model.skeletonMageRightArm.SetActive(true);
-        model.skeletonMageLeftHand.SetActive(true);
-        model.skeletonMageLeftArm.SetActive(true);
-        model.skeletonMageChest.SetActive(true);
-        */
     }
     public static void SetUpAsSkeletonNecromancerPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.skeletonNecromancerLeftLeg.SetActive(true);
-        model.skeletonNecromancerRightLeg.SetActive(true);
-        model.skeletonNecromancerHead.SetActive(true);
-        model.skeletonNecromancerRightHand.SetActive(true);
-        model.skeletonNecromancerRightArm.SetActive(true);
-        model.skeletonNecromancerLeftHand.SetActive(true);
-        model.skeletonNecromancerLeftArm.SetActive(true);
-        model.skeletonNecromancerChest.SetActive(true);
+        // Clothing + Weapon parts
+        EnableAndSetElementOnModel(model, "Orc_Face_6");
+        EnableAndSetElementOnModel(model, "Skeleton_Necromancer_Head");
+        EnableAndSetElementOnModel(model, "Black_Necromancer_Right_Arm_Wear");
+        EnableAndSetElementOnModel(model, "Black_Necromancer_Left_Arm_Wear");
+        EnableAndSetElementOnModel(model, "Black_Necromancer_Chest_Wear");
+        EnableAndSetElementOnModel(model, "Black_Necromancer_Right_Leg_Wear");
+        EnableAndSetElementOnModel(model, "Black_Necromancer_Left_Leg_Wear");
+        EnableAndSetElementOnModel(model, "Black_Necromancer_Right_Hand");
+        EnableAndSetElementOnModel(model, "Black_Necromancer_Left_Hand");
+
+        EnableAndSetElementOnModel(model, "Left_Hand_Green_Staff_1");
     }
     public static void SetUpAsSkeletonKingPreset(UniversalCharacterModel model)
     {
