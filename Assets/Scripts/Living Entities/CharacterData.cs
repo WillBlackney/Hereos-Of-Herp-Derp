@@ -416,134 +416,6 @@ public class CharacterData : MonoBehaviour
 
     // Initialization + Setup
     #region
-    public void InitializeSetupFromPresetString(string characterClass)
-    {
-        // Learn Move
-        HandleLearnAbility(AbilityLibrary.Instance.GetAbilityByName("Move"));
-
-        // Preset specific set up (weapons, abilities, passives, talents, etc)
-        if (characterClass == "Knight")
-        {
-            SetUpAsKnightPreset();
-        }
-        else if (characterClass == "Paladin")
-        {
-            SetUpAsPaladinPreset();
-        }
-        else if (characterClass == "Berserker")
-        {
-            SetUpAsBerserkerPreset();
-        }
-        else if (characterClass == "Battle Mage")
-        {
-            SetUpAsBattleMagePreset();
-        }
-        else if (characterClass == "Arcanist")
-        {
-            SetUpAsArcanistPreset();
-        }
-        else if (characterClass == "Shadow Blade")
-        {
-            SetUpAsShadowBladePreset();
-        }
-        else if (characterClass == "Rogue")
-        {
-            SetUpAsRoguePreset();
-        }
-        else if (characterClass == "Priest")
-        {
-            SetUpAsPriestPreset();
-        }
-        else if (characterClass == "Monk")
-        {
-            SetUpAsMonkPreset();
-        }
-        else if (characterClass == "Wayfarer")
-        {
-            SetUpAsWayfarerPreset();
-        }
-        else if (characterClass == "Marksman")
-        {
-            SetUpAsMarksmanPreset();
-        }
-        else if (characterClass == "Warlock")
-        {
-            SetUpAsWarlockPreset();
-        }
-        else if (characterClass == "Alchemist")
-        {
-            SetUpAsAlchemistPreset();            
-        }
-        else if (characterClass == "Death Knight")
-        {
-            SetUpAsDeathKnightPreset();
-        }
-        else if (characterClass == "Illusionist")
-        {
-            SetUpAsIllusionistPreset();
-        }
-        else if (characterClass == "Shaman")
-        {
-            SetUpAsShamanPreset();
-        }
-        else if (characterClass == "Frost Knight")
-        {
-            SetUpAsFrostKnightPreset();
-        }
-        else if (characterClass == "Bulwark")
-        {
-            SetUpAsBulwarkPreset();
-        }
-
-
-
-        // Set up health
-        ModifyMaxHealth(100);
-        ModifyCurrentHealth(100);
-
-        // Set up core stats
-        ModifyStrength(0);
-        ModifyWisdom(0);
-        ModifyDexterity(0);
-        ModifyStamina(40);
-        ModifyMobility(2);
-        ModifyInitiative(3);
-
-        // Set up secondary stats
-        ModifyCriticalChance(5);
-        ModifyParry(5);
-        ModifyDodge(5);
-        ModifyAuraSize(1);
-        ModifyMaxEnergy(60);
-        ModifyMeleeRange(1);
-
-        // Set up resistances
-        ModifyPhysicalResistance(0);
-        ModifyFireResistance(0);
-        ModifyFrostResistance(0);
-        ModifyPoisonResistance(0);
-        ModifyAirResistance(0);
-        ModifyShadowResistance(0);
-
-        // Set up Talent + Ability Points
-        ModifyTalentPoints(0);
-        ModifyAbilityPoints(0);
-
-        // Set up Xp + Max Xp and Leve
-        ModifyCurrentLevel(1);
-        SetMaxXP(100);
-        ModifyCurrentXP(0);
-
-        // Misc Passives + Extras
-        ModifyPowerLimit(1);
-
-        // Set default talent page
-        SetDefaultTalentPageView();
-
-        // Play idle anim on model
-        myCharacterModel.SetIdleAnim();
-
-    }
     public void InitializeSetupFromPresetData(CharacterPresetData data)
     {
         // Learn Move
@@ -608,7 +480,7 @@ public class CharacterData : MonoBehaviour
         myCharacterModel.SetIdleAnim();
 
     }
-    public void InitializeTalentsFromPresetData(CharacterPresetData data)
+    private void InitializeTalentsFromPresetData(CharacterPresetData data)
     {
         foreach (TalentPairing tp in data.knownTalents)
         {
@@ -662,7 +534,7 @@ public class CharacterData : MonoBehaviour
             }
         }
     }
-    public void InitializeWeaponsFromPresetData(CharacterPresetData data)
+    private void InitializeWeaponsFromPresetData(CharacterPresetData data)
     {
         // Main hand weapon
         if (data.mhWeapon)
@@ -676,18 +548,31 @@ public class CharacterData : MonoBehaviour
             InventoryController.Instance.CreateAndAddItemDirectlyToCharacter(data.ohWeapon, offHandSlot);
         }
     }
-    public void InitializeTalentTreesFromPresetData(CharacterPresetData data)
+    private void InitializeTalentTreesFromPresetData(CharacterPresetData data)
     {
         // Abilities
         foreach(AbilityDataSO ability in data.knownAbilities)
         {
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, ability.abilityName), false);
+            // does ability actually correspond to a talent on a talent tree?
+            Talent talent = TalentController.Instance.GetTalentByName(this, ability.abilityName);
+            if (talent)
+            {
+                // it does, unlock it
+                TalentController.Instance.PurchaseTalent(this, talent, false);
+            }
+            
         }
 
         // Passives
         foreach (StatusPairing passive in data.knownPassives)
         {
-            TalentController.Instance.PurchaseTalent(this, TalentController.Instance.GetTalentByName(this, passive.statusData.statusName), false);
+            // does passive actually correspond to a talent on a talent tree?
+            Talent talent = TalentController.Instance.GetTalentByName(this, passive.statusData.statusName);
+            if (talent)
+            {
+                // it does, unlock it
+                TalentController.Instance.PurchaseTalent(this, talent, false);
+            }               
         }
     }
     public void CreateMyDefenderGameObject()
@@ -715,7 +600,7 @@ public class CharacterData : MonoBehaviour
         defender.InitializeSetup(spawnLocation.GridPosition, spawnLocation);
         
     }
-    public void SetDefaultTalentPageView()
+    private void SetDefaultTalentPageView()
     {
         if(guardianPoints > 0)
         {

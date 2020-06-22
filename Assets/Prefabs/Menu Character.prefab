@@ -484,6 +484,7 @@ GameObject:
   - component: {fileID: 4334253719419513992}
   - component: {fileID: 7318922018802561271}
   - component: {fileID: 8344109668684072789}
+  - component: {fileID: 2877920375255787679}
   m_Layer: 5
   m_Name: Scrollbar
   m_TagString: Untagged
@@ -596,6 +597,19 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2877920375255787679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283642769850373968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7dc9d50ca03e0747b30a2f9a7c3b0b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myScrollbar: {fileID: 8344109668684072789}
 --- !u!1 &293503963803549232
 GameObject:
   m_ObjectHideFlags: 0
@@ -1248,6 +1262,9 @@ MonoBehaviour:
   passiveInfoSheet: {fileID: 2472416527674487605}
   abilityImage: {fileID: 3031667127013502649}
   passiveImage: {fileID: 3031667127013502649}
+  purchasedOverlayParent: {fileID: 0}
+  mouseOverOverlayParent: {fileID: 0}
+  location: 0
   myAbilityData: {fileID: 0}
   myPassiveData: {fileID: 0}
   isAbility: 0
@@ -4450,6 +4467,9 @@ MonoBehaviour:
   passiveInfoSheet: {fileID: 3569708318605691981}
   abilityImage: {fileID: 5155957021269716016}
   passiveImage: {fileID: 5155957021269716016}
+  purchasedOverlayParent: {fileID: 0}
+  mouseOverOverlayParent: {fileID: 0}
+  location: 0
   myAbilityData: {fileID: 0}
   myPassiveData: {fileID: 0}
   isAbility: 0
@@ -6897,6 +6917,9 @@ MonoBehaviour:
   passiveInfoSheet: {fileID: 3648708887940874513}
   abilityImage: {fileID: 814164378279194973}
   passiveImage: {fileID: 814164378279194973}
+  purchasedOverlayParent: {fileID: 0}
+  mouseOverOverlayParent: {fileID: 0}
+  location: 0
   myAbilityData: {fileID: 0}
   myPassiveData: {fileID: 0}
   isAbility: 0
@@ -7599,6 +7622,9 @@ MonoBehaviour:
   passiveInfoSheet: {fileID: 3448875035300169759}
   abilityImage: {fileID: 447441145671079509}
   passiveImage: {fileID: 447441145671079509}
+  purchasedOverlayParent: {fileID: 0}
+  mouseOverOverlayParent: {fileID: 0}
+  location: 0
   myAbilityData: {fileID: 0}
   myPassiveData: {fileID: 0}
   isAbility: 0
@@ -15976,6 +16002,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e9dda14b6f34517a0d598d3320a902, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &2423418704478963912 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4168412347097908, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
+    type: 3}
+  m_PrefabInstance: {fileID: 2427292172831714300}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5970142938976606322 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8319639457569026958, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
@@ -15988,12 +16020,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 210b4f05cfbf5c9478136e8c77e161ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &2423418704478963912 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4168412347097908, guid: 81e9b41ae9d8afe47a07faf8f67e5bb9,
-    type: 3}
-  m_PrefabInstance: {fileID: 2427292172831714300}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3422727877114051449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16865,12 +16891,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5eb244ffd8608304da6f6f3d38480ec9, type: 3}
---- !u!224 &7140417419021956075 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2374563341998060019, guid: 5eb244ffd8608304da6f6f3d38480ec9,
-    type: 3}
-  m_PrefabInstance: {fileID: 4892034034116706840}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2472416527674487605 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7038060462053945645, guid: 5eb244ffd8608304da6f6f3d38480ec9,
@@ -16883,6 +16903,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c4292767ad0d2b448b12e116e60464f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &7140417419021956075 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2374563341998060019, guid: 5eb244ffd8608304da6f6f3d38480ec9,
+    type: 3}
+  m_PrefabInstance: {fileID: 4892034034116706840}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5652276060083321138
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18041,6 +18067,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5eb244ffd8608304da6f6f3d38480ec9, type: 3}
+--- !u!224 &8357206543946596815 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2374563341998060019, guid: 5eb244ffd8608304da6f6f3d38480ec9,
+    type: 3}
+  m_PrefabInstance: {fileID: 5984975859368636476}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3648708887940874513 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7038060462053945645, guid: 5eb244ffd8608304da6f6f3d38480ec9,
@@ -18053,12 +18085,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c4292767ad0d2b448b12e116e60464f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &8357206543946596815 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2374563341998060019, guid: 5eb244ffd8608304da6f6f3d38480ec9,
-    type: 3}
-  m_PrefabInstance: {fileID: 5984975859368636476}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6282195612639278421
 PrefabInstance:
   m_ObjectHideFlags: 0

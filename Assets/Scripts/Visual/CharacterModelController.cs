@@ -853,16 +853,18 @@ public static class CharacterModelController
     }
     public static void SetUpAsDarkElfRangerPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.darkElfRangerLeftLeg.SetActive(true);
-        model.darkElfRangerRightLeg.SetActive(true);
-        model.darkElfRangerHead.SetActive(true);
-        model.darkElfRangerRightHand.SetActive(true);
-        model.darkElfRangerRightArm.SetActive(true);
-        model.darkElfRangerLeftHand.SetActive(true);
-        model.darkElfRangerLeftArm.SetActive(true);
-        model.darkElfRangerChest.SetActive(true);
+        // Body parts
+        EnableAndSetElementOnModel(model, "Dark_Elf_Right_Hand");
+        EnableAndSetElementOnModel(model, "Dark_Elf_Left_Hand");
+        EnableAndSetElementOnModel(model, "Dark_Elf_Right_Leg");
+        EnableAndSetElementOnModel(model, "Dark_Elf_Left_Leg");
+        EnableAndSetElementOnModel(model, "Grey_Archer_Vest_Chest_Wear");
+        EnableAndSetElementOnModel(model, "Left_Hand_Recurve_Bow_1");
+        EnableAndSetElementOnModel(model, "Elf_Face_4");
+        EnableAndSetElementOnModel(model, "Elf_Head_5");
     }
     public static void SetUpAsSkeletonArcherPreset(UniversalCharacterModel model)
     {
@@ -1010,29 +1012,40 @@ public static class CharacterModelController
     }
     public static void SetUpAsSkeletonKingPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.skeletonKingLeftLeg.SetActive(true);
-        model.skeletonKingRightLeg.SetActive(true);
-        model.skeletonKingHead.SetActive(true);
-        model.skeletonKingRightHand.SetActive(true);
-        model.skeletonKingRightArm.SetActive(true);
-        model.skeletonKingLeftHand.SetActive(true);
-        model.skeletonKingLeftArm.SetActive(true);
-        model.skeletonKingChest.SetActive(true);
+        // Clothing + Weapon parts
+        EnableAndSetElementOnModel(model, "Left_Hand_Graphite_Gladius");
+        EnableAndSetElementOnModel(model, "Black_Gold_Plate_Shield");
+        EnableAndSetElementOnModel(model, "Black_Gold_Plate_Right_Hand");
+        EnableAndSetElementOnModel(model, "Black_Gold_Plate_Right_Arm_Wear");
+        EnableAndSetElementOnModel(model, "Black_Gold_Plate_Left_Hand");
+        EnableAndSetElementOnModel(model, "Black_Gold_Plate_Left_Arm_Wear");
+        EnableAndSetElementOnModel(model, "Black_Gold_Plate_Chest_Wear");
+        EnableAndSetElementOnModel(model, "Black_Gold_Plate_Right_Leg_Wear");
+        EnableAndSetElementOnModel(model, "Black_Gold_Plate_Left_Leg_Wear");
+        EnableAndSetElementOnModel(model, "Undead_Head_1");
+        EnableAndSetElementOnModel(model, "Undead_Face_10");
     }
     public static void SetUpAsSkeletonSoldierPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.skeletonSoldierLeftLeg.SetActive(true);
-        model.skeletonSoldierRightLeg.SetActive(true);
-        model.skeletonSoldierHead.SetActive(true);
-        model.skeletonSoldierRightHand.SetActive(true);
-        model.skeletonSoldierRightArm.SetActive(true);
-        model.skeletonSoldierLeftHand.SetActive(true);
-        model.skeletonSoldierLeftArm.SetActive(true);
-        model.skeletonSoldierChest.SetActive(true);
+        // Clothing + Weapon parts
+        EnableAndSetElementOnModel(model, "Death_Knight_Head_Wear");
+        EnableAndSetElementOnModel(model, "Death_Knight_Shield");
+        EnableAndSetElementOnModel(model, "Death_Knight_Right_Arm_Wear");
+        EnableAndSetElementOnModel(model, "Death_Knight_Left_Arm_Wear");
+        EnableAndSetElementOnModel(model, "Death_Knight_Chest_Wear");
+        EnableAndSetElementOnModel(model, "Undead_Head_1");
+        EnableAndSetElementOnModel(model, "Undead_Face_2");
+        EnableAndSetElementOnModel(model, "Undead_Right_Hand");
+        EnableAndSetElementOnModel(model, "Undead_Left_Hand");
+        EnableAndSetElementOnModel(model, "Undead_Right_Leg");
+        EnableAndSetElementOnModel(model, "Undead_Left_Leg");
+        EnableAndSetElementOnModel(model, "Left_Hand_Simple_Sword");
     }
     public static void SetUpAsGoblinStabbyPreset(UniversalCharacterModel model)
     {
@@ -1118,16 +1131,19 @@ public static class CharacterModelController
     }
     public static void SetUpAsMorkPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.morkLeftLeg.SetActive(true);
-        model.morkRightLeg.SetActive(true);
-        model.morkHead.SetActive(true);
-        model.morkRightHand.SetActive(true);
-        model.morkRightArm.SetActive(true);
-        model.morkLeftHand.SetActive(true);
-        model.morkLeftArm.SetActive(true);
-        model.morkChest.SetActive(true);
+        // Body parts
+        EnableAndSetElementOnModel(model, "Goblin_Head_1");
+        EnableAndSetElementOnModel(model, "Goblin_Right_Hand");
+        EnableAndSetElementOnModel(model, "Goblin_Right_Arm");
+        EnableAndSetElementOnModel(model, "Goblin_Left_Hand");
+        EnableAndSetElementOnModel(model, "Goblin_Left_Arm");
+        EnableAndSetElementOnModel(model, "Goblin_Chest");
+        EnableAndSetElementOnModel(model, "Goblin_Right_Leg");
+        EnableAndSetElementOnModel(model, "Goblin_Left_Leg");
+        EnableAndSetElementOnModel(model, "Left_Hand_Wooden_Spiked_Club");
     }
     public static void SetUpAsFireGolemPreset(UniversalCharacterModel model)
     {
@@ -1196,42 +1212,57 @@ public static class CharacterModelController
     }
     public static void SetUpAsDemonBerserkerPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.demonBerserkerLeftLeg.SetActive(true);
-        model.demonBerserkerRightLeg.SetActive(true);
-        model.demonBerserkerHead.SetActive(true);
-        model.demonBerserkerRightHand.SetActive(true);
-        model.demonBerserkerRightArm.SetActive(true);
-        model.demonBerserkerLeftHand.SetActive(true);
-        model.demonBerserkerLeftArm.SetActive(true);
-        model.demonBerserkerChest.SetActive(true);
+        // Body parts
+        EnableAndSetElementOnModel(model, "Demon_Head_1");
+        EnableAndSetElementOnModel(model, "Demon_Right_Hand_1");
+        EnableAndSetElementOnModel(model, "Demon_Right_Arm_1");
+        EnableAndSetElementOnModel(model, "Demon_Left_Hand_1");
+        EnableAndSetElementOnModel(model, "Demon_Left_Arm_1");
+        EnableAndSetElementOnModel(model, "Demon_Chest_1");
+        EnableAndSetElementOnModel(model, "Demon_Right_Leg_1");
+        EnableAndSetElementOnModel(model, "Demon_Left_Leg_1");
+        EnableAndSetElementOnModel(model, "Orc_Face_5");
+        EnableAndSetElementOnModel(model, "Left_Hand_Serated_Sword_2H");
+
     }
     public static void SetUpAsDemonBladeMasterPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.demonBladeMasterLeftLeg.SetActive(true);
-        model.demonBladeMasterRightLeg.SetActive(true);
-        model.demonBladeMasterHead.SetActive(true);
-        model.demonBladeMasterRightHand.SetActive(true);
-        model.demonBladeMasterRightArm.SetActive(true);
-        model.demonBladeMasterLeftHand.SetActive(true);
-        model.demonBladeMasterLeftArm.SetActive(true);
-        model.demonBladeMasterChest.SetActive(true);
+        // Body parts
+        EnableAndSetElementOnModel(model, "Demon_Head_2");
+        EnableAndSetElementOnModel(model, "Demon_Right_Hand_2");
+        EnableAndSetElementOnModel(model, "Demon_Right_Arm_2");
+        EnableAndSetElementOnModel(model, "Demon_Left_Hand_2");
+        EnableAndSetElementOnModel(model, "Demon_Left_Arm_2");
+        EnableAndSetElementOnModel(model, "Demon_Chest_2");
+        EnableAndSetElementOnModel(model, "Demon_Right_Leg_2");
+        EnableAndSetElementOnModel(model, "Demon_Left_Leg_2");
+        EnableAndSetElementOnModel(model, "Orc_Face_5");
+        EnableAndSetElementOnModel(model, "Right_Hand_Serated_Sword");
+        EnableAndSetElementOnModel(model, "Left_Hand_Serated_Sword");
     }
     public static void SetUpAsDemonHellGuardPreset(UniversalCharacterModel model)
     {
-        CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
 
-        model.demonHellGuardLeftLeg.SetActive(true);
-        model.demonHellGuardRightLeg.SetActive(true);
-        model.demonHellGuardHead.SetActive(true);
-        model.demonHellGuardRightHand.SetActive(true);
-        model.demonHellGuardRightArm.SetActive(true);
-        model.demonHellGuardLeftHand.SetActive(true);
-        model.demonHellGuardLeftArm.SetActive(true);
-        model.demonHellGuardChest.SetActive(true);
+        // Body parts
+        EnableAndSetElementOnModel(model, "Demon_Head_1");
+        EnableAndSetElementOnModel(model, "Demon_Right_Hand_1");
+        EnableAndSetElementOnModel(model, "Demon_Left_Hand_1");
+        EnableAndSetElementOnModel(model, "Hell_Guard_Head_Wear");
+        EnableAndSetElementOnModel(model, "Right_Hand_Hell_Guard_Shield");
+        EnableAndSetElementOnModel(model, "Left_Hand_Serated_Sword");
+        EnableAndSetElementOnModel(model, "Hell_Guard_Right_Arm_Wear");
+        EnableAndSetElementOnModel(model, "Hell_Guard_Left_Arm_Wear");
+        EnableAndSetElementOnModel(model, "Orc_Face_5");
+        EnableAndSetElementOnModel(model, "Hell_Guard_Chest_Wear");
+
     }
     #endregion
 

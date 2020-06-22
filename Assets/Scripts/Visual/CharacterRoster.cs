@@ -9,11 +9,13 @@ public class CharacterRoster : MonoBehaviour
     public GameObject canvasParent;
     public GameObject CharacterRosterCloseButton;
 
+    [Header("Character Model References")]
     public CharacterData characterOne;
     public CharacterData characterTwo;
     public CharacterData characterThree;
     public CharacterData characterFour;
 
+    [Header("Character Button Model References")]
     public UniversalCharacterModel characterOneButtonModel;
     public UniversalCharacterModel characterTwoButtonModel;
     public UniversalCharacterModel characterThreeButtonModel;

@@ -21,7 +21,9 @@ public class CharacterMakerController : MonoBehaviour
     public List<MenuAbilityTab> editAbilityButtons;
 
     [Header("Origin Tab Component References")]
-    public TextMeshProUGUI characterNameText;
+    public TMP_InputField characterNameText;
+    public TMP_InputField characterStoryText;
+    public TextMeshProUGUI characterStoryCurrentCharCountText;
     public TextMeshProUGUI characterRaceText;
     public TextMeshProUGUI currentBackgroundOneText;
     public TextMeshProUGUI currentBackgroundTwoText;   
@@ -76,6 +78,7 @@ public class CharacterMakerController : MonoBehaviour
     {
         Debug.Log("CharacterMakerController.OnCharacterMakerButtonClicked() called...");
         SetMainWindowViewState(true);
+        ClearTextsOnWindowOpen();
         SetCharacterModelDefaultStartingState();
         SetCharacterBackgroundDefaultState();
         BuildCharacterFromClassPresetData(CharacterPresetLibrary.Instance.allClassPresets[0]);
@@ -690,6 +693,9 @@ public class CharacterMakerController : MonoBehaviour
         // Set name
         charData.characterName = characterNameText.text;
 
+        // Set story
+        charData.characterDescription = characterStoryText.text;
+
         // Set backgrounds
         charData.backgrounds.Add(currentBackgroundOne);
         charData.backgrounds.Add(currentBackgroundTwo);
@@ -880,6 +886,33 @@ public class CharacterMakerController : MonoBehaviour
         // Build views and data
         nextSlot.SetUpAbilityTabAsPassive(data, stacks);
     }
+    private void SetCharacterNameText(string name)
+    {
+        Debug.Log("CharacterMakerController.SetCharacterNameText() called, setting text to read: " + name);
+        characterNameText.text = name;
+    }
+    public void OnStoryTextValueChanged()
+    {
+        int descriptionLength = characterStoryText.text.ToCharArray().Length;
+        characterStoryCurrentCharCountText.text = descriptionLength.ToString();
+
+        /*
+        if(descriptionLength >= 600)
+        {
+            characterStoryText.text = previousDescription;
+        }
+        else
+        {
+            previousDescription = characterStoryText.text;
+        }
+        */
+    }
+    private void ClearTextsOnWindowOpen()
+    {
+        characterStoryText.text = "";
+        characterNameText.text = "";
+        OnStoryTextValueChanged();
+    }
     private void SetCharacterBackgroundOne(CharacterData.Background background)
     {
         // cache BG ref
@@ -887,7 +920,7 @@ public class CharacterMakerController : MonoBehaviour
 
         // set text
         currentBackgroundOneText.text = background.ToString();
-    }
+    }   
     private void SetCharacterBackgroundTwo(CharacterData.Background background)
     {
         // cache BG ref
@@ -1406,7 +1439,11 @@ public class CharacterMakerController : MonoBehaviour
         ClearAllTalentPairings();
 
         // Load name
-        characterNameText.text = data.characterName;
+        SetCharacterNameText(data.characterName);
+
+        // Load story
+        characterStoryText.text = data.characterDescription;
+        OnStoryTextValueChanged();
 
         // Load backgrounds
         SetCharacterBackgroundOne(data.backgrounds[0]);
