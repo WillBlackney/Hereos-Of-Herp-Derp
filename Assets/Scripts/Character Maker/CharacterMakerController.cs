@@ -249,17 +249,13 @@ public class CharacterMakerController : MonoBehaviour
     {
         Debug.Log("CharacterMakerController.OnNextLegWearButtonClicked() called...");
         CharacterModelController.EnableAndSetElementOnModel(characterModel,
-                CharacterModelController.GetNextElementInList(characterModel.allLeftLegWear));
-        CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.allRightLegWear));
     }
     public void OnPreviousLegWearButtonClicked()
     {
         Debug.Log("CharacterMakerController.OnPreviousLegWearButtonClicked() called...");
         CharacterModelController.EnableAndSetElementOnModel(characterModel,
-               CharacterModelController.GetNextElementInList(characterModel.allLeftLegWear));
-        CharacterModelController.EnableAndSetElementOnModel(characterModel,
-                CharacterModelController.GetNextElementInList(characterModel.allRightLegWear));
+                CharacterModelController.GetPreviousElementInList(characterModel.allRightLegWear));
     }
     #endregion
 
@@ -511,9 +507,11 @@ public class CharacterMakerController : MonoBehaviour
     private void SetCharacterModelDefaultView()
     {
         Debug.Log("CharacterMakerController.SetCharacterModelDefaultView() called...");
-        CharacterModelController.CompletelyDisableAllViews(characterModel);
-        CharacterModelController.SetBaseHumanView(characterModel);
-        characterRaceText.text = "Human";
+        //CharacterModelController.SetBaseHumanView(characterModel);
+        //characterRaceText.text = "Human";
+
+        CharacterModelController.SetBaseElfView(characterModel);
+        characterRaceText.text = "Elf";
     }
     private void SetCharacterBackgroundDefaultState()
     {
@@ -827,13 +825,11 @@ public class CharacterMakerController : MonoBehaviour
         // disable model weapon views and cache refs
         if (characterModel.activeMainHandWeapon)
         {
-            characterModel.activeMainHandWeapon.gameObject.SetActive(false);
-            characterModel.activeMainHandWeapon = null;
+            CharacterModelController.DisableAndClearElementOnModel(characterModel, characterModel.activeMainHandWeapon);
         }
         if (characterModel.activeOffHandWeapon)
         {
-            characterModel.activeOffHandWeapon.gameObject.SetActive(false);
-            characterModel.activeOffHandWeapon = null;
+            CharacterModelController.DisableAndClearElementOnModel(characterModel, characterModel.activeOffHandWeapon);
         }
 
         // set MH weapon model view

@@ -29,7 +29,7 @@ public class StoryWindowCharacterSlot : MonoBehaviour, IPointerClickHandler, IPo
         currentHealthText.text = data.currentHealth.ToString();
         maxHealthText.text = data.maxHealth.ToString();
         currentXPText.text = data.currentXP.ToString();
-        CharacterModelController.BuildModelFromPresetString(myModel, myCharacterData.myName);
+        //CharacterModelController.BuildModelFromPresetString(myModel, myCharacterData.myName);
         myModel.SetBaseAnim();
     }
     #endregion

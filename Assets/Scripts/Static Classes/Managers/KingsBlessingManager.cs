@@ -68,7 +68,7 @@ public class KingsBlessingManager : MonoBehaviour
         EnableView();
         PopulateChoiceDataList();
         CreateChoiceButtons();
-        CharacterModelController.BuildModelFromPresetString(kingModel, "King");
+        CharacterModelController.SetUpAsHumanKingPreset(kingModel);
         PlayIdleAnimOnAllModels();
         SetSpeechBubbleText("Choose my blessing...");
         FadeInSpeechBubble(1);
