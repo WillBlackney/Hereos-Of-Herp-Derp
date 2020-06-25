@@ -552,7 +552,7 @@ public static class EntityLogic
         }
 
         // Resolve
-        Debug.Log(ability.abilityName + " use by " + caster.name + " is valid");
+        Debug.Log(ability.abilityName + " use by " + caster.myName + " is valid");
         return true;
 
     }

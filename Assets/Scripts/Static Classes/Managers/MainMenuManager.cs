@@ -16,6 +16,7 @@ public class MainMenuManager : MonoBehaviour
     public GameObject northPos;
     public GameObject centrePos;
     public CanvasGroup textElementsParentCG;
+    public List<MenuButton> allMenuButtons;
 
     [Header("Properties")]
     public List<string> characterClassNames;
@@ -68,6 +69,8 @@ public class MainMenuManager : MonoBehaviour
     }
     public IEnumerator OnNewGameButtonClickedCoroutine()
     {
+        DisableAllMenuButtons();
+
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 4, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
 
@@ -94,7 +97,7 @@ public class MainMenuManager : MonoBehaviour
     {
         if(returnToMainMenuEventTriggered == false)
         {
-            returnToMainMenuEventTriggered = true;
+            returnToMainMenuEventTriggered = true;           
             StartCoroutine(OnBackToMainMenuButtonCickedCoroutine());
         }
         
@@ -107,6 +110,7 @@ public class MainMenuManager : MonoBehaviour
         HeroSelectionScreen.SetActive(false);
         arrowParent.SetActive(false);
         returnToMainMenuEventTriggered = false;
+        EnableAllMenuButtons();
 
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 4, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
@@ -154,23 +158,6 @@ public class MainMenuManager : MonoBehaviour
             }
             chosenClasses.Add(character.myPreset);
 
-            /*
-            // randomize presets for characters marked as random
-            if(character.myPresetName == "Random")
-            {
-                // Get random class
-                character.myPresetName = GetRandomClassString();
-
-                // re roll class if player has it already, prevent duplicate character when randomizing team
-                while (chosenClasses.Contains(character.myPresetName))
-                {
-                    Debug.Log("MainMenuManager detected that player already has " + character.myPresetName +
-                        " in their team, rerolling for random character again...");
-                    character.myPresetName = GetRandomClassString();
-                }
-            }
-            chosenClasses.Add(character.myPresetName);
-            */
         }
 
         // store selected preset data between scene change
@@ -193,6 +180,20 @@ public class MainMenuManager : MonoBehaviour
 
     // Misc Logic
     #region
+    public void EnableAllMenuButtons()
+    {
+        foreach(MenuButton button in allMenuButtons)
+        {
+            button.myButtonComponent.interactable = true;
+        }
+    }
+    public void DisableAllMenuButtons()
+    {
+        foreach (MenuButton button in allMenuButtons)
+        {
+            button.myButtonComponent.interactable = false;
+        }
+    }
     public void MoveArrowTowardsSelectedCharacter()
     {
         if (selectedMenuCharacter != null)
@@ -849,6 +850,45 @@ public class MainMenuManager : MonoBehaviour
         // set text
         character.presetDescriptionText.text = data.characterDescription;
         
+    }
+    public void BuildRaceTabFromCharacterPresetData(MenuCharacter character, UniversalCharacterModel.ModelRace race)
+    {
+        Debug.Log("MainMenuManager.BuildRaceTabFromCharacterPresetData() called...");
+
+        // set current race text
+        character.currentRaceText.text = race.ToString();
+
+        // set race description
+        if(race == UniversalCharacterModel.ModelRace.Elf)
+        {
+            character.raceDescriptionText.text = TextLogic.elfRaceDescription;
+            character.raceDescriptionText.gameObject.SetActive(true);
+        }
+        else if (race == UniversalCharacterModel.ModelRace.Human)
+        {
+            character.raceDescriptionText.text = TextLogic.humanRaceDescription;
+            character.raceDescriptionText.gameObject.SetActive(true);
+        }
+        else if (race == UniversalCharacterModel.ModelRace.Undead)
+        {
+            character.raceDescriptionText.text = TextLogic.undeadRaceDescription;
+            character.raceDescriptionText.gameObject.SetActive(true);
+        }
+        else if (race == UniversalCharacterModel.ModelRace.Orc)
+        {
+            character.raceDescriptionText.text = TextLogic.orcRaceDescription;
+            character.raceDescriptionText.gameObject.SetActive(true);
+        }
+        else
+        {
+            character.raceDescriptionText.text = "";
+            character.raceDescriptionText.gameObject.SetActive(false);
+            character.currentRaceText.text = "Race";
+        }
+
+
+
+
     }
     #endregion
 

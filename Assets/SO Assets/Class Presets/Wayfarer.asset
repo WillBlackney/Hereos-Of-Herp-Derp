@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ca509f12a979245a983cd4130bc8a9, type: 3}
+  m_Name: Wayfarer
+  m_EditorClassIdentifier: 
+  classPresetName: Wayfarer
+  talents:
+  - talentType: 7
+    talentStacks: 1
+  - talentType: 12
+    talentStacks: 1
+  - talentType: 8
+    talentStacks: 1
+  abilities:
+  - {fileID: 11400000, guid: 6f3b858bdffc6414eb41522634a4b030, type: 2}
+  - {fileID: 11400000, guid: 9c9722691f051dd43ab9635664a37d70, type: 2}
+  - {fileID: 11400000, guid: 42f1b8faec5c37346b58d05155377134, type: 2}
+  passives:
+  - statusData: {fileID: 11400000, guid: fe745ff8757ce1547bf2974283887080, type: 2}
+    statusStacks: 1
+  weaponPreset: {fileID: 11400000, guid: 2307e8a5ea77bb345998b3ca2dae35db, type: 2}

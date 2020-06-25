@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ca509f12a979245a983cd4130bc8a9, type: 3}
+  m_Name: Knight
+  m_EditorClassIdentifier: 
+  classPresetName: Knight
+  talents:
+  - talentType: 4
+    talentStacks: 2
+  - talentType: 2
+    talentStacks: 1
+  abilities:
+  - {fileID: 11400000, guid: 0f7f522983f268d428bec54817cda3bc, type: 2}
+  - {fileID: 11400000, guid: b0ab23ab1ca214845aa74279ebd1eeec, type: 2}
+  - {fileID: 11400000, guid: 59dbe5402b5a1734fa277a8548efa26f, type: 2}
+  passives:
+  - statusData: {fileID: 11400000, guid: 1f685153f36159649ab51cbed6fc1656, type: 2}
+    statusStacks: 4
+  weaponPreset: {fileID: 11400000, guid: 1c5dd4395043710478b589b5d17608a6, type: 2}

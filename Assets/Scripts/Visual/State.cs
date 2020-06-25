@@ -108,7 +108,7 @@ public class State : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }       
 
         yield return new WaitForSeconds(0.5f);
-        StateManager.Instance.activeStates.Remove(this);
+        StateManager.Instance.RemoveState(this);
         action.actionResolved = true;
         Destroy(gameObject);
     }

@@ -296,7 +296,10 @@ public class InventoryController : MonoBehaviour
             UpdateCharacterAbilitiesFromWeapons(characterSlot.myCharacterData);
         }
 
+        // apply item view to char data model
         CharacterModelController.ApplyItemDataAppearanceToModel(itemCard.myItemData, characterSlot.myCharacterData.myCharacterModel, characterSlot.mySlotType);
+        // apply to char data model ON BUTTON
+        CharacterModelController.ApplyItemDataAppearanceToModel(itemCard.myItemData, characterSlot.myCharacterData.myModelOnButton, characterSlot.mySlotType);
 
         itemCard.SetRayCastingState(true);
     }    

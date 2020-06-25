@@ -227,7 +227,7 @@ public static class CharacterModelController
         UniversalCharacterModelElement elementToActivate = null;
 
         // search specifically for weapons (make sure to correctly enable the weapon view in the correct hand)
-        if(slotType != CharacterItemSlot.SlotType.None)
+        if(slotType == CharacterItemSlot.SlotType.MainHand || slotType == CharacterItemSlot.SlotType.OffHand)
         {
             // check main hand weapons
             if(slotType == CharacterItemSlot.SlotType.MainHand)
@@ -300,7 +300,7 @@ public static class CharacterModelController
         }
         else
         {
-            Debug.Log("CharacterModelController.ApplyItemDataAppearanceToModel() did not find a UCM that matches the item " + item.Name);
+            Debug.Log("CharacterModelController.ApplyItemDataAppearanceToModel() did not find a UCM element that matches the item " + item.Name);
         }
     }
     #endregion
@@ -477,8 +477,8 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, "Black_Necromancer_Chest_Wear");
         EnableAndSetElementOnModel(model, "Black_Necromancer_Right_Leg_Wear");
         EnableAndSetElementOnModel(model, "Black_Necromancer_Left_Leg_Wear");
-        EnableAndSetElementOnModel(model, "Black_Necromancer_Right_Hand");
-        EnableAndSetElementOnModel(model, "Black_Necromancer_Left_Hand");
+        EnableAndSetElementOnModel(model, "Black_Necromancer_Right_Hand_Wear");
+        EnableAndSetElementOnModel(model, "Black_Necromancer_Left_Hand_Wear");
 
         EnableAndSetElementOnModel(model, "Left_Hand_Green_Staff_1");
     }

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ca509f12a979245a983cd4130bc8a9, type: 3}
+  m_Name: Rogue
+  m_EditorClassIdentifier: 
+  classPresetName: Rogue
+  talents:
+  - talentType: 3
+    talentStacks: 1
+  - talentType: 11
+    talentStacks: 1
+  - talentType: 2
+    talentStacks: 1
+  abilities:
+  - {fileID: 11400000, guid: 0f7f522983f268d428bec54817cda3bc, type: 2}
+  - {fileID: 11400000, guid: 6f10bd4e0b8359647a587b642ce0735d, type: 2}
+  - {fileID: 11400000, guid: 8a8dfca74347186419a67c406a013174, type: 2}
+  passives:
+  - statusData: {fileID: 11400000, guid: a03ed9e430126cf45826ec8d30488ac9, type: 2}
+    statusStacks: 1
+  weaponPreset: {fileID: 11400000, guid: 04c20ddb53534564c9e6972a0736509b, type: 2}

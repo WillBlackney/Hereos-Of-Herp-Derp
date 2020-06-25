@@ -51,6 +51,7 @@ public class CharacterMakerController : MonoBehaviour
     private CharacterData.Background currentBackgroundTwo;
     private List<TalentPairing> allTalentPairings = new List<TalentPairing>();
 
+
     #endregion
 
     // Singleton Pattern
@@ -77,6 +78,7 @@ public class CharacterMakerController : MonoBehaviour
     public void OnCharacterMakerMainMenuButtonClicked()
     {
         Debug.Log("CharacterMakerController.OnCharacterMakerButtonClicked() called...");
+        MainMenuManager.Instance.DisableAllMenuButtons();
         SetMainWindowViewState(true);
         ClearTextsOnWindowOpen();
         SetCharacterModelDefaultStartingState();
@@ -115,6 +117,7 @@ public class CharacterMakerController : MonoBehaviour
     public void OnBackToMainMenuButtonClicked()
     {
         Debug.Log("CharacterMakerController.OnCharacterMakerButtonClicked() called...");
+        MainMenuManager.Instance.EnableAllMenuButtons();
         SetMainWindowViewState(false);
     }
     #endregion

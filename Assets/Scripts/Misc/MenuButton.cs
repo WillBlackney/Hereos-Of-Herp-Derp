@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public CanvasGroup myButtonCG;
+    public Button myButtonComponent;
     public bool fadingIn;
     public bool fadingOut;
     public IEnumerator FadeIn()

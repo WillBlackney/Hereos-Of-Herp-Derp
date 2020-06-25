@@ -1210,13 +1210,6 @@ public class AbilityLogic : MonoBehaviour
         Ability bladeFlurry = caster.mySpellBook.GetAbilityByName("Blade Flurry");
         string damageType = CombatLogic.Instance.CalculateFinalDamageTypeOfAttack(caster, bladeFlurry, caster.myMainHandWeapon);
         List<LivingEntity> targetsInRange = EntityLogic.GetAllEnemiesWithinRange(caster, caster.currentMeleeRange);
-        List<LivingEntity> targetsHit = new List<LivingEntity>();
-
-        // get a random target 3 times
-        for (int i = 0; i < bladeFlurry.abilityPrimaryValue; i++)
-        {
-            targetsHit.Add(targetsInRange[Random.Range(0, targetsInRange.Count)]);
-        }
 
         // Status VFX notification for enemies
         if (caster.enemy)
@@ -1225,26 +1218,54 @@ public class AbilityLogic : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
-
         // Pay energy cost
         OnAbilityUsedStart(bladeFlurry, caster);
 
-        // Resolve hits against targets
-        foreach (LivingEntity entity in targetsHit)
+        for (int attacksMade = 0; attacksMade < 3; attacksMade++)
         {
-            if(entity.inDeathProcess == false)
+            // check make sure character didnt get killed by something like thorns/riposte mid loop
+            // if they did, break
+            if (caster.inDeathProcess)
             {
-                bool critical = CombatLogic.Instance.RollForCritical(caster, entity, bladeFlurry);
-                bool parry = CombatLogic.Instance.RollForParry(entity, caster);
-                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, entity, bladeFlurry, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
+                Debug.Log("AbilityLogic.PerformBladeFlurryCoroutine() detected that the caster was killed mid loop, breaking...");
+                break;
+            }
+
+            int listIndex = 0;
+            LivingEntity nextTarget = null;
+
+            // Calculate which target will be hit next
+            if (targetsInRange.Count > 1)
+            {
+                listIndex = Random.Range(0, targetsInRange.Count - 1);
+            }
+            else if(targetsInRange.Count == 1)
+            {
+                listIndex = 0;
+            }
+            else
+            {
+                Debug.Log("AbilityLogic.PerformBladeFlurryCoroutine() detected that there are no more valid targets to hit, ending attack loop...");
+                break;
+            }
+
+            // Set target
+            nextTarget = targetsInRange[listIndex];
+
+            // Start attack on target
+            if(caster != null && nextTarget != null && nextTarget.inDeathProcess == false)
+            {
+                bool critical = CombatLogic.Instance.RollForCritical(caster, nextTarget, bladeFlurry);
+                bool parry = CombatLogic.Instance.RollForParry(nextTarget, caster);
+                int finalDamageValue = CombatLogic.Instance.GetFinalDamageValueAfterAllCalculations(caster, nextTarget, bladeFlurry, damageType, critical, caster.myMainHandWeapon.baseDamage, caster.myMainHandWeapon);
 
                 // Play attack animation
-                caster.StartCoroutine(caster.PlayMeleeAttackAnimation(entity));
+                caster.StartCoroutine(caster.PlayMeleeAttackAnimation(nextTarget));
 
                 // if the target successfully parried, dont do HandleDamage: do parry stuff instead
                 if (parry)
                 {
-                    Action parryAction = CombatLogic.Instance.HandleParry(caster, entity);
+                    Action parryAction = CombatLogic.Instance.HandleParry(caster, nextTarget);
                     yield return new WaitUntil(() => parryAction.ActionResolved() == true);
                 }
 
@@ -1255,12 +1276,10 @@ public class AbilityLogic : MonoBehaviour
                     {
                         VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "CRITICAL!");
                     }
-                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, entity, damageType, bladeFlurry);
+                    Action abilityAction = CombatLogic.Instance.HandleDamage(finalDamageValue, caster, nextTarget, damageType, bladeFlurry);
                     yield return new WaitUntil(() => abilityAction.ActionResolved() == true);
                 }
-
             }
-            
         }
 
         // Remove camo + etc

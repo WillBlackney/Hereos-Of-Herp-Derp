@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class StateLibrary : MonoBehaviour
 {
+    // Singleton Pattern
+    #region
     public static StateLibrary Instance;
     private void Awake()
     {
         Instance = this;
     }
+    #endregion
+
+    // Properties + Component References
+    #region
+    [Header("Properties")]
     public List<StateDataSO> allStates;
+    #endregion
+
+    // Get States + Data Logic
+    #region
     public StateDataSO GetStateByName(string name)
     {
         Debug.Log("StateLibrary.GetStateByName() called, searching for " + name + "...");
@@ -236,4 +247,5 @@ public class StateLibrary : MonoBehaviour
         return stateReturned;
 
     }
+    #endregion
 }

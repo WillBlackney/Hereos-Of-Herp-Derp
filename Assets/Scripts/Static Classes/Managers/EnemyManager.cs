@@ -62,6 +62,10 @@ public class EnemyManager : MonoBehaviour
         {
             selectedDefender.StartBackStabProcess();
         }
+        else if (selectedDefender != null && selectedDefender.awaitingSuperConductorOrder == true)
+        {
+            selectedDefender.StartSuperConductorProcess(selectedEnemy);
+        }
         else if (selectedDefender != null && selectedDefender.awaitingMeteorOrder == true)
         {
             selectedDefender.StartMeteorProcess(selectedEnemy.tile);

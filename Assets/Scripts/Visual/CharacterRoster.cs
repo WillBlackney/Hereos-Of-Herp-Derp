@@ -66,6 +66,7 @@ public class CharacterRoster : MonoBehaviour
                 CharacterModelController.BuildModelFromCharacterPresetData(characterOneButtonModel, characterData);
                 CharacterModelController.BuildModelFromCharacterPresetData(KingsBlessingManager.Instance.modelOne, characterData);
                 characterOneButtonModel.SetBaseAnim();
+                characterOne.myModelOnButton = characterOneButtonModel;
             }
 
             else if (characterTwoSetupComplete == false)
@@ -81,6 +82,7 @@ public class CharacterRoster : MonoBehaviour
                 CharacterModelController.BuildModelFromCharacterPresetData(characterTwoButtonModel, characterData);
                 CharacterModelController.BuildModelFromCharacterPresetData(KingsBlessingManager.Instance.modelTwo, characterData);
                 characterTwoButtonModel.SetBaseAnim();
+                characterTwo.myModelOnButton = characterTwoButtonModel;
             }
 
             else if (characterThreeSetupComplete == false)
@@ -96,6 +98,7 @@ public class CharacterRoster : MonoBehaviour
                 CharacterModelController.BuildModelFromCharacterPresetData(characterThreeButtonModel, characterData);
                 CharacterModelController.BuildModelFromCharacterPresetData(KingsBlessingManager.Instance.modelThree, characterData);
                 characterThreeButtonModel.SetBaseAnim();
+                characterThree.myModelOnButton = characterThreeButtonModel;
             }
 
             else if (characterFourSetupComplete == false)
@@ -111,6 +114,7 @@ public class CharacterRoster : MonoBehaviour
                 CharacterModelController.BuildModelFromCharacterPresetData(characterFourButtonModel, characterData);
                 CharacterModelController.BuildModelFromCharacterPresetData(KingsBlessingManager.Instance.modelFour, characterData);
                 characterFourButtonModel.SetBaseAnim();
+                characterFour.myModelOnButton = characterFourButtonModel;
             }
         }
 

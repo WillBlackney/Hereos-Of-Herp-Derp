@@ -25,6 +25,32 @@ public static class TextLogic
     public static string purple = "<color=#CF01BC>";
     public static string darkRed = "<color=#AB0500>";
 
+    public static string humanRaceDescription
+    {
+        get { return "Diplomatic and pragmatic, Humans are masters of anything they put their minds too. Rulers of great cities," +
+                " they exert their authority with justice and honour over all other races and nations"; }
+    }
+    public static string undeadRaceDescription
+    {
+        get { return "A former legion of mindless ghouls and necromancers, the Undead were once feared by all living creatures." +
+                " For reasons unknown, the Undead have broken their enslaving magical bindings and regained their free will." +
+                " Now they fight to claim their place in the new world."; }
+    }
+    public static string elfRaceDescription
+    {
+        get
+        {
+            return "Mysterious and elusive, the elves hide away in their native forests, worshipping the godess of the moon." +
+                " Masters of magic and archery, " +
+                "they are highly intelligent, sophisticated and dependable allies.";
+        }
+    }
+    public static string orcRaceDescription
+    {
+        get { return "From the Badlands Raiders to the peaceful Herp Derpianian natives, the shamanistic yet warlike orcs are capable of both " +
+                "altruistic kindness, and brutal savagery. They are your best friends, and your worst enemies."; }
+    }
+
     // Set ability + passive texts
     #region
     public static void SetStatusIconDescriptionText(string statusName, TextMeshProUGUI statusDescriptionText, int statusStacks)

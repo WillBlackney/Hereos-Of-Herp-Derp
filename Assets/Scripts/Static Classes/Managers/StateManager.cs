@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class StateManager : MonoBehaviour
 {
+    // Singleton Pattern
+    #region
     public static StateManager Instance;
     private void Awake()
     {       
         Instance = this;        
-    }   
-
+    }
+    #endregion
 
     // Properties + Component References
     #region
@@ -51,6 +53,43 @@ public class StateManager : MonoBehaviour
 
         // Add state to active state lists
         activeStates.Add(stateScript);
+    }
+    public void RemoveState(State stateRemoved)
+    {
+        Debug.Log("StateManager.RemoveState() called, removing state: " + stateRemoved.Name);
+        activeStates.Remove(stateRemoved);
+        RemoveStateEffectsOnRemoval(stateRemoved.myStateData);
+
+    }
+    private void RemoveStateEffectsOnRemoval(StateDataSO state)
+    {
+        Debug.Log("StateManager.RemoveStateEffectsOnRemoval() called, removing effect of state: " + state.stateName);
+
+        // Afflictions
+        if (state.stateName == "Curse Of The Blood God")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyFading(-2);
+            }
+        }
+        else if (state.stateName == "Exhausted")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyStamina(5);
+                character.ModifyMobility(1);
+            }
+        }
+        else if (state.stateName == "Shame")
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyStrength(1);
+                character.ModifyWisdom(1);
+                character.ModifyDexterity(1);
+            }
+        }
     }
     public bool DoesPlayerAlreadyHaveState(string stateName)
     {
@@ -263,7 +302,7 @@ public class StateManager : MonoBehaviour
             InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomEpicItem(), true);
         }
 
-
+        action.actionResolved = true;
         yield return null;
     }
     public Action ApplyAllStateEffectsToLivingEntities()

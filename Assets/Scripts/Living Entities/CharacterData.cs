@@ -26,6 +26,7 @@ public class CharacterData : MonoBehaviour
     public UniversalCharacterModel myCharacterModel;
     public List<Talent> allTalentButtons;
     public List<GameObject> talentPlusButtons;
+    public UniversalCharacterModel myModelOnButton;
 
     [Header("Ability References")]
     public List<AbilitySlot> allKnownAbilitySlots;

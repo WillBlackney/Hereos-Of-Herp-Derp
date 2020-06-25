@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ca509f12a979245a983cd4130bc8a9, type: 3}
+  m_Name: Monk
+  m_EditorClassIdentifier: 
+  classPresetName: Monk
+  talents:
+  - talentType: 9
+    talentStacks: 1
+  - talentType: 2
+    talentStacks: 2
+  abilities:
+  - {fileID: 11400000, guid: f4cf2553025a2f047a281909997eff45, type: 2}
+  - {fileID: 11400000, guid: 82ddcd64ddf3ca140999726a9c18ff2b, type: 2}
+  - {fileID: 11400000, guid: 22aa7b4a4e2a7f24ab5dd11017323406, type: 2}
+  passives:
+  - statusData: {fileID: 11400000, guid: dd1a7d645cff58c42958f94d6ad6726a, type: 2}
+    statusStacks: 1
+  weaponPreset: {fileID: 11400000, guid: 48d190f6629c5e549a438b80e3bf7628, type: 2}

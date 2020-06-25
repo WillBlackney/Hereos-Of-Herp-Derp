@@ -23,6 +23,8 @@ public class MenuCharacter : MonoBehaviour
     public TextMeshProUGUI attributeThreeText;
     public TextMeshProUGUI backgroundTextOne;
     public TextMeshProUGUI backgroundTextTwo;
+    public TextMeshProUGUI currentRaceText;
+    public TextMeshProUGUI raceDescriptionText;
 
     [Header("GUI References")]
     public Button previousPresetButton;
@@ -74,6 +76,9 @@ public class MenuCharacter : MonoBehaviour
 
         // Set Description text
         MainMenuManager.Instance.BuildDescriptionTextCharacterPresetData(this, data);
+
+        // Build Race Tab
+        MainMenuManager.Instance.BuildRaceTabFromCharacterPresetData(this, data.modelRace);
     }
    
     #endregion
