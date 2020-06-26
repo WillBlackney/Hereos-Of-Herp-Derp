@@ -17,4 +17,7 @@ public class ClassPresetDataSO : ScriptableObject
 
     [Header("Weapons")]
     [SerializeField] public WeaponPresetDataSO weaponPreset;
+
+    [Header("Clothing References")]
+    [SerializeField] public List<string> clothingPieces;
 }

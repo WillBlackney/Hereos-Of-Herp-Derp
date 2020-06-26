@@ -16,8 +16,8 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.BuildModelFromModelClone() called...");
 
-        DisableAllActiveElementViews(modelToBuild);
-        ClearAllActiveBodyPartReferences(modelToBuild);
+        DisableAllActiveModelElementViews(modelToBuild);
+        ClearAllActiveModelElementsReferences(modelToBuild);
 
         if(modelClonedFrom.allModelElements.Count > 0)
         {
@@ -35,8 +35,8 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.BuildModelFromCharacterPresetData() called...");
 
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body Parts + Clothing
         foreach (ModelElementData elementData in data.activeModelElements)
@@ -89,6 +89,11 @@ public static class CharacterModelController
             element.gameObject.SetActive(false);
         }
     }
+    public static void ClearAllActiveModelElementsReferences(UniversalCharacterModel model)
+    {
+        ClearAllClothingPartReferences(model);
+        ClearAllActiveBodyPartReferences(model);
+    }
     public static void ClearAllActiveBodyPartReferences(UniversalCharacterModel model)
     {
         Debug.Log("CharacterModelController.ClearAllActiveBodyPartReferences() called...");
@@ -103,7 +108,9 @@ public static class CharacterModelController
         model.activeLeftHand = null;
         model.activeLeftArm = null;
         model.activeChest = null;
-
+    }
+    public static void ClearAllClothingPartReferences(UniversalCharacterModel model)
+    {
         // Clothing 
         model.activeHeadWear = null;
         model.activeChestWear = null;
@@ -118,7 +125,7 @@ public static class CharacterModelController
         model.activeMainHandWeapon = null;
         model.activeOffHandWeapon = null;
     }
-    public static void DisableAllActiveElementViews(UniversalCharacterModel model)
+    public static void DisableAllActiveModelElementViews(UniversalCharacterModel model)
     {
         Debug.Log("CharacterModelController.DisableAllActiveBodyPartViews() called...");
 
@@ -207,6 +214,15 @@ public static class CharacterModelController
             model.activeOffHandWeapon.gameObject.SetActive(false);
         }
     }
+    public static void DisableAllClothingOnModel(UniversalCharacterModel model)
+    {
+        // Set clear/naked clothing sprites
+        EnableAndSetElementOnModel(model, model.allHeadWear[0]);
+        EnableAndSetElementOnModel(model, model.allChestWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightLegWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightArmWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightHandWear[0]);
+    }
     public static void AutoSetHeadMaskOrderInLayer(UniversalCharacterModel model)
     {
         Debug.Log("CharacterModelController.AutoSetHeadMaskOrderInLayer() called...");
@@ -223,6 +239,12 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.ApplyItemDataAppearanceToModel() called, applying look of item '" +
             item.Name + "' to model");
+
+        if (!model)
+        {
+            Debug.Log("CharacterModelController.ApplyItemDataAppearanceToModel() was given a null value UC model, returning...");
+            return;
+        }
 
         UniversalCharacterModelElement elementToActivate = null;
 
@@ -309,8 +331,8 @@ public static class CharacterModelController
     #region
     public static void SetUpAsVolatileZombiePreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.undeadHeads[4]);
@@ -325,8 +347,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsDarkElfRangerPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, "Dark_Elf_Right_Hand");
@@ -340,8 +362,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsSkeletonArcherPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.undeadLeftLeg);
@@ -361,8 +383,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsSkeletonAssassinPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.undeadLeftLeg);
@@ -383,8 +405,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsSkeletonWarriorPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.undeadLeftLeg);
@@ -404,8 +426,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsSkeletonBarbarianPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.undeadLeftLeg);
@@ -424,8 +446,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsSkeletonPriestPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.undeadLeftLeg);
@@ -445,8 +467,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsSkeletonMagePreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.undeadLeftLeg);
@@ -466,8 +488,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsSkeletonNecromancerPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Clothing + Weapon parts
         EnableAndSetElementOnModel(model, "Orc_Face_6");
@@ -484,8 +506,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsSkeletonKingPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Clothing + Weapon parts
         EnableAndSetElementOnModel(model, "Left_Hand_Graphite_Gladius");
@@ -502,8 +524,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsSkeletonSoldierPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Clothing + Weapon parts
         EnableAndSetElementOnModel(model, "Death_Knight_Head_Wear");
@@ -521,8 +543,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsGoblinStabbyPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.orcHeads[1]);
@@ -540,8 +562,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsGoblinWarChiefPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.orcHeads[0]);
@@ -562,8 +584,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsGoblinShootyPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.orcHeads[1]);
@@ -582,8 +604,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsGoblinShieldBearerPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.orcHeads[1]);
@@ -603,8 +625,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsMorkPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, "Goblin_Head_1");
@@ -619,8 +641,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsFireGolemPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, "Fire_Golem_Left_Leg");
@@ -635,8 +657,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsAirGolemPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, "Air_Golem_Left_Leg");
@@ -651,8 +673,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsPoisonGolemPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, "Poison_Golem_Left_Leg");
@@ -667,8 +689,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsFrostGolemPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, "Frost_Golem_Left_Leg");
@@ -684,8 +706,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsDemonBerserkerPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, "Demon_Head_1");
@@ -702,8 +724,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsDemonBladeMasterPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, "Demon_Head_2");
@@ -720,8 +742,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsDemonHellGuardPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, "Demon_Head_1");
@@ -737,8 +759,8 @@ public static class CharacterModelController
     }
     public static void SetUpAsHumanKingPreset(UniversalCharacterModel model)
     {
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        DisableAllActiveModelElementViews(model);
+        ClearAllActiveModelElementsReferences(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, "Human_King_Head");
@@ -759,8 +781,7 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.SetBaseHumanView() called...");
 
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+        //ClearAllActiveBodyPartReferences(model);
 
         model.myModelRace = UniversalCharacterModel.ModelRace.Human;
 
@@ -771,21 +792,12 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, model.humanRightHand);
         EnableAndSetElementOnModel(model, model.humanRightArm);
         EnableAndSetElementOnModel(model, model.humanChest);
-
-        // Clothing parts
-        EnableAndSetElementOnModel(model, model.allHeadWear[0]);
-        EnableAndSetElementOnModel(model, model.allChestWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightLegWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightArmWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightHandWear[0]);
     }
     public static void SetBaseOrcView(UniversalCharacterModel model)
     {
         Debug.Log("CharacterModelController.SetBaseOrcView() called...");
 
-        //CompletelyDisableAllViews(model);
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);       
+       // ClearAllActiveBodyPartReferences(model);       
 
         model.myModelRace = UniversalCharacterModel.ModelRace.Orc;
 
@@ -796,21 +808,12 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, model.orcRightHand);
         EnableAndSetElementOnModel(model, model.orcRightArm);
         EnableAndSetElementOnModel(model, model.orcChest);
-
-        // Clothing parts
-        EnableAndSetElementOnModel(model, model.allHeadWear[0]);
-        EnableAndSetElementOnModel(model, model.allChestWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightLegWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightArmWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightHandWear[0]);
     }
     public static void SetBaseUndeadView(UniversalCharacterModel model)
     {
         Debug.Log("CharacterModelController.SetBaseUndeadView() called...");
 
-       // CompletelyDisableAllViews(model);
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+       // ClearAllActiveBodyPartReferences(model);
 
         model.myModelRace = UniversalCharacterModel.ModelRace.Undead;
 
@@ -821,21 +824,12 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, model.undeadRightHand);
         EnableAndSetElementOnModel(model, model.undeadRightArm);
         EnableAndSetElementOnModel(model, model.undeadChest);
-
-        // Clothing parts
-        EnableAndSetElementOnModel(model, model.allHeadWear[0]);
-        EnableAndSetElementOnModel(model, model.allChestWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightLegWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightArmWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightHandWear[0]);
     }
     public static void SetBaseElfView(UniversalCharacterModel model)
     {
         Debug.Log("CharacterModelController.SetBaseElfView() called...");
 
-        //CompletelyDisableAllViews(model);
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+       // ClearAllActiveBodyPartReferences(model);
 
         model.myModelRace = UniversalCharacterModel.ModelRace.Elf;
 
@@ -846,21 +840,12 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, model.elfRightHand);
         EnableAndSetElementOnModel(model, model.elfRightArm);
         EnableAndSetElementOnModel(model, model.elfChest);
-
-        // Clothing parts
-        EnableAndSetElementOnModel(model, model.allHeadWear[0]);
-        EnableAndSetElementOnModel(model, model.allChestWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightLegWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightArmWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightHandWear[0]);
     }
     public static void SetBaseGnollView(UniversalCharacterModel model)
     {
         Debug.Log("CharacterModelController.SetBaseGnollView() called...");
 
-        //CompletelyDisableAllViews(model);
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+      //  ClearAllActiveBodyPartReferences(model);
 
         model.myModelRace = UniversalCharacterModel.ModelRace.Gnoll;
 
@@ -871,21 +856,12 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, model.gnollRightHand);
         EnableAndSetElementOnModel(model, model.gnollRightArm);
         EnableAndSetElementOnModel(model, model.gnollChest);
-
-        // Clothing parts
-        EnableAndSetElementOnModel(model, model.allHeadWear[0]);
-        EnableAndSetElementOnModel(model, model.allChestWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightLegWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightArmWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightHandWear[0]);
     }
     public static void SetBaseSatyrView(UniversalCharacterModel model)
     {
         Debug.Log("CharacterModelController.SetBaseSatyrView() called...");
 
-        //CompletelyDisableAllViews(model);
-        DisableAllActiveElementViews(model);
-        ClearAllActiveBodyPartReferences(model);
+      //  ClearAllActiveBodyPartReferences(model);
 
         model.myModelRace = UniversalCharacterModel.ModelRace.Satyr;
 
@@ -896,13 +872,6 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, model.satyrRightHand);
         EnableAndSetElementOnModel(model, model.satyrRightArm);
         EnableAndSetElementOnModel(model, model.satyrChest);
-
-        // Clothing parts
-        EnableAndSetElementOnModel(model, model.allHeadWear[0]);
-        EnableAndSetElementOnModel(model, model.allChestWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightLegWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightArmWear[0]);
-        EnableAndSetElementOnModel(model, model.allRightHandWear[0]);
     }
     #endregion
 

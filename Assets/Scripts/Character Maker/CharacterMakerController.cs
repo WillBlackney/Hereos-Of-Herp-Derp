@@ -84,6 +84,9 @@ public class CharacterMakerController : MonoBehaviour
         SetCharacterModelDefaultStartingState();
         SetCharacterBackgroundDefaultState();
         BuildCharacterFromClassPresetData(CharacterPresetLibrary.Instance.allClassPresets[0]);
+        CharacterModelController.DisableAllClothingOnModel(characterModel);
+        CharacterModelController.ClearAllClothingPartReferences(characterModel);
+        BuildWeaponTabFromWeaponPresetData(CharacterPresetLibrary.Instance.allClassPresets[0].weaponPreset);
     }
     public void OnOriginButtonClicked()
     {
@@ -116,9 +119,10 @@ public class CharacterMakerController : MonoBehaviour
     }
     public void OnBackToMainMenuButtonClicked()
     {
-        Debug.Log("CharacterMakerController.OnCharacterMakerButtonClicked() called...");
-        MainMenuManager.Instance.EnableAllMenuButtons();
-        SetMainWindowViewState(false);
+        Debug.Log("CharacterMakerController.OnBackToMainMenuButtonClicked() called...");
+        // MainMenuManager.Instance.EnableAllMenuButtons();
+        //SetMainWindowViewState(false);
+        MainMenuManager.Instance.OnBackToMainMenuButtonCicked();
     }
     #endregion
 
@@ -800,6 +804,7 @@ public class CharacterMakerController : MonoBehaviour
         currentClassPresetText.text = data.classPresetName;
         BuildAllAbilityTabsFromClassPresetData(data);
         BuildAllTalentTextTabsFromClassPresetData(data);
+        BuildModelClothingFromClassPresetData(characterModel, data);
         BuildWeaponTabFromWeaponPresetData(data.weaponPreset);
 
     }
@@ -953,16 +958,6 @@ public class CharacterMakerController : MonoBehaviour
         int descriptionLength = characterStoryText.text.ToCharArray().Length;
         characterStoryCurrentCharCountText.text = descriptionLength.ToString();
 
-        /*
-        if(descriptionLength >= 600)
-        {
-            characterStoryText.text = previousDescription;
-        }
-        else
-        {
-            previousDescription = characterStoryText.text;
-        }
-        */
     }
     private void ClearTextsOnWindowOpen()
     {
@@ -996,6 +991,16 @@ public class CharacterMakerController : MonoBehaviour
             BuildTalentTextTabFromTalentPairing(talentPair);
         }
 
+    }
+    private void BuildModelClothingFromClassPresetData(UniversalCharacterModel model, ClassPresetDataSO data)
+    {
+        Debug.Log("CharacterMakerController.BuildModelClothingFromClassPresetData() called, building from class preset: " + data.classPresetName);
+
+        CharacterModelController.DisableAllClothingOnModel(model);
+        foreach(string clothing in data.clothingPieces)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(model, clothing);
+        }
     }
     private void BuildAllTalentTextTabsFromCharacterPresetData(CharacterPresetData data)
     {

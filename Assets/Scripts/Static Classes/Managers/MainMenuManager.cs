@@ -82,6 +82,30 @@ public class MainMenuManager : MonoBehaviour
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 4, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
     }
+
+
+    public void OnCreateCharacterButtonClicked()
+    {
+        if (goToTeamBuilderScreenEventTriggered == false)
+        {
+            goToTeamBuilderScreenEventTriggered = true;
+            StartCoroutine(OnCreateCharacterButtonClickedCoroutine());
+        }
+
+    }
+    public IEnumerator OnCreateCharacterButtonClickedCoroutine()
+    {
+        DisableAllMenuButtons();
+
+        Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 4, 1, true);
+        yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
+
+        goToTeamBuilderScreenEventTriggered = false;
+        CharacterMakerController.Instance.OnCharacterMakerMainMenuButtonClicked();
+
+        Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 4, 0, false);
+        yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
+    }
     public void OnQuitGameButtonClicked()
     {
         Application.Quit();
@@ -107,10 +131,11 @@ public class MainMenuManager : MonoBehaviour
         Action fadeOut = BlackScreenManager.Instance.FadeOut(BlackScreenManager.Instance.aboveEverything, 4, 1, true);
         yield return new WaitUntil(() => fadeOut.ActionResolved() == true);
 
+        CharacterMakerController.Instance.SetMainWindowViewState(false);
         HeroSelectionScreen.SetActive(false);
         arrowParent.SetActive(false);
         returnToMainMenuEventTriggered = false;
-        EnableAllMenuButtons();
+        EnableAllMenuButtons();        
 
         Action fadeIn = BlackScreenManager.Instance.FadeIn(BlackScreenManager.Instance.aboveEverything, 4, 0, false);
         yield return new WaitUntil(() => fadeIn.ActionResolved() == true);
