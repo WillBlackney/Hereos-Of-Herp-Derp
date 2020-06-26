@@ -50,6 +50,23 @@ public static class TextLogic
         get { return "From the Badlands Raiders to the peaceful Herp Derpianian natives, the shamanistic yet warlike orcs are capable of both " +
                 "altruistic kindness, and brutal savagery. They are your best friends, and your worst enemies."; }
     }
+    public static string satyrRaceDescription
+    {
+        get
+        {
+            return "Exotic, wild and playful, the Satyrs are far more easy-going then their there half elf - half demon heritage would suggest. " +
+                " Despite their friendly and trusting nature, Satyrs have infamously short tempers. Far better to be their drinking buddy then impaled on their horns.";
+        }
+    }
+    public static string gnollRaceDescription
+    {
+        get
+        {
+            return "Despite their short stature and teddy bear like appearance, Gnolls are an unwavering, unbreakable race," +
+                " capable of exceptional levels of violence and ferocity. " +
+                " Their thick fur, claws and grit makes them excellent navigators and explorers of any environment.";
+        }
+    }
 
     // Set ability + passive texts
     #region

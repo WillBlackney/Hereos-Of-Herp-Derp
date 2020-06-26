@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ce73ecbb085584fb50988847285c38, type: 3}
+  m_Name: Brawn The Warlord
+  m_EditorClassIdentifier: 
+  characterName: Brawn The Warlord
+  characterDescription: Berserker, Warlord, Slave master. As the king of a mighty
+    Sun Slayer empire, you enslaved the goblins without impunity, and ruled over
+    your subjects with an iron fist. When the earthquakes of the great cataclysm
+    crumbled your empire, you took on a new identity and fled to the city of Herp
+    Derp. But this set back is not the end. After years of plotting your glorious
+    return, atlast you are ready to take back the throne and see your great empire
+    restored. Show no mercy! Let none stand in your way!
+  characterBackgrounds: 0300000008000000
+  characterRace: 2
+  knownAbilities:
+  - {fileID: 11400000, guid: 70f99ef3a83e0294db087ac98d213480, type: 2}
+  - {fileID: 11400000, guid: 7ad431966e7f9d3429904eae737c837f, type: 2}
+  - {fileID: 11400000, guid: 6f10bd4e0b8359647a587b642ce0735d, type: 2}
+  knownPassives:
+  - statusData: {fileID: 11400000, guid: 28e5b8be23558bc4d9ac21773f3b969e, type: 2}
+    statusStacks: 2
+  knownTalents:
+  - talentType: 1
+    talentStacks: 2
+  - talentType: 11
+    talentStacks: 1
+  mhWeapon: {fileID: 11400000, guid: 75fb4bdeb7457994888328207ae3ef60, type: 2}
+  ohWeapon: {fileID: 0}
+  modelViewElements:
+  - Barbarian_Chest_Wear
+  - Orc_Head_1
+  - Orc_Face_5
+  - Orc_Right_Hand
+  - Orc_Left_Hand
+  - Orc_Right_Arm
+  - Orc_Left_Arm
+  - Orc_Chest
+  - Orc_Right_Leg
+  - Orc_Left_Leg

@@ -148,6 +148,16 @@ public class CharacterMakerController : MonoBehaviour
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.elfHeads));
         }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Gnoll)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.gnollHeads));
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Satyr)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.satyrHeads));
+        }
     }
     public void OnPreviousHeadButtonClicked()
     {
@@ -172,6 +182,16 @@ public class CharacterMakerController : MonoBehaviour
         {
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetPreviousElementInList(characterModel.elfHeads));
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Gnoll)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetPreviousElementInList(characterModel.gnollHeads));
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Satyr)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetPreviousElementInList(characterModel.satyrHeads));
         }
     }
     public void OnNextFaceButtonClicked()
@@ -198,6 +218,16 @@ public class CharacterMakerController : MonoBehaviour
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetNextElementInList(characterModel.elfFaces));
         }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Gnoll)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.gnollFaces));
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Satyr)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetNextElementInList(characterModel.satyrFaces));
+        }
     }
     public void OnPreviousFaceButtonClicked()
     {
@@ -222,6 +252,16 @@ public class CharacterMakerController : MonoBehaviour
         {
             CharacterModelController.EnableAndSetElementOnModel(characterModel,
                 CharacterModelController.GetPreviousElementInList(characterModel.elfFaces));
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Gnoll)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetPreviousElementInList(characterModel.gnollFaces));
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Satyr)
+        {
+            CharacterModelController.EnableAndSetElementOnModel(characterModel,
+                CharacterModelController.GetPreviousElementInList(characterModel.satyrFaces));
         }
     }
     public void OnNextHeadWearButtonClicked()
@@ -275,15 +315,25 @@ public class CharacterMakerController : MonoBehaviour
         }
         else if(characterModel.myModelRace == UniversalCharacterModel.ModelRace.Orc)
         {
+            CharacterModelController.SetBaseElfView(characterModel);
+            characterRaceText.text = "Elf";
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Elf)
+        {
             CharacterModelController.SetBaseUndeadView(characterModel);
             characterRaceText.text = "Undead";
         }
         else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Undead)
         {
-            CharacterModelController.SetBaseElfView(characterModel);
-            characterRaceText.text = "Elf";
+            CharacterModelController.SetBaseSatyrView(characterModel);
+            characterRaceText.text = "Satyr";
         }
-        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Elf)
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Satyr)
+        {
+            CharacterModelController.SetBaseGnollView(characterModel);
+            characterRaceText.text = "Gnoll";
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Gnoll)
         {
             CharacterModelController.SetBaseHumanView(characterModel);
             characterRaceText.text = "Human";
@@ -296,12 +346,12 @@ public class CharacterMakerController : MonoBehaviour
     {
         Debug.Log("CharacterMakerController.OnPreviousRaceButtonClicked() called...");
 
-        if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Orc)
+        if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Gnoll)
         {
-            CharacterModelController.SetBaseHumanView(characterModel);
-            characterRaceText.text = "Human";
+            CharacterModelController.SetBaseSatyrView(characterModel);
+            characterRaceText.text = "Satyr";
         }
-        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Human)
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Satyr)
         {
             CharacterModelController.SetBaseUndeadView(characterModel);
             characterRaceText.text = "Undead";
@@ -315,6 +365,16 @@ public class CharacterMakerController : MonoBehaviour
         {
             CharacterModelController.SetBaseOrcView(characterModel);
             characterRaceText.text = "Orc";
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Orc)
+        {
+            CharacterModelController.SetBaseHumanView(characterModel);
+            characterRaceText.text = "Human";
+        }
+        else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Human)
+        {
+            CharacterModelController.SetBaseGnollView(characterModel);
+            characterRaceText.text = "Gnoll";
         }
 
         BuildWeaponTabFromWeaponPresetData(currentWeaponPreset);
@@ -510,11 +570,9 @@ public class CharacterMakerController : MonoBehaviour
     private void SetCharacterModelDefaultView()
     {
         Debug.Log("CharacterMakerController.SetCharacterModelDefaultView() called...");
-        //CharacterModelController.SetBaseHumanView(characterModel);
-        //characterRaceText.text = "Human";
 
-        CharacterModelController.SetBaseElfView(characterModel);
-        characterRaceText.text = "Elf";
+        CharacterModelController.SetBaseHumanView(characterModel);
+        characterRaceText.text = "Human";
     }
     private void SetCharacterBackgroundDefaultState()
     {

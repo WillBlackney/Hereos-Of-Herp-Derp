@@ -31,7 +31,7 @@ public class UniversalCharacterModel : MonoBehaviour
     }
     // Enum Declaration
     [Serializable]
-    public enum ModelRace { None, Human, Orc, Undead, Elf, Goblin};
+    public enum ModelRace { None, Human, Orc, Undead, Elf, Goblin, Satyr, Gnoll};
 
     [Header("All Model Element References")]
     public List<UniversalCharacterModelElement> allModelElements;
@@ -124,6 +124,28 @@ public class UniversalCharacterModel : MonoBehaviour
     public UniversalCharacterModelElement elfLeftHand;
     public UniversalCharacterModelElement elfLeftArm;
     public UniversalCharacterModelElement elfChest;
+
+    [Header("Satyr Model References")]
+    public List<UniversalCharacterModelElement> satyrHeads;
+    public List<UniversalCharacterModelElement> satyrFaces;
+    public UniversalCharacterModelElement satyrLeftLeg;
+    public UniversalCharacterModelElement satyrRightLeg;
+    public UniversalCharacterModelElement satyrRightHand;
+    public UniversalCharacterModelElement satyrRightArm;
+    public UniversalCharacterModelElement satyrLeftHand;
+    public UniversalCharacterModelElement satyrLeftArm;
+    public UniversalCharacterModelElement satyrChest;
+
+    [Header("Gnoll Model References")]
+    public List<UniversalCharacterModelElement> gnollHeads;
+    public List<UniversalCharacterModelElement> gnollFaces;
+    public UniversalCharacterModelElement gnollLeftLeg;
+    public UniversalCharacterModelElement gnollRightLeg;
+    public UniversalCharacterModelElement gnollRightHand;
+    public UniversalCharacterModelElement gnollRightArm;
+    public UniversalCharacterModelElement gnollLeftHand;
+    public UniversalCharacterModelElement gnollLeftArm;
+    public UniversalCharacterModelElement gnollChest;
 
     // Properties + Component References
     #region

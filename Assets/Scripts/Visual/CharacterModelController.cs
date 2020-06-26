@@ -854,6 +854,56 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, model.allRightArmWear[0]);
         EnableAndSetElementOnModel(model, model.allRightHandWear[0]);
     }
+    public static void SetBaseGnollView(UniversalCharacterModel model)
+    {
+        Debug.Log("CharacterModelController.SetBaseGnollView() called...");
+
+        //CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
+
+        model.myModelRace = UniversalCharacterModel.ModelRace.Gnoll;
+
+        // Body parts
+        EnableAndSetElementOnModel(model, model.gnollRightLeg);
+        EnableAndSetElementOnModel(model, model.gnollHeads[0]);
+        EnableAndSetElementOnModel(model, model.gnollFaces[0]);
+        EnableAndSetElementOnModel(model, model.gnollRightHand);
+        EnableAndSetElementOnModel(model, model.gnollRightArm);
+        EnableAndSetElementOnModel(model, model.gnollChest);
+
+        // Clothing parts
+        EnableAndSetElementOnModel(model, model.allHeadWear[0]);
+        EnableAndSetElementOnModel(model, model.allChestWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightLegWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightArmWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightHandWear[0]);
+    }
+    public static void SetBaseSatyrView(UniversalCharacterModel model)
+    {
+        Debug.Log("CharacterModelController.SetBaseSatyrView() called...");
+
+        //CompletelyDisableAllViews(model);
+        DisableAllActiveElementViews(model);
+        ClearAllActiveBodyPartReferences(model);
+
+        model.myModelRace = UniversalCharacterModel.ModelRace.Satyr;
+
+        // Body parts
+        EnableAndSetElementOnModel(model, model.satyrRightLeg);
+        EnableAndSetElementOnModel(model, model.satyrHeads[0]);
+        EnableAndSetElementOnModel(model, model.satyrFaces[0]);
+        EnableAndSetElementOnModel(model, model.satyrRightHand);
+        EnableAndSetElementOnModel(model, model.satyrRightArm);
+        EnableAndSetElementOnModel(model, model.satyrChest);
+
+        // Clothing parts
+        EnableAndSetElementOnModel(model, model.allHeadWear[0]);
+        EnableAndSetElementOnModel(model, model.allChestWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightLegWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightArmWear[0]);
+        EnableAndSetElementOnModel(model, model.allRightHandWear[0]);
+    }
     #endregion
 
     // Set Specific Body Parts

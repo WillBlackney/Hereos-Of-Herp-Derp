@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ce73ecbb085584fb50988847285c38, type: 3}
+  m_Name: Taz The Tracker
+  m_EditorClassIdentifier: 
+  characterName: Taz The Tracker
+  characterDescription: 
+  characterBackgrounds: 0c0000000a000000
+  characterRace: 6
+  knownAbilities:
+  - {fileID: 11400000, guid: 24027bd60313d354a9b52f237fe2d607, type: 2}
+  - {fileID: 11400000, guid: fc5035d782f259b4e87b4cbda070a27f, type: 2}
+  - {fileID: 11400000, guid: 9d9f79652d9bd5047ae5460f0a04b149, type: 2}
+  knownPassives:
+  - statusData: {fileID: 11400000, guid: cb739376fc1b9f14e989c12982ab3ecc, type: 2}
+    statusStacks: 1
+  knownTalents:
+  - talentType: 7
+    talentStacks: 2
+  - talentType: 3
+    talentStacks: 1
+  mhWeapon: {fileID: 11400000, guid: 8e853370ec823c343be7be97c181c41b, type: 2}
+  ohWeapon: {fileID: 0}
+  modelViewElements:
+  - Satyr_Head_1
+  - Satyr_Face_1
+  - Satyr_Right_Hand
+  - Satyr_Right_Arm
+  - Satyr_Right_Leg
+  - Satyr_Left_Arm
+  - Satyr_Left_Hand
+  - Satyr_Left_Leg
+  - Satyr_Chest
+  - Marksman_Chest_Wear
+  - Marksman_Right_Leg_Wear
+  - Green_Face_Mask_Head_Wear

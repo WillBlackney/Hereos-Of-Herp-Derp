@@ -879,6 +879,16 @@ public class MainMenuManager : MonoBehaviour
             character.raceDescriptionText.text = TextLogic.orcRaceDescription;
             character.raceDescriptionText.gameObject.SetActive(true);
         }
+        else if (race == UniversalCharacterModel.ModelRace.Satyr)
+        {
+            character.raceDescriptionText.text = TextLogic.satyrRaceDescription;
+            character.raceDescriptionText.gameObject.SetActive(true);
+        }
+        else if (race == UniversalCharacterModel.ModelRace.Gnoll)
+        {
+            character.raceDescriptionText.text = TextLogic.gnollRaceDescription;
+            character.raceDescriptionText.gameObject.SetActive(true);
+        }
         else
         {
             character.raceDescriptionText.text = "";
