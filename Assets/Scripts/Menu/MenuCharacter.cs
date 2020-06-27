@@ -45,9 +45,6 @@ public class MenuCharacter : MonoBehaviour
     #region
     private void Start()
     {
-        // set default view state as random character
-        //BuildMyViewsFromPresetString("Random");
-
         BuildMyViewsFromCharacterPresetData(CharacterPresetLibrary.Instance.GetOriginCharacterPresetByName("Random"));
         myModel.SetIdleAnim();
     }
@@ -67,6 +64,9 @@ public class MenuCharacter : MonoBehaviour
 
         // Build model
         CharacterModelController.BuildModelFromCharacterPresetData(myModel, data);
+
+        // Set Scaling on model
+        //CharacterModelController.AutoSetModelScaleFromRace(myModel);
 
         // Modify abilities/passives on panel
         MainMenuManager.Instance.BuildCharacterAbilityTabsFromPresetData(this, data);

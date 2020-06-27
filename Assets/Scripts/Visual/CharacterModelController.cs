@@ -5,13 +5,49 @@ using Spriter2UnityDX;
 
 public static class CharacterModelController
 {
-    // View Logic
+    // Scaling + Sizing Logic
     #region
-    public static void SetModelScale(UniversalCharacterModel model, float newScale)
+    private static void SetModelScale(UniversalCharacterModel model, float newScale)
     {
         Debug.Log("CharacterModelController.SetModelScale() called...");
-        model.scalingParent.localScale = new Vector3(newScale, newScale, newScale);
-    }    
+        model.transform.localScale = new Vector3(newScale, newScale, newScale);
+    }
+    public static void SetModelNormalScale(UniversalCharacterModel model)
+    {
+        Debug.Log("CharacterModelController.SetModelNormalScale() called...");
+        SetModelScale(model, model.normalSizeScale);
+    }
+    public static void SetModelLargeScale(UniversalCharacterModel model)
+    {
+        Debug.Log("CharacterModelController.SetModelLargeScale() called...");
+        SetModelScale(model, model.largeSizeScale);
+    }
+    public static void SetModelSmallScale(UniversalCharacterModel model)
+    {
+        Debug.Log("CharacterModelController.SetModelSmallScale() called...");
+        SetModelScale(model, model.smallSizeScale);
+    }
+    public static void AutoSetModelScaleFromRace(UniversalCharacterModel model)
+    {
+        Debug.Log("CharacterModelController.AutoSetModelScaleFromRace() called...");
+        if (model.myModelRace == UniversalCharacterModel.ModelRace.Gnoll ||
+            model.myModelRace == UniversalCharacterModel.ModelRace.Goblin)
+        {
+            SetModelSmallScale(model);
+        }
+        else if (model.myModelRace == UniversalCharacterModel.ModelRace.Orc)
+        {
+            SetModelLargeScale(model);
+        }
+        else
+        {
+            SetModelNormalScale(model);
+        }
+    }
+    #endregion
+    // View Logic
+    #region
+
     public static void BuildModelFromModelClone(UniversalCharacterModel modelToBuild, UniversalCharacterModel modelClonedFrom)
     {
         Debug.Log("CharacterModelController.BuildModelFromModelClone() called...");
@@ -35,8 +71,12 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.BuildModelFromCharacterPresetData() called...");
 
+        // clear previous views
         DisableAllActiveModelElementViews(model);
         ClearAllActiveModelElementsReferences(model);
+
+        // set race
+        model.myModelRace = data.modelRace;
 
         // Body Parts + Clothing
         foreach (ModelElementData elementData in data.activeModelElements)
@@ -222,7 +262,7 @@ public static class CharacterModelController
         EnableAndSetElementOnModel(model, model.allRightLegWear[0]);
         EnableAndSetElementOnModel(model, model.allRightArmWear[0]);
         EnableAndSetElementOnModel(model, model.allRightHandWear[0]);
-    }
+    }    
     public static void AutoSetHeadMaskOrderInLayer(UniversalCharacterModel model)
     {
         Debug.Log("CharacterModelController.AutoSetHeadMaskOrderInLayer() called...");
@@ -231,7 +271,7 @@ public static class CharacterModelController
 
         foreach(SpriteMask mask in model.allHeadWearSpriteMasks)
         {
-            mask.frontSortingOrder = headSortOrder;
+            mask.frontSortingOrder = headSortOrder + 1;
             mask.backSortingOrder = headSortOrder - 1;
         }
     }
@@ -784,6 +824,7 @@ public static class CharacterModelController
         //ClearAllActiveBodyPartReferences(model);
 
         model.myModelRace = UniversalCharacterModel.ModelRace.Human;
+        //AutoSetModelScaleFromRace(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.humanRightLeg);
@@ -797,9 +838,8 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.SetBaseOrcView() called...");
 
-       // ClearAllActiveBodyPartReferences(model);       
-
         model.myModelRace = UniversalCharacterModel.ModelRace.Orc;
+        //AutoSetModelScaleFromRace(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.orcRightLeg);
@@ -813,9 +853,8 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.SetBaseUndeadView() called...");
 
-       // ClearAllActiveBodyPartReferences(model);
-
         model.myModelRace = UniversalCharacterModel.ModelRace.Undead;
+        //AutoSetModelScaleFromRace(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.undeadRightLeg);
@@ -829,9 +868,8 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.SetBaseElfView() called...");
 
-       // ClearAllActiveBodyPartReferences(model);
-
         model.myModelRace = UniversalCharacterModel.ModelRace.Elf;
+        //AutoSetModelScaleFromRace(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.elfRightLeg);
@@ -845,9 +883,8 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.SetBaseGnollView() called...");
 
-      //  ClearAllActiveBodyPartReferences(model);
-
         model.myModelRace = UniversalCharacterModel.ModelRace.Gnoll;
+       // AutoSetModelScaleFromRace(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.gnollRightLeg);
@@ -861,9 +898,8 @@ public static class CharacterModelController
     {
         Debug.Log("CharacterModelController.SetBaseSatyrView() called...");
 
-      //  ClearAllActiveBodyPartReferences(model);
-
         model.myModelRace = UniversalCharacterModel.ModelRace.Satyr;
+       // AutoSetModelScaleFromRace(model);
 
         // Body parts
         EnableAndSetElementOnModel(model, model.satyrRightLeg);

@@ -86,6 +86,8 @@ public class CharacterMakerController : MonoBehaviour
         BuildCharacterFromClassPresetData(CharacterPresetLibrary.Instance.allClassPresets[0]);
         CharacterModelController.DisableAllClothingOnModel(characterModel);
         CharacterModelController.ClearAllClothingPartReferences(characterModel);
+        CharacterModelController.DisableAllClothingOnModel(characterModel);
+
         BuildWeaponTabFromWeaponPresetData(CharacterPresetLibrary.Instance.allClassPresets[0].weaponPreset);
     }
     public void OnOriginButtonClicked()

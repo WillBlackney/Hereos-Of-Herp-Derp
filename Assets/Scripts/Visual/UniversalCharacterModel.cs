@@ -156,12 +156,32 @@ public class UniversalCharacterModel : MonoBehaviour
     [Header("Properties")]
     public LivingEntity myLivingEntity;
     public ModelRace myModelRace;
+    public bool initializedScaling;
+    public float normalSizeScale;
+    public float smallSizeScale;
+    public float largeSizeScale;
 
     #endregion
 
     private void Start()
     {
         CharacterModelController.AutoSetHeadMaskOrderInLayer(this);
+        SetScalingValues();
+    }
+    private void OnEnable()
+    {
+        SetScalingValues();
+    }
+    private void SetScalingValues()
+    {
+        if (!initializedScaling)
+        {
+            float currentScale = transform.localScale.x;
+            normalSizeScale = currentScale;
+            smallSizeScale = currentScale * 0.9f;
+            largeSizeScale = currentScale * 1.1f;
+            initializedScaling = true;
+        }
     }
 
 
