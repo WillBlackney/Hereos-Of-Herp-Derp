@@ -1,5 +1,7 @@
 # Hereos Of Herp Derp
  Developed using the Unity Engine, 'Hereos Of Herp Derp' is a 2D, Roguelike adventure game reminiscent of titles like 'Dungeons And Dragons', 'Slay The Spire' and 'Divinity 2: Original Sin'. This project is currently my main focus.
+ 
+A playable demo is available for download here: https://blackney-studios.itch.io/heroes-of-herp-derp
 ### Screen Shots
 
 ##### Create a team of four heroes
