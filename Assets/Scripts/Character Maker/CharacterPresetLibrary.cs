@@ -77,6 +77,18 @@ public class CharacterPresetLibrary : MonoBehaviour
             Debug.Log(passive.statusData.statusName + "(stacks = " + passive.statusStacks.ToString() +")");
         }
 
+        // Print racial abilities + passives
+        Debug.Log("Known racial passives and abiltiies: ");
+        foreach (StatusPairing passive in data.knownRacialPassives)
+        {
+            Debug.Log(passive.statusData.statusName + "(stacks = " + passive.statusStacks.ToString() + ")");
+        }
+        foreach (AbilityDataSO ability in data.knownRacialAbilities)
+        {
+            Debug.Log(ability.abilityName);
+        }
+
+
         // Print talents
         Debug.Log("Known talents: ");
         foreach (TalentPairing tp in data.knownTalents)
@@ -118,7 +130,9 @@ public class CharacterPresetLibrary : MonoBehaviour
 
         // Combat data
         newPreset.knownAbilities = data.knownAbilities;
+        newPreset.knownRacialAbilities = data.knownRacialAbilities;
         newPreset.knownPassives = data.knownPassives;
+        newPreset.knownRacialPassives = data.knownRacialPassives;
         newPreset.knownTalents = data.knownTalents;
         newPreset.mhWeapon = data.mhWeapon;
         newPreset.ohWeapon = data.ohWeapon;

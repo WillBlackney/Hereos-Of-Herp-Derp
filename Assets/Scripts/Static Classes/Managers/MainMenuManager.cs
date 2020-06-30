@@ -921,9 +921,21 @@ public class MainMenuManager : MonoBehaviour
             character.currentRaceText.text = "Race";
         }
 
-
-
-
+    }
+    public void BuildRacialAbilityAndPassiveTabsFromPresetData(MenuCharacter character, CharacterPresetData data)
+    {
+        character.racialAbilityTab.gameObject.SetActive(false);
+        character.racialPassiveTab.gameObject.SetActive(false);
+        if (data.knownRacialAbilities.Count > 0)
+        {
+            character.racialAbilityTab.gameObject.SetActive(true);
+            character.racialAbilityTab.SetUpAbilityTabAsAbility(data.knownRacialAbilities[0]);
+        }
+        if (data.knownRacialPassives.Count > 0)
+        {
+            character.racialPassiveTab.gameObject.SetActive(true);
+            character.racialPassiveTab.SetUpAbilityTabAsPassive(data.knownRacialPassives[0].statusData, data.knownRacialPassives[0].statusStacks);
+        }
     }
     #endregion
 

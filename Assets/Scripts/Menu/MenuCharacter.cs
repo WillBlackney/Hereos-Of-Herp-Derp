@@ -39,6 +39,9 @@ public class MenuCharacter : MonoBehaviour
     public MenuAbilityTab tabThree;
     public MenuAbilityTab tabFour;
 
+    public MenuAbilityTab racialAbilityTab;
+    public MenuAbilityTab racialPassiveTab;
+
     #endregion
 
     // Initialization + Set up
@@ -79,6 +82,9 @@ public class MenuCharacter : MonoBehaviour
 
         // Build Race Tab
         MainMenuManager.Instance.BuildRaceTabFromCharacterPresetData(this, data.modelRace);
+
+        // Build Racial Ability + Passive tabs
+        MainMenuManager.Instance.BuildRacialAbilityAndPassiveTabsFromPresetData(this, data);
     }
    
     #endregion

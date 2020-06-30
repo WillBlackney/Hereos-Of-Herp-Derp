@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 4216393375570028390}
   - component: {fileID: 3242643038676360832}
   m_Layer: 5
-  m_Name: Ability Tab 1 (1)
+  m_Name: Racial Passive Tab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -739,8 +739,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2437053894312689214}
   m_HandleRect: {fileID: 1504804240569290521}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0
+  m_Value: 0
+  m_Size: 0.4973576
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3481,7 +3481,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8231330555167419881
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4489,6 +4489,8 @@ MonoBehaviour:
   tabTwo: {fileID: 942849881016597980}
   tabThree: {fileID: 6041321123495334702}
   tabFour: {fileID: 5571802761059378061}
+  racialAbilityTab: {fileID: 6005160279021834022}
+  racialPassiveTab: {fileID: 3242643038676360832}
 --- !u!61 &185285123
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7558,7 +7560,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000076293945, y: -176.8595}
+  m_AnchoredPosition: {x: 0.0000076293945, y: 176.8595}
   m_SizeDelta: {x: 250, y: 703.719}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4742000762502361295
@@ -10773,7 +10775,7 @@ GameObject:
   - component: {fileID: 3633477791251015724}
   - component: {fileID: 6005160279021834022}
   m_Layer: 5
-  m_Name: Ability Tab 1
+  m_Name: Racial Ability Tab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

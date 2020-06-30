@@ -58,7 +58,6 @@ public class CharacterRoster : MonoBehaviour
                 characterOne.InitializeSetupFromPresetData(characterData);
                 characterOneSetupComplete = true;
                 allCharacterDataObjects.Add(characterOne);
-                characterOne.SetMyName(characterData.characterName);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[0], characterOne);
                 ShopScreenManager.Instance.SetUpVillageCharacter(ShopScreenManager.Instance.characterOne, characterOne);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[0], characterOne);
@@ -74,7 +73,6 @@ public class CharacterRoster : MonoBehaviour
                 characterTwo.InitializeSetupFromPresetData(characterData);
                 characterTwoSetupComplete = true;
                 allCharacterDataObjects.Add(characterTwo);
-                characterTwo.SetMyName(characterData.characterName);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[1], characterTwo);
                 ShopScreenManager.Instance.SetUpVillageCharacter(ShopScreenManager.Instance.characterTwo, characterTwo);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[1], characterTwo);
@@ -90,7 +88,6 @@ public class CharacterRoster : MonoBehaviour
                 characterThree.InitializeSetupFromPresetData(characterData);
                 characterThreeSetupComplete = true;
                 allCharacterDataObjects.Add(characterThree);
-                characterThree.SetMyName(characterData.characterName);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[2], characterThree);
                 ShopScreenManager.Instance.SetUpVillageCharacter(ShopScreenManager.Instance.characterThree, characterThree);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[2], characterThree);
@@ -106,7 +103,6 @@ public class CharacterRoster : MonoBehaviour
                 characterFour.InitializeSetupFromPresetData(characterData);
                 characterFourSetupComplete = true;
                 allCharacterDataObjects.Add(characterFour);
-                characterFour.SetMyName(characterData.characterName);
                 CampSiteManager.Instance.SetupCampSiteCharacter(CampSiteManager.Instance.allCharacterSlots[3], characterFour);
                 ShopScreenManager.Instance.SetUpVillageCharacter(ShopScreenManager.Instance.characterFour, characterFour);
                 StoryEventManager.Instance.SetupStoryWindowCharacter(StoryEventManager.Instance.allCharacterSlots[3], characterFour);

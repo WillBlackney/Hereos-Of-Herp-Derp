@@ -353,6 +353,211 @@ public class TalentController : MonoBehaviour
         }
        
     }    
+    public void ApplyPassiveEffectToCharacter(CharacterData character, StatusIconDataSO passive, int passiveStacks)
+    {
+        // TO DO: this method should not belong in TalentController, find a better place for it
+
+        if (passive.statusName == "Tenacious")
+        {
+            character.ModifyTenacious(passiveStacks);
+        }
+
+        else if (passive.statusName == "Masochist")
+        {
+            character.ModifyMasochist(passiveStacks);
+        }
+
+        else if (passive.statusName == "Last Stand")
+        {
+            character.ModifyLastStand(passiveStacks);
+        }
+
+        else if (passive.statusName == "Slippery")
+        {
+            character.ModifySlippery(passiveStacks);
+        }
+
+        else if (passive.statusName == "Riposte")
+        {
+            character.ModifyRiposte(passiveStacks);
+        }
+
+        else if (passive.statusName == "Perfect Reflexes")
+        {
+            character.ModifyPerfectReflexes(passiveStacks);
+        }
+
+        else if (passive.statusName == "Opportunist")
+        {
+            character.ModifyOpportunist(passiveStacks);
+        }
+
+        else if (passive.statusName == "Patient Stalker")
+        {
+            character.ModifyPatientStalker(passiveStacks);
+        }
+
+        else if (passive.statusName == "Stealth")
+        {
+            character.ModifyStealth(passiveStacks);
+        }
+
+        else if (passive.statusName == "Cautious")
+        {
+            character.ModifyCautious(passiveStacks);
+        }
+
+        else if (passive.statusName == "Guardian Aura")
+        {
+            character.ModifyGuardianAura(passiveStacks);
+        }
+
+        else if (passive.statusName == "Unwavering")
+        {
+            character.ModifyUnwavering(passiveStacks);
+        }
+
+        else if (passive.statusName == "Fiery Aura")
+        {
+            character.ModifyFieryAura(passiveStacks);
+        }
+
+        else if (passive.statusName == "Immolation")
+        {
+            character.ModifyImmolation(passiveStacks);
+        }
+
+        else if (passive.statusName == "Demon")
+        {
+            character.ModifyDemon(passiveStacks);
+        }
+
+        else if (passive.statusName == "Shatter")
+        {
+            character.ModifyShatter(passiveStacks);
+        }
+
+        else if (passive.statusName == "Frozen Heart")
+        {
+            character.ModifyFrozenHeart(passiveStacks);
+        }
+
+        else if (passive.statusName == "Predator")
+        {
+            character.ModifyPredator(passiveStacks);
+        }
+
+        else if (passive.statusName == "Hawk Eye")
+        {
+            character.ModifyHawkEye(passiveStacks);
+        }
+
+        else if (passive.statusName == "Flux")
+        {
+            character.ModifyFlux(passiveStacks);
+        }
+
+        else if (passive.statusName == "Coup De Grace")
+        {
+            character.ModifyCoupDeGrace(passiveStacks);
+        }
+
+        else if (passive.statusName == "Quick Draw")
+        {
+            character.ModifyQuickDraw(passiveStacks);
+        }
+
+        else if (passive.statusName == "Phasing")
+        {
+            character.ModifyPhasing(passiveStacks);
+        }
+
+        else if (passive.statusName == "Ethereal Being")
+        {
+            character.ModifyEtherealBeing(passiveStacks);
+        }
+
+        else if (passive.statusName == "Encouraging Aura")
+        {
+            character.ModifyEncouragingAura(passiveStacks);
+        }
+
+        else if (passive.statusName == "Radiance")
+        {
+            character.ModifyRadiance(passiveStacks);
+        }
+
+        else if (passive.statusName == "Sacred Aura")
+        {
+            character.ModifySacredAura(passiveStacks);
+        }
+
+        else if (passive.statusName == "Shadow Aura")
+        {
+            character.ModifyShadowAura(passiveStacks);
+        }
+
+        else if (passive.statusName == "Shadow Form")
+        {
+            character.ModifyShadowForm(passiveStacks);
+        }
+
+        else if (passive.statusName == "Poisonous")
+        {
+            character.ModifyPoisonous(passiveStacks);
+        }
+
+        else if (passive.statusName == "Venomous")
+        {
+            character.ModifyVenomous(passiveStacks);
+        }
+
+        else if (passive.statusName == "Toxicity")
+        {
+            character.ModifyToxicity(passiveStacks);
+        }
+
+        else if (passive.statusName == "Toxic Aura")
+        {
+            character.ModifyToxicAura(passiveStacks);
+        }
+
+        else if (passive.statusName == "Storm Aura")
+        {
+            character.ModifyStormAura(passiveStacks);
+        }
+
+        else if (passive.statusName == "Storm Lord")
+        {
+            character.ModifyStormLord(passiveStacks);
+        }
+
+        // Racial passives
+        else if (passive.statusName == "Forest Wisdom")
+        {
+            character.ModifyForestWisdom(passiveStacks);
+        }
+        else if (passive.statusName == "Satyr Trickery")
+        {
+            character.ModifySatyrTrickery(passiveStacks);
+        }
+        else if (passive.statusName == "Human Ambition")
+        {
+            character.ModifyHumanAmbition(passiveStacks);
+        }
+        else if (passive.statusName == "Gnollish Blood Lust")
+        {
+            character.ModifyGnollishBloodLust(passiveStacks);
+        }
+        else if (passive.statusName == "Orcish Grit")
+        {
+            character.ModifyOrcishGrit(passiveStacks);
+        }       
+        else if (passive.statusName == "Free From Flesh")
+        {
+            character.ModifyFreeFromFlesh(passiveStacks);
+        }
+    }
     public void ApplyTalentAbilityToCharacter(CharacterData character, Talent talent)
     {
         Debug.Log("TalentController.ApplyTalentAbilityToCharacter() called...");

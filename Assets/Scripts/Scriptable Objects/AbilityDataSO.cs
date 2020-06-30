@@ -18,6 +18,7 @@ public class AbilityDataSO : ScriptableObject
     public DamageType damageType;
     public AbilityType abilityType;
     public AbilitySchool abilitySchool;
+    public UniversalCharacterModel.ModelRace abilityRace;
     public int tier;
 
     [Header("Ability Properties")]

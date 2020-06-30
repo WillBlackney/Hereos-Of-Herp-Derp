@@ -75,7 +75,7 @@ public static class TextLogic
         if (statusName == "Bonus Strength")
         {
             statusDescriptionText.text =
-                "Increases the base damage of "+ ReturnColoredText("Melee Attack", yellow)+ " abilities by" +
+                "Increases the base damage of " + ReturnColoredText("Melee Attack", yellow) + " abilities by" +
                 ReturnColoredText(statusStacks.ToString(), blueNumber);
         }
         else if (statusName == "Temporary Bonus Strength")
@@ -119,7 +119,7 @@ public static class TextLogic
                 ReturnColoredText("Shadow", shadow) + ", and" +
                 ReturnColoredText("Air", air) +
                 " damage from abilities by and effects by " + ReturnColoredText(statusStacks.ToString(), blueNumber)
-                + ". Expires on activation end"; 
+                + ". Expires on activation end";
         }
         else if (statusName == "Bonus Mobility")
         {
@@ -130,7 +130,7 @@ public static class TextLogic
         {
             statusDescriptionText.text =
                 "Increase the range of movement abilities by " + ReturnColoredText(statusStacks.ToString(), blueNumber)
-                + ". Expires on activation end"; 
+                + ". Expires on activation end";
         }
         else if (statusName == "Bonus Initiative")
         {
@@ -141,13 +141,13 @@ public static class TextLogic
         {
             statusDescriptionText.text =
                 "Increases your activation order roll by " + ReturnColoredText(statusStacks.ToString(), blueNumber)
-                + ". Expires on activation end"; 
+                + ". Expires on activation end";
         }
         else if (statusName == "Bonus Critical")
         {
             statusDescriptionText.text =
                 "Increases your chance to deal " + ReturnColoredText("50%", blueNumber) + " bonus damage with an attack by " +
-                ReturnColoredText(statusStacks.ToString() + "%", blueNumber);                
+                ReturnColoredText(statusStacks.ToString() + "%", blueNumber);
         }
         else if (statusName == "Bonus Dodge")
         {
@@ -164,7 +164,7 @@ public static class TextLogic
         else if (statusName == "Bonus Max Energy")
         {
             statusDescriptionText.text =
-                "Increases the maximum amount of " + ReturnColoredText("Energy", yellow) + 
+                "Increases the maximum amount of " + ReturnColoredText("Energy", yellow) +
                 " you can have at any time by " +
                 ReturnColoredText(statusStacks.ToString(), blueNumber);
         }
@@ -193,7 +193,7 @@ public static class TextLogic
         else if (statusName == "Bonus Stamina")
         {
             statusDescriptionText.text =
-                "Increase the amount of "+ ReturnColoredText("Energy", yellow) + 
+                "Increase the amount of " + ReturnColoredText("Energy", yellow) +
                 " gained on activation start by " + ReturnColoredText(statusStacks.ToString(), blueNumber);
         }
         else if (statusName == "Temporary Bonus Stamina")
@@ -201,14 +201,14 @@ public static class TextLogic
             statusDescriptionText.text =
                 "Increase the amount of " + ReturnColoredText("Energy", yellow) +
                 " gained on activation start by " + ReturnColoredText(statusStacks.ToString(), blueNumber)
-                + ". Expires on activation end"; 
+                + ". Expires on activation end";
         }
         else if (statusName == "Temporary Dodge")
         {
             statusDescriptionText.text =
-                "Increases your chance to completely avoid "+ ReturnColoredText("Ranged Attack", blueNumber) + " abilities by " +
+                "Increases your chance to completely avoid " + ReturnColoredText("Ranged Attack", blueNumber) + " abilities by " +
                 ReturnColoredText(statusStacks.ToString() + "%", blueNumber)
-                +". Expires on activation end";
+                + ". Expires on activation end";
         }
         else if (statusName == "Temporary Parry")
         {
@@ -220,7 +220,7 @@ public static class TextLogic
         else if (statusName == "Vulnerable")
         {
             statusDescriptionText.text =
-                "This character takes "+ ReturnColoredText("50%", blueNumber)+ " increased damage from all attacks";
+                "This character takes " + ReturnColoredText("50%", blueNumber) + " increased damage from all attacks";
         }
         else if (statusName == "Weakened")
         {
@@ -276,12 +276,12 @@ public static class TextLogic
         else if (statusName == "Concentration")
         {
             statusDescriptionText.text =
-                "This character's "+ ReturnColoredText("Ranged Attack", yellow) + " abilities cannot be dodged. +20 Ranged Critical Chance";
+                "This character's " + ReturnColoredText("Ranged Attack", yellow) + " abilities cannot be dodged. +20 Ranged Critical Chance";
         }
         else if (statusName == "Demon")
         {
             statusDescriptionText.text =
-                "Increase all "+ ReturnColoredText("Fire", fire) + " damage dealt by " + ReturnColoredText("30%", blueNumber) + ". " +
+                "Increase all " + ReturnColoredText("Fire", fire) + " damage dealt by " + ReturnColoredText("30%", blueNumber) + ". " +
                 ReturnColoredText("Fire", fire) + " Resistance increased by " + ReturnColoredText("30", blueNumber);
         }
         else if (statusName == "Shadow Form")
@@ -351,7 +351,7 @@ public static class TextLogic
         else if (statusName == "Radiance")
         {
             statusDescriptionText.text =
-                "This character's "+ ReturnColoredText("Aura Size", yellow) + " is increased by " + ReturnColoredText(statusStacks.ToString(), blueNumber);
+                "This character's " + ReturnColoredText("Aura Size", yellow) + " is increased by " + ReturnColoredText(statusStacks.ToString(), blueNumber);
         }
         else if (statusName == "Encouraging Aura")
         {
@@ -375,25 +375,25 @@ public static class TextLogic
         {
             statusDescriptionText.text =
                 "On activation end, this character deals " + ReturnColoredText(statusStacks.ToString(), blueNumber) +
-                " " + ReturnColoredText("Air", air) + " damage to a random enemy within it's " + ReturnColoredText("Aura", yellow)+ " twice";
+                " " + ReturnColoredText("Air", air) + " damage to a random enemy within it's " + ReturnColoredText("Aura", yellow) + " twice";
         }
         else if (statusName == "Soul Drain Aura")
         {
             statusDescriptionText.text =
                 "On activation end, this character steals " + ReturnColoredText(statusStacks.ToString(), blueNumber) +
-                " "+ ReturnColoredText("Strength", yellow) + " from enemies within it's " + ReturnColoredText("Aura", yellow);
+                " " + ReturnColoredText("Strength", yellow) + " from enemies within it's " + ReturnColoredText("Aura", yellow);
         }
         else if (statusName == "Guardian Aura")
         {
             statusDescriptionText.text =
                 "On activation end, this character grants " + ReturnColoredText(statusStacks.ToString(), blueNumber) +
-                 " " + ReturnColoredText("Block", yellow)+ " to allies within it's " + ReturnColoredText("Aura", yellow);
+                 " " + ReturnColoredText("Block", yellow) + " to allies within it's " + ReturnColoredText("Aura", yellow);
         }
         else if (statusName == "Hateful Aura")
         {
             statusDescriptionText.text =
                 "On activation end, this character grants " + ReturnColoredText(statusStacks.ToString(), blueNumber) +
-                " " + ReturnColoredText("Strength", yellow) +" to allies within it's " + ReturnColoredText("Aura", yellow);
+                " " + ReturnColoredText("Strength", yellow) + " to allies within it's " + ReturnColoredText("Aura", yellow);
         }
         else if (statusName == "Enrage")
         {
@@ -412,7 +412,7 @@ public static class TextLogic
         {
             statusDescriptionText.text =
                 "This character deals " + ReturnColoredText("50%", blueNumber)
-                + " extra damage with "+ ReturnColoredText("Melee Attack", yellow) + " abilities when back striking";
+                + " extra damage with " + ReturnColoredText("Melee Attack", yellow) + " abilities when back striking";
         }
         else if (statusName == "Hawk Eye")
         {
@@ -446,7 +446,7 @@ public static class TextLogic
         else if (statusName == "Overwatch")
         {
             statusDescriptionText.text =
-                "This character will perform " + ReturnColoredText("Shoot", yellow) + 
+                "This character will perform " + ReturnColoredText("Shoot", yellow) +
                 " against the first enemy that moves within it's weapon's range";
         }
 
@@ -622,7 +622,7 @@ public static class TextLogic
         else if (statusName == "Undead")
         {
             statusDescriptionText.text =
-                "This character is immune to "+ ReturnColoredText("Poisoned", poison) + 
+                "This character is immune to " + ReturnColoredText("Poisoned", poison) +
                 " and " + ReturnColoredText("Terrified", yellow);
         }
         else if (statusName == "Unstoppable")
@@ -635,14 +635,14 @@ public static class TextLogic
         else if (statusName == "Unwavering")
         {
             statusDescriptionText.text =
-                "This character's " + ReturnColoredText("Block", yellow)+ " does not expire on activation start";
+                "This character's " + ReturnColoredText("Block", yellow) + " does not expire on activation start";
         }
         else if (statusName == "Infuse")
         {
             statusDescriptionText.text =
                 "This character has +" + ReturnColoredText("20", yellow) + " to all resistances";
         }
-        
+
         else if (statusName == "Last Stand")
         {
             statusDescriptionText.text =
@@ -663,7 +663,7 @@ public static class TextLogic
         else if (statusName == "Life Steal")
         {
             statusDescriptionText.text =
-                "Whenever this character reduces health with a " + ReturnColoredText("Melee Attack", yellow) + 
+                "Whenever this character reduces health with a " + ReturnColoredText("Melee Attack", yellow) +
                 " ability, it gains health equal to the amount of health lost";
         }
         else if (statusName == "Masochist")
@@ -675,9 +675,9 @@ public static class TextLogic
         else if (statusName == "Nimble")
         {
             statusDescriptionText.text =
-                "This character's " + ReturnColoredText("Dodge", yellow) + 
+                "This character's " + ReturnColoredText("Dodge", yellow) +
                 " and " + ReturnColoredText("Parry", yellow) +
-                " chance is increased by " + ReturnColoredText("10", blueNumber) ;
+                " chance is increased by " + ReturnColoredText("10", blueNumber);
         }
         else if (statusName == "Perfect Reflexes")
         {
@@ -695,12 +695,12 @@ public static class TextLogic
         else if (statusName == "Perfect Aim")
         {
             statusDescriptionText.text =
-                "This character's " + ReturnColoredText("Ranged Attack", yellow)+ " abilities cannot be " + ReturnColoredText("Dodged", yellow);
+                "This character's " + ReturnColoredText("Ranged Attack", yellow) + " abilities cannot be " + ReturnColoredText("Dodged", yellow);
         }
         else if (statusName == "Phasing")
         {
             statusDescriptionText.text =
-                "The first time this character is the victim of a "+ ReturnColoredText("Melee Attack", yellow) + " ability each turn cycle, it " + 
+                "The first time this character is the victim of a " + ReturnColoredText("Melee Attack", yellow) + " ability each turn cycle, it " +
                 ReturnColoredText("Teleports", yellow) +
                 " to a random tile within " + ReturnColoredText("2", blueNumber);
         }
@@ -712,7 +712,7 @@ public static class TextLogic
         else if (statusName == "Predator")
         {
             statusDescriptionText.text =
-                "This character has " + ReturnColoredText("50", blueNumber) + " bonus "+ ReturnColoredText("Critical", yellow) +
+                "This character has " + ReturnColoredText("50", blueNumber) + " bonus " + ReturnColoredText("Critical", yellow) +
                 " chance while " + ReturnColoredText("Camoflaged", yellow);
         }
         else if (statusName == "Preparation")
@@ -731,7 +731,7 @@ public static class TextLogic
         else if (statusName == "Recklessness")
         {
             statusDescriptionText.text =
-                "This character has +20 Melee Critical Chance and it's " + ReturnColoredText("Melee Attack", yellow)+ 
+                "This character has +20 Melee Critical Chance and it's " + ReturnColoredText("Melee Attack", yellow) +
                 " abilities cannot be parried";
         }
         else if (statusName == "Berserk")
@@ -744,7 +744,7 @@ public static class TextLogic
         {
             statusDescriptionText.text =
                 "Whenever this character successfully " + ReturnColoredText("Parries", yellow) + ", it performs " +
-                ReturnColoredText("Strike", yellow)+ " against its attacker";
+                ReturnColoredText("Strike", yellow) + " against its attacker";
         }
         else if (statusName == "Sacred Aura")
         {
@@ -759,20 +759,20 @@ public static class TextLogic
         else if (statusName == "Shadow Aura")
         {
             statusDescriptionText.text =
-                "On activation end, this character applies "+ ReturnColoredText("Weakened", yellow) +
+                "On activation end, this character applies " + ReturnColoredText("Weakened", yellow) +
                 " to enemies within its " + ReturnColoredText("Aura", yellow);
         }
         else if (statusName == "Sharpened Blade")
         {
             statusDescriptionText.text =
                 "This character's next " + ReturnColoredText("Melee Attack", yellow) + " ability is guaranteed to be a " +
-                 ReturnColoredText("Critical", yellow);;
+                 ReturnColoredText("Critical", yellow); ;
         }
         else if (statusName == "Shatter")
         {
             statusDescriptionText.text =
                 "This character's " + ReturnColoredText("Melee Attack", yellow) + " abilities have " +
-                ReturnColoredText("50", blueNumber) + " bonus " + ReturnColoredText("Critical", yellow) + 
+                ReturnColoredText("50", blueNumber) + " bonus " + ReturnColoredText("Critical", yellow) +
                 " chance against targets with " + ReturnColoredText("Chilled", frost);
         }
         else if (statusName == "Slippery")
@@ -788,7 +788,7 @@ public static class TextLogic
         else if (statusName == "Regeneration")
         {
             statusDescriptionText.text =
-                "On activation end, this character recovers " + 
+                "On activation end, this character recovers " +
                 ReturnColoredText(statusStacks.ToString(), blueNumber) + " health";
         }
         else if (statusName == "Thorns")
@@ -823,9 +823,45 @@ public static class TextLogic
         else if (statusName == "Venomous")
         {
             statusDescriptionText.text =
-                "Whenever this character applies "+ ReturnColoredText("Poisoned", poison) + 
+                "Whenever this character applies " + ReturnColoredText("Poisoned", poison) +
                 ", it applies " + ReturnColoredText(statusStacks.ToString(), blueNumber) + " extra";
         }
+
+        // Racial passives
+        else if (statusName == "Forest Wisdom")
+        {
+            statusDescriptionText.text =
+                "On activation end, if this character is standing on a grass tile, it gains " + ReturnColoredText("2", blueNumber) +
+                " " + ReturnColoredText("Wisdom", yellow);
+        }
+        else if (statusName == "Satyr Trickery")
+        {
+            statusDescriptionText.text =
+                "This character starts every combat with " + ReturnColoredText("Camoflage", yellow);
+        }
+        else if (statusName == "Human Ambition")
+        {
+            statusDescriptionText.text =
+                "This character starts every combat with maximum " + ReturnColoredText("Energy", yellow);
+        }
+        else if (statusName == "Orcish Grit")
+        {
+            statusDescriptionText.text =
+                "This character is immune to " + ReturnColoredText("Stunned", yellow);
+        }
+        else if (statusName == "Gnollish Blood Lust")
+        {
+            statusDescriptionText.text =
+                "Whenever this character kills an enemy, it gains " + ReturnColoredText("40", blueNumber) + " " +
+                ReturnColoredText("Energy", yellow);
+        }
+        else if (statusName == "Free From Flesh")
+        {
+            statusDescriptionText.text =
+                "This character is immune to " + ReturnColoredText("Bleeding", yellow) + ", " +
+                ReturnColoredText("Poisoned", poison) + " and " + ReturnColoredText("Chilled", frost);
+        }
+
 
 
 

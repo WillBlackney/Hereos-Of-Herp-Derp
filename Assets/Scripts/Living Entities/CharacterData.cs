@@ -22,17 +22,21 @@ public class CharacterData : MonoBehaviour
     public GameObject talentsPageParent;
     public GameObject abilityPageParent;
     public GameObject attributeTabContentParent;
-    public TextMeshProUGUI myNameText;
-    public UniversalCharacterModel myCharacterModel;
+    public TextMeshProUGUI myNameText;    
     public List<Talent> allTalentButtons;
     public List<GameObject> talentPlusButtons;
     public UniversalCharacterModel myModelOnButton;
+    public UniversalCharacterModel myCharacterModel;
 
     [Header("Ability References")]
     public List<AbilitySlot> allKnownAbilitySlots;
     public List<AbilitySlot> allActiveAbilitySlots;
     public List<AbilityPageAbility> activeAbilities;
     public List<AbilityPageAbility> knownAbilities;
+
+    [Header("General Descriptive Properties")]
+    public UniversalCharacterModel.ModelRace myRace;
+    public List<Background> backgrounds;
 
     [Header("Page Button References")]
     public GameObject statsPageButton;
@@ -241,7 +245,13 @@ public class CharacterData : MonoBehaviour
     public int growingStacks;
     public int fastLearnerStacks;
 
-
+    [Header("Racial Trait Properties")]
+    public int freeFromFleshStacks;
+    public int forestWisdomStacks;
+    public int satyrTrickeryStacks;
+    public int humanAmbitionStacks;
+    public int orcishGritStacks;
+    public int gnollishBloodLustStacks;
 
     [Header("Misc Properties")]
     public string myName;
@@ -254,6 +264,7 @@ public class CharacterData : MonoBehaviour
     {
         masterVisualParent.SetActive(false);
     }
+    
     public void EnableMainWindowView()
     {
         masterVisualParent.SetActive(true);
@@ -422,6 +433,12 @@ public class CharacterData : MonoBehaviour
         // Learn Move
         HandleLearnAbility(AbilityLibrary.Instance.GetAbilityByName("Move"));
 
+        // Learn Racial Abilities
+        LearnRacialAbilitiesFromCharacterPresetData(data);
+
+        // Learn Racial Abilities
+        LearnRacialPassivesFromCharacterData(data);
+
         // Set up talents
         InitializeTalentsFromPresetData(data);
 
@@ -433,6 +450,14 @@ public class CharacterData : MonoBehaviour
 
         // Character Model
         CharacterModelController.BuildModelFromCharacterPresetData(myCharacterModel, data);
+
+        // Set general info
+        SetMyName(data.characterName);
+        SetMyRace(data.modelRace);
+        foreach(Background bg in data.backgrounds)
+        {
+            AddBackgroundInfo(bg);
+        }
 
         // Set up health
         ModifyMaxHealth(100);
@@ -573,7 +598,11 @@ public class CharacterData : MonoBehaviour
             {
                 // it does, unlock it
                 TalentController.Instance.PurchaseTalent(this, talent, false);
-            }               
+            }
+            else
+            {
+                TalentController.Instance.ApplyPassiveEffectToCharacter(this, passive.statusData, passive.statusStacks);
+            }
         }
     }
     public void CreateMyDefenderGameObject()
@@ -828,6 +857,53 @@ public class CharacterData : MonoBehaviour
 
         return boolReturned;
     }
+    public void LearnRacialAbilitiesFromCharacterPresetData(CharacterPresetData charData)
+    {
+        Debug.Log("CharacterData.LearnRacialAbilitiesFromCharacterPresetData() called for character " +
+            myName + " learning " + charData.modelRace.ToString() + " racial abilities");
+
+        foreach (AbilityDataSO abData in charData.knownRacialAbilities)
+        {
+            HandleLearnAbility(abData);
+        }
+
+    }
+    public void LearnRacialPassivesFromCharacterData(CharacterPresetData charData)
+    {
+        Debug.Log("CharacterData.LearnRacialPassivesFromCharacterData() called for character " +
+           myName + " learning " + charData.modelRace.ToString() + " racial abilities");
+
+        foreach (StatusPairing passive in charData.knownRacialPassives)
+        {
+            TalentController.Instance.ApplyPassiveEffectToCharacter(this, passive.statusData, passive.statusStacks);
+        }
+    }
+    public void LearnRacialAbilitiesFromRaceData(UniversalCharacterModel.ModelRace raceData)
+    {
+        Debug.Log("CharacterData.LearnRacialAbilitiesFromRaceData() called for character " +
+            myName + " learning " + raceData.ToString() + " racial abilities");
+        List<AbilityDataSO> abilitiesToLearn = new List<AbilityDataSO>();
+
+        // find racial abilities in ability library
+        foreach(AbilityDataSO data in AbilityLibrary.Instance.AllAbilities)
+        {
+            if(data.abilityRace == raceData)
+            {
+                abilitiesToLearn.Add(data);
+            }
+        }
+
+        // teach racial abilities to character
+        foreach(AbilityDataSO data in abilitiesToLearn)
+        {
+            HandleLearnAbility(data);
+        }
+    }    
+    public void LearnRacialPassivesFromRaceData(UniversalCharacterModel.ModelRace raceData)
+    {
+        
+    }
+    
     public void HandleLearnAbility(AbilityDataSO data)
     {
         Debug.Log("CharacterData.HandeLearnAbility() called, trying to learn " + data.abilityName);
@@ -1878,6 +1954,44 @@ public class CharacterData : MonoBehaviour
         StartAddAttributeTabProcess("Life Steal", stacks);
     }
 
+    // Racial passives
+    public void ModifyForestWisdom(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyForestWisdom() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        forestWisdomStacks += stacks;
+        StartAddAttributeTabProcess("Forest Wisdom", stacks);
+    }
+    public void ModifySatyrTrickery(int stacks)
+    {
+        Debug.Log("CharacterData.ModifySatyrTrickery() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        satyrTrickeryStacks += stacks;
+        StartAddAttributeTabProcess("Satyr Trickery", stacks);
+    }
+    public void ModifyHumanAmbition(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyHumanAmbition() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        humanAmbitionStacks += stacks;
+        StartAddAttributeTabProcess("Human Ambition", stacks);
+    }
+    public void ModifyOrcishGrit(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyOrcishGrit() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        orcishGritStacks += stacks;
+        StartAddAttributeTabProcess("Orcish Grit", stacks);
+    }
+    public void ModifyGnollishBloodLust(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyGnollishBloodLust() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        gnollishBloodLustStacks += stacks;
+        StartAddAttributeTabProcess("Gnollish Blood Lust", stacks);
+    }
+    public void ModifyFreeFromFlesh(int stacks)
+    {
+        Debug.Log("CharacterData.ModifyFreeFromFlesh() called for " + myName + " adding " + stacks.ToString() + " stacks...");
+        freeFromFleshStacks += stacks;
+        StartAddAttributeTabProcess("Free From Flesh", stacks);
+    }
+
 
     #endregion
 
@@ -1980,12 +2094,20 @@ public class CharacterData : MonoBehaviour
     }
     #endregion
 
-    // Naming + Identity Logic
+    // General Info Logic
     #region
     public void SetMyName(string newName)
     {
         myName = newName;
         myNameText.text = newName;
+    }
+    public void SetMyRace(UniversalCharacterModel.ModelRace newRace)
+    {
+        myRace = newRace;
+    }
+    public void AddBackgroundInfo(Background newBackground)
+    {
+        backgrounds.Add(newBackground);
     }
     #endregion
 

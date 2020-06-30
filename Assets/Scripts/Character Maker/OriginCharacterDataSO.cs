@@ -13,7 +13,9 @@ public class OriginCharacterDataSO : ScriptableObject
 
     [Header("Combat Properties")]
     public List<AbilityDataSO> knownAbilities;
+    public List<AbilityDataSO> knownRacialAbilities;
     public List<StatusPairing> knownPassives;
+    public List<StatusPairing> knownRacialPassives;
     public List<TalentPairing> knownTalents;
 
     [Header("Weapons Properties")]

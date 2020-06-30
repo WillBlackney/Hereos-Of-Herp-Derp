@@ -16,7 +16,9 @@ public class CharacterPresetData
 
     // Combat Properties
     public List<AbilityDataSO> knownAbilities;
+    public List<AbilityDataSO> knownRacialAbilities;
     public List<StatusPairing> knownPassives;
+    public List<StatusPairing> knownRacialPassives;
     public List<TalentPairing> knownTalents;
 
     // Weapons
@@ -32,7 +34,9 @@ public class CharacterPresetData
         // Initialize lists
         activeModelElements = new List<ModelElementData>();
         knownAbilities = new List<AbilityDataSO>();
+        knownRacialAbilities = new List<AbilityDataSO>();
         knownPassives = new List<StatusPairing>();
+        knownRacialPassives = new List<StatusPairing>();
         knownTalents = new List<TalentPairing>();
         backgrounds = new List<CharacterData.Background>();
     }

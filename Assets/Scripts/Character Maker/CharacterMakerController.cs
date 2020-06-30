@@ -26,7 +26,9 @@ public class CharacterMakerController : MonoBehaviour
     public TextMeshProUGUI characterStoryCurrentCharCountText;
     public TextMeshProUGUI characterRaceText;
     public TextMeshProUGUI currentBackgroundOneText;
-    public TextMeshProUGUI currentBackgroundTwoText;   
+    public TextMeshProUGUI currentBackgroundTwoText;
+    public MenuAbilityTab racialAbilityTab;
+    public MenuAbilityTab racialPassiveTab;
 
     [Header("Preset Tab Component References")]    
     public TextMeshProUGUI currentClassPresetText;
@@ -84,6 +86,7 @@ public class CharacterMakerController : MonoBehaviour
         SetCharacterModelDefaultStartingState();
         SetCharacterBackgroundDefaultState();
         BuildCharacterFromClassPresetData(CharacterPresetLibrary.Instance.allClassPresets[0]);
+        BuildRacialAbilityAndPassiveTabsFromRaceData(UniversalCharacterModel.ModelRace.Human);
         CharacterModelController.DisableAllClothingOnModel(characterModel);
         CharacterModelController.ClearAllClothingPartReferences(characterModel);
         CharacterModelController.DisableAllClothingOnModel(characterModel);
@@ -122,8 +125,6 @@ public class CharacterMakerController : MonoBehaviour
     public void OnBackToMainMenuButtonClicked()
     {
         Debug.Log("CharacterMakerController.OnBackToMainMenuButtonClicked() called...");
-        // MainMenuManager.Instance.EnableAllMenuButtons();
-        //SetMainWindowViewState(false);
         MainMenuManager.Instance.OnBackToMainMenuButtonCicked();
     }
     #endregion
@@ -317,31 +318,37 @@ public class CharacterMakerController : MonoBehaviour
         if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Human)
         {            
             CharacterModelController.SetBaseOrcView(characterModel);
+            BuildRacialAbilityAndPassiveTabsFromRaceData(UniversalCharacterModel.ModelRace.Orc);
             characterRaceText.text = "Orc";
         }
         else if(characterModel.myModelRace == UniversalCharacterModel.ModelRace.Orc)
         {
             CharacterModelController.SetBaseElfView(characterModel);
+            BuildRacialAbilityAndPassiveTabsFromRaceData(UniversalCharacterModel.ModelRace.Elf);
             characterRaceText.text = "Elf";
         }
         else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Elf)
         {
             CharacterModelController.SetBaseUndeadView(characterModel);
+            BuildRacialAbilityAndPassiveTabsFromRaceData(UniversalCharacterModel.ModelRace.Undead);
             characterRaceText.text = "Undead";
         }
         else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Undead)
         {
             CharacterModelController.SetBaseSatyrView(characterModel);
+            BuildRacialAbilityAndPassiveTabsFromRaceData(UniversalCharacterModel.ModelRace.Satyr);
             characterRaceText.text = "Satyr";
         }
         else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Satyr)
         {
             CharacterModelController.SetBaseGnollView(characterModel);
+            BuildRacialAbilityAndPassiveTabsFromRaceData(UniversalCharacterModel.ModelRace.Gnoll);
             characterRaceText.text = "Gnoll";
         }
         else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Gnoll)
         {
             CharacterModelController.SetBaseHumanView(characterModel);
+            BuildRacialAbilityAndPassiveTabsFromRaceData(UniversalCharacterModel.ModelRace.Human);
             characterRaceText.text = "Human";
         }
 
@@ -355,31 +362,37 @@ public class CharacterMakerController : MonoBehaviour
         if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Gnoll)
         {
             CharacterModelController.SetBaseSatyrView(characterModel);
+            BuildRacialAbilityAndPassiveTabsFromRaceData(UniversalCharacterModel.ModelRace.Satyr);
             characterRaceText.text = "Satyr";
         }
         else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Satyr)
         {
             CharacterModelController.SetBaseUndeadView(characterModel);
+            BuildRacialAbilityAndPassiveTabsFromRaceData(UniversalCharacterModel.ModelRace.Undead);
             characterRaceText.text = "Undead";
         }
         else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Undead)
         {
             CharacterModelController.SetBaseElfView(characterModel);
+            BuildRacialAbilityAndPassiveTabsFromRaceData(UniversalCharacterModel.ModelRace.Elf);
             characterRaceText.text = "Elf";
         }
         else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Elf)
         {
             CharacterModelController.SetBaseOrcView(characterModel);
+            BuildRacialAbilityAndPassiveTabsFromRaceData(UniversalCharacterModel.ModelRace.Orc);
             characterRaceText.text = "Orc";
         }
         else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Orc)
         {
             CharacterModelController.SetBaseHumanView(characterModel);
+            BuildRacialAbilityAndPassiveTabsFromRaceData(UniversalCharacterModel.ModelRace.Human);
             characterRaceText.text = "Human";
         }
         else if (characterModel.myModelRace == UniversalCharacterModel.ModelRace.Human)
         {
             CharacterModelController.SetBaseGnollView(characterModel);
+            BuildRacialAbilityAndPassiveTabsFromRaceData(UniversalCharacterModel.ModelRace.Gnoll);
             characterRaceText.text = "Gnoll";
         }
 
@@ -668,8 +681,6 @@ public class CharacterMakerController : MonoBehaviour
 
             // Add new data to persistency
             PersistencyManager.Instance.SaveCharacterPresetDataToPersistency(newData);
-            //CharacterPresetLibrary.Instance.AddCharacterPresetToPlayerMadeList(newData);
-
         }
     }
     
@@ -767,6 +778,14 @@ public class CharacterMakerController : MonoBehaviour
 
         // set race
         charData.modelRace = characterModel.myModelRace;
+
+        // set racial abilities
+        charData.knownRacialAbilities.Clear();
+        charData.knownRacialAbilities.Add(racialAbilityTab.myAbilityData);
+
+        // set racial passives
+        charData.knownRacialPassives.Clear();
+        charData.knownRacialPassives.Add(new StatusPairing(racialPassiveTab.myPassiveData,racialPassiveTab.passiveStacks));
     }
     private void SaveWeaponDataToCharacterPresetFile(CharacterPresetData charData)
     {
@@ -808,6 +827,52 @@ public class CharacterMakerController : MonoBehaviour
         BuildAllTalentTextTabsFromClassPresetData(data);
         BuildModelClothingFromClassPresetData(characterModel, data);
         BuildWeaponTabFromWeaponPresetData(data.weaponPreset);
+
+    }
+    private void BuildRacialAbilityAndPassiveTabsFromRaceData(UniversalCharacterModel.ModelRace race)
+    {
+        Debug.Log("CharacterMakerController.BuildRacialAbilityAndPassiveTabsFromRaceData() called, building from race: " + race.ToString());
+
+        // Build views and data
+        if(race == UniversalCharacterModel.ModelRace.Elf)
+        {
+            racialAbilityTab.SetUpAbilityTabAsAbility(AbilityLibrary.Instance.GetAbilityByName("Moon Infusion"));
+            racialPassiveTab.SetUpAbilityTabAsPassive(StatusIconLibrary.Instance.GetStatusIconByName("Forest Wisdom"), 1);
+        }
+        else if (race == UniversalCharacterModel.ModelRace.Gnoll)
+        {
+            racialAbilityTab.SetUpAbilityTabAsAbility(AbilityLibrary.Instance.GetAbilityByName("Disengage"));
+            racialPassiveTab.SetUpAbilityTabAsPassive(StatusIconLibrary.Instance.GetStatusIconByName("Gnollish Blood Lust"), 1);
+        }
+        else if (race == UniversalCharacterModel.ModelRace.Human)
+        {
+            racialAbilityTab.SetUpAbilityTabAsAbility(AbilityLibrary.Instance.GetAbilityByName("Encourage"));
+            racialPassiveTab.SetUpAbilityTabAsPassive(StatusIconLibrary.Instance.GetStatusIconByName("Human Ambition"), 1);
+        }
+        else if (race == UniversalCharacterModel.ModelRace.Orc)
+        {
+            racialAbilityTab.SetUpAbilityTabAsAbility(AbilityLibrary.Instance.GetAbilityByName("Frenzy"));
+            racialPassiveTab.SetUpAbilityTabAsPassive(StatusIconLibrary.Instance.GetStatusIconByName("Orcish Grit"), 1);
+        }
+        else if (race == UniversalCharacterModel.ModelRace.Undead)
+        {
+            racialAbilityTab.SetUpAbilityTabAsAbility(AbilityLibrary.Instance.GetAbilityByName("Horrify"));
+            racialPassiveTab.SetUpAbilityTabAsPassive(StatusIconLibrary.Instance.GetStatusIconByName("Free From Flesh"), 1);
+        }
+        else if (race == UniversalCharacterModel.ModelRace.Satyr)
+        {
+            racialAbilityTab.SetUpAbilityTabAsAbility(AbilityLibrary.Instance.GetAbilityByName("Ram"));
+            racialPassiveTab.SetUpAbilityTabAsPassive(StatusIconLibrary.Instance.GetStatusIconByName("Satyr Trickery"), 1);
+        }
+
+
+    }
+    private void BuildRacialAbilityAndPassiveTabsFromCharacterData(CharacterPresetData data)
+    {
+        Debug.Log("CharacterMakerController.BuildRacialAbilityAndPassiveTabsFromRaceData() called...");
+
+        racialAbilityTab.SetUpAbilityTabAsAbility(data.knownRacialAbilities[0]);
+        racialPassiveTab.SetUpAbilityTabAsPassive(data.knownRacialPassives[0].statusData, data.knownRacialPassives[0].statusStacks);
 
     }
     private void BuildAllAbilityTabsFromClassPresetData(ClassPresetDataSO data)
@@ -1516,6 +1581,9 @@ public class CharacterMakerController : MonoBehaviour
         // Load Race
         characterRaceText.text = data.modelRace.ToString();
         characterModel.myModelRace = data.modelRace;
+
+        // Load Racial abiltiies + passives
+        BuildRacialAbilityAndPassiveTabsFromCharacterData(data);
 
         // Load Model Data
         CharacterModelController.BuildModelFromCharacterPresetData(characterModel, data);

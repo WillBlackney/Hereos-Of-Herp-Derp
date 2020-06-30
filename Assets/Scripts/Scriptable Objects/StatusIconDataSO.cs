@@ -10,4 +10,5 @@ public class StatusIconDataSO : ScriptableObject
     public Sprite statusSprite;
     public string statusDescription;
     public bool showStackCount;
+    public UniversalCharacterModel.ModelRace statusRace;
 }
