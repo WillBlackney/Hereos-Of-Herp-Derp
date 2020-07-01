@@ -27,28 +27,33 @@ public class LivingEntityManager : MonoBehaviour
 
     // Activation related logic
     #region
-    public Action EndEntityActivation(LivingEntity enemy)
+    public Action EndEntityActivation(LivingEntity entity)
     {
+        Debug.Log("LivingEntityManager.EndEntityActivation() called for " + entity.myName);
         Action action = new Action(true);
-        StartCoroutine(EndEntityActivationCoroutine(enemy, action));
+        StartCoroutine(EndEntityActivationCoroutine(entity, action));
         return action;
     }
-    private IEnumerator EndEntityActivationCoroutine(LivingEntity enemy, Action action)
+    private IEnumerator EndEntityActivationCoroutine(LivingEntity entity, Action action)
     {
-        Action endActivation = StartEntityOnActivationEndEvents(enemy);
+        Debug.Log("LivingEntityManager.EndEntityActivationCoroutine() called for " + entity.myName);
+        Action endActivation = StartEntityOnActivationEndEvents(entity);
         yield return new WaitUntil(() => endActivation.ActionResolved() == true);
-        ActivationManager.Instance.ActivateNextEntity();
+        Debug.Log("LivingEntityManager.EndEntityActivationCoroutine() returning from end of activation effects process, now attempting to activate next entity");
         action.actionResolved = true;
+        ActivationManager.Instance.ActivateNextEntity();
+        //action.actionResolved = true;
     }
     private Action StartEntityOnActivationEndEvents(LivingEntity entity)
     {
+        Debug.Log("LivingEntityManager.StartEntityOnActivationEndEvents() called for " + entity.myName);
         Action action = new Action(true);
         StartCoroutine(StartEntityOnActivationEndEventsCoroutine(entity, action));
         return action;
     }
     private IEnumerator StartEntityOnActivationEndEventsCoroutine(LivingEntity entity, Action action)
     {
-        Debug.Log("OnActivationEndCoroutine() called...");
+        Debug.Log("LivingEntityManager.StartEntityOnActivationEndEventsCoroutine() called for " + entity.myName);
 
         bool eventCompleted = false;
 
@@ -656,12 +661,13 @@ public class LivingEntityManager : MonoBehaviour
             }
 
             // All effects completed and checked
+            Debug.Log("LivingEntityManager.StartEntityOnActivationEndEventsCoroutine() finished 'while' loop");
             eventCompleted = true;
+            Debug.Log("LivingEntityManager.StartEntityOnActivationEndEventsCoroutine() 'eventCompleted' bool marked as true...");
         }       
-        
 
         // Resolve
-        Debug.Log("OnActivationEndCoroutine() finished and resolving...");
+        Debug.Log("LivingEntityManager.StartEntityOnActivationEndEventsCoroutine() finished and resolving...");
         yield return new WaitForSeconds(0.5f);
         action.actionResolved = true;
 

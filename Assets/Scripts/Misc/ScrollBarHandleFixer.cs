@@ -11,15 +11,19 @@ public class ScrollBarHandleFixer : MonoBehaviour
     {
         Debug.Log("ScrollBarHandleFixer.Awake() setting handle size to 0");
         myScrollbar.size = 0f;
+        myScrollbar.value = 1f;
     }
     private void OnEnable()
     {
         Debug.Log("ScrollBarHandleFixer.OnEnable() setting handle size to 0");
         myScrollbar.size = 0f;
+        myScrollbar.value = 1f;
     }
 
+    
     private void LateUpdate()
     {
         myScrollbar.size = 0f;
     }
+    
 }

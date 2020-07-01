@@ -1214,8 +1214,8 @@ public static class TextLogic
         else if (ability.abilityName == "Disengage")
         {
             ability.abilityInfoSheet.descriptionText.text =
-                ReturnColoredText("Teleport", yellow) + " to a location within " + ReturnColoredText(ability.abilityRange.ToString(), blueNumber +
-                " of your current position");
+                ReturnColoredText("Teleport", yellow) + " to a location within " + ReturnColoredText(ability.abilityRange.ToString(), blueNumber) +
+                " of your current position";
         }
         else if (ability.abilityName == "Blood Offering")
         {

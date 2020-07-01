@@ -53,17 +53,14 @@ public class MenuCharacter : MonoBehaviour
     }
     public void BuildMyViewsFromCharacterPresetData(CharacterPresetData data)
     {
-        // Cache current preset
-        currentCharacterPreset = data;
+        // Set data
+        SetMyCharacterData(data);
 
         // Set name text
         SetPresetName(data.characterName);
 
         // Set background texts
-        MainMenuManager.Instance.BuildBackgroundTextsFromCharacterPresetData(this, data);
-
-        // Set data
-        SetMyCharacterData(data);
+        MainMenuManager.Instance.BuildBackgroundTextsFromCharacterPresetData(this, data);        
 
         // Build model
         CharacterModelController.BuildModelFromCharacterPresetData(myModel, data);
@@ -117,16 +114,64 @@ public class MenuCharacter : MonoBehaviour
     }
     public void OnPreviousPresetButtonClicked()
     {
-        BuildMyViewsFromCharacterPresetData(CharacterPresetLibrary.Instance.GetPreviousOriginPreset(currentCharacterPreset));
+        Debug.Log("MenuCharacter.OnPreviousPresetButtonClicked() called...");
+
+        // Prevent player from selecting the same origin character twice
+        CharacterPresetData nextCharacter = CharacterPresetLibrary.Instance.GetPreviousOriginPreset(currentCharacterPreset);
+        List<CharacterPresetData> currentlySelectedCharacters = new List<CharacterPresetData>();
+
+        foreach (MenuCharacter mc in MainMenuManager.Instance.allMenuCharacters)
+        {
+            currentlySelectedCharacters.Add(mc.currentCharacterPreset);
+        }
+
+        if (nextCharacter.characterName != "Random")
+        {
+            while (currentlySelectedCharacters.Contains(nextCharacter))
+            {
+                nextCharacter = CharacterPresetLibrary.Instance.GetPreviousOriginPreset(nextCharacter);
+                if (nextCharacter.characterName == "Random")
+                {
+                    break;
+                }
+            }
+        }
+
+        BuildMyViewsFromCharacterPresetData(nextCharacter);
 
         // refresh button highlight
         EventSystem.current.SetSelectedGameObject(null);
     }
     public void OnNextPresetButtonClicked()
     {
-        BuildMyViewsFromCharacterPresetData(CharacterPresetLibrary.Instance.GetNextOriginPreset(currentCharacterPreset));
+        Debug.Log("MenuCharacter.OnNextPresetButtonClicked() called...");
+
+        // Prevent player from selecting the same origin character twice
+        CharacterPresetData nextCharacter = CharacterPresetLibrary.Instance.GetNextOriginPreset(currentCharacterPreset);
+        List<CharacterPresetData> currentlySelectedCharacters = new List<CharacterPresetData>();
+
+        foreach (MenuCharacter mc in MainMenuManager.Instance.allMenuCharacters)
+        {
+            currentlySelectedCharacters.Add(mc.currentCharacterPreset);
+        }
+
+        if(nextCharacter.characterName != "Random")
+        {
+            while (currentlySelectedCharacters.Contains(nextCharacter))
+            {
+                nextCharacter = CharacterPresetLibrary.Instance.GetNextOriginPreset(nextCharacter);
+                if(nextCharacter.characterName == "Random")
+                {
+                    break;
+                }
+            }
+        }
+
+        BuildMyViewsFromCharacterPresetData(nextCharacter);
+
         // refresh button highlight
         EventSystem.current.SetSelectedGameObject(null);
+
     }
     public void OnLoadCustomPresetButtonClicked()
     {
@@ -153,10 +198,12 @@ public class MenuCharacter : MonoBehaviour
     public void SetPresetName(string newName)
     {
         presetNameText.text = newName;
+        myPresetName = newName;
     }
     public void SetMyCharacterData(CharacterPresetData data)
     {
         myPreset = data;
+        currentCharacterPreset = data;
     }
     #endregion
 }

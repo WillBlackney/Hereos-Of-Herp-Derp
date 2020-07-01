@@ -25,6 +25,7 @@ public class CharacterMakerController : MonoBehaviour
     public TMP_InputField characterStoryText;
     public TextMeshProUGUI characterStoryCurrentCharCountText;
     public TextMeshProUGUI characterRaceText;
+    public TextMeshProUGUI characterRaceDescriptionText;
     public TextMeshProUGUI currentBackgroundOneText;
     public TextMeshProUGUI currentBackgroundTwoText;
     public MenuAbilityTab racialAbilityTab;
@@ -865,7 +866,7 @@ public class CharacterMakerController : MonoBehaviour
             racialPassiveTab.SetUpAbilityTabAsPassive(StatusIconLibrary.Instance.GetStatusIconByName("Satyr Trickery"), 1);
         }
 
-
+        BuildRacialDescriptionText(race);
     }
     private void BuildRacialAbilityAndPassiveTabsFromCharacterData(CharacterPresetData data)
     {
@@ -873,7 +874,38 @@ public class CharacterMakerController : MonoBehaviour
 
         racialAbilityTab.SetUpAbilityTabAsAbility(data.knownRacialAbilities[0]);
         racialPassiveTab.SetUpAbilityTabAsPassive(data.knownRacialPassives[0].statusData, data.knownRacialPassives[0].statusStacks);
+        BuildRacialDescriptionText(data.modelRace);
 
+    }
+    private void BuildRacialDescriptionText(UniversalCharacterModel.ModelRace race)
+    {
+        Debug.Log("CharacterMakerController.BuildRacialDescriptionText() called for " + race.ToString());
+
+        // Build views and data
+        if (race == UniversalCharacterModel.ModelRace.Elf)
+        {
+            characterRaceDescriptionText.text = TextLogic.elfRaceDescription;
+        }
+        else if (race == UniversalCharacterModel.ModelRace.Gnoll)
+        {
+            characterRaceDescriptionText.text = TextLogic.gnollRaceDescription;
+        }
+        else if (race == UniversalCharacterModel.ModelRace.Human)
+        {
+            characterRaceDescriptionText.text = TextLogic.humanRaceDescription;
+        }
+        else if (race == UniversalCharacterModel.ModelRace.Orc)
+        {
+            characterRaceDescriptionText.text = TextLogic.orcRaceDescription;
+        }
+        else if (race == UniversalCharacterModel.ModelRace.Undead)
+        {
+            characterRaceDescriptionText.text = TextLogic.undeadRaceDescription;
+        }
+        else if (race == UniversalCharacterModel.ModelRace.Satyr)
+        {
+            characterRaceDescriptionText.text = TextLogic.satyrRaceDescription;
+        }
     }
     private void BuildAllAbilityTabsFromClassPresetData(ClassPresetDataSO data)
     {

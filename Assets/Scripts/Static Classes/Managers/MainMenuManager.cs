@@ -34,6 +34,7 @@ public class MainMenuManager : MonoBehaviour
     public MenuCharacter characterTwo;
     public MenuCharacter characterThree;
     public MenuCharacter characterFour;
+    public List<MenuCharacter> allMenuCharacters;
 
     [Header("Load Preset Data Button References")]
     public GameObject loadPresetDataButtonPrefab;
