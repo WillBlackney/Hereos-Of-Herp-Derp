@@ -58,6 +58,7 @@ public class Defender : LivingEntity
     [HideInInspector] public bool awaitingPoisonDartOrder;
     [HideInInspector] public bool awaitingChemicalReactionOrder;
     [HideInInspector] public bool awaitingGetDownOrder;
+    [HideInInspector] public bool awaitingDisengageOrder;
     [HideInInspector] public bool awaitingSmashOrder;
     [HideInInspector] public bool awaitingLightningShieldOrder;
     [HideInInspector] public bool awaitingChainLightningOrder;
@@ -71,6 +72,7 @@ public class Defender : LivingEntity
     [HideInInspector] public bool awaitingShadowBlastOrder;
     [HideInInspector] public bool awaitingMeltOrder;
     [HideInInspector] public bool awaitingKickToTheBallsOrder;
+    [HideInInspector] public bool awaitingRamOrder;
     [HideInInspector] public bool awaitingDevastatingBlowOrder;
     [HideInInspector] public bool awaitingBladeFlurryOrder;
     [HideInInspector] public bool awaitingEvasionOrder;
@@ -387,6 +389,33 @@ public class Defender : LivingEntity
         {
             myPassiveManager.ModifyPierce(myCharacterData.pierceStacks);
         }
+
+        // Racial traits
+        if (myCharacterData.forestWisdomStacks > 0)
+        {
+            myPassiveManager.ModifyForestWisdom(myCharacterData.forestWisdomStacks);
+        }
+        if (myCharacterData.satyrTrickeryStacks > 0)
+        {
+            myPassiveManager.ModifySatyrTrickery(myCharacterData.satyrTrickeryStacks);
+        }
+        if (myCharacterData.humanAmbitionStacks > 0)
+        {
+            myPassiveManager.ModifyHumanAmbition(myCharacterData.humanAmbitionStacks);
+        }
+        if (myCharacterData.orcishGritStacks > 0)
+        {
+            myPassiveManager.ModifyOrcishGrit(myCharacterData.orcishGritStacks);
+        }
+        if (myCharacterData.gnollishBloodLustStacks > 0)
+        {
+            myPassiveManager.ModifyGnollishBloodLust(myCharacterData.gnollishBloodLustStacks);
+        }
+        if (myCharacterData.freeFromFleshStacks > 0)
+        {
+            myPassiveManager.ModifyFreeFromFlesh(myCharacterData.freeFromFleshStacks);
+        }
+       
 
         // Set Weapons from character data
         ItemManager.Instance.SetUpDefenderWeaponsFromCharacterData(this);
@@ -712,6 +741,8 @@ public class Defender : LivingEntity
         awaitingDarkGiftOrder = false;
         awaitingSuperConductorOrder = false;
         awaitingMeltOrder = false;
+        awaitingRamOrder = false;
+        awaitingDisengageOrder = false;
 
         TileHover.Instance.SetVisibility(false);
         LevelManager.Instance.UnhighlightAllTiles();
@@ -868,6 +899,12 @@ public class Defender : LivingEntity
             awaitingAnOrder = false;
             OnOverwatchButtonClicked();
         }
+        else if (abilityName == "Moon Infusion")
+        {
+            enableTileHover = false;
+            awaitingAnOrder = false;
+            OnMoonInfusionButtonClicked();
+        }
         else if (abilityName == "Dimensional Blast")
         {
             OnDimensionalBlastButtonClicked();
@@ -883,6 +920,10 @@ public class Defender : LivingEntity
         else if (abilityName == "Blink")
         {
             OnBlinkButtonClicked();
+        }
+        else if (abilityName == "Disengage")
+        {
+            OnDisengageButtonClicked();
         }
         else if (abilityName == "Time Warp")
         {
@@ -945,6 +986,18 @@ public class Defender : LivingEntity
             enableTileHover = false;
             awaitingAnOrder = false;
             OnBloodOfferingButtonClicked();
+        }
+        else if (abilityName == "Frenzy")
+        {
+            enableTileHover = false;
+            awaitingAnOrder = false;
+            OnFrenzyButtonClicked();
+        }
+        else if (abilityName == "Horrify")
+        {
+            enableTileHover = false;
+            awaitingAnOrder = false;
+            OnHorrifyButtonClicked();
         }
         else if (abilityName == "Toxic Slash")
         {
@@ -1121,6 +1174,12 @@ public class Defender : LivingEntity
         else if (abilityName == "Spirit Surge")
         {
             OnSpritSurgeButtonClicked();
+            enableTileHover = false;
+            awaitingAnOrder = false;
+        }
+        else if (abilityName == "Encourage")
+        {
+            OnEncourageButtonClicked();
             enableTileHover = false;
             awaitingAnOrder = false;
         }
@@ -1318,7 +1377,7 @@ public class Defender : LivingEntity
         else if (abilityName == "Primal Rage")
         {
             OnPrimalRageButtonClicked();
-        }
+        }       
         else if (abilityName == "Phase Shift")
         {
             OnPhaseShiftButtonClicked();
@@ -1348,6 +1407,10 @@ public class Defender : LivingEntity
         else if (abilityName == "Kick To The Balls")
         {
             OnKickToTheBallsButtonClicked();
+        }
+        else if (abilityName == "Ram")
+        {
+            OnRamButtonClicked();
         }
         else if (abilityName == "Devastating Blow")
         {
@@ -2051,6 +2114,18 @@ public class Defender : LivingEntity
             InstructionHover.Instance.EnableInstructionHover("Choose a tile");
         }
     }
+    public void OnDisengageButtonClicked()
+    {
+        Ability disengage = mySpellBook.GetAbilityByName("Disengage");
+
+        if (EntityLogic.IsAbilityUseable(this, disengage))
+        {
+            Debug.Log("Disengage button clicked, awaiting Disengage location target");
+            awaitingDisengageOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(disengage.abilityRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+            InstructionHover.Instance.EnableInstructionHover("Choose a tile");
+        }
+    }
     public void OnTimeWarpButtonClicked()
     {
         Ability timeWarp = mySpellBook.GetAbilityByName("Time Warp");
@@ -2298,7 +2373,7 @@ public class Defender : LivingEntity
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(primalRage.abilityRange, LevelManager.Instance.Tiles[gridPosition], false, false));
             InstructionHover.Instance.EnableInstructionHover("Choose a friendly character");
         }
-    }
+    }    
     public void OnPhaseShiftButtonClicked()
     {
         Ability phaseShift = mySpellBook.GetAbilityByName("Phase Shift");
@@ -2397,6 +2472,17 @@ public class Defender : LivingEntity
         if (EntityLogic.IsAbilityUseable(this, spiritSurge))
         {
             AbilityLogic.Instance.PerformSpiritSurge(this);
+        }
+    }
+    public void OnEncourageButtonClicked()
+    {
+        Debug.Log("Encourage button clicked");
+
+        Ability encourage = mySpellBook.GetAbilityByName("Encourage");
+
+        if (EntityLogic.IsAbilityUseable(this, encourage))
+        {
+            AbilityLogic.Instance.PerformEncourage(this);
         }
     }
     public void OnToxicRainButtonClicked()
@@ -2545,6 +2631,28 @@ public class Defender : LivingEntity
             AbilityLogic.Instance.PerformBloodOffering(this);
         }
     }
+    public void OnFrenzyButtonClicked()
+    {
+        Debug.Log("Frenzy button clicked");
+
+        Ability frenzy = mySpellBook.GetAbilityByName("Frenzy");
+
+        if (EntityLogic.IsAbilityUseable(this, frenzy))
+        {
+            AbilityLogic.Instance.PerformFrenzy(this);
+        }
+    }
+    public void OnHorrifyButtonClicked()
+    {
+        Debug.Log("Horrify button clicked");
+
+        Ability horrify = mySpellBook.GetAbilityByName("Horrify");
+
+        if (EntityLogic.IsAbilityUseable(this, horrify))
+        {
+            AbilityLogic.Instance.PerformHorrify(this);
+        }
+    }
     public void OnUnbridledChaosButtonClicked()
     {
         Debug.Log("Unbridled Chaos button clicked");
@@ -2577,6 +2685,18 @@ public class Defender : LivingEntity
         if (EntityLogic.IsAbilityUseable(this, overwatch))
         {
             AbilityLogic.Instance.PerformOverwatch(this);
+        }
+
+    }
+    public void OnMoonInfusionButtonClicked()
+    {
+        Debug.Log("Moon Infusion button clicked");
+
+        Ability moonInfusion = mySpellBook.GetAbilityByName("Moon Infusion");
+
+        if (EntityLogic.IsAbilityUseable(this, moonInfusion))
+        {
+            AbilityLogic.Instance.PerformMoonInfusion(this);
         }
 
     }
@@ -2892,6 +3012,19 @@ public class Defender : LivingEntity
         {
             Debug.Log("Kick To The Balls button clicked, awaiting Kick To The Bals target");
             awaitingKickToTheBallsOrder = true;
+            LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
+            InstructionHover.Instance.EnableInstructionHover("Choose an enemy");
+        }
+
+    }
+    public void OnRamButtonClicked()
+    {
+        Ability kickToTheBalls = mySpellBook.GetAbilityByName("Ram");
+
+        if (EntityLogic.IsAbilityUseable(this, kickToTheBalls))
+        {
+            Debug.Log("Ram button clicked, awaiting Ram target");
+            awaitingRamOrder = true;
             LevelManager.Instance.HighlightTiles(LevelManager.Instance.GetTilesWithinRange(currentMeleeRange, LevelManager.Instance.Tiles[gridPosition], true, false));
             InstructionHover.Instance.EnableInstructionHover("Choose an enemy");
         }
@@ -3222,6 +3355,19 @@ public class Defender : LivingEntity
         {
             awaitingKickToTheBallsOrder = false;
             AbilityLogic.Instance.PerformKickToTheBalls(this, target);
+        }
+
+    }
+    public void StartRamProcess(LivingEntity target)
+    {
+        Debug.Log("Defender.StartRamProcess() called");
+        Ability ram = mySpellBook.GetAbilityByName("Ram");
+
+        if (EntityLogic.IsTargetInRange(this, target, currentMeleeRange)
+            && EntityLogic.IsAbilityUseable(this, ram, target))
+        {
+            awaitingRamOrder = false;
+            AbilityLogic.Instance.PerformRam(this, target);
         }
 
     }
@@ -3791,6 +3937,18 @@ public class Defender : LivingEntity
         {
             awaitingBlinkOrder = false;
             AbilityLogic.Instance.PerformBlink(this, destination);
+        }
+    }
+    public void StartDisengageProcess(Tile destination)
+    {
+        Ability disengage = mySpellBook.GetAbilityByName("Disengage");
+
+        List<Tile> validTeleportLocations = LevelManager.Instance.GetValidMoveableTilesWithinRange(disengage.abilityRange, tile, true);
+
+        if (validTeleportLocations.Contains(destination))
+        {
+            awaitingDisengageOrder = false;
+            AbilityLogic.Instance.PerformDisengage(this, destination);
         }
     }
     public void StartPhoenixDiveProcess(Tile destination)

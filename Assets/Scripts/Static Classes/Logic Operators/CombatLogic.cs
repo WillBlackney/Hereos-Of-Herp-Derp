@@ -622,7 +622,6 @@ public class CombatLogic : MonoBehaviour
         LevelManager.Instance.SetTileAsUnoccupied(entity.tile);
         LivingEntityManager.Instance.allLivingEntities.Remove(entity);
         entity.DisableWorldSpaceCanvas();
-        //entity.myOnActivationEndEffectsFinished = true;
         ActivationManager.Instance.activationOrder.Remove(entity);
 
         entity.PlayDeathAnimation();
@@ -1046,9 +1045,21 @@ public class CombatLogic : MonoBehaviour
                     attacker.myPassiveManager.coupDeGrace)
                 {
                     Debug.Log(attacker.myName + " killed " + victim.myName + 
-                        " and has 'Coup De Grace passive, gaining max energy...");
+                        " and has 'Coup De Grace' passive, gaining max energy...");
 
+                    VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "Coup De Grace!");
                     attacker.ModifyCurrentEnergy(attacker.currentMaxEnergy);
+                }
+
+                // check for gnollish blood lust passive on attacker
+                else if (attacker != null &&
+                   attacker.myPassiveManager.gnollishBloodLust)
+                {
+                    Debug.Log(attacker.myName + " killed " + victim.myName +
+                        " and has 'Gnollish Blood Lust' passive, gaining 40 energy...");
+
+                    VisualEffectManager.Instance.CreateStatusEffect(attacker.transform.position, "Gnollish Blood Lust!");
+                    attacker.ModifyCurrentEnergy(40);
                 }
 
                 // the victim was killed, start death process

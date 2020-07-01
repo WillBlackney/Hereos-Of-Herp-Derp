@@ -546,9 +546,15 @@ public class LivingEntityManager : MonoBehaviour
                 if (entity.myPassiveManager.camoflage == false)
                 {
                     entity.myPassiveManager.ModifyCamoflage(1);
-                }
+                    yield return new WaitForSeconds(1);
+                }                
 
-                yield return new WaitForSeconds(1);
+                if (entity.myPassiveManager.forestWisdom)
+                {
+                    entity.myPassiveManager.ModifyBonusWisdom(2);
+                    yield return new WaitForSeconds(1);
+                }
+                               
             }
 
             // Remove Temporary Core + Secondary Stats

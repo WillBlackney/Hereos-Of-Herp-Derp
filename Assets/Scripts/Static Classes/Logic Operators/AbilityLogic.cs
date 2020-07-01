@@ -6457,14 +6457,264 @@ public class AbilityLogic : MonoBehaviour
 
     #endregion
 
+    // Racial ABilities
+    #region
+    // Moon Infusion
+    public Action PerformMoonInfusion(LivingEntity caster)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformMoonInfusionCoroutine(caster, action));
+        return action;
+    }
+    private IEnumerator PerformMoonInfusionCoroutine(LivingEntity caster, Action action)
+    {
+        // Set up properties
+        Ability moonInfusion = caster.mySpellBook.GetAbilityByName("Moon Infusion");
 
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Moon Infusion");
+            yield return new WaitForSeconds(0.5f);
+        }
 
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(moonInfusion, caster);
+
+        // Play animation
+        caster.PlaySkillAnimation();
+
+        // Gain Energy
+        caster.ModifyCurrentEnergy(moonInfusion.abilityPrimaryValue);
+        VisualEffectManager.Instance.CreateGainEnergyBuffEffect(caster.transform.position);
+        yield return new WaitForSeconds(0.5f);
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(moonInfusion, caster);
+        action.actionResolved = true;
+
+    }
+
+    // Ram
+    public Action PerformRam(LivingEntity caster, LivingEntity victim)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformRamCoroutine(caster, victim, action));
+        return action;
+    }
+    private IEnumerator PerformRamCoroutine(LivingEntity caster, LivingEntity victim, Action action)
+    {
+        // Set up properties
+        Ability ram = caster.mySpellBook.GetAbilityByName("Ram");
+        bool parry = CombatLogic.Instance.RollForParry(victim, caster);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Ram");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(ram, caster);
+
+        // Play attack animation
+        caster.StartCoroutine(caster.PlayMeleeAttackAnimation(victim));
+
+        // if the target successfully parried, dont do HandleDamage: do parry stuff instead
+        if (parry)
+        {
+            Action parryAction = CombatLogic.Instance.HandleParry(caster, victim);
+            yield return new WaitUntil(() => parryAction.ActionResolved() == true);
+        }
+
+        // if the target did not parry, stun the target
+        else
+        {
+            victim.myPassiveManager.ModifyStunned(1);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(ram, caster);
+        action.actionResolved = true;
+
+    }
+
+    // Encourage
+    public Action PerformEncourage(LivingEntity caster)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformEncourageCoroutine(caster, action));
+        return action;
+    }
+    private IEnumerator PerformEncourageCoroutine(LivingEntity caster, Action action)
+    {
+        // Set up properties
+        Ability encourage = caster.mySpellBook.GetAbilityByName("Encourage");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Encourage");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Play animation
+        caster.PlaySkillAnimation();
+
+        // Start
+        OnAbilityUsedStart(encourage, caster);
+
+        // VFX
+        VisualEffectManager.Instance.CreateBlueNova(caster.transform.position);
+
+        List<Tile> tilesInSurgeRange = LevelManager.Instance.GetTilesWithinRange(EntityLogic.GetTotalAuraSize(caster), caster.tile);
+        foreach (LivingEntity entity in LivingEntityManager.Instance.allLivingEntities)
+        {
+            if (tilesInSurgeRange.Contains(entity.tile) &&
+                CombatLogic.Instance.IsTargetFriendly(caster, entity))
+            {
+                VisualEffectManager.Instance.CreateGainEnergyBuffEffect(entity.transform.position);
+                entity.ModifyCurrentEnergy(encourage.abilityPrimaryValue);
+            }
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        // Resolve
+        OnAbilityUsedFinish(encourage, caster);
+        action.actionResolved = true;
+
+    }
+    #endregion
+    
+    // Frenzy
+    public Action PerformFrenzy(LivingEntity caster)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformFrenzyCoroutine(caster, action));
+        return action;
+    }
+    private IEnumerator PerformFrenzyCoroutine(LivingEntity caster, Action action)
+    {
+        // Set up properties
+        Ability primalRage = caster.mySpellBook.GetAbilityByName("Frenzy");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Frenzy");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Play animation
+        caster.PlaySkillAnimation();
+
+        // Pay energy cost, + etc
+        OnAbilityUsedStart(primalRage, caster);
+
+        // Apply temporary strength
+        caster.myPassiveManager.ModifyTemporaryStrength(primalRage.abilityPrimaryValue);
+        VisualEffectManager.Instance.CreateCoreStatBuffEffect(caster.transform.position);
+        yield return new WaitForSeconds(0.5f);
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(primalRage, caster);
+        action.actionResolved = true;
+
+    }
+
+    // Disengage
+    public Action PerformDisengage(LivingEntity caster, Tile destination)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformDisengageCoroutine(caster, destination, action));
+        return action;
+    }
+    private IEnumerator PerformDisengageCoroutine(LivingEntity caster, Tile destination, Action action)
+    {
+        // Setup
+        Ability disengage = caster.mySpellBook.GetAbilityByName("Disengage");
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Disengage");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        OnAbilityUsedStart(disengage, caster);
+
+        // teleport
+        Action teleportAction = MovementLogic.Instance.TeleportEntity(caster, destination);
+        yield return new WaitUntil(() => teleportAction.ActionResolved() == true);
+
+        // Resolve
+        OnAbilityUsedFinish(disengage, caster);
+        action.actionResolved = true;
+    }
+
+    // Horrify
+    public Action PerformHorrify(LivingEntity caster)
+    {
+        Action action = new Action(true);
+        StartCoroutine(PerformHorrifyCoroutine(caster, action));
+        return action;
+    }
+    private IEnumerator PerformHorrifyCoroutine(LivingEntity caster, Action action)
+    {
+        // Set up properties
+        Ability horrify = caster.mySpellBook.GetAbilityByName("Horrify");
+        List<LivingEntity> targetsInRange = CombatLogic.Instance.GetAllLivingEntitiesWithinAoeEffect(caster, caster.tile, caster.currentAuraSize, true, true);
+
+        // Status VFX notification for enemies
+        if (caster.enemy)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(caster.transform.position, "Horrify");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Play animation
+        caster.PlaySkillAnimation();
+
+        // VFX
+        // TO DO: make this a shadowy aoe effect, once weve actually created that VFX
+        VisualEffectManager.Instance.CreateFireNova(caster.transform.position);
+
+        // Pay energy cost
+        OnAbilityUsedStart(horrify, caster);
+
+        // Resolve damage against targets
+        foreach (LivingEntity entity in targetsInRange)
+        {
+            // Apply weakened
+            if (entity.inDeathProcess == false)
+            {
+                entity.myPassiveManager.ModifyWeakened(horrify.abilityPrimaryValue);
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            // Apply vulnerable
+            if (entity.inDeathProcess == false)
+            {
+                entity.myPassiveManager.ModifyVulnerable(horrify.abilityPrimaryValue);
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+
+        //yield return new WaitForSeconds(0.5f);
+
+        // remove camoflage, etc
+        OnAbilityUsedFinish(horrify, caster);
+        action.actionResolved = true;
+    }
     // Old Abilities
     #region
-        
-    
 
-    
+
+
+
 
     // Doom
     public Action PerformDoom(LivingEntity caster)

@@ -184,6 +184,10 @@ public class Tile : MonoBehaviour
         {
             selectedDefender.StartBlinkProcess(this);
         }
+        else if (selectedDefender != null && selectedDefender.awaitingDisengageOrder == true)
+        {
+            selectedDefender.StartDisengageProcess(this);
+        }
         else if (selectedDefender != null && selectedDefender.awaitingTreeLeapOrder == true)
         {
             selectedDefender.StartTreeLeapProcess(this);

@@ -1211,11 +1211,23 @@ public static class TextLogic
                 ReturnColoredText("Teleport", yellow) + " to a location within " + ReturnColoredText(ability.abilityRange.ToString(), blueNumber +
                 " of your current position");
         }
+        else if (ability.abilityName == "Disengage")
+        {
+            ability.abilityInfoSheet.descriptionText.text =
+                ReturnColoredText("Teleport", yellow) + " to a location within " + ReturnColoredText(ability.abilityRange.ToString(), blueNumber +
+                " of your current position");
+        }
         else if (ability.abilityName == "Blood Offering")
         {
             ability.abilityInfoSheet.descriptionText.text =
                 "Lose " + ReturnColoredText(ability.abilitySecondaryValue.ToString(), blueNumber) +
                 " health, then gain " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), blueNumber) +
+                " " + ReturnColoredText("Energy", yellow);
+        }
+        else if (ability.abilityName == "Moon Infusion")
+        {
+            ability.abilityInfoSheet.descriptionText.text =
+                "Gain " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), blueNumber) +
                 " " + ReturnColoredText("Energy", yellow);
         }
         else if (ability.abilityName == "Burst Of Knowledge")
@@ -1229,6 +1241,12 @@ public static class TextLogic
             ability.abilityInfoSheet.descriptionText.text =
                 "Give an ally " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), blueNumber) +
                 " " + ReturnColoredText("Strength", yellow) + " until the end of their next activation";
+        }
+        else if (ability.abilityName == "Frenzy")
+        {
+            ability.abilityInfoSheet.descriptionText.text =
+                "Gain " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), blueNumber) +
+                " " + ReturnColoredText("Strength", yellow) + " until the end of your next activation";
         }
         else if (ability.abilityName == "Chain Lightning")
         {
@@ -1375,6 +1393,14 @@ public static class TextLogic
                 + ReturnColoredText(ability.abilitySecondaryValue.ToString(), blueNumber) + " "
                 + ReturnColoredText("Burning", fire) + " to adjacent enemies";
         }
+        else if (ability.abilityName == "Horrify")
+        {
+            ability.abilityInfoSheet.descriptionText.text =
+                 "Apply "
+                + ReturnColoredText(ability.abilityPrimaryValue.ToString(), blueNumber) + " "
+                + ReturnColoredText("Weakened", yellow) + " and " + ReturnColoredText("Vulnerable", yellow) +
+                " to ALL adjacent characters";
+        }
         else if (ability.abilityName == "Frost Nova")
         {
             ability.abilityInfoSheet.descriptionText.text =
@@ -1496,6 +1522,11 @@ public static class TextLogic
                 ReturnColoredText("Weakened", yellow);
         }
         else if (ability.abilityName == "Kick To The Balls")
+        {
+            ability.abilityInfoSheet.descriptionText.text =
+                "Apply " + ReturnColoredText("Stunned", yellow) + " to a target";
+        }
+        else if (ability.abilityName == "Ram")
         {
             ability.abilityInfoSheet.descriptionText.text =
                 "Apply " + ReturnColoredText("Stunned", yellow) + " to a target";
@@ -1660,6 +1691,13 @@ public static class TextLogic
             ability.abilityInfoSheet.descriptionText.text =
                 "Give " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), blueNumber) +
                 " " + ReturnColoredText("Energy", yellow) + 
+                " to all allies within your " + ReturnColoredText("Aura", yellow);
+        }
+        else if (ability.abilityName == "Encourage")
+        {
+            ability.abilityInfoSheet.descriptionText.text =
+                "Give " + ReturnColoredText(ability.abilityPrimaryValue.ToString(), blueNumber) +
+                " " + ReturnColoredText("Energy", yellow) +
                 " to all allies within your " + ReturnColoredText("Aura", yellow);
         }
         else if (ability.abilityName == "Steady Hands")
@@ -2099,11 +2137,23 @@ public static class TextLogic
                 ReturnColoredText("Teleport", yellow) +
                 " to a location within " + ReturnColoredText(ability.range.ToString(), blueNumber);
         }
+        else if (ability.abilityName == "Disengage")
+        {
+            descriptionText.text =
+                ReturnColoredText("Teleport", yellow) +
+                " to a location within " + ReturnColoredText(ability.range.ToString(), blueNumber);
+        }
         else if (ability.abilityName == "Blood Offering")
         {
             descriptionText.text =
                 "Lose " + ReturnColoredText(ability.secondaryValue.ToString(), blueNumber) +
                 " health, then gain " + ReturnColoredText(ability.primaryValue.ToString(), blueNumber) +
+                " " + ReturnColoredText("Energy", yellow);
+        }
+        else if (ability.abilityName == "Moon Infusion")
+        {
+            descriptionText.text =
+                "Gain " + ReturnColoredText(ability.primaryValue.ToString(), blueNumber) +
                 " " + ReturnColoredText("Energy", yellow);
         }
         else if (ability.abilityName == "Burst Of Knowledge")
@@ -2117,6 +2167,12 @@ public static class TextLogic
             descriptionText.text =
                 "Give an ally " + ReturnColoredText(ability.primaryValue.ToString(), blueNumber) +
                 " " + ReturnColoredText("Strength", yellow) + " until the end of their next activation"; ;
+        }
+        else if (ability.abilityName == "Frenzy")
+        {
+            descriptionText.text =
+                "Gain " + ReturnColoredText(ability.primaryValue.ToString(), blueNumber) +
+                " " + ReturnColoredText("Strength", yellow) + " until the end of your next activation"; ;
         }
         else if (ability.abilityName == "Chain Lightning")
         {
@@ -2264,6 +2320,14 @@ public static class TextLogic
                 + ReturnColoredText(ability.secondaryValue.ToString(), blueNumber) + " "
                 + ReturnColoredText("Burning", fire) + " to adjacent enemies";
         }
+        else if (ability.abilityName == "Horrify")
+        {
+            descriptionText.text =
+                "Apply "
+                + ReturnColoredText(ability.primaryValue.ToString(), blueNumber) + " "
+                + ReturnColoredText("Weakened", yellow) + " and " + ReturnColoredText("Vulnerable", yellow) +
+                " to ALL adjacent characters";
+        }
         else if (ability.abilityName == "Frost Nova")
         {
             descriptionText.text =
@@ -2384,6 +2448,11 @@ public static class TextLogic
                 ReturnColoredText("Weakened", yellow);
         }
         else if (ability.abilityName == "Kick To The Balls")
+        {
+            descriptionText.text =
+                "Apply " + ReturnColoredText("Stunned", yellow) + " to a target";
+        }
+        else if (ability.abilityName == "Ram")
         {
             descriptionText.text =
                 "Apply " + ReturnColoredText("Stunned", yellow) + " to a target";
@@ -2543,6 +2612,13 @@ public static class TextLogic
                 " damage to a target";
         }
         else if (ability.abilityName == "Spirit Surge")
+        {
+            descriptionText.text =
+                "Give " + ReturnColoredText(ability.primaryValue.ToString(), blueNumber) +
+                " " + ReturnColoredText("Energy", yellow) +
+                " to all allies within your " + ReturnColoredText("Aura", yellow);
+        }
+        else if (ability.abilityName == "Encourage")
         {
             descriptionText.text =
                 "Give " + ReturnColoredText(ability.primaryValue.ToString(), blueNumber) +

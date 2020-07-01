@@ -229,6 +229,10 @@ public class EnemyManager : MonoBehaviour
         {
             selectedDefender.StartKickToTheBallsProcess(selectedEnemy);
         }
+        else if (selectedDefender != null && selectedDefender.awaitingRamOrder == true)
+        {
+            selectedDefender.StartRamProcess(selectedEnemy);
+        }
         else if (selectedDefender != null && selectedDefender.awaitingBlightOrder == true)
         {
             selectedDefender.StartBlightProcess(selectedEnemy);

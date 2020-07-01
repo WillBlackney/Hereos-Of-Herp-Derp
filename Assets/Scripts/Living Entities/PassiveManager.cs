@@ -374,6 +374,27 @@ public class PassiveManager : MonoBehaviour
     public bool shadowAura;
     public int shadowAuraStacks;
 
+    [Header("Racial Passive Traits")]
+    public bool gnollishBloodLust;
+    public int gnollishBloodLustStacks;
+
+    public bool humanAmbition;
+    public int humanAmbitionStacks;
+
+    public bool freeFromFlesh;
+    public int freeFromFleshStacks;
+
+    public bool forestWisdom;
+    public int forestWisdomStacks;
+
+    public bool satyrTrickery;
+    public int satyrTrickeryStacks;
+
+    public bool orcishGrit;
+    public int orcishGritStacks;
+
+
+
     [Header("Old Known Passive Traits")]   
     public bool preparation;
     public int preparationStacks;
@@ -451,6 +472,11 @@ public class PassiveManager : MonoBehaviour
         }
 
         else if (myLivingEntity.defender && StateManager.Instance.DoesPlayerAlreadyHaveState("Determined") && stacks > 0)
+        {
+            stacks = 0;
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Stun Immune!");
+        }
+        else if (orcishGrit && stacks > 0)
         {
             stacks = 0;
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Stun Immune!");
@@ -768,6 +794,11 @@ public class PassiveManager : MonoBehaviour
             stacks = 0;
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Chilled Immune!");
         }
+        else if (freeFromFlesh && stacks > 0)
+        {
+            stacks = 0;
+            VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Chilled Immune!");
+        }
 
         else if (stacks > 0)
         {
@@ -853,7 +884,7 @@ public class PassiveManager : MonoBehaviour
             return;
         }
 
-        else if ((poisonedImmunity || undead) && stacks > 0)
+        else if ((poisonedImmunity || undead || freeFromFlesh) && stacks > 0)
         {
             VisualEffectManager.Instance.CreateStatusEffect(myLivingEntity.transform.position, "Poison Immunity");
             return;
@@ -2555,9 +2586,6 @@ public class PassiveManager : MonoBehaviour
             if (nimbleStacks > 0)
             {
                 nimble = true;
-                //StartCoroutine(VisualEffectManager.Instance.
-                //CreateStatusEffect(myLivingEntity.transform.position, "Nimble", false));
-                //StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
 
@@ -2585,9 +2613,6 @@ public class PassiveManager : MonoBehaviour
             if (perfectReflexesStacks > 0)
             {
                 perfectReflexes = true;
-                //StartCoroutine(VisualEffectManager.Instance.
-                //CreateStatusEffect(myLivingEntity.transform.position, "Nimble", false));
-                //StartCoroutine(VisualEffectManager.Instance.CreateDebuffEffect(transform.position));
             }
         }
 
@@ -3114,6 +3139,170 @@ public class PassiveManager : MonoBehaviour
         StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Storm Lord");
         stormLord = true;
         stormLordStacks += stacks;
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+
+    // Racial Passives
+    public void ModifyGnollishBloodLust(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyGnollishBloodLust() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Gnollish Blood Lust");
+
+        if (stacks > 0)
+        {
+            gnollishBloodLustStacks += stacks;
+            if (gnollishBloodLustStacks > 0)
+            {
+                gnollishBloodLust = true;
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            gnollishBloodLustStacks += stacks;
+            if (gnollishBloodLustStacks <= 0)
+            {
+                gnollishBloodLustStacks = 0;
+                gnollishBloodLust = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyForestWisdom(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyForestWisdom() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Forest Wisdom");
+
+        if (stacks > 0)
+        {
+            forestWisdomStacks += stacks;
+            if (forestWisdomStacks > 0)
+            {
+                forestWisdom = true;
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            forestWisdomStacks += stacks;
+            if (forestWisdomStacks <= 0)
+            {
+                forestWisdomStacks = 0;
+                forestWisdom = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifySatyrTrickery(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifySatyrTrickery() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Satyr Trickery");
+
+        if (stacks > 0)
+        {
+            satyrTrickeryStacks += stacks;
+            if (satyrTrickeryStacks > 0)
+            {
+                satyrTrickery = true;
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            satyrTrickeryStacks += stacks;
+            if (satyrTrickeryStacks <= 0)
+            {
+                satyrTrickeryStacks = 0;
+                satyrTrickery = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyOrcishGrit(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyOrcishGrit() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Orcish Grit");
+
+        if (stacks > 0)
+        {
+            orcishGritStacks += stacks;
+            if (orcishGritStacks > 0)
+            {
+                orcishGrit = true;
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            orcishGritStacks += stacks;
+            if (orcishGritStacks <= 0)
+            {
+                orcishGritStacks = 0;
+                orcishGrit = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyHumanAmbition(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyHumanAmbition() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Human Ambition");
+
+        if (stacks > 0)
+        {
+            humanAmbitionStacks += stacks;
+            if (humanAmbitionStacks > 0)
+            {
+                humanAmbition = true;
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            humanAmbitionStacks += stacks;
+            if (humanAmbitionStacks <= 0)
+            {
+                humanAmbitionStacks = 0;
+                humanAmbition = false;
+            }
+        }
+
+        myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
+    }
+    public void ModifyFreeFromFlesh(int stacks)
+    {
+        Debug.Log(myLivingEntity.name + ".PassiveManager.ModifyFreeFromFlesh() called, stacks = " + stacks.ToString());
+
+        StatusIconDataSO iconData = StatusIconLibrary.Instance.GetStatusIconByName("Free From Flesh");
+
+        if (stacks > 0)
+        {
+            freeFromFleshStacks += stacks;
+            if (freeFromFleshStacks > 0)
+            {
+                freeFromFlesh = true;
+            }
+        }
+
+        else if (stacks < 0)
+        {
+            freeFromFleshStacks += stacks;
+            if (freeFromFleshStacks <= 0)
+            {
+                freeFromFleshStacks = 0;
+                freeFromFlesh = false;
+            }
+        }
+
         myLivingEntity.myStatusManager.StartAddStatusProcess(iconData, stacks);
     }
     #endregion

@@ -413,14 +413,6 @@ public class LivingEntity : MonoBehaviour
             currentEnergy = 0;
         }
 
-        /*
-        if(energyGainedOrLost > 0 && showVFX == true)
-        {
-            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Energy +" + energyGainedOrLost);
-            //StartCoroutine(VisualEffectManager.Instance.CreateBuffEffect(transform.position));
-        }
-        */
-
         if (defender)
         {
             defender.UpdateEnergyBarPosition();
@@ -792,7 +784,27 @@ public class LivingEntity : MonoBehaviour
         {
             Debug.Log("OnNewTurnCycleStartedCoroutine() checking Marked...");
             myPassiveManager.ModifyMarked(-myPassiveManager.terrifiedStacks);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // gain camo from satyr trickery
+        if(TurnChangeNotifier.Instance.currentTurnCount == 1 && myPassiveManager.satyrTrickery)
+        {
+            VisualEffectManager.Instance.
+                CreateStatusEffect(transform.position, "Satyr Trickery!");
+            yield return new WaitForSeconds(0.5f);
+
+            myPassiveManager.ModifyCamoflage(1);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // gain max Energy from human ambition
+        if (TurnChangeNotifier.Instance.currentTurnCount == 1 && myPassiveManager.humanAmbition)
+        {
+            VisualEffectManager.Instance.CreateStatusEffect(transform.position, "Human Ambition");
+            VisualEffectManager.Instance.CreateGainEnergyBuffEffect(transform.position);
+            ModifyCurrentEnergy(currentMaxEnergy);
+            yield return new WaitForSeconds(0.5f);
         }
 
         action.actionResolved = true;
