@@ -6,8 +6,11 @@ using TMPro;
 
 public class StoryEventController : MonoBehaviour
 {
-    [Header("Propeties")]
+    [Header("Properties")]
     public StoryDataSO currentStoryData;
+
+    [Header("Parent + Transform Components")]
+    public GameObject choiceButtonsParent;
 
     [Header("Text Component References")]
     public TextMeshProUGUI storyNameText;
@@ -15,6 +18,9 @@ public class StoryEventController : MonoBehaviour
 
     [Header("Image Component References")]
     public Image storyImage;
+
+    [Header("Prefab References")]
+    public GameObject choiceButtonPrefab;
 
     // Singleton Pattern
     #region
@@ -48,7 +54,8 @@ public class StoryEventController : MonoBehaviour
         // set event image
         SetStoryImage(storyData.storyInitialSprite);
 
-        // maybe load choice buttons
+        // Load first page buttons
+        BuildAllChoiceButtonsFromStoryPage(storyData.pageOneChoices);
     }
     #endregion
 
@@ -82,6 +89,7 @@ public class StoryEventController : MonoBehaviour
     }
     public void BuildChoiceButtonFromChoiceData(StoryChoiceDataSO data)
     {
-
+        StoryChoiceButton newButton = Instantiate(choiceButtonPrefab, choiceButtonsParent.transform).GetComponent<StoryChoiceButton>();
+        //newButton.descriptionText.text = data.
     }
 }
