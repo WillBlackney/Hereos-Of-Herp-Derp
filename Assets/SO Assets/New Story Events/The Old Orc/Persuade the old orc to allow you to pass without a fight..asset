@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4958820da419141823bd16eaf8ca04, type: 3}
+  m_Name: Persuade the old orc to allow you to pass without a fight.
+  m_EditorClassIdentifier: 
+  description: Persuade the old orc to allow you to pass without a fight.
+  baseSuccessChance: 70
+  choiceRequirements:
+  - requirementType: 2
+    requirementTypeValue: 0
+    raceRequirement: 0
+    backgroundRequirement: 2
+  onSuccessConsequences:
+  - consequenceType: 1
+    consequenceTypeValue: 0
+    combatEvent: {fileID: 0}
+  onFailureConsequences: []

@@ -10,8 +10,14 @@ public class StoryChoiceDataSO : ScriptableObject
     [Header("General Properties")]
     public string description;
     public int baseSuccessChance;
+
+    [Header("Requirements To Unlock Choice")]
     public List<ChoiceRequirment> choiceRequirements;
+
+    [Header("Rewards On Success")]
     public List<ChoiceConsequence> onSuccessConsequences;
+
+    [Header("Consequences On Failure")]
     public List<ChoiceConsequence> onFailureConsequences;
 
 }
@@ -98,7 +104,12 @@ public class ChoiceRequirmentEditor : Editor
 [Serializable]
 public class ChoiceConsequence
 {
-    public enum ConsequenceType { None, GainGold, StartsCombatEvent};
-    public ConsequenceType requirementType;
-    public int requirementTypeValue;
+    public enum ConsequenceType { None, EventEnds, GainGold, AllCharactersGainXP, TriggerCombatEvent};
+
+    [Header("General Properties")]
+    public ConsequenceType consequenceType;
+    public int consequenceTypeValue;
+
+    [Header("Trigger Combat Properties")]
+    public EnemyWaveSO combatEvent;
 }
