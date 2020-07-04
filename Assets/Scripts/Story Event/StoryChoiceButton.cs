@@ -9,6 +9,9 @@ public class StoryChoiceButton : MonoBehaviour
     [Header("Properties References")]
     public StoryChoiceDataSO myChoiceData;
 
+    [Header("Parent Component References")]
+    public GameObject onFailureTextRowParent;
+
     [Header("Text Component References")]
     public TextMeshProUGUI descriptionText;
     public TextMeshProUGUI requirementsText;

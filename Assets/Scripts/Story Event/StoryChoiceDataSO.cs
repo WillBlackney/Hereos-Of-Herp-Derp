@@ -81,6 +81,9 @@ public class SuccessChanceModifier
     [ShowIf("chanceTypeModifier", ChanceModifierType.HasBackground)]
     public CharacterData.Background backgroundRequirement;
 
+    [ShowIf("chanceTypeModifier", ChanceModifierType.HasState)]
+    public StateDataSO stateRequirement;
+
     // Show + Hide Boolean checkers
     public bool ShowPercentageModifier()
     {

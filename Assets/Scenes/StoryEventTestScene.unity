@@ -568,6 +568,373 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &99178021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 99178022}
+  - component: {fileID: 99178023}
+  m_Layer: 0
+  m_Name: Char Data (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &99178022
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99178021}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1418251615}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &99178023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99178021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb1ac5730da22284a83fab1b51f4b3d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVisualParent: {fileID: 0}
+  statsPageParent: {fileID: 0}
+  talentsPageParent: {fileID: 0}
+  abilityPageParent: {fileID: 0}
+  attributeTabContentParent: {fileID: 0}
+  myNameText: {fileID: 0}
+  allTalentButtons: []
+  talentPlusButtons: []
+  myModelOnButton: {fileID: 0}
+  myCharacterModel: {fileID: 0}
+  allKnownAbilitySlots: []
+  allActiveAbilitySlots: []
+  activeAbilities: []
+  knownAbilities: []
+  myRace: 0
+  backgrounds: 02000000
+  statsPageButton: {fileID: 0}
+  talentsPageButton: {fileID: 0}
+  abilityPageButton: {fileID: 0}
+  currentHealthText: {fileID: 0}
+  maxHealthText: {fileID: 0}
+  healthBar: {fileID: 0}
+  xpText: {fileID: 0}
+  maxXpText: {fileID: 0}
+  levelText: {fileID: 0}
+  xpBar: {fileID: 0}
+  strengthText: {fileID: 0}
+  wisdomText: {fileID: 0}
+  dexterityText: {fileID: 0}
+  staminaText: {fileID: 0}
+  mobilityText: {fileID: 0}
+  initiativeText: {fileID: 0}
+  criticalText: {fileID: 0}
+  dodgeText: {fileID: 0}
+  parryText: {fileID: 0}
+  auraSizeText: {fileID: 0}
+  maxEnergyText: {fileID: 0}
+  meleeRangeText: {fileID: 0}
+  physicalResistanceText: {fileID: 0}
+  fireResistanceText: {fileID: 0}
+  frostResistanceText: {fileID: 0}
+  poisonResistanceText: {fileID: 0}
+  airResistanceText: {fileID: 0}
+  shadowResistanceText: {fileID: 0}
+  talentPointsText: {fileID: 0}
+  abilityPointsText: {fileID: 0}
+  currentTreeNameText: {fileID: 0}
+  guardianTreeParent: {fileID: 0}
+  duelistTreeParent: {fileID: 0}
+  brawlerTreeParent: {fileID: 0}
+  assassinationTreeParent: {fileID: 0}
+  pyromaniaTreeParent: {fileID: 0}
+  cyromancyTreeParent: {fileID: 0}
+  rangerTreeParent: {fileID: 0}
+  manipulationTreeParent: {fileID: 0}
+  divinityTreeParent: {fileID: 0}
+  shadowcraftTreeParent: {fileID: 0}
+  corruptionTreeParent: {fileID: 0}
+  naturalismTreeParent: {fileID: 0}
+  guardianTopBarButton: {fileID: 0}
+  duelistTopBarButton: {fileID: 0}
+  brawlerTopBarButton: {fileID: 0}
+  assassinationTopBarButton: {fileID: 0}
+  pyromaniaTopBarButton: {fileID: 0}
+  cyromancyTopBarButton: {fileID: 0}
+  rangerTopBarButton: {fileID: 0}
+  manipulationTopBarButton: {fileID: 0}
+  divinityTopBarButton: {fileID: 0}
+  shadowcraftTopBarButton: {fileID: 0}
+  corruptionTopBarButton: {fileID: 0}
+  naturalismTopBarButton: {fileID: 0}
+  guardianPointsText: {fileID: 0}
+  duelistPointsText: {fileID: 0}
+  brawlerPointsText: {fileID: 0}
+  assassinationPointsText: {fileID: 0}
+  pyromaniaPointsText: {fileID: 0}
+  cyromancyPointsText: {fileID: 0}
+  rangerPointsText: {fileID: 0}
+  manipulationPointsText: {fileID: 0}
+  divinityPointsText: {fileID: 0}
+  shadowcraftPointsText: {fileID: 0}
+  corruptionPointsText: {fileID: 0}
+  naturalismPointsText: {fileID: 0}
+  guardianPlusButton: {fileID: 0}
+  duelistPlusButton: {fileID: 0}
+  brawlerPlusButton: {fileID: 0}
+  assassinationPlusButton: {fileID: 0}
+  pyromaniaPlusButton: {fileID: 0}
+  cyromancyPlusButton: {fileID: 0}
+  rangerPlusButton: {fileID: 0}
+  manipulationPlusButton: {fileID: 0}
+  divinityPlusButton: {fileID: 0}
+  shadowcraftPlusButton: {fileID: 0}
+  corruptionPlusButton: {fileID: 0}
+  naturalismPlusButton: {fileID: 0}
+  mainHandWeapon: {fileID: 0}
+  offHandWeapon: {fileID: 0}
+  mainHandSlot: {fileID: 0}
+  offHandSlot: {fileID: 0}
+  currentHealth: 0
+  maxHealth: 0
+  strength: 0
+  wisdom: 0
+  dexterity: 0
+  stamina: 0
+  mobility: 0
+  initiative: 0
+  criticalChance: 0
+  dodge: 0
+  parry: 0
+  auraSize: 0
+  maxEnergy: 0
+  meleeRange: 0
+  physicalResistance: 0
+  fireResistance: 0
+  frostResistance: 0
+  poisonResistance: 0
+  airResistance: 0
+  shadowResistance: 0
+  currentXP: 0
+  currentMaxXP: 0
+  currentLevel: 0
+  talentPoints: 0
+  abilityPoints: 0
+  guardianPoints: 0
+  duelistPoints: 0
+  brawlerPoints: 0
+  assassinationPoints: 0
+  pyromaniaPoints: 0
+  cyromancyPoints: 0
+  rangerPoints: 0
+  manipulationPoints: 0
+  divinityPoints: 0
+  shadowcraftPoints: 0
+  corruptionPoints: 0
+  naturalismPoints: 0
+  tenaciousStacks: 0
+  masochistStacks: 0
+  lastStandStacks: 0
+  perfectAimStacks: 0
+  virtuosoStacks: 0
+  slipperyStacks: 0
+  riposteStacks: 0
+  trueSightStacks: 0
+  perfectReflexesStacks: 0
+  pierceStacks: 0
+  opportunistStacks: 0
+  patientStalkerStacks: 0
+  stealthStacks: 0
+  cautiousStacks: 0
+  guardianAuraStacks: 0
+  unwaveringStacks: 0
+  unstoppableStacks: 0
+  fieryAuraStacks: 0
+  immolationStacks: 0
+  demonStacks: 0
+  shatterStacks: 0
+  frozenHeartStacks: 0
+  predatorStacks: 0
+  hawkEyeStacks: 0
+  fluxStacks: 0
+  coupDeGraceStacks: 0
+  phasingStacks: 0
+  etherealBeingStacks: 0
+  encouragingAuraStacks: 0
+  radianceStacks: 0
+  sacredAuraStacks: 0
+  shadowAuraStacks: 0
+  shadowFormStacks: 0
+  poisonousStacks: 0
+  venomousStacks: 0
+  toxicityStacks: 0
+  toxicAuraStacks: 0
+  stormAuraStacks: 0
+  stormLordStacks: 0
+  thornsStacks: 0
+  enrageStacks: 0
+  powerLimitStacks: 0
+  quickDrawStacks: 0
+  fadingStacks: 0
+  lifeStealStacks: 0
+  growingStacks: 0
+  fastLearnerStacks: 0
+  freeFromFleshStacks: 0
+  forestWisdomStacks: 0
+  satyrTrickeryStacks: 0
+  humanAmbitionStacks: 0
+  orcishGritStacks: 0
+  gnollishBloodLustStacks: 0
+  myName: 
+  myAttributeTabs: []
+  inventoryItemParent: {fileID: 0}
+  myDefenderGO: {fileID: 0}
+  myClass: 
+  myCampSiteCharacter: {fileID: 0}
+  myStoryWindowCharacter: {fileID: 0}
+  myVillageCharacter: {fileID: 0}
+  myTreasureRoomCharacter: {fileID: 0}
+  classNameText: {fileID: 0}
+  classSprite: {fileID: 0}
+  myItems: []
+  KnowsMove: 0
+  KnowsStrike: 0
+  KnowsDefend: 0
+  KnowsCharge: 0
+  KnowsGuard: 0
+  KnowsInspire: 0
+  KnowsMeteor: 0
+  KnowsTelekinesis: 0
+  KnowsFrostBolt: 0
+  KnowsFireBall: 0
+  KnowsShoot: 0
+  KnowsRapidFire: 0
+  KnowsImpalingBolt: 0
+  KnowsForestMedicine: 0
+  KnowsWhirlwind: 0
+  KnowsInvigorate: 0
+  KnowsHolyFire: 0
+  KnowsVoidBomb: 0
+  KnowsNightmare: 0
+  KnowsTwinStrike: 0
+  KnowsDash: 0
+  KnowsPreparation: 0
+  KnowsHealingLight: 0
+  KnowsSliceAndDice: 0
+  KnowsPoisonDart: 0
+  KnowsChemicalReaction: 0
+  KnowsBloodLust: 0
+  KnowsGetDown: 0
+  KnowsSmash: 0
+  KnowsLightningShield: 0
+  KnowsElectricalDischarge: 0
+  KnowsChainLightning: 0
+  KnowsPrimalBlast: 0
+  KnowsPrimalRage: 0
+  KnowsPhaseShift: 0
+  KnowsTeleport: 0
+  KnowsSanctity: 0
+  KnowsBless: 0
+  KnowsSiphonLife: 0
+  KnowsChaosBolt: 0
+  KnowsFrostNova: 0
+  KnowsDevastatingBlow: 0
+  KnowsKickToTheBalls: 0
+  KnowsBladeFlurry: 0
+  KnowsRecklessness: 0
+  KnowsTendonSlash: 0
+  KnowsShieldShatter: 0
+  KnowsEvasion: 0
+  KnowsDecapitate: 0
+  KnowsVanish: 0
+  KnowsCheapShot: 0
+  KnowsShank: 0
+  KnowsShadowStep: 0
+  KnowsAmbush: 0
+  KnowsSharpenBlade: 0
+  KnowsProvoke: 0
+  KnowsSwordAndBoard: 0
+  KnowsShieldSlam: 0
+  KnowsTestudo: 0
+  KnowsReactiveArmour: 0
+  KnowsChallengingShout: 0
+  KnowsFireNova: 0
+  KnowsPhoenixDive: 0
+  KnowsBlaze: 0
+  KnowsCombustion: 0
+  KnowsDragonBreath: 0
+  KnowsChillingBlow: 0
+  KnowsIcyFocus: 0
+  KnowsBlizzard: 0
+  KnowsFrostArmour: 0
+  KnowsGlacialBurst: 0
+  KnowsCreepingFrost: 0
+  KnowsThaw: 0
+  KnowsHaste: 0
+  KnowsSteadyHands: 0
+  KnowsHeadShot: 0
+  KnowsTreeLeap: 0
+  KnowsConcentration: 0
+  KnowsOverwatch: 0
+  KnowsDimensionalBlast: 0
+  KnowsMirage: 0
+  KnowsBurstOfKnowledge: 0
+  KnowsBlink: 0
+  KnowsInfuse: 0
+  KnowsTimeWarp: 0
+  KnowsDimensionalHex: 0
+  KnowsConsecrate: 0
+  KnowsPurity: 0
+  KnowsBlindingLight: 0
+  KnowsTranscendence: 0
+  KnowsJudgement: 0
+  KnowsShroud: 0
+  KnowsHex: 0
+  KnowsRainOfChaos: 0
+  KnowsShadowWreath: 0
+  KnowsShadowBlast: 0
+  KnowsUnbridledChaos: 0
+  KnowsBlight: 0
+  KnowsBloodOffering: 0
+  KnowsToxicSlash: 0
+  KnowsNoxiousFumes: 0
+  KnowsToxicEruption: 0
+  KnowsDrain: 0
+  KnowsSpiritSurge: 0
+  KnowsLightningBolt: 0
+  KnowsThunderStrike: 0
+  KnowsSpiritVision: 0
+  KnowsThunderStorm: 0
+  KnowsOverload: 0
+  KnowsConcealingClouds: 0
+  KnowsSuperConductor: 0
+  KnowsSnipe: 0
+  KnowsRapidCloaking: 0
+  KnowsDisarm: 0
+  KnowsSecondWind: 0
+  KnowsImprovedPreparation: 0
+  KnowsImprovedDash: 0
+  KnowsImprovedInvigorate: 0
+  KnowsImprovedHolyFire: 0
+  KnowsImprovedInspire: 0
+  KnowsImprovedWhirlwind: 0
+  KnowsImprovedTelekinesis: 0
+  KnowsImprovedFireBall: 0
 --- !u!1 &115690152
 GameObject:
   m_ObjectHideFlags: 0
@@ -655,7 +1022,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &192829195
 GameObject:
@@ -1030,7 +1397,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 121.5114, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 261.1077, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &329647095
@@ -1054,6 +1421,17 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Chheese cheese  Chheese cheese  Chheese cheese  Chheese cheese  Chheese
     cheese  Chheese cheese  Chheese cheese  Chheese cheese  Chheese cheese  Chheese
+    cheese Chheese cheese Chheese cheese Chheese cheese  Chheese cheese  Chheese
+    cheese Chheese cheese Chheese cheese Chheese cheese  Chheese cheese  Chheese
+    cheese Chheese cheese Chheese cheese Chheese cheese  Chheese cheese  Chheese
+    cheese Chheese cheese Chheese cheese Chheese cheese  Chheese cheese  Chheese
+    cheese Chheese cheese Chheese cheese Chheese cheese  Chheese cheese  Chheese
+    cheese Chheese cheese Chheese cheese Chheese cheese  Chheese cheese  Chheese
+    cheese Chheese cheese Chheese cheese Chheese cheese  Chheese cheese  Chheese
+    cheese Chheese cheese Chheese cheese Chheese cheese  Chheese cheese  Chheese
+    cheese Chheese cheese Chheese cheese Chheese cheese  Chheese cheese  Chheese
+    cheese Chheese cheese Chheese cheese Chheese cheese  Chheese cheese  Chheese
+    cheese Chheese cheese Chheese cheese Chheese cheese  Chheese cheese  Chheese
     cheese Chheese cheese Chheese cheese '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 87e99a81f1cbf00428f7e0adbc0d7cf5, type: 2}
@@ -1124,12 +1502,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 329647095}
-    characterCount: 189
+    characterCount: 1036
     spriteCount: 0
-    spaceCount: 33
-    wordCount: 24
+    spaceCount: 165
+    wordCount: 134
     linkCount: 0
-    lineCount: 4
+    lineCount: 23
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -2198,6 +2576,373 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -1.2}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &743334939
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 743334940}
+  - component: {fileID: 743334941}
+  m_Layer: 0
+  m_Name: Char Data (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &743334940
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743334939}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1418251615}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &743334941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743334939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb1ac5730da22284a83fab1b51f4b3d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVisualParent: {fileID: 0}
+  statsPageParent: {fileID: 0}
+  talentsPageParent: {fileID: 0}
+  abilityPageParent: {fileID: 0}
+  attributeTabContentParent: {fileID: 0}
+  myNameText: {fileID: 0}
+  allTalentButtons: []
+  talentPlusButtons: []
+  myModelOnButton: {fileID: 0}
+  myCharacterModel: {fileID: 0}
+  allKnownAbilitySlots: []
+  allActiveAbilitySlots: []
+  activeAbilities: []
+  knownAbilities: []
+  myRace: 0
+  backgrounds: 
+  statsPageButton: {fileID: 0}
+  talentsPageButton: {fileID: 0}
+  abilityPageButton: {fileID: 0}
+  currentHealthText: {fileID: 0}
+  maxHealthText: {fileID: 0}
+  healthBar: {fileID: 0}
+  xpText: {fileID: 0}
+  maxXpText: {fileID: 0}
+  levelText: {fileID: 0}
+  xpBar: {fileID: 0}
+  strengthText: {fileID: 0}
+  wisdomText: {fileID: 0}
+  dexterityText: {fileID: 0}
+  staminaText: {fileID: 0}
+  mobilityText: {fileID: 0}
+  initiativeText: {fileID: 0}
+  criticalText: {fileID: 0}
+  dodgeText: {fileID: 0}
+  parryText: {fileID: 0}
+  auraSizeText: {fileID: 0}
+  maxEnergyText: {fileID: 0}
+  meleeRangeText: {fileID: 0}
+  physicalResistanceText: {fileID: 0}
+  fireResistanceText: {fileID: 0}
+  frostResistanceText: {fileID: 0}
+  poisonResistanceText: {fileID: 0}
+  airResistanceText: {fileID: 0}
+  shadowResistanceText: {fileID: 0}
+  talentPointsText: {fileID: 0}
+  abilityPointsText: {fileID: 0}
+  currentTreeNameText: {fileID: 0}
+  guardianTreeParent: {fileID: 0}
+  duelistTreeParent: {fileID: 0}
+  brawlerTreeParent: {fileID: 0}
+  assassinationTreeParent: {fileID: 0}
+  pyromaniaTreeParent: {fileID: 0}
+  cyromancyTreeParent: {fileID: 0}
+  rangerTreeParent: {fileID: 0}
+  manipulationTreeParent: {fileID: 0}
+  divinityTreeParent: {fileID: 0}
+  shadowcraftTreeParent: {fileID: 0}
+  corruptionTreeParent: {fileID: 0}
+  naturalismTreeParent: {fileID: 0}
+  guardianTopBarButton: {fileID: 0}
+  duelistTopBarButton: {fileID: 0}
+  brawlerTopBarButton: {fileID: 0}
+  assassinationTopBarButton: {fileID: 0}
+  pyromaniaTopBarButton: {fileID: 0}
+  cyromancyTopBarButton: {fileID: 0}
+  rangerTopBarButton: {fileID: 0}
+  manipulationTopBarButton: {fileID: 0}
+  divinityTopBarButton: {fileID: 0}
+  shadowcraftTopBarButton: {fileID: 0}
+  corruptionTopBarButton: {fileID: 0}
+  naturalismTopBarButton: {fileID: 0}
+  guardianPointsText: {fileID: 0}
+  duelistPointsText: {fileID: 0}
+  brawlerPointsText: {fileID: 0}
+  assassinationPointsText: {fileID: 0}
+  pyromaniaPointsText: {fileID: 0}
+  cyromancyPointsText: {fileID: 0}
+  rangerPointsText: {fileID: 0}
+  manipulationPointsText: {fileID: 0}
+  divinityPointsText: {fileID: 0}
+  shadowcraftPointsText: {fileID: 0}
+  corruptionPointsText: {fileID: 0}
+  naturalismPointsText: {fileID: 0}
+  guardianPlusButton: {fileID: 0}
+  duelistPlusButton: {fileID: 0}
+  brawlerPlusButton: {fileID: 0}
+  assassinationPlusButton: {fileID: 0}
+  pyromaniaPlusButton: {fileID: 0}
+  cyromancyPlusButton: {fileID: 0}
+  rangerPlusButton: {fileID: 0}
+  manipulationPlusButton: {fileID: 0}
+  divinityPlusButton: {fileID: 0}
+  shadowcraftPlusButton: {fileID: 0}
+  corruptionPlusButton: {fileID: 0}
+  naturalismPlusButton: {fileID: 0}
+  mainHandWeapon: {fileID: 0}
+  offHandWeapon: {fileID: 0}
+  mainHandSlot: {fileID: 0}
+  offHandSlot: {fileID: 0}
+  currentHealth: 0
+  maxHealth: 0
+  strength: 0
+  wisdom: 0
+  dexterity: 0
+  stamina: 0
+  mobility: 0
+  initiative: 0
+  criticalChance: 0
+  dodge: 0
+  parry: 0
+  auraSize: 0
+  maxEnergy: 0
+  meleeRange: 0
+  physicalResistance: 0
+  fireResistance: 0
+  frostResistance: 0
+  poisonResistance: 0
+  airResistance: 0
+  shadowResistance: 0
+  currentXP: 0
+  currentMaxXP: 0
+  currentLevel: 0
+  talentPoints: 0
+  abilityPoints: 0
+  guardianPoints: 0
+  duelistPoints: 0
+  brawlerPoints: 0
+  assassinationPoints: 0
+  pyromaniaPoints: 0
+  cyromancyPoints: 0
+  rangerPoints: 0
+  manipulationPoints: 0
+  divinityPoints: 0
+  shadowcraftPoints: 0
+  corruptionPoints: 0
+  naturalismPoints: 0
+  tenaciousStacks: 0
+  masochistStacks: 0
+  lastStandStacks: 0
+  perfectAimStacks: 0
+  virtuosoStacks: 0
+  slipperyStacks: 0
+  riposteStacks: 0
+  trueSightStacks: 0
+  perfectReflexesStacks: 0
+  pierceStacks: 0
+  opportunistStacks: 0
+  patientStalkerStacks: 0
+  stealthStacks: 0
+  cautiousStacks: 0
+  guardianAuraStacks: 0
+  unwaveringStacks: 0
+  unstoppableStacks: 0
+  fieryAuraStacks: 0
+  immolationStacks: 0
+  demonStacks: 0
+  shatterStacks: 0
+  frozenHeartStacks: 0
+  predatorStacks: 0
+  hawkEyeStacks: 0
+  fluxStacks: 0
+  coupDeGraceStacks: 0
+  phasingStacks: 0
+  etherealBeingStacks: 0
+  encouragingAuraStacks: 0
+  radianceStacks: 0
+  sacredAuraStacks: 0
+  shadowAuraStacks: 0
+  shadowFormStacks: 0
+  poisonousStacks: 0
+  venomousStacks: 0
+  toxicityStacks: 0
+  toxicAuraStacks: 0
+  stormAuraStacks: 0
+  stormLordStacks: 0
+  thornsStacks: 0
+  enrageStacks: 0
+  powerLimitStacks: 0
+  quickDrawStacks: 0
+  fadingStacks: 0
+  lifeStealStacks: 0
+  growingStacks: 0
+  fastLearnerStacks: 0
+  freeFromFleshStacks: 0
+  forestWisdomStacks: 0
+  satyrTrickeryStacks: 0
+  humanAmbitionStacks: 0
+  orcishGritStacks: 0
+  gnollishBloodLustStacks: 0
+  myName: 
+  myAttributeTabs: []
+  inventoryItemParent: {fileID: 0}
+  myDefenderGO: {fileID: 0}
+  myClass: 
+  myCampSiteCharacter: {fileID: 0}
+  myStoryWindowCharacter: {fileID: 0}
+  myVillageCharacter: {fileID: 0}
+  myTreasureRoomCharacter: {fileID: 0}
+  classNameText: {fileID: 0}
+  classSprite: {fileID: 0}
+  myItems: []
+  KnowsMove: 0
+  KnowsStrike: 0
+  KnowsDefend: 0
+  KnowsCharge: 0
+  KnowsGuard: 0
+  KnowsInspire: 0
+  KnowsMeteor: 0
+  KnowsTelekinesis: 0
+  KnowsFrostBolt: 0
+  KnowsFireBall: 0
+  KnowsShoot: 0
+  KnowsRapidFire: 0
+  KnowsImpalingBolt: 0
+  KnowsForestMedicine: 0
+  KnowsWhirlwind: 0
+  KnowsInvigorate: 0
+  KnowsHolyFire: 0
+  KnowsVoidBomb: 0
+  KnowsNightmare: 0
+  KnowsTwinStrike: 0
+  KnowsDash: 0
+  KnowsPreparation: 0
+  KnowsHealingLight: 0
+  KnowsSliceAndDice: 0
+  KnowsPoisonDart: 0
+  KnowsChemicalReaction: 0
+  KnowsBloodLust: 0
+  KnowsGetDown: 0
+  KnowsSmash: 0
+  KnowsLightningShield: 0
+  KnowsElectricalDischarge: 0
+  KnowsChainLightning: 0
+  KnowsPrimalBlast: 0
+  KnowsPrimalRage: 0
+  KnowsPhaseShift: 0
+  KnowsTeleport: 0
+  KnowsSanctity: 0
+  KnowsBless: 0
+  KnowsSiphonLife: 0
+  KnowsChaosBolt: 0
+  KnowsFrostNova: 0
+  KnowsDevastatingBlow: 0
+  KnowsKickToTheBalls: 0
+  KnowsBladeFlurry: 0
+  KnowsRecklessness: 0
+  KnowsTendonSlash: 0
+  KnowsShieldShatter: 0
+  KnowsEvasion: 0
+  KnowsDecapitate: 0
+  KnowsVanish: 0
+  KnowsCheapShot: 0
+  KnowsShank: 0
+  KnowsShadowStep: 0
+  KnowsAmbush: 0
+  KnowsSharpenBlade: 0
+  KnowsProvoke: 0
+  KnowsSwordAndBoard: 0
+  KnowsShieldSlam: 0
+  KnowsTestudo: 0
+  KnowsReactiveArmour: 0
+  KnowsChallengingShout: 0
+  KnowsFireNova: 0
+  KnowsPhoenixDive: 0
+  KnowsBlaze: 0
+  KnowsCombustion: 0
+  KnowsDragonBreath: 0
+  KnowsChillingBlow: 0
+  KnowsIcyFocus: 0
+  KnowsBlizzard: 0
+  KnowsFrostArmour: 0
+  KnowsGlacialBurst: 0
+  KnowsCreepingFrost: 0
+  KnowsThaw: 0
+  KnowsHaste: 0
+  KnowsSteadyHands: 0
+  KnowsHeadShot: 0
+  KnowsTreeLeap: 0
+  KnowsConcentration: 0
+  KnowsOverwatch: 0
+  KnowsDimensionalBlast: 0
+  KnowsMirage: 0
+  KnowsBurstOfKnowledge: 0
+  KnowsBlink: 0
+  KnowsInfuse: 0
+  KnowsTimeWarp: 0
+  KnowsDimensionalHex: 0
+  KnowsConsecrate: 0
+  KnowsPurity: 0
+  KnowsBlindingLight: 0
+  KnowsTranscendence: 0
+  KnowsJudgement: 0
+  KnowsShroud: 0
+  KnowsHex: 0
+  KnowsRainOfChaos: 0
+  KnowsShadowWreath: 0
+  KnowsShadowBlast: 0
+  KnowsUnbridledChaos: 0
+  KnowsBlight: 0
+  KnowsBloodOffering: 0
+  KnowsToxicSlash: 0
+  KnowsNoxiousFumes: 0
+  KnowsToxicEruption: 0
+  KnowsDrain: 0
+  KnowsSpiritSurge: 0
+  KnowsLightningBolt: 0
+  KnowsThunderStrike: 0
+  KnowsSpiritVision: 0
+  KnowsThunderStorm: 0
+  KnowsOverload: 0
+  KnowsConcealingClouds: 0
+  KnowsSuperConductor: 0
+  KnowsSnipe: 0
+  KnowsRapidCloaking: 0
+  KnowsDisarm: 0
+  KnowsSecondWind: 0
+  KnowsImprovedPreparation: 0
+  KnowsImprovedDash: 0
+  KnowsImprovedInvigorate: 0
+  KnowsImprovedHolyFire: 0
+  KnowsImprovedInspire: 0
+  KnowsImprovedWhirlwind: 0
+  KnowsImprovedTelekinesis: 0
+  KnowsImprovedFireBall: 0
 --- !u!1 &754837233
 GameObject:
   m_ObjectHideFlags: 0
@@ -2346,411 +3091,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &794665289
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1286061126}
-    m_Modifications:
-    - target: {fileID: 83453634939695847, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 83453634939695847, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 83453634939695847, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 83453634939695847, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_Pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_Pivot.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239263, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_Name
-      value: Choice Button (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828463665722, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 43
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828463665722, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828463665722, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828463665722, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828463665722, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828506924518, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 41
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828506924518, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828506924518, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828506924518, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828506924518, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828517377194, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828517377194, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828517377194, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828517377194, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828809577142, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 41
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828809577142, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828809577142, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828809577142, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828809577142, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829240703658, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829240703658, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829240703658, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829240703658, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829339728451, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829339728451, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829339728451, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829339728451, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829610664739, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829610664739, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829610664739, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829610664739, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829803497958, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829803497958, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829803497958, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829803497958, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829803497958, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829803497959, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 27.839996
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829804579614, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829804579614, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829804579614, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829804579614, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829827676845, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829827676845, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829827676845, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829827676845, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829827676845, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829827676846, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 27.839996
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829881558002, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829881558002, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829881558002, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829881558002, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829881558003, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 27.839996
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: aae2d9d92024d0946b72d617d2cd16d3, type: 3}
---- !u!224 &794665290 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-    type: 3}
-  m_PrefabInstance: {fileID: 794665289}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &802763455
 GameObject:
   m_ObjectHideFlags: 0
@@ -3002,7 +3342,7 @@ GameObject:
   - component: {fileID: 838634299}
   - component: {fileID: 838634298}
   m_Layer: 5
-  m_Name: Story Text Scroll View Parent
+  m_Name: Choices Scroll View Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3215,8 +3555,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1590005612}
   m_HandleRect: {fileID: 1590005611}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1.0000001
+  m_Size: 0.56396246
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3706,6 +4046,373 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 10000
   m_TargetDisplay: 0
+--- !u!1 &1081874582
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1081874583}
+  - component: {fileID: 1081874584}
+  m_Layer: 0
+  m_Name: Char Data (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1081874583
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081874582}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1418251615}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1081874584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081874582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb1ac5730da22284a83fab1b51f4b3d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVisualParent: {fileID: 0}
+  statsPageParent: {fileID: 0}
+  talentsPageParent: {fileID: 0}
+  abilityPageParent: {fileID: 0}
+  attributeTabContentParent: {fileID: 0}
+  myNameText: {fileID: 0}
+  allTalentButtons: []
+  talentPlusButtons: []
+  myModelOnButton: {fileID: 0}
+  myCharacterModel: {fileID: 0}
+  allKnownAbilitySlots: []
+  allActiveAbilitySlots: []
+  activeAbilities: []
+  knownAbilities: []
+  myRace: 0
+  backgrounds: 
+  statsPageButton: {fileID: 0}
+  talentsPageButton: {fileID: 0}
+  abilityPageButton: {fileID: 0}
+  currentHealthText: {fileID: 0}
+  maxHealthText: {fileID: 0}
+  healthBar: {fileID: 0}
+  xpText: {fileID: 0}
+  maxXpText: {fileID: 0}
+  levelText: {fileID: 0}
+  xpBar: {fileID: 0}
+  strengthText: {fileID: 0}
+  wisdomText: {fileID: 0}
+  dexterityText: {fileID: 0}
+  staminaText: {fileID: 0}
+  mobilityText: {fileID: 0}
+  initiativeText: {fileID: 0}
+  criticalText: {fileID: 0}
+  dodgeText: {fileID: 0}
+  parryText: {fileID: 0}
+  auraSizeText: {fileID: 0}
+  maxEnergyText: {fileID: 0}
+  meleeRangeText: {fileID: 0}
+  physicalResistanceText: {fileID: 0}
+  fireResistanceText: {fileID: 0}
+  frostResistanceText: {fileID: 0}
+  poisonResistanceText: {fileID: 0}
+  airResistanceText: {fileID: 0}
+  shadowResistanceText: {fileID: 0}
+  talentPointsText: {fileID: 0}
+  abilityPointsText: {fileID: 0}
+  currentTreeNameText: {fileID: 0}
+  guardianTreeParent: {fileID: 0}
+  duelistTreeParent: {fileID: 0}
+  brawlerTreeParent: {fileID: 0}
+  assassinationTreeParent: {fileID: 0}
+  pyromaniaTreeParent: {fileID: 0}
+  cyromancyTreeParent: {fileID: 0}
+  rangerTreeParent: {fileID: 0}
+  manipulationTreeParent: {fileID: 0}
+  divinityTreeParent: {fileID: 0}
+  shadowcraftTreeParent: {fileID: 0}
+  corruptionTreeParent: {fileID: 0}
+  naturalismTreeParent: {fileID: 0}
+  guardianTopBarButton: {fileID: 0}
+  duelistTopBarButton: {fileID: 0}
+  brawlerTopBarButton: {fileID: 0}
+  assassinationTopBarButton: {fileID: 0}
+  pyromaniaTopBarButton: {fileID: 0}
+  cyromancyTopBarButton: {fileID: 0}
+  rangerTopBarButton: {fileID: 0}
+  manipulationTopBarButton: {fileID: 0}
+  divinityTopBarButton: {fileID: 0}
+  shadowcraftTopBarButton: {fileID: 0}
+  corruptionTopBarButton: {fileID: 0}
+  naturalismTopBarButton: {fileID: 0}
+  guardianPointsText: {fileID: 0}
+  duelistPointsText: {fileID: 0}
+  brawlerPointsText: {fileID: 0}
+  assassinationPointsText: {fileID: 0}
+  pyromaniaPointsText: {fileID: 0}
+  cyromancyPointsText: {fileID: 0}
+  rangerPointsText: {fileID: 0}
+  manipulationPointsText: {fileID: 0}
+  divinityPointsText: {fileID: 0}
+  shadowcraftPointsText: {fileID: 0}
+  corruptionPointsText: {fileID: 0}
+  naturalismPointsText: {fileID: 0}
+  guardianPlusButton: {fileID: 0}
+  duelistPlusButton: {fileID: 0}
+  brawlerPlusButton: {fileID: 0}
+  assassinationPlusButton: {fileID: 0}
+  pyromaniaPlusButton: {fileID: 0}
+  cyromancyPlusButton: {fileID: 0}
+  rangerPlusButton: {fileID: 0}
+  manipulationPlusButton: {fileID: 0}
+  divinityPlusButton: {fileID: 0}
+  shadowcraftPlusButton: {fileID: 0}
+  corruptionPlusButton: {fileID: 0}
+  naturalismPlusButton: {fileID: 0}
+  mainHandWeapon: {fileID: 0}
+  offHandWeapon: {fileID: 0}
+  mainHandSlot: {fileID: 0}
+  offHandSlot: {fileID: 0}
+  currentHealth: 0
+  maxHealth: 0
+  strength: 0
+  wisdom: 0
+  dexterity: 0
+  stamina: 0
+  mobility: 0
+  initiative: 0
+  criticalChance: 0
+  dodge: 0
+  parry: 0
+  auraSize: 0
+  maxEnergy: 0
+  meleeRange: 0
+  physicalResistance: 0
+  fireResistance: 0
+  frostResistance: 0
+  poisonResistance: 0
+  airResistance: 0
+  shadowResistance: 0
+  currentXP: 0
+  currentMaxXP: 0
+  currentLevel: 0
+  talentPoints: 0
+  abilityPoints: 0
+  guardianPoints: 0
+  duelistPoints: 0
+  brawlerPoints: 0
+  assassinationPoints: 0
+  pyromaniaPoints: 0
+  cyromancyPoints: 0
+  rangerPoints: 0
+  manipulationPoints: 0
+  divinityPoints: 0
+  shadowcraftPoints: 0
+  corruptionPoints: 0
+  naturalismPoints: 0
+  tenaciousStacks: 0
+  masochistStacks: 0
+  lastStandStacks: 0
+  perfectAimStacks: 0
+  virtuosoStacks: 0
+  slipperyStacks: 0
+  riposteStacks: 0
+  trueSightStacks: 0
+  perfectReflexesStacks: 0
+  pierceStacks: 0
+  opportunistStacks: 0
+  patientStalkerStacks: 0
+  stealthStacks: 0
+  cautiousStacks: 0
+  guardianAuraStacks: 0
+  unwaveringStacks: 0
+  unstoppableStacks: 0
+  fieryAuraStacks: 0
+  immolationStacks: 0
+  demonStacks: 0
+  shatterStacks: 0
+  frozenHeartStacks: 0
+  predatorStacks: 0
+  hawkEyeStacks: 0
+  fluxStacks: 0
+  coupDeGraceStacks: 0
+  phasingStacks: 0
+  etherealBeingStacks: 0
+  encouragingAuraStacks: 0
+  radianceStacks: 0
+  sacredAuraStacks: 0
+  shadowAuraStacks: 0
+  shadowFormStacks: 0
+  poisonousStacks: 0
+  venomousStacks: 0
+  toxicityStacks: 0
+  toxicAuraStacks: 0
+  stormAuraStacks: 0
+  stormLordStacks: 0
+  thornsStacks: 0
+  enrageStacks: 0
+  powerLimitStacks: 0
+  quickDrawStacks: 0
+  fadingStacks: 0
+  lifeStealStacks: 0
+  growingStacks: 0
+  fastLearnerStacks: 0
+  freeFromFleshStacks: 0
+  forestWisdomStacks: 0
+  satyrTrickeryStacks: 0
+  humanAmbitionStacks: 0
+  orcishGritStacks: 0
+  gnollishBloodLustStacks: 0
+  myName: 
+  myAttributeTabs: []
+  inventoryItemParent: {fileID: 0}
+  myDefenderGO: {fileID: 0}
+  myClass: 
+  myCampSiteCharacter: {fileID: 0}
+  myStoryWindowCharacter: {fileID: 0}
+  myVillageCharacter: {fileID: 0}
+  myTreasureRoomCharacter: {fileID: 0}
+  classNameText: {fileID: 0}
+  classSprite: {fileID: 0}
+  myItems: []
+  KnowsMove: 0
+  KnowsStrike: 0
+  KnowsDefend: 0
+  KnowsCharge: 0
+  KnowsGuard: 0
+  KnowsInspire: 0
+  KnowsMeteor: 0
+  KnowsTelekinesis: 0
+  KnowsFrostBolt: 0
+  KnowsFireBall: 0
+  KnowsShoot: 0
+  KnowsRapidFire: 0
+  KnowsImpalingBolt: 0
+  KnowsForestMedicine: 0
+  KnowsWhirlwind: 0
+  KnowsInvigorate: 0
+  KnowsHolyFire: 0
+  KnowsVoidBomb: 0
+  KnowsNightmare: 0
+  KnowsTwinStrike: 0
+  KnowsDash: 0
+  KnowsPreparation: 0
+  KnowsHealingLight: 0
+  KnowsSliceAndDice: 0
+  KnowsPoisonDart: 0
+  KnowsChemicalReaction: 0
+  KnowsBloodLust: 0
+  KnowsGetDown: 0
+  KnowsSmash: 0
+  KnowsLightningShield: 0
+  KnowsElectricalDischarge: 0
+  KnowsChainLightning: 0
+  KnowsPrimalBlast: 0
+  KnowsPrimalRage: 0
+  KnowsPhaseShift: 0
+  KnowsTeleport: 0
+  KnowsSanctity: 0
+  KnowsBless: 0
+  KnowsSiphonLife: 0
+  KnowsChaosBolt: 0
+  KnowsFrostNova: 0
+  KnowsDevastatingBlow: 0
+  KnowsKickToTheBalls: 0
+  KnowsBladeFlurry: 0
+  KnowsRecklessness: 0
+  KnowsTendonSlash: 0
+  KnowsShieldShatter: 0
+  KnowsEvasion: 0
+  KnowsDecapitate: 0
+  KnowsVanish: 0
+  KnowsCheapShot: 0
+  KnowsShank: 0
+  KnowsShadowStep: 0
+  KnowsAmbush: 0
+  KnowsSharpenBlade: 0
+  KnowsProvoke: 0
+  KnowsSwordAndBoard: 0
+  KnowsShieldSlam: 0
+  KnowsTestudo: 0
+  KnowsReactiveArmour: 0
+  KnowsChallengingShout: 0
+  KnowsFireNova: 0
+  KnowsPhoenixDive: 0
+  KnowsBlaze: 0
+  KnowsCombustion: 0
+  KnowsDragonBreath: 0
+  KnowsChillingBlow: 0
+  KnowsIcyFocus: 0
+  KnowsBlizzard: 0
+  KnowsFrostArmour: 0
+  KnowsGlacialBurst: 0
+  KnowsCreepingFrost: 0
+  KnowsThaw: 0
+  KnowsHaste: 0
+  KnowsSteadyHands: 0
+  KnowsHeadShot: 0
+  KnowsTreeLeap: 0
+  KnowsConcentration: 0
+  KnowsOverwatch: 0
+  KnowsDimensionalBlast: 0
+  KnowsMirage: 0
+  KnowsBurstOfKnowledge: 0
+  KnowsBlink: 0
+  KnowsInfuse: 0
+  KnowsTimeWarp: 0
+  KnowsDimensionalHex: 0
+  KnowsConsecrate: 0
+  KnowsPurity: 0
+  KnowsBlindingLight: 0
+  KnowsTranscendence: 0
+  KnowsJudgement: 0
+  KnowsShroud: 0
+  KnowsHex: 0
+  KnowsRainOfChaos: 0
+  KnowsShadowWreath: 0
+  KnowsShadowBlast: 0
+  KnowsUnbridledChaos: 0
+  KnowsBlight: 0
+  KnowsBloodOffering: 0
+  KnowsToxicSlash: 0
+  KnowsNoxiousFumes: 0
+  KnowsToxicEruption: 0
+  KnowsDrain: 0
+  KnowsSpiritSurge: 0
+  KnowsLightningBolt: 0
+  KnowsThunderStrike: 0
+  KnowsSpiritVision: 0
+  KnowsThunderStorm: 0
+  KnowsOverload: 0
+  KnowsConcealingClouds: 0
+  KnowsSuperConductor: 0
+  KnowsSnipe: 0
+  KnowsRapidCloaking: 0
+  KnowsDisarm: 0
+  KnowsSecondWind: 0
+  KnowsImprovedPreparation: 0
+  KnowsImprovedDash: 0
+  KnowsImprovedInvigorate: 0
+  KnowsImprovedHolyFire: 0
+  KnowsImprovedInspire: 0
+  KnowsImprovedWhirlwind: 0
+  KnowsImprovedTelekinesis: 0
+  KnowsImprovedFireBall: 0
 --- !u!1 &1090063708
 GameObject:
   m_ObjectHideFlags: 0
@@ -3780,6 +4487,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1090063708}
   m_CullTransparentMesh: 0
+--- !u!1 &1168959601
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1168959602}
+  m_Layer: 0
+  m_Name: Impersonater Objects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1168959602
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168959601}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1418251615}
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1243883541
 GameObject:
   m_ObjectHideFlags: 0
@@ -3878,7 +4616,7 @@ RectTransform:
   - {fileID: 490429734}
   - {fileID: 2032884981}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3937,6 +4675,373 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotImageParent: {fileID: 2077753275}
   occupied: 0
+--- !u!1 &1274062617
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1274062618}
+  - component: {fileID: 1274062619}
+  m_Layer: 0
+  m_Name: Char Data (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1274062618
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274062617}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1418251615}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1274062619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274062617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb1ac5730da22284a83fab1b51f4b3d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVisualParent: {fileID: 0}
+  statsPageParent: {fileID: 0}
+  talentsPageParent: {fileID: 0}
+  abilityPageParent: {fileID: 0}
+  attributeTabContentParent: {fileID: 0}
+  myNameText: {fileID: 0}
+  allTalentButtons: []
+  talentPlusButtons: []
+  myModelOnButton: {fileID: 0}
+  myCharacterModel: {fileID: 0}
+  allKnownAbilitySlots: []
+  allActiveAbilitySlots: []
+  activeAbilities: []
+  knownAbilities: []
+  myRace: 0
+  backgrounds: 
+  statsPageButton: {fileID: 0}
+  talentsPageButton: {fileID: 0}
+  abilityPageButton: {fileID: 0}
+  currentHealthText: {fileID: 0}
+  maxHealthText: {fileID: 0}
+  healthBar: {fileID: 0}
+  xpText: {fileID: 0}
+  maxXpText: {fileID: 0}
+  levelText: {fileID: 0}
+  xpBar: {fileID: 0}
+  strengthText: {fileID: 0}
+  wisdomText: {fileID: 0}
+  dexterityText: {fileID: 0}
+  staminaText: {fileID: 0}
+  mobilityText: {fileID: 0}
+  initiativeText: {fileID: 0}
+  criticalText: {fileID: 0}
+  dodgeText: {fileID: 0}
+  parryText: {fileID: 0}
+  auraSizeText: {fileID: 0}
+  maxEnergyText: {fileID: 0}
+  meleeRangeText: {fileID: 0}
+  physicalResistanceText: {fileID: 0}
+  fireResistanceText: {fileID: 0}
+  frostResistanceText: {fileID: 0}
+  poisonResistanceText: {fileID: 0}
+  airResistanceText: {fileID: 0}
+  shadowResistanceText: {fileID: 0}
+  talentPointsText: {fileID: 0}
+  abilityPointsText: {fileID: 0}
+  currentTreeNameText: {fileID: 0}
+  guardianTreeParent: {fileID: 0}
+  duelistTreeParent: {fileID: 0}
+  brawlerTreeParent: {fileID: 0}
+  assassinationTreeParent: {fileID: 0}
+  pyromaniaTreeParent: {fileID: 0}
+  cyromancyTreeParent: {fileID: 0}
+  rangerTreeParent: {fileID: 0}
+  manipulationTreeParent: {fileID: 0}
+  divinityTreeParent: {fileID: 0}
+  shadowcraftTreeParent: {fileID: 0}
+  corruptionTreeParent: {fileID: 0}
+  naturalismTreeParent: {fileID: 0}
+  guardianTopBarButton: {fileID: 0}
+  duelistTopBarButton: {fileID: 0}
+  brawlerTopBarButton: {fileID: 0}
+  assassinationTopBarButton: {fileID: 0}
+  pyromaniaTopBarButton: {fileID: 0}
+  cyromancyTopBarButton: {fileID: 0}
+  rangerTopBarButton: {fileID: 0}
+  manipulationTopBarButton: {fileID: 0}
+  divinityTopBarButton: {fileID: 0}
+  shadowcraftTopBarButton: {fileID: 0}
+  corruptionTopBarButton: {fileID: 0}
+  naturalismTopBarButton: {fileID: 0}
+  guardianPointsText: {fileID: 0}
+  duelistPointsText: {fileID: 0}
+  brawlerPointsText: {fileID: 0}
+  assassinationPointsText: {fileID: 0}
+  pyromaniaPointsText: {fileID: 0}
+  cyromancyPointsText: {fileID: 0}
+  rangerPointsText: {fileID: 0}
+  manipulationPointsText: {fileID: 0}
+  divinityPointsText: {fileID: 0}
+  shadowcraftPointsText: {fileID: 0}
+  corruptionPointsText: {fileID: 0}
+  naturalismPointsText: {fileID: 0}
+  guardianPlusButton: {fileID: 0}
+  duelistPlusButton: {fileID: 0}
+  brawlerPlusButton: {fileID: 0}
+  assassinationPlusButton: {fileID: 0}
+  pyromaniaPlusButton: {fileID: 0}
+  cyromancyPlusButton: {fileID: 0}
+  rangerPlusButton: {fileID: 0}
+  manipulationPlusButton: {fileID: 0}
+  divinityPlusButton: {fileID: 0}
+  shadowcraftPlusButton: {fileID: 0}
+  corruptionPlusButton: {fileID: 0}
+  naturalismPlusButton: {fileID: 0}
+  mainHandWeapon: {fileID: 0}
+  offHandWeapon: {fileID: 0}
+  mainHandSlot: {fileID: 0}
+  offHandSlot: {fileID: 0}
+  currentHealth: 0
+  maxHealth: 0
+  strength: 0
+  wisdom: 0
+  dexterity: 0
+  stamina: 0
+  mobility: 0
+  initiative: 0
+  criticalChance: 0
+  dodge: 0
+  parry: 0
+  auraSize: 0
+  maxEnergy: 0
+  meleeRange: 0
+  physicalResistance: 0
+  fireResistance: 0
+  frostResistance: 0
+  poisonResistance: 0
+  airResistance: 0
+  shadowResistance: 0
+  currentXP: 0
+  currentMaxXP: 0
+  currentLevel: 0
+  talentPoints: 0
+  abilityPoints: 0
+  guardianPoints: 0
+  duelistPoints: 0
+  brawlerPoints: 0
+  assassinationPoints: 0
+  pyromaniaPoints: 0
+  cyromancyPoints: 0
+  rangerPoints: 0
+  manipulationPoints: 0
+  divinityPoints: 0
+  shadowcraftPoints: 0
+  corruptionPoints: 0
+  naturalismPoints: 0
+  tenaciousStacks: 0
+  masochistStacks: 0
+  lastStandStacks: 0
+  perfectAimStacks: 0
+  virtuosoStacks: 0
+  slipperyStacks: 0
+  riposteStacks: 0
+  trueSightStacks: 0
+  perfectReflexesStacks: 0
+  pierceStacks: 0
+  opportunistStacks: 0
+  patientStalkerStacks: 0
+  stealthStacks: 0
+  cautiousStacks: 0
+  guardianAuraStacks: 0
+  unwaveringStacks: 0
+  unstoppableStacks: 0
+  fieryAuraStacks: 0
+  immolationStacks: 0
+  demonStacks: 0
+  shatterStacks: 0
+  frozenHeartStacks: 0
+  predatorStacks: 0
+  hawkEyeStacks: 0
+  fluxStacks: 0
+  coupDeGraceStacks: 0
+  phasingStacks: 0
+  etherealBeingStacks: 0
+  encouragingAuraStacks: 0
+  radianceStacks: 0
+  sacredAuraStacks: 0
+  shadowAuraStacks: 0
+  shadowFormStacks: 0
+  poisonousStacks: 0
+  venomousStacks: 0
+  toxicityStacks: 0
+  toxicAuraStacks: 0
+  stormAuraStacks: 0
+  stormLordStacks: 0
+  thornsStacks: 0
+  enrageStacks: 0
+  powerLimitStacks: 0
+  quickDrawStacks: 0
+  fadingStacks: 0
+  lifeStealStacks: 0
+  growingStacks: 0
+  fastLearnerStacks: 0
+  freeFromFleshStacks: 0
+  forestWisdomStacks: 0
+  satyrTrickeryStacks: 0
+  humanAmbitionStacks: 0
+  orcishGritStacks: 0
+  gnollishBloodLustStacks: 0
+  myName: 
+  myAttributeTabs: []
+  inventoryItemParent: {fileID: 0}
+  myDefenderGO: {fileID: 0}
+  myClass: 
+  myCampSiteCharacter: {fileID: 0}
+  myStoryWindowCharacter: {fileID: 0}
+  myVillageCharacter: {fileID: 0}
+  myTreasureRoomCharacter: {fileID: 0}
+  classNameText: {fileID: 0}
+  classSprite: {fileID: 0}
+  myItems: []
+  KnowsMove: 0
+  KnowsStrike: 0
+  KnowsDefend: 0
+  KnowsCharge: 0
+  KnowsGuard: 0
+  KnowsInspire: 0
+  KnowsMeteor: 0
+  KnowsTelekinesis: 0
+  KnowsFrostBolt: 0
+  KnowsFireBall: 0
+  KnowsShoot: 0
+  KnowsRapidFire: 0
+  KnowsImpalingBolt: 0
+  KnowsForestMedicine: 0
+  KnowsWhirlwind: 0
+  KnowsInvigorate: 0
+  KnowsHolyFire: 0
+  KnowsVoidBomb: 0
+  KnowsNightmare: 0
+  KnowsTwinStrike: 0
+  KnowsDash: 0
+  KnowsPreparation: 0
+  KnowsHealingLight: 0
+  KnowsSliceAndDice: 0
+  KnowsPoisonDart: 0
+  KnowsChemicalReaction: 0
+  KnowsBloodLust: 0
+  KnowsGetDown: 0
+  KnowsSmash: 0
+  KnowsLightningShield: 0
+  KnowsElectricalDischarge: 0
+  KnowsChainLightning: 0
+  KnowsPrimalBlast: 0
+  KnowsPrimalRage: 0
+  KnowsPhaseShift: 0
+  KnowsTeleport: 0
+  KnowsSanctity: 0
+  KnowsBless: 0
+  KnowsSiphonLife: 0
+  KnowsChaosBolt: 0
+  KnowsFrostNova: 0
+  KnowsDevastatingBlow: 0
+  KnowsKickToTheBalls: 0
+  KnowsBladeFlurry: 0
+  KnowsRecklessness: 0
+  KnowsTendonSlash: 0
+  KnowsShieldShatter: 0
+  KnowsEvasion: 0
+  KnowsDecapitate: 0
+  KnowsVanish: 0
+  KnowsCheapShot: 0
+  KnowsShank: 0
+  KnowsShadowStep: 0
+  KnowsAmbush: 0
+  KnowsSharpenBlade: 0
+  KnowsProvoke: 0
+  KnowsSwordAndBoard: 0
+  KnowsShieldSlam: 0
+  KnowsTestudo: 0
+  KnowsReactiveArmour: 0
+  KnowsChallengingShout: 0
+  KnowsFireNova: 0
+  KnowsPhoenixDive: 0
+  KnowsBlaze: 0
+  KnowsCombustion: 0
+  KnowsDragonBreath: 0
+  KnowsChillingBlow: 0
+  KnowsIcyFocus: 0
+  KnowsBlizzard: 0
+  KnowsFrostArmour: 0
+  KnowsGlacialBurst: 0
+  KnowsCreepingFrost: 0
+  KnowsThaw: 0
+  KnowsHaste: 0
+  KnowsSteadyHands: 0
+  KnowsHeadShot: 0
+  KnowsTreeLeap: 0
+  KnowsConcentration: 0
+  KnowsOverwatch: 0
+  KnowsDimensionalBlast: 0
+  KnowsMirage: 0
+  KnowsBurstOfKnowledge: 0
+  KnowsBlink: 0
+  KnowsInfuse: 0
+  KnowsTimeWarp: 0
+  KnowsDimensionalHex: 0
+  KnowsConsecrate: 0
+  KnowsPurity: 0
+  KnowsBlindingLight: 0
+  KnowsTranscendence: 0
+  KnowsJudgement: 0
+  KnowsShroud: 0
+  KnowsHex: 0
+  KnowsRainOfChaos: 0
+  KnowsShadowWreath: 0
+  KnowsShadowBlast: 0
+  KnowsUnbridledChaos: 0
+  KnowsBlight: 0
+  KnowsBloodOffering: 0
+  KnowsToxicSlash: 0
+  KnowsNoxiousFumes: 0
+  KnowsToxicEruption: 0
+  KnowsDrain: 0
+  KnowsSpiritSurge: 0
+  KnowsLightningBolt: 0
+  KnowsThunderStrike: 0
+  KnowsSpiritVision: 0
+  KnowsThunderStorm: 0
+  KnowsOverload: 0
+  KnowsConcealingClouds: 0
+  KnowsSuperConductor: 0
+  KnowsSnipe: 0
+  KnowsRapidCloaking: 0
+  KnowsDisarm: 0
+  KnowsSecondWind: 0
+  KnowsImprovedPreparation: 0
+  KnowsImprovedDash: 0
+  KnowsImprovedInvigorate: 0
+  KnowsImprovedHolyFire: 0
+  KnowsImprovedInspire: 0
+  KnowsImprovedWhirlwind: 0
+  KnowsImprovedTelekinesis: 0
+  KnowsImprovedFireBall: 0
 --- !u!1 &1283940380
 GameObject:
   m_ObjectHideFlags: 0
@@ -3972,7 +5077,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -18.63, y: 160.31326}
+  m_AnchoredPosition: {x: -18.63, y: 160.31334}
   m_SizeDelta: {x: 312.4621, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1283940382
@@ -4042,15 +5147,13 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -90}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2089111613}
-  - {fileID: 794665290}
+  m_Children: []
   m_Father: {fileID: 1283940381}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 156.23105, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 320, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1286061127
@@ -4551,6 +5654,70 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1365425333}
   m_CullTransparentMesh: 0
+--- !u!1 &1418251614
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1418251615}
+  - component: {fileID: 1418251616}
+  m_Layer: 0
+  m_Name: Character Roster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1418251615
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418251614}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 99178022}
+  - {fileID: 1274062618}
+  - {fileID: 1081874583}
+  - {fileID: 743334940}
+  m_Father: {fileID: 1168959602}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1418251616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418251614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f6ecd33964d5243bb585f44c5bec31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visualParent: {fileID: 0}
+  canvasParent: {fileID: 0}
+  CharacterRosterCloseButton: {fileID: 0}
+  characterOne: {fileID: 99178023}
+  characterTwo: {fileID: 1274062619}
+  characterThree: {fileID: 1081874584}
+  characterFour: {fileID: 743334941}
+  characterOneButtonModel: {fileID: 0}
+  characterTwoButtonModel: {fileID: 0}
+  characterThreeButtonModel: {fileID: 0}
+  characterFourButtonModel: {fileID: 0}
+  selectedCharacterData: {fileID: 0}
+  allCharacterDataObjects:
+  - {fileID: 99178023}
+  - {fileID: 1274062619}
+  - {fileID: 1081874584}
+  - {fileID: 743334941}
 --- !u!1 &1428967032
 GameObject:
   m_ObjectHideFlags: 0
@@ -6448,7 +7615,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1329145855}
   m_HandleRect: {fileID: 1329145854}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -6938,411 +8105,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2077753275}
   m_CullTransparentMesh: 0
---- !u!1001 &2089111612
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1286061126}
-    m_Modifications:
-    - target: {fileID: 83453634939695847, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 83453634939695847, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 83453634939695847, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 83453634939695847, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_Pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_Pivot.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092827887239263, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_Name
-      value: Choice Button
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828463665722, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 43
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828463665722, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828463665722, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828463665722, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828463665722, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828506924518, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 41
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828506924518, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828506924518, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828506924518, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828506924518, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828517377194, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828517377194, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828517377194, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828517377194, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828809577142, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 41
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828809577142, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828809577142, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828809577142, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092828809577142, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829240703658, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829240703658, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829240703658, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829240703658, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829339728451, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829339728451, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829339728451, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829339728451, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829610664739, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829610664739, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829610664739, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829610664739, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829803497958, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829803497958, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829803497958, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829803497958, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829803497958, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829803497959, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 27.839996
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829804579614, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829804579614, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829804579614, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829804579614, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829827676845, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829827676845, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829827676845, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829827676845, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829827676845, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829827676846, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 27.839996
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829881558002, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829881558002, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829881558002, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829881558002, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412092829881558003, guid: aae2d9d92024d0946b72d617d2cd16d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 27.839996
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: aae2d9d92024d0946b72d617d2cd16d3, type: 3}
---- !u!224 &2089111613 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1412092827887239262, guid: aae2d9d92024d0946b72d617d2cd16d3,
-    type: 3}
-  m_PrefabInstance: {fileID: 2089111612}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2102843095
 GameObject:
   m_ObjectHideFlags: 0
