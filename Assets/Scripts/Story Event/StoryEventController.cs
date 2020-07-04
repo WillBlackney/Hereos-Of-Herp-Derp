@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class StoryEventController : MonoBehaviour
 {
     [Header("Properties")]
     public StoryDataSO currentStoryData;
+    public StoryDataSO testingStoryData;
 
     [Header("Parent + Transform Components")]
     public GameObject choiceButtonsParent;
@@ -35,6 +37,9 @@ public class StoryEventController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        // REMOVE IN FUTURE: FOR TESTING ONLY
+        BuildFromStoryEventData(testingStoryData);
     }
     #endregion
 
@@ -89,7 +94,63 @@ public class StoryEventController : MonoBehaviour
     }
     public void BuildChoiceButtonFromChoiceData(StoryChoiceDataSO data)
     {
+        // Create game object, parent to the vertical fitter
         StoryChoiceButton newButton = Instantiate(choiceButtonPrefab, choiceButtonsParent.transform).GetComponent<StoryChoiceButton>();
-        //newButton.descriptionText.text = data.
+
+        // Cache SO data
+        newButton.myChoiceData = data;
+
+        // Set button main label text
+        newButton.descriptionText.text = data.description;
+
+        // set requirment text
+        AutoSetChoiceButtonRequirementText(newButton, data);
+
+        // calculate success chance, set related text values
+
+        
     }
+
+
+    // Requirement Text Logic
+    #region
+    public void AutoSetChoiceButtonRequirementText(StoryChoiceButton button, StoryChoiceDataSO data)
+    {
+        string requirementString = "";
+
+        foreach(ChoiceRequirment cr in data.choiceRequirements)
+        {
+            // Add the choice requirement to the final string
+            requirementString += ConvertChoiceRequirementToString(cr);
+
+            // Seperate each requirement with a comma, if it is not the last req in list
+            if(cr != data.choiceRequirements.Last())
+            {
+                requirementString += ", ";
+            }
+        }
+
+        // Apply generated string to description text component
+        button.requirementsText.text = requirementString;
+    }
+    public string ConvertChoiceRequirementToString(ChoiceRequirment choiceRequirement)
+    {
+        string stringReturned = "";
+
+        if(choiceRequirement.requirementType == ChoiceRequirment.RequirementType.HasBackground)
+        {
+            stringReturned = choiceRequirement.backgroundRequirement.ToString() + " party member";
+        }
+        else if (choiceRequirement.requirementType == ChoiceRequirment.RequirementType.HasRace)
+        {
+            stringReturned = choiceRequirement.raceRequirement.ToString() + " party member";
+        }
+        else if (choiceRequirement.requirementType == ChoiceRequirment.RequirementType.HasEnoughGold)
+        {
+            stringReturned = choiceRequirement.goldAmountRequired.ToString() +"g";
+        }
+
+        return stringReturned;
+    }
+    #endregion
 }

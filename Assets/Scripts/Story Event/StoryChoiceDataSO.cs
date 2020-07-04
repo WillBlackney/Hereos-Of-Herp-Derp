@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEditor;
+using Sirenix.OdinInspector;
 
 [CreateAssetMenu(fileName = "New StoryChoiceDataSO", menuName = "StoryChoiceDataSO", order = 52)]
 public class StoryChoiceDataSO : ScriptableObject
@@ -10,6 +11,7 @@ public class StoryChoiceDataSO : ScriptableObject
     [Header("General Properties")]
     public string description;
     public int baseSuccessChance;
+    public List<SuccessChanceModifier> successChanceModifiers; 
 
     [Header("Requirements To Unlock Choice")]
     public List<ChoiceRequirment> choiceRequirements;
@@ -26,90 +28,69 @@ public class StoryChoiceDataSO : ScriptableObject
 public class ChoiceRequirment
 {
     public enum RequirementType { None, HasEnoughGold, HasBackground, HasRace};
-    [Header("General Properties")]
-    public RequirementType requirementType;
-    public int requirementTypeValue;
 
-    [Header("Specific Properties")]
+    [Header("Properties")]
+    public RequirementType requirementType;
+
+    [ShowIf("requirementType", RequirementType.HasEnoughGold)]
+    public int goldAmountRequired;
+
+    [ShowIf("requirementType", RequirementType.HasRace)]
     public UniversalCharacterModel.ModelRace raceRequirement;
+
+    [ShowIf("requirementType", RequirementType.HasBackground)]
     public CharacterData.Background backgroundRequirement;
 }
 
-/*
-[CustomPropertyDrawer(typeof(ChoiceRequirment))]
-public class ChoiceRequirmentPropertyDrawer : PropertyDrawer
-{
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        EditorGUI.BeginProperty(position, label, property);
-
-        var indent = EditorGUI.indentLevel;
-        EditorGUI.indentLevel = 0;
-
-        var raceRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-        var backgroundRect = new Rect(position.x, position.y + 20f, position.width, EditorGUIUtility.singleLineHeight);
-
-        var race = property.FindPropertyRelative("raceRequirement");
-        var name = property.FindPropertyRelative("backgroundRequirement");
-
-        race.intValue = EditorGUI.Popup(raceRect, "raceRequirement", race.intValue, race.enumNames);
-
-        switch ((UniversalCharacterModel.ModelRace)race.intValue)
-        {
-            case UniversalCharacterModel.ModelRace.None:
-                name.stringValue = EditorGUI.TextField(backgroundRect, "Action Name", name.stringValue);
-                //Anything else you want to display
-                break;
-            case UniversalCharacterModel.ModelRace.SimpleDamage:
-                name.stringValue = EditorGUI.TextField(backgroundRect, "Action Name", name.stringValue);
-                //Anything else you want to display
-                break;
-            case ActionEffects.PushSingleTarget:
-                name.stringValue = EditorGUI.TextField(backgroundRect, "Action Name", name.stringValue);
-                //Anything else you want to display
-                break;
-        }
-
-        EditorGUI.indentLevel = indent;
-
-        EditorGUI.EndProperty();
-    }
-
-    //This will need to be adjusted based on what you are displaying
-    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-    {
-        return (20 - EditorGUIUtility.singleLineHeight) + (EditorGUIUtility.singleLineHeight * 2);
-    }
-}
-
-*/
-
-
-/*
-[CustomEditor(typeof(ChoiceRequirment))]
-public class ChoiceRequirmentEditor : Editor
-{
-    override public void OnInspectorGUI()
-    {
-        var myScript = target as ChoiceRequirment;
-
-        myScript.flag = GUILayout.Toggle(myScript.flag, "Flag");
-
-        if (myScript.flag)
-            myScript.i = EditorGUILayout.IntSlider("I field:", myScript.i, 1, 100);
-    }
-}
-*/
 
 [Serializable]
 public class ChoiceConsequence
 {
-    public enum ConsequenceType { None, EventEnds, GainGold, AllCharactersGainXP, TriggerCombatEvent};
+    public enum ConsequenceType { None, EventEnds, GainGold, AllCharactersGainXP, TriggerCombatEvent, GainSpecificItem};
 
-    [Header("General Properties")]
+    [Header("Properties")]
     public ConsequenceType consequenceType;
-    public int consequenceTypeValue;
 
-    [Header("Trigger Combat Properties")]
+    [ShowIf("consequenceType", ConsequenceType.AllCharactersGainXP)]
+    public int xpGainAmount;
+
+    [ShowIf("consequenceType", ConsequenceType.GainGold)]
+    public int goldGainAmount;
+
+    [ShowIf("consequenceType", ConsequenceType.TriggerCombatEvent)]
     public EnemyWaveSO combatEvent;
+
+    [ShowIf("consequenceType", ConsequenceType.GainSpecificItem)]
+    public ItemDataSO specificItemGained;
+}
+
+[Serializable]
+public class SuccessChanceModifier
+{
+    public enum ChanceModifierType { None, HasBackground, HasRace, HasState};
+
+    [Header("Properties")]
+    public ChanceModifierType chanceTypeModifier;
+
+    [ShowIf("ShowPercentageModifier")]
+    public int chancePercentageModifier;
+
+    [ShowIf("chanceTypeModifier", ChanceModifierType.HasRace)]
+    public UniversalCharacterModel.ModelRace raceRequirement;
+
+    [ShowIf("chanceTypeModifier", ChanceModifierType.HasBackground)]
+    public CharacterData.Background backgroundRequirement;
+
+    // Show + Hide Boolean checkers
+    public bool ShowPercentageModifier()
+    {
+        if(chanceTypeModifier != ChanceModifierType.None)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

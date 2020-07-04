@@ -13,14 +13,36 @@ MonoBehaviour:
   m_Name: Persuade the old orc to allow you to pass without a fight.
   m_EditorClassIdentifier: 
   description: Persuade the old orc to allow you to pass without a fight.
-  baseSuccessChance: 70
+  baseSuccessChance: 75
+  successChanceModifiers:
+  - chanceTypeModifier: 1
+    chancePercentageModifier: 10
+    raceRequirement: 0
+    backgroundRequirement: 9
+  - chanceTypeModifier: 1
+    chancePercentageModifier: 10
+    raceRequirement: 0
+    backgroundRequirement: 12
+  - chanceTypeModifier: 1
+    chancePercentageModifier: -10
+    raceRequirement: 0
+    backgroundRequirement: 8
+  - chanceTypeModifier: 1
+    chancePercentageModifier: -10
+    raceRequirement: 0
+    backgroundRequirement: 3
   choiceRequirements:
   - requirementType: 2
-    requirementTypeValue: 0
+    goldAmountRequired: 0
     raceRequirement: 0
-    backgroundRequirement: 2
+    backgroundRequirement: 9
   onSuccessConsequences:
   - consequenceType: 1
-    consequenceTypeValue: 0
+    xpGainAmount: 0
+    goldGainAmount: 0
     combatEvent: {fileID: 0}
-  onFailureConsequences: []
+  onFailureConsequences:
+  - consequenceType: 4
+    xpGainAmount: 0
+    goldGainAmount: 0
+    combatEvent: {fileID: 11400000, guid: 27253031a909cbf4da8b90f4297a7004, type: 2}

@@ -14,12 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: Perform the orcish rite of ascension for the old orc
   baseSuccessChance: 100
+  successChanceModifiers: []
   choiceRequirements:
   - requirementType: 2
-    requirementTypeValue: 0
+    goldAmountRequired: 0
     raceRequirement: 0
     backgroundRequirement: 2
   onSuccessConsequences:
-  - consequenceType: 2
-    consequenceTypeValue: 50
+  - consequenceType: 3
+    xpGainAmount: 50
+    goldGainAmount: 0
+    combatEvent: {fileID: 0}
   onFailureConsequences: []

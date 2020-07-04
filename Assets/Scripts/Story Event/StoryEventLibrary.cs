@@ -24,8 +24,23 @@ public class StoryEventLibrary : MonoBehaviour
     }
     #endregion
 
-    public void GetRandomViableStory()
+    public StoryDataSO GetRandomViableStory()
     {
+        Debug.Log("StoryEventLibrary.GetRandomViableStory() called...");
+
+        StoryDataSO storyReturned = null;
+        storyReturned = viableStories[Random.Range(0, viableStories.Count)];
+
+        if (storyReturned)
+        {
+            Debug.Log("StoryEventLibrary.GetRandomViableStory() randomly chose story event: " + storyReturned.storyName);
+        }
+        else
+        {
+            Debug.Log("StoryEventLibrary.GetRandomViableStory() could not find a random viable story event, returning null...");
+        }
+
+        return storyReturned;
 
     }
 }

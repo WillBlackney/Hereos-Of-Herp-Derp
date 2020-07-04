@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4958820da419141823bd16eaf8ca04, type: 3}
+  m_Name: Create a distraction, rob the orc, then escape
+  m_EditorClassIdentifier: 
+  description: Create a distraction, rob the orc, then escape
+  baseSuccessChance: 50
+  successChanceModifiers:
+  - chanceTypeModifier: 1
+    chancePercentageModifier: 10
+    raceRequirement: 0
+    backgroundRequirement: 8
+  - chanceTypeModifier: 1
+    chancePercentageModifier: 10
+    raceRequirement: 0
+    backgroundRequirement: 12
+  - chanceTypeModifier: 1
+    chancePercentageModifier: -10
+    raceRequirement: 0
+    backgroundRequirement: 2
+  - chanceTypeModifier: 1
+    chancePercentageModifier: -10
+    raceRequirement: 0
+    backgroundRequirement: 3
+  choiceRequirements:
+  - requirementType: 2
+    goldAmountRequired: 0
+    raceRequirement: 0
+    backgroundRequirement: 8
+  onSuccessConsequences:
+  - consequenceType: 5
+    xpGainAmount: 0
+    goldGainAmount: 0
+    combatEvent: {fileID: 0}
+    specificItemGained: {fileID: 11400000, guid: 2a8c5d613d56ed9478ab3d348e31305b,
+      type: 2}
+  onFailureConsequences:
+  - consequenceType: 4
+    xpGainAmount: 0
+    goldGainAmount: 0
+    combatEvent: {fileID: 11400000, guid: 27253031a909cbf4da8b90f4297a7004, type: 2}
+    specificItemGained: {fileID: 0}

@@ -53,10 +53,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54413145f30fc5a4394b5dcb9450f65f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myChoiceData: {fileID: 0}
   descriptionText: {fileID: 1412092828463665722}
   requirementsText: {fileID: 1412092829610664739}
   successConsequenceText: {fileID: 1412092828506924518}
   failureConsequenceText: {fileID: 1412092828809577142}
+  successChanceText: {fileID: 83453634939695847}
 --- !u!1 &1412092828463665668
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,7 +1619,7 @@ RectTransform:
   m_GameObject: {fileID: 1615590627522449744}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children:
   - {fileID: 5703417807602353757}
   - {fileID: 2037499348435728007}
@@ -1627,7 +1629,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 147.8, y: -0.8}
+  m_AnchoredPosition: {x: 117.6, y: 28.7}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2059636787788134549
