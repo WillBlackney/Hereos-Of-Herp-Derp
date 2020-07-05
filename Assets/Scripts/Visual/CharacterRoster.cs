@@ -34,7 +34,7 @@ public class CharacterRoster : MonoBehaviour
     }
     private void Start()
     {
-        InitializeSetup();
+         //InitializeSetup();
     }
     public void InitializeSetup()
     {

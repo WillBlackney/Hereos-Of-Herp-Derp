@@ -625,7 +625,7 @@ MonoBehaviour:
   allActiveAbilitySlots: []
   activeAbilities: []
   knownAbilities: []
-  myRace: 0
+  myRace: 2
   backgrounds: 02000000
   statsPageButton: {fileID: 0}
   talentsPageButton: {fileID: 0}
@@ -1010,6 +1010,8 @@ MonoBehaviour:
   storyImage: {fileID: 754837235}
   choiceButtonPrefab: {fileID: 1412092827887239263, guid: aae2d9d92024d0946b72d617d2cd16d3,
     type: 3}
+  eventFiredOnContinueButtonClicked: 0
+  combatEventAwaitingStart: {fileID: 0}
 --- !u!4 &183456204
 Transform:
   m_ObjectHideFlags: 0
@@ -2398,7 +2400,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Old Orc
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 87e99a81f1cbf00428f7e0adbc0d7cf5, type: 2}
   m_sharedMaterial: {fileID: 937035506399193613, guid: 87e99a81f1cbf00428f7e0adbc0d7cf5,
@@ -2468,13 +2470,13 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 663451189}
-    characterCount: 11
+    characterCount: 0
     spriteCount: 0
-    spaceCount: 2
-    wordCount: 3
+    spaceCount: 0
+    wordCount: 0
     linkCount: 0
-    lineCount: 1
-    pageCount: 1
+    lineCount: 0
+    pageCount: 0
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -3555,8 +3557,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1590005612}
   m_HandleRect: {fileID: 1590005611}
   m_Direction: 2
-  m_Value: 1.0000001
-  m_Size: 0.56396246
+  m_Value: 1
+  m_Size: 0.56396234
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5114,9 +5116,9 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_Spacing: 0
   m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
 --- !u!1 &1286061125
@@ -7767,7 +7769,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -8.63, y: 81.45027}
+  m_AnchoredPosition: {x: -8.63, y: 81.45026}
   m_SizeDelta: {x: 252.06525, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1954626815

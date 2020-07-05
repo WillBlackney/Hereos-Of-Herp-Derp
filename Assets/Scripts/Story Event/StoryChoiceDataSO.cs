@@ -22,6 +22,12 @@ public class StoryChoiceDataSO : ScriptableObject
     [Header("Consequences On Failure")]
     public List<ChoiceConsequence> onFailureConsequences;
 
+    [Header("GUI Events On Success")]
+    public List<ChoiceResolvedGuiEvent> onSuccessGuiEvents;
+
+    [Header("GUI Events On Failure")]
+    public List<ChoiceResolvedGuiEvent> onFailureGuiEvents;
+
 }
 
 [Serializable]
@@ -62,6 +68,18 @@ public class ChoiceConsequence
 
     [ShowIf("consequenceType", ConsequenceType.GainSpecificItem)]
     public ItemDataSO specificItemGained;
+}
+[Serializable]
+public class ChoiceResolvedGuiEvent
+{
+    public enum GuiEvent { None, LoadNextEventPage, DestroyAllChoiceButtons, UpdateEventDescription, EnableContinueButton};
+
+    [Header("Properties")]
+    public GuiEvent guiEvent;
+
+    [ShowIf("guiEvent", GuiEvent.UpdateEventDescription)]
+    [TextArea(10,10)]
+    public string newEventDescription;
 }
 
 [Serializable]

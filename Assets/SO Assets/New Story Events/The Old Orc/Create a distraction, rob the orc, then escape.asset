@@ -19,22 +19,26 @@ MonoBehaviour:
     chancePercentageModifier: 10
     raceRequirement: 0
     backgroundRequirement: 8
+    stateRequirement: {fileID: 0}
   - chanceTypeModifier: 1
     chancePercentageModifier: 10
     raceRequirement: 0
     backgroundRequirement: 12
+    stateRequirement: {fileID: 0}
   - chanceTypeModifier: 1
     chancePercentageModifier: -10
     raceRequirement: 0
     backgroundRequirement: 2
+    stateRequirement: {fileID: 0}
   - chanceTypeModifier: 1
     chancePercentageModifier: -10
     raceRequirement: 0
     backgroundRequirement: 3
+    stateRequirement: {fileID: 0}
   choiceRequirements:
   - requirementType: 2
     goldAmountRequired: 0
-    raceRequirement: 0
+    raceRequirement: 2
     backgroundRequirement: 8
   onSuccessConsequences:
   - consequenceType: 5

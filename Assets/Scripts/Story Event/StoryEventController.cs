@@ -9,6 +9,8 @@ public class StoryEventController : MonoBehaviour
 {
     // Propeties + Component References
     #region
+    public enum ContinueButtonEvent { None, OpenWorldMap, TriggerCombatEvent };
+
     [Header("Properties")]
     public StoryDataSO currentStoryData;
     public StoryDataSO testingStoryData;
@@ -25,6 +27,10 @@ public class StoryEventController : MonoBehaviour
 
     [Header("Prefab References")]
     public GameObject choiceButtonPrefab;
+
+    [Header("Continue Button Pressed Properties")]    
+    public ContinueButtonEvent eventFiredOnContinueButtonClicked;
+    public EnemyWaveSO combatEventAwaitingStart;
     #endregion
 
     // Singleton Pattern
@@ -40,7 +46,9 @@ public class StoryEventController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+    }
+    private void Start()
+    {
         // REMOVE IN FUTURE: FOR TESTING ONLY
         BuildFromStoryEventData(testingStoryData);
     }
@@ -56,7 +64,7 @@ public class StoryEventController : MonoBehaviour
         currentStoryData = storyData;
 
         // set description text
-        SetDescriptionText(storyData.storyInitialDescription);
+        SetEventDescriptionText(storyData.storyInitialDescription);
 
         // set name text
         SetStoryNameText(storyData.storyName);
@@ -71,7 +79,7 @@ public class StoryEventController : MonoBehaviour
 
     // Set Text Values Logic
     #region
-    public void SetDescriptionText(string newText)
+    public void SetEventDescriptionText(string newText)
     {
         descriptionWindowText.text = newText;
     }
@@ -236,7 +244,7 @@ public class StoryEventController : MonoBehaviour
     }
     #endregion
 
-    // Load + Build choice buttons logic
+    // Choice buttons logic
     #region
     public void BuildAllChoiceButtonsFromStoryPage(List<StoryChoiceDataSO> choicesList)
     {
@@ -244,16 +252,18 @@ public class StoryEventController : MonoBehaviour
 
         foreach(StoryChoiceDataSO data in choicesList)
         {
+            // Build a new choice button
+            StoryChoiceButton newButton = BuildChoiceButtonFromChoiceData(data);
+
             // Does the player meet the requirements to enable this choice?
-            if (AreChoiceButtonRequirementsMet(data))
+            if (!AreChoiceButtonRequirementsMet(data))
             {
-                // They do, build the choice button
-                BuildChoiceButtonFromChoiceData(data);
-            }
-           
+                // They don't, lock the choice button
+                LockChoiceButton(newButton);
+            }           
         }
     }
-    public void BuildChoiceButtonFromChoiceData(StoryChoiceDataSO data)
+    public StoryChoiceButton BuildChoiceButtonFromChoiceData(StoryChoiceDataSO data)
     {
         Debug.Log("StoryEventController.BuildChoiceButtonFromChoiceData() called for choice: " + data.description);
 
@@ -274,7 +284,10 @@ public class StoryEventController : MonoBehaviour
         AutoSetChoiceButtonFailureConsequencesText(newButton, data);
 
         // calculate success chance, set related text values
-        newButton.successChanceText.text = CalculateFinalSuccessChanceOfChoiceData(newButton.myChoiceData).ToString();
+        newButton.successChanceText.text = CalculateFinalSuccessChanceOfChoiceData(newButton.myChoiceData).ToString() + "%";
+
+        // return the button just made
+        return newButton;
 
     }
     public bool AreChoiceButtonRequirementsMet(StoryChoiceDataSO data)
@@ -320,13 +333,16 @@ public class StoryEventController : MonoBehaviour
             {
                 bool passedBgCheck = false;
 
-                foreach(CharacterData cd in CharacterRoster.Instance.allCharacterDataObjects)
+                if (CharacterRoster.Instance)
                 {
-                    if (cd.backgrounds.Contains(cr.backgroundRequirement))
+                    foreach (CharacterData cd in CharacterRoster.Instance.allCharacterDataObjects)
                     {
-                        passedBgCheck = true;
+                        if (cd.backgrounds.Contains(cr.backgroundRequirement))
+                        {
+                            passedBgCheck = true;
+                        }
                     }
-                }
+                }                
 
                 if (passedBgCheck)
                 {
@@ -393,7 +409,8 @@ public class StoryEventController : MonoBehaviour
     }
     public int CalculateFinalSuccessChanceOfChoiceData(StoryChoiceDataSO choice)
     {
-        Debug.Log("StoryEventController.CalculateFinalSuccessChanceOfChoiceData() called...");
+        Debug.Log("StoryEventController.CalculateFinalSuccessChanceOfChoiceData() called, " +
+            "base success chance = " + choice.baseSuccessChance.ToString()+ "%");
 
         // initialize return value at the choice's base success chance
         int chanceReturned = choice.baseSuccessChance;
@@ -403,6 +420,19 @@ public class StoryEventController : MonoBehaviour
             chanceReturned += CalculateFinalValueOfSuccessChanceModifier(scm);
         }
 
+        // Prevent success chance exceding 100%
+        if(chanceReturned > 100)
+        {
+            chanceReturned = 100;
+        }
+        // Prevent success chance dropping below 0%
+        else if (chanceReturned < 0)
+        {
+            chanceReturned = 0;
+        }
+
+        Debug.Log("StoryEventController.CalculateFinalSuccessChanceOfChoiceData() final success chance calculated = " +
+            chanceReturned.ToString() + "%");
 
         return chanceReturned;
     }
@@ -412,37 +442,35 @@ public class StoryEventController : MonoBehaviour
 
         int valueReturned = 0;
 
+        // Check background modifier
         if (element.chanceTypeModifier == SuccessChanceModifier.ChanceModifierType.HasBackground)
         {
-            if (CharacterRoster.Instance)
+            foreach (CharacterData cd in CharacterRoster.Instance.allCharacterDataObjects)
             {
-                foreach (CharacterData cd in CharacterRoster.Instance.allCharacterDataObjects)
+                if (cd.backgrounds.Contains(element.backgroundRequirement))
                 {
-                    if (cd.backgrounds.Contains(element.backgroundRequirement))
-                    {
-                        valueReturned += element.chancePercentageModifier;
-                    }
+                    valueReturned += element.chancePercentageModifier;
                 }
             }
-           
+
         }
+
+        // Check racial modifier
         else if (element.chanceTypeModifier == SuccessChanceModifier.ChanceModifierType.HasRace)
         {
-            if (CharacterRoster.Instance)
+            foreach (CharacterData cd in CharacterRoster.Instance.allCharacterDataObjects)
             {
-                foreach (CharacterData cd in CharacterRoster.Instance.allCharacterDataObjects)
+                if (cd.myRace == element.raceRequirement)
                 {
-                    if (cd.myRace == element.raceRequirement)
-                    {
-                        valueReturned += element.chancePercentageModifier;
-                    }
+                    valueReturned += element.chancePercentageModifier;
                 }
-            }              
+            }
         }
+
+        // Check state modifier
         else if (element.chanceTypeModifier == SuccessChanceModifier.ChanceModifierType.HasState)
         {
-            if (StateManager.Instance && 
-                 StateManager.Instance.DoesPlayerAlreadyHaveState(element.stateRequirement.stateName))
+            if (StateManager.Instance.DoesPlayerAlreadyHaveState(element.stateRequirement.stateName))
             {
                 valueReturned += element.chancePercentageModifier;
             }
@@ -450,7 +478,163 @@ public class StoryEventController : MonoBehaviour
 
         return valueReturned;
     }
+    public void LockChoiceButton(StoryChoiceButton button)
+    {
+        button.SetPanelColour(button.disabledColour);
+        button.locked = true;
+    }    
+    public int GenerateRandomRollResult(int lowerLimit = 1, int upperLimit = 101)
+    {
+        Debug.Log("StoryEventController.GenerateRandomRollResult() called, generating random number between "
+            + lowerLimit.ToString() + " and " + (upperLimit -1).ToString());
+
+        int rollResult = Random.Range(lowerLimit, upperLimit);
+        Debug.Log("GenerateRandomRollResult() rolled a " + rollResult.ToString());
+        return rollResult;
+    }
+    public bool DidChoicePassSuccessRoll(StoryChoiceButton choiceButton)
+    {
+        Debug.Log("StoryEventController.DidChoicePassSuccessRoll() called...");
+
+        bool boolReturned = false;
+
+        // Calculate the roll required to pass the success check
+        int rollResultRequired = CalculateFinalSuccessChanceOfChoiceData(choiceButton.myChoiceData);
+
+        // Roll for success
+        int rollResultActual = GenerateRandomRollResult();
+
+        if(rollResultActual <= rollResultRequired)
+        {
+            boolReturned = true;
+        }
+
+        return boolReturned;
+    }
     #endregion
 
+    // Mouse + Input Logic
+    #region
+    public void OnChoiceButtonClicked(StoryChoiceButton buttonClicked)
+    {
+        Debug.Log("StoryEventController.OnChoiceButtonClicked() called for button: " + buttonClicked.myChoiceData.description);
+
+        StartResolveChoiceProcess(buttonClicked);
+    }
+    #endregion
+
+    // Resolve Events + Choices + Consequences
+    #region
+    public void StartResolveChoiceProcess(StoryChoiceButton buttonClicked)
+    {
+        Debug.Log("StoryEventController.StartResolveChoiceProcess() called...");
+
+        // Did we pass the success chance roll?
+        if (DidChoicePassSuccessRoll(buttonClicked))
+        {
+            // we did, start handle pass result process
+            StartResolveChoiceSuccessfulProcess(buttonClicked);
+        }
+        else
+        {
+            // we failed to roll high enough, start handle fail result process
+            StartResolveChoiceFailureProcess(buttonClicked);
+        }
+    }
+    public void StartResolveChoiceSuccessfulProcess(StoryChoiceButton choiceButton)
+    {
+        Debug.Log("StoryEventController.StartResolveChoiceSuccessfulProcess() called...");
+
+        // Resolve player relevant effects (xp rewards, gain gold, etc)
+        foreach(ChoiceConsequence consequence in choiceButton.myChoiceData.onSuccessConsequences)
+        {
+            ResolveChoiceConsequence(consequence);
+        }
+
+        // Resolve all GUI updates and events
+        foreach(ChoiceResolvedGuiEvent guiEvent in choiceButton.myChoiceData.onSuccessGuiEvents)
+        {
+            ResolveChoiceGuiEvent(guiEvent);
+        }
+
+    }
+    public void StartResolveChoiceFailureProcess(StoryChoiceButton choiceButton)
+    {
+        Debug.Log("StoryEventController.StartResolveChoiceSuccessfulProcess() called...");
+
+        // Resolve player relevant effects (xp rewards, gain gold, etc)
+        foreach (ChoiceConsequence consequence in choiceButton.myChoiceData.onFailureConsequences)
+        {
+            ResolveChoiceConsequence(consequence);
+        }
+
+        // Resolve all GUI updates and events
+        foreach (ChoiceResolvedGuiEvent guiEvent in choiceButton.myChoiceData.onFailureGuiEvents)
+        {
+            ResolveChoiceGuiEvent(guiEvent);
+        }
+
+    }
+    public void ResolveChoiceConsequence(ChoiceConsequence consequence)
+    {
+        Debug.Log("StoryEventController.ResolveChoiceConsequence() called, resolving effect of consequence: "
+            + consequence.consequenceType.ToString());
+        if (consequence.consequenceType == ChoiceConsequence.ConsequenceType.EventEnds)
+        {
+            // 
+        }
+        else if (consequence.consequenceType == ChoiceConsequence.ConsequenceType.AllCharactersGainXP)
+        {
+            foreach (CharacterData character in CharacterRoster.Instance.allCharacterDataObjects)
+            {
+                character.ModifyCurrentXP(consequence.xpGainAmount);
+            }
+        }
+        else if (consequence.consequenceType == ChoiceConsequence.ConsequenceType.GainGold)
+        {
+            PlayerDataManager.Instance.ModifyGold(consequence.goldGainAmount);
+        }
+        else if (consequence.consequenceType == ChoiceConsequence.ConsequenceType.GainSpecificItem)
+        {
+            InventoryController.Instance.AddItemToInventory(consequence.specificItemGained, true);
+        }
+        else if (consequence.consequenceType == ChoiceConsequence.ConsequenceType.TriggerCombatEvent)
+        {
+            SetAwaitingCombatEventState(consequence.combatEvent);
+        }
+    }
+    public void ResolveChoiceGuiEvent(ChoiceResolvedGuiEvent guiEvent)
+    {
+        Debug.Log("StoryEventController.ResolveChoiceGuiEvent() called, resolving GUI event: " + guiEvent.guiEvent.ToString());
+
+        if (guiEvent.guiEvent == ChoiceResolvedGuiEvent.GuiEvent.UpdateEventDescription)
+        {
+            SetEventDescriptionText(guiEvent.newEventDescription);
+        }
+    }
+    public void SetAwaitingCombatEventState(EnemyWaveSO combatAwaited)
+    {
+        Debug.Log("StoryEventController.SetAwaitingCombatEventState() called, on continute button clicked, combat event "
+            + combatAwaited.waveName + " will be triggered");
+
+        combatEventAwaitingStart = combatAwaited;
+        eventFiredOnContinueButtonClicked = ContinueButtonEvent.TriggerCombatEvent;
+    }
+    #endregion
+
+
+
+
+    /*
+     * On success/failure events ideas
+     * - send new description to description text
+     * - send new sprite to image holder
+     * - load more choice buttons / move to next choice page
+     * - clear all choice buttons
+     * - enable continue button
+     * - set continute button event to trigger (starts new combat, continute on with journey / load world map, etc)
+     * 
+     * 
+     */
 
 }

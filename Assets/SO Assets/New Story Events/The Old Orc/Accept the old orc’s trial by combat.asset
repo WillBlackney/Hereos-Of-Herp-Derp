@@ -15,10 +15,15 @@ MonoBehaviour:
   description: "Accept the old orc\u2019s trial by combat "
   baseSuccessChance: 100
   successChanceModifiers: []
-  choiceRequirements: []
+  choiceRequirements:
+  - requirementType: 0
+    goldAmountRequired: 0
+    raceRequirement: 0
+    backgroundRequirement: 0
   onSuccessConsequences:
   - consequenceType: 4
     xpGainAmount: 50
     goldGainAmount: 0
     combatEvent: {fileID: 11400000, guid: 27253031a909cbf4da8b90f4297a7004, type: 2}
+    specificItemGained: {fileID: 0}
   onFailureConsequences: []
