@@ -25,4 +25,11 @@ MonoBehaviour:
     xpGainAmount: 50
     goldGainAmount: 0
     combatEvent: {fileID: 0}
+    specificItemGained: {fileID: 0}
   onFailureConsequences: []
+  onSuccessGuiEvents:
+  - guiEvent: 3
+    newEventDescription: You performed the orcish rite of ascension
+  - guiEvent: 2
+    newEventDescription: 
+  onFailureGuiEvents: []

@@ -2090,7 +2090,6 @@ public class CharacterData : MonoBehaviour
     {
         abilityPoints += abilityPointsGainedOrLost;
         abilityPointsText.text = abilityPoints.ToString();
-        //TalentController.Instance.RefreshAllTalentButtonViewStates(this);
     }
     #endregion
 

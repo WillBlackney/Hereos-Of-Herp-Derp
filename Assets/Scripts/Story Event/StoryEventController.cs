@@ -14,9 +14,11 @@ public class StoryEventController : MonoBehaviour
     [Header("Properties")]
     public StoryDataSO currentStoryData;
     public StoryDataSO testingStoryData;
+    public List<StoryChoiceButton> activeChoiceButtons;
 
     [Header("Parent + Transform Components")]
     public GameObject choiceButtonsParent;
+    public GameObject continueButtonParent;
 
     [Header("Text Component References")]
     public TextMeshProUGUI storyNameText;
@@ -49,6 +51,7 @@ public class StoryEventController : MonoBehaviour
     }
     private void Start()
     {
+        ResetAndFlushAllPropertiesAndViews();
         // REMOVE IN FUTURE: FOR TESTING ONLY
         BuildFromStoryEventData(testingStoryData);
     }
@@ -233,7 +236,39 @@ public class StoryEventController : MonoBehaviour
         // Apply generated string to description text component
         button.failureConsequenceText.text = consequencesString;
     }
-   
+    #endregion
+
+    // View + GUI Logic
+    #region
+    public void ResetAndFlushAllPropertiesAndViews()
+    {
+        Debug.Log("StoryEventController.ResetAndFlushAllPropertiesAndViews()");
+
+        DestroyAllChoiceButtons();
+        SetContinueButtonVisibility(false);
+        SetEventDescriptionText("");
+        SetStoryNameText("");
+        eventFiredOnContinueButtonClicked = ContinueButtonEvent.None;
+        combatEventAwaitingStart = null;
+    }
+    public void DestroyAllChoiceButtons()
+    {
+        Debug.Log("StoryEventController.DestroyAllChoiceButtons() called...");
+
+        // Destroy all button gameobjects
+        foreach(StoryChoiceButton button in activeChoiceButtons)
+        {
+            Destroy(button.gameObject);
+        }
+
+        // flush persistent button data list
+        activeChoiceButtons.Clear();
+
+    }
+    public void SetContinueButtonVisibility(bool onOrOff)
+    {
+        continueButtonParent.SetActive(onOrOff);
+    }
     #endregion
 
     // Set Image Logic
@@ -270,8 +305,9 @@ public class StoryEventController : MonoBehaviour
         // Create game object, parent to the vertical fitter
         StoryChoiceButton newButton = Instantiate(choiceButtonPrefab, choiceButtonsParent.transform).GetComponent<StoryChoiceButton>();
 
-        // Cache SO data
+        // Cache data
         newButton.myChoiceData = data;
+        activeChoiceButtons.Add(newButton);
 
         // Set button main label text
         newButton.descriptionText.text = data.description;
@@ -521,6 +557,10 @@ public class StoryEventController : MonoBehaviour
 
         StartResolveChoiceProcess(buttonClicked);
     }
+    public void OnContinueButtonClicked()
+    {
+        Debug.Log("StoryEventController.OnContinueButtonClicked() called...");
+    }
     #endregion
 
     // Resolve Events + Choices + Consequences
@@ -610,6 +650,14 @@ public class StoryEventController : MonoBehaviour
         if (guiEvent.guiEvent == ChoiceResolvedGuiEvent.GuiEvent.UpdateEventDescription)
         {
             SetEventDescriptionText(guiEvent.newEventDescription);
+        }
+        else if (guiEvent.guiEvent == ChoiceResolvedGuiEvent.GuiEvent.DestroyAllChoiceButtons)
+        {
+            DestroyAllChoiceButtons();
+        }
+        else if (guiEvent.guiEvent == ChoiceResolvedGuiEvent.GuiEvent.EnableContinueButton)
+        {
+            SetContinueButtonVisibility(true);
         }
     }
     public void SetAwaitingCombatEventState(EnemyWaveSO combatAwaited)
