@@ -11,6 +11,7 @@ public class StoryChoiceDataSO : ScriptableObject
     [Header("General Properties")]
     public string description;
     public int baseSuccessChance;
+    public bool ignoreChanceModifiers;
     public List<SuccessChanceModifier> successChanceModifiers; 
 
     [Header("Requirements To Unlock Choice")]
@@ -33,7 +34,7 @@ public class StoryChoiceDataSO : ScriptableObject
 [Serializable]
 public class ChoiceRequirment
 {
-    public enum RequirementType { None, HasEnoughGold, HasBackground, HasRace};
+    public enum RequirementType { None, HasEnoughGold, HasBackground, HasRace, HasTalent};
 
     [Header("Properties")]
     public RequirementType requirementType;
@@ -46,13 +47,19 @@ public class ChoiceRequirment
 
     [ShowIf("requirementType", RequirementType.HasBackground)]
     public CharacterData.Background backgroundRequirement;
+
+    [ShowIf("requirementType", RequirementType.HasTalent)]
+    public AbilityDataSO.AbilitySchool talentTypeRequirement;
+    [ShowIf("requirementType", RequirementType.HasTalent)]
+    public int talentTierRequirement;
 }
 
 
 [Serializable]
 public class ChoiceConsequence
 {
-    public enum ConsequenceType { None, EventEnds, GainGold, AllCharactersGainXP, TriggerCombatEvent, GainSpecificItem};
+    public enum ConsequenceType { None, EventEnds, GainGold, AllCharactersGainXP, TriggerCombatEvent, GainSpecificItem, 
+        GainSpecificAffliction, GainSpecificState, RandomPartyMemberDies, LoseAllInventoryItems};
 
     [Header("Properties")]
     public ConsequenceType consequenceType;
@@ -68,11 +75,20 @@ public class ChoiceConsequence
 
     [ShowIf("consequenceType", ConsequenceType.GainSpecificItem)]
     public ItemDataSO specificItemGained;
+
+    [ShowIf("consequenceType", ConsequenceType.GainSpecificAffliction)]
+    public StateDataSO afflictionGained;
+
+    [ShowIf("consequenceType", ConsequenceType.GainSpecificState)]
+    public StateDataSO stateGained;
+
+    [ShowIf("consequenceType", ConsequenceType.RandomPartyMemberDies)]
+    public int partyMembersKilled;
 }
 [Serializable]
 public class ChoiceResolvedGuiEvent
 {
-    public enum GuiEvent { None, LoadNextEventPage, DestroyAllChoiceButtons, UpdateEventDescription, EnableContinueButton};
+    public enum GuiEvent { None, LoadNextEventPage, LoadEventPageByIndex, DestroyAllChoiceButtons, UpdateEventDescription, EnableContinueButton};
 
     [Header("Properties")]
     public GuiEvent guiEvent;
@@ -80,6 +96,9 @@ public class ChoiceResolvedGuiEvent
     [ShowIf("guiEvent", GuiEvent.UpdateEventDescription)]
     [TextArea(10,10)]
     public string newEventDescription;
+
+    [ShowIf("guiEvent", GuiEvent.LoadEventPageByIndex)]
+    public int pageIndex;
 }
 
 [Serializable]
@@ -114,4 +133,10 @@ public class SuccessChanceModifier
             return false;
         }
     }
+}
+
+[Serializable]
+public class StoryPage
+{
+    public List<StoryChoiceDataSO> pageChoices;
 }

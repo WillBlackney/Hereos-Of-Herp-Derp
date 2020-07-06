@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4958820da419141823bd16eaf8ca04, type: 3}
+  m_Name: Allow two party members to fall to their deaths
+  m_EditorClassIdentifier: 
+  description: Allow two party members to fall to their deaths
+  baseSuccessChance: 100
+  ignoreChanceModifiers: 1
+  successChanceModifiers: []
+  choiceRequirements: []
+  onSuccessConsequences:
+  - consequenceType: 8
+    xpGainAmount: 0
+    goldGainAmount: 0
+    combatEvent: {fileID: 0}
+    specificItemGained: {fileID: 0}
+    afflictionGained: {fileID: 0}
+    stateGained: {fileID: 0}
+    partyMembersKilled: 2
+  onFailureConsequences: []
+  onSuccessGuiEvents:
+  - guiEvent: 3
+    newEventDescription: 
+    pageIndex: 0
+  - guiEvent: 4
+    newEventDescription: You allowed 2 party members to fall to their deaths...
+    pageIndex: 0
+  - guiEvent: 5
+    newEventDescription: 
+    pageIndex: 0
+  onFailureGuiEvents: []

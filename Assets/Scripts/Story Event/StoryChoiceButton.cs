@@ -6,7 +6,7 @@ using TMPro;
 
 public class StoryChoiceButton : MonoBehaviour
 {
-    // Proeprties + Component References
+    // Properties + Component References
     #region
     [Header("Properties")]
     public StoryChoiceDataSO myChoiceData;

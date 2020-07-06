@@ -10,26 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a4958820da419141823bd16eaf8ca04, type: 3}
-  m_Name: Perform the orcish rite of ascension for the old orc
+  m_Name: Jettison all your unnecessary items
   m_EditorClassIdentifier: 
-  description: Perform the orcish rite of ascension for the old orc
+  description: Jettison all your unnecessary items
   baseSuccessChance: 100
+  ignoreChanceModifiers: 1
   successChanceModifiers: []
   choiceRequirements:
-  - requirementType: 2
+  - requirementType: 0
     goldAmountRequired: 0
     raceRequirement: 0
-    backgroundRequirement: 2
+    backgroundRequirement: 0
+    talentTypeRequirement: 0
+    talentTierRequirement: 0
   onSuccessConsequences:
-  - consequenceType: 3
-    xpGainAmount: 50
+  - consequenceType: 9
+    xpGainAmount: 0
     goldGainAmount: 0
     combatEvent: {fileID: 0}
     specificItemGained: {fileID: 0}
+    afflictionGained: {fileID: 0}
+    stateGained: {fileID: 0}
+    partyMembersKilled: 0
   onFailureConsequences: []
   onSuccessGuiEvents:
+  - guiEvent: 4
+    newEventDescription: You discarded all items from your inventory...
+    pageIndex: 0
   - guiEvent: 3
-    newEventDescription: You performed the orcish rite of ascension
-  - guiEvent: 2
     newEventDescription: 
+    pageIndex: 0
+  - guiEvent: 5
+    newEventDescription: 
+    pageIndex: 0
   onFailureGuiEvents: []

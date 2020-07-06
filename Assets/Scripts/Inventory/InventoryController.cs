@@ -257,7 +257,37 @@ public class InventoryController : MonoBehaviour
         slot.occupied = true;
 
         item.SetRayCastingState(true);
-    }   
+    }  
+    public void DestroyAllItemsInInventory()
+    {
+        Debug.Log("InventoryController.DestroyAllItemsInInventory() called...");
+
+        foreach(InventorySlot slot in inventorySlots)
+        {
+            RemoveAndDestroyItemInInventorySlot(slot);
+        }
+    }
+    public void RemoveAndDestroyItemInInventorySlot(InventorySlot slot)
+    {
+        Debug.Log("InventoryController.RemoveAndDestroyItemInInventorySlot() called for slot number " +
+            inventorySlots.IndexOf(slot));
+
+        if (slot.myItemCard != null)
+        {
+            Debug.Log("Item in slot: " + slot.myItemCard.myItemData.Name);
+            Destroy(slot.myItemCard);
+        }
+        if (slot.myAbilityTomeCard != null)
+        {
+            Debug.Log("Item in slot: " + slot.myAbilityTomeCard.myData.abilityName + " Ability Tome");
+            Destroy(slot.myAbilityTomeCard);
+        }
+
+        slot.myItemCard = null;
+        slot.myAbilityTomeCard = null;
+        slot.occupied = false;
+    }
+    
     public void PlaceItemOnCharacterSlot(InventoryItemCard itemCard, CharacterItemSlot characterSlot)
     {
         Debug.Log("InventoryController.PlaceItemOnCharacterSlot() called, placing item " + itemCard.myItemData.Name +

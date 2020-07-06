@@ -11,6 +11,6 @@ public class StoryDataSO : ScriptableObject
     public string storyInitialDescription;
     public Sprite storyInitialSprite;
 
-    [Header("Page One Properties")]
-    public List<StoryChoiceDataSO> pageOneChoices;
+    [Header("Story Pages")]
+    public List<StoryPage> storyPages;
 }

@@ -19,18 +19,22 @@ MonoBehaviour:
     chancePercentageModifier: 10
     raceRequirement: 0
     backgroundRequirement: 9
+    stateRequirement: {fileID: 0}
   - chanceTypeModifier: 1
     chancePercentageModifier: 10
     raceRequirement: 0
     backgroundRequirement: 12
+    stateRequirement: {fileID: 0}
   - chanceTypeModifier: 1
     chancePercentageModifier: -10
     raceRequirement: 0
     backgroundRequirement: 8
+    stateRequirement: {fileID: 0}
   - chanceTypeModifier: 1
     chancePercentageModifier: -10
     raceRequirement: 0
     backgroundRequirement: 3
+    stateRequirement: {fileID: 0}
   choiceRequirements:
   - requirementType: 2
     goldAmountRequired: 0
@@ -41,8 +45,22 @@ MonoBehaviour:
     xpGainAmount: 0
     goldGainAmount: 0
     combatEvent: {fileID: 0}
+    specificItemGained: {fileID: 0}
   onFailureConsequences:
   - consequenceType: 4
     xpGainAmount: 0
     goldGainAmount: 0
     combatEvent: {fileID: 11400000, guid: 27253031a909cbf4da8b90f4297a7004, type: 2}
+    specificItemGained: {fileID: 0}
+  onSuccessGuiEvents:
+  - guiEvent: 3
+    newEventDescription: You successfully persuaded the orc to let you pass...
+  - guiEvent: 2
+    newEventDescription: 
+  - guiEvent: 4
+    newEventDescription: 
+  onFailureGuiEvents:
+  - guiEvent: 2
+    newEventDescription: 
+  - guiEvent: 4
+    newEventDescription: 

@@ -10,24 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a4958820da419141823bd16eaf8ca04, type: 3}
-  m_Name: "Accept the old orc\u2019s trial by combat"
+  m_Name: Perform the orcish rite of ascension for the old orc
   m_EditorClassIdentifier: 
-  description: "Accept the old orc\u2019s trial by combat "
+  description: Perform the orcish rite of ascension for the old orc
   baseSuccessChance: 100
+  ignoreChanceModifiers: 0
   successChanceModifiers: []
   choiceRequirements:
-  - requirementType: 0
+  - requirementType: 2
     goldAmountRequired: 0
     raceRequirement: 0
-    backgroundRequirement: 0
+    backgroundRequirement: 2
   onSuccessConsequences:
-  - consequenceType: 4
-    xpGainAmount: 50
+  - consequenceType: 3
+    xpGainAmount: 25
     goldGainAmount: 0
-    combatEvent: {fileID: 11400000, guid: 27253031a909cbf4da8b90f4297a7004, type: 2}
+    combatEvent: {fileID: 0}
     specificItemGained: {fileID: 0}
   onFailureConsequences: []
   onSuccessGuiEvents:
   - guiEvent: 3
-    newEventDescription: You accepted the orcs trial
+    newEventDescription: You performed the orcish rite of ascension
+  - guiEvent: 2
+    newEventDescription: 
+  - guiEvent: 4
+    newEventDescription: 
   onFailureGuiEvents: []

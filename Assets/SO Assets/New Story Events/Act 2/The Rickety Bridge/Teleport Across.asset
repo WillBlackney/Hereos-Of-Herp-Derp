@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4958820da419141823bd16eaf8ca04, type: 3}
+  m_Name: Teleport Across
+  m_EditorClassIdentifier: 
+  description: Teleport across
+  baseSuccessChance: 100
+  ignoreChanceModifiers: 1
+  successChanceModifiers: []
+  choiceRequirements:
+  - requirementType: 4
+    goldAmountRequired: 0
+    raceRequirement: 0
+    backgroundRequirement: 0
+    talentTypeRequirement: 8
+    talentTierRequirement: 3
+  onSuccessConsequences:
+  - consequenceType: 3
+    xpGainAmount: 25
+    goldGainAmount: 0
+    combatEvent: {fileID: 0}
+    specificItemGained: {fileID: 0}
+    afflictionGained: {fileID: 0}
+    stateGained: {fileID: 0}
+    partyMembersKilled: 0
+  - consequenceType: 1
+    xpGainAmount: 0
+    goldGainAmount: 0
+    combatEvent: {fileID: 0}
+    specificItemGained: {fileID: 0}
+    afflictionGained: {fileID: 0}
+    stateGained: {fileID: 0}
+    partyMembersKilled: 0
+  onFailureConsequences: []
+  onSuccessGuiEvents:
+  - guiEvent: 4
+    newEventDescription: You teleported everyone across
+    pageIndex: 0
+  - guiEvent: 3
+    newEventDescription: 
+    pageIndex: 0
+  - guiEvent: 5
+    newEventDescription: 
+    pageIndex: 0
+  onFailureGuiEvents: []

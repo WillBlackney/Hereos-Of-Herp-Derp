@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4958820da419141823bd16eaf8ca04, type: 3}
+  m_Name: Repair the bridge before crossing
+  m_EditorClassIdentifier: 
+  description: Repair the bridge before crossing
+  baseSuccessChance: 70
+  ignoreChanceModifiers: 0
+  successChanceModifiers:
+  - chanceTypeModifier: 1
+    chancePercentageModifier: 10
+    raceRequirement: 0
+    backgroundRequirement: 11
+    stateRequirement: {fileID: 0}
+  choiceRequirements:
+  - requirementType: 2
+    goldAmountRequired: 0
+    raceRequirement: 0
+    backgroundRequirement: 11
+    talentTypeRequirement: 0
+    talentTierRequirement: 0
+  onSuccessConsequences:
+  - consequenceType: 3
+    xpGainAmount: 25
+    goldGainAmount: 0
+    combatEvent: {fileID: 0}
+    specificItemGained: {fileID: 0}
+    afflictionGained: {fileID: 0}
+    stateGained: {fileID: 0}
+  - consequenceType: 1
+    xpGainAmount: 0
+    goldGainAmount: 0
+    combatEvent: {fileID: 0}
+    specificItemGained: {fileID: 0}
+    afflictionGained: {fileID: 0}
+    stateGained: {fileID: 0}
+  onFailureConsequences:
+  - consequenceType: 0
+    xpGainAmount: 0
+    goldGainAmount: 0
+    combatEvent: {fileID: 0}
+    specificItemGained: {fileID: 0}
+    afflictionGained: {fileID: 0}
+    stateGained: {fileID: 0}
+  onSuccessGuiEvents:
+  - guiEvent: 3
+    newEventDescription: 
+    pageIndex: 0
+  - guiEvent: 5
+    newEventDescription: 
+    pageIndex: 0
+  - guiEvent: 4
+    newEventDescription: You successfuly repaired the bridge and crossed without
+      a problem!
+    pageIndex: 0
+  onFailureGuiEvents:
+  - guiEvent: 3
+    newEventDescription: 
+    pageIndex: 0
+  - guiEvent: 1
+    newEventDescription: 
+    pageIndex: 0
+  - guiEvent: 4
+    newEventDescription: You failed to repair the bridge before crossing
+    pageIndex: 0

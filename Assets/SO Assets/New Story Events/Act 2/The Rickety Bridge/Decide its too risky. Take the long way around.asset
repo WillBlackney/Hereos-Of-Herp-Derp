@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4958820da419141823bd16eaf8ca04, type: 3}
+  m_Name: Decide its too risky. Take the long way around
+  m_EditorClassIdentifier: 
+  description: Decide its too risky. Take the long way around
+  baseSuccessChance: 100
+  ignoreChanceModifiers: 1
+  successChanceModifiers: []
+  choiceRequirements:
+  - requirementType: 0
+    goldAmountRequired: 0
+    raceRequirement: 0
+    backgroundRequirement: 0
+  onSuccessConsequences:
+  - consequenceType: 6
+    xpGainAmount: 0
+    goldGainAmount: 0
+    combatEvent: {fileID: 0}
+    specificItemGained: {fileID: 0}
+    afflictionGained: {fileID: 11400000, guid: aec10ced334c75d49a730b11160f0040, type: 2}
+    stateGained: {fileID: 0}
+  onFailureConsequences: []
+  onSuccessGuiEvents:
+  - guiEvent: 4
+    newEventDescription: You decided to take the long way round...pussy...
+    pageIndex: 0
+  - guiEvent: 3
+    newEventDescription: 
+    pageIndex: 0
+  - guiEvent: 5
+    newEventDescription: 
+    pageIndex: 0
+  onFailureGuiEvents: []

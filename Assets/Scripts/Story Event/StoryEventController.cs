@@ -15,10 +15,14 @@ public class StoryEventController : MonoBehaviour
     public StoryDataSO currentStoryData;
     public StoryDataSO testingStoryData;
     public List<StoryChoiceButton> activeChoiceButtons;
+    public StoryPage currentStoryPage;
 
     [Header("Parent + Transform Components")]
     public GameObject choiceButtonsParent;
+
+    [Header("Continue Button Components")]
     public GameObject continueButtonParent;
+    public Button continuteButtonComponent;
 
     [Header("Text Component References")]
     public TextMeshProUGUI storyNameText;
@@ -57,6 +61,15 @@ public class StoryEventController : MonoBehaviour
     }
     #endregion
 
+    // Testing only functions
+    #region
+    public void OnReloadEventButtonClicked()
+    {
+        ResetAndFlushAllPropertiesAndViews();
+        BuildFromStoryEventData(testingStoryData);
+    }
+    
+    #endregion
     // General Logic
     #region
     public void BuildFromStoryEventData(StoryDataSO storyData)
@@ -76,7 +89,8 @@ public class StoryEventController : MonoBehaviour
         SetStoryImage(storyData.storyInitialSprite);
 
         // Load first page buttons
-        BuildAllChoiceButtonsFromStoryPage(storyData.pageOneChoices);
+        BuildAllChoiceButtonsFromStoryPage(storyData.storyPages[0].pageChoices);
+        SetCurrentStoryPage(storyData.storyPages[0]);
     }
     #endregion
 
@@ -89,6 +103,10 @@ public class StoryEventController : MonoBehaviour
     public void SetStoryNameText(string newText)
     {
         storyNameText.text = newText;
+    }
+    public void SetCurrentStoryPage(StoryPage storyPage)
+    {
+        currentStoryPage = storyPage;
     }
     public string ConvertChoiceConsequenceToString(ChoiceConsequence choiceConsequence)
     {
@@ -115,6 +133,29 @@ public class StoryEventController : MonoBehaviour
         else if (choiceConsequence.consequenceType == ChoiceConsequence.ConsequenceType.TriggerCombatEvent)
         {
             stringReturned = "Triggers combat event: " + choiceConsequence.combatEvent.waveName;
+        }
+        else if (choiceConsequence.consequenceType == ChoiceConsequence.ConsequenceType.GainSpecificAffliction)
+        {
+            stringReturned = "Gain Affliction: " + choiceConsequence.afflictionGained.stateName;
+        }
+        else if (choiceConsequence.consequenceType == ChoiceConsequence.ConsequenceType.GainSpecificState)
+        {
+            stringReturned = "Gain State: " + choiceConsequence.stateGained.stateName;
+        }
+        else if (choiceConsequence.consequenceType == ChoiceConsequence.ConsequenceType.RandomPartyMemberDies)
+        {
+            if(choiceConsequence.partyMembersKilled > 1)
+            {
+                stringReturned = choiceConsequence.partyMembersKilled.ToString() + " random party members die";
+            }
+            else if (choiceConsequence.partyMembersKilled == 1)
+            {
+                stringReturned = choiceConsequence.partyMembersKilled.ToString() + " random party member dies";
+            }
+        }
+        else if (choiceConsequence.consequenceType == ChoiceConsequence.ConsequenceType.LoseAllInventoryItems)
+        {
+            stringReturned = "Lose all items in your inventory";
         }
         else
         {
@@ -145,6 +186,11 @@ public class StoryEventController : MonoBehaviour
         else if (choiceRequirement.requirementType == ChoiceRequirment.RequirementType.HasEnoughGold)
         {
             stringReturned = choiceRequirement.goldAmountRequired.ToString() + "g";
+        }
+        else if (choiceRequirement.requirementType == ChoiceRequirment.RequirementType.HasTalent)
+        {
+            stringReturned = "Character with " + choiceRequirement.talentTypeRequirement.ToString() + " (" +
+                choiceRequirement.talentTierRequirement.ToString() +")";
         }
         else
         {
@@ -246,10 +292,12 @@ public class StoryEventController : MonoBehaviour
 
         DestroyAllChoiceButtons();
         SetContinueButtonVisibility(false);
+        SetContinueButtonInteractableState(false);
         SetEventDescriptionText("");
         SetStoryNameText("");
         eventFiredOnContinueButtonClicked = ContinueButtonEvent.None;
         combatEventAwaitingStart = null;
+        currentStoryPage = null;
     }
     public void DestroyAllChoiceButtons()
     {
@@ -422,13 +470,97 @@ public class StoryEventController : MonoBehaviour
                 }
             }
 
+            // Check talents
+            else if (cr.requirementType == ChoiceRequirment.RequirementType.HasTalent)
+            {
+                bool passTalentCheck = false;
+
+                // check the talent type + tier requirement value against each character in player's party
+                foreach (CharacterData cd in CharacterRoster.Instance.allCharacterDataObjects)
+                {
+                    if(cr.talentTypeRequirement == AbilityDataSO.AbilitySchool.Assassination &&
+                        cd.assassinationPoints >= cr.talentTierRequirement)
+                    {
+                        passTalentCheck = true;
+                    }
+                    else if (cr.talentTypeRequirement == AbilityDataSO.AbilitySchool.Brawler &&
+                        cd.brawlerPoints >= cr.talentTierRequirement)
+                    {
+                        passTalentCheck = true;
+                    }
+                    else if (cr.talentTypeRequirement == AbilityDataSO.AbilitySchool.Corruption &&
+                       cd.corruptionPoints >= cr.talentTierRequirement)
+                    {
+                        passTalentCheck = true;
+                    }
+                    else if (cr.talentTypeRequirement == AbilityDataSO.AbilitySchool.Cyromancy &&
+                      cd.cyromancyPoints >= cr.talentTierRequirement)
+                    {
+                        passTalentCheck = true;
+                    }
+                    else if (cr.talentTypeRequirement == AbilityDataSO.AbilitySchool.Divinity &&
+                      cd.divinityPoints >= cr.talentTierRequirement)
+                    {
+                        passTalentCheck = true;
+                    }
+                    else if (cr.talentTypeRequirement == AbilityDataSO.AbilitySchool.Duelist &&
+                      cd.duelistPoints >= cr.talentTierRequirement)
+                    {
+                        passTalentCheck = true;
+                    }
+                    else if (cr.talentTypeRequirement == AbilityDataSO.AbilitySchool.Guardian &&
+                     cd.guardianPoints >= cr.talentTierRequirement)
+                    {
+                        passTalentCheck = true;
+                    }
+                    else if (cr.talentTypeRequirement == AbilityDataSO.AbilitySchool.Manipulation &&
+                     cd.manipulationPoints >= cr.talentTierRequirement)
+                    {
+                        passTalentCheck = true;
+                    }
+                    else if (cr.talentTypeRequirement == AbilityDataSO.AbilitySchool.Naturalism &&
+                     cd.naturalismPoints >= cr.talentTierRequirement)
+                    {
+                        passTalentCheck = true;
+                    }
+                    else if (cr.talentTypeRequirement == AbilityDataSO.AbilitySchool.Pyromania &&
+                     cd.pyromaniaPoints >= cr.talentTierRequirement)
+                    {
+                        passTalentCheck = true;
+                    }
+                    else if (cr.talentTypeRequirement == AbilityDataSO.AbilitySchool.Ranger &&
+                     cd.rangerPoints >= cr.talentTierRequirement)
+                    {
+                        passTalentCheck = true;
+                    }
+                    else if (cr.talentTypeRequirement == AbilityDataSO.AbilitySchool.Shadowcraft &&
+                     cd.shadowcraftPoints >= cr.talentTierRequirement)
+                    {
+                        passTalentCheck = true;
+                    }
+
+                }
+
+                if (passTalentCheck)
+                {
+                    Debug.Log("Choice Requirement Met: Player has a character in party with the required talent of "
+                        + cr.talentTypeRequirement.ToString() + "(" + cr.talentTierRequirement.ToString() +")");
+                    requirementChecks.Add(true);
+                }
+                else
+                {
+                    Debug.Log("Choice Requirement NOT Met: Player does not have a character in party with the required talent of "
+                        + cr.talentTypeRequirement.ToString() + "(" + cr.talentTierRequirement.ToString() + ")");
+                    requirementChecks.Add(false);
+                }
+            }
+
             // if we get here, it means the code to check the enum related to
             // the requirement has not been written...
             else
             {
                 Debug.Log("StoryEventController.AreChoiceButtonRequirementsMet() detected that the requirement type enum value '" + cr.requirementType.ToString() +
-                    "' is not recognized and cannot be evaluated, returning false by default..."
-                        + cr.raceRequirement);
+                    "' is not recognized and cannot be evaluated, returning false by default...");
                 requirementChecks.Add(false);
             }
         }
@@ -451,9 +583,13 @@ public class StoryEventController : MonoBehaviour
         // initialize return value at the choice's base success chance
         int chanceReturned = choice.baseSuccessChance;
 
-        foreach(SuccessChanceModifier scm in choice.successChanceModifiers)
+        // dont modify base success chance if the choice is marked as being unmodifiable
+        if (!choice.ignoreChanceModifiers)
         {
-            chanceReturned += CalculateFinalValueOfSuccessChanceModifier(scm);
+            foreach (SuccessChanceModifier scm in choice.successChanceModifiers)
+            {
+                chanceReturned += CalculateFinalValueOfSuccessChanceModifier(scm);
+            }
         }
 
         // Prevent success chance exceding 100%
@@ -555,11 +691,38 @@ public class StoryEventController : MonoBehaviour
     {
         Debug.Log("StoryEventController.OnChoiceButtonClicked() called for button: " + buttonClicked.myChoiceData.description);
 
-        StartResolveChoiceProcess(buttonClicked);
+        if (!buttonClicked.locked)
+        {
+            StartResolveChoiceProcess(buttonClicked);
+        }
+        else
+        {
+            Debug.Log("StoryEventController.OnChoiceButtonClicked() detected that button '" + buttonClicked.myChoiceData.description
+                + "' is locked and is an invalid selection, cancelling resolve button process...");
+        }
+       
     }
     public void OnContinueButtonClicked()
     {
         Debug.Log("StoryEventController.OnContinueButtonClicked() called...");
+
+        if(eventFiredOnContinueButtonClicked == ContinueButtonEvent.TriggerCombatEvent)
+        {
+            // start combat event, fade screen out, etc
+            SetContinueButtonInteractableState(false);
+            EventManager.Instance.StartNewBasicEncounterEvent(combatEventAwaitingStart);
+        }
+        else if(eventFiredOnContinueButtonClicked == ContinueButtonEvent.OpenWorldMap)
+        {
+            // just open world map
+            UIManager.Instance.OnWorldMapButtonClicked();
+        }
+    }
+    public void SetContinueButtonInteractableState(bool onOrOff)
+    {
+        Debug.Log("StoryEventController.SetContinueButtonInteractableState() called, setting state: " + onOrOff.ToString());
+
+        continuteButtonComponent.interactable = onOrOff;
     }
     #endregion
 
@@ -573,11 +736,13 @@ public class StoryEventController : MonoBehaviour
         if (DidChoicePassSuccessRoll(buttonClicked))
         {
             // we did, start handle pass result process
+            Debug.Log("Event roll PASSED, resolving ON SUCCESS events...");
             StartResolveChoiceSuccessfulProcess(buttonClicked);
         }
         else
         {
             // we failed to roll high enough, start handle fail result process
+            Debug.Log("Event roll FAILED, resolving ON FAILURE events...");
             StartResolveChoiceFailureProcess(buttonClicked);
         }
     }
@@ -638,9 +803,60 @@ public class StoryEventController : MonoBehaviour
         {
             InventoryController.Instance.AddItemToInventory(consequence.specificItemGained, true);
         }
+        else if (consequence.consequenceType == ChoiceConsequence.ConsequenceType.GainSpecificAffliction)
+        {
+            StateManager.Instance.GainState(consequence.afflictionGained, true);
+        }
+        else if (consequence.consequenceType == ChoiceConsequence.ConsequenceType.GainSpecificState)
+        {
+            StateManager.Instance.GainState(consequence.stateGained, true);
+        }
         else if (consequence.consequenceType == ChoiceConsequence.ConsequenceType.TriggerCombatEvent)
         {
             SetAwaitingCombatEventState(consequence.combatEvent);
+        }
+        else if (consequence.consequenceType == ChoiceConsequence.ConsequenceType.RandomPartyMemberDies)
+        {
+            for(int i = 0; i < consequence.partyMembersKilled; i++)
+            {
+                List<CharacterData> charactersWithAtleast1HP = new List<CharacterData>();
+                CharacterData characterKilled = null;
+
+                // Get all viable characters to kill
+                foreach(CharacterData cd in CharacterRoster.Instance.allCharacterDataObjects)
+                {
+                    if(cd.currentHealth > 0)
+                    {
+                        charactersWithAtleast1HP.Add(cd);
+                    }
+                }
+
+                // determine which character should die
+                if(charactersWithAtleast1HP.Count == 1)
+                {
+                    characterKilled = charactersWithAtleast1HP[0];
+                }
+                else if(charactersWithAtleast1HP.Count > 1)
+                {
+                    characterKilled = charactersWithAtleast1HP[Random.Range(0, charactersWithAtleast1HP.Count)];
+                }
+                else
+                {
+                    Debug.Log("StoryEventController.ResolveChoiceConsequence() tried to resolve the event 'RandomCharacterDies', but " +
+                        "the player does not have any characters with more then 0 HP...");
+                }
+
+                // kill the character
+                if (characterKilled)
+                {
+                    Debug.Log("StoryEventController.ResolveChoiceConsequence() killing random character called: " + characterKilled.myName);
+                    characterKilled.ModifyCurrentHealth(-characterKilled.currentHealth);
+                }
+            }
+        }
+        else if (consequence.consequenceType == ChoiceConsequence.ConsequenceType.LoseAllInventoryItems)
+        {
+            InventoryController.Instance.DestroyAllItemsInInventory();
         }
     }
     public void ResolveChoiceGuiEvent(ChoiceResolvedGuiEvent guiEvent)
@@ -658,6 +874,15 @@ public class StoryEventController : MonoBehaviour
         else if (guiEvent.guiEvent == ChoiceResolvedGuiEvent.GuiEvent.EnableContinueButton)
         {
             SetContinueButtonVisibility(true);
+            SetContinueButtonInteractableState(true);
+        }
+        else if (guiEvent.guiEvent == ChoiceResolvedGuiEvent.GuiEvent.LoadNextEventPage)
+        {
+            BuildAllChoiceButtonsFromStoryPage(currentStoryData.storyPages[currentStoryData.storyPages.IndexOf(currentStoryPage) + 1].pageChoices);
+        }
+        else if (guiEvent.guiEvent == ChoiceResolvedGuiEvent.GuiEvent.LoadEventPageByIndex)
+        {
+            BuildAllChoiceButtonsFromStoryPage(currentStoryData.storyPages[guiEvent.pageIndex].pageChoices);
         }
     }
     public void SetAwaitingCombatEventState(EnemyWaveSO combatAwaited)
@@ -670,19 +895,5 @@ public class StoryEventController : MonoBehaviour
     }
     #endregion
 
-
-
-
-    /*
-     * On success/failure events ideas
-     * - send new description to description text
-     * - send new sprite to image holder
-     * - load more choice buttons / move to next choice page
-     * - clear all choice buttons
-     * - enable continue button
-     * - set continute button event to trigger (starts new combat, continute on with journey / load world map, etc)
-     * 
-     * 
-     */
 
 }
