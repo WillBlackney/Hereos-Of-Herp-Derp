@@ -67,41 +67,41 @@ public class ItemManager : MonoBehaviour
             return null;
         }
     }  
-    public string ConvertItemTypeEnumToString(ItemDataSO data)
+    public string ConvertItemTypeEnumToString(ItemDataSO.ItemType itemType)
     {
-        Debug.Log("ConvertItemTypeEnumToString() called for " + data.Name);
+        Debug.Log("ConvertItemTypeEnumToString() called for " + itemType.ToString());
 
         string stringReturned = "";
 
-        if(data.itemType == ItemDataSO.ItemType.Head)
+        if(itemType == ItemDataSO.ItemType.Head)
         {
             stringReturned = "Head";
         }
 
-        else if (data.itemType == ItemDataSO.ItemType.Chest)
+        else if (itemType == ItemDataSO.ItemType.Chest)
         {
             stringReturned = "Chest";
         }
 
-        else if (data.itemType == ItemDataSO.ItemType.Legs)
+        else if (itemType == ItemDataSO.ItemType.Legs)
         {
             stringReturned = "Legs";
         }
 
-        else if (data.itemType == ItemDataSO.ItemType.MeleeOneHand)
+        else if (itemType == ItemDataSO.ItemType.MeleeOneHand)
         {
             stringReturned = "Melee 1H";
         }
 
-        else if (data.itemType == ItemDataSO.ItemType.MeleeTwoHand)
+        else if (itemType == ItemDataSO.ItemType.MeleeTwoHand)
         {
             stringReturned = "Melee 2H";
         }
-        else if (data.itemType == ItemDataSO.ItemType.RangedTwoHand)
+        else if (itemType == ItemDataSO.ItemType.RangedTwoHand)
         {
             stringReturned = "Ranged 2H";
         }
-        else if (data.itemType == ItemDataSO.ItemType.Shield)
+        else if (itemType == ItemDataSO.ItemType.Shield)
         {
             stringReturned = "Shield";
         }
@@ -428,7 +428,7 @@ public class ItemManager : MonoBehaviour
         itemCard.myNameText.text = data.Name;
         itemCard.itemImage.sprite = data.sprite;
         itemCard.myDescriptionText.text = data.itemDescription;
-        itemCard.myItemTypeText.text = ConvertItemTypeEnumToString(data);
+        itemCard.myItemTypeText.text = ConvertItemTypeEnumToString(data.itemType);
 
         // Weapon specific set up
         if (IsItemWeapon(data))

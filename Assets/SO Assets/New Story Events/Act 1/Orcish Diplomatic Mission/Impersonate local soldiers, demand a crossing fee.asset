@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4958820da419141823bd16eaf8ca04, type: 3}
+  m_Name: Impersonate local soldiers, demand a crossing fee
+  m_EditorClassIdentifier: 
+  description: Impersonate local soldiers, demand a crossing fee
+  baseSuccessChance: 50
+  ignoreChanceModifiers: 0
+  successChanceModifiers:
+  - chanceTypeModifier: 1
+    chancePercentageModifier: 10
+    raceRequirement: 0
+    backgroundRequirement: 12
+    stateRequirement: {fileID: 0}
+  - chanceTypeModifier: 1
+    chancePercentageModifier: 10
+    raceRequirement: 0
+    backgroundRequirement: 3
+    stateRequirement: {fileID: 0}
+  - chanceTypeModifier: 1
+    chancePercentageModifier: 10
+    raceRequirement: 0
+    backgroundRequirement: 4
+    stateRequirement: {fileID: 0}
+  - chanceTypeModifier: 1
+    chancePercentageModifier: -10
+    raceRequirement: 0
+    backgroundRequirement: 11
+    stateRequirement: {fileID: 0}
+  - chanceTypeModifier: 1
+    chancePercentageModifier: -10
+    raceRequirement: 0
+    backgroundRequirement: 10
+    stateRequirement: {fileID: 0}
+  - chanceTypeModifier: 1
+    chancePercentageModifier: -10
+    raceRequirement: 0
+    backgroundRequirement: 6
+    stateRequirement: {fileID: 0}
+  choiceRequirements:
+  - requirementType: 2
+    goldAmountRequired: 0
+    raceRequirement: 0
+    backgroundRequirement: 12
+    talentTypeRequirement: 0
+    talentTierRequirement: 0
+  onSuccessConsequences:
+  - consequenceType: 2
+    xpGainAmount: 0
+    goldGainAmount: 10
+    combatEvent: {fileID: 0}
+    specificItemGained: {fileID: 0}
+    afflictionGained: {fileID: 0}
+    stateGained: {fileID: 0}
+    partyMembersKilled: 0
+    randomItemsGained: 0
+    randomItemRarity: 0
+    randomWeaponsGained: 0
+    randomWeaponRarity: 0
+  onFailureConsequences:
+  - consequenceType: 4
+    xpGainAmount: 0
+    goldGainAmount: 0
+    combatEvent: {fileID: 11400000, guid: 9c7a79d32d54c1f4a8e0c24b37645675, type: 2}
+    specificItemGained: {fileID: 0}
+    afflictionGained: {fileID: 0}
+    stateGained: {fileID: 0}
+    partyMembersKilled: 0
+    randomItemsGained: 0
+    randomItemRarity: 0
+    randomWeaponsGained: 0
+    randomWeaponRarity: 0
+  onSuccessGuiEvents:
+  - guiEvent: 3
+    newEventDescription: 
+    pageIndex: 0
+  - guiEvent: 5
+    newEventDescription: 
+    pageIndex: 0
+  - guiEvent: 4
+    newEventDescription: You successfully impersonated the local soldiers and extracted
+      a fee from the orcs
+    pageIndex: 0
+  onFailureGuiEvents:
+  - guiEvent: 3
+    newEventDescription: 
+    pageIndex: 0
+  - guiEvent: 5
+    newEventDescription: 
+    pageIndex: 0
+  - guiEvent: 4
+    newEventDescription: The orcs were not convinced by your impersonation, and are
+      now very angry! Prepare for battle!
+    pageIndex: 0

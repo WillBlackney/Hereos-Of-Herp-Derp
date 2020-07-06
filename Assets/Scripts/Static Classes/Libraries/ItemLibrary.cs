@@ -41,7 +41,7 @@ public class ItemLibrary : MonoBehaviour
         return itemReturned;
     }
     
-    public ItemDataSO GetRandomCommonItem()
+    public ItemDataSO GetRandomCommonItem(ItemDataSO.ItemType type = ItemDataSO.ItemType.None)
     {
         Debug.Log("ItemLibrary.GetRandomCommonItem() called...");
 
@@ -63,6 +63,32 @@ public class ItemLibrary : MonoBehaviour
         randomIndex = Random.Range(0, allCommonItems.Count);
         Debug.Log("ItemLibrary.GetRandomCommonItem() returning " + allCommonItems[randomIndex].Name);
         return allCommonItems[randomIndex];
+    }
+    public ItemDataSO GetRandomCommonWeaponItem()
+    {
+        Debug.Log("ItemLibrary.GetRandomCommonWeaponItem() called...");
+
+        List<ItemDataSO> allCommonWeaponItems = new List<ItemDataSO>();
+        int randomIndex;
+
+        foreach (ItemDataSO item in allItems)
+        {
+            if (item.itemRarity == ItemDataSO.ItemRarity.Common &&                
+                item.startingItem == false &&
+                (item.itemType == ItemDataSO.ItemType.MeleeOneHand || item.itemType == ItemDataSO.ItemType.MeleeTwoHand ||
+                item.itemType == ItemDataSO.ItemType.RangedTwoHand || item.itemType == ItemDataSO.ItemType.Shield)
+                )
+            {
+                allCommonWeaponItems.Add(item);
+            }
+        }
+
+        Debug.Log("ItemLibrary.GetRandomCommonWeaponItem() found " + allCommonWeaponItems.Count.ToString() +
+            " common items");
+
+        randomIndex = Random.Range(0, allCommonWeaponItems.Count);
+        Debug.Log("ItemLibrary.GetRandomCommonWeaponItem() returning " + allCommonWeaponItems[randomIndex].Name);
+        return allCommonWeaponItems[randomIndex];
     }
     public ItemDataSO GetRandomRareItem()
     {
@@ -96,7 +122,8 @@ public class ItemLibrary : MonoBehaviour
             if (item.itemRarity == ItemDataSO.ItemRarity.Rare &&
                 (item.itemType == ItemDataSO.ItemType.MeleeOneHand ||
                 item.itemType == ItemDataSO.ItemType.MeleeTwoHand ||
-                item.itemType == ItemDataSO.ItemType.RangedTwoHand))
+                item.itemType == ItemDataSO.ItemType.RangedTwoHand ||
+                item.itemType == ItemDataSO.ItemType.Shield))
             {
                 allRareWeapons.Add(item);
             }
@@ -136,8 +163,32 @@ public class ItemLibrary : MonoBehaviour
         return allEpicItems[randomIndex];
         
     }
-    
+    public ItemDataSO GetRandomEpicWeaponItem()
+    {
+        Debug.Log("ItemLibrary.GetRandomEpicWeaponItem() called...");
+
+        List<ItemDataSO> allEpicWeapons = new List<ItemDataSO>();
+        int randomIndex;
+
+        foreach (ItemDataSO item in allItems)
+        {
+            if (item.itemRarity == ItemDataSO.ItemRarity.Epic &&
+                (item.itemType == ItemDataSO.ItemType.MeleeOneHand ||
+                item.itemType == ItemDataSO.ItemType.MeleeTwoHand ||
+                item.itemType == ItemDataSO.ItemType.RangedTwoHand ||
+                item.itemType == ItemDataSO.ItemType.Shield))
+            {
+                allEpicWeapons.Add(item);
+            }
+        }
+        Debug.Log("ItemLibrary.GetRandomEpicWeaponItem() found " + allEpicWeapons.Count.ToString() +
+           " rare items");
+        randomIndex = Random.Range(0, allEpicWeapons.Count);
+        Debug.Log("ItemLibrary.GetRandomEpicWeaponItem() returning " + allEpicWeapons[randomIndex].Name);
+        return allEpicWeapons[randomIndex];
+    }
+
     #endregion
 
-    
+
 }

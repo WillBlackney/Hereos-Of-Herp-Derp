@@ -59,7 +59,7 @@ public class ChoiceRequirment
 public class ChoiceConsequence
 {
     public enum ConsequenceType { None, EventEnds, GainGold, AllCharactersGainXP, TriggerCombatEvent, GainSpecificItem, 
-        GainSpecificAffliction, GainSpecificState, RandomPartyMemberDies, LoseAllInventoryItems};
+        GainSpecificAffliction, GainSpecificState, RandomPartyMemberDies, LoseAllInventoryItems, GainRandomItem, GainRandomWeapon};
 
     [Header("Properties")]
     public ConsequenceType consequenceType;
@@ -84,6 +84,16 @@ public class ChoiceConsequence
 
     [ShowIf("consequenceType", ConsequenceType.RandomPartyMemberDies)]
     public int partyMembersKilled;
+
+    [ShowIf("consequenceType", ConsequenceType.GainRandomItem)]
+    public int randomItemsGained;
+    [ShowIf("consequenceType", ConsequenceType.GainRandomItem)]
+    public ItemDataSO.ItemRarity randomItemRarity;
+
+    [ShowIf("consequenceType", ConsequenceType.GainRandomWeapon)]
+    public int randomWeaponsGained;
+    [ShowIf("consequenceType", ConsequenceType.GainRandomWeapon)]
+    public ItemDataSO.ItemRarity randomWeaponRarity;
 }
 [Serializable]
 public class ChoiceResolvedGuiEvent

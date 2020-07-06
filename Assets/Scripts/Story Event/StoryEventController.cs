@@ -157,6 +157,30 @@ public class StoryEventController : MonoBehaviour
         {
             stringReturned = "Lose all items in your inventory";
         }
+        else if (choiceConsequence.consequenceType == ChoiceConsequence.ConsequenceType.GainRandomItem)
+        {
+            string itemsString = "item";
+
+            if(choiceConsequence.randomItemsGained > 1)
+            {
+                itemsString = "items";
+            }
+
+            stringReturned = "Gain " + choiceConsequence.randomItemsGained.ToString() + " random "
+                + choiceConsequence.randomItemRarity.ToString() + " " + itemsString;
+        }
+        else if (choiceConsequence.consequenceType == ChoiceConsequence.ConsequenceType.GainRandomWeapon)
+        {
+            string itemsString = "weapon";
+
+            if (choiceConsequence.randomWeaponsGained > 1)
+            {
+                itemsString = "weapons";
+            }
+
+            stringReturned = "Gain " + choiceConsequence.randomWeaponsGained.ToString() + " random "
+                + choiceConsequence.randomWeaponRarity.ToString() + " " + itemsString;
+        }
         else
         {
             Debug.Log("StoryEventController.ConvertChoiceRequirementToString() detected that a string conversion for" +
@@ -802,6 +826,43 @@ public class StoryEventController : MonoBehaviour
         else if (consequence.consequenceType == ChoiceConsequence.ConsequenceType.GainSpecificItem)
         {
             InventoryController.Instance.AddItemToInventory(consequence.specificItemGained, true);
+        }
+        else if (consequence.consequenceType == ChoiceConsequence.ConsequenceType.GainRandomItem)
+        {
+            for(int i = 0; i < consequence.randomItemsGained; i++)
+            {
+                if(consequence.randomItemRarity == ItemDataSO.ItemRarity.Common)
+                {
+                    InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomCommonItem(), true);
+                }
+                else if (consequence.randomItemRarity == ItemDataSO.ItemRarity.Rare)
+                {
+                    InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareItem(), true);
+                }
+                else if (consequence.randomItemRarity == ItemDataSO.ItemRarity.Epic)
+                {
+                    InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomEpicItem(), true);
+                }
+            }
+            
+        }
+        else if (consequence.consequenceType == ChoiceConsequence.ConsequenceType.GainRandomWeapon)
+        {
+            for (int i = 0; i < consequence.randomWeaponsGained; i++)
+            {
+                if (consequence.randomWeaponRarity == ItemDataSO.ItemRarity.Common)
+                {
+                    InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomCommonWeaponItem(), true);
+                }
+                else if (consequence.randomWeaponRarity == ItemDataSO.ItemRarity.Rare)
+                {
+                    InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomRareWeaponItem(), true);
+                }
+                else if (consequence.randomWeaponRarity == ItemDataSO.ItemRarity.Epic)
+                {
+                    InventoryController.Instance.AddItemToInventory(ItemLibrary.Instance.GetRandomEpicWeaponItem(), true);
+                }
+            }
         }
         else if (consequence.consequenceType == ChoiceConsequence.ConsequenceType.GainSpecificAffliction)
         {

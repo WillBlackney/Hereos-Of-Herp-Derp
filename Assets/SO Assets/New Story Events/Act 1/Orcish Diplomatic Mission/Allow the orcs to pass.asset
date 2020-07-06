@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4958820da419141823bd16eaf8ca04, type: 3}
+  m_Name: Allow the orcs to pass
+  m_EditorClassIdentifier: 
+  description: Allow the orcs to pass
+  baseSuccessChance: 100
+  ignoreChanceModifiers: 1
+  successChanceModifiers: []
+  choiceRequirements:
+  - requirementType: 0
+    goldAmountRequired: 0
+    raceRequirement: 0
+    backgroundRequirement: 0
+    talentTypeRequirement: 0
+    talentTierRequirement: 0
+  onSuccessConsequences:
+  - consequenceType: 7
+    xpGainAmount: 0
+    goldGainAmount: 0
+    combatEvent: {fileID: 0}
+    specificItemGained: {fileID: 0}
+    afflictionGained: {fileID: 0}
+    stateGained: {fileID: 11400000, guid: 887c5dd3236dc4d42b4dc4d3c0abd67c, type: 2}
+    partyMembersKilled: 0
+    randomItemsGained: 0
+    randomItemRarity: 0
+    randomWeaponsGained: 0
+    randomWeaponRarity: 0
+  - consequenceType: 6
+    xpGainAmount: 0
+    goldGainAmount: 0
+    combatEvent: {fileID: 0}
+    specificItemGained: {fileID: 0}
+    afflictionGained: {fileID: 11400000, guid: 7ee5db148a7497b4fa5ed5340b83147b, type: 2}
+    stateGained: {fileID: 0}
+    partyMembersKilled: 0
+    randomItemsGained: 0
+    randomItemRarity: 0
+    randomWeaponsGained: 0
+    randomWeaponRarity: 0
+  onFailureConsequences: []
+  onSuccessGuiEvents:
+  - guiEvent: 3
+    newEventDescription: 
+    pageIndex: 0
+  - guiEvent: 5
+    newEventDescription: 
+    pageIndex: 0
+  - guiEvent: 4
+    newEventDescription: You allowed the orcs to pass without trouble...
+    pageIndex: 0
+  onFailureGuiEvents: []
